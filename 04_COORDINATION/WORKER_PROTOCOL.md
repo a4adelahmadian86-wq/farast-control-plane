@@ -35,3 +35,15 @@ DISCOVER → DEDUPLICATE → CLAIM → PLAN → EXECUTE → CHECKPOINT → REVIE
 
 ## تعریف پایان
 هر وظیفه باید خروجی، معیار پذیرش، شواهد، تست‌ها، ریسک باقی‌مانده، وضعیت تأیید انسانی و لینک PR/commit داشته باشد. DONE_VERIFIED فقط با شواهد و تأیید لازم.
+
+
+## مالکیت تک‌نویسنده‌ای رجیسترهای مرکزی
+برای حفظ اجرای موازی، هر عامل نباید هم‌زمان فایل‌های وضعیت کلان را ویرایش کند:
+- GitHub Issues منبع اصلی وضعیت هر TASK هستند؛ `TASK_INDEX.md` نمای تجمیعی است.
+- `MASTER_STATUS.md` و `GOAL_STATUS.csv` فقط توسط Status Steward/عامل هماهنگ‌کننده به‌روزرسانی شوند.
+- `USER_FEEDBACK_REGISTER.md` فقط توسط Feedback Steward/عامل دریافت بازخورد.
+- `DECISION_REGISTER.md` فقط توسط Decision Steward پس از ثبت approval.
+- `EXP_STAGE_LEDGER.csv`، `CAPABILITY_REGISTER.csv` و `REQUIREMENTS_TRACEABILITY.csv` فقط توسط TASK مالک همان رجیستر یا steward تعیین‌شده.
+- عامل‌های دیگر گزارش اختصاصی TASK، checkpoint و Issue خود را بنویسند و پیشنهاد تغییر رجیستر مرکزی را در PR جدا ارائه کنند.
+- اگر نقش steward مشخص نیست، رجیستر مرکزی را تغییر نده؛ فقط خروجی اختصاصی بساز و handoff کن.
+- هر نوشتن در رجیستر مرکزی نیازمند RESOURCE_KEY دقیق و قفل CAS تا ثبت commit/PR است. PRهای متعارض باید پیش از merge هماهنگ شوند.
