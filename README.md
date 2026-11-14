@@ -5,11 +5,17 @@
 > این مخزن از مخزن محصول `a4adelahmadian86-wq/non` مستقل است. این مخزن کد اجرایی سایت را نگهداری نمی‌کند و هیچ تغییر محصولی را بدون مجوز صریح و گردش‌کار Pull Request مجاز نمی‌داند.
 
 ## شروع سریع
-1. `START_HERE.md` را بخوانید.
-2. `00_PROJECT_FOUNDATION/APPROVED_REQUIREMENTS.md` و `SPECIALIST_WORKFLOW.md` را مطالعه کنید.
+1. مالک مخزن باید visibility را PRIVATE کند؛ مخزن هنگام ایجاد PUBLIC بود. تا آن زمان هیچ داده محرمانه/شخصی یا secret وارد نکنید.
+2. برای هر حساب ChatGPT، اتصال GitHub را با دسترسی لازم به این مخزن برقرار کنید؛ اتصال حسابی دیگر خودکار به این حساب منتقل نمی‌شود.
+3. `START_HERE.md` را بخوانید.
+4. `00_PROJECT_FOUNDATION/APPROVED_REQUIREMENTS.md` و `SPECIALIST_WORKFLOW.md` را مطالعه کنید.
 3. پیش از اجرای هر وظیفه، `04_COORDINATION/WORKER_PROTOCOL.md`، `LOCK_PROTOCOL.md` و `TASK_SCHEMA.md` را اجرا کنید.
-4. فقط وظیفه دارای شناسه یکتا و مالکیت معتبر را ادامه دهید.
-5. شواهد، checkpoint، بازخورد و نتیجه را در همین مخزن ثبت کنید.
+6. فقط وظیفه دارای شناسه یکتا و مالکیت معتبر را ادامه دهید.
+7. شواهد، checkpoint، بازخورد و نتیجه را در همین مخزن ثبت کنید.
+
+## کتابخانه پرامپت‌ها
+- [کتابخانه کامل قابل کپی](05_PROMPT_LIBRARY/FARAST_EXECUTABLE_PROMPTS_COMPLETE.md)
+- [فهرست پرامپت‌ها](05_PROMPT_LIBRARY/PROMPT_CATALOG.md)
 
 ## اصل منبع حقیقت
 - وضعیت جاری: `03_PROJECT_STATE/MASTER_STATUS.md`
