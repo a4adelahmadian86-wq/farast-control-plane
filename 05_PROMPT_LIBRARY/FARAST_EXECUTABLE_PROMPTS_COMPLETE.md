@@ -1,14 +1,12 @@
 # کتابخانه کامل پرامپت‌های اجرایی FARAST
 
-نسخه: 1.0.0 | زبان: فارسی | مرجع وضعیت: farast-control-plane
+نسخه: 1.1.0 | زبان: فارسی | مرجع وضعیت: farast-control-plane
 
-> این فایل نسخه یکپارچه برای کپی/دانلود است. نسخه مرجع و به‌روزرسانی‌پذیر هر پرامپت در فایل جداگانه همین پوشه نگهداری می‌شود. پیش از اجرا، آخرین نسخه GitHub را بررسی کنید.
-
----
-
-
+> این فایل تجمیعی از نسخه‌های مستقل و مرجع پرامپت‌ها در همین شاخه بازسازی شده است. پیش از اجرا، وضعیت و آخرین نسخه GitHub را بخوانید. هر پرامپت تخصصی باید START_HERE، MASTER-00 و پروتکل INTERRUPTION_RECOVERY را از GitHub دریافت کند. در قطع اتصال یا پرشدن پنجره زمینه، فقط از آخرین checkpoint تأییدشده ادامه دهید؛ خلاصه خودکار چت مرجع حقیقت نیست.
 
 ---
+
+# SOURCE: 05_PROMPT_LIBRARY/MASTER-00.md
 
 # MASTER-00 — پرامپت مادر ورود، بازیابی و هماهنگی FARAST
 
@@ -20,6 +18,15 @@
 3. `MASTER_STATUS.md`، TASKها، PRها، feedbackها و آخرین checkpointها را از GitHub زنده بازیابی کن.
 4. قفل‌ها را از branch مستقل `coordination/locks` و فایل `04_COORDINATION/ACTIVE_LOCKS.json` بخوان.
 5. پرامپت تخصصی مربوط را از `05_PROMPT_LIBRARY/` بخوان.
+
+
+## تاب‌آوری و بازیابی پس از وقفه
+- پیش از هر اجرا، `04_COORDINATION/INTERRUPTION_RECOVERY_PROTOCOL.md` را بخوان و اجرا کن.
+- قطع اینترنت، timeout یا نتیجه مبهم ابزار را شکست یا موفقیت فرض نکن؛ نوشتن را متوقف و GitHub را برای یافتن اثر واقعی بررسی کن.
+- TASK_ID و branch را حفظ کن؛ برای نشست جدید RUN_ID تازه بساز. عملیات تکراری را با OPERATION_ID و وضعیت GitHub deduplicate کن.
+- اگر پنجره زمینه پر شد یا خلاصه خودکار ساخته شد، خلاصه را حقیقت ندان؛ از آخرین checkpoint و commit تأییدشده در GitHub ادامه بده.
+- پیش از هر توقف/پایان/انتقال چت، checkpoint کامل و اقدام بعدی دقیق ثبت کن. هرگز کار ناتمام را فقط در حافظه چت رها نکن.
+- در وضعیت AMBIGUOUS، بدون بررسی اثر قبلی، retry یا ساخت Issue/PR/commit تکراری ممنوع است.
 
 ## تشخیص مأموریت
 - اگر کاربر PR-01 تا PR-17 را داده، همان را اجرا کن.
@@ -57,8 +64,9 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 ## اگر کاربر گفت «ادامه بده»
 از آخرین TASK_ID، checkpoint، branch، commit، شواهد و اقدام ناتمام ادامه بده؛ هیچ خروجی را از نو تولید نکن. اگر چند TASK هم‌زمان محتمل است و ارتباط مکالمه برای تشخیص کافی نیست، فقط یک سؤال درباره TASK_ID بپرس.
 
-
 ---
+
+# SOURCE: 05_PROMPT_LIBRARY/PR-01_BASELINE.md
 
 # دستور مشترک اجباری همه پرامپت‌های FARAST
 
@@ -107,8 +115,9 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 ## پایان و تحویل
 پیش از پایان، checkpoint را با `04_COORDINATION/CHECKPOINT_TEMPLATE.md` ثبت کن؛ Issue و PR را به‌روز کن؛ TASK_INDEX و MASTER_STATUS را فقط بر اساس وضعیت اثبات‌شده به‌روزرسانی کن؛ قفل‌های اتمیک را فقط با TASK_ID/RUN_ID/fencing_token خود و از طریق CAS آزاد کن؛ اگر ابزار لازم در دسترس نیست، وضعیت را مبهم ثبت کن و آزادسازی را ادعا نکن. وضعیت را DONE_VERIFIED نگذار مگر معیار پذیرش و شواهد معتبر کامل باشند. در صورت مانع، BLOCKED را با علت، شواهد و NEXT_ACTION ثبت کن.
 
-
 ---
+
+# SOURCE: 05_PROMPT_LIBRARY/PR-02_RECOVERY.md
 
 # دستور مشترک اجباری همه پرامپت‌های FARAST
 
@@ -151,8 +160,9 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 ## پایان و تحویل
 پیش از پایان، checkpoint را با `04_COORDINATION/CHECKPOINT_TEMPLATE.md` ثبت کن؛ Issue و PR را به‌روز کن؛ TASK_INDEX و MASTER_STATUS را فقط بر اساس وضعیت اثبات‌شده به‌روزرسانی کن؛ قفل‌های اتمیک را فقط با TASK_ID/RUN_ID/fencing_token خود و از طریق CAS آزاد کن؛ اگر ابزار لازم در دسترس نیست، وضعیت را مبهم ثبت کن و آزادسازی را ادعا نکن. وضعیت را DONE_VERIFIED نگذار مگر معیار پذیرش و شواهد معتبر کامل باشند. در صورت مانع، BLOCKED را با علت، شواهد و NEXT_ACTION ثبت کن.
 
-
 ---
+
+# SOURCE: 05_PROMPT_LIBRARY/PR-03_CAPABILITY_DISCOVERY.md
 
 # دستور مشترک اجباری همه پرامپت‌های FARAST
 
@@ -195,8 +205,9 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 ## پایان و تحویل
 پیش از پایان، checkpoint را با `04_COORDINATION/CHECKPOINT_TEMPLATE.md` ثبت کن؛ Issue و PR را به‌روز کن؛ TASK_INDEX و MASTER_STATUS را فقط بر اساس وضعیت اثبات‌شده به‌روزرسانی کن؛ قفل‌های اتمیک را فقط با TASK_ID/RUN_ID/fencing_token خود و از طریق CAS آزاد کن؛ اگر ابزار لازم در دسترس نیست، وضعیت را مبهم ثبت کن و آزادسازی را ادعا نکن. وضعیت را DONE_VERIFIED نگذار مگر معیار پذیرش و شواهد معتبر کامل باشند. در صورت مانع، BLOCKED را با علت، شواهد و NEXT_ACTION ثبت کن.
 
-
 ---
+
+# SOURCE: 05_PROMPT_LIBRARY/PR-04_TRACEABILITY.md
 
 # دستور مشترک اجباری همه پرامپت‌های FARAST
 
@@ -240,8 +251,9 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 ## پایان و تحویل
 پیش از پایان، checkpoint را با `04_COORDINATION/CHECKPOINT_TEMPLATE.md` ثبت کن؛ Issue و PR را به‌روز کن؛ TASK_INDEX و MASTER_STATUS را فقط بر اساس وضعیت اثبات‌شده به‌روزرسانی کن؛ قفل‌های اتمیک را فقط با TASK_ID/RUN_ID/fencing_token خود و از طریق CAS آزاد کن؛ اگر ابزار لازم در دسترس نیست، وضعیت را مبهم ثبت کن و آزادسازی را ادعا نکن. وضعیت را DONE_VERIFIED نگذار مگر معیار پذیرش و شواهد معتبر کامل باشند. در صورت مانع، BLOCKED را با علت، شواهد و NEXT_ACTION ثبت کن.
 
-
 ---
+
+# SOURCE: 05_PROMPT_LIBRARY/PR-05_USER_SCENARIOS.md
 
 # دستور مشترک اجباری همه پرامپت‌های FARAST
 
@@ -284,8 +296,9 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 ## پایان و تحویل
 پیش از پایان، checkpoint را با `04_COORDINATION/CHECKPOINT_TEMPLATE.md` ثبت کن؛ Issue و PR را به‌روز کن؛ TASK_INDEX و MASTER_STATUS را فقط بر اساس وضعیت اثبات‌شده به‌روزرسانی کن؛ قفل‌های اتمیک را فقط با TASK_ID/RUN_ID/fencing_token خود و از طریق CAS آزاد کن؛ اگر ابزار لازم در دسترس نیست، وضعیت را مبهم ثبت کن و آزادسازی را ادعا نکن. وضعیت را DONE_VERIFIED نگذار مگر معیار پذیرش و شواهد معتبر کامل باشند. در صورت مانع، BLOCKED را با علت، شواهد و NEXT_ACTION ثبت کن.
 
-
 ---
+
+# SOURCE: 05_PROMPT_LIBRARY/PR-06_EVIDENCE_TESTING.md
 
 # دستور مشترک اجباری همه پرامپت‌های FARAST
 
@@ -329,8 +342,9 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 ## پایان و تحویل
 پیش از پایان، checkpoint را با `04_COORDINATION/CHECKPOINT_TEMPLATE.md` ثبت کن؛ Issue و PR را به‌روز کن؛ TASK_INDEX و MASTER_STATUS را فقط بر اساس وضعیت اثبات‌شده به‌روزرسانی کن؛ قفل‌های اتمیک را فقط با TASK_ID/RUN_ID/fencing_token خود و از طریق CAS آزاد کن؛ اگر ابزار لازم در دسترس نیست، وضعیت را مبهم ثبت کن و آزادسازی را ادعا نکن. وضعیت را DONE_VERIFIED نگذار مگر معیار پذیرش و شواهد معتبر کامل باشند. در صورت مانع، BLOCKED را با علت، شواهد و NEXT_ACTION ثبت کن.
 
-
 ---
+
+# SOURCE: 05_PROMPT_LIBRARY/PR-07_GAP_ROOT_CAUSE.md
 
 # دستور مشترک اجباری همه پرامپت‌های FARAST
 
@@ -374,8 +388,9 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 ## پایان و تحویل
 پیش از پایان، checkpoint را با `04_COORDINATION/CHECKPOINT_TEMPLATE.md` ثبت کن؛ Issue و PR را به‌روز کن؛ TASK_INDEX و MASTER_STATUS را فقط بر اساس وضعیت اثبات‌شده به‌روزرسانی کن؛ قفل‌های اتمیک را فقط با TASK_ID/RUN_ID/fencing_token خود و از طریق CAS آزاد کن؛ اگر ابزار لازم در دسترس نیست، وضعیت را مبهم ثبت کن و آزادسازی را ادعا نکن. وضعیت را DONE_VERIFIED نگذار مگر معیار پذیرش و شواهد معتبر کامل باشند. در صورت مانع، BLOCKED را با علت، شواهد و NEXT_ACTION ثبت کن.
 
-
 ---
+
+# SOURCE: 05_PROMPT_LIBRARY/PR-08_COMMERCE.md
 
 # دستور مشترک اجباری همه پرامپت‌های FARAST
 
@@ -419,8 +434,9 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 ## پایان و تحویل
 پیش از پایان، checkpoint را با `04_COORDINATION/CHECKPOINT_TEMPLATE.md` ثبت کن؛ Issue و PR را به‌روز کن؛ TASK_INDEX و MASTER_STATUS را فقط بر اساس وضعیت اثبات‌شده به‌روزرسانی کن؛ قفل‌های اتمیک را فقط با TASK_ID/RUN_ID/fencing_token خود و از طریق CAS آزاد کن؛ اگر ابزار لازم در دسترس نیست، وضعیت را مبهم ثبت کن و آزادسازی را ادعا نکن. وضعیت را DONE_VERIFIED نگذار مگر معیار پذیرش و شواهد معتبر کامل باشند. در صورت مانع، BLOCKED را با علت، شواهد و NEXT_ACTION ثبت کن.
 
-
 ---
+
+# SOURCE: 05_PROMPT_LIBRARY/PR-09_AI_SERVICES.md
 
 # دستور مشترک اجباری همه پرامپت‌های FARAST
 
@@ -464,8 +480,9 @@ service catalog، sequence diagram، quota/pricing matrix، privacy & failure an
 ## پایان و تحویل
 پیش از پایان، checkpoint را با `04_COORDINATION/CHECKPOINT_TEMPLATE.md` ثبت کن؛ Issue و PR را به‌روز کن؛ TASK_INDEX و MASTER_STATUS را فقط بر اساس وضعیت اثبات‌شده به‌روزرسانی کن؛ قفل‌های اتمیک را فقط با TASK_ID/RUN_ID/fencing_token خود و از طریق CAS آزاد کن؛ اگر ابزار لازم در دسترس نیست، وضعیت را مبهم ثبت کن و آزادسازی را ادعا نکن. وضعیت را DONE_VERIFIED نگذار مگر معیار پذیرش و شواهد معتبر کامل باشند. در صورت مانع، BLOCKED را با علت، شواهد و NEXT_ACTION ثبت کن.
 
-
 ---
+
+# SOURCE: 05_PROMPT_LIBRARY/PR-10_ARCH_DATA.md
 
 # دستور مشترک اجباری همه پرامپت‌های FARAST
 
@@ -509,8 +526,9 @@ C4 سطح context/container/component در حد شواهد، data dictionary، d
 ## پایان و تحویل
 پیش از پایان، checkpoint را با `04_COORDINATION/CHECKPOINT_TEMPLATE.md` ثبت کن؛ Issue و PR را به‌روز کن؛ TASK_INDEX و MASTER_STATUS را فقط بر اساس وضعیت اثبات‌شده به‌روزرسانی کن؛ قفل‌های اتمیک را فقط با TASK_ID/RUN_ID/fencing_token خود و از طریق CAS آزاد کن؛ اگر ابزار لازم در دسترس نیست، وضعیت را مبهم ثبت کن و آزادسازی را ادعا نکن. وضعیت را DONE_VERIFIED نگذار مگر معیار پذیرش و شواهد معتبر کامل باشند. در صورت مانع، BLOCKED را با علت، شواهد و NEXT_ACTION ثبت کن.
 
-
 ---
+
+# SOURCE: 05_PROMPT_LIBRARY/PR-11_AUTHORIZATION.md
 
 # دستور مشترک اجباری همه پرامپت‌های FARAST
 
@@ -555,8 +573,9 @@ authorization matrix، lifecycle diagram، gap/risk report و تست‌های ل
 ## پایان و تحویل
 پیش از پایان، checkpoint را با `04_COORDINATION/CHECKPOINT_TEMPLATE.md` ثبت کن؛ Issue و PR را به‌روز کن؛ TASK_INDEX و MASTER_STATUS را فقط بر اساس وضعیت اثبات‌شده به‌روزرسانی کن؛ قفل‌های اتمیک را فقط با TASK_ID/RUN_ID/fencing_token خود و از طریق CAS آزاد کن؛ اگر ابزار لازم در دسترس نیست، وضعیت را مبهم ثبت کن و آزادسازی را ادعا نکن. وضعیت را DONE_VERIFIED نگذار مگر معیار پذیرش و شواهد معتبر کامل باشند. در صورت مانع، BLOCKED را با علت، شواهد و NEXT_ACTION ثبت کن.
 
-
 ---
+
+# SOURCE: 05_PROMPT_LIBRARY/PR-12_SECURITY_PRIVACY_AUDIT.md
 
 # دستور مشترک اجباری همه پرامپت‌های FARAST
 
@@ -600,8 +619,9 @@ Threat model، privacy data map، audit integrity report، legal questions و se
 ## پایان و تحویل
 پیش از پایان، checkpoint را با `04_COORDINATION/CHECKPOINT_TEMPLATE.md` ثبت کن؛ Issue و PR را به‌روز کن؛ TASK_INDEX و MASTER_STATUS را فقط بر اساس وضعیت اثبات‌شده به‌روزرسانی کن؛ قفل‌های اتمیک را فقط با TASK_ID/RUN_ID/fencing_token خود و از طریق CAS آزاد کن؛ اگر ابزار لازم در دسترس نیست، وضعیت را مبهم ثبت کن و آزادسازی را ادعا نکن. وضعیت را DONE_VERIFIED نگذار مگر معیار پذیرش و شواهد معتبر کامل باشند. در صورت مانع، BLOCKED را با علت، شواهد و NEXT_ACTION ثبت کن.
 
-
 ---
+
+# SOURCE: 05_PROMPT_LIBRARY/PR-13_TARGET_ARCH.md
 
 # دستور مشترک اجباری همه پرامپت‌های FARAST
 
@@ -645,8 +665,9 @@ Architecture Decision Records، نمودار هدف، گزینه‌ها، migrat
 ## پایان و تحویل
 پیش از پایان، checkpoint را با `04_COORDINATION/CHECKPOINT_TEMPLATE.md` ثبت کن؛ Issue و PR را به‌روز کن؛ TASK_INDEX و MASTER_STATUS را فقط بر اساس وضعیت اثبات‌شده به‌روزرسانی کن؛ قفل‌های اتمیک را فقط با TASK_ID/RUN_ID/fencing_token خود و از طریق CAS آزاد کن؛ اگر ابزار لازم در دسترس نیست، وضعیت را مبهم ثبت کن و آزادسازی را ادعا نکن. وضعیت را DONE_VERIFIED نگذار مگر معیار پذیرش و شواهد معتبر کامل باشند. در صورت مانع، BLOCKED را با علت، شواهد و NEXT_ACTION ثبت کن.
 
-
 ---
+
+# SOURCE: 05_PROMPT_LIBRARY/PR-14_HOSTING_OPERATIONS.md
 
 # دستور مشترک اجباری همه پرامپت‌های FARAST
 
@@ -690,8 +711,9 @@ Hosting feasibility matrix، deployment runbook، failure/rollback plan و فه�
 ## پایان و تحویل
 پیش از پایان، checkpoint را با `04_COORDINATION/CHECKPOINT_TEMPLATE.md` ثبت کن؛ Issue و PR را به‌روز کن؛ TASK_INDEX و MASTER_STATUS را فقط بر اساس وضعیت اثبات‌شده به‌روزرسانی کن؛ قفل‌های اتمیک را فقط با TASK_ID/RUN_ID/fencing_token خود و از طریق CAS آزاد کن؛ اگر ابزار لازم در دسترس نیست، وضعیت را مبهم ثبت کن و آزادسازی را ادعا نکن. وضعیت را DONE_VERIFIED نگذار مگر معیار پذیرش و شواهد معتبر کامل باشند. در صورت مانع، BLOCKED را با علت، شواهد و NEXT_ACTION ثبت کن.
 
-
 ---
+
+# SOURCE: 05_PROMPT_LIBRARY/PR-15_PRIORITIZATION.md
 
 # دستور مشترک اجباری همه پرامپت‌های FARAST
 
@@ -735,8 +757,9 @@ prioritized backlog، dependency graph، release slices و task definitions. م�
 ## پایان و تحویل
 پیش از پایان، checkpoint را با `04_COORDINATION/CHECKPOINT_TEMPLATE.md` ثبت کن؛ Issue و PR را به‌روز کن؛ TASK_INDEX و MASTER_STATUS را فقط بر اساس وضعیت اثبات‌شده به‌روزرسانی کن؛ قفل‌های اتمیک را فقط با TASK_ID/RUN_ID/fencing_token خود و از طریق CAS آزاد کن؛ اگر ابزار لازم در دسترس نیست، وضعیت را مبهم ثبت کن و آزادسازی را ادعا نکن. وضعیت را DONE_VERIFIED نگذار مگر معیار پذیرش و شواهد معتبر کامل باشند. در صورت مانع، BLOCKED را با علت، شواهد و NEXT_ACTION ثبت کن.
 
-
 ---
+
+# SOURCE: 05_PROMPT_LIBRARY/PR-16_IMPLEMENTATION.md
 
 # دستور مشترک اجباری همه پرامپت‌های FARAST
 
@@ -788,8 +811,9 @@ branch، PR، test report، risk/rollback note و checkpoint. معیار پذی�
 ## پایان و تحویل
 پیش از پایان، checkpoint را با `04_COORDINATION/CHECKPOINT_TEMPLATE.md` ثبت کن؛ Issue و PR را به‌روز کن؛ TASK_INDEX و MASTER_STATUS را فقط بر اساس وضعیت اثبات‌شده به‌روزرسانی کن؛ قفل‌های اتمیک را فقط با TASK_ID/RUN_ID/fencing_token خود و از طریق CAS آزاد کن؛ اگر ابزار لازم در دسترس نیست، وضعیت را مبهم ثبت کن و آزادسازی را ادعا نکن. وضعیت را DONE_VERIFIED نگذار مگر معیار پذیرش و شواهد معتبر کامل باشند. در صورت مانع، BLOCKED را با علت، شواهد و NEXT_ACTION ثبت کن.
 
-
 ---
+
+# SOURCE: 05_PROMPT_LIBRARY/PR-17_ACCEPTANCE_RELEASE.md
 
 # دستور مشترک اجباری همه پرامپت‌های FARAST
 
