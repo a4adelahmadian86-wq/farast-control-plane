@@ -98,3 +98,18 @@ GitHub refها یکتا هستند و به‌روزرسانی ref با `expected
 
 ## محدودیت و تضمین
 این طراحی از Git ref CAS به‌عنوان نقطه هماهنگی اتمیک استفاده می‌کند. با این حال، قبل از اتکا در مقیاس تیم باید آزمون رقابتی واقعی با دو حساب مستقل و چند اجرای هم‌زمان انجام شود؛ نتیجه probe اولیه اثبات کامل رفتار در همه شرایط نیست. GitHub دسترسی/هویت واقعی ChatGPT chat را اثبات نمی‌کند. branch `coordination/locks` باید از حذف تصادفی محافظت شود و repo خصوصی باشد.
+
+
+## منابع مرکزی و جلوگیری از تداخل نوشتن
+کلیدهای رزرو شده برای رجیسترهای مشترک:
+- `index:MASTER_STATUS`
+- `index:TASK_INDEX`
+- `index:GOAL_STATUS`
+- `index:EXP_STAGE_LEDGER`
+- `index:CAPABILITY_REGISTER`
+- `index:REQUIREMENTS_TRACEABILITY`
+- `governance:USER_FEEDBACK_REGISTER`
+- `governance:DECISION_REGISTER`
+- `strategy:DEPENDENCY_GRAPH`
+
+اصل single-writer: عامل عادی این فایل‌ها را مستقیم به‌روزرسانی نمی‌کند؛ Issue و گزارش اختصاصی TASK را ثبت می‌کند و تغییر رجیستر مرکزی را به steward یا PR جداگانه تحویل می‌دهد. فقط TASKی که صریحاً مالک همان رجیستر است می‌تواند با قفل کلید مربوطه تغییر پیشنهاد دهد. از آنجا که PR تا زمان merge ممکن است با PR دیگر تعارض داشته باشد، قفل رجیستر مشترک تا تعیین تکلیف PR باید در وضعیت RESERVED_FOR_REVIEW بماند یا تغییر فقط توسط steward تجمیع شود. برای جلوگیری از lease طولانی، روش ترجیحی single-writer steward است.
