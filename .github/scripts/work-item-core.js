@@ -26,6 +26,8 @@ function validateWorkItem(item) {
   assert(typeof item.target_repository === 'string' && /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(item.target_repository), 'invalid target_repository');
   assert(['READ_ONLY','WRITE_REQUIRES_OWNER_APPROVAL','WRITE_ALLOWED'].includes(item.write_policy), 'invalid write_policy');
   assert(['OWNER_ASSIGNED','DEFAULT_POLICY'].includes(item.priority_source), 'invalid priority_source');
+  if (item.target_repository === 'a4adelahmadian86-wq/non') assert(item.write_policy === 'READ_ONLY', 'NON product repository is READ_ONLY until explicit owner authorization');
+  if (item.write_policy === 'WRITE_REQUIRES_OWNER_APPROVAL') assert(typeof item.owner_approval_ref === 'string' && item.owner_approval_ref.trim(), 'owner_approval_ref is required for approval-gated writes');
   assert(Array.isArray(item.resource_keys) && item.resource_keys.length > 0, 'resource_keys are required');
   assert(Array.isArray(item.dependencies || []), 'dependencies must be an array');
   assert(Array.isArray(item.steps) && item.steps.length > 0, 'at least one atomic step is required');
