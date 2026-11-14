@@ -22,7 +22,7 @@
 | OPEN_GAPS / BLOCKERS | KNOWN_UNKNOWN.md، Issueهای مسدود و گزارش TASK | منبع تجمیعی؛ فایل مستقل فعلاً ندارد |
 | METRICS.md | GOAL_STATUS.csv و ACCEPTANCE_FRAMEWORK.md | موجود به‌صورت داده ساخت‌یافته؛ درصد وزنی تا تصویب وزن‌ها ممنوع |
 | WORKER_PROTOCOL.md | همین فایل | موجود |
-| GLOBAL_LOCK_PROTOCOL.md | LOCK_MANAGER_PROTOCOL.md و LOCK_PROTOCOL.md | موجود؛ LOCK_MANAGER مرجع جزئیات CAS |
+| GLOBAL_LOCK_PROTOCOL.md | LOCK_MANAGER_PROTOCOL.md و LOCK_PROTOCOL.md | موجود؛ LOCK_MANAGER مرجع جزئیات CAS |\n| Event-driven Issue coordinator from PR #479 | LEGACY_COORDINATOR_MIGRATION.md | تحلیل شده اما هنوز به مخزن مستقل منتقل/پیاده‌سازی نشده؛ تصمیم و اجرای جدا لازم است |
 | WORK_ORDER_SCHEMA.json | 04_COORDINATION/WORK_ORDER_SCHEMA.json | موجود |
 | CHECKPOINT_SCHEMA.json | 04_COORDINATION/CHECKPOINT_SCHEMA.json | موجود |
 | HANDOFF_PROTOCOL.md | 04_COORDINATION/HANDOFF_PROTOCOL.md | موجود |

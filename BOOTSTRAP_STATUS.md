@@ -10,7 +10,7 @@
 - اصلاح دروازه شروع تمام ۱۷ پرامپت: هر ۱۷ فایل اکنون URL مستقیم START_HERE.md در شاخه setup/control-plane-bootstrap، recovery protocol، MASTER-00، CAS، TASK_ID و OPERATION_ID را دارند؛ read-back مستقیم 17/17 PASS.
 - اصلاح نگاشت PR-02 به EXP-02؛ EXP-17 فقط زیر PR-14 (EXP-16 تا EXP-18) قرار دارد.
 - ایجاد Work Order Schema، Checkpoint Schema، Handoff Protocol، Acceptance Framework، Architecture Coverage و Pull Request Template.
-- ایجاد branch مستقل coordination/locks و رجیستری CAS با lease و fencing token؛ probe stale-SHA رد شده است، اما آزمون دو حساب مستقل هنوز انجام نشده.
+- ایجاد branch مستقل coordination/locks و رجیستری CAS با lease و fencing token؛ probe stale-SHA رد شده است، اما آزمون دو حساب مستقل هنوز انجام نشده.\n- ممیزی workflow قدیمی PR #479 انجام شد؛ قابلیت‌های مفید و نقص issue-level lock در LEGACY_COORDINATOR_MIGRATION.md ثبت شده‌اند. workflow رویدادمحور جدید هنوز پیاده‌سازی نشده است.
 - افزودن اعتبارسنجی schemaها و قرارداد ref/نگاشت prompt به CI؛ اجرای جدید CI روی head فعلی هنوز مشاهده نشده است.
 
 ## وضعیت محصول
@@ -50,4 +50,4 @@
 - Independent review: NOT_RUN.
 - Product audit / production readiness: NOT_STARTED.
 
-**نتیجه:** اصلاحات لازم برای bootstrap و شروع مستقل پرامپت‌ها روی شاخه PR انجام شده‌اند؛ اما هنوز مجاز نیستیم سیستم را برای اجرای محرمانه/چندحسابی «کاملاً آماده و تأییدشده» اعلام کنیم.
+**نتیجه:** اصلاحات bootstrap و پرامپت‌ها روی شاخه PR انجام شده‌اند؛ اما coordinator رویدادمحور هنوز منتقل نشده و سیستم برای اجرای کامل چندچتی/محرمانه آماده و تأییدشده نیست.
