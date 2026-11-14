@@ -136,3 +136,13 @@ test('a released run cannot reclaim its old branch; new run receives prior hando
   const acquired = s.history.filter(x => x.event === 'ACQUIRED').at(-1);
   assert.equal(acquired.previous_branch, 'work/GH-10-run-a');
 });
+
+
+test('chat and run identifiers are bounded and branch-safe', () => {
+  assert.equal(core.isSafeRunId('chat-01'), true);
+  assert.equal(core.isSafeRunId('RUN_20261114.01'), true);
+  assert.equal(core.isSafeRunId(''), false);
+  assert.equal(core.isSafeRunId('../main'), false);
+  assert.equal(core.isSafeRunId('run with spaces'), false);
+  assert.equal(core.isSafeRunId('x'.repeat(65)), false);
+});
