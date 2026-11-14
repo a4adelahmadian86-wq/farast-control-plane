@@ -61,3 +61,7 @@
 - وضعیت: IMPLEMENTED_ON_REVIEW_BRANCH / NOT_ACTIVE_ON_DEFAULT_BRANCH / E2E_NOT_VERIFIED.
 - مانع فعال‌سازی: PR #1 باز و ادغام‌نشده است؛ schedule و workflow_dispatch پس از حضور workflow در default branch قابل استفاده خواهند بود.
 - آزمون واقعی دو حساب مستقل و اجرای هم‌زمان هنوز NOT_RUN است.
+
+
+## یادداشت ممیزی پروتکل قفل — 2026-11-14
+پس از یک رویداد RELEASED اولیه، چند commit تکمیلی مربوط به hardening هماهنگ‌کننده پیش از reacquire کردن قفل ثبت شدند. این انحراف از پروتکل ثبت شد؛ در رجیستری coordination/locks رویداد PROTOCOL_DEVIATION_RECORDED وجود دارد. هیچ writer متعارضی در read-back مشاهده نشد، اما این مشاهده اثبات عدم تداخل نیست. برای ادامه کار قفل‌ها دوباره با fencing tokenهای جدید گرفته شدند و پس از تکمیل، آزاد خواهند شد.
