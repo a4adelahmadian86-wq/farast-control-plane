@@ -105,3 +105,17 @@ test('valid heartbeat renews every resource lease with one expiry', () => {
   assert.equal(renewed.expiresAt, new Date(2000 + 15 * 60000).toISOString());
   assert.ok(locks.every(x => x.heartbeat_at_utc === renewed.heartbeatAt && x.lease_expires_at_utc === renewed.expiresAt));
 });
+
+
+test('Issue close eligibility follows the latest successful state transition, not labels or failed commands', () => {
+  const operations = {
+    a: { issue_number: 10, command: 'accept', next_status: 'done', at_utc: '2026-11-14T10:00:00Z' },
+    b: { issue_number: 10, command: 'status', next_status: null, at_utc: '2026-11-14T10:01:00Z' },
+    c: { issue_number: 10, command: 'accept', next_status: null, at_utc: '2026-11-14T10:02:00Z' },
+    d: { issue_number: 11, command: 'accept', next_status: 'done', at_utc: '2026-11-14T10:03:00Z' }
+  };
+  assert.equal(core.latestTaskStatus(operations, 10), 'done');
+  operations.e = { issue_number: 10, command: 'reopen', next_status: 'ready', at_utc: '2026-11-14T10:04:00Z' };
+  assert.equal(core.latestTaskStatus(operations, 10), 'ready');
+  assert.equal(core.latestTaskStatus({}, 10), null);
+});
