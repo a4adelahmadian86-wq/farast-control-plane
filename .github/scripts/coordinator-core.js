@@ -114,15 +114,33 @@ function latestTaskStatus(processedOperations, issueNumber) {
 }
 
 function matchesReviewLease(pr, reviewEvent) {
-  return !!reviewEvent && reviewEvent.branch === pr.head.ref && reviewEvent.target_repository === pr.head.repo?.full_name;
+  const target = reviewEvent?.target_repository;
+  return !!target &&
+    reviewEvent.branch === pr.head?.ref &&
+    pr.head?.repo?.full_name === target &&
+    pr.base?.repo?.full_name === target;
 }
 
 function hasIndependentApproval(reviews, pr, workerActor, acceptActor) {
-  return reviews.some(r => r.state === 'APPROVED' &&
-    r.commit_id === pr.head.sha &&
-    r.user?.login !== pr.user?.login &&
-    r.user?.login !== workerActor &&
-    r.user?.login !== acceptActor);
+  // A prior APPROVED review must not survive a later CHANGES_REQUESTED or DISMISSED
+  // review by the same person, even when both reviews reference the current head.
+  const latestByReviewer = new Map();
+  for (const [index, review] of (reviews || []).entries()) {
+    const login = review.user?.login;
+    if (!login) continue;
+    const submitted = Date.parse(review.submitted_at || '') || index;
+    const previous = latestByReviewer.get(login);
+    if (!previous || submitted >= previous.submitted) {
+      latestByReviewer.set(login, { review, submitted });
+    }
+  }
+  return [...latestByReviewer.entries()].some(([login, item]) =>
+    item.review.state === 'APPROVED' &&
+    item.review.commit_id === pr.head?.sha &&
+    login !== pr.user?.login &&
+    login !== workerActor &&
+    login !== acceptActor
+  );
 }
 
 module.exports = {
