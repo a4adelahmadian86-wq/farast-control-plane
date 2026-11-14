@@ -121,7 +121,13 @@ jobs:
               try { const item = JSON.parse(raw); workItemCore.validateWorkItem(item); return item; }
               catch (error) { throw new Error('Invalid Work item specification JSON in Issue #' + issue.number + ': ' + error.message); }
             };
-            const savedWorkItemFor = (state, issue) => (state.work_items && state.work_items[issue.number]) || workItemSpecFor(issue);
+            const savedWorkItemFor = (state, issue) => {
+              const item = (state.work_items && state.work_items[issue.number]) || workItemSpecFor(issue);
+              if (!item) return null;
+              const byId = new Map(Object.values(state.work_items || {}).map(x => [x.work_item_id, x]));
+              item.dependencies = (item.dependencies || []).map(dep => ({ ...dep, status: (byId.get(dep.work_item_id) && byId.get(dep.work_item_id).status) || dep.status || 'UNKNOWN' }));
+              return item;
+            };
 
             const handleCommand = async (issue, comment, snapshot) => {
               const state = snapshot.state;
@@ -261,7 +267,15 @@ jobs:
                     if (!labelsOf(issue).includes('agent:review') || current.length) response = 'پذیرش رد شد: وظیفه باید در وضعیت review و بدون lease فعال باشد.';
                     else if (!branchBound) response = 'پذیرش رد شد: PR باید از branch و target repository ثبت‌شده در آخرین handoff همان lease ساخته شده باشد.';
                     else if (!pr.merged || !independent) response = 'پذیرش رد شد: PR باید merged باشد و approval مستقل روی head فعلی داشته باشد.';
-                    else { nextStatus = 'done'; response = 'پذیرش تأیید شد: PR ادغام‌شده و approval مستقل روی head فعلی احراز شد.'; }
+                    else {
+                      const workItem = savedWorkItemFor(state, issue);
+                      if (workItem) {
+                        state.work_items ||= {}; state.work_items[issue.number] ||= workItem;
+                        const gate = workItemCore.calculateProgress(state.work_items[issue.number]);
+                        if (!gate.can_accept) response = 'پذیرش Work Item رد شد: همه گام‌های اجباری، معیارهای پذیرش و dependencyها باید با evidence معتبر PASS شوند؛ progress=' + gate.percentage + '%.';
+                        else { state.work_items[issue.number].status = 'ACCEPTED'; nextStatus = 'done'; response = 'Work Item ACCEPTED: همه گام‌ها و معیارهای اجباری با evidence معتبر پاس شده‌اند؛ PR ادغام‌شده و approval مستقل روی head فعلی نیز احراز شد.'; }
+                      } else { nextStatus = 'done'; response = 'پذیرش تأیید شد: PR ادغام‌شده و approval مستقل روی head فعلی احراز شد.'; }
+                    }
                     }
                   }
                 }
