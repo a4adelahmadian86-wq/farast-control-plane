@@ -19,6 +19,7 @@ function expireLocks(state, nowMs = Date.now()) {
   for (const x of expired) state.history.push({
     event: 'LEASE_EXPIRED', issue_number: x.issue_number, resource_key: x.resource_key,
     task_id: x.task_id, run_id: x.run_id, fencing_token: x.fencing_token,
+    actor: x.actor, chat_id: x.chat_id, branch: x.branch, target_repository: x.target_repository,
     at_utc: new Date(nowMs).toISOString()
   });
   return expired;
