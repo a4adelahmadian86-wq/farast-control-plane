@@ -7,7 +7,9 @@
 Settings → Rules → Rulesets (یا Branches → Branch protection rules):
 - هدف: branch `main`.
 - Require a pull request before merging.
-- حداقل یک approval مستقل (در صورت وجود همکار واجد شرایط).
+- Require at least one approval from someone other than the PR author.
+- Require review from Code Owners; `.github/CODEOWNERS` مالک مخزن را برای workflowها، هسته coordinator و سیاست دسترسی تعیین می‌کند.
+- Dismiss stale approvals when new commits are pushed.
 - Require status checks: `Control Plane Validation / validate`.
 - Require conversation resolution.
 - Block force pushes و branch deletion.
