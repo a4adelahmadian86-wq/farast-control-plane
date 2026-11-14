@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 44,
+  "revision": 45,
   "next_fencing_token": 51,
   "locks": [
     {
@@ -629,6 +629,15 @@
       "command": "claim",
       "next_status": "locked",
       "at_utc": "2026-11-14T17:14:39.515Z"
+    },
+    "6881282409": {
+      "response": "Claim رد شد: این TASK هم‌اکنون در اختیار @a4adelahmadian86-wq با run=smoke-run-002 است؛ برای جلوگیری از دو نویسنده روی یک branch، ابتدا handoff یا انقضای lease لازم است.",
+      "response_posted": false,
+      "issue_number": 5,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": null,
+      "at_utc": "2026-11-14T17:15:06.569Z"
     }
   },
   "work_items": {
