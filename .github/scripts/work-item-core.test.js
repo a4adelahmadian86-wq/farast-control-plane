@@ -84,3 +84,30 @@ test('fairness aging improves old work without changing owner priority',()=>{
  assert.equal(chosen.work_item_id,'WI-OLD');
  assert.equal(old.priority,50);
 });
+
+test('all steps and all required criteria with accepted dependencies make an item eligible for review, not accepted',()=>{
+ const x=item();
+ for(const step of x.steps) wi.recordStepEvidence(x,{...input(step.step_id)});
+ for(const criterion of x.acceptance_criteria) wi.recordCriterionEvidence(x,{
+   lease,actor:'alice',chat_id:'chat-a',run_id:'run-a',fencing_token:7,
+   criterion_id:criterion.criterion_id,validation_status:'PASS',
+   evidence_refs:['https://github.com/owner/repo/commit/criterion'],nowMs:Date.parse('2026-01-01T00:30:00Z')
+ });
+ const p=wi.calculateProgress(x);
+ assert.equal(p.percentage,100);
+ assert.equal(p.can_accept,true);
+ assert.equal(x.status,'REVIEW_REQUIRED');
+});
+test('unaccepted dependency prevents acceptance even when all local steps and criteria pass',()=>{
+ const x=item({dependencies:[{work_item_id:'WI-PARENT',status:'IN_PROGRESS'}]});
+ for(const step of x.steps) wi.recordStepEvidence(x,{...input(step.step_id)});
+ for(const criterion of x.acceptance_criteria) wi.recordCriterionEvidence(x,{
+   lease,actor:'alice',chat_id:'chat-a',run_id:'run-a',fencing_token:7,
+   criterion_id:criterion.criterion_id,validation_status:'PASS',
+   evidence_refs:['https://github.com/owner/repo/commit/criterion'],nowMs:Date.parse('2026-01-01T00:30:00Z')
+ });
+ assert.equal(wi.calculateProgress(x).percentage,100);
+ assert.equal(wi.calculateProgress(x).can_accept,false);
+ x.dependencies[0].status='ACCEPTED';
+ assert.equal(wi.calculateProgress(x).can_accept,true);
+});
