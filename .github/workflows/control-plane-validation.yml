@@ -45,6 +45,7 @@ jobs:
             04_COORDINATION/ACCEPTANCE_FRAMEWORK.md
             04_COORDINATION/LEGACY_COORDINATOR_MIGRATION.md
             04_COORDINATION/COORDINATOR_COMMANDS.md
+            04_COORDINATION/MULTI_CHAT_READINESS.md
             04_COORDINATION/ACTOR_AUTHORIZATION.json
             04_COORDINATION/COORDINATOR_TEST_PLAN.md
             .github/workflows/farast-coordinator.yml
@@ -129,6 +130,10 @@ jobs:
           core = Path(".github/scripts/coordinator-core.js").read_text(encoding="utf-8")
           for required in ("agent_alias: args.chatId || args.actor", "target_repository: args.targetRepository", "target_repository: x.target_repository", "function isSafeRunId", "function roleForActor", "function isWithinDelegatedScope", "function isCommandAllowed", "function latestTaskStatus", "function matchesReviewLease", "function claimResources", "function ownsLease", "function renewLease", "task_already_claimed", "branchUsed", "previousRun", "function roleForActor", "function isCommandAllowed"):
               assert required in core, required
+          readiness = Path("04_COORDINATION/MULTI_CHAT_READINESS.md").read_text(encoding="utf-8")
+          assert "MULTI-ACCOUNT E2E NOT VERIFIED" in readiness
+          assert "hard-fencing" in readiness
+          assert "PR #1 باز و ادغام‌نشده" in readiness
           codeowners = Path(".github/CODEOWNERS").read_text(encoding="utf-8")
           assert "@a4adelahmadian86-wq" in codeowners and "ACTOR_AUTHORIZATION.json" in codeowners
           commands = Path("04_COORDINATION/COORDINATOR_COMMANDS.md").read_text(encoding="utf-8")
