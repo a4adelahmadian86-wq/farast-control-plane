@@ -1,0 +1,10 @@
+GOAL_ID,Title,Parent_ID,Status,Acceptance_Criteria_Count,Verified_Criteria_Count,Blocked_Criteria_Count,Progress_Percent,Evidence,Last_Updated_UTC
+G-00,هدف کلان,,NOT_STARTED,,,,,,,
+G-01,شناخت و حفاظت سرمایه موجود,G-00,NOT_STARTED,,,,,,,
+G-02,تجربه واقعی و جریان‌های کاربری,G-00,NOT_STARTED,,,,,,,
+G-03,حاکمیت و مجوزها,G-00,NOT_STARTED,,,,,,,
+G-04,تجارت دیجیتال و پرداخت,G-00,NOT_STARTED,,,,,,,
+G-05,خدمات هوشمند,G-00,NOT_STARTED,,,,,,,
+G-06,امنیت و حریم خصوصی,G-00,NOT_STARTED,,,,,,,
+G-07,میزبانی و عملیات,G-00,NOT_STARTED,,,,,,,
+G-08,پذیرش و بهبود مستمر,G-00,NOT_STARTED,,,,,,,
