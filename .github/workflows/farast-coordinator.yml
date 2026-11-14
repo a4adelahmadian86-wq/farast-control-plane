@@ -174,9 +174,9 @@ jobs:
                   else if (command === 'heartbeat') {
                     if (!Number.isFinite(lease) || lease < 5 || lease > 120) response = 'Heartbeat رد شد: lease باید بین ۵ تا ۱۲۰ دقیقه باشد.';
                     else {
-                      const expiry = new Date(Date.now() + lease * 60000).toISOString();
-                      for (const x of current) { x.heartbeat_at_utc = new Date().toISOString(); x.lease_expires_at_utc = expiry; }
-                      state.history.push({ event: 'HEARTBEAT', issue_number: issue.number, actor, chat_id: chat, run_id: run, fencing_token: token, branch: current[0]?.branch, target_repository: current[0]?.target_repository, lease_expires_at_utc: expiry, at_utc: new Date().toISOString() });
+                      const renewal = coordinatorCore.renewLease(current, lease, Date.now());
+                      const expiry = renewal.expiresAt;
+                      state.history.push({ event: 'HEARTBEAT', issue_number: issue.number, actor, chat_id: chat, run_id: run, fencing_token: token, branch: current[0]?.branch, target_repository: current[0]?.target_repository, lease_expires_at_utc: expiry, at_utc: renewal.heartbeatAt });
                       response = 'Lease تمدید شد تا ' + expiry + ' UTC؛ fencing_token=' + token + '.';
                     }
                   } else {
