@@ -88,7 +88,7 @@ jobs:
           assert "WORK_ORDER_SCHEMA.json" in start_here and "CHECKPOINT_SCHEMA.json" in start_here
           assert "HANDOFF_PROTOCOL.md" in start_here and "ACCEPTANCE_FRAMEWORK.md" in start_here
           legacy = Path("04_COORDINATION/LEGACY_COORDINATOR_MIGRATION.md").read_text(encoding="utf-8")
-          assert "Issueمحور" in legacy and "CAS" in legacy
+          assert "PR #479" in legacy and "CAS" in legacy
           assert "LEGACY_COORDINATOR_MIGRATION.md" in start_here
           catalog = Path("05_PROMPT_LIBRARY/PROMPT_CATALOG.md").read_text(encoding="utf-8")
           assert "| PR-02 | PR-02_RECOVERY.md | EXP-02 |" in catalog
