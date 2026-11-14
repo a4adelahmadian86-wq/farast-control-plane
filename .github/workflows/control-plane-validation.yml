@@ -114,7 +114,7 @@ jobs:
           assert "WORK_ORDER_SCHEMA.json" in start_here and "CHECKPOINT_SCHEMA.json" in start_here
           assert "HANDOFF_PROTOCOL.md" in start_here and "ACCEPTANCE_FRAMEWORK.md" in start_here
           coordinator = Path(".github/workflows/farast-coordinator.yml").read_text(encoding="utf-8")
-          for required in ("farast-control-plane-single-writer", "schedule:", "issue_comment:", "processed_operations", "FARAST_OP_RESPONSE:", "coordination/locks", "pulls.listReviews", "agent_alias: chat || actor", "workerActor", "if (!m) return []", "next_status: nextStatus", "FARAST_GITHUB_TOKEN", "prUrl", "targetRepositoryFor", "target_repository: targetRepository", "coordinatorCore.claimResources", "coordinatorCore.ownsLease", "coordinatorCore.hasIndependentApproval"):
+          for required in ("farast-control-plane-single-writer", "schedule:", "issue_comment:", "processed_operations", "FARAST_OP_RESPONSE:", "coordination/locks", "pulls.listReviews", "agent_alias: chat || actor", "workerActor", "if (!m) return []", "next_status: nextStatus", "FARAST_GITHUB_TOKEN", "prUrl", "targetRepositoryFor", "target_repository: targetRepository", "coordinatorCore.claimResources", "coordinatorCore.ownsLease", "coordinatorCore.hasIndependentApproval", "const taskBranch =", "branchBound"):
               assert required in coordinator, required
           commands = Path("04_COORDINATION/COORDINATOR_COMMANDS.md").read_text(encoding="utf-8")
           assert "CLAIM GRANTED" in commands and "FENCING_TOKEN" in commands
