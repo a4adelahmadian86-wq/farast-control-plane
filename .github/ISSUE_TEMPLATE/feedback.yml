@@ -1,7 +1,6 @@
 name: Product Owner Feedback
 description: Record an explicit owner decision or feedback
 title: "[FEEDBACK] "
-labels: ["feedback", "owner-decision"]
 body:
   - type: textarea
     id: original
