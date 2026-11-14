@@ -561,9 +561,15 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 
 این پرامپت مستقل از مکالمه و حساب کاربری است. **مرجع شروع فعلی** را مستقیماً از این نشانی باز کن: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/setup/control-plane-bootstrap/START_HERE.md . در زمان آخرین بررسی، PR شماره ۱ باز و ادغام‌نشده بود و شاخه پیش‌فرض `main` فقط `README.md` داشت؛ بنابراین تا وقتی PR ادغام نشده و وجود همه فایل‌ها در `main` تأیید نشده، از شاخه `setup/control-plane-bootstrap` استفاده کن. همه فایل‌های ارجاعی را از همین ref بخوان؛ در GitHub API مقدار `ref=setup/control-plane-bootstrap` را صریح بده. پیش از هر اجرا وضعیت زنده PR شماره ۱ را بررسی کن: اگر ادغام شده، ابتدا وجود فایل‌های لازم در `main` را با SHA ادغام تأیید و سپس به `main` منتقل شو؛ اگر باز است از شاخه فعلی استفاده کن؛ اگر بسته و ادغام‌نشده است نوشتن را متوقف کن. هیچ‌گاه وجود فایل در شاخه پیش‌فرض را حدس نزن. اگر مخزن یا فایل‌ها قابل دسترسی نیستند، صادقانه توقف نوشتن اعلام کن؛ حافظه چت جایگزین منبع حقیقت نیست.
 
-**تداوم:** TASK_ID و آخرین checkpoint را پیدا کن. اگر این کار قبلاً شروع شده، همان TASK_ID و branch را ادامه بده؛ وظیفه/خروجی مشابه جدید نساز. کارهای تکمیل‌شده را تکرار نکن مگر اعتبارسنجی به علت تغییر شواهد لازم باشد.
 
-**هماهنگی:** Issueها، PRها و RESOURCE_KEYS را بررسی کن. قفل اتمیک منابع را طبق `04_COORDINATION/LOCK_MANAGER_PROTOCOL.md` از رجیستری branch `coordination/locks` بگیر. Acquire چندمنبعی باید در یک CAS با `update_ref(expected_sha=...)` انجام شود؛ تا موفقیت CAS هیچ تغییر نوشتنی مجاز نیست. قفل مبهم، timeout یا خطای CAS یعنی STOP WRITES و بارگذاری مجدد وضعیت؛ هرگز مالکیت را جعل نکن. کارهای خواندنی و مستقل را ادامه بده. از branch اختصاصی استفاده کن و هرگز مستقیم روی main commit نکن.
+## دروازه اجباری آغاز، بازیابی و تداوم (برای هر چت/حساب)
+پیش از اجرای حتی یک مرحله از مأموریت تخصصی، آخرین نسخه این سه سند را مستقیماً از GitHub بخوان: `START_HERE.md`، `04_COORDINATION/INTERRUPTION_RECOVERY_PROTOCOL.md` و `05_PROMPT_LIBRARY/MASTER-00.md`. اجرای این پرامپت بدون خواندن هر سه سند ممنوع است. سپس وضعیت زنده TASK/Issue/PR، آخرین checkpoint، commit و قفل‌ها را بررسی کن. خلاصه خودکار چت و حافظه نشست مرجع حقیقت نیست.
+
+اگر اینترنت/ابزار قطع شد، timeout رخ داد، چت بسته شد یا پنجره زمینه پر شد: نوشتن را متوقف کن؛ نتیجه عملیات آخر را حدس نزن؛ GitHub را برای اثر واقعی بخوان؛ همان TASK_ID را حفظ کن، اما برای هر اجرای جدید RUN_ID و branch اختصاصی تازه بگیر؛ هرگز branch قبلی را دوباره استفاده نکن. برای هر اقدام نوشتنی OPERATION_ID پایدار به‌کار ببر؛ retry فقط پس از read-back و تشخیص NOT_APPLIED مجاز است. وضعیت نامعلوم را AMBIGUOUS ثبت کن و از ایجاد تکراری Issue/branch/PR/commit/file خودداری کن. پیش از هر handoff، checkpoint کامل و NEXT_ACTION دقیق ثبت کن. اگر اسناد یا مجوز GitHub در دسترس نیست، read-only بمان و ادعای نوشتن نکن.
+
+**تداوم:** TASK_ID و آخرین checkpoint را پیدا کن. اگر این کار قبلاً شروع شده، همان TASK_ID و checkpoint را ادامه بده؛ پس از claim جدید فقط branch اختصاصی صادرشده برای RUN جدید را استفاده کن و branch قبلی را read-only نگه دار؛ وظیفه/خروجی مشابه جدید نساز. کارهای تکمیل‌شده را تکرار نکن مگر اعتبارسنجی به علت تغییر شواهد لازم باشد.
+
+**هماهنگی:** Issueها، PRها و RESOURCE_KEYS را بررسی کن. claim/heartbeat/release را فقط با فرمان‌های `/farast` طبق `04_COORDINATION/COORDINATOR_COMMANDS.md` انجام بده. رجیستری `coordination/locks` فقط توسط workflow مرکزی نوشته می‌شود؛ هرگز مستقیم آن را تغییر نده. قفل مبهم، timeout یا خطای coordinator یعنی STOP WRITES و بارگذاری مجدد وضعیت؛ هرگز مالکیت را جعل نکن. کارهای خواندنی و مستقل را ادامه بده. از branch اختصاصی استفاده کن و هرگز مستقیم روی main commit نکن.
 
 **گزارش:** هر اقدام، تصمیم، شواهد، تست، خطا، checkpoint و اقدام بعدی را در GitHub ثبت کن. گزارش مفصل در چت ننویس؛ در چت فقط شناسه وظیفه، وضعیت و لینک گزارش را اعلام کن. اگر ابزار نوشتن GitHub در دسترس نیست، ادعای ثبت نکن.
 
@@ -597,7 +603,22 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 نمودار جریان/state machine، ماتریس failure، فهرست تست و GAPهای مالی/تجاری. معیار پذیرش: تمام انتقال‌های مالی قابل ردیابی و هر ادعا مستند به کد/تست/شاهد.
 
 ## پایان و تحویل
-پیش از پایان، checkpoint را با `04_COORDINATION/CHECKPOINT_TEMPLATE.md` ثبت کن؛ Issue و PR را به‌روز کن؛ TASK_INDEX و MASTER_STATUS را فقط بر اساس وضعیت اثبات‌شده به‌روزرسانی کن؛ قفل‌های اتمیک را فقط با TASK_ID/RUN_ID/fencing_token خود و از طریق CAS آزاد کن؛ اگر ابزار لازم در دسترس نیست، وضعیت را مبهم ثبت کن و آزادسازی را ادعا نکن. وضعیت را DONE_VERIFIED نگذار مگر معیار پذیرش و شواهد معتبر کامل باشند. در صورت مانع، BLOCKED را با علت، شواهد و NEXT_ACTION ثبت کن.
+پیش از پایان، checkpoint را با `04_COORDINATION/CHECKPOINT_TEMPLATE.md` ثبت کن؛ Issue و PR را به‌روز کن؛ TASK_INDEX و MASTER_STATUS را فقط بر اساس وضعیت اثبات‌شده به‌روزرسانی کن؛ قفل را فقط با فرمان `/farast release` و TASK_ID/RUN_ID/fencing_token خود آزاد کن؛ اگر ابزار لازم در دسترس نیست، وضعیت را مبهم ثبت کن و آزادسازی را ادعا نکن. وضعیت را DONE_VERIFIED نگذار مگر معیار پذیرش و شواهد معتبر کامل باشند. در صورت مانع، BLOCKED را با علت، شواهد و NEXT_ACTION ثبت کن.
+
+
+## دروازه اجباری هماهنگی چندچتی
+- پیش از هر write، در Issue وظیفه فرمان /farast claim chat=CHAT_ID run=RUN_ID lease=30 را ثبت کن.
+- فقط پس از پاسخ صریح CLAIM GRANTED و read-back رجیستری زنده مجاز به نوشتن هستی؛ target_repository و branch اختصاصی همان RUN را عیناً از پاسخ بردار. عدم پاسخ/timeout/خطا = STOP WRITES.
+- رجیستری ACTIVE_LOCKS.json فقط توسط workflow مرکزی نوشته می‌شود؛ نوشتن مستقیم یا direct-CAS توسط worker ممنوع است.
+- پیش از هر write/checkpoint، /farast heartbeat chat=CHAT_ID run=RUN_ID token=FENCING_TOKEN lease=30 را اجرا کن.
+- در پایان از /farast review یا /farast release با token صحیح استفاده کن؛ release به معنی پذیرش نیست.
+- دستورها: 04_COORDINATION/COORDINATOR_COMMANDS.md. اگر workflow در default branch فعال نیست، فقط read-only.
+
+
+**ایمنی چندچتی و handoff:** branch قبلی یک Issue قابل claim مجدد نیست. اگر claim با branch_reuse رد شد، RUN_ID جدید و یکتا انتخاب کن. CLAIM GRANTED بدون read-back وضعیت زنده رجیستری و تطبیق actor/chat/run/token مجوز write نیست. هر RUN فقط branch خودش را تغییر می‌دهد؛ PR پذیرش فقط از branch آخرین REVIEW ثبت‌شده مجاز است.
+
+برای شناخت مبانی فنی رجیستری، `04_COORDINATION/LOCK_MANAGER_PROTOCOL.md` را فقط به‌عنوان شرح پیاده‌سازی داخلی بخوان؛ این سند مجوز CAS یا نوشتن مستقیم worker نیست.
+
 
 ---
 
@@ -607,9 +628,15 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 
 این پرامپت مستقل از مکالمه و حساب کاربری است. **مرجع شروع فعلی** را مستقیماً از این نشانی باز کن: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/setup/control-plane-bootstrap/START_HERE.md . در زمان آخرین بررسی، PR شماره ۱ باز و ادغام‌نشده بود و شاخه پیش‌فرض `main` فقط `README.md` داشت؛ بنابراین تا وقتی PR ادغام نشده و وجود همه فایل‌ها در `main` تأیید نشده، از شاخه `setup/control-plane-bootstrap` استفاده کن. همه فایل‌های ارجاعی را از همین ref بخوان؛ در GitHub API مقدار `ref=setup/control-plane-bootstrap` را صریح بده. پیش از هر اجرا وضعیت زنده PR شماره ۱ را بررسی کن: اگر ادغام شده، ابتدا وجود فایل‌های لازم در `main` را با SHA ادغام تأیید و سپس به `main` منتقل شو؛ اگر باز است از شاخه فعلی استفاده کن؛ اگر بسته و ادغام‌نشده است نوشتن را متوقف کن. هیچ‌گاه وجود فایل در شاخه پیش‌فرض را حدس نزن. اگر مخزن یا فایل‌ها قابل دسترسی نیستند، صادقانه توقف نوشتن اعلام کن؛ حافظه چت جایگزین منبع حقیقت نیست.
 
-**تداوم:** TASK_ID و آخرین checkpoint را پیدا کن. اگر این کار قبلاً شروع شده، همان TASK_ID و branch را ادامه بده؛ وظیفه/خروجی مشابه جدید نساز. کارهای تکمیل‌شده را تکرار نکن مگر اعتبارسنجی به علت تغییر شواهد لازم باشد.
 
-**هماهنگی:** Issueها، PRها و RESOURCE_KEYS را بررسی کن. قفل اتمیک منابع را طبق `04_COORDINATION/LOCK_MANAGER_PROTOCOL.md` از رجیستری branch `coordination/locks` بگیر. Acquire چندمنبعی باید در یک CAS با `update_ref(expected_sha=...)` انجام شود؛ تا موفقیت CAS هیچ تغییر نوشتنی مجاز نیست. قفل مبهم، timeout یا خطای CAS یعنی STOP WRITES و بارگذاری مجدد وضعیت؛ هرگز مالکیت را جعل نکن. کارهای خواندنی و مستقل را ادامه بده. از branch اختصاصی استفاده کن و هرگز مستقیم روی main commit نکن.
+## دروازه اجباری آغاز، بازیابی و تداوم (برای هر چت/حساب)
+پیش از اجرای حتی یک مرحله از مأموریت تخصصی، آخرین نسخه این سه سند را مستقیماً از GitHub بخوان: `START_HERE.md`، `04_COORDINATION/INTERRUPTION_RECOVERY_PROTOCOL.md` و `05_PROMPT_LIBRARY/MASTER-00.md`. اجرای این پرامپت بدون خواندن هر سه سند ممنوع است. سپس وضعیت زنده TASK/Issue/PR، آخرین checkpoint، commit و قفل‌ها را بررسی کن. خلاصه خودکار چت و حافظه نشست مرجع حقیقت نیست.
+
+اگر اینترنت/ابزار قطع شد، timeout رخ داد، چت بسته شد یا پنجره زمینه پر شد: نوشتن را متوقف کن؛ نتیجه عملیات آخر را حدس نزن؛ GitHub را برای اثر واقعی بخوان؛ همان TASK_ID را حفظ کن، اما برای هر اجرای جدید RUN_ID و branch اختصاصی تازه بگیر؛ هرگز branch قبلی را دوباره استفاده نکن. برای هر اقدام نوشتنی OPERATION_ID پایدار به‌کار ببر؛ retry فقط پس از read-back و تشخیص NOT_APPLIED مجاز است. وضعیت نامعلوم را AMBIGUOUS ثبت کن و از ایجاد تکراری Issue/branch/PR/commit/file خودداری کن. پیش از هر handoff، checkpoint کامل و NEXT_ACTION دقیق ثبت کن. اگر اسناد یا مجوز GitHub در دسترس نیست، read-only بمان و ادعای نوشتن نکن.
+
+**تداوم:** TASK_ID و آخرین checkpoint را پیدا کن. اگر این کار قبلاً شروع شده، همان TASK_ID و checkpoint را ادامه بده؛ پس از claim جدید فقط branch اختصاصی صادرشده برای RUN جدید را استفاده کن و branch قبلی را read-only نگه دار؛ وظیفه/خروجی مشابه جدید نساز. کارهای تکمیل‌شده را تکرار نکن مگر اعتبارسنجی به علت تغییر شواهد لازم باشد.
+
+**هماهنگی:** Issueها، PRها و RESOURCE_KEYS را بررسی کن. claim/heartbeat/release را فقط با فرمان‌های `/farast` طبق `04_COORDINATION/COORDINATOR_COMMANDS.md` انجام بده. رجیستری `coordination/locks` فقط توسط workflow مرکزی نوشته می‌شود؛ هرگز مستقیم آن را تغییر نده. قفل مبهم، timeout یا خطای coordinator یعنی STOP WRITES و بارگذاری مجدد وضعیت؛ هرگز مالکیت را جعل نکن. کارهای خواندنی و مستقل را ادامه بده. از branch اختصاصی استفاده کن و هرگز مستقیم روی main commit نکن.
 
 **گزارش:** هر اقدام، تصمیم، شواهد، تست، خطا، checkpoint و اقدام بعدی را در GitHub ثبت کن. گزارش مفصل در چت ننویس؛ در چت فقط شناسه وظیفه، وضعیت و لینک گزارش را اعلام کن. اگر ابزار نوشتن GitHub در دسترس نیست، ادعای ثبت نکن.
 
@@ -643,7 +670,22 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 service catalog، sequence diagram، quota/pricing matrix، privacy & failure analysis و گزارش مجهولات. معیار پذیرش: هزینه/ظرفیت/رفتار هر سرویس به شواهد وصل باشد.
 
 ## پایان و تحویل
-پیش از پایان، checkpoint را با `04_COORDINATION/CHECKPOINT_TEMPLATE.md` ثبت کن؛ Issue و PR را به‌روز کن؛ TASK_INDEX و MASTER_STATUS را فقط بر اساس وضعیت اثبات‌شده به‌روزرسانی کن؛ قفل‌های اتمیک را فقط با TASK_ID/RUN_ID/fencing_token خود و از طریق CAS آزاد کن؛ اگر ابزار لازم در دسترس نیست، وضعیت را مبهم ثبت کن و آزادسازی را ادعا نکن. وضعیت را DONE_VERIFIED نگذار مگر معیار پذیرش و شواهد معتبر کامل باشند. در صورت مانع، BLOCKED را با علت، شواهد و NEXT_ACTION ثبت کن.
+پیش از پایان، checkpoint را با `04_COORDINATION/CHECKPOINT_TEMPLATE.md` ثبت کن؛ Issue و PR را به‌روز کن؛ TASK_INDEX و MASTER_STATUS را فقط بر اساس وضعیت اثبات‌شده به‌روزرسانی کن؛ قفل را فقط با فرمان `/farast release` و TASK_ID/RUN_ID/fencing_token خود آزاد کن؛ اگر ابزار لازم در دسترس نیست، وضعیت را مبهم ثبت کن و آزادسازی را ادعا نکن. وضعیت را DONE_VERIFIED نگذار مگر معیار پذیرش و شواهد معتبر کامل باشند. در صورت مانع، BLOCKED را با علت، شواهد و NEXT_ACTION ثبت کن.
+
+
+## دروازه اجباری هماهنگی چندچتی
+- پیش از هر write، در Issue وظیفه فرمان /farast claim chat=CHAT_ID run=RUN_ID lease=30 را ثبت کن.
+- فقط پس از پاسخ صریح CLAIM GRANTED و read-back رجیستری زنده مجاز به نوشتن هستی؛ target_repository و branch اختصاصی همان RUN را عیناً از پاسخ بردار. عدم پاسخ/timeout/خطا = STOP WRITES.
+- رجیستری ACTIVE_LOCKS.json فقط توسط workflow مرکزی نوشته می‌شود؛ نوشتن مستقیم یا direct-CAS توسط worker ممنوع است.
+- پیش از هر write/checkpoint، /farast heartbeat chat=CHAT_ID run=RUN_ID token=FENCING_TOKEN lease=30 را اجرا کن.
+- در پایان از /farast review یا /farast release با token صحیح استفاده کن؛ release به معنی پذیرش نیست.
+- دستورها: 04_COORDINATION/COORDINATOR_COMMANDS.md. اگر workflow در default branch فعال نیست، فقط read-only.
+
+
+**ایمنی چندچتی و handoff:** branch قبلی یک Issue قابل claim مجدد نیست. اگر claim با branch_reuse رد شد، RUN_ID جدید و یکتا انتخاب کن. CLAIM GRANTED بدون read-back وضعیت زنده رجیستری و تطبیق actor/chat/run/token مجوز write نیست. هر RUN فقط branch خودش را تغییر می‌دهد؛ PR پذیرش فقط از branch آخرین REVIEW ثبت‌شده مجاز است.
+
+برای شناخت مبانی فنی رجیستری، `04_COORDINATION/LOCK_MANAGER_PROTOCOL.md` را فقط به‌عنوان شرح پیاده‌سازی داخلی بخوان؛ این سند مجوز CAS یا نوشتن مستقیم worker نیست.
+
 
 ---
 
@@ -653,9 +695,15 @@ service catalog، sequence diagram، quota/pricing matrix، privacy & failure an
 
 این پرامپت مستقل از مکالمه و حساب کاربری است. **مرجع شروع فعلی** را مستقیماً از این نشانی باز کن: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/setup/control-plane-bootstrap/START_HERE.md . در زمان آخرین بررسی، PR شماره ۱ باز و ادغام‌نشده بود و شاخه پیش‌فرض `main` فقط `README.md` داشت؛ بنابراین تا وقتی PR ادغام نشده و وجود همه فایل‌ها در `main` تأیید نشده، از شاخه `setup/control-plane-bootstrap` استفاده کن. همه فایل‌های ارجاعی را از همین ref بخوان؛ در GitHub API مقدار `ref=setup/control-plane-bootstrap` را صریح بده. پیش از هر اجرا وضعیت زنده PR شماره ۱ را بررسی کن: اگر ادغام شده، ابتدا وجود فایل‌های لازم در `main` را با SHA ادغام تأیید و سپس به `main` منتقل شو؛ اگر باز است از شاخه فعلی استفاده کن؛ اگر بسته و ادغام‌نشده است نوشتن را متوقف کن. هیچ‌گاه وجود فایل در شاخه پیش‌فرض را حدس نزن. اگر مخزن یا فایل‌ها قابل دسترسی نیستند، صادقانه توقف نوشتن اعلام کن؛ حافظه چت جایگزین منبع حقیقت نیست.
 
-**تداوم:** TASK_ID و آخرین checkpoint را پیدا کن. اگر این کار قبلاً شروع شده، همان TASK_ID و branch را ادامه بده؛ وظیفه/خروجی مشابه جدید نساز. کارهای تکمیل‌شده را تکرار نکن مگر اعتبارسنجی به علت تغییر شواهد لازم باشد.
 
-**هماهنگی:** Issueها، PRها و RESOURCE_KEYS را بررسی کن. قفل اتمیک منابع را طبق `04_COORDINATION/LOCK_MANAGER_PROTOCOL.md` از رجیستری branch `coordination/locks` بگیر. Acquire چندمنبعی باید در یک CAS با `update_ref(expected_sha=...)` انجام شود؛ تا موفقیت CAS هیچ تغییر نوشتنی مجاز نیست. قفل مبهم، timeout یا خطای CAS یعنی STOP WRITES و بارگذاری مجدد وضعیت؛ هرگز مالکیت را جعل نکن. کارهای خواندنی و مستقل را ادامه بده. از branch اختصاصی استفاده کن و هرگز مستقیم روی main commit نکن.
+## دروازه اجباری آغاز، بازیابی و تداوم (برای هر چت/حساب)
+پیش از اجرای حتی یک مرحله از مأموریت تخصصی، آخرین نسخه این سه سند را مستقیماً از GitHub بخوان: `START_HERE.md`، `04_COORDINATION/INTERRUPTION_RECOVERY_PROTOCOL.md` و `05_PROMPT_LIBRARY/MASTER-00.md`. اجرای این پرامپت بدون خواندن هر سه سند ممنوع است. سپس وضعیت زنده TASK/Issue/PR، آخرین checkpoint، commit و قفل‌ها را بررسی کن. خلاصه خودکار چت و حافظه نشست مرجع حقیقت نیست.
+
+اگر اینترنت/ابزار قطع شد، timeout رخ داد، چت بسته شد یا پنجره زمینه پر شد: نوشتن را متوقف کن؛ نتیجه عملیات آخر را حدس نزن؛ GitHub را برای اثر واقعی بخوان؛ همان TASK_ID را حفظ کن، اما برای هر اجرای جدید RUN_ID و branch اختصاصی تازه بگیر؛ هرگز branch قبلی را دوباره استفاده نکن. برای هر اقدام نوشتنی OPERATION_ID پایدار به‌کار ببر؛ retry فقط پس از read-back و تشخیص NOT_APPLIED مجاز است. وضعیت نامعلوم را AMBIGUOUS ثبت کن و از ایجاد تکراری Issue/branch/PR/commit/file خودداری کن. پیش از هر handoff، checkpoint کامل و NEXT_ACTION دقیق ثبت کن. اگر اسناد یا مجوز GitHub در دسترس نیست، read-only بمان و ادعای نوشتن نکن.
+
+**تداوم:** TASK_ID و آخرین checkpoint را پیدا کن. اگر این کار قبلاً شروع شده، همان TASK_ID و checkpoint را ادامه بده؛ پس از claim جدید فقط branch اختصاصی صادرشده برای RUN جدید را استفاده کن و branch قبلی را read-only نگه دار؛ وظیفه/خروجی مشابه جدید نساز. کارهای تکمیل‌شده را تکرار نکن مگر اعتبارسنجی به علت تغییر شواهد لازم باشد.
+
+**هماهنگی:** Issueها، PRها و RESOURCE_KEYS را بررسی کن. claim/heartbeat/release را فقط با فرمان‌های `/farast` طبق `04_COORDINATION/COORDINATOR_COMMANDS.md` انجام بده. رجیستری `coordination/locks` فقط توسط workflow مرکزی نوشته می‌شود؛ هرگز مستقیم آن را تغییر نده. قفل مبهم، timeout یا خطای coordinator یعنی STOP WRITES و بارگذاری مجدد وضعیت؛ هرگز مالکیت را جعل نکن. کارهای خواندنی و مستقل را ادامه بده. از branch اختصاصی استفاده کن و هرگز مستقیم روی main commit نکن.
 
 **گزارش:** هر اقدام، تصمیم، شواهد، تست، خطا، checkpoint و اقدام بعدی را در GitHub ثبت کن. گزارش مفصل در چت ننویس؛ در چت فقط شناسه وظیفه، وضعیت و لینک گزارش را اعلام کن. اگر ابزار نوشتن GitHub در دسترس نیست، ادعای ثبت نکن.
 
@@ -689,7 +737,22 @@ service catalog، sequence diagram، quota/pricing matrix، privacy & failure an
 C4 سطح context/container/component در حد شواهد، data dictionary، dependency map، migration risk register. معیار پذیرش: مسیرهای داده حساس، مالی و دسترسی مشخص و تمام مجهولات ثبت شده باشند.
 
 ## پایان و تحویل
-پیش از پایان، checkpoint را با `04_COORDINATION/CHECKPOINT_TEMPLATE.md` ثبت کن؛ Issue و PR را به‌روز کن؛ TASK_INDEX و MASTER_STATUS را فقط بر اساس وضعیت اثبات‌شده به‌روزرسانی کن؛ قفل‌های اتمیک را فقط با TASK_ID/RUN_ID/fencing_token خود و از طریق CAS آزاد کن؛ اگر ابزار لازم در دسترس نیست، وضعیت را مبهم ثبت کن و آزادسازی را ادعا نکن. وضعیت را DONE_VERIFIED نگذار مگر معیار پذیرش و شواهد معتبر کامل باشند. در صورت مانع، BLOCKED را با علت، شواهد و NEXT_ACTION ثبت کن.
+پیش از پایان، checkpoint را با `04_COORDINATION/CHECKPOINT_TEMPLATE.md` ثبت کن؛ Issue و PR را به‌روز کن؛ TASK_INDEX و MASTER_STATUS را فقط بر اساس وضعیت اثبات‌شده به‌روزرسانی کن؛ قفل را فقط با فرمان `/farast release` و TASK_ID/RUN_ID/fencing_token خود آزاد کن؛ اگر ابزار لازم در دسترس نیست، وضعیت را مبهم ثبت کن و آزادسازی را ادعا نکن. وضعیت را DONE_VERIFIED نگذار مگر معیار پذیرش و شواهد معتبر کامل باشند. در صورت مانع، BLOCKED را با علت، شواهد و NEXT_ACTION ثبت کن.
+
+
+## دروازه اجباری هماهنگی چندچتی
+- پیش از هر write، در Issue وظیفه فرمان /farast claim chat=CHAT_ID run=RUN_ID lease=30 را ثبت کن.
+- فقط پس از پاسخ صریح CLAIM GRANTED و read-back رجیستری زنده مجاز به نوشتن هستی؛ target_repository و branch اختصاصی همان RUN را عیناً از پاسخ بردار. عدم پاسخ/timeout/خطا = STOP WRITES.
+- رجیستری ACTIVE_LOCKS.json فقط توسط workflow مرکزی نوشته می‌شود؛ نوشتن مستقیم یا direct-CAS توسط worker ممنوع است.
+- پیش از هر write/checkpoint، /farast heartbeat chat=CHAT_ID run=RUN_ID token=FENCING_TOKEN lease=30 را اجرا کن.
+- در پایان از /farast review یا /farast release با token صحیح استفاده کن؛ release به معنی پذیرش نیست.
+- دستورها: 04_COORDINATION/COORDINATOR_COMMANDS.md. اگر workflow در default branch فعال نیست، فقط read-only.
+
+
+**ایمنی چندچتی و handoff:** branch قبلی یک Issue قابل claim مجدد نیست. اگر claim با branch_reuse رد شد، RUN_ID جدید و یکتا انتخاب کن. CLAIM GRANTED بدون read-back وضعیت زنده رجیستری و تطبیق actor/chat/run/token مجوز write نیست. هر RUN فقط branch خودش را تغییر می‌دهد؛ PR پذیرش فقط از branch آخرین REVIEW ثبت‌شده مجاز است.
+
+برای شناخت مبانی فنی رجیستری، `04_COORDINATION/LOCK_MANAGER_PROTOCOL.md` را فقط به‌عنوان شرح پیاده‌سازی داخلی بخوان؛ این سند مجوز CAS یا نوشتن مستقیم worker نیست.
+
 
 ---
 
@@ -699,9 +762,15 @@ C4 سطح context/container/component در حد شواهد، data dictionary، d
 
 این پرامپت مستقل از مکالمه و حساب کاربری است. **مرجع شروع فعلی** را مستقیماً از این نشانی باز کن: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/setup/control-plane-bootstrap/START_HERE.md . در زمان آخرین بررسی، PR شماره ۱ باز و ادغام‌نشده بود و شاخه پیش‌فرض `main` فقط `README.md` داشت؛ بنابراین تا وقتی PR ادغام نشده و وجود همه فایل‌ها در `main` تأیید نشده، از شاخه `setup/control-plane-bootstrap` استفاده کن. همه فایل‌های ارجاعی را از همین ref بخوان؛ در GitHub API مقدار `ref=setup/control-plane-bootstrap` را صریح بده. پیش از هر اجرا وضعیت زنده PR شماره ۱ را بررسی کن: اگر ادغام شده، ابتدا وجود فایل‌های لازم در `main` را با SHA ادغام تأیید و سپس به `main` منتقل شو؛ اگر باز است از شاخه فعلی استفاده کن؛ اگر بسته و ادغام‌نشده است نوشتن را متوقف کن. هیچ‌گاه وجود فایل در شاخه پیش‌فرض را حدس نزن. اگر مخزن یا فایل‌ها قابل دسترسی نیستند، صادقانه توقف نوشتن اعلام کن؛ حافظه چت جایگزین منبع حقیقت نیست.
 
-**تداوم:** TASK_ID و آخرین checkpoint را پیدا کن. اگر این کار قبلاً شروع شده، همان TASK_ID و branch را ادامه بده؛ وظیفه/خروجی مشابه جدید نساز. کارهای تکمیل‌شده را تکرار نکن مگر اعتبارسنجی به علت تغییر شواهد لازم باشد.
 
-**هماهنگی:** Issueها، PRها و RESOURCE_KEYS را بررسی کن. قفل اتمیک منابع را طبق `04_COORDINATION/LOCK_MANAGER_PROTOCOL.md` از رجیستری branch `coordination/locks` بگیر. Acquire چندمنبعی باید در یک CAS با `update_ref(expected_sha=...)` انجام شود؛ تا موفقیت CAS هیچ تغییر نوشتنی مجاز نیست. قفل مبهم، timeout یا خطای CAS یعنی STOP WRITES و بارگذاری مجدد وضعیت؛ هرگز مالکیت را جعل نکن. کارهای خواندنی و مستقل را ادامه بده. از branch اختصاصی استفاده کن و هرگز مستقیم روی main commit نکن.
+## دروازه اجباری آغاز، بازیابی و تداوم (برای هر چت/حساب)
+پیش از اجرای حتی یک مرحله از مأموریت تخصصی، آخرین نسخه این سه سند را مستقیماً از GitHub بخوان: `START_HERE.md`، `04_COORDINATION/INTERRUPTION_RECOVERY_PROTOCOL.md` و `05_PROMPT_LIBRARY/MASTER-00.md`. اجرای این پرامپت بدون خواندن هر سه سند ممنوع است. سپس وضعیت زنده TASK/Issue/PR، آخرین checkpoint، commit و قفل‌ها را بررسی کن. خلاصه خودکار چت و حافظه نشست مرجع حقیقت نیست.
+
+اگر اینترنت/ابزار قطع شد، timeout رخ داد، چت بسته شد یا پنجره زمینه پر شد: نوشتن را متوقف کن؛ نتیجه عملیات آخر را حدس نزن؛ GitHub را برای اثر واقعی بخوان؛ همان TASK_ID را حفظ کن، اما برای هر اجرای جدید RUN_ID و branch اختصاصی تازه بگیر؛ هرگز branch قبلی را دوباره استفاده نکن. برای هر اقدام نوشتنی OPERATION_ID پایدار به‌کار ببر؛ retry فقط پس از read-back و تشخیص NOT_APPLIED مجاز است. وضعیت نامعلوم را AMBIGUOUS ثبت کن و از ایجاد تکراری Issue/branch/PR/commit/file خودداری کن. پیش از هر handoff، checkpoint کامل و NEXT_ACTION دقیق ثبت کن. اگر اسناد یا مجوز GitHub در دسترس نیست، read-only بمان و ادعای نوشتن نکن.
+
+**تداوم:** TASK_ID و آخرین checkpoint را پیدا کن. اگر این کار قبلاً شروع شده، همان TASK_ID و checkpoint را ادامه بده؛ پس از claim جدید فقط branch اختصاصی صادرشده برای RUN جدید را استفاده کن و branch قبلی را read-only نگه دار؛ وظیفه/خروجی مشابه جدید نساز. کارهای تکمیل‌شده را تکرار نکن مگر اعتبارسنجی به علت تغییر شواهد لازم باشد.
+
+**هماهنگی:** Issueها، PRها و RESOURCE_KEYS را بررسی کن. claim/heartbeat/release را فقط با فرمان‌های `/farast` طبق `04_COORDINATION/COORDINATOR_COMMANDS.md` انجام بده. رجیستری `coordination/locks` فقط توسط workflow مرکزی نوشته می‌شود؛ هرگز مستقیم آن را تغییر نده. قفل مبهم، timeout یا خطای coordinator یعنی STOP WRITES و بارگذاری مجدد وضعیت؛ هرگز مالکیت را جعل نکن. کارهای خواندنی و مستقل را ادامه بده. از branch اختصاصی استفاده کن و هرگز مستقیم روی main commit نکن.
 
 **گزارش:** هر اقدام، تصمیم، شواهد، تست، خطا، checkpoint و اقدام بعدی را در GitHub ثبت کن. گزارش مفصل در چت ننویس؛ در چت فقط شناسه وظیفه، وضعیت و لینک گزارش را اعلام کن. اگر ابزار نوشتن GitHub در دسترس نیست، ادعای ثبت نکن.
 
@@ -736,7 +805,22 @@ C4 سطح context/container/component در حد شواهد، data dictionary، d
 authorization matrix، lifecycle diagram، gap/risk report و تست‌های لازم. معیار پذیرش: همه ادعاها به policy/code/test وصل و bypassهای محتمل مستند باشند.
 
 ## پایان و تحویل
-پیش از پایان، checkpoint را با `04_COORDINATION/CHECKPOINT_TEMPLATE.md` ثبت کن؛ Issue و PR را به‌روز کن؛ TASK_INDEX و MASTER_STATUS را فقط بر اساس وضعیت اثبات‌شده به‌روزرسانی کن؛ قفل‌های اتمیک را فقط با TASK_ID/RUN_ID/fencing_token خود و از طریق CAS آزاد کن؛ اگر ابزار لازم در دسترس نیست، وضعیت را مبهم ثبت کن و آزادسازی را ادعا نکن. وضعیت را DONE_VERIFIED نگذار مگر معیار پذیرش و شواهد معتبر کامل باشند. در صورت مانع، BLOCKED را با علت، شواهد و NEXT_ACTION ثبت کن.
+پیش از پایان، checkpoint را با `04_COORDINATION/CHECKPOINT_TEMPLATE.md` ثبت کن؛ Issue و PR را به‌روز کن؛ TASK_INDEX و MASTER_STATUS را فقط بر اساس وضعیت اثبات‌شده به‌روزرسانی کن؛ قفل را فقط با فرمان `/farast release` و TASK_ID/RUN_ID/fencing_token خود آزاد کن؛ اگر ابزار لازم در دسترس نیست، وضعیت را مبهم ثبت کن و آزادسازی را ادعا نکن. وضعیت را DONE_VERIFIED نگذار مگر معیار پذیرش و شواهد معتبر کامل باشند. در صورت مانع، BLOCKED را با علت، شواهد و NEXT_ACTION ثبت کن.
+
+
+## دروازه اجباری هماهنگی چندچتی
+- پیش از هر write، در Issue وظیفه فرمان /farast claim chat=CHAT_ID run=RUN_ID lease=30 را ثبت کن.
+- فقط پس از پاسخ صریح CLAIM GRANTED و read-back رجیستری زنده مجاز به نوشتن هستی؛ target_repository و branch اختصاصی همان RUN را عیناً از پاسخ بردار. عدم پاسخ/timeout/خطا = STOP WRITES.
+- رجیستری ACTIVE_LOCKS.json فقط توسط workflow مرکزی نوشته می‌شود؛ نوشتن مستقیم یا direct-CAS توسط worker ممنوع است.
+- پیش از هر write/checkpoint، /farast heartbeat chat=CHAT_ID run=RUN_ID token=FENCING_TOKEN lease=30 را اجرا کن.
+- در پایان از /farast review یا /farast release با token صحیح استفاده کن؛ release به معنی پذیرش نیست.
+- دستورها: 04_COORDINATION/COORDINATOR_COMMANDS.md. اگر workflow در default branch فعال نیست، فقط read-only.
+
+
+**ایمنی چندچتی و handoff:** branch قبلی یک Issue قابل claim مجدد نیست. اگر claim با branch_reuse رد شد، RUN_ID جدید و یکتا انتخاب کن. CLAIM GRANTED بدون read-back وضعیت زنده رجیستری و تطبیق actor/chat/run/token مجوز write نیست. هر RUN فقط branch خودش را تغییر می‌دهد؛ PR پذیرش فقط از branch آخرین REVIEW ثبت‌شده مجاز است.
+
+برای شناخت مبانی فنی رجیستری، `04_COORDINATION/LOCK_MANAGER_PROTOCOL.md` را فقط به‌عنوان شرح پیاده‌سازی داخلی بخوان؛ این سند مجوز CAS یا نوشتن مستقیم worker نیست.
+
 
 ---
 
@@ -746,9 +830,15 @@ authorization matrix، lifecycle diagram، gap/risk report و تست‌های ل
 
 این پرامپت مستقل از مکالمه و حساب کاربری است. **مرجع شروع فعلی** را مستقیماً از این نشانی باز کن: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/setup/control-plane-bootstrap/START_HERE.md . در زمان آخرین بررسی، PR شماره ۱ باز و ادغام‌نشده بود و شاخه پیش‌فرض `main` فقط `README.md` داشت؛ بنابراین تا وقتی PR ادغام نشده و وجود همه فایل‌ها در `main` تأیید نشده، از شاخه `setup/control-plane-bootstrap` استفاده کن. همه فایل‌های ارجاعی را از همین ref بخوان؛ در GitHub API مقدار `ref=setup/control-plane-bootstrap` را صریح بده. پیش از هر اجرا وضعیت زنده PR شماره ۱ را بررسی کن: اگر ادغام شده، ابتدا وجود فایل‌های لازم در `main` را با SHA ادغام تأیید و سپس به `main` منتقل شو؛ اگر باز است از شاخه فعلی استفاده کن؛ اگر بسته و ادغام‌نشده است نوشتن را متوقف کن. هیچ‌گاه وجود فایل در شاخه پیش‌فرض را حدس نزن. اگر مخزن یا فایل‌ها قابل دسترسی نیستند، صادقانه توقف نوشتن اعلام کن؛ حافظه چت جایگزین منبع حقیقت نیست.
 
-**تداوم:** TASK_ID و آخرین checkpoint را پیدا کن. اگر این کار قبلاً شروع شده، همان TASK_ID و branch را ادامه بده؛ وظیفه/خروجی مشابه جدید نساز. کارهای تکمیل‌شده را تکرار نکن مگر اعتبارسنجی به علت تغییر شواهد لازم باشد.
 
-**هماهنگی:** Issueها، PRها و RESOURCE_KEYS را بررسی کن. قفل اتمیک منابع را طبق `04_COORDINATION/LOCK_MANAGER_PROTOCOL.md` از رجیستری branch `coordination/locks` بگیر. Acquire چندمنبعی باید در یک CAS با `update_ref(expected_sha=...)` انجام شود؛ تا موفقیت CAS هیچ تغییر نوشتنی مجاز نیست. قفل مبهم، timeout یا خطای CAS یعنی STOP WRITES و بارگذاری مجدد وضعیت؛ هرگز مالکیت را جعل نکن. کارهای خواندنی و مستقل را ادامه بده. از branch اختصاصی استفاده کن و هرگز مستقیم روی main commit نکن.
+## دروازه اجباری آغاز، بازیابی و تداوم (برای هر چت/حساب)
+پیش از اجرای حتی یک مرحله از مأموریت تخصصی، آخرین نسخه این سه سند را مستقیماً از GitHub بخوان: `START_HERE.md`، `04_COORDINATION/INTERRUPTION_RECOVERY_PROTOCOL.md` و `05_PROMPT_LIBRARY/MASTER-00.md`. اجرای این پرامپت بدون خواندن هر سه سند ممنوع است. سپس وضعیت زنده TASK/Issue/PR، آخرین checkpoint، commit و قفل‌ها را بررسی کن. خلاصه خودکار چت و حافظه نشست مرجع حقیقت نیست.
+
+اگر اینترنت/ابزار قطع شد، timeout رخ داد، چت بسته شد یا پنجره زمینه پر شد: نوشتن را متوقف کن؛ نتیجه عملیات آخر را حدس نزن؛ GitHub را برای اثر واقعی بخوان؛ همان TASK_ID را حفظ کن، اما برای هر اجرای جدید RUN_ID و branch اختصاصی تازه بگیر؛ هرگز branch قبلی را دوباره استفاده نکن. برای هر اقدام نوشتنی OPERATION_ID پایدار به‌کار ببر؛ retry فقط پس از read-back و تشخیص NOT_APPLIED مجاز است. وضعیت نامعلوم را AMBIGUOUS ثبت کن و از ایجاد تکراری Issue/branch/PR/commit/file خودداری کن. پیش از هر handoff، checkpoint کامل و NEXT_ACTION دقیق ثبت کن. اگر اسناد یا مجوز GitHub در دسترس نیست، read-only بمان و ادعای نوشتن نکن.
+
+**تداوم:** TASK_ID و آخرین checkpoint را پیدا کن. اگر این کار قبلاً شروع شده، همان TASK_ID و checkpoint را ادامه بده؛ پس از claim جدید فقط branch اختصاصی صادرشده برای RUN جدید را استفاده کن و branch قبلی را read-only نگه دار؛ وظیفه/خروجی مشابه جدید نساز. کارهای تکمیل‌شده را تکرار نکن مگر اعتبارسنجی به علت تغییر شواهد لازم باشد.
+
+**هماهنگی:** Issueها، PRها و RESOURCE_KEYS را بررسی کن. claim/heartbeat/release را فقط با فرمان‌های `/farast` طبق `04_COORDINATION/COORDINATOR_COMMANDS.md` انجام بده. رجیستری `coordination/locks` فقط توسط workflow مرکزی نوشته می‌شود؛ هرگز مستقیم آن را تغییر نده. قفل مبهم، timeout یا خطای coordinator یعنی STOP WRITES و بارگذاری مجدد وضعیت؛ هرگز مالکیت را جعل نکن. کارهای خواندنی و مستقل را ادامه بده. از branch اختصاصی استفاده کن و هرگز مستقیم روی main commit نکن.
 
 **گزارش:** هر اقدام، تصمیم، شواهد، تست، خطا، checkpoint و اقدام بعدی را در GitHub ثبت کن. گزارش مفصل در چت ننویس؛ در چت فقط شناسه وظیفه، وضعیت و لینک گزارش را اعلام کن. اگر ابزار نوشتن GitHub در دسترس نیست، ادعای ثبت نکن.
 
@@ -782,7 +872,22 @@ authorization matrix، lifecycle diagram، gap/risk report و تست‌های ل
 Threat model، privacy data map، audit integrity report، legal questions و security backlog. معیار پذیرش: یافته‌ها severity و evidence دارند؛ ادعای «امن/مطابق قانون» بدون ارزیابی معتبر ممنوع.
 
 ## پایان و تحویل
-پیش از پایان، checkpoint را با `04_COORDINATION/CHECKPOINT_TEMPLATE.md` ثبت کن؛ Issue و PR را به‌روز کن؛ TASK_INDEX و MASTER_STATUS را فقط بر اساس وضعیت اثبات‌شده به‌روزرسانی کن؛ قفل‌های اتمیک را فقط با TASK_ID/RUN_ID/fencing_token خود و از طریق CAS آزاد کن؛ اگر ابزار لازم در دسترس نیست، وضعیت را مبهم ثبت کن و آزادسازی را ادعا نکن. وضعیت را DONE_VERIFIED نگذار مگر معیار پذیرش و شواهد معتبر کامل باشند. در صورت مانع، BLOCKED را با علت، شواهد و NEXT_ACTION ثبت کن.
+پیش از پایان، checkpoint را با `04_COORDINATION/CHECKPOINT_TEMPLATE.md` ثبت کن؛ Issue و PR را به‌روز کن؛ TASK_INDEX و MASTER_STATUS را فقط بر اساس وضعیت اثبات‌شده به‌روزرسانی کن؛ قفل را فقط با فرمان `/farast release` و TASK_ID/RUN_ID/fencing_token خود آزاد کن؛ اگر ابزار لازم در دسترس نیست، وضعیت را مبهم ثبت کن و آزادسازی را ادعا نکن. وضعیت را DONE_VERIFIED نگذار مگر معیار پذیرش و شواهد معتبر کامل باشند. در صورت مانع، BLOCKED را با علت، شواهد و NEXT_ACTION ثبت کن.
+
+
+## دروازه اجباری هماهنگی چندچتی
+- پیش از هر write، در Issue وظیفه فرمان /farast claim chat=CHAT_ID run=RUN_ID lease=30 را ثبت کن.
+- فقط پس از پاسخ صریح CLAIM GRANTED و read-back رجیستری زنده مجاز به نوشتن هستی؛ target_repository و branch اختصاصی همان RUN را عیناً از پاسخ بردار. عدم پاسخ/timeout/خطا = STOP WRITES.
+- رجیستری ACTIVE_LOCKS.json فقط توسط workflow مرکزی نوشته می‌شود؛ نوشتن مستقیم یا direct-CAS توسط worker ممنوع است.
+- پیش از هر write/checkpoint، /farast heartbeat chat=CHAT_ID run=RUN_ID token=FENCING_TOKEN lease=30 را اجرا کن.
+- در پایان از /farast review یا /farast release با token صحیح استفاده کن؛ release به معنی پذیرش نیست.
+- دستورها: 04_COORDINATION/COORDINATOR_COMMANDS.md. اگر workflow در default branch فعال نیست، فقط read-only.
+
+
+**ایمنی چندچتی و handoff:** branch قبلی یک Issue قابل claim مجدد نیست. اگر claim با branch_reuse رد شد، RUN_ID جدید و یکتا انتخاب کن. CLAIM GRANTED بدون read-back وضعیت زنده رجیستری و تطبیق actor/chat/run/token مجوز write نیست. هر RUN فقط branch خودش را تغییر می‌دهد؛ PR پذیرش فقط از branch آخرین REVIEW ثبت‌شده مجاز است.
+
+برای شناخت مبانی فنی رجیستری، `04_COORDINATION/LOCK_MANAGER_PROTOCOL.md` را فقط به‌عنوان شرح پیاده‌سازی داخلی بخوان؛ این سند مجوز CAS یا نوشتن مستقیم worker نیست.
+
 
 ---
 
@@ -792,9 +897,15 @@ Threat model، privacy data map، audit integrity report، legal questions و se
 
 این پرامپت مستقل از مکالمه و حساب کاربری است. **مرجع شروع فعلی** را مستقیماً از این نشانی باز کن: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/setup/control-plane-bootstrap/START_HERE.md . در زمان آخرین بررسی، PR شماره ۱ باز و ادغام‌نشده بود و شاخه پیش‌فرض `main` فقط `README.md` داشت؛ بنابراین تا وقتی PR ادغام نشده و وجود همه فایل‌ها در `main` تأیید نشده، از شاخه `setup/control-plane-bootstrap` استفاده کن. همه فایل‌های ارجاعی را از همین ref بخوان؛ در GitHub API مقدار `ref=setup/control-plane-bootstrap` را صریح بده. پیش از هر اجرا وضعیت زنده PR شماره ۱ را بررسی کن: اگر ادغام شده، ابتدا وجود فایل‌های لازم در `main` را با SHA ادغام تأیید و سپس به `main` منتقل شو؛ اگر باز است از شاخه فعلی استفاده کن؛ اگر بسته و ادغام‌نشده است نوشتن را متوقف کن. هیچ‌گاه وجود فایل در شاخه پیش‌فرض را حدس نزن. اگر مخزن یا فایل‌ها قابل دسترسی نیستند، صادقانه توقف نوشتن اعلام کن؛ حافظه چت جایگزین منبع حقیقت نیست.
 
-**تداوم:** TASK_ID و آخرین checkpoint را پیدا کن. اگر این کار قبلاً شروع شده، همان TASK_ID و branch را ادامه بده؛ وظیفه/خروجی مشابه جدید نساز. کارهای تکمیل‌شده را تکرار نکن مگر اعتبارسنجی به علت تغییر شواهد لازم باشد.
 
-**هماهنگی:** Issueها، PRها و RESOURCE_KEYS را بررسی کن. قفل اتمیک منابع را طبق `04_COORDINATION/LOCK_MANAGER_PROTOCOL.md` از رجیستری branch `coordination/locks` بگیر. Acquire چندمنبعی باید در یک CAS با `update_ref(expected_sha=...)` انجام شود؛ تا موفقیت CAS هیچ تغییر نوشتنی مجاز نیست. قفل مبهم، timeout یا خطای CAS یعنی STOP WRITES و بارگذاری مجدد وضعیت؛ هرگز مالکیت را جعل نکن. کارهای خواندنی و مستقل را ادامه بده. از branch اختصاصی استفاده کن و هرگز مستقیم روی main commit نکن.
+## دروازه اجباری آغاز، بازیابی و تداوم (برای هر چت/حساب)
+پیش از اجرای حتی یک مرحله از مأموریت تخصصی، آخرین نسخه این سه سند را مستقیماً از GitHub بخوان: `START_HERE.md`، `04_COORDINATION/INTERRUPTION_RECOVERY_PROTOCOL.md` و `05_PROMPT_LIBRARY/MASTER-00.md`. اجرای این پرامپت بدون خواندن هر سه سند ممنوع است. سپس وضعیت زنده TASK/Issue/PR، آخرین checkpoint، commit و قفل‌ها را بررسی کن. خلاصه خودکار چت و حافظه نشست مرجع حقیقت نیست.
+
+اگر اینترنت/ابزار قطع شد، timeout رخ داد، چت بسته شد یا پنجره زمینه پر شد: نوشتن را متوقف کن؛ نتیجه عملیات آخر را حدس نزن؛ GitHub را برای اثر واقعی بخوان؛ همان TASK_ID را حفظ کن، اما برای هر اجرای جدید RUN_ID و branch اختصاصی تازه بگیر؛ هرگز branch قبلی را دوباره استفاده نکن. برای هر اقدام نوشتنی OPERATION_ID پایدار به‌کار ببر؛ retry فقط پس از read-back و تشخیص NOT_APPLIED مجاز است. وضعیت نامعلوم را AMBIGUOUS ثبت کن و از ایجاد تکراری Issue/branch/PR/commit/file خودداری کن. پیش از هر handoff، checkpoint کامل و NEXT_ACTION دقیق ثبت کن. اگر اسناد یا مجوز GitHub در دسترس نیست، read-only بمان و ادعای نوشتن نکن.
+
+**تداوم:** TASK_ID و آخرین checkpoint را پیدا کن. اگر این کار قبلاً شروع شده، همان TASK_ID و checkpoint را ادامه بده؛ پس از claim جدید فقط branch اختصاصی صادرشده برای RUN جدید را استفاده کن و branch قبلی را read-only نگه دار؛ وظیفه/خروجی مشابه جدید نساز. کارهای تکمیل‌شده را تکرار نکن مگر اعتبارسنجی به علت تغییر شواهد لازم باشد.
+
+**هماهنگی:** Issueها، PRها و RESOURCE_KEYS را بررسی کن. claim/heartbeat/release را فقط با فرمان‌های `/farast` طبق `04_COORDINATION/COORDINATOR_COMMANDS.md` انجام بده. رجیستری `coordination/locks` فقط توسط workflow مرکزی نوشته می‌شود؛ هرگز مستقیم آن را تغییر نده. قفل مبهم، timeout یا خطای coordinator یعنی STOP WRITES و بارگذاری مجدد وضعیت؛ هرگز مالکیت را جعل نکن. کارهای خواندنی و مستقل را ادامه بده. از branch اختصاصی استفاده کن و هرگز مستقیم روی main commit نکن.
 
 **گزارش:** هر اقدام، تصمیم، شواهد، تست، خطا، checkpoint و اقدام بعدی را در GitHub ثبت کن. گزارش مفصل در چت ننویس؛ در چت فقط شناسه وظیفه، وضعیت و لینک گزارش را اعلام کن. اگر ابزار نوشتن GitHub در دسترس نیست، ادعای ثبت نکن.
 
@@ -828,7 +939,22 @@ Threat model، privacy data map، audit integrity report، legal questions و se
 Architecture Decision Records، نمودار هدف، گزینه‌ها، migration roadmap و unresolved decisions. معیار پذیرش: انتخاب به نیاز و شواهد ردیابی شده و محدودیت‌های واقعی پنهان نشده باشند.
 
 ## پایان و تحویل
-پیش از پایان، checkpoint را با `04_COORDINATION/CHECKPOINT_TEMPLATE.md` ثبت کن؛ Issue و PR را به‌روز کن؛ TASK_INDEX و MASTER_STATUS را فقط بر اساس وضعیت اثبات‌شده به‌روزرسانی کن؛ قفل‌های اتمیک را فقط با TASK_ID/RUN_ID/fencing_token خود و از طریق CAS آزاد کن؛ اگر ابزار لازم در دسترس نیست، وضعیت را مبهم ثبت کن و آزادسازی را ادعا نکن. وضعیت را DONE_VERIFIED نگذار مگر معیار پذیرش و شواهد معتبر کامل باشند. در صورت مانع، BLOCKED را با علت، شواهد و NEXT_ACTION ثبت کن.
+پیش از پایان، checkpoint را با `04_COORDINATION/CHECKPOINT_TEMPLATE.md` ثبت کن؛ Issue و PR را به‌روز کن؛ TASK_INDEX و MASTER_STATUS را فقط بر اساس وضعیت اثبات‌شده به‌روزرسانی کن؛ قفل را فقط با فرمان `/farast release` و TASK_ID/RUN_ID/fencing_token خود آزاد کن؛ اگر ابزار لازم در دسترس نیست، وضعیت را مبهم ثبت کن و آزادسازی را ادعا نکن. وضعیت را DONE_VERIFIED نگذار مگر معیار پذیرش و شواهد معتبر کامل باشند. در صورت مانع، BLOCKED را با علت، شواهد و NEXT_ACTION ثبت کن.
+
+
+## دروازه اجباری هماهنگی چندچتی
+- پیش از هر write، در Issue وظیفه فرمان /farast claim chat=CHAT_ID run=RUN_ID lease=30 را ثبت کن.
+- فقط پس از پاسخ صریح CLAIM GRANTED و read-back رجیستری زنده مجاز به نوشتن هستی؛ target_repository و branch اختصاصی همان RUN را عیناً از پاسخ بردار. عدم پاسخ/timeout/خطا = STOP WRITES.
+- رجیستری ACTIVE_LOCKS.json فقط توسط workflow مرکزی نوشته می‌شود؛ نوشتن مستقیم یا direct-CAS توسط worker ممنوع است.
+- پیش از هر write/checkpoint، /farast heartbeat chat=CHAT_ID run=RUN_ID token=FENCING_TOKEN lease=30 را اجرا کن.
+- در پایان از /farast review یا /farast release با token صحیح استفاده کن؛ release به معنی پذیرش نیست.
+- دستورها: 04_COORDINATION/COORDINATOR_COMMANDS.md. اگر workflow در default branch فعال نیست، فقط read-only.
+
+
+**ایمنی چندچتی و handoff:** branch قبلی یک Issue قابل claim مجدد نیست. اگر claim با branch_reuse رد شد، RUN_ID جدید و یکتا انتخاب کن. CLAIM GRANTED بدون read-back وضعیت زنده رجیستری و تطبیق actor/chat/run/token مجوز write نیست. هر RUN فقط branch خودش را تغییر می‌دهد؛ PR پذیرش فقط از branch آخرین REVIEW ثبت‌شده مجاز است.
+
+برای شناخت مبانی فنی رجیستری، `04_COORDINATION/LOCK_MANAGER_PROTOCOL.md` را فقط به‌عنوان شرح پیاده‌سازی داخلی بخوان؛ این سند مجوز CAS یا نوشتن مستقیم worker نیست.
+
 
 ---
 
@@ -838,9 +964,15 @@ Architecture Decision Records، نمودار هدف، گزینه‌ها، migrat
 
 این پرامپت مستقل از مکالمه و حساب کاربری است. **مرجع شروع فعلی** را مستقیماً از این نشانی باز کن: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/setup/control-plane-bootstrap/START_HERE.md . در زمان آخرین بررسی، PR شماره ۱ باز و ادغام‌نشده بود و شاخه پیش‌فرض `main` فقط `README.md` داشت؛ بنابراین تا وقتی PR ادغام نشده و وجود همه فایل‌ها در `main` تأیید نشده، از شاخه `setup/control-plane-bootstrap` استفاده کن. همه فایل‌های ارجاعی را از همین ref بخوان؛ در GitHub API مقدار `ref=setup/control-plane-bootstrap` را صریح بده. پیش از هر اجرا وضعیت زنده PR شماره ۱ را بررسی کن: اگر ادغام شده، ابتدا وجود فایل‌های لازم در `main` را با SHA ادغام تأیید و سپس به `main` منتقل شو؛ اگر باز است از شاخه فعلی استفاده کن؛ اگر بسته و ادغام‌نشده است نوشتن را متوقف کن. هیچ‌گاه وجود فایل در شاخه پیش‌فرض را حدس نزن. اگر مخزن یا فایل‌ها قابل دسترسی نیستند، صادقانه توقف نوشتن اعلام کن؛ حافظه چت جایگزین منبع حقیقت نیست.
 
-**تداوم:** TASK_ID و آخرین checkpoint را پیدا کن. اگر این کار قبلاً شروع شده، همان TASK_ID و branch را ادامه بده؛ وظیفه/خروجی مشابه جدید نساز. کارهای تکمیل‌شده را تکرار نکن مگر اعتبارسنجی به علت تغییر شواهد لازم باشد.
 
-**هماهنگی:** Issueها، PRها و RESOURCE_KEYS را بررسی کن. قفل اتمیک منابع را طبق `04_COORDINATION/LOCK_MANAGER_PROTOCOL.md` از رجیستری branch `coordination/locks` بگیر. Acquire چندمنبعی باید در یک CAS با `update_ref(expected_sha=...)` انجام شود؛ تا موفقیت CAS هیچ تغییر نوشتنی مجاز نیست. قفل مبهم، timeout یا خطای CAS یعنی STOP WRITES و بارگذاری مجدد وضعیت؛ هرگز مالکیت را جعل نکن. کارهای خواندنی و مستقل را ادامه بده. از branch اختصاصی استفاده کن و هرگز مستقیم روی main commit نکن.
+## دروازه اجباری آغاز، بازیابی و تداوم (برای هر چت/حساب)
+پیش از اجرای حتی یک مرحله از مأموریت تخصصی، آخرین نسخه این سه سند را مستقیماً از GitHub بخوان: `START_HERE.md`، `04_COORDINATION/INTERRUPTION_RECOVERY_PROTOCOL.md` و `05_PROMPT_LIBRARY/MASTER-00.md`. اجرای این پرامپت بدون خواندن هر سه سند ممنوع است. سپس وضعیت زنده TASK/Issue/PR، آخرین checkpoint، commit و قفل‌ها را بررسی کن. خلاصه خودکار چت و حافظه نشست مرجع حقیقت نیست.
+
+اگر اینترنت/ابزار قطع شد، timeout رخ داد، چت بسته شد یا پنجره زمینه پر شد: نوشتن را متوقف کن؛ نتیجه عملیات آخر را حدس نزن؛ GitHub را برای اثر واقعی بخوان؛ همان TASK_ID را حفظ کن، اما برای هر اجرای جدید RUN_ID و branch اختصاصی تازه بگیر؛ هرگز branch قبلی را دوباره استفاده نکن. برای هر اقدام نوشتنی OPERATION_ID پایدار به‌کار ببر؛ retry فقط پس از read-back و تشخیص NOT_APPLIED مجاز است. وضعیت نامعلوم را AMBIGUOUS ثبت کن و از ایجاد تکراری Issue/branch/PR/commit/file خودداری کن. پیش از هر handoff، checkpoint کامل و NEXT_ACTION دقیق ثبت کن. اگر اسناد یا مجوز GitHub در دسترس نیست، read-only بمان و ادعای نوشتن نکن.
+
+**تداوم:** TASK_ID و آخرین checkpoint را پیدا کن. اگر این کار قبلاً شروع شده، همان TASK_ID و checkpoint را ادامه بده؛ پس از claim جدید فقط branch اختصاصی صادرشده برای RUN جدید را استفاده کن و branch قبلی را read-only نگه دار؛ وظیفه/خروجی مشابه جدید نساز. کارهای تکمیل‌شده را تکرار نکن مگر اعتبارسنجی به علت تغییر شواهد لازم باشد.
+
+**هماهنگی:** Issueها، PRها و RESOURCE_KEYS را بررسی کن. claim/heartbeat/release را فقط با فرمان‌های `/farast` طبق `04_COORDINATION/COORDINATOR_COMMANDS.md` انجام بده. رجیستری `coordination/locks` فقط توسط workflow مرکزی نوشته می‌شود؛ هرگز مستقیم آن را تغییر نده. قفل مبهم، timeout یا خطای coordinator یعنی STOP WRITES و بارگذاری مجدد وضعیت؛ هرگز مالکیت را جعل نکن. کارهای خواندنی و مستقل را ادامه بده. از branch اختصاصی استفاده کن و هرگز مستقیم روی main commit نکن.
 
 **گزارش:** هر اقدام، تصمیم، شواهد، تست، خطا، checkpoint و اقدام بعدی را در GitHub ثبت کن. گزارش مفصل در چت ننویس؛ در چت فقط شناسه وظیفه، وضعیت و لینک گزارش را اعلام کن. اگر ابزار نوشتن GitHub در دسترس نیست، ادعای ثبت نکن.
 
@@ -874,7 +1006,22 @@ Architecture Decision Records، نمودار هدف، گزینه‌ها، migrat
 Hosting feasibility matrix، deployment runbook، failure/rollback plan و فهرست داده‌های لازم از مالک. معیار پذیرش: هر قابلیت عملیاتی به پلن و شاهد واقعی متصل باشد.
 
 ## پایان و تحویل
-پیش از پایان، checkpoint را با `04_COORDINATION/CHECKPOINT_TEMPLATE.md` ثبت کن؛ Issue و PR را به‌روز کن؛ TASK_INDEX و MASTER_STATUS را فقط بر اساس وضعیت اثبات‌شده به‌روزرسانی کن؛ قفل‌های اتمیک را فقط با TASK_ID/RUN_ID/fencing_token خود و از طریق CAS آزاد کن؛ اگر ابزار لازم در دسترس نیست، وضعیت را مبهم ثبت کن و آزادسازی را ادعا نکن. وضعیت را DONE_VERIFIED نگذار مگر معیار پذیرش و شواهد معتبر کامل باشند. در صورت مانع، BLOCKED را با علت، شواهد و NEXT_ACTION ثبت کن.
+پیش از پایان، checkpoint را با `04_COORDINATION/CHECKPOINT_TEMPLATE.md` ثبت کن؛ Issue و PR را به‌روز کن؛ TASK_INDEX و MASTER_STATUS را فقط بر اساس وضعیت اثبات‌شده به‌روزرسانی کن؛ قفل را فقط با فرمان `/farast release` و TASK_ID/RUN_ID/fencing_token خود آزاد کن؛ اگر ابزار لازم در دسترس نیست، وضعیت را مبهم ثبت کن و آزادسازی را ادعا نکن. وضعیت را DONE_VERIFIED نگذار مگر معیار پذیرش و شواهد معتبر کامل باشند. در صورت مانع، BLOCKED را با علت، شواهد و NEXT_ACTION ثبت کن.
+
+
+## دروازه اجباری هماهنگی چندچتی
+- پیش از هر write، در Issue وظیفه فرمان /farast claim chat=CHAT_ID run=RUN_ID lease=30 را ثبت کن.
+- فقط پس از پاسخ صریح CLAIM GRANTED و read-back رجیستری زنده مجاز به نوشتن هستی؛ target_repository و branch اختصاصی همان RUN را عیناً از پاسخ بردار. عدم پاسخ/timeout/خطا = STOP WRITES.
+- رجیستری ACTIVE_LOCKS.json فقط توسط workflow مرکزی نوشته می‌شود؛ نوشتن مستقیم یا direct-CAS توسط worker ممنوع است.
+- پیش از هر write/checkpoint، /farast heartbeat chat=CHAT_ID run=RUN_ID token=FENCING_TOKEN lease=30 را اجرا کن.
+- در پایان از /farast review یا /farast release با token صحیح استفاده کن؛ release به معنی پذیرش نیست.
+- دستورها: 04_COORDINATION/COORDINATOR_COMMANDS.md. اگر workflow در default branch فعال نیست، فقط read-only.
+
+
+**ایمنی چندچتی و handoff:** branch قبلی یک Issue قابل claim مجدد نیست. اگر claim با branch_reuse رد شد، RUN_ID جدید و یکتا انتخاب کن. CLAIM GRANTED بدون read-back وضعیت زنده رجیستری و تطبیق actor/chat/run/token مجوز write نیست. هر RUN فقط branch خودش را تغییر می‌دهد؛ PR پذیرش فقط از branch آخرین REVIEW ثبت‌شده مجاز است.
+
+برای شناخت مبانی فنی رجیستری، `04_COORDINATION/LOCK_MANAGER_PROTOCOL.md` را فقط به‌عنوان شرح پیاده‌سازی داخلی بخوان؛ این سند مجوز CAS یا نوشتن مستقیم worker نیست.
+
 
 ---
 
@@ -884,9 +1031,15 @@ Hosting feasibility matrix، deployment runbook، failure/rollback plan و فه�
 
 این پرامپت مستقل از مکالمه و حساب کاربری است. **مرجع شروع فعلی** را مستقیماً از این نشانی باز کن: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/setup/control-plane-bootstrap/START_HERE.md . در زمان آخرین بررسی، PR شماره ۱ باز و ادغام‌نشده بود و شاخه پیش‌فرض `main` فقط `README.md` داشت؛ بنابراین تا وقتی PR ادغام نشده و وجود همه فایل‌ها در `main` تأیید نشده، از شاخه `setup/control-plane-bootstrap` استفاده کن. همه فایل‌های ارجاعی را از همین ref بخوان؛ در GitHub API مقدار `ref=setup/control-plane-bootstrap` را صریح بده. پیش از هر اجرا وضعیت زنده PR شماره ۱ را بررسی کن: اگر ادغام شده، ابتدا وجود فایل‌های لازم در `main` را با SHA ادغام تأیید و سپس به `main` منتقل شو؛ اگر باز است از شاخه فعلی استفاده کن؛ اگر بسته و ادغام‌نشده است نوشتن را متوقف کن. هیچ‌گاه وجود فایل در شاخه پیش‌فرض را حدس نزن. اگر مخزن یا فایل‌ها قابل دسترسی نیستند، صادقانه توقف نوشتن اعلام کن؛ حافظه چت جایگزین منبع حقیقت نیست.
 
-**تداوم:** TASK_ID و آخرین checkpoint را پیدا کن. اگر این کار قبلاً شروع شده، همان TASK_ID و branch را ادامه بده؛ وظیفه/خروجی مشابه جدید نساز. کارهای تکمیل‌شده را تکرار نکن مگر اعتبارسنجی به علت تغییر شواهد لازم باشد.
 
-**هماهنگی:** Issueها، PRها و RESOURCE_KEYS را بررسی کن. قفل اتمیک منابع را طبق `04_COORDINATION/LOCK_MANAGER_PROTOCOL.md` از رجیستری branch `coordination/locks` بگیر. Acquire چندمنبعی باید در یک CAS با `update_ref(expected_sha=...)` انجام شود؛ تا موفقیت CAS هیچ تغییر نوشتنی مجاز نیست. قفل مبهم، timeout یا خطای CAS یعنی STOP WRITES و بارگذاری مجدد وضعیت؛ هرگز مالکیت را جعل نکن. کارهای خواندنی و مستقل را ادامه بده. از branch اختصاصی استفاده کن و هرگز مستقیم روی main commit نکن.
+## دروازه اجباری آغاز، بازیابی و تداوم (برای هر چت/حساب)
+پیش از اجرای حتی یک مرحله از مأموریت تخصصی، آخرین نسخه این سه سند را مستقیماً از GitHub بخوان: `START_HERE.md`، `04_COORDINATION/INTERRUPTION_RECOVERY_PROTOCOL.md` و `05_PROMPT_LIBRARY/MASTER-00.md`. اجرای این پرامپت بدون خواندن هر سه سند ممنوع است. سپس وضعیت زنده TASK/Issue/PR، آخرین checkpoint، commit و قفل‌ها را بررسی کن. خلاصه خودکار چت و حافظه نشست مرجع حقیقت نیست.
+
+اگر اینترنت/ابزار قطع شد، timeout رخ داد، چت بسته شد یا پنجره زمینه پر شد: نوشتن را متوقف کن؛ نتیجه عملیات آخر را حدس نزن؛ GitHub را برای اثر واقعی بخوان؛ همان TASK_ID را حفظ کن، اما برای هر اجرای جدید RUN_ID و branch اختصاصی تازه بگیر؛ هرگز branch قبلی را دوباره استفاده نکن. برای هر اقدام نوشتنی OPERATION_ID پایدار به‌کار ببر؛ retry فقط پس از read-back و تشخیص NOT_APPLIED مجاز است. وضعیت نامعلوم را AMBIGUOUS ثبت کن و از ایجاد تکراری Issue/branch/PR/commit/file خودداری کن. پیش از هر handoff، checkpoint کامل و NEXT_ACTION دقیق ثبت کن. اگر اسناد یا مجوز GitHub در دسترس نیست، read-only بمان و ادعای نوشتن نکن.
+
+**تداوم:** TASK_ID و آخرین checkpoint را پیدا کن. اگر این کار قبلاً شروع شده، همان TASK_ID و checkpoint را ادامه بده؛ پس از claim جدید فقط branch اختصاصی صادرشده برای RUN جدید را استفاده کن و branch قبلی را read-only نگه دار؛ وظیفه/خروجی مشابه جدید نساز. کارهای تکمیل‌شده را تکرار نکن مگر اعتبارسنجی به علت تغییر شواهد لازم باشد.
+
+**هماهنگی:** Issueها، PRها و RESOURCE_KEYS را بررسی کن. claim/heartbeat/release را فقط با فرمان‌های `/farast` طبق `04_COORDINATION/COORDINATOR_COMMANDS.md` انجام بده. رجیستری `coordination/locks` فقط توسط workflow مرکزی نوشته می‌شود؛ هرگز مستقیم آن را تغییر نده. قفل مبهم، timeout یا خطای coordinator یعنی STOP WRITES و بارگذاری مجدد وضعیت؛ هرگز مالکیت را جعل نکن. کارهای خواندنی و مستقل را ادامه بده. از branch اختصاصی استفاده کن و هرگز مستقیم روی main commit نکن.
 
 **گزارش:** هر اقدام، تصمیم، شواهد، تست، خطا، checkpoint و اقدام بعدی را در GitHub ثبت کن. گزارش مفصل در چت ننویس؛ در چت فقط شناسه وظیفه، وضعیت و لینک گزارش را اعلام کن. اگر ابزار نوشتن GitHub در دسترس نیست، ادعای ثبت نکن.
 
@@ -920,7 +1073,22 @@ Hosting feasibility matrix، deployment runbook، failure/rollback plan و فه�
 prioritized backlog، dependency graph، release slices و task definitions. معیار پذیرش: هر TASK دامنه، منابع، معیار پذیرش، تست و مسیر بازگشت دارد و تکراری نیست.
 
 ## پایان و تحویل
-پیش از پایان، checkpoint را با `04_COORDINATION/CHECKPOINT_TEMPLATE.md` ثبت کن؛ Issue و PR را به‌روز کن؛ TASK_INDEX و MASTER_STATUS را فقط بر اساس وضعیت اثبات‌شده به‌روزرسانی کن؛ قفل‌های اتمیک را فقط با TASK_ID/RUN_ID/fencing_token خود و از طریق CAS آزاد کن؛ اگر ابزار لازم در دسترس نیست، وضعیت را مبهم ثبت کن و آزادسازی را ادعا نکن. وضعیت را DONE_VERIFIED نگذار مگر معیار پذیرش و شواهد معتبر کامل باشند. در صورت مانع، BLOCKED را با علت، شواهد و NEXT_ACTION ثبت کن.
+پیش از پایان، checkpoint را با `04_COORDINATION/CHECKPOINT_TEMPLATE.md` ثبت کن؛ Issue و PR را به‌روز کن؛ TASK_INDEX و MASTER_STATUS را فقط بر اساس وضعیت اثبات‌شده به‌روزرسانی کن؛ قفل را فقط با فرمان `/farast release` و TASK_ID/RUN_ID/fencing_token خود آزاد کن؛ اگر ابزار لازم در دسترس نیست، وضعیت را مبهم ثبت کن و آزادسازی را ادعا نکن. وضعیت را DONE_VERIFIED نگذار مگر معیار پذیرش و شواهد معتبر کامل باشند. در صورت مانع، BLOCKED را با علت، شواهد و NEXT_ACTION ثبت کن.
+
+
+## دروازه اجباری هماهنگی چندچتی
+- پیش از هر write، در Issue وظیفه فرمان /farast claim chat=CHAT_ID run=RUN_ID lease=30 را ثبت کن.
+- فقط پس از پاسخ صریح CLAIM GRANTED و read-back رجیستری زنده مجاز به نوشتن هستی؛ target_repository و branch اختصاصی همان RUN را عیناً از پاسخ بردار. عدم پاسخ/timeout/خطا = STOP WRITES.
+- رجیستری ACTIVE_LOCKS.json فقط توسط workflow مرکزی نوشته می‌شود؛ نوشتن مستقیم یا direct-CAS توسط worker ممنوع است.
+- پیش از هر write/checkpoint، /farast heartbeat chat=CHAT_ID run=RUN_ID token=FENCING_TOKEN lease=30 را اجرا کن.
+- در پایان از /farast review یا /farast release با token صحیح استفاده کن؛ release به معنی پذیرش نیست.
+- دستورها: 04_COORDINATION/COORDINATOR_COMMANDS.md. اگر workflow در default branch فعال نیست، فقط read-only.
+
+
+**ایمنی چندچتی و handoff:** branch قبلی یک Issue قابل claim مجدد نیست. اگر claim با branch_reuse رد شد، RUN_ID جدید و یکتا انتخاب کن. CLAIM GRANTED بدون read-back وضعیت زنده رجیستری و تطبیق actor/chat/run/token مجوز write نیست. هر RUN فقط branch خودش را تغییر می‌دهد؛ PR پذیرش فقط از branch آخرین REVIEW ثبت‌شده مجاز است.
+
+برای شناخت مبانی فنی رجیستری، `04_COORDINATION/LOCK_MANAGER_PROTOCOL.md` را فقط به‌عنوان شرح پیاده‌سازی داخلی بخوان؛ این سند مجوز CAS یا نوشتن مستقیم worker نیست.
+
 
 ---
 
