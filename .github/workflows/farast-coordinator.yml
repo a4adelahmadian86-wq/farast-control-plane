@@ -232,17 +232,18 @@ jobs:
             const processIssue = async issue => {
               if (!isTask(issue)) return;
               if (!labelsOf(issue).includes('agent:task')) await addLabel(issue.number, 'agent:task');
-              if (issue.state === 'open' && labelsOf(issue).includes('agent:done')) {
+              let snapshot = await getRegistry();
+              const accepted = coordinatorCore.latestTaskStatus(snapshot.state.processed_operations, issue.number) === 'done';
+              if (issue.state === 'open' && accepted) {
                 await github.rest.issues.update({ owner, repo, issue_number: issue.number, state: 'closed', state_reason: 'completed' });
                 issue = (await github.rest.issues.get({ owner, repo, issue_number: issue.number })).data;
               }
-              if (issue.state === 'closed' && !labelsOf(issue).includes('agent:done')) {
+              if (issue.state === 'closed' && !accepted) {
                 await github.rest.issues.update({ owner, repo, issue_number: issue.number, state: 'open', state_reason: 'reopened' });
                 await publish(issue.number, 'إغلاق رد شد: دروازه پذیرش مستقل کامل نشده است. برای پذیرش از /farast accept pr=... استفاده کنید.');
                 return;
               }
               const comments = await github.paginate(github.rest.issues.listComments, { owner, repo, issue_number: issue.number, per_page: 100 });
-              let snapshot = await getRegistry();
               const expiredLeases = expireLocks(snapshot.state);
               if (expiredLeases.length) snapshot = await saveRegistry(snapshot.state, snapshot, 'FARAST coordinator: expire stale leases');
               // Recover responses that were committed but not posted before an interruption.
@@ -264,14 +265,6 @@ jobs:
               if (current.length && !labelsOf(issue).includes('agent:locked')) await setStatus(issue.number, 'locked');
               else if (!current.length && labelsOf(issue).includes('agent:locked') && !['agent:blocked','agent:review','agent:done'].some(x => labelsOf(issue).includes(x))) await setStatus(issue.number, 'ready');
             };
-
-            if (context.eventName === 'issues' && context.payload.action === 'closed') {
-              const issue = context.payload.issue;
-              if (isTask(issue) && !labelsOf(issue).includes('agent:done')) {
-                await github.rest.issues.update({ owner, repo, issue_number: issue.number, state: 'open', state_reason: 'reopened' });
-                await publish(issue.number, 'بسته‌شدن خودکار/دستی رد شد: فقط پس از /farast accept با PR ادغام‌شده و approval مستقل روی head فعلی مجاز است.');
-              }
-            }
 
             if (context.eventName === 'issues' && ['opened','reopened'].includes(context.payload.action)) {
               const issue = context.payload.issue;
