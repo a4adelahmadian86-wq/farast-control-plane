@@ -5,8 +5,8 @@ const wi = require('./work-item-core');
 
 function item(overrides = {}) {
   return {
-    work_item_id:'WI-EXP03-001', title:'Catalog one capability', status:'READY',
-    target_repository:'owner/repo', priority:50, created_at_utc:'2026-01-01T00:00:00Z',
+    schema_version:'1.0', work_item_id:'WI-EXP03-001', title:'Catalog one capability', status:'READY', parent_goal_ids:['G-01'], parent_exp_ids:['EXP-03'], priority:50, created_at_utc:'2026-01-01T00:00:00Z',
+    target_repository:'owner/repo',
     resource_keys:['module:catalog'], dependencies:[],
     steps:[
       {step_id:'S1',title:'Inspect source'},
@@ -110,4 +110,9 @@ test('unaccepted dependency prevents acceptance even when all local steps and cr
  assert.equal(wi.calculateProgress(x).can_accept,false);
  x.dependencies[0].status='ACCEPTED';
  assert.equal(wi.calculateProgress(x).can_accept,true);
+});
+
+test('rejects a work item without a required acceptance criterion',()=>{
+ const x=item({acceptance_criteria:[{criterion_id:'AC1',title:'Optional only',required:false}]});
+ assert.throws(()=>wi.calculateProgress(x),/at least one required acceptance criterion/);
 });
