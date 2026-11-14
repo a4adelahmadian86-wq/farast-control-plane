@@ -7,7 +7,7 @@
 - Issue-per-leaf با coordinator فعلی سازگار است: قفل یک Issue و قفل سراسری resource keys هر دو اعمال می‌شوند.
 
 ## ساختار اجباری هر برگ
-از `WORK_ITEM_SCHEMA.json` استفاده کن. هر برگ باید هدف والد، EXP، دامنه، target repository، resource keys، dependencies، priority، گام‌های اتمی، خروجی هر گام، معیار پذیرش و evidence requirement داشته باشد. اگر این اطلاعات ناقص است، برگ READY نیست.
+از `WORK_ITEM_SCHEMA.json` استفاده کن. هر برگ باید هدف والد، EXP، دامنه، target repository، resource keys، dependencies، priority و منبع اولویت، write_policy، گام‌های اتمی، خروجی هر گام، معیار پذیرش و evidence requirement داشته باشد. اگر این اطلاعات ناقص است، برگ READY نیست.
 
 ## انتخاب عادلانه و deterministic
 1. ابتدا همه برگ‌های باز و registry فعال را از GitHub بخوان.
@@ -17,6 +17,13 @@
 5. اگر برگ IN_PROGRESS با lease منقضی یافت شد، همان برگ و checkpoint آن برای resume واجد انتخاب است؛ شناسه را عوض نکن.
 6. بعد از انتخاب، فقط با /farast claim روی Issue همان برگ claim بگیر. claim موفق CAS مرجع نهایی است؛ انتخاب محلی مجوز write نیست.
 7. اگر هیچ برگ واجد شرایط نبود، هیچ هدفی را حدس نزن؛ علت را گزارش کن.
+
+## سیاست نوشتن و اولویت
+- `READ_ONLY`: فقط مشاهده/تحلیل/گزارش؛ هیچ تغییر فایل یا PR در target repository مجاز نیست.
+- `WRITE_REQUIRES_OWNER_APPROVAL`: فقط پیشنهاد تغییر؛ تا ثبت تأیید صریح مالک هیچ write انجام نشود.
+- `WRITE_ALLOWED`: فقط در محدوده مخزن و resourceهای مجاز و پس از claim معتبر.
+- برای مخزن محصول `a4adelahmadian86-wq/non`، coordinator فقط `READ_ONLY` را می‌پذیرد تا زمانی که مالک مجوز جداگانه و صریح صادر کند.
+- `priority_source=DEFAULT_POLICY` با priority=50 یعنی اولویت برابر و انتخاب FIFO/aging؛ این مقدار رتبه‌بندی مالک نیست. `OWNER_ASSIGNED` فقط با تصمیم صریح مالک ثبت شود.
 
 ## پیشرفت و پذیرش
 - هر step فقط با validation_status=PASS و حداقل یک evidence_ref معتبر شمرده می‌شود.
@@ -37,5 +44,5 @@ Checkpoint باید WORK_ITEM_ID، RUN_ID، آخرین step تأییدشده، s
 ## وضعیت‌ها
 BACKLOG, READY, CLAIMED, IN_PROGRESS, BLOCKED, REVIEW_REQUIRED, PARTIALLY_ACCEPTED, ACCEPTED, REJECTED, CANCELLED. وضعیت پیشرفت از وضعیت lease/ownership جداست. RELEASE به معنی ACCEPTED نیست.
 
-## محدودیت عملیاتی
-این سند و کتابخانه core، منطق قابل آزمون را تعریف می‌کنند؛ تا زمان اتصال کامل فرمان‌های progress/checkpoint به workflow و اجرای E2E دو حساب مستقل، از ثبت وضعیت اجرای کامل خودداری کن. آزمون unit/fixture جایگزین E2E نیست.
+## وضعیت عملیاتی
+هسته Work Item، schema، template و فرمان‌های `/farast step`, `/farast criterion`, `/farast progress`, `/farast checkpoint` در main ادغام و در smoke test زنده یک حساب/دو CHAT_ID آزموده شده‌اند. این smoke test، آزمون دو حساب مستقل نیست. آزمون واقعی دو حساب مستقل، interruption واقعی بین دو نشست و schedule هنوز gateهای جداگانه‌اند؛ unit/fixture یا دو CHAT_ID با یک حساب جایگزین آن‌ها نیست.
