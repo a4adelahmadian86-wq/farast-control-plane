@@ -2,7 +2,7 @@
 
 ## نسخه یکپارچه
 
-برای کپی یکجای همه پرامپت‌ها: [FARAST_EXECUTABLE_PROMPTS_COMPLETE.md](FARAST_EXECUTABLE_PROMPTS_COMPLETE.md) (نسخه 1.6.1؛ بازتولیدشده از ۱۷ پرامپت مستقل و MASTER-00). نسخه‌های مستقل و قابل به‌روزرسانی در همین پوشه مرجع‌اند.
+برای کپی یکجای همه پرامپت‌ها: [FARAST_EXECUTABLE_PROMPTS_COMPLETE.md](FARAST_EXECUTABLE_PROMPTS_COMPLETE.md) (نسخه 1.6.2؛ بازتولیدشده از ۱۷ پرامپت مستقل و MASTER-00). نسخه‌های مستقل و قابل به‌روزرسانی در همین پوشه مرجع‌اند.
 
 ## زمینه پروژه
 نیازمندی‌های اجرای چندچتی در [CONTROL_PLANE_REQUIREMENTS.md](../00_PROJECT_FOUNDATION/CONTROL_PLANE_REQUIREMENTS.md) و بازخورد مالک در دفتر مرکزی ثبت شده‌اند.
