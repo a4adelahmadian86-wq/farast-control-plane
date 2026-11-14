@@ -21,7 +21,7 @@ PR کنترل‌پلین: https://github.com/a4adelahmadian86-wq/farast-control-
 - branch مستقل برای هر RUN، جلوگیری از استفاده مجدد branch و ثبت lineage تحویل.
 - کنترل پذیرش PR از نظر branch/repository آخرین REVIEW، merged بودن، و approval مستقل روی head فعلی. approval قدیمی که بعداً با CHANGES_REQUESTED/DISMISSED جایگزین شده باشد پذیرفته نمی‌شود؛ repository مبدأ و مقصد PR نیز باید با مخزن هدف منطبق باشند.
 - ۱۷ پرامپت تخصصی مستقل، MASTER-00 و bundle تجمیعی؛ تطبیق محتوای bundle با ۱۸ منبع مستقل در read-back زنده: **۱۸/۱۸ PASS**.
-- CI روی آخرین SHA ثبت‌شده در PR: ۱۴ آزمون هسته و اعتبارسنجی workflow، JavaScript، JSON/schema و قرارداد ۱۷ پرامپت. CI سبز، آزمون زنده چندحسابی محسوب نمی‌شود.
+- CI موفق روی head `a02a34b4a4bd45302cbc1cf918f1927ad61a4442`: https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/43611034691 ؛ ۱۴ آزمون هسته PASS و اعتبارسنجی workflow، JavaScript، JSON/schema و قرارداد ۱۷ پرامپت موفق. CI سبز، آزمون زنده چندحسابی محسوب نمی‌شود.
 
 ## مرز مهم تضمین فنی
 
