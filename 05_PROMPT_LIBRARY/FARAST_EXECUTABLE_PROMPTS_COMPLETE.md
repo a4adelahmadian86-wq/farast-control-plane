@@ -1,8 +1,8 @@
 # کتابخانه کامل پرامپت‌های اجرایی FARAST
 
-نسخه: 1.6.0 | زبان: فارسی | مرجع وضعیت: farast-control-plane
+نسخه: 1.6.1 | زبان: فارسی | مرجع وضعیت: farast-control-plane
 
-> این فایل تجمیعی دقیقاً از نسخه فعلی MASTER-00 و ۱۷ پرامپت مستقل شاخه main بازسازی شده است. تغییرات شناسه‌های Work Item و مرجع فعال main در نسخه 1.6.0 اعمال شده‌اند. برای اجرای معتبر، هر چت باید مرجع زنده GitHub و آخرین checkpoint را بخواند؛ این bundle جایگزین read-back زنده نیست.
+> این فایل تجمیعی دقیقاً از نسخه فعلی MASTER-00 و ۱۷ پرامپت مستقل شاخه main بازسازی شده است. در نسخه 1.6.1 شناسه‌های وظایف فرضی با بازیابی Work Itemهای واقعی EXP جایگزین شده‌اند. برای اجرای معتبر، هر چت باید مرجع زنده GitHub و آخرین checkpoint را بخواند؛ این bundle جایگزین read-back زنده نیست.
 
 ---
 
@@ -791,7 +791,7 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 چرخه خدمات AI شامل تایپ هوشمند، ویرایشگر Word/PDF/متن، پردازش، سهمیه، قیمت‌گذاری، اشتراک، پرداخت و تحویل خروجی را تحلیل کن.
 
 ## مراحل
-1. TASK `FCP-EXP09-001` را بازیابی کن.
+1. Work Itemهای موجود متناظر با `EXP-09` را از Issueها و WORK_ITEM_IDهای واقعی بازیابی کن؛ شناسه فرضی نساز و محدودیت READ_ONLY محصول را رعایت کن.
 2. سرویس‌ها، مدل‌ها، providerها، queue/job، ذخیره‌سازی، entitlement، quota، pricing engine، هزینه، timeout و retry را از کد و پیکربندی غیرمحرمانه کشف کن.
 3. برای هر سرویس ورودی، محدودیت فرمت/حجم، پردازش، خروجی، خطا، حریم خصوصی، حذف فایل و مالکیت داده را ثبت کن.
 4. طرح اشتراک و پرداخت تکی را مقایسه کن؛ قابلیت‌های مشترک و تفاوت سقف خروجی را ردیابی کن.
@@ -872,7 +872,7 @@ service catalog، sequence diagram، quota/pricing matrix، privacy & failure an
 معماری فعلی، مرز ماژول‌ها، جریان داده، وابستگی‌ها و طرح migration را مستند کن؛ در این اجرا هیچ migration یا تغییر schema اعمال نکن.
 
 ## مراحل
-1. TASK `FCP-EXP10-001` را بازیابی کن.
+1. Work Itemهای موجود متناظر با `EXP-10` و `EXP-11` را از Issueها و WORK_ITEM_IDهای واقعی بازیابی کن؛ شناسه فرضی نساز و dependencyهای ثبت‌شده را رعایت کن.
 2. entry pointها، routeها، controller/service/model/job/event, external integration, frontend, database و deployment را نقشه‌برداری کن.
 3. وابستگی چرخه‌ای، سرویس‌های هم‌پوشان، legacy/new implementation و نقاط coupling را مشخص کن.
 4. مدل داده، ownership، FK، index، constraint، PII، مالی، audit و retention را بررسی کن.
@@ -953,7 +953,7 @@ C4 سطح context/container/component در حد شواهد، data dictionary، d
 بررسی کن آیا مدل فعلی هویت، حساب، نقش، مسئولیت اصلی/فرعی، دپارتمان، scope و تفویض اختیار با نیازمندی مصوب سازگار است.
 
 ## مراحل
-1. TASK `FCP-EXP12-001` را بازیابی کن.
+1. Work Item موجود متناظر با `EXP-12` را از Issueها و WORK_ITEM_IDهای واقعی بازیابی کن؛ شناسه فرضی نساز و حدود دسترسی را از policy زنده استخراج کن.
 2. مدل account lifecycle، phone verification، OTP/password، recovery، suspension/deletion/restore و promotion/demotion را ترسیم کن.
 3. legacy role، role assignments، direct grants، allow/deny، scopes و authorization middleware را جدا بررسی کن.
 4. ماتریس actor × action × resource × scope و مسیرهای privilege escalation بساز.
@@ -1035,7 +1035,7 @@ authorization matrix، lifecycle diagram، gap/risk report و تست‌های ل
 مدل تهدید و شکاف امنیتی را برای داده، حساب، پرداخت، فایل، AI، پنل مدیریت و audit trail بساز؛ تست نفوذ یا ادعای انطباق را بدون مجوز/تخصص انجام‌شده اعلام نکن.
 
 ## مراحل
-1. TASK `FCP-EXP13-001` را بازیابی کن.
+1. Work Itemهای موجود متناظر با `EXP-13`, `EXP-14` و `EXP-19` را از Issueها و WORK_ITEM_IDهای واقعی بازیابی کن؛ شناسه فرضی نساز و dependencyها را رعایت کن.
 2. داده و دارایی‌ها، actorهای تهدید، مرز اعتماد، ورودی‌ها، خروجی‌ها، providerها و نقاط حساس را inventory کن.
 3. کنترل‌های authn/authz، validation، CSRF/XSS/SQLi، upload, SSRF, secrets, rate limit, encryption, logging و dependency را بررسی کن.
 4. سیاست جمع‌آوری/رضایت/حذف/نگهداری داده را با تصمیم‌های مصوب و قوانین روز مقایسه کن؛ نظر حقوقی را جایگزین نکن.
@@ -1116,7 +1116,7 @@ Threat model، privacy data map، audit integrity report، legal questions و se
 بر اساس شواهد EXP-01..14 و قیود مصوب، گزینه‌های معماری هدف را طراحی و trade-offها را مقایسه کن؛ اجرا نکن.
 
 ## مراحل
-1. TASK `FCP-EXP15-001` را بازیابی کن و وضعیت ورودی‌های موجود را بررسی کن.
+1. Work Item موجود متناظر با `EXP-15` را از Issueها و WORK_ITEM_IDهای واقعی بازیابی کن و وضعیت ورودی‌های موجود را بررسی کن؛ شناسه فرضی نساز.
 2. نیازمندی‌های عملکردی/غیرعملکردی، حجم نامعلوم، بودجه محدود، هاست اشتراکی و حفاظت قابلیت موجود را استخراج کن.
 3. گزینه‌ها را در حوزه frontend/backend/data/queue/storage/AI integration/security/observability/deployment مقایسه کن.
 4. برای هر گزینه هزینه، پیچیدگی، محدودیت هاست، مقیاس‌پذیری، امنیت، قابلیت نگهداری، مهاجرت و vendor lock-in را بررسی کن.
@@ -1197,7 +1197,7 @@ Architecture Decision Records، نمودار هدف، گزینه‌ها، migrat
 امکان‌پذیری میزبانی و عملیات را با توجه به ترجیح هاست اشتراکی کم‌هزینه بررسی کن؛ بدون دسترسی واقعی، وضعیت production را حدس نزن.
 
 ## مراحل
-1. TASK `FCP-EXP16-001` را بازیابی کن.
+1. Work Itemهای موجود متناظر با `EXP-16`, `EXP-17` و `EXP-18` را از Issueها و WORK_ITEM_IDهای واقعی بازیابی کن؛ شناسه فرضی نساز و dependencyها را رعایت کن.
 2. نیازمندی‌های runtime را استخراج کن: PHP/runtime version، extensions، DB، cron، queue worker، process lifetime، storage، symlink، shell، dump tools، limits و TLS.
 3. این نیازها را با مستندات/پلن هاست واقعی مقایسه کن؛ تبلیغ provider جای آزمون نیست.
 4. مسیرهای queue بدون worker دائمی، scheduler، client-side processing و سرویس بیرونی را از نظر امنیت، هزینه و reliability مقایسه کن.
@@ -1278,7 +1278,7 @@ Hosting feasibility matrix، deployment runbook، failure/rollback plan و فه�
 گپ‌ها و پیشنهادهای تأییدشده را به backlog قابل اجرا تبدیل کن؛ اولویت را با ارزش، ریسک، وابستگی و هزینه توضیح بده، نه با سلیقه.
 
 ## مراحل
-1. TASK `FCP-EXP20-001` را بازیابی کن.
+1. Work Itemهای موجود متناظر با `EXP-20` و `EXP-21` را از Issueها و WORK_ITEM_IDهای واقعی بازیابی کن؛ شناسه فرضی نساز و اولویت‌های OWNER_ASSIGNED را از DEFAULT_POLICY تفکیک کن.
 2. فقط GAPهای دارای شواهد و نیازمندی‌های معتبر را وارد کن.
 3. هر کار را به Outcome، REQ، CAP، GOAL، EXP، risk، dependency، owner skill، estimate range و acceptance criteria پیوند بده.
 4. فوریت امنیتی/داده/مالی را از بهبود UX تفکیک کن.
