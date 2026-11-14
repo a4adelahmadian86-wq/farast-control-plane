@@ -7,9 +7,12 @@
 - Control-plane repo: initialized
 - Product repo: موجود در `a4adelahmadian86-wq/non`
 - Master goal: G-00
+- Enabling goal: G-09 (multi-chat control plane)
 - EXP work packages: 27
 - Prompt catalog: PR-01..PR-17 + MASTER-00
 - Product baseline audit: NOT VERIFIED IN THIS RUN
+- Control-plane requirements: CP-01..CP-08 recorded
+- Owner feedback: FB-20261114-001 recorded
 - Backup/restore production: UNKNOWN
 - Hosting/runtime: UNKNOWN
 - Voice service billing/runtime: UNKNOWN
