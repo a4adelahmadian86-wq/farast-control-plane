@@ -199,7 +199,7 @@ jobs:
                     const reviews = await prClient.paginate(prClient.rest.pulls.listReviews, { owner: prOwner, repo: prRepo, pull_number: Number(prNumber), per_page: 100 });
                     const reviewEvent = [...state.history].reverse().find(x => x.issue_number === issue.number && x.event === 'REVIEW');
                     const workerActor = reviewEvent?.actor;
-                    const branchBound = !!reviewEvent && reviewEvent.branch === pr.head.ref && reviewEvent.target_repository === pr.head.repo?.full_name;
+                    const branchBound = coordinatorCore.matchesReviewLease(pr, reviewEvent);
                     const independent = coordinatorCore.hasIndependentApproval(reviews, pr, workerActor, actor);
                     if (!labelsOf(issue).includes('agent:review') || current.length) response = 'پذیرش رد شد: وظیفه باید در وضعیت review و بدون lease فعال باشد.';
                     else if (!branchBound) response = 'پذیرش رد شد: PR باید از branch و target repository ثبت‌شده در آخرین handoff همان lease ساخته شده باشد.';
