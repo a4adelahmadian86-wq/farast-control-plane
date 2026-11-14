@@ -1,8 +1,33 @@
 {
   "schema_version": "1.0",
-  "revision": 5,
-  "next_fencing_token": 5,
-  "locks": [],
+  "revision": 6,
+  "next_fencing_token": 7,
+  "locks": [
+    {
+      "resource_key": "doc:00_PROJECT_FOUNDATION/CONTROL_PLANE_LIMITATIONS.md",
+      "task_id": "FCP-CP-RESILIENCE-001",
+      "run_id": "RUN-20261114-CP-RESILIENCE-DOCSYNC-03",
+      "agent_alias": "chatgpt-session",
+      "branch": "setup/control-plane-bootstrap",
+      "acquired_at_utc": "2026-11-14T11:22:53Z",
+      "heartbeat_at_utc": "2026-11-14T11:22:53Z",
+      "lease_expires_at_utc": "2026-11-14T11:52:53Z",
+      "fencing_token": 5,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "doc:BOOTSTRAP_STATUS.md",
+      "task_id": "FCP-CP-RESILIENCE-001",
+      "run_id": "RUN-20261114-CP-RESILIENCE-DOCSYNC-03",
+      "agent_alias": "chatgpt-session",
+      "branch": "setup/control-plane-bootstrap",
+      "acquired_at_utc": "2026-11-14T11:22:53Z",
+      "heartbeat_at_utc": "2026-11-14T11:22:53Z",
+      "lease_expires_at_utc": "2026-11-14T11:52:53Z",
+      "fencing_token": 6,
+      "status": "ACTIVE"
+    }
+  ],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -66,6 +91,20 @@
       ],
       "at_utc": "2026-11-14T11:22:32Z",
       "note": "Bootstrap evidence synchronized through commit 1439bbcc8bd9d6f0945f671d2e8f7eb48a2e49bc; released by exact owner identity and tokens."
+    },
+    {
+      "event": "ACQUIRED",
+      "task_id": "FCP-CP-RESILIENCE-001",
+      "run_id": "RUN-20261114-CP-RESILIENCE-DOCSYNC-03",
+      "resource_keys": [
+        "doc:00_PROJECT_FOUNDATION/CONTROL_PLANE_LIMITATIONS.md",
+        "doc:BOOTSTRAP_STATUS.md"
+      ],
+      "fencing_tokens": [
+        5,
+        6
+      ],
+      "at_utc": "2026-11-14T11:22:53Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref."
