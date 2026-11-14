@@ -107,7 +107,7 @@ jobs:
             const resourcesFor = issue => {
               const body = issue.body || '';
               const m = body.match(/(?:^|\n)###\s*Resource keys\s*\n([\s\S]*?)(?=\n###|$)/i);
-              if (!m) return ['task:gh-' + issue.number];
+              if (!m) return [];
               const keys = m[1].split(/[\n,;]+/).map(x => x.trim().replace(/^[-*\s]+/, '').toLowerCase()).filter(Boolean);
               return [...new Set(keys)].sort().map(x => x.replace(/\\/g, '/'));
             };
@@ -148,6 +148,9 @@ jobs:
                     response = 'Claim رد شد: وضعیت وظیفه blocked/review/done است؛ ابتدا تصمیم مجاز لازم است.';
                   } else {
                     const keys = resourcesFor(issue);
+                    if (!keys.length) {
+                      response = 'Claim رد شد: بخش Resource keys در Issue خالی است؛ کلیدهای دقیق منابع را اضافه و فرمان جدید ثبت کنید.';
+                    } else {
                     const conflict = state.locks.find(x => keys.includes(x.resource_key) && Date.parse(x.lease_expires_at_utc) > Date.now());
                     if (conflict) {
                       response = 'Claim رد شد: منبع ' + conflict.resource_key + ' در اختیار Issue #' + conflict.issue_number + ' / @' + conflict.actor + ' تا ' + conflict.lease_expires_at_utc + ' UTC است.';
@@ -163,6 +166,7 @@ jobs:
                       state.history.push({ event: 'ACQUIRED', issue_number: issue.number, actor, chat_id: chat, run_id: run, resource_keys: keys, fencing_token: fencing, at_utc: new Date().toISOString() });
                       response = 'CLAIM GRANTED. TASK=GH-' + issue.number + '; actor=@' + actor + '; chat=' + chat + '; run=' + run + '; resource_keys=' + keys.join(',') + '; fencing_token=' + fencing + '; lease_expires=' + expires + '. پیش از هر write و checkpoint، heartbeat را تمدید و token را بررسی کن.';
                       nextStatus = 'locked';
+                    }
                     }
                   }
                 } else if (command === 'status') {
@@ -199,7 +203,9 @@ jobs:
                     } else {
                     const pr = (await prClient.rest.pulls.get({ owner: prOwner, repo: prRepo, pull_number: Number(prNumber) })).data;
                     const reviews = await prClient.paginate(prClient.rest.pulls.listReviews, { owner: prOwner, repo: prRepo, pull_number: Number(prNumber), per_page: 100 });
-                    const independent = reviews.some(r => r.state === 'APPROVED' && r.commit_id === pr.head.sha && r.user?.login !== pr.user?.login && r.user?.login !== actor);
+                    const reviewEvent = [...state.history].reverse().find(x => x.issue_number === issue.number && x.event === 'REVIEW');
+                    const workerActor = reviewEvent?.actor;
+                    const independent = reviews.some(r => r.state === 'APPROVED' && r.commit_id === pr.head.sha && r.user?.login !== pr.user?.login && r.user?.login !== workerActor && r.user?.login !== actor);
                     if (!labelsOf(issue).includes('agent:review') || current.length) response = 'پذیرش رد شد: وظیفه باید در وضعیت review و بدون lease فعال باشد.';
                     else if (!pr.merged || !independent) response = 'پذیرش رد شد: PR باید merged باشد و approval مستقل روی head فعلی داشته باشد.';
                     else { nextStatus = 'done'; response = 'پذیرش تأیید شد: PR ادغام‌شده و approval مستقل روی head فعلی احراز شد.'; }
