@@ -10,7 +10,7 @@
 7. شاخه پیش‌فرض main در آخرین بررسی فقط README.md داشت؛ PR شماره ۱ باز و ادغام‌نشده است. پرامپت‌ها اکنون به شاخه setup/control-plane-bootstrap pinned شده‌اند. تا ادغام و تأیید وجود فایل‌ها در main، از main به‌عنوان منبع کامل استفاده نکن.
 8. وضعیت branch protection هنوز تأیید نشده است. فهرست Rulesets در بررسی فعلی خالی بود؛ endpoint قدیمی Branch Protection برای اتصال حاضر قابل خواندن نبود. enforcement فنی branch protection و required checks را فعال فرض نکن.
 9. PR #1 هنوز بازبینی مستقل ثبت‌شده ندارد؛ CI سبز جایگزین review انسانی نیست.
-10. سند ۱۲ نوامبر در Library ده مرحله EXP دارد، اما نقشه ۱۷ پرامپتی که مالک در معماری فعلی ارائه/تأیید کرده با SPECIALIST_WORKFLOW.md و ۲۷ EXP این مخزن تطبیق دارد؛ سند ۱۰ مرحله‌ای در سیستم فعلی استفاده نمی‌شود مگر مالک خلاف آن را اعلام کند.\n11. گردش‌کار رویدادمحور PR #479 در مخزن مستقل هنوز منتقل نشده است. قابلیت‌های ارزشمند و نقص‌های آن در 04_COORDINATION/LEGACY_COORDINATOR_MIGRATION.md تحلیل شده‌اند. رجیستری CAS مرکزی موجود است، اما فرمان‌های خودکار Issue/label/review/close هنوز اجرا نمی‌شوند.
+10. سند ۱۲ نوامبر در Library ده مرحله EXP دارد، اما نقشه ۱۷ پرامپتی که مالک در معماری فعلی ارائه/تأیید کرده با SPECIALIST_WORKFLOW.md و ۲۷ EXP این مخزن تطبیق دارد؛ سند ۱۰ مرحله‌ای در سیستم فعلی استفاده نمی‌شود مگر مالک خلاف آن را اعلام کند.\n11. workflow رویدادمحور جدید .github/workflows/farast-coordinator.yml روی شاخه بازبینی ایجاد شده است. فرمان‌های /farast، رجیستری مرکزی single-writer، deduplication، reconciliation و review/close gate در منبع پیاده‌سازی شده‌اند؛ اما چون PR #1 هنوز ادغام نشده، schedule روی default branch فعال نیست و workflow هنوز عملیاتی محسوب نمی‌شود.
 
 ## مرز استفاده فعلی
 - برای آماده‌سازی عمومی و تحلیل/آزمون غیرمحرمانه می‌توان از شاخه pinned استفاده کرد.
@@ -23,3 +23,11 @@
 - CIهای موفق روی commit f3143aeb2bc4ca2a4f5ccad18e613d7f8692ce26: run #73 و #72؛ هر دو SUCCESS. سابقه شکست run #66 روی commit قدیمی‌تر اصلاح شده است.
 - آزمون‌های چندعاملی: 04_COORDINATION/MULTI_AGENT_REGRESSION_CASES.md
 - وضعیت راه‌اندازی: ../BOOTSTRAP_STATUS.md
+
+
+## وضعیت چندچتی پس از پیاده‌سازی coordinator (2026-11-14)
+- منبع workflow: .github/workflows/farast-coordinator.yml در شاخه setup/control-plane-bootstrap.
+- قرارداد فرمان‌ها: 04_COORDINATION/COORDINATOR_COMMANDS.md؛ برنامه آزمون: 04_COORDINATION/COORDINATOR_TEST_PLAN.md.
+- single-writer سراسری برای رجیستری، durable comment inbox و reconciliation پنج‌دقیقه‌ای طراحی شده‌اند.
+- این موارد هنوز روی default branch فعال نشده‌اند؛ PR #1 باز و ادغام‌نشده است.
+- CI روی head جدید و آزمون fixture باید بررسی شود. آزمون واقعی دو حساب مستقل هنوز اثبات نشده است.
