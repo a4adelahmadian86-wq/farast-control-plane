@@ -136,7 +136,7 @@ jobs:
                 const current = activeForIssue(state, issue.number);
                 const owned = coordinatorCore.ownsLease(current, actor, chat, run, token);
                 if (command === 'claim') {
-                  if (!chat || !run || !Number.isFinite(lease) || lease < 5 || lease > 120) {
+                  if (!coordinatorCore.isSafeRunId(chat) || !coordinatorCore.isSafeRunId(run) || !Number.isFinite(lease) || lease < 5 || lease > 120) {
                     response = 'Claim رد شد. قالب: /farast claim chat=شناسه run=شناسه lease=30 (۵ تا ۱۲۰ دقیقه).';
                   } else if (['agent:blocked','agent:review','agent:done'].some(x => labelsOf(issue).includes(x))) {
                     response = 'Claim رد شد: وضعیت وظیفه blocked/review/done است؛ ابتدا تصمیم مجاز لازم است.';
