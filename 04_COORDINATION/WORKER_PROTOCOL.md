@@ -48,7 +48,7 @@ DISCOVER → DEDUPLICATE → CLAIM → PLAN → EXECUTE → CHECKPOINT → REVIE
 - `EXP_STAGE_LEDGER.csv`، `CAPABILITY_REGISTER.csv` و `REQUIREMENTS_TRACEABILITY.csv` فقط توسط TASK مالک همان رجیستر یا steward تعیین‌شده.
 - عامل‌های دیگر گزارش اختصاصی TASK، checkpoint و Issue خود را بنویسند و پیشنهاد تغییر رجیستر مرکزی را در PR جدا ارائه کنند.
 - اگر نقش steward مشخص نیست، رجیستر مرکزی را تغییر نده؛ فقط خروجی اختصاصی بساز و handoff کن.
-- هر نوشتن در رجیستر مرکزی نیازمند RESOURCE_KEY دقیق و قفل CAS تا ثبت commit/PR است. PRهای متعارض باید پیش از merge هماهنگ شوند.
+- هر نوشتن در رجیستر مرکزی نیازمند RESOURCE_KEY دقیق و claim موفق از طریق workflow coordinator است؛ workerها مجاز به CAS یا write مستقیم رجیستری نیستند. PRهای متعارض باید پیش از merge هماهنگ شوند.
 
 
 ## Handoff بین چت‌ها و اجرای مجدد
