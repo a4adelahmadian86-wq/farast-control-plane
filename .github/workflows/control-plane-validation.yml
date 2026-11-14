@@ -105,6 +105,8 @@ jobs:
               for required in ("START_HERE.md", "LOCK_MANAGER_PROTOCOL.md", "INTERRUPTION_RECOVERY_PROTOCOL.md", "MASTER-00.md", "OPERATION_ID", "AMBIGUOUS", "TASK_ID", "GitHub"):
                   assert required in body, (matches[0], required)
               assert "قفل این نسخه اتمیک نیست" not in body, matches[0]
+              assert "رجیستری `coordination/locks` فقط توسط workflow مرکزی نوشته می‌شود" in body, matches[0]
+              assert "هرگز branch قبلی را دوباره استفاده نکن" in body, matches[0]
               assert "blob/setup/control-plane-bootstrap/START_HERE.md" in body, matches[0]
           master = Path("05_PROMPT_LIBRARY/MASTER-00.md").read_text(encoding="utf-8")
           assert "ACTIVE_LOCKS.json" in master
@@ -126,6 +128,7 @@ jobs:
               prompt_text = p.read_text(encoding="utf-8")
               assert "COORDINATOR_COMMANDS.md" in prompt_text, p
               assert "target_repository و branch اختصاصی همان RUN" in prompt_text, p
+              assert "branch قبلی را تغییر نده" in prompt_text, p
           legacy = Path("04_COORDINATION/LEGACY_COORDINATOR_MIGRATION.md").read_text(encoding="utf-8")
           assert "PR #479" in legacy and "CAS" in legacy
           assert "LEGACY_COORDINATOR_MIGRATION.md" in start_here
