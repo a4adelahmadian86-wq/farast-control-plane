@@ -1,0 +1,78 @@
+name: FARAST task
+description: Create one canonical, traceable work item for the multi-chat agent team.
+title: "[FARAST-TASK] "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use one issue per distinct task. Search existing issues before creating a duplicate. This issue is the shared task record for all FARAST conversations.
+  - type: textarea
+    id: objective
+    attributes:
+      label: Objective and problem
+      description: State the required outcome and evidence-based context.
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope and constraints
+      description: Include in-scope, out-of-scope, preservation requirements, and stop conditions.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: Observable and testable conditions.
+    validations:
+      required: true
+  - type: textarea
+    id: resource_keys
+    attributes:
+      label: Resource keys
+      description: Canonical shared resource keys, one per line. Example module:payments or file:app/Services/PaymentService.php. Do not use broad wildcards without approval.
+      placeholder: |
+        module:payments
+        file:app/Services/PaymentService.php
+    validations:
+      required: true
+  - type: input
+    id: work_order_id
+    attributes:
+      label: Work Order ID and EXP stage
+      placeholder: WO-EXP-02-003 / EXP-02
+    validations:
+      required: true
+  - type: input
+    id: accountable_role
+    attributes:
+      label: Accountable specialist role
+      placeholder: FAR-REPO
+    validations:
+      required: true
+  - type: textarea
+    id: ordered_steps
+    attributes:
+      label: Ordered execution steps
+    validations:
+      required: true
+  - type: textarea
+    id: deliverables
+    attributes:
+      label: Exact deliverables and evidence
+    validations:
+      required: true
+  - type: textarea
+    id: validation
+    attributes:
+      label: Validation procedure
+    validations:
+      required: true
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies, rollback and handoff
+    validations:
+      required: false
