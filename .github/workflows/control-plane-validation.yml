@@ -47,6 +47,8 @@ jobs:
             04_COORDINATION/COORDINATOR_COMMANDS.md
             04_COORDINATION/COORDINATOR_TEST_PLAN.md
             .github/workflows/farast-coordinator.yml
+            .github/scripts/coordinator-core.js
+            .github/scripts/coordinator-core.test.js
             .github/ISSUE_TEMPLATE/farast-task.yml
             .github/PULL_REQUEST_TEMPLATE.md
             05_PROMPT_LIBRARY/MASTER-00.md
@@ -57,6 +59,8 @@ jobs:
           for f in "${required[@]}"; do
             test -s "$f" || { echo "Missing/empty: $f"; exit 1; }
           done
+      - name: Run multi-chat contention and fencing fixtures
+        run: node --test .github/scripts/coordinator-core.test.js
       - name: Validate JSON and all prompt bootstrap contracts
         shell: bash
         run: |
@@ -66,7 +70,8 @@ jobs:
           import yaml, subprocess, tempfile
           from pathlib import Path
           doc = yaml.safe_load(Path('.github/workflows/farast-coordinator.yml').read_text(encoding='utf-8'))
-          script = doc['jobs']['coordinate']['steps'][0]['with']['script']
+          step = next(s for s in doc['jobs']['coordinate']['steps'] if s.get('uses') == 'actions/github-script@v7')
+          script = step['with']['script']
           with tempfile.NamedTemporaryFile(mode='w', suffix='.js', encoding='utf-8') as f:
               f.write(script); f.flush()
               subprocess.run(['node', '--check', f.name], check=True)
@@ -102,7 +107,7 @@ jobs:
           assert "WORK_ORDER_SCHEMA.json" in start_here and "CHECKPOINT_SCHEMA.json" in start_here
           assert "HANDOFF_PROTOCOL.md" in start_here and "ACCEPTANCE_FRAMEWORK.md" in start_here
           coordinator = Path(".github/workflows/farast-coordinator.yml").read_text(encoding="utf-8")
-          for required in ("farast-control-plane-single-writer", "schedule:", "issue_comment:", "processed_operations", "FARAST_OP_RESPONSE:", "coordination/locks", "pulls.listReviews", "agent_alias: chat || actor", "workerActor", "if (!m) return []", "next_status: nextStatus", "FARAST_GITHUB_TOKEN", "prUrl", "targetRepositoryFor", "target_repository: targetRepository"):
+          for required in ("farast-control-plane-single-writer", "schedule:", "issue_comment:", "processed_operations", "FARAST_OP_RESPONSE:", "coordination/locks", "pulls.listReviews", "agent_alias: chat || actor", "workerActor", "if (!m) return []", "next_status: nextStatus", "FARAST_GITHUB_TOKEN", "prUrl", "targetRepositoryFor", "target_repository: targetRepository", "coordinatorCore.claimResources", "coordinatorCore.ownsLease", "coordinatorCore.hasIndependentApproval"):
               assert required in coordinator, required
           commands = Path("04_COORDINATION/COORDINATOR_COMMANDS.md").read_text(encoding="utf-8")
           assert "CLAIM GRANTED" in commands and "FENCING_TOKEN" in commands
