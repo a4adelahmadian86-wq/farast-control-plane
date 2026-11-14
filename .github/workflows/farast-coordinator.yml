@@ -367,7 +367,7 @@ jobs:
               }
               const current = snapshot.state.locks.filter(x => x.issue_number === issue.number && Date.parse(x.lease_expires_at_utc) > Date.now());
               if (current.length && !labelsOf(issue).includes('agent:locked')) await setStatus(issue.number, 'locked');
-              else if (!current.length && labelsOf(issue).includes('agent:locked') && !['agent:blocked','agent:review','agent:done'].some(x => labelsOf(issue).includes(x))) await setStatus(issue.number, 'ready');
+              else if (!current.length && !['agent:blocked','agent:review','agent:done'].some(x => labelsOf(issue).includes(x)) && !labelsOf(issue).includes('agent:ready')) await setStatus(issue.number, 'ready');
             };
 
             if (context.eventName === 'issues' && ['opened','reopened'].includes(context.payload.action)) {
