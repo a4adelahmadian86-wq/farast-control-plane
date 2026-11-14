@@ -68,3 +68,14 @@
 NOT_IMPLEMENTED / OWNER_DECISION_REQUIRED
 
 این سند ثبت می‌کند چه چیزی از PR #479 باید حفظ و چه چیزی باید جایگزین شود. تا پیش از تصمیم مالک و پیاده‌سازی/آزمون، کنترل‌پلین را دارای coordinator خودکار کامل معرفی نکن.
+
+
+## وضعیت انتقال در 2026-11-14
+- پیاده‌سازی جدید در .github/workflows/farast-coordinator.yml روی شاخه setup/control-plane-bootstrap ایجاد شده است.
+- قابلیت‌ها: Issue opened/reopened/closed، کامنت فرمان‌دار، claim/heartbeat/release/status/block/unblock/review/reopen/accept، label lifecycle، author_association، lease و fencing token، deduplication بر اساس comment ID، بازیابی پاسخ نیمه‌تمام و review/close gate.
+- قفل Issueمحور قدیمی حذف شده؛ رجیستری مرکزی تنها منبع مالکیت منابع است. concurrency سراسری single-writer جای concurrency صرفاً per-Issue را گرفته است.
+- کامنت‌ها فقط inbox/history هستند؛ هیچ JSON lock marker در کامنت منبع حقیقت نیست.
+- صف Actions ممکن است pending run را جایگزین کند؛ issue comments durable inbox هستند و schedule پنج‌دقیقه‌ای reconciliation لازم است. schedule فقط پس از حضور workflow در default branch اجرا می‌شود.
+- PR #1 باید مستقل بازبینی و با مجوز مالک ادغام شود تا workflow عملیاتی شود. آزمون واقعی دو حساب مستقل و contention هنوز انجام نشده است.
+
+وضعیت پیاده‌سازی: IMPLEMENTED_ON_REVIEW_BRANCH / NOT_ACTIVE_ON_DEFAULT_BRANCH / E2E_NOT_VERIFIED
