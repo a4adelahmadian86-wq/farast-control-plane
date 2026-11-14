@@ -6,9 +6,9 @@ PR کنترل‌پلین: https://github.com/a4adelahmadian86-wq/farast-control-
 
 ## نتیجه مدیریتی
 
-**وضعیت: IMPLEMENTED — NOT YET OPERATIONAL — MULTI-ACCOUNT E2E NOT VERIFIED**
+**وضعیت فعلی: LIVE SINGLE-ACCOUNT SMOKE PASS — MULTI-ACCOUNT E2E NOT VERIFIED**
 
-معماری و هسته هماهنگ‌کننده چندچتی پیاده‌سازی شده‌اند، اما تا ادغام PR #1 در `main`، اعمال تنظیمات دستی GitHub و اجرای آزمون دو حساب مستقل، استفاده عملیاتی کامل را تأیید نمی‌کنیم.
+PR #1 ادغام شده و workflow فرمانی `issue_comment` روی `main` در اجرای زنده موفق بوده است. آزمون زنده تک‌حسابیِ تعارض منبع مشترک و lease هم‌پوشان روی منابع مستقل نیز موفق است؛ با این حال تا اجرای آزمون دو حساب GitHub مستقل و دو نشست ChatGPT جداگانه، آمادگی کامل چندحسابی تأیید نمی‌شود.
 
 ## آنچه پیاده‌سازی و در CI بررسی شده است
 
@@ -72,3 +72,32 @@ PR #1 در SHA `b8cf85cfd6552028750eefa3cff03d844175814c` ادغام شده اس
 ## Work Item execution
 
 درخواست Issue #3 برای هدف‌های خرد در مرحله implementation. Schema و هسته محاسبه progress/resume و دستورات `/farast step`, `/farast criterion`, `/farast progress`, `/farast checkpoint` در شاخه feature توسعه می‌شوند؛ تا merge و CI سبز، آن‌ها را در main عملیاتی فرض نکنید. آزمون دو حساب مستقل همچنان NOT_RUN است.
+
+
+---
+
+## بازبینی زنده و اصلاح وضعیت — 2026-11-14
+
+این بخش وضعیت قبلی همین سند را با شواهد زنده GitHub به‌روزرسانی و موارد متناقض/قدیمی بالا را supersede می‌کند.
+
+- PR #1 در مخزن کنترل‌پلین **ادغام‌شده** است: https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/1
+- شاخه `main` در زمان بازبینی روی commit `8c9d9f160b6294cdfd0d4395e607806b444d4f77` بود.
+- اجرای زنده `issue_comment` در workflow مرکزی روی main موفق است؛ نمونه run: https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/43621665929
+- CI اعتبارسنجی main موفق است: https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/43621164160
+- نتایج دقیق CI: coordinator **14/14 PASS**؛ Work Item **20/20 PASS**؛ YAML/JavaScript، فایل‌های ضروری، JSON/schema و قراردادهای prompt bootstrap نیز PASS.
+- آزمون زنده سه Issue آزمایشی: Issue #7 منبع مشترک را با token=51 گرفت؛ Issue #8 برای همان resource key با پاسخ resource conflict رد شد؛ Issue #9 منبع مستقل را با token=52 گرفت. بازه lease دو claim موفق هم‌پوشان بود. شواهد و محدودیت‌های این آزمون در [گزارش تفصیلی](../08_REPORTS/MULTI_CHAT_CONCURRENCY_SMOKE_2026-11-14.md) ثبت شده‌اند.
+- این سه فرمان با یک actor GitHub اجرا شده‌اند؛ CHAT_ID/RUN_ID مقادیر metadata خوداظهاری‌اند. بنابراین این آزمون **جایگزین دو حساب مستقل نیست**.
+
+### وضعیت معیارها در این بازبینی
+
+- [x] PR #1 ادغام و workflow فرمانی روی default branch فعال است.
+- [x] CI اعتبارسنجی روی main موفق است.
+- [x] دو Work Item با resource key مشترک: فقط یک claim موفق.
+- [x] دو Work Item با resource key مستقل: هر دو lease هم‌پوشان موفق.
+- [ ] آزمون با دو حساب GitHub مستقل و دو نشست ChatGPT مستقل.
+- [ ] قطع واقعی یکی از نشست‌ها، expiry/takeover در آزمون چندحسابی و رد فرمان‌های عامل قدیمی پس از takeover.
+- [ ] read-back قواعد branch protection/ruleset و required checks در مخزن کنترل‌پلین و مخزن هدف.
+- [ ] بررسی مستقل PR #1 توسط reviewer غیر از نویسنده؛ CI سبز جایگزین review مستقل نیست.
+- [ ] تأیید اجرای schedule پنج‌دقیقه‌ای به‌صورت زنده؛ شواهد فعلی اجرای issue_comment را ثابت می‌کنند، نه schedule.
+
+**نتیجه:** زیرساخت برای smoke test زنده تک‌حسابی و همکاری چند Work Item آماده است؛ وضعیت نهایی همچنان **MULTI-ACCOUNT E2E NOT VERIFIED** است. ادعای hard-fencing تمام مسیرهای مستقیم write در مخزن محصول مجاز نیست.
