@@ -28,7 +28,7 @@ Branch `coordination/locks` منبع registry است. حذف تصادفی آن �
 
 
 ## 5. هماهنگ‌کننده چندچتی و دسترسی cross-repository
-- workflow مرکزی `.github/workflows/farast-coordinator.yml` پس از ادغام PR #1 در default branch فعال می‌شود. پس از merge، GitHub Actions باید برای مخزن فعال باشد و اجرای schedule پنج‌دقیقه‌ای و workflow_dispatch بررسی شود.
+- workflow مرکزی `.github/workflows/farast-coordinator.yml` پس از ادغام PR #1 اکنون روی `main` فعال است و اجرای زنده `issue_comment` موفق بوده است. اجرای schedule پنج‌دقیقه‌ای و `workflow_dispatch` هنوز جداگانه باید با run زنده تأیید شود.
 - اگر پذیرش باید PRهای مخزن محصول `non` را بررسی کند، در Settings → Secrets and variables → Actions یک Repository Secret با نام `FARAST_GITHUB_TOKEN` تعریف کن. از Fine-grained PAT با دسترسی فقط read به Pull requests و Metadata در مخزن هدف استفاده کن. توکن را در Issue، فایل، خروجی چت یا log وارد نکن.
 - هر حساب/کارمند/چت باید دسترسی GitHub مستقل و مجاز داشته باشد. نقش GitHub actor و author_association در coordinator بررسی می‌شود؛ CHAT_ID و RUN_ID فقط metadata خوداظهاری‌اند.
 - برای branch `coordination/locks` هیچ workflow یا عامل دیگری را به‌عنوان writer فعال نکن. workflow مرکزی تنها writer مجاز است؛ تغییر دستی registry ممنوع.
