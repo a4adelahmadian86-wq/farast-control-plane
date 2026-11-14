@@ -146,6 +146,8 @@ jobs:
                 if (formWritePolicy && formWritePolicy !== item.write_policy) throw new Error('Write policy does not match JSON');
                 if (formPrioritySource && formPrioritySource !== item.priority_source) throw new Error('Priority source does not match JSON');
                 if (item.target_repository === 'a4adelahmadian86-wq/non' && item.write_policy !== 'READ_ONLY') throw new Error('NON product repository is READ_ONLY until explicit owner authorization is recorded');
+                if (item.write_policy !== 'READ_ONLY' && issue.user && issue.user.login !== owner) throw new Error('Only repository owner may create a write-enabled Work Item');
+                if (item.write_policy === 'WRITE_REQUIRES_OWNER_APPROVAL' && !item.owner_approval_ref) throw new Error('Owner approval evidence reference is required');
                 return item;
               } catch (error) {
                 throw new Error('Invalid Work item specification JSON in Issue #' + issue.number + ': ' + error.message);
