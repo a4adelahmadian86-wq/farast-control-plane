@@ -2,7 +2,7 @@ name: Control Plane Validation
 on:
   pull_request:
   push:
-    branches: [main, setup/control-plane-bootstrap]
+    branches: [main]
   workflow_dispatch:
 permissions:
   contents: read
