@@ -47,3 +47,11 @@
 - قرارداد فرمان‌ها: 04_COORDINATION/COORDINATOR_COMMANDS.md؛ template: .github/ISSUE_TEMPLATE/farast-task.yml.
 - وضعیت: IMPLEMENTED_ON_REVIEW_BRANCH؛ هنوز روی main فعال نیست.
 - Multi-account contention / interruption E2E: NOT_RUN؛ تا اجرای واقعی با دو حساب مستقل، آمادگی کامل تأیید نمی‌شود.
+
+
+## نتیجه اعتبارسنجی چندچتی — 2026-11-14
+- آخرین head تأییدشده: e6113207987b93ef7a78913ba487571ad34787bf.
+- CI موفق: https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/43593994379 .
+- 8 آزمون fixture هسته coordination موفق شدند: claim متعارض روی منبع مشترک، منابع مستقل، all-or-none، انقضای lease و fencing token جدید، رد مالکیت/token stale، parse کردن target repository/resource keys، approval مستقل روی head فعلی، و تطبیق PR با branch/repository آخرین REVIEW.
+- YAML workflow و syntax جاوااسکریپت آن نیز در CI بررسی شده‌اند.
+- این نتیجه فقط static/unit validation است؛ workflow روی default branch و آزمون واقعی دو حساب مستقل هنوز NOT RUN است.
