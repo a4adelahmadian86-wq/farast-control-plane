@@ -108,3 +108,5 @@ NOT_IMPLEMENTED / OWNER_DECISION_REQUIRED
 - همه ۱۷ پرامپت مستقل و MASTER-00 از policy نقش‌ها و coordinator-only lock تبعیت می‌کنند؛ bundle نسخه 1.3.0 دقیقاً از منابع مستقل بازتولید و read-back شد (18/18 بخش منطبق).
 - ۱۴/۱۴ fixture تست هسته و CI ساختاری روی snapshot 028afdd4dc9edc5a9aeb0eba4248ee756be1c714 موفق بوده‌اند؛ آزمون واقعی workflow در default branch و دو حساب مستقل هنوز NOT_RUN است.
 - وضعیت: IMPLEMENTED_ON_REVIEW_BRANCH / NOT_ACTIVE_ON_DEFAULT_BRANCH / MULTI_ACCOUNT_E2E_NOT_VERIFIED.
+
+bundle تجمیعی نسخه 1.3.0 از MASTER-00 و ۱۷ پرامپت مستقل بازتولید شده است؛ تطبیق محتوای هر ۱۸ بخش با منبع مستقل 18/18 PASS. سیاست نقش‌ها و CODEOWNERS برای تغییرات حساس نیز اضافه شده‌اند.
