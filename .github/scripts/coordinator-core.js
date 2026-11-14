@@ -9,9 +9,22 @@ function roleForActor(policy, actor, association) {
   return Object.prototype.hasOwnProperty.call(policy?.roles || {}, role) ? role : null;
 }
 
-function isCommandAllowed(policy, actor, association, command) {
+function isWithinDelegatedScope(policy, actor, role, targetRepository, resourceKeys) {
+  if (role !== 'SENIOR_MANAGER') return true;
+  const scope = policy?.actor_scopes?.[actor];
+  if (!scope || !Array.isArray(scope.repositories) || !Array.isArray(scope.resource_key_prefixes)) return false;
+  if (!scope.repositories.includes(targetRepository)) return false;
+  const keys = resourceKeys || [];
+  if (!keys.length || !scope.resource_key_prefixes.length) return false;
+  return keys.every(key => scope.resource_key_prefixes.some(prefix =>
+    key === prefix || key.startsWith(prefix + '/') || key.startsWith(prefix + ':')
+  ));
+}
+
+function isCommandAllowed(policy, actor, association, command, context = {}) {
   const role = roleForActor(policy, actor, association);
-  return !!role && Array.isArray(policy.roles[role]) && policy.roles[role].includes(String(command).toLowerCase());
+  if (!role || !Array.isArray(policy.roles[role]) || !policy.roles[role].includes(String(command).toLowerCase())) return false;
+  return isWithinDelegatedScope(policy, actor, role, context.targetRepository, context.resourceKeys);
 }
 
 function resourcesFor(body, issueNumber) {
@@ -113,6 +126,6 @@ function hasIndependentApproval(reviews, pr, workerActor, acceptActor) {
 }
 
 module.exports = {
-  isSafeRunId, roleForActor, isCommandAllowed, resourcesFor, targetRepositoryFor, expireLocks, activeForIssue,
+  isSafeRunId, roleForActor, isWithinDelegatedScope, isCommandAllowed, resourcesFor, targetRepositoryFor, expireLocks, activeForIssue,
   claimResources, renewLease, ownsLease, latestTaskStatus, matchesReviewLease, hasIndependentApproval
 };
