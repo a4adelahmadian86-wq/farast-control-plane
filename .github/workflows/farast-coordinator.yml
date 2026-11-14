@@ -239,6 +239,8 @@ jobs:
               }
               const comments = await github.paginate(github.rest.issues.listComments, { owner, repo, issue_number: issue.number, per_page: 100 });
               let snapshot = await getRegistry();
+              const expiredLeases = expireLocks(snapshot.state);
+              if (expiredLeases.length) snapshot = await saveRegistry(snapshot.state, snapshot, 'FARAST coordinator: expire stale leases');
               // Recover responses that were committed but not posted before an interruption.
               for (const [id, op] of Object.entries(snapshot.state.processed_operations || {})) {
                 if (op.issue_number !== issue.number || op.response_posted) continue;
