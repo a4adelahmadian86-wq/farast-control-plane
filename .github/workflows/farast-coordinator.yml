@@ -130,7 +130,7 @@ jobs:
               let response = '';
               let nextStatus = null;
 
-              if (!allowedAssociations.has(comment.author_association) || !coordinatorCore.isCommandAllowed(authorizationPolicy, actor, comment.author_association, command)) {
+              if (!allowedAssociations.has(comment.author_association) || !coordinatorCore.isCommandAllowed(authorizationPolicy, actor, comment.author_association, command, { targetRepository: targetRepositoryFor(issue), resourceKeys: resourcesFor(issue) })) {
                 const role = coordinatorCore.roleForActor(authorizationPolicy, actor, comment.author_association) || 'UNASSIGNED';
                 response = 'فرمان رد شد: نقش ' + role + ' اجازه اجرای فرمان /farast ' + command + ' را ندارد یا حساب در مخزن مجاز نیست. تغییر نقش فقط با تأیید مالک و در ACTOR_AUTHORIZATION.json انجام می‌شود.';
               } else {
