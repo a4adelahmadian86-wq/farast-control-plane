@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 28,
+  "revision": 29,
   "next_fencing_token": 50,
   "locks": [
     {
@@ -529,6 +529,15 @@
       "command": "claim",
       "next_status": "locked",
       "at_utc": "2026-11-14T17:10:03.530Z"
+    },
+    "6881236508": {
+      "response": "WORK_ITEM=WI-CP-SMOKE-001; progress=0%; verified_steps=0/1; weighting=EQUAL_STEPS_V1; acceptance_criteria=INCOMPLETE; dependencies=PASS; can_accept=false. درصد پیشرفت به‌تنهایی پذیرش نیست.",
+      "response_posted": false,
+      "issue_number": 5,
+      "actor": "a4adelahmadian86-wq",
+      "command": "progress",
+      "next_status": null,
+      "at_utc": "2026-11-14T17:11:35.753Z"
     }
   },
   "work_items": {
