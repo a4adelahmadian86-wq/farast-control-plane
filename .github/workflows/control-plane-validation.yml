@@ -61,7 +61,17 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python -m pip install 'jsonschema==4.23.0'
+          python -m pip install 'jsonschema==4.23.0' 'PyYAML==6.0.2'
+          python - <<'PY'
+          import yaml, subprocess, tempfile
+          from pathlib import Path
+          doc = yaml.safe_load(Path('.github/workflows/farast-coordinator.yml').read_text(encoding='utf-8'))
+          script = doc['jobs']['coordinate']['steps'][0]['with']['script']
+          with tempfile.NamedTemporaryFile(mode='w', suffix='.js', encoding='utf-8') as f:
+              f.write(script); f.flush()
+              subprocess.run(['node', '--check', f.name], check=True)
+          print('Coordinator YAML and JavaScript syntax passed.')
+          PY
           python - <<'PY'
           import json
           from jsonschema import Draft202012Validator, FormatChecker
