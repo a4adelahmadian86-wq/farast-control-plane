@@ -1,21 +1,8 @@
 {
   "schema_version": "1.0",
-  "revision": 10,
+  "revision": 11,
   "next_fencing_token": 9,
-  "locks": [
-    {
-      "resource_key": "doc:05_PROMPT_LIBRARY/PROMPT_CATALOG.md",
-      "task_id": "FCP-CP-RESILIENCE-001",
-      "run_id": "RUN-20261114-CP-RESILIENCE-CATALOGFIX-01",
-      "agent_alias": "chatgpt-session",
-      "branch": "setup/control-plane-bootstrap",
-      "acquired_at_utc": "2026-11-14T11:24:42Z",
-      "heartbeat_at_utc": "2026-11-14T11:24:42Z",
-      "lease_expires_at_utc": "2026-11-14T11:54:42Z",
-      "fencing_token": 8,
-      "status": "ACTIVE"
-    }
-  ],
+  "locks": [],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -145,6 +132,19 @@
         8
       ],
       "at_utc": "2026-11-14T11:24:42Z"
+    },
+    {
+      "event": "RELEASED",
+      "task_id": "FCP-CP-RESILIENCE-001",
+      "run_id": "RUN-20261114-CP-RESILIENCE-CATALOGFIX-01",
+      "resource_keys": [
+        "doc:05_PROMPT_LIBRARY/PROMPT_CATALOG.md"
+      ],
+      "fencing_tokens": [
+        8
+      ],
+      "at_utc": "2026-11-14T11:25:09Z",
+      "note": "Prompt catalog standalone usage instruction aligned with embedded prompt bootstrap."
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref."
