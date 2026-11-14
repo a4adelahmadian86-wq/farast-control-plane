@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0",
+  "description": "Explicit command authorization for FARAST multi-chat coordination. Add exact GitHub logins to actor_roles only after owner approval.",
+  "roles": {
+    "OWNER": ["claim", "heartbeat", "release", "status", "block", "unblock", "review", "reopen", "accept"],
+    "SENIOR_MANAGER": ["claim", "heartbeat", "release", "status", "block", "unblock", "review", "reopen", "accept"],
+    "WORKER": ["claim", "heartbeat", "release", "status", "block", "review"],
+    "READ_ONLY": ["status"]
+  },
+  "default_association_roles": {
+    "OWNER": "OWNER",
+    "COLLABORATOR": "WORKER",
+    "MEMBER": "WORKER"
+  },
+  "actor_roles": {}
+}
