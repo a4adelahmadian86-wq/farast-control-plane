@@ -69,9 +69,16 @@ jobs:
           python - <<'PY'
           import yaml, subprocess, tempfile
           from pathlib import Path
-          doc = yaml.safe_load(Path('.github/workflows/farast-coordinator.yml').read_text(encoding='utf-8'))
-          step = next(s for s in doc['jobs']['coordinate']['steps'] if s.get('uses') == 'actions/github-script@v7')
-          script = step['with']['script']
+          source = Path('.github/workflows/farast-coordinator.yml').read_text(encoding='utf-8')
+          yaml.safe_load(source)
+          lines = source.splitlines()
+          start = next(i for i, line in enumerate(lines) if line.strip() == 'script: |')
+          block = []
+          for line in lines[start + 1:]:
+              if line.strip() and len(line) - len(line.lstrip()) < 12:
+                  break
+              block.append(line[12:] if line.startswith('            ') else line)
+          script = '\\n'.join(block)
           with tempfile.NamedTemporaryFile(mode='w', suffix='.js', encoding='utf-8') as f:
               f.write(script); f.flush()
               subprocess.run(['node', '--check', f.name], check=True)
