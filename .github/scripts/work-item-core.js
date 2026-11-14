@@ -24,6 +24,8 @@ function validateWorkItem(item) {
   assert(isIso(item.created_at_utc), 'created_at_utc must be an ISO timestamp');
   assert(STATUSES.includes(item.status), 'invalid work item status');
   assert(typeof item.target_repository === 'string' && /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(item.target_repository), 'invalid target_repository');
+  assert(['READ_ONLY','WRITE_REQUIRES_OWNER_APPROVAL','WRITE_ALLOWED'].includes(item.write_policy), 'invalid write_policy');
+  assert(['OWNER_ASSIGNED','DEFAULT_POLICY'].includes(item.priority_source), 'invalid priority_source');
   assert(Array.isArray(item.resource_keys) && item.resource_keys.length > 0, 'resource_keys are required');
   assert(Array.isArray(item.dependencies || []), 'dependencies must be an array');
   assert(Array.isArray(item.steps) && item.steps.length > 0, 'at least one atomic step is required');
