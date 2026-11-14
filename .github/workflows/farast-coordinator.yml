@@ -241,6 +241,10 @@ jobs:
               if (!labelsOf(issue).includes('agent:task')) await addLabel(issue.number, 'agent:task');
               let snapshot = await getRegistry();
               const accepted = coordinatorCore.latestTaskStatus(snapshot.state.processed_operations, issue.number) === 'done';
+              if (!accepted && labelsOf(issue).includes('agent:done')) {
+                await removeLabel(issue.number, 'agent:done');
+                issue = (await github.rest.issues.get({ owner, repo, issue_number: issue.number })).data;
+              }
               if (issue.state === 'open' && accepted) {
                 await github.rest.issues.update({ owner, repo, issue_number: issue.number, state: 'closed', state_reason: 'completed' });
                 issue = (await github.rest.issues.get({ owner, repo, issue_number: issue.number })).data;
