@@ -4,7 +4,7 @@
 
 ## شروع اجباری
 1. مخزن کنترل را باز کن: https://github.com/a4adelahmadian86-wq/farast-control-plane
-2. `START_HERE.md` و تمام اسناد مرجع معرفی‌شده در آن را بخوان؛ به‌ویژه `SOURCE_REQUIREMENTS_v2.md`.
+2. `START_HERE.md` و تمام اسناد مرجع معرفی‌شده در آن را بخوان؛ به‌ویژه `SOURCE_REQUIREMENTS_v2.md` و `CONTROL_PLANE_REQUIREMENTS.md`.
 3. `MASTER_STATUS.md`، TASKها، PRها، feedbackها و آخرین checkpointها را از GitHub زنده بازیابی کن.
 4. قفل‌ها را از branch مستقل `coordination/locks` و فایل `04_COORDINATION/ACTIVE_LOCKS.json` بخوان.
 5. پرامپت تخصصی مربوط را از `05_PROMPT_LIBRARY/` بخوان.
