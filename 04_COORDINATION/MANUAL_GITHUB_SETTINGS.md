@@ -35,3 +35,7 @@ Branch `coordination/locks` منبع registry است. حذف تصادفی آن �
 
 ## 6. اجازه نوشتن برای GitHub Actions
 در Settings → Actions → General → Workflow permissions بررسی کن که GitHub Actions اجازه write به محتوا و Issueها داشته باشد؛ workflow خودش دسترسی‌ها را به contents:write و issues:write و pull-requests:read محدود کرده است. اگر policy مخزن/سازمان write را ممنوع کند، coordinator نمی‌تواند registry یا Issue comments را به‌روزرسانی کند و باید read-only/STOP WRITES بماند.
+
+
+## تفویض اختیار فرمان‌های چندچتی
+سیاست فعال در `04_COORDINATION/ACTOR_AUTHORIZATION.json` اعمال می‌شود: OWNER همه فرمان‌ها را دارد؛ COLLABORATOR/MEMBER به‌صورت پیش‌فرض نقش WORKER می‌گیرند (claim/heartbeat/release/status/block/review) و حق unblock/reopen/accept ندارند. نقش SENIOR_MANAGER تمام فرمان‌ها را فقط پس از درج دقیق GitHub login در `actor_roles` و تأیید مالک دریافت می‌کند. READ_ONLY فقط status دارد. `actor_roles` فعلاً خالی است؛ بنابراین هیچ مدیر ارشدی به‌صورت حدسی مجاز نشده است. تغییر این فایل باید از PR و با تأیید مالک انجام شود.
