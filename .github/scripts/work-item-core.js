@@ -111,7 +111,7 @@ function recordCriterionEvidence(item, input) {
   criterion.validated_by = input.actor;
   criterion.validation_note = input.note || '';
   const progress = calculateProgress(item);
-  if (progress.can_accept) item.status = 'PARTIALLY_ACCEPTED';
+  if (progress.can_accept) item.status = 'REVIEW_REQUIRED';
   return { progress };
 }
 
