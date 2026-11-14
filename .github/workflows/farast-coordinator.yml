@@ -143,13 +143,14 @@ jobs:
                   } else {
                     const keys = resourcesFor(issue);
                     const targetRepository = targetRepositoryFor(issue);
+                    const taskBranch = 'work/GH-' + issue.number + '-' + run.replace(/[^A-Za-z0-9._-]/g, '-');
                     if (!targetRepository) {
                       response = 'Claim رد شد: Target repository باید به‌صورت owner/name در Issue مشخص شود.';
                     } else {
                       const claim = coordinatorCore.claimResources(state, {
                         issueNumber: issue.number, taskId: 'GH-' + issue.number, actor,
                         chatId: chat, runId: run, targetRepository,
-                        branch: 'work/GH-' + issue.number, resourceKeys: keys,
+                        branch: taskBranch, resourceKeys: keys,
                         leaseMinutes: lease, nowMs: Date.now()
                       });
                       if (!claim.ok && claim.reason === 'missing_resources') {
@@ -158,7 +159,7 @@ jobs:
                         const conflict = claim.conflict;
                         response = 'Claim رد شد: منبع ' + conflict.resource_key + ' در اختیار Issue #' + conflict.issue_number + ' / @' + conflict.actor + ' تا ' + conflict.lease_expires_at_utc + ' UTC است.';
                       } else if (claim.ok) {
-                        response = 'CLAIM GRANTED. TASK=GH-' + issue.number + '; actor=@' + actor + '; chat=' + chat + '; run=' + run + '; resource_keys=' + claim.resourceKeys.join(',') + '; target_repository=' + targetRepository + '; branch=work/GH-' + issue.number + '; fencing_token=' + claim.fencingToken + '; lease_expires=' + claim.expiresAt + '. پیش از هر write و checkpoint، heartbeat را تمدید و token را بررسی کن.';
+                        response = 'CLAIM GRANTED. TASK=GH-' + issue.number + '; actor=@' + actor + '; chat=' + chat + '; run=' + run + '; resource_keys=' + claim.resourceKeys.join(',') + '; target_repository=' + targetRepository + '; branch=' + taskBranch + '; fencing_token=' + claim.fencingToken + '; lease_expires=' + claim.expiresAt + '. پیش از هر write و checkpoint، heartbeat را تمدید و token را بررسی کن.';
                         nextStatus = 'locked';
                       }
                     }
@@ -175,7 +176,7 @@ jobs:
                     }
                   } else {
                     state.locks = state.locks.filter(x => !(x.issue_number === issue.number && x.actor === actor && x.chat_id === chat && x.run_id === run && x.fencing_token === token));
-                    state.history.push({ event: command.toUpperCase(), issue_number: issue.number, actor, chat_id: chat, run_id: run, fencing_token: token, at_utc: new Date().toISOString() });
+                    state.history.push({ event: command.toUpperCase(), issue_number: issue.number, actor, chat_id: chat, run_id: run, fencing_token: token, branch: current[0]?.branch, target_repository: current[0]?.target_repository, at_utc: new Date().toISOString() });
                     nextStatus = command === 'block' ? 'blocked' : command === 'review' ? 'review' : 'ready';
                     response = command === 'release' ? 'Lease آزاد شد؛ وظیفه تکمیل‌شده محسوب نمی‌شود.' : command === 'block' ? 'وظیفه مسدود شد و lease آزاد شد.' : 'پیاده‌سازی برای بازبینی مستقل تحویل شد؛ این به معنی پذیرش نیست.';
                   }
@@ -198,8 +199,10 @@ jobs:
                     const reviews = await prClient.paginate(prClient.rest.pulls.listReviews, { owner: prOwner, repo: prRepo, pull_number: Number(prNumber), per_page: 100 });
                     const reviewEvent = [...state.history].reverse().find(x => x.issue_number === issue.number && x.event === 'REVIEW');
                     const workerActor = reviewEvent?.actor;
+                    const branchBound = !!reviewEvent && reviewEvent.branch === pr.head.ref && reviewEvent.target_repository === pr.head.repo?.full_name;
                     const independent = coordinatorCore.hasIndependentApproval(reviews, pr, workerActor, actor);
                     if (!labelsOf(issue).includes('agent:review') || current.length) response = 'پذیرش رد شد: وظیفه باید در وضعیت review و بدون lease فعال باشد.';
+                    else if (!branchBound) response = 'پذیرش رد شد: PR باید از branch و target repository ثبت‌شده در آخرین handoff همان lease ساخته شده باشد.';
                     else if (!pr.merged || !independent) response = 'پذیرش رد شد: PR باید merged باشد و approval مستقل روی head فعلی داشته باشد.';
                     else { nextStatus = 'done'; response = 'پذیرش تأیید شد: PR ادغام‌شده و approval مستقل روی head فعلی احراز شد.'; }
                     }
