@@ -1,0 +1,27 @@
+# CHECKPOINT
+
+- TASK_ID:
+- PROMPT_ID:
+- RUN_ID:
+- AGENT_ALIAS:
+- TIMESTAMP_UTC:
+- TASK_STATUS:
+- BRANCH:
+- COMMIT_SHA:
+- LAST_COMPLETED_STEP:
+- CURRENT_STEP:
+- NEXT_ACTION:
+- FILES_CHANGED:
+- COMMANDS_EXECUTED:
+- TESTS_AND_RESULTS:
+- EVIDENCE_LINKS:
+- FACTS_CONFIRMED:
+- ASSUMPTIONS:
+- UNKNOWN:
+- BLOCKERS:
+- RESOURCE_LEASES:
+- HUMAN_APPROVAL:
+- HANDOFF_NOTES:
+
+## Resume instruction
+عامل بعدی باید همین TASK_ID را ادامه دهد؛ موارد LAST_COMPLETED_STEP را تکرار نکند مگر اعتبارسنجی آن‌ها به علت تغییر منبع ضروری باشد.
