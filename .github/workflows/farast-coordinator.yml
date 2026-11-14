@@ -28,11 +28,14 @@ jobs:
     steps:
       - name: Reconcile durable command inbox and central lock registry
         uses: actions/github-script@v7
+        env:
+          FARAST_GITHUB_TOKEN: ${{ secrets.FARAST_GITHUB_TOKEN }}
         with:
           script: |
             const owner = context.repo.owner;
             const repo = context.repo.repo;
             const registryBranch = 'coordination/locks';
+            const crossRepoGithub = process.env.FARAST_GITHUB_TOKEN ? github.getOctokit(process.env.FARAST_GITHUB_TOKEN) : null;
             const registryPath = '04_COORDINATION/ACTIVE_LOCKS.json';
             const allowedAssociations = new Set(['OWNER', 'COLLABORATOR', 'MEMBER']);
             const labelDefs = [
@@ -189,18 +192,25 @@ jobs:
                   if (!prMatch) response = 'پذیرش رد شد: لینک PR مرتبط باید با pr=https://github.com/OWNER/REPO/pull/N مشخص شود.';
                   else {
                     const [__, prOwner, prRepo, prNumber] = prMatch;
-                    const pr = (await github.rest.pulls.get({ owner: prOwner, repo: prRepo, pull_number: Number(prNumber) })).data;
-                    const reviews = await github.paginate(github.rest.pulls.listReviews, { owner: prOwner, repo: prRepo, pull_number: Number(prNumber), per_page: 100 });
+                    const prClient = (prOwner === owner && prRepo === repo) ? github : crossRepoGithub;
+                    if (!prClient) {
+                      response = 'پذیرش انجام نشد: برای بررسی PR در مخزن دیگر، Secret با نام FARAST_GITHUB_TOKEN و دسترسی read به آن مخزن لازم است.';
+                    } else {
+                    const pr = (await prClient.rest.pulls.get({ owner: prOwner, repo: prRepo, pull_number: Number(prNumber) })).data;
+                    const reviews = await prClient.paginate(prClient.rest.pulls.listReviews, { owner: prOwner, repo: prRepo, pull_number: Number(prNumber), per_page: 100 });
                     const independent = reviews.some(r => r.state === 'APPROVED' && r.commit_id === pr.head.sha && r.user?.login !== pr.user?.login && r.user?.login !== actor);
                     if (!labelsOf(issue).includes('agent:review') || current.length) response = 'پذیرش رد شد: وظیفه باید در وضعیت review و بدون lease فعال باشد.';
                     else if (!pr.merged || !independent) response = 'پذیرش رد شد: PR باید merged باشد و approval مستقل روی head فعلی داشته باشد.';
                     else { nextStatus = 'done'; response = 'پذیرش تأیید شد: PR ادغام‌شده و approval مستقل روی head فعلی احراز شد.'; }
+                    }
                   }
                 }
               }
 
               state.processed_operations ||= {};
               state.processed_operations[id] = { response, response_posted: false, issue_number: issue.number, actor, command, at_utc: new Date().toISOString() };
+              const opIds = Object.keys(state.processed_operations);
+              while (opIds.length > 5000) delete state.processed_operations[opIds.shift()];
               const updated = await saveRegistry(state, snapshot, 'FARAST coordinator: ' + command + ' issue #' + issue.number + ' operation ' + id);
               if (nextStatus) await setStatus(issue.number, nextStatus);
               if (command === 'reopen' && nextStatus === 'ready') await github.rest.issues.update({ owner, repo, issue_number: issue.number, state: 'open', state_reason: 'reopened' });
@@ -238,6 +248,7 @@ jobs:
               }
               const current = snapshot.state.locks.filter(x => x.issue_number === issue.number && Date.parse(x.lease_expires_at_utc) > Date.now());
               if (current.length && !labelsOf(issue).includes('agent:locked')) await setStatus(issue.number, 'locked');
+              else if (!current.length && labelsOf(issue).includes('agent:locked') && !['agent:blocked','agent:review','agent:done'].some(x => labelsOf(issue).includes(x))) await setStatus(issue.number, 'ready');
             };
 
             if (context.eventName === 'issues' && context.payload.action === 'closed') {
