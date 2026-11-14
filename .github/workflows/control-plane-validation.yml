@@ -32,6 +32,7 @@ jobs:
             04_COORDINATION/WORKER_PROTOCOL.md
             04_COORDINATION/LOCK_PROTOCOL.md
             04_COORDINATION/LOCK_MANAGER_PROTOCOL.md
+            04_COORDINATION/INTERRUPTION_RECOVERY_PROTOCOL.md
             04_COORDINATION/MULTI_AGENT_REGRESSION_CASES.md
             04_COORDINATION/MANUAL_GITHUB_SETTINGS.md
             04_COORDINATION/ACTIVE_LOCKS.schema.json
@@ -57,12 +58,17 @@ jobs:
               matches = list(Path("05_PROMPT_LIBRARY").glob(f"PR-{n:02d}_*.md"))
               assert len(matches) == 1, (n, matches)
               body = matches[0].read_text(encoding="utf-8")
-              for required in ("START_HERE.md", "LOCK_MANAGER_PROTOCOL.md", "TASK_ID", "GitHub"):
+              for required in ("START_HERE.md", "LOCK_MANAGER_PROTOCOL.md", "INTERRUPTION_RECOVERY_PROTOCOL.md", "MASTER-00.md", "OPERATION_ID", "AMBIGUOUS", "TASK_ID", "GitHub"):
                   assert required in body, (matches[0], required)
               assert "قفل این نسخه اتمیک نیست" not in body, matches[0]
           master = Path("05_PROMPT_LIBRARY/MASTER-00.md").read_text(encoding="utf-8")
           assert "ACTIVE_LOCKS.json" in master
+          assert "INTERRUPTION_RECOVERY_PROTOCOL.md" in master
+          assert "OPERATION_ID" in master and "AMBIGUOUS" in master
+          checkpoint = Path("04_COORDINATION/CHECKPOINT_TEMPLATE.md").read_text(encoding="utf-8")
+          assert "OPERATION_ID_LAST_CONFIRMED" in checkpoint
           bundle = Path("05_PROMPT_LIBRARY/FARAST_EXECUTABLE_PROMPTS_COMPLETE.md").read_text(encoding="utf-8")
           assert bundle.count("# PR-") >= 17
+          assert bundle.count("INTERRUPTION_RECOVERY_PROTOCOL.md") >= 17
           print("Control-plane documents, JSON, and prompt bootstrap contracts passed.")
           PY
