@@ -44,7 +44,7 @@
 بررسی کن آیا مدل فعلی هویت، حساب، نقش، مسئولیت اصلی/فرعی، دپارتمان، scope و تفویض اختیار با نیازمندی مصوب سازگار است.
 
 ## مراحل
-1. TASK `FCP-EXP12-001` را بازیابی کن.
+1. Work Item موجود متناظر با `EXP-12` را از Issueها و WORK_ITEM_IDهای واقعی بازیابی کن؛ شناسه فرضی نساز و حدود دسترسی را از policy زنده استخراج کن.
 2. مدل account lifecycle، phone verification، OTP/password، recovery، suspension/deletion/restore و promotion/demotion را ترسیم کن.
 3. legacy role، role assignments، direct grants، allow/deny، scopes و authorization middleware را جدا بررسی کن.
 4. ماتریس actor × action × resource × scope و مسیرهای privilege escalation بساز.
