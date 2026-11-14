@@ -81,3 +81,14 @@ test('accepted PR must come from the exact branch and repository recorded by the
   assert.equal(core.matchesReviewLease(pr, { ...review, target_repository: 'owner/other' }), false);
   assert.equal(core.matchesReviewLease(pr, null), false);
 });
+
+
+test('one Issue cannot have two active workers even when their resource keys are disjoint', () => {
+  const s = registry();
+  const a = core.claimResources(s, { issueNumber: 10, taskId: 'GH-10', actor: 'alice', chatId: 'chat-a', runId: 'run-a', targetRepository: 'owner/repo', branch: 'work/GH-10-run-a', resourceKeys: ['module:payments'], leaseMinutes: 30, nowMs: 1000 });
+  const b = core.claimResources(s, { issueNumber: 10, taskId: 'GH-10', actor: 'bob', chatId: 'chat-b', runId: 'run-b', targetRepository: 'owner/repo', branch: 'work/GH-10-run-b', resourceKeys: ['module:identity'], leaseMinutes: 30, nowMs: 1000 });
+  assert.equal(a.ok, true);
+  assert.equal(b.ok, false);
+  assert.equal(b.reason, 'task_already_claimed');
+  assert.equal(s.locks.length, 1);
+});
