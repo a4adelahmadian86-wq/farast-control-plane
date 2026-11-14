@@ -44,7 +44,7 @@
 فاصله بین نیازمندی مصوب و رفتار اثبات‌شده را تحلیل کن؛ علائم را با علت ریشه‌ای اشتباه نگیر.
 
 ## مراحل
-1. TASK `FCP-EXP07-001`، traceability، capability catalog و test evidence را بخوان.
+1. Work Itemهای موجود متناظر با `EXP-07` را همراه traceability، capability catalog و test evidence از GitHub بازیابی کن؛ فقط شناسه‌های واقعی ثبت‌شده را به‌کار ببر.
 2. هر شکاف را با GAP_ID، REQ_ID، CAP_ID، سناریو، شاهد و اثر ثبت کن.
 3. طبقه‌بندی: MISSING، PARTIAL، DEFECTIVE، UI_ONLY، AUTHORIZATION_GAP، DATA_GAP، PERFORMANCE_UNKNOWN، OPERATIONAL_GAP، LEGAL_DECISION.
 4. علت‌ها را با شواهد و فرضیه‌های آزمون‌پذیر تفکیک کن؛ 5 Whys فقط ابزار کمکی است، نه اثبات.
