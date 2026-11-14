@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 54,
+  "revision": 55,
   "next_fencing_token": 53,
   "locks": [
     {
@@ -735,6 +735,15 @@
       "command": "claim",
       "next_status": "locked",
       "at_utc": "2026-11-14T17:21:53.367Z"
+    },
+    "6881367075": {
+      "response": "Claim رد شد: منبع module:shared-resource-smoke در اختیار Issue #7 / @a4adelahmadian86-wq تا 2026-11-14T17:26:33.131Z UTC است.",
+      "response_posted": false,
+      "issue_number": 8,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": null,
+      "at_utc": "2026-11-14T17:22:39.866Z"
     }
   },
   "work_items": {
