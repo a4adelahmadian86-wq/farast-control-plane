@@ -119,6 +119,9 @@ jobs:
               const raw = match[1].trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '');
               try {
                 const item = JSON.parse(raw);
+                // Backward-compatible, fail-closed defaults for pre-policy Work Items.
+                item.write_policy ||= 'READ_ONLY';
+                item.priority_source ||= 'DEFAULT_POLICY';
                 workItemCore.validateWorkItem(item);
                 const scalar = label => {
                   const body = issue.body || '';
@@ -133,7 +136,8 @@ jobs:
                 const formResources = resourcesFor(issue);
                 const formGoals = scalar('Parent Goal IDs').split(/[\n,;]+/).map(x => x.trim()).filter(Boolean).sort();
                 const formExps = scalar('Parent EXP IDs').split(/[\n,;]+/).map(x => x.trim()).filter(Boolean).sort();
-                const formPriority = Number(scalar('Priority (0-100; lower is higher)'));
+                const formPriorityRaw = scalar('Priority (0-100; lower is higher)');
+                const formPriority = formPriorityRaw ? Number(formPriorityRaw) : Number.NaN;
                 const formWritePolicy = scalar('Write policy');
                 const formPrioritySource = scalar('Priority source');
                 const specResources = [...new Set((item.resource_keys || []).map(x => String(x).trim().toLowerCase().replace(/\\/g, '/')))].sort();
