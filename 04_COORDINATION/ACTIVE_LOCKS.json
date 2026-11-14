@@ -1,129 +1,8 @@
 {
   "schema_version": "1.0",
-  "revision": 23,
+  "revision": 24,
   "next_fencing_token": 49,
-  "locks": [
-    {
-      "resource_key": "module:coordinator",
-      "task_id": "FCP-CP-MULTICHAT-COORDINATOR-001",
-      "run_id": "RUN-20261114-COORDINATOR-FINALIZE-02",
-      "agent_alias": "chat-primary",
-      "branch": "setup/control-plane-bootstrap",
-      "acquired_at_utc": "2026-11-14T12:08:50Z",
-      "heartbeat_at_utc": "2026-11-14T12:08:50Z",
-      "lease_expires_at_utc": "2026-11-14T12:38:50Z",
-      "fencing_token": 39,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "doc:.github/workflows/farast-coordinator.yml",
-      "task_id": "FCP-CP-MULTICHAT-COORDINATOR-001",
-      "run_id": "RUN-20261114-COORDINATOR-FINALIZE-02",
-      "agent_alias": "chat-primary",
-      "branch": "setup/control-plane-bootstrap",
-      "acquired_at_utc": "2026-11-14T12:08:50Z",
-      "heartbeat_at_utc": "2026-11-14T12:08:50Z",
-      "lease_expires_at_utc": "2026-11-14T12:38:50Z",
-      "fencing_token": 40,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "doc:.github/workflows/control-plane-validation.yml",
-      "task_id": "FCP-CP-MULTICHAT-COORDINATOR-001",
-      "run_id": "RUN-20261114-COORDINATOR-FINALIZE-02",
-      "agent_alias": "chat-primary",
-      "branch": "setup/control-plane-bootstrap",
-      "acquired_at_utc": "2026-11-14T12:08:50Z",
-      "heartbeat_at_utc": "2026-11-14T12:08:50Z",
-      "lease_expires_at_utc": "2026-11-14T12:38:50Z",
-      "fencing_token": 41,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "doc:.github/ISSUE_TEMPLATE/farast-task.yml",
-      "task_id": "FCP-CP-MULTICHAT-COORDINATOR-001",
-      "run_id": "RUN-20261114-COORDINATOR-FINALIZE-02",
-      "agent_alias": "chat-primary",
-      "branch": "setup/control-plane-bootstrap",
-      "acquired_at_utc": "2026-11-14T12:08:50Z",
-      "heartbeat_at_utc": "2026-11-14T12:08:50Z",
-      "lease_expires_at_utc": "2026-11-14T12:38:50Z",
-      "fencing_token": 42,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "doc:04_COORDINATION/COORDINATOR_COMMANDS.md",
-      "task_id": "FCP-CP-MULTICHAT-COORDINATOR-001",
-      "run_id": "RUN-20261114-COORDINATOR-FINALIZE-02",
-      "agent_alias": "chat-primary",
-      "branch": "setup/control-plane-bootstrap",
-      "acquired_at_utc": "2026-11-14T12:08:50Z",
-      "heartbeat_at_utc": "2026-11-14T12:08:50Z",
-      "lease_expires_at_utc": "2026-11-14T12:38:50Z",
-      "fencing_token": 43,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "doc:04_COORDINATION/COORDINATOR_TEST_PLAN.md",
-      "task_id": "FCP-CP-MULTICHAT-COORDINATOR-001",
-      "run_id": "RUN-20261114-COORDINATOR-FINALIZE-02",
-      "agent_alias": "chat-primary",
-      "branch": "setup/control-plane-bootstrap",
-      "acquired_at_utc": "2026-11-14T12:08:50Z",
-      "heartbeat_at_utc": "2026-11-14T12:08:50Z",
-      "lease_expires_at_utc": "2026-11-14T12:38:50Z",
-      "fencing_token": 44,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "doc:START_HERE.md",
-      "task_id": "FCP-CP-MULTICHAT-COORDINATOR-001",
-      "run_id": "RUN-20261114-COORDINATOR-FINALIZE-02",
-      "agent_alias": "chat-primary",
-      "branch": "setup/control-plane-bootstrap",
-      "acquired_at_utc": "2026-11-14T12:08:50Z",
-      "heartbeat_at_utc": "2026-11-14T12:08:50Z",
-      "lease_expires_at_utc": "2026-11-14T12:38:50Z",
-      "fencing_token": 45,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "doc:05_PROMPT_LIBRARY/MASTER-00.md",
-      "task_id": "FCP-CP-MULTICHAT-COORDINATOR-001",
-      "run_id": "RUN-20261114-COORDINATOR-FINALIZE-02",
-      "agent_alias": "chat-primary",
-      "branch": "setup/control-plane-bootstrap",
-      "acquired_at_utc": "2026-11-14T12:08:50Z",
-      "heartbeat_at_utc": "2026-11-14T12:08:50Z",
-      "lease_expires_at_utc": "2026-11-14T12:38:50Z",
-      "fencing_token": 46,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "doc:04_COORDINATION/WORKER_PROTOCOL.md",
-      "task_id": "FCP-CP-MULTICHAT-COORDINATOR-001",
-      "run_id": "RUN-20261114-COORDINATOR-FINALIZE-02",
-      "agent_alias": "chat-primary",
-      "branch": "setup/control-plane-bootstrap",
-      "acquired_at_utc": "2026-11-14T12:08:50Z",
-      "heartbeat_at_utc": "2026-11-14T12:08:50Z",
-      "lease_expires_at_utc": "2026-11-14T12:38:50Z",
-      "fencing_token": 47,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "doc:USAGE_GUIDE_FA.md",
-      "task_id": "FCP-CP-MULTICHAT-COORDINATOR-001",
-      "run_id": "RUN-20261114-COORDINATOR-FINALIZE-02",
-      "agent_alias": "chat-primary",
-      "branch": "setup/control-plane-bootstrap",
-      "acquired_at_utc": "2026-11-14T12:08:50Z",
-      "heartbeat_at_utc": "2026-11-14T12:08:50Z",
-      "lease_expires_at_utc": "2026-11-14T12:38:50Z",
-      "fencing_token": 48,
-      "status": "ACTIVE"
-    }
-  ],
+  "locks": [],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -564,6 +443,37 @@
       ],
       "at_utc": "2026-11-14T12:08:50Z",
       "note": "Reacquired coordinator resources after recording prior protocol deviation; final validation and synchronization."
+    },
+    {
+      "event": "RELEASED",
+      "task_id": "FCP-CP-MULTICHAT-COORDINATOR-001",
+      "run_id": "RUN-20261114-COORDINATOR-FINALIZE-02",
+      "resource_keys": [
+        "module:coordinator",
+        "doc:.github/workflows/farast-coordinator.yml",
+        "doc:.github/workflows/control-plane-validation.yml",
+        "doc:.github/ISSUE_TEMPLATE/farast-task.yml",
+        "doc:04_COORDINATION/COORDINATOR_COMMANDS.md",
+        "doc:04_COORDINATION/COORDINATOR_TEST_PLAN.md",
+        "doc:START_HERE.md",
+        "doc:05_PROMPT_LIBRARY/MASTER-00.md",
+        "doc:04_COORDINATION/WORKER_PROTOCOL.md",
+        "doc:USAGE_GUIDE_FA.md"
+      ],
+      "fencing_tokens": [
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48
+      ],
+      "at_utc": "2026-11-14T12:30:00Z",
+      "note": "Final multi-chat coordinator hardening and documentation completed; CI on PR head 4531f83b10bbe7b77cad653b8042e3ca5208373f passed with 11/11 fixtures."
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref."
