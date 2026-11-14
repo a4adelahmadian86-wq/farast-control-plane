@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 45,
+  "revision": 46,
   "next_fencing_token": 51,
   "locks": [
     {
@@ -632,7 +632,7 @@
     },
     "6881282409": {
       "response": "Claim رد شد: این TASK هم‌اکنون در اختیار @a4adelahmadian86-wq با run=smoke-run-002 است؛ برای جلوگیری از دو نویسنده روی یک branch، ابتدا handoff یا انقضای lease لازم است.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 5,
       "actor": "a4adelahmadian86-wq",
       "command": "claim",
