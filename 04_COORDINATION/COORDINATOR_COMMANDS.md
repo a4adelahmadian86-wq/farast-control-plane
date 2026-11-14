@@ -31,7 +31,7 @@ api-contract:payment-callback
 - `/farast reopen`
 - `/farast accept pr=https://github.com/OWNER/REPO/pull/NUMBER`
 
-مقادیر CHAT_ID و RUN_ID شناسه‌های metadata هستند و هویت واقعی مکالمه را اثبات نمی‌کنند. هویت مجاز از actor GitHub و author_association بررسی می‌شود.
+مقادیر CHAT_ID و RUN_ID شناسه‌های metadata هستند و هویت واقعی مکالمه را اثبات نمی‌کنند؛ از alias غیرحساس استفاده کنید و شناسه خصوصی مکالمه را در مخزن عمومی ننویسید. هویت مجاز از actor GitHub و author_association بررسی می‌شود.
 
 پاسخ موفق claim باید دقیقاً شامل عبارت **CLAIM GRANTED**، کلیدهای منبع، زمان پایان lease و fencing token باشد. بدون این پاسخ، claim موفق نیست.
 
@@ -42,7 +42,7 @@ api-contract:payment-callback
 4. heartbeat/release/block/review فقط با actor، chat، run و token منطبق مجاز است.
 5. پایان lease در reconciliation ثبت و قفل منقضی حذف می‌شود.
 6. release به معنی اتمام کار نیست؛ review به معنی پذیرش نیست.
-7. accept فقط وقتی مجاز است که Issue در وضعیت review و بدون lease باشد و PR مرتبط merged شده و یک reviewer مستقل (نه نویسنده PR و نه worker پذیرش‌دهنده) روی head فعلی approval داده باشد.
+7. accept فقط وقتی مجاز است که Issue در وضعیت review و بدون lease باشد، لینک PR در بدنه Issue ثبت شده باشد، PR merged شده باشد و یک reviewer مستقل (نه نویسنده PR، نه worker اجراکننده و نه worker پذیرش‌دهنده) روی head فعلی approval داده باشد.
 8. بستن دستی Issue بدون label پذیرش agent:done رد و Issue دوباره باز می‌شود.
 9. عملیات با شناسه comment یکتا deduplicate می‌شود؛ پاسخ نیمه‌تمام پس از وقفه بازیابی می‌شود.
 10. عدم پاسخ، timeout یا خطای workflow هرگز grant محسوب نمی‌شود؛ وضعیت را از رجیستری و Actions run دوباره بخوانید.
