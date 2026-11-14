@@ -114,10 +114,10 @@ jobs:
           assert "WORK_ORDER_SCHEMA.json" in start_here and "CHECKPOINT_SCHEMA.json" in start_here
           assert "HANDOFF_PROTOCOL.md" in start_here and "ACCEPTANCE_FRAMEWORK.md" in start_here
           coordinator = Path(".github/workflows/farast-coordinator.yml").read_text(encoding="utf-8")
-          for required in ("farast-control-plane-single-writer", "schedule:", "issue_comment:", "processed_operations", "FARAST_OP_RESPONSE:", "coordination/locks", "pulls.listReviews", "workerActor", "task_already_claimed", "next_status: nextStatus", "FARAST_GITHUB_TOKEN", "prUrl", "targetRepositoryFor", "coordinatorCore.claimResources", "coordinatorCore.ownsLease", "coordinatorCore.renewLease", "coordinatorCore.hasIndependentApproval", "coordinatorCore.matchesReviewLease", "const taskBranch =", "expiredLeases", "event: 'HEARTBEAT'"):
+          for required in ("farast-control-plane-single-writer", "schedule:", "issue_comment:", "processed_operations", "FARAST_OP_RESPONSE:", "coordination/locks", "pulls.listReviews", "workerActor", "task_already_claimed", "branch_reuse", "claim.previousRun", "next_status: nextStatus", "FARAST_GITHUB_TOKEN", "prUrl", "targetRepositoryFor", "coordinatorCore.claimResources", "coordinatorCore.ownsLease", "coordinatorCore.renewLease", "coordinatorCore.hasIndependentApproval", "coordinatorCore.matchesReviewLease", "const taskBranch =", "expiredLeases", "event: 'HEARTBEAT'"):
               assert required in coordinator, required
           core = Path(".github/scripts/coordinator-core.js").read_text(encoding="utf-8")
-          for required in ("agent_alias: args.chatId || args.actor", "target_repository: args.targetRepository", "target_repository: x.target_repository", "function latestTaskStatus", "function matchesReviewLease", "function claimResources", "function ownsLease", "function renewLease", "task_already_claimed"):
+          for required in ("agent_alias: args.chatId || args.actor", "target_repository: args.targetRepository", "target_repository: x.target_repository", "function latestTaskStatus", "function matchesReviewLease", "function claimResources", "function ownsLease", "function renewLease", "task_already_claimed", "branchUsed", "previousRun"):
               assert required in core, required
           commands = Path("04_COORDINATION/COORDINATOR_COMMANDS.md").read_text(encoding="utf-8")
           assert "CLAIM GRANTED" in commands and "FENCING_TOKEN" in commands
