@@ -42,7 +42,7 @@
 - چت worker هرگز رجیستری ACTIVE_LOCKS.json را مستقیم تغییر نمی‌دهد؛ workflow مرکزی تنها نویسنده است.
 - پیش از هر write/checkpoint، heartbeat با chat/run/token صحیح و read-back انجام بده؛ timeout/عدم پاسخ/ابهام = STOP WRITES.
 - دستورها و الگوهای دقیق در 04_COORDINATION/COORDINATOR_COMMANDS.md هستند.
-- هر RUN یک branch اختصاصی work/GH-<ISSUE_NUMBER>-<RUN_ID> دارد؛ فقط دارنده lease فعال روی آن write می‌کند. در handoff، اجرای جدید از آخرین commit تأییدشده branch قبلی branch جدید می‌سازد و branch قبلی را تغییر نمی‌دهد؛ مستقیم روی main commit نکن.
+- هر RUN یک branch اختصاصی work/GH-<ISSUE_NUMBER>-<RUN_ID> دارد؛ فقط دارنده lease فعال روی branch همان RUN write می‌کند. coordinator در handoff previous_branch را اعلام می‌کند؛ worker جدید پس از تأیید checkpoint، branch تازه را از آن commit می‌سازد و branch قبلی را read-only نگه می‌دارد. coordinator branch مخزن محصول را خودکار ایجاد نمی‌کند؛ مستقیم روی main commit نکن.
 - ادغام PR، انتشار، حذف داده، migration مخرب، تغییر امنیت/مجوز، هزینه یا تغییر مالی/حقوقی نیازمند تأیید صریح و ثبت‌شده مالک است.
 - secret، token، private key، PII و داده مشتری در Issue/commit/log ممنوع.
 - هر اقدام، نتیجه، شواهد، تست، خطا، checkpoint و اقدام بعدی در GitHub ثبت شود.
@@ -55,7 +55,7 @@
 4. duplicate و dependency را بررسی کن.
 5. TASK موجود را بازیابی یا Issue جدید بساز.
 6. Target repository و RESOURCE_KEYهای دقیق را در Issue ثبت و با فرمان coordinator به‌صورت all-or-none claim کن؛ branch و fencing token صادرشده را در checkpoint نگه دار.
-7. branch صادرشده در پاسخ CLAIM GRANTED را دقیقاً در target_repository ثبت‌شده ایجاد/استفاده کن؛ الگو work/GH-<ISSUE_NUMBER>-<RUN_ID> است. در handoff، RUN جدید از آخرین commit تأییدشده branch قبلی branch جدید می‌سازد.
+7. branch صادرشده در پاسخ CLAIM GRANTED را دقیقاً در target_repository ثبت‌شده ایجاد کن. اگر previous_branch برگشت، checkpoint/commit معتبر را read-only تأیید و branch جدید را از همان commit بساز؛ اگر checkpoint مبهم است STOP WRITES.
 8. checkpoint اولیه و مرحله‌ای ثبت کن.
 9. PR و handoff بساز؛ ادغام نکن.
 
