@@ -1,0 +1,30 @@
+name: Product Owner Feedback
+description: Record an explicit owner decision or feedback
+title: "[FEEDBACK] "
+labels: ["feedback", "owner-decision"]
+body:
+  - type: textarea
+    id: original
+    attributes:
+      label: Original feedback (verbatim)
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Source / conversation reference
+    validations:
+      required: true
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact analysis and affected decisions/tasks
+    validations:
+      required: true
+  - type: dropdown
+    id: decision
+    attributes:
+      label: Owner decision
+      options: ["Pending", "Accepted", "Rejected", "Needs clarification"]
+    validations:
+      required: true
