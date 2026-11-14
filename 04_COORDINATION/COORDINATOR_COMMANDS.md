@@ -57,3 +57,7 @@ GitHub هویت واقعی ChatGPT chat را تأیید نمی‌کند. CHAT_ID
 
 ## Branch وظیفه
 Coordinator مقدار branch را به‌صورت work/GH-ISSUE_NUMBER-RUN_ID در رجیستری ثبت می‌کند و در claim بعدی previous_run/previous_branch/previous_target_repository را از history بازمی‌گرداند. خود workflow در مخزن هدف branch نمی‌سازد؛ worker دارنده lease باید target repository و branch را دقیقاً مطابق پاسخ claim بسازد. اگر previous_branch وجود داشت، worker ابتدا آن branch را read-only بررسی کند، آخرین commit تأییدشده/checkpoint را از سابقه کار استخراج و صحت آن را در target repository تأیید کند، سپس branch جدید را از همان commit بسازد؛ branch قبلی را هرگز تغییر ندهد. اگر checkpoint معتبر قابل تعیین نیست، قبل از هر write متوقف و گزارش دهد. branch استفاده‌شده قبلی برای همان Issue دوباره قابل claim نیست؛ RUN_ID جدید الزامی است. پذیرش PR فقط از branch آخرین رویداد REVIEW همان lease ممکن است.
+
+
+## تفویض اختیار فرمان‌های چندچتی
+سیاست فعال در `04_COORDINATION/ACTOR_AUTHORIZATION.json` اعمال می‌شود: OWNER همه فرمان‌ها را دارد؛ COLLABORATOR/MEMBER به‌صورت پیش‌فرض نقش WORKER می‌گیرند (claim/heartbeat/release/status/block/review) و حق unblock/reopen/accept ندارند. نقش SENIOR_MANAGER تمام فرمان‌ها را فقط پس از درج دقیق GitHub login در `actor_roles` و تأیید مالک دریافت می‌کند. READ_ONLY فقط status دارد. `actor_roles` فعلاً خالی است؛ بنابراین هیچ مدیر ارشدی به‌صورت حدسی مجاز نشده است. تغییر این فایل باید از PR و با تأیید مالک انجام شود.
