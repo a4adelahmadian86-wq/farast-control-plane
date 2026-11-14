@@ -23,7 +23,7 @@
 ## وضعیت راه‌اندازی
 - زیرساخت کنترل‌پلین در PR شماره ۱ روی شاخه setup/control-plane-bootstrap است؛ هنوز merge نشده.
 - شاخه پیش‌فرض main فقط README دارد؛ پرامپت‌ها به شاخه معتبر pinned شده‌اند.
-- رجیستری CAS روی branch coordination/locks موجود است؛ آزمون رقابتی دو حساب مستقل هنوز لازم است.\n- coordinator رویدادمحور legacy PR #479 هنوز منتقل نشده؛ تا آن زمان قفل مستقیم CAS طبق پروتکل و بدون اتکاء به فرمان‌های /farast انجام می‌شود.
+- رجیستری مرکزی روی branch coordination/locks با lease و fencing token موجود است؛ ۱۲ fixture تست در CI پاس شده‌اند؛ آزمون رقابتی واقعی دو حساب مستقل هنوز NOT_RUN است.\n- قابلیت‌های coordinator از PR #479 به workflow مستقل منتقل و با رجیستری CAS مرکزی بازطراحی شده‌اند؛ workerها فقط از `/farast` استفاده می‌کنند و direct-CAS ممنوع است. workflow تا merge شدن PR #1 در default branch فعال نیست.
 - Work Order/Checkpoint schema، Handoff Protocol، Acceptance Framework و Architecture Coverage افزوده شده‌اند.
 - Visibility مخزن PUBLIC است؛ فعلاً فقط کار عمومی و غیرمحرمانه.
 - Branch protection و review مستقل تأیید نشده‌اند.
@@ -72,3 +72,11 @@
 
 ## مرز اجرایی handoff چندچتی
 هماهنگ‌کننده مالکیت منابع و lineage اجرای قبلی را کنترل می‌کند، اما ایجاد branch در مخزن هدف و تعیین commit پایه را خودکار انجام نمی‌دهد. worker جدید باید آخرین checkpoint قابل اثبات را read-only بررسی و branch جدید صادرشده را از آن commit ایجاد کند؛ اگر commit پایه قابل اثبات نیست، نوشتن ممنوع است. آزمون این رفتار در مخزن هدف هنوز end-to-end نشده است.
+
+
+## وضعیت جاری چندچتی — 2026-11-14
+- Head branch: `af6dfe5ebeca13674ac516c013fa25db18b6ca09` (وضعیت به‌روزرسانی اسناد/کد پس از این SHA باید از PR زنده خوانده شود).
+- workflow فرمانی در شاخه PR وجود دارد؛ فعال‌سازی schedule و issue_comment نیازمند ادغام PR #1 در default branch است.
+- CI در commit `af6dfe5ebeca13674ac516c013fa25db18b6ca09` موفق؛ ۱۲/۱۲ تست هسته و اعتبارسنجی ۱۷ پرامپت موفق.
+- هandoff: branch یکتا برای هر RUN، رد branch reuse، بازگرداندن lineage اجرای قبلی؛ ایجاد branch جدید در مخزن هدف هنوز مسئولیت worker و نیازمند آزمون E2E است.
+- آزمون واقعی دو حساب GitHub/ChatGPT مستقل، قطع اتصال/takeover و اجرای workflow روی default branch هنوز NOT_RUN.
