@@ -44,7 +44,7 @@
 امکان‌پذیری میزبانی و عملیات را با توجه به ترجیح هاست اشتراکی کم‌هزینه بررسی کن؛ بدون دسترسی واقعی، وضعیت production را حدس نزن.
 
 ## مراحل
-1. TASK `FCP-EXP16-001` را بازیابی کن.
+1. Work Itemهای موجود متناظر با `EXP-16`, `EXP-17` و `EXP-18` را از Issueها و WORK_ITEM_IDهای واقعی بازیابی کن؛ شناسه فرضی نساز و dependencyها را رعایت کن.
 2. نیازمندی‌های runtime را استخراج کن: PHP/runtime version، extensions، DB، cron، queue worker، process lifetime، storage، symlink، shell، dump tools، limits و TLS.
 3. این نیازها را با مستندات/پلن هاست واقعی مقایسه کن؛ تبلیغ provider جای آزمون نیست.
 4. مسیرهای queue بدون worker دائمی، scheduler، client-side processing و سرویس بیرونی را از نظر امنیت، هزینه و reliability مقایسه کن.
