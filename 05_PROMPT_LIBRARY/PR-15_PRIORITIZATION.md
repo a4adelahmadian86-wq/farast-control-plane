@@ -44,7 +44,7 @@
 گپ‌ها و پیشنهادهای تأییدشده را به backlog قابل اجرا تبدیل کن؛ اولویت را با ارزش، ریسک، وابستگی و هزینه توضیح بده، نه با سلیقه.
 
 ## مراحل
-1. TASK `FCP-EXP20-001` را بازیابی کن.
+1. Work Itemهای موجود متناظر با `EXP-20` و `EXP-21` را از Issueها و WORK_ITEM_IDهای واقعی بازیابی کن؛ شناسه فرضی نساز و اولویت‌های OWNER_ASSIGNED را از DEFAULT_POLICY تفکیک کن.
 2. فقط GAPهای دارای شواهد و نیازمندی‌های معتبر را وارد کن.
 3. هر کار را به Outcome، REQ، CAP، GOAL، EXP، risk، dependency، owner skill، estimate range و acceptance criteria پیوند بده.
 4. فوریت امنیتی/داده/مالی را از بهبود UX تفکیک کن.
