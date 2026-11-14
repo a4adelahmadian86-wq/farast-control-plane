@@ -1,8 +1,25 @@
 {
   "schema_version": "1.0",
-  "revision": 42,
-  "next_fencing_token": 50,
-  "locks": [],
+  "revision": 43,
+  "next_fencing_token": 51,
+  "locks": [
+    {
+      "resource_key": "module:coordinator-smoke-test",
+      "issue_number": 5,
+      "task_id": "GH-5",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "smoke-chat-a",
+      "chat_id": "smoke-chat-a",
+      "run_id": "smoke-run-002",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-5-smoke-run-002",
+      "acquired_at_utc": "2026-11-14T17:14:39.509Z",
+      "heartbeat_at_utc": "2026-11-14T17:14:39.509Z",
+      "lease_expires_at_utc": "2026-11-14T17:19:39.509Z",
+      "fencing_token": 50,
+      "status": "ACTIVE"
+    }
+  ],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -502,6 +519,23 @@
       "branch": "work/GH-5-smoke-run-001",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "at_utc": "2026-11-14T17:13:16.110Z"
+    },
+    {
+      "event": "ACQUIRED",
+      "issue_number": 5,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "smoke-chat-a",
+      "run_id": "smoke-run-002",
+      "resource_keys": [
+        "module:coordinator-smoke-test"
+      ],
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-5-smoke-run-002",
+      "previous_branch": "work/GH-5-smoke-run-001",
+      "previous_target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "previous_run_id": "smoke-run-001",
+      "fencing_token": 50,
+      "at_utc": "2026-11-14T17:14:39.509Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -586,6 +620,15 @@
       "command": "unblock",
       "next_status": "ready",
       "at_utc": "2026-11-14T17:14:15.033Z"
+    },
+    "6881276543": {
+      "response": "CLAIM GRANTED. TASK=GH-5; WORK_ITEM_ID=WI-CP-SMOKE-001; verified_steps=S1; remaining_steps=; progress=100%; actor=@a4adelahmadian86-wq; chat=smoke-chat-a; run=smoke-run-002; resource_keys=module:coordinator-smoke-test; target_repository=a4adelahmadian86-wq/farast-control-plane; branch=work/GH-5-smoke-run-002; previous_run=smoke-run-001; previous_target_repository=a4adelahmadian86-wq/farast-control-plane; previous_branch=work/GH-5-smoke-run-001; fencing_token=50; lease_expires=2026-11-14T17:19:39.509Z. پیش از هر write و checkpoint، heartbeat را تمدید و token را بررسی کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز؛ هرگز branch قبلی را تغییر نده.",
+      "response_posted": false,
+      "issue_number": 5,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "locked",
+      "at_utc": "2026-11-14T17:14:39.515Z"
     }
   },
   "work_items": {
@@ -599,7 +642,7 @@
       "parent_exp_ids": [
         "EXP-01"
       ],
-      "status": "READY",
+      "status": "CLAIMED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "module:coordinator-smoke-test"
