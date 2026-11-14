@@ -98,7 +98,7 @@ jobs:
               catch (e) { if (e.status !== 404) throw e; }
             };
             const setStatus = async (issue, status) => {
-              const n = issue.number;
+              const n = typeof issue === 'number' ? issue : issue.number;
               for (const name of ['agent:ready','agent:locked','agent:blocked','agent:review','agent:done']) await removeLabel(n, name);
               if (status !== 'task') await addLabel(n, 'agent:' + status);
             };
