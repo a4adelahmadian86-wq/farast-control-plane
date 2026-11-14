@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 84,
+  "revision": 85,
   "next_fencing_token": 54,
   "locks": [
     {
@@ -893,6 +893,15 @@
       "command": "unblock",
       "next_status": "ready",
       "at_utc": "2026-11-14T17:47:48.281Z"
+    },
+    "6881700652": {
+      "response": "وظیفه به ready بازگشت؛ برای شروع دوباره claim لازم است.",
+      "response_posted": false,
+      "issue_number": 8,
+      "actor": "a4adelahmadian86-wq",
+      "command": "unblock",
+      "next_status": "ready",
+      "at_utc": "2026-11-14T17:48:07.985Z"
     }
   },
   "work_items": {
@@ -947,6 +956,39 @@
       "schema_version": "1.0",
       "work_item_id": "WI-CP-SHARED-A",
       "title": "Shared resource contention A",
+      "parent_goal_ids": [
+        "G-CP-CONCURRENCY-SMOKE"
+      ],
+      "parent_exp_ids": [
+        "EXP-01"
+      ],
+      "status": "READY",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "resource_keys": [
+        "module:shared-resource-smoke"
+      ],
+      "dependencies": [],
+      "steps": [
+        {
+          "step_id": "S1",
+          "title": "Verify concurrency claim behavior"
+        }
+      ],
+      "acceptance_criteria": [
+        {
+          "criterion_id": "AC1",
+          "title": "Coordinator enforces intended claim isolation"
+        }
+      ],
+      "priority": 50,
+      "created_at_utc": "2026-11-14T17:20:00Z",
+      "write_policy": "READ_ONLY",
+      "priority_source": "DEFAULT_POLICY"
+    },
+    "8": {
+      "schema_version": "1.0",
+      "work_item_id": "WI-CP-SHARED-B",
+      "title": "Shared resource contention B",
       "parent_goal_ids": [
         "G-CP-CONCURRENCY-SMOKE"
       ],
