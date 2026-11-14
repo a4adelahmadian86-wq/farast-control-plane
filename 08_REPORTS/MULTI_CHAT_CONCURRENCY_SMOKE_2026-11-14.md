@@ -54,3 +54,11 @@
 
 ## 5. ملاحظات امنیتی
 مخزن کنترل‌پلین در زمان این گزارش Public است. فقط داده غیرمحرمانه و aliasهای غیرشخصی در Issueها ثبت شوند. هیچ secret، token، credential، PII یا داده مشتری در مخزن/Issue/کامنت قرار نگیرد.
+
+
+## 6. وضعیت branch protection و مالکیت lease در زمان بازبینی
+- GitHub branches API شاخه `main` را با `protected=false` برگرداند.
+- GitHub repository rulesets API فهرست خالی `[]` برگرداند.
+- endpoint branch protection به اتصال فعلی پاسخ 403 داد؛ بنابراین جزئیات protection قابل خواندن نیست، اما مقدار `protected=false` به‌تنهایی برای اعلام محافظت‌نشدن شاخه کافی است.
+- مخزن هنوز Public است.
+- رجیستری واقعی در شاخه `coordination/locks` قرار دارد؛ revision مشاهده‌شده 88 بود. در زمان بازبینی، یک lease مستقل برای Issue #11 با resource key برابر `coordination:work-item-allocation`، chat alias برابر `goal-allocator`، run برابر `RUN-20261114-ALLOC-01` و fencing token برابر 53 فعال بود و checkpoint آن 80% پیشرفت با یک گام باقی‌مانده را نشان می‌داد. این lease در این آزمون دست‌کاری یا تصاحب نشد.
