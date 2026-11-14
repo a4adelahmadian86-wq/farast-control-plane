@@ -27,7 +27,8 @@
 - timeout پس از commit رجیستری و قبل از پاسخ: پاسخ با marker بازیابی شود.
 - بسته‌شدن Issue بدون پذیرش: بازگشایی.
 - accept بدون PR ادغام‌شده یا approval مستقل روی head فعلی: رد.
-- بستن دستی Issue یا افزودن دستی label agent:done بدون عملیات accept موفق در ledger: Issue دوباره باز شود.
+- بستن دستی Issue بدون عملیات accept موفق در ledger: Issue دوباره باز شود.
+- افزودن دستی label agent:done بدون عملیات accept موفق در ledger: label حذف شود و وضعیت به‌عنوان DONE پذیرفته نشود.
 - پس از accept موفق، Issue بازمانده بر اثر interruption: reconciliation آن را ببندد؛ پس از فرمان reopen موفق، دیگر خودکار بسته نشود.
 - accept معتبر: label done و بسته‌شدن Issue.
 
