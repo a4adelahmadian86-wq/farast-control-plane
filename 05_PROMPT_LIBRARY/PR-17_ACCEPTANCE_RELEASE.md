@@ -44,7 +44,7 @@
 آمادگی بسته تغییر را ارزیابی کن، آزمون پذیرش/امنیت/تاب‌آوری را هماهنگ کن و گزارش release readiness بساز. انتشار واقعی فقط با تأیید صریح مالک.
 
 ## مراحل
-1. TASK `FCP-EXP24-001` و PRهای مربوط را بازیابی کن.
+1. Work Itemهای موجود متناظر با `EXP-24` تا `EXP-27` و PRهای مرتبط را از Issueها و WORK_ITEM_IDهای واقعی بازیابی کن؛ شناسه فرضی نساز و هیچ release/merge/deploy را بدون approval صریح انجام نده.
 2. acceptance criteria را از REQ/SCN/GAP استخراج و هر مورد را PASS/FAIL/BLOCKED/NOT_RUN ثبت کن.
 3. regression، authorization negative tests، privacy، upload, payment, restore، performance و resilience را متناسب با دامنه بررسی کن.
 4. محدودیت محیط و تفاوت staging/production را ثبت کن؛ تست production مخرب ممنوع.
