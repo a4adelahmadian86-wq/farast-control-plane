@@ -1,8 +1,69 @@
 {
   "schema_version": "1.0",
-  "revision": 15,
-  "next_fencing_token": 19,
-  "locks": [],
+  "revision": 16,
+  "next_fencing_token": 24,
+  "locks": [
+    {
+      "resource_key": "doc:04_COORDINATION/LEGACY_COORDINATOR_MIGRATION.md",
+      "task_id": "FCP-CP-LEGACY-COORDINATOR-AUDIT-001",
+      "run_id": "RUN-20261114-LEGACY-COORDINATOR-AUDIT-01",
+      "agent_alias": "chatgpt-session",
+      "branch": "setup/control-plane-bootstrap",
+      "acquired_at_utc": "2026-11-14T11:43:27.254Z",
+      "heartbeat_at_utc": "2026-11-14T11:43:27.254Z",
+      "lease_expires_at_utc": "2026-11-14T12:08:27.254Z",
+      "fencing_token": 19,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "doc:00_PROJECT_FOUNDATION/ARCHITECTURE_COVERAGE.md",
+      "task_id": "FCP-CP-LEGACY-COORDINATOR-AUDIT-001",
+      "run_id": "RUN-20261114-LEGACY-COORDINATOR-AUDIT-01",
+      "agent_alias": "chatgpt-session",
+      "branch": "setup/control-plane-bootstrap",
+      "acquired_at_utc": "2026-11-14T11:43:27.254Z",
+      "heartbeat_at_utc": "2026-11-14T11:43:27.254Z",
+      "lease_expires_at_utc": "2026-11-14T12:08:27.254Z",
+      "fencing_token": 20,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "doc:00_PROJECT_FOUNDATION/KNOWN_UNKNOWN.md",
+      "task_id": "FCP-CP-LEGACY-COORDINATOR-AUDIT-001",
+      "run_id": "RUN-20261114-LEGACY-COORDINATOR-AUDIT-01",
+      "agent_alias": "chatgpt-session",
+      "branch": "setup/control-plane-bootstrap",
+      "acquired_at_utc": "2026-11-14T11:43:27.254Z",
+      "heartbeat_at_utc": "2026-11-14T11:43:27.254Z",
+      "lease_expires_at_utc": "2026-11-14T12:08:27.254Z",
+      "fencing_token": 21,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "doc:00_PROJECT_FOUNDATION/CONTROL_PLANE_LIMITATIONS.md",
+      "task_id": "FCP-CP-LEGACY-COORDINATOR-AUDIT-001",
+      "run_id": "RUN-20261114-LEGACY-COORDINATOR-AUDIT-01",
+      "agent_alias": "chatgpt-session",
+      "branch": "setup/control-plane-bootstrap",
+      "acquired_at_utc": "2026-11-14T11:43:27.254Z",
+      "heartbeat_at_utc": "2026-11-14T11:43:27.254Z",
+      "lease_expires_at_utc": "2026-11-14T12:08:27.254Z",
+      "fencing_token": 22,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "doc:BOOTSTRAP_STATUS.md",
+      "task_id": "FCP-CP-LEGACY-COORDINATOR-AUDIT-001",
+      "run_id": "RUN-20261114-LEGACY-COORDINATOR-AUDIT-01",
+      "agent_alias": "chatgpt-session",
+      "branch": "setup/control-plane-bootstrap",
+      "acquired_at_utc": "2026-11-14T11:43:27.254Z",
+      "heartbeat_at_utc": "2026-11-14T11:43:27.254Z",
+      "lease_expires_at_utc": "2026-11-14T12:08:27.254Z",
+      "fencing_token": 23,
+      "status": "ACTIVE"
+    }
+  ],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -229,6 +290,27 @@
       ],
       "at_utc": "2026-11-14T11:39:50.005Z",
       "note": "Bootstrap entrypoint pinned; PR-02 EXP mapping corrected; schemas/handoff/acceptance/coverage added; current head f3143aeb2bc4ca2a4f5ccad18e613d7f8692ce26. CI on current head not yet observed."
+    },
+    {
+      "event": "ACQUIRED",
+      "task_id": "FCP-CP-LEGACY-COORDINATOR-AUDIT-001",
+      "run_id": "RUN-20261114-LEGACY-COORDINATOR-AUDIT-01",
+      "resource_keys": [
+        "doc:04_COORDINATION/LEGACY_COORDINATOR_MIGRATION.md",
+        "doc:00_PROJECT_FOUNDATION/ARCHITECTURE_COVERAGE.md",
+        "doc:00_PROJECT_FOUNDATION/KNOWN_UNKNOWN.md",
+        "doc:00_PROJECT_FOUNDATION/CONTROL_PLANE_LIMITATIONS.md",
+        "doc:BOOTSTRAP_STATUS.md"
+      ],
+      "fencing_tokens": [
+        19,
+        20,
+        21,
+        22,
+        23
+      ],
+      "at_utc": "2026-11-14T11:43:27.254Z",
+      "note": "Audit and document migration boundary for legacy issue-level coordinator in NON PR #479."
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref."
