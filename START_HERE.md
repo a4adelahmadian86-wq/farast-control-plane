@@ -55,7 +55,7 @@
 4. duplicate و dependency را بررسی کن.
 5. TASK موجود را بازیابی یا Issue جدید بساز.
 6. Target repository و RESOURCE_KEYهای دقیق را در Issue ثبت و با فرمان coordinator به‌صورت all-or-none claim کن؛ branch و fencing token صادرشده را در checkpoint نگه دار.
-7. در branch اختصاصی `work/<TASK_ID>-<slug>` کار کن.
+7. branch صادرشده در پاسخ CLAIM GRANTED را دقیقاً در target_repository ثبت‌شده ایجاد/استفاده کن؛ الگو work/GH-<ISSUE_NUMBER>-<RUN_ID> است. در handoff، RUN جدید از آخرین commit تأییدشده branch قبلی branch جدید می‌سازد.
 8. checkpoint اولیه و مرحله‌ای ثبت کن.
 9. PR و handoff بساز؛ ادغام نکن.
 
