@@ -231,6 +231,8 @@ jobs:
 
             const processIssue = async issue => {
               if (!isTask(issue)) return;
+              issue = (await github.rest.issues.get({ owner, repo, issue_number: issue.number })).data;
+              if (!isTask(issue)) return;
               if (!labelsOf(issue).includes('agent:task')) await addLabel(issue.number, 'agent:task');
               let snapshot = await getRegistry();
               const accepted = coordinatorCore.latestTaskStatus(snapshot.state.processed_operations, issue.number) === 'done';
