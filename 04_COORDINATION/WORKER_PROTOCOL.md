@@ -1,5 +1,7 @@
 # پروتکل عامل‌ها و همکاران
 
+> قرارداد نوشتن جاری: پیش از هر write فرمان /farast claim را از طریق Issue اجرا کن؛ workflow مرکزی تنها نویسنده رجیستری قفل است. workerها مجاز به direct-CAS یا تغییر مستقیم ACTIVE_LOCKS.json نیستند. جزئیات و قالب فرمان‌ها در COORDINATOR_COMMANDS.md است. اگر workflow فعال نیست/پاسخ معتبر ندارد، STOP WRITES.
+
 ## هویت اجرا
 هر اجرا این فیلدها را در Issue/checkpoint ثبت می‌کند: TASK_ID، PROMPT_ID، RUN_ID یکتا، نام مستعار عامل، حساب/چت به‌صورت اختیاری، branch، commit SHA، زمان شروع/پایان UTC، وضعیت.
 
