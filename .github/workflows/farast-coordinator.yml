@@ -132,10 +132,16 @@ jobs:
                 const formId = scalar('Stable Work Item ID');
                 const formTarget = targetRepositoryFor(issue);
                 const formResources = resourcesFor(issue);
+                const formGoals = scalar('Parent Goal IDs').split(/[\\n,;]+/).map(x => x.trim()).filter(Boolean).sort();
+                const formExps = scalar('Parent EXP IDs').split(/[\\n,;]+/).map(x => x.trim()).filter(Boolean).sort();
+                const formPriority = Number(scalar('Owner-assigned priority (0-100; lower is higher)'));
                 const specResources = [...new Set((item.resource_keys || []).map(x => String(x).trim().toLowerCase().replace(/\\/g, '/')))].sort();
                 if (formId && formId !== item.work_item_id) throw new Error('Stable Work Item ID does not match JSON');
                 if (formTarget && formTarget !== item.target_repository) throw new Error('Target repository does not match JSON');
                 if (JSON.stringify(formResources) !== JSON.stringify(specResources)) throw new Error('Resource keys do not match JSON');
+                if (formGoals.length && JSON.stringify(formGoals) !== JSON.stringify([...(item.parent_goal_ids || [])].sort())) throw new Error('Parent Goal IDs do not match JSON');
+                if (formExps.length && JSON.stringify(formExps) !== JSON.stringify([...(item.parent_exp_ids || [])].sort())) throw new Error('Parent EXP IDs do not match JSON');
+                if (Number.isFinite(formPriority) && formPriority !== item.priority) throw new Error('Priority does not match JSON');
                 return item;
               } catch (error) {
                 throw new Error('Invalid Work item specification JSON in Issue #' + issue.number + ': ' + error.message);
