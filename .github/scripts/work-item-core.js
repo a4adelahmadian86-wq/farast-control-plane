@@ -16,7 +16,12 @@ function isIso(value) { return typeof value === 'string' && Number.isFinite(Date
 function validateWorkItem(item) {
   assert(item && typeof item === 'object', 'work item must be an object');
   assert(typeof item.work_item_id === 'string' && /^[A-Z0-9][A-Z0-9._-]{2,63}$/.test(item.work_item_id), 'invalid stable work_item_id');
+  assert(item.schema_version === '1.0', 'unsupported schema_version');
   assert(typeof item.title === 'string' && item.title.trim(), 'title is required');
+  assert(Array.isArray(item.parent_goal_ids) && item.parent_goal_ids.length > 0, 'parent_goal_ids are required');
+  assert(Array.isArray(item.parent_exp_ids) && item.parent_exp_ids.length > 0, 'parent_exp_ids are required');
+  assert(Number.isInteger(item.priority) && item.priority >= 0 && item.priority <= 100, 'priority must be an integer from 0 to 100');
+  assert(isIso(item.created_at_utc), 'created_at_utc must be an ISO timestamp');
   assert(STATUSES.includes(item.status), 'invalid work item status');
   assert(typeof item.target_repository === 'string' && /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(item.target_repository), 'invalid target_repository');
   assert(Array.isArray(item.resource_keys) && item.resource_keys.length > 0, 'resource_keys are required');
@@ -24,24 +29,28 @@ function validateWorkItem(item) {
   assert(Array.isArray(item.steps) && item.steps.length > 0, 'at least one atomic step is required');
   assert(Array.isArray(item.acceptance_criteria) && item.acceptance_criteria.length > 0, 'acceptance criteria are required');
   const ids = new Set();
+  assert(item.steps.some(s => s.required !== false), 'at least one required step is needed');
   for (const step of item.steps) {
     assert(typeof step.step_id === 'string' && step.step_id.trim(), 'step_id is required');
     assert(!ids.has(step.step_id), 'duplicate step_id: ' + step.step_id);
     ids.add(step.step_id);
     assert(typeof step.title === 'string' && step.title.trim(), 'step title is required');
+    assert(step.required === undefined || typeof step.required === 'boolean', 'step required must be boolean');
     assert(step.validation_status === undefined || VALIDATION.has(step.validation_status), 'invalid step validation_status');
     if (step.weight !== undefined) assert(Number.isFinite(step.weight) && step.weight > 0, 'step weight must be positive');
   }
   const criterionIds = new Set();
+  assert(item.acceptance_criteria.some(c => c.required !== false), 'at least one required acceptance criterion is needed');
   for (const criterion of item.acceptance_criteria) {
     assert(typeof criterion.criterion_id === 'string' && criterion.criterion_id.trim(), 'criterion_id is required');
     assert(!criterionIds.has(criterion.criterion_id), 'duplicate criterion_id: ' + criterion.criterion_id);
     criterionIds.add(criterion.criterion_id);
     assert(VALIDATION.has(criterion.validation_status || 'NOT_RUN'), 'invalid criterion validation_status');
+    assert(criterion.required === undefined || typeof criterion.required === 'boolean', 'criterion required must be boolean');
   }
   if (item.weighting) {
     assert(typeof item.weighting.version === 'string' && item.weighting.version.trim(), 'weighting version is required');
-    assert(item.steps.every(s => Number.isFinite(s.weight) && s.weight > 0), 'all steps need positive weights when weighting is enabled');
+    assert(item.steps.filter(s => s.required !== false).every(s => Number.isFinite(s.weight) && s.weight > 0), 'all required steps need positive weights when weighting is enabled');
   }
   return true;
 }
