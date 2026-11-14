@@ -118,8 +118,20 @@ jobs:
               const match = (issue.body || '').match(/(?:^|\n)###\s*Work item specification JSON\s*\n([\s\S]*?)(?=\n###|$)/i);
               if (!match) return null;
               const raw = match[1].trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '');
-              try { const item = JSON.parse(raw); workItemCore.validateWorkItem(item); return item; }
-              catch (error) { throw new Error('Invalid Work item specification JSON in Issue #' + issue.number + ': ' + error.message); }
+              try {
+                const item = JSON.parse(raw);
+                workItemCore.validateWorkItem(item);
+                const scalar = label => { const re = new RegExp('(?:^|\\n)###\\s*' + label.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\              try { const item = JSON.parse(raw); workItemCore.validateWorkItem(item); return item; }
+              catch (error) { throw new Error('Invalid Work item specification JSON in Issue #' + issue.number + ': ' + error.message); }') + '\\s*\\n([\\s\\S]*?)(?=\\n###|$)', 'i'); const m = (issue.body || '').match(re); return m ? m[1].trim() : ''; };
+                const formId = scalar('Stable Work Item ID');
+                const formTarget = targetRepositoryFor(issue);
+                const formResources = resourcesFor(issue);
+                const specResources = [...new Set((item.resource_keys || []).map(x => String(x).trim().toLowerCase().replace(/\\\\/g, '/')))].sort();
+                if (formId && formId !== item.work_item_id) throw new Error('Stable Work Item ID does not match JSON');
+                if (formTarget && formTarget !== item.target_repository) throw new Error('Target repository does not match JSON');
+                if (JSON.stringify(formResources) !== JSON.stringify(specResources)) throw new Error('Resource keys do not match JSON');
+                return item;
+              } catch (error) { throw new Error('Invalid Work item specification JSON in Issue #' + issue.number + ': ' + error.message); }
             };
             const savedWorkItemFor = (state, issue) => {
               const item = (state.work_items && state.work_items[issue.number]) || workItemSpecFor(issue);
