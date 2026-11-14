@@ -134,6 +134,8 @@ jobs:
                 const formGoals = scalar('Parent Goal IDs').split(/[\n,;]+/).map(x => x.trim()).filter(Boolean).sort();
                 const formExps = scalar('Parent EXP IDs').split(/[\n,;]+/).map(x => x.trim()).filter(Boolean).sort();
                 const formPriority = Number(scalar('Owner-assigned priority (0-100; lower is higher)'));
+                const formWritePolicy = scalar('Write policy');
+                const formPrioritySource = scalar('Priority source');
                 const specResources = [...new Set((item.resource_keys || []).map(x => String(x).trim().toLowerCase().replace(/\\/g, '/')))].sort();
                 if (formId && formId !== item.work_item_id) throw new Error('Stable Work Item ID does not match JSON');
                 if (formTarget && formTarget !== item.target_repository) throw new Error('Target repository does not match JSON');
@@ -141,6 +143,9 @@ jobs:
                 if (formGoals.length && JSON.stringify(formGoals) !== JSON.stringify([...(item.parent_goal_ids || [])].sort())) throw new Error('Parent Goal IDs do not match JSON');
                 if (formExps.length && JSON.stringify(formExps) !== JSON.stringify([...(item.parent_exp_ids || [])].sort())) throw new Error('Parent EXP IDs do not match JSON');
                 if (Number.isFinite(formPriority) && formPriority !== item.priority) throw new Error('Priority does not match JSON');
+                if (formWritePolicy && formWritePolicy !== item.write_policy) throw new Error('Write policy does not match JSON');
+                if (formPrioritySource && formPrioritySource !== item.priority_source) throw new Error('Priority source does not match JSON');
+                if (item.target_repository === 'a4adelahmadian86-wq/non' && item.write_policy !== 'READ_ONLY') throw new Error('NON product repository is READ_ONLY until explicit owner authorization is recorded');
                 return item;
               } catch (error) {
                 throw new Error('Invalid Work item specification JSON in Issue #' + issue.number + ': ' + error.message);
