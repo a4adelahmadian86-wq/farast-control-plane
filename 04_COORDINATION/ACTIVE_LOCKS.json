@@ -1,13 +1,49 @@
 {
   "schema_version": "1.0",
-  "revision": 1,
-  "next_fencing_token": 1,
-  "locks": [],
+  "revision": 2,
+  "next_fencing_token": 3,
+  "locks": [
+    {
+      "resource_key": "doc:00_PROJECT_FOUNDATION/CONTROL_PLANE_LIMITATIONS.md",
+      "task_id": "FCP-CP-RESILIENCE-001",
+      "run_id": "RUN-20261114-CP-RESILIENCE-DOCSYNC-01",
+      "agent_alias": "chatgpt-session",
+      "branch": "setup/control-plane-bootstrap",
+      "acquired_at_utc": "2026-11-14T11:21:06Z",
+      "heartbeat_at_utc": "2026-11-14T11:21:06Z",
+      "lease_expires_at_utc": "2026-11-14T11:51:06Z",
+      "fencing_token": 1,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "doc:BOOTSTRAP_STATUS.md",
+      "task_id": "FCP-CP-RESILIENCE-001",
+      "run_id": "RUN-20261114-CP-RESILIENCE-DOCSYNC-01",
+      "agent_alias": "chatgpt-session",
+      "branch": "setup/control-plane-bootstrap",
+      "acquired_at_utc": "2026-11-14T11:21:06Z",
+      "heartbeat_at_utc": "2026-11-14T11:21:06Z",
+      "lease_expires_at_utc": "2026-11-14T11:51:06Z",
+      "fencing_token": 2,
+      "status": "ACTIVE"
+    }
+  ],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
       "result": "PASSED",
       "note": "A second writer using the stale expected SHA was rejected."
+    },
+    {
+      "event": "ACQUIRED",
+      "task_id": "FCP-CP-RESILIENCE-001",
+      "run_id": "RUN-20261114-CP-RESILIENCE-DOCSYNC-01",
+      "resource_keys": [
+        "doc:00_PROJECT_FOUNDATION/CONTROL_PLANE_LIMITATIONS.md",
+        "doc:BOOTSTRAP_STATUS.md"
+      ],
+      "fencing_tokens": [1, 2],
+      "at_utc": "2026-11-14T11:21:06Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref."
