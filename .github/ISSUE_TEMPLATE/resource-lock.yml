@@ -1,0 +1,44 @@
+name: Resource Lock Request
+description: Request atomic ownership of shared resources
+title: "[LOCK] "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: "The authoritative lock is the CAS registry on branch coordination/locks. This issue is an audit trail only; it does not grant a lock."
+  - type: input
+    id: task_id
+    attributes:
+      label: TASK_ID
+    validations:
+      required: true
+  - type: input
+    id: run_id
+    attributes:
+      label: RUN_ID
+    validations:
+      required: true
+  - type: textarea
+    id: resources
+    attributes:
+      label: Canonical RESOURCE_KEYS
+    validations:
+      required: true
+  - type: input
+    id: fencing
+    attributes:
+      label: Fencing token(s) returned by successful CAS
+    validations:
+      required: true
+  - type: input
+    id: expires
+    attributes:
+      label: Lease expiry UTC
+    validations:
+      required: true
+  - type: textarea
+    id: status
+    attributes:
+      label: Acquire / heartbeat / release evidence and current status
+    validations:
+      required: true
