@@ -11,6 +11,12 @@
 5. پرامپت تخصصی مربوط را از `05_PROMPT_LIBRARY/` بخوان.
 
 
+## قراردادهای داده و تحویل
+- برای ساخت/به‌روزرسانی TASK از `04_COORDINATION/WORK_ORDER_SCHEMA.json` استفاده کن.
+- checkpoint باید با `04_COORDINATION/CHECKPOINT_SCHEMA.json` سازگار باشد.
+- انتقال به چت/حساب دیگر طبق `04_COORDINATION/HANDOFF_PROTOCOL.md` انجام شود.
+- وضعیت پذیرش را طبق `04_COORDINATION/ACCEPTANCE_FRAMEWORK.md` تعیین کن.
+
 ## تاب‌آوری و بازیابی پس از وقفه
 - پیش از هر اجرا، `04_COORDINATION/INTERRUPTION_RECOVERY_PROTOCOL.md` را بخوان و اجرا کن.
 - قطع اینترنت، timeout یا نتیجه مبهم ابزار را شکست یا موفقیت فرض نکن؛ نوشتن را متوقف و GitHub را برای یافتن اثر واقعی بررسی کن.

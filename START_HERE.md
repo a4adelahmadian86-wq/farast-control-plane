@@ -18,14 +18,16 @@
 4. متن کامل منبع نیازمندی: `00_PROJECT_FOUNDATION/SOURCE_REQUIREMENTS_v2.md`
 5. الزامات کنترل‌پلین چندچتی: `00_PROJECT_FOUNDATION/CONTROL_PLANE_REQUIREMENTS.md`
 6. `00_PROJECT_FOUNDATION/SPECIALIST_WORKFLOW.md`
+6a. `00_PROJECT_FOUNDATION/ARCHITECTURE_COVERAGE.md` را بخوان تا نام‌های canonical و فایل‌های معادل با معماری پیشنهادی روشن باشد.
 7. `00_PROJECT_FOUNDATION/KNOWN_UNKNOWN.md`
 8. `01_STRATEGY/GOAL_TREE.md` و `ROADMAP.md`
 9. `02_GOVERNANCE/DECISION_REGISTER.md` و `USER_FEEDBACK_REGISTER.md`
 10. `03_PROJECT_STATE/MASTER_STATUS.md` و `TASK_INDEX.md`
 11. `04_COORDINATION/WORKER_PROTOCOL.md`، `LOCK_PROTOCOL.md`، `LOCK_MANAGER_PROTOCOL.md` و `TASK_SCHEMA.md`
-12. `04_COORDINATION/INTERRUPTION_RECOVERY_PROTOCOL.md` را کامل بخوان؛ این سند برای قطع اینترنت، timeout، توقف نشست و پرشدن context لازم‌الاجراست.
-13. `05_PROMPT_LIBRARY/MASTER-00.md` را کامل بخوان و سپس پرامپت تخصصی مربوط را اجرا کن؛ پرامپت تخصصی بدون پروتکل مادر مجاز به نوشتن نیست.
-14. `05_PROMPT_LIBRARY/PROMPT_CATALOG.md` و پرامپت تخصصی
+12. `04_COORDINATION/WORK_ORDER_SCHEMA.json`، `CHECKPOINT_SCHEMA.json`، `HANDOFF_PROTOCOL.md` و `ACCEPTANCE_FRAMEWORK.md` را بخوان.
+13. `04_COORDINATION/INTERRUPTION_RECOVERY_PROTOCOL.md` را کامل بخوان؛ این سند برای قطع اینترنت، timeout، توقف نشست و پرشدن context لازم‌الاجراست.
+14. `05_PROMPT_LIBRARY/MASTER-00.md` را کامل بخوان و سپس پرامپت تخصصی مربوط را اجرا کن؛ پرامپت تخصصی بدون پروتکل مادر مجاز به نوشتن نیست.
+15. `05_PROMPT_LIBRARY/PROMPT_CATALOG.md` و پرامپت تخصصی
 
 ترتیب بالا فقط ترتیب فهم زمینه است، نه ترتیب اجرای PRها.
 

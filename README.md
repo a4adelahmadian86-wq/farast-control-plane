@@ -25,6 +25,12 @@
 - [فهرست پرامپت‌ها](05_PROMPT_LIBRARY/PROMPT_CATALOG.md)
 - [پرامپت مادر MASTER-00](05_PROMPT_LIBRARY/MASTER-00.md)
 
+## اسناد تکمیلی معماری و پذیرش
+- [تطبیق معماری مصوب با فایل‌های canonical](00_PROJECT_FOUNDATION/ARCHITECTURE_COVERAGE.md)
+- [چارچوب پذیرش و اثبات تکمیل](04_COORDINATION/ACCEPTANCE_FRAMEWORK.md)
+- قراردادهای ماشین‌خوان: `04_COORDINATION/WORK_ORDER_SCHEMA.json` و `CHECKPOINT_SCHEMA.json`
+- [پروتکل تحویل بین چت‌ها](04_COORDINATION/HANDOFF_PROTOCOL.md)
+
 ## منبع حقیقت
 - هدف و نقشه راه: `01_STRATEGY/`
 - نیازمندی و ورک‌فلو: `00_PROJECT_FOUNDATION/`

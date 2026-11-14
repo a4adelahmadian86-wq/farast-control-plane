@@ -23,6 +23,7 @@ jobs:
             00_PROJECT_FOUNDATION/SOURCE_REQUIREMENTS_v2.md
             00_PROJECT_FOUNDATION/CONTROL_PLANE_REQUIREMENTS.md
             00_PROJECT_FOUNDATION/SPECIALIST_WORKFLOW.md
+            00_PROJECT_FOUNDATION/ARCHITECTURE_COVERAGE.md
             01_STRATEGY/GOAL_TREE.md
             01_STRATEGY/ROADMAP.md
             01_STRATEGY/DEPENDENCY_GRAPH.json
@@ -37,6 +38,11 @@ jobs:
             04_COORDINATION/MANUAL_GITHUB_SETTINGS.md
             04_COORDINATION/ACTIVE_LOCKS.schema.json
             04_COORDINATION/TASK_SCHEMA.md
+            04_COORDINATION/WORK_ORDER_SCHEMA.json
+            04_COORDINATION/CHECKPOINT_SCHEMA.json
+            04_COORDINATION/HANDOFF_PROTOCOL.md
+            04_COORDINATION/ACCEPTANCE_FRAMEWORK.md
+            .github/PULL_REQUEST_TEMPLATE.md
             05_PROMPT_LIBRARY/MASTER-00.md
             05_PROMPT_LIBRARY/PROMPT_CATALOG.md
             05_PROMPT_LIBRARY/FARAST_EXECUTABLE_PROMPTS_COMPLETE.md
@@ -49,11 +55,21 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          python -m pip install 'jsonschema==4.23.0'
           python - <<'PY'
           import json
+          from jsonschema import Draft202012Validator, FormatChecker
           from pathlib import Path
           json.loads(Path("01_STRATEGY/DEPENDENCY_GRAPH.json").read_text(encoding="utf-8"))
           json.loads(Path("04_COORDINATION/ACTIVE_LOCKS.schema.json").read_text(encoding="utf-8"))
+          work_schema = json.loads(Path("04_COORDINATION/WORK_ORDER_SCHEMA.json").read_text(encoding="utf-8"))
+          checkpoint_schema = json.loads(Path("04_COORDINATION/CHECKPOINT_SCHEMA.json").read_text(encoding="utf-8"))
+          Draft202012Validator.check_schema(work_schema)
+          Draft202012Validator.check_schema(checkpoint_schema)
+          work_sample = {"TASK_ID":"FCP-EXP03-001","PROMPT_ID":"PR-03","EXP_IDS":["EXP-03"],"GOAL_IDS":["G-01"],"TITLE":"Sample","PURPOSE":"Schema validation fixture","STATUS":"READY","RESOURCE_KEYS":["module:sample"],"SCOPE_IN":["read-only inventory"],"SCOPE_OUT":["production changes"],"ACCEPTANCE_CRITERIA":["evidence linked"],"NEXT_ACTION":"inspect evidence"}
+          checkpoint_sample = {"TASK_ID":"FCP-EXP03-001","PROMPT_ID":"PR-03","RUN_ID":"RUN-SAMPLE-001","OPERATION_ID_LAST_CONFIRMED":None,"RECOVERY_STATE":"CONFIRMED","AGENT_ALIAS":"ci-fixture","TIMESTAMP_UTC":"2026-11-14T00:00:00Z","TASK_STATUS":"READY","BRANCH":"work/FCP-EXP03-001","COMMIT_SHA":None,"LAST_COMPLETED_STEP":"none","CURRENT_STEP":"fixture","NEXT_ACTION":"resume","EXACT_RESUME_INSTRUCTION":"read task and continue","LAST_GITHUB_READBACK_UTC":None,"PENDING_OPERATION_AND_ID":None,"FILES_CHANGED":[],"COMMANDS_EXECUTED":[],"TESTS_AND_RESULTS":[],"EVIDENCE_LINKS":[],"FACTS_CONFIRMED":[],"ASSUMPTIONS":[],"UNKNOWN":[],"BLOCKERS":[],"RESOURCE_LEASES":[],"HUMAN_APPROVAL":None,"HANDOFF_NOTES":""}
+          Draft202012Validator(work_schema, format_checker=FormatChecker()).validate(work_sample)
+          Draft202012Validator(checkpoint_schema, format_checker=FormatChecker()).validate(checkpoint_sample)
           for n in range(1, 18):
               matches = list(Path("05_PROMPT_LIBRARY").glob(f"PR-{n:02d}_*.md"))
               assert len(matches) == 1, (n, matches)
@@ -67,6 +83,8 @@ jobs:
           assert "setup/control-plane-bootstrap" in master
           start_here = Path("START_HERE.md").read_text(encoding="utf-8")
           assert "setup/control-plane-bootstrap" in start_here
+          assert "WORK_ORDER_SCHEMA.json" in start_here and "CHECKPOINT_SCHEMA.json" in start_here
+          assert "HANDOFF_PROTOCOL.md" in start_here and "ACCEPTANCE_FRAMEWORK.md" in start_here
           catalog = Path("05_PROMPT_LIBRARY/PROMPT_CATALOG.md").read_text(encoding="utf-8")
           assert "| PR-02 | PR-02_RECOVERY.md | EXP-02 |" in catalog
           assert "| PR-14 | PR-14_HOSTING_OPERATIONS.md | EXP-16,17,18 |" in catalog
@@ -79,5 +97,6 @@ jobs:
           assert bundle.count("INTERRUPTION_RECOVERY_PROTOCOL.md") >= 1
           assert bundle.count("setup/control-plane-bootstrap") >= 17
           assert "- EXP: EXP-02, EXP-17" not in bundle
+          assert "این مخزن فعلاً فاقد سرویس قفل مستقل است" not in Path("00_PROJECT_FOUNDATION/KNOWN_UNKNOWN.md").read_text(encoding="utf-8")
           print("Control-plane documents, JSON, and prompt bootstrap contracts passed.")
           PY
