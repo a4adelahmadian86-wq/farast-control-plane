@@ -19,7 +19,7 @@
 ## وضعیت GitHub
 - PR: https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/1
 - Branch: setup/control-plane-bootstrap
-- آخرین head مشاهده‌شده هنگام ثبت این وضعیت: dd87d7f36bf22562a30a264bb141e84ab8f25667
+- آخرین head مشاهده‌شده پیش از همگام‌سازی این وضعیت: f3143aeb2bc4ca2a4f5ccad18e613d7f8692ce26؛ برای head زنده، PR metadata را بخوان.
 - PR #1: OPEN، NOT MERGED؛ آخرین metadata mergeable=true و mergeable_state=clean گزارش کرد.
 - شاخه پیش‌فرض main فقط README.md دارد؛ تا ادغام PR و تأیید فایل‌ها، مرجع اجرایی همان شاخه pinned بالاست.
 - Lock branch: coordination/locks.
@@ -29,9 +29,7 @@
 - Issue #2: OPEN؛ آزمون‌های end-to-end هنوز انجام نشده‌اند.
 
 ## وضعیت CI
-- آخرین CI موفق قابل مشاهده: Run #62 روی commit 4f83e136059066c719130a26b40ab6343a2e1f09: https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/43589931689
-- Run #66 روی commit قدیمی‌تر 55604614ac9dac8839fb06c472e164c28eb4d20b به‌علت assertion نامتناسب درباره تعداد recovery markerهای bundle شکست خورد: https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/43590509141
-- assertion اصلاح و schema checks اضافه شدند؛ برای head فعلی dd87d7f36bf22562a30a264bb141e84ab8f25667 اجرای جدید CI مشاهده نشده است. پس CI فعلی UNVERIFIED است، نه PASS.
+- CIهای Run #73 (pull_request) و #72 (push) روی commit f3143aeb2bc4ca2a4f5ccad18e613d7f8692ce26 SUCCESS شدند: https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/43591062893 و https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/43591059766. هر دو job بررسی فایل‌های لازم، JSON، schema نمونه‌ها و قراردادهای پرامپت را با موفقیت گذراندند. Run #66 روی commit قدیمی‌تر به‌علت assertion نامتناسب شکست خورده بود که اصلاح شد. برای هر commit بعدی، checks زنده همان SHA را بررسی کن؛ این گزارش وضعیت زنده را جایگزین نمی‌کند.
 - read-back مستقیم ۱۷ پرامپت و بررسی وجود فایل‌های جدید: PASS در سطح منبع.
 
 ## دروازه‌های باقی‌مانده
@@ -45,7 +43,7 @@
 
 ## وضعیت آزمون
 - Static source read-back برای ۱۷ پرامپت: PASS (17/17).
-- CI روی head فعلی: UNVERIFIED؛ آخرین run جدید مشاهده نشده.
+- CI روی commit f3143aeb2bc4ca2a4f5ccad18e613d7f8692ce26: PASS در runهای #72 و #73؛ برای commitهای بعدی وضعیت زنده بررسی شود.
 - Multi-account CAS contention: NOT_RUN.
 - Full interruption/idempotency E2E: NOT_RUN.
 - Private repository access per account: NOT_RUN (مخزن هنوز public است).
