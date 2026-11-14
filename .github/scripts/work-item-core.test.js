@@ -120,3 +120,14 @@ test('rejects a work item without a required acceptance criterion',()=>{
 test('rejects missing write policy instead of assuming write permission',()=>{
  const x=item(); delete x.write_policy; assert.throws(()=>wi.calculateProgress(x),/invalid write_policy/);
 });
+
+test('product repository Work Items cannot declare write access without a new owner policy',()=>{
+ const x=item({target_repository:'a4adelahmadian86-wq/non',write_policy:'WRITE_ALLOWED'});
+ assert.throws(()=>wi.calculateProgress(x),/NON product repository is READ_ONLY/);
+});
+test('approval-gated writes require an owner approval evidence reference',()=>{
+ const x=item({write_policy:'WRITE_REQUIRES_OWNER_APPROVAL'});
+ assert.throws(()=>wi.calculateProgress(x),/owner_approval_ref is required/);
+ x.owner_approval_ref='https://github.com/owner/repo/issues/1#issuecomment-1';
+ assert.doesNotThrow(()=>wi.calculateProgress(x));
+});
