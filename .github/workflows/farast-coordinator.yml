@@ -163,6 +163,7 @@ jobs:
                         nextStatus = 'locked';
                       }
                     }
+                  }
                 } else if (command === 'status') {
                   response = current.length ? 'وضعیت: LOCKED؛ مالک @' + current[0].actor + '؛ chat=' + current[0].chat_id + '؛ run=' + current[0].run_id + '؛ token=' + current[0].fencing_token + '؛ expiry=' + current[0].lease_expires_at_utc : 'وضعیت: بدون lease فعال.';
                 } else if (['heartbeat','release','block','review'].includes(command)) {
