@@ -176,7 +176,16 @@ jobs:
                         response = 'Claim رد شد: منبع ' + conflict.resource_key + ' در اختیار Issue #' + conflict.issue_number + ' / @' + conflict.actor + ' تا ' + conflict.lease_expires_at_utc + ' UTC است.';
                       } else if (claim.ok) {
                         const handoff = claim.previousRun ? '; previous_run=' + claim.previousRun.runId + '; previous_target_repository=' + claim.previousRun.targetRepository + '; previous_branch=' + claim.previousRun.branch : '; previous_run=none';
-                        response = 'CLAIM GRANTED. TASK=GH-' + issue.number + '; actor=@' + actor + '; chat=' + chat + '; run=' + run + '; resource_keys=' + claim.resourceKeys.join(',') + '; target_repository=' + targetRepository + '; branch=' + taskBranch + handoff + '; fencing_token=' + claim.fencingToken + '; lease_expires=' + claim.expiresAt + '. پیش از هر write و checkpoint، heartbeat را تمدید و token را بررسی کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز؛ هرگز branch قبلی را تغییر نده.';
+                        const workItem = savedWorkItemFor(state, issue);
+                        let resumeText = '';
+                        if (workItem) {
+                          state.work_items ||= {};
+                          state.work_items[issue.number] ||= workItem;
+                          state.work_items[issue.number].status = 'CLAIMED';
+                          const plan = workItemCore.resumePlan(state.work_items[issue.number]);
+                          resumeText = '; WORK_ITEM_ID=' + plan.work_item_id + '; verified_steps=' + plan.completed_step_ids.join(',') + '; remaining_steps=' + plan.remaining_step_ids.join(',') + '; progress=' + plan.percentage + '%';
+                        }
+                        response = 'CLAIM GRANTED. TASK=GH-' + issue.number + resumeText + '; actor=@' + actor + '; chat=' + chat + '; run=' + run + '; resource_keys=' + claim.resourceKeys.join(',') + '; target_repository=' + targetRepository + '; branch=' + taskBranch + handoff + '; fencing_token=' + claim.fencingToken + '; lease_expires=' + claim.expiresAt + '. پیش از هر write و checkpoint، heartbeat را تمدید و token را بررسی کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز؛ هرگز branch قبلی را تغییر نده.';
                         nextStatus = 'locked';
                       }
                     }
