@@ -115,6 +115,7 @@ jobs:
               assert "هرگز branch قبلی را دوباره استفاده نکن" in body, matches[0]
               assert "blob/setup/control-plane-bootstrap/START_HERE.md" in body, matches[0]
               assert "ACTOR_AUTHORIZATION.json" in body, matches[0]
+              assert "resource_key_prefixes" in body, matches[0]
           master = Path("05_PROMPT_LIBRARY/MASTER-00.md").read_text(encoding="utf-8")
           assert "ACTIVE_LOCKS.json" in master
           assert "setup/control-plane-bootstrap" in master
@@ -139,6 +140,7 @@ jobs:
               assert "target_repository و branch اختصاصی همان RUN" in prompt_text, p
               assert "branch قبلی را read-only نگه دار" in prompt_text, p
               assert "ACTOR_AUTHORIZATION.json" in prompt_text, p
+              assert "resource_key_prefixes" in prompt_text, p
               assert "از طریق CAS آزاد کن" not in prompt_text, p
           legacy = Path("04_COORDINATION/LEGACY_COORDINATOR_MIGRATION.md").read_text(encoding="utf-8")
           assert "PR #479" in legacy and "CAS" in legacy
