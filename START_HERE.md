@@ -26,8 +26,9 @@
 11. `04_COORDINATION/WORKER_PROTOCOL.md`، `LOCK_PROTOCOL.md`، `LOCK_MANAGER_PROTOCOL.md` و `TASK_SCHEMA.md`
 12. `04_COORDINATION/WORK_ORDER_SCHEMA.json`، `CHECKPOINT_SCHEMA.json`، `HANDOFF_PROTOCOL.md` و `ACCEPTANCE_FRAMEWORK.md` را بخوان.
 13. `04_COORDINATION/INTERRUPTION_RECOVERY_PROTOCOL.md` را کامل بخوان؛ این سند برای قطع اینترنت، timeout، توقف نشست و پرشدن context لازم‌الاجراست.
-14. `05_PROMPT_LIBRARY/MASTER-00.md` را کامل بخوان و سپس پرامپت تخصصی مربوط را اجرا کن؛ پرامپت تخصصی بدون پروتکل مادر مجاز به نوشتن نیست.
-15. `05_PROMPT_LIBRARY/PROMPT_CATALOG.md` و پرامپت تخصصی
+14. `04_COORDINATION/LEGACY_COORDINATOR_MIGRATION.md` را بخوان؛ قابلیت‌های coordinator قدیمی PR #479 هنوز منتقل نشده‌اند و نباید /farast commands را فعال فرض کنی.
+15. `05_PROMPT_LIBRARY/MASTER-00.md` را کامل بخوان و سپس پرامپت تخصصی مربوط را اجرا کن؛ پرامپت تخصصی بدون پروتکل مادر مجاز به نوشتن نیست.
+16. `05_PROMPT_LIBRARY/PROMPT_CATALOG.md` و پرامپت تخصصی
 
 ترتیب بالا فقط ترتیب فهم زمینه است، نه ترتیب اجرای PRها.
 

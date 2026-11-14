@@ -17,6 +17,11 @@
 - انتقال به چت/حساب دیگر طبق `04_COORDINATION/HANDOFF_PROTOCOL.md` انجام شود.
 - وضعیت پذیرش را طبق `04_COORDINATION/ACCEPTANCE_FRAMEWORK.md` تعیین کن.
 
+## وضعیت هماهنگ‌کننده رویدادمحور
+- در شاخه فعلی هنوز workflow فعال برای فرمان‌های /farast وجود ندارد؛ از این فرمان‌ها انتظار پاسخ خودکار نداشته باش.
+- برای مالکیت منابع فقط الگوریتم مستقیم Git Data CAS در LOCK_MANAGER_PROTOCOL.md معتبر است؛ تا موفقیت update_ref(expected_sha) نوشتن ممنوع.
+- قابلیت‌های workflow قدیمی PR #479 و طرح انتقال آن در 04_COORDINATION/LEGACY_COORDINATOR_MIGRATION.md ثبت شده است. هیچ lock issue-comment قدیمی را منبع حقیقت فرض نکن.
+
 ## تاب‌آوری و بازیابی پس از وقفه
 - پیش از هر اجرا، `04_COORDINATION/INTERRUPTION_RECOVERY_PROTOCOL.md` را بخوان و اجرا کن.
 - قطع اینترنت، timeout یا نتیجه مبهم ابزار را شکست یا موفقیت فرض نکن؛ نوشتن را متوقف و GitHub را برای یافتن اثر واقعی بررسی کن.
