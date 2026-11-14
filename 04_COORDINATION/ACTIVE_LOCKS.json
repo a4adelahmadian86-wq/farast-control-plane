@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 60,
+  "revision": 61,
   "next_fencing_token": 53,
   "locks": [],
   "history": [
@@ -751,6 +751,15 @@
       "command": "block",
       "next_status": "blocked",
       "at_utc": "2026-11-14T17:23:27.540Z"
+    },
+    "6881397413": {
+      "response": "WORK_ITEM=WI-GOAL-ALLOCATOR-001; progress=0%; verified_steps=0/5; weighting=EQUAL_STEPS_V1; acceptance_criteria=INCOMPLETE; dependencies=PASS; can_accept=false. درصد پیشرفت به‌تنهایی پذیرش نیست.",
+      "response_posted": false,
+      "issue_number": 11,
+      "actor": "a4adelahmadian86-wq",
+      "command": "progress",
+      "next_status": null,
+      "at_utc": "2026-11-14T17:23:55.461Z"
     }
   },
   "work_items": {
@@ -862,6 +871,63 @@
       ],
       "priority": 50,
       "created_at_utc": "2026-11-14T17:20:00Z"
+    },
+    "11": {
+      "schema_version": "1.0",
+      "write_policy": "WRITE_ALLOWED",
+      "priority_source": "DEFAULT_POLICY",
+      "work_item_id": "WI-GOAL-ALLOCATOR-001",
+      "title": "Maintain a unique backlog of small executable FARAST goal leaves",
+      "parent_goal_ids": [
+        "G-09"
+      ],
+      "parent_exp_ids": [
+        "EXP-01"
+      ],
+      "status": "BACKLOG",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "resource_keys": [
+        "coordination:work-item-allocation"
+      ],
+      "dependencies": [],
+      "steps": [
+        {
+          "step_id": "S1_SCAN",
+          "title": "Read GOAL_TREE, EXP workflow, dependency graph and all existing Work Item issues"
+        },
+        {
+          "step_id": "S2_DECOMPOSE",
+          "title": "Identify an incomplete goal with no existing leaf and define a deterministic small Work Item"
+        },
+        {
+          "step_id": "S3_CREATE",
+          "title": "Create the leaf Issue with schema-valid JSON, stable ID and explicit write policy"
+        },
+        {
+          "step_id": "S4_VERIFY",
+          "title": "Read back the new Issue, confirm no duplicate ID and verify ready/blocked state"
+        },
+        {
+          "step_id": "S5_RELEASE",
+          "title": "Release allocator lease and record the exact next allocation action"
+        }
+      ],
+      "acceptance_criteria": [
+        {
+          "criterion_id": "AC_UNIQUE",
+          "title": "No duplicate WORK_ITEM_ID exists across open or closed Issues"
+        },
+        {
+          "criterion_id": "AC_POLICY",
+          "title": "Every product repository leaf is READ_ONLY and all new Work Items conform to schema"
+        },
+        {
+          "criterion_id": "AC_RELEASE",
+          "title": "Allocator lease is released after the creation batch and evidence is recorded"
+        }
+      ],
+      "priority": 100,
+      "created_at_utc": "2026-11-14T17:23:43.733Z"
     }
   },
   "checkpoints": {
