@@ -9,6 +9,9 @@
 - هیچ worker مستقیم ACTIVE_LOCKS.json را ننویسد.
 
 ## سطح ۲ — آزمون‌های منطقی/fixture
+- Issue فاقد Target repository یا Resource keys: claim باید رد شود.
+- Claim موفق: target_repository و branch صحیح در همه lockهای ثبت‌شده قرار بگیرند.
+- accept با PR که در بدنه Issue لینک نشده: رد شود.
 - دو Issue متفاوت با RESOURCE_KEY مشترک: فقط یک claim موفق.
 - دو Issue با RESOURCE_KEYهای disjoint: هر دو claim موفق.
 - چند claim برای یک Issue: فقط یک lease معتبر.
