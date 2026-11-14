@@ -7,7 +7,7 @@
 **پیش از اجرای چندچتی عمومی و واقعی:** PR شماره ۱ باید مستقل بازبینی و ادغام شود، دسترسی نوشتن GitHub Actions و دسترسی حساب‌های مستقل بررسی شود و آزمون واقعی دو حساب انجام شود. خصوصی‌سازی فقط زمانی لازم است که قرار باشد اطلاعات محرمانه/داخلی نگهداری شود؛ در حالت فعلی public-safe mode حفظ می‌شود.
 
 1. branch coordination/locks را حفظ کن؛ فقط workflow مرکزی farast-coordinator.yml حق نوشتن رجیستری آن را دارد.
-2. برای هر حساب/کاربر مستقل، GitHub را جداگانه وصل و دسترسی لازم به Issueها و مخزن کنترل‌پلین را مجاز کن. actor باید OWNER/COLLABORATOR/MEMBER باشد.
+2. برای هر حساب/کاربر مستقل، GitHub را جداگانه وصل و دسترسی لازم به Issueها و مخزن کنترل‌پلین را مجاز کن. actor باید در GitHub مجاز و دارای author_association از نوع OWNER/COLLABORATOR/MEMBER باشد؛ سطح فرمان از `04_COORDINATION/ACTOR_AUTHORIZATION.json` تعیین می‌شود. collaborator/member به‌صورت پیش‌فرض WORKER است؛ برای SENIOR_MANAGER باید GitHub login با تأیید مالک در `actor_roles` درج شود.
 3. تنظیمات Actions write permission و در صورت پذیرش PRهای مخزن دیگر، Secret FARAST_GITHUB_TOKEN را طبق MANUAL_GITHUB_SETTINGS.md تنظیم کن.
 
 ## اجرای هر کار
