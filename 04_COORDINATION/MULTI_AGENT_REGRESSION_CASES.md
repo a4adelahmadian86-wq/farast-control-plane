@@ -25,3 +25,22 @@
 - COORD-08,13 باید رفتار fail-closed را اثبات کنند.
 - هیچ تستی فقط به‌دلیل وجود workflow یا فایل PASS محسوب نمی‌شود.
 - نتایج هر آزمون با تاریخ UTC، repo commit، دو TASK/RUN ID و evidence ثبت شود.
+
+
+## رگرسیون هدف‌های خرد و resume
+| ID | سناریو | انتظار |
+|---|---|---|
+| WI-01 | دو چت هم‌زمان یک WORK_ITEM_ID را claim می‌کنند | فقط یک claim موفق؛ دیگری برگ آزاد بعدی را انتخاب کند |
+| WI-02 | دو WORK_ITEM_ID مستقل و منابع disjoint | هر دو هم‌زمان قابل اجرا باشند |
+| WI-03 | child dependency به parent ناتمام وابسته است | child تا ACCEPTED شدن parent انتخاب/پذیرفته نشود |
+| WI-04 | ۸ از ۱۰ step با evidence معتبر PASS شده | progress دقیقاً ۸۰٪؛ status هرگز ACCEPTED نیست |
+| WI-05 | worker قدیمی پس از takeover step ثبت می‌کند | fencing token قدیمی رد شود و state تغییر نکند |
+| WI-06 | interruption بعد از چند step تأییدشده | همان WORK_ITEM_ID resume شود؛ verified stepها تکرار نشوند |
+| WI-07 | دو چت برای منابع مشترک و متفاوت | مشترک فقط یک claim؛ disjoint هر دو claim |
+| WI-08 | priority برابر و زمان ready متفاوت | FIFO پایدار و aging بدون تغییر priority مالک |
+| WI-09 | step بدون evidence یا با نتیجه UNKNOWN | پیشرفت افزایش نیابد و step verified نشود |
+| WI-10 | acceptance criterion اجباری ناقص | ACCEPTED ممنوع بماند حتی اگر progress=100% باشد |
+| WI-11 | checkpoint با lease معتبر | completed/remaining step IDs و NEXT_ACTION دقیق ثبت شوند |
+| WI-12 | checkpoint یا step با token قدیمی | fail-closed؛ هیچ تغییر در رجیستری |
+
+این موارد باید ابتدا در fixture و سپس در آزمون واقعی دو حساب مستقل ثبت شوند؛ fixture به‌تنهایی E2E محسوب نمی‌شود.
