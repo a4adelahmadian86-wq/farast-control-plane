@@ -42,7 +42,7 @@
 - چت worker هرگز رجیستری ACTIVE_LOCKS.json را مستقیم تغییر نمی‌دهد؛ workflow مرکزی تنها نویسنده است.
 - پیش از هر write/checkpoint، heartbeat با chat/run/token صحیح و read-back انجام بده؛ timeout/عدم پاسخ/ابهام = STOP WRITES.
 - دستورها و الگوهای دقیق در 04_COORDINATION/COORDINATOR_COMMANDS.md هستند.
-- هر چت branch اختصاصی داشته باشد؛ مستقیم روی main commit نکن.
+- هر TASK/Issue یک branch پایدار work/GH-<ISSUE_NUMBER> دارد؛ فقط دارنده lease فعال روی آن write می‌کند. چت جایگزین همان branch و checkpoint را ادامه می‌دهد؛ مستقیم روی main commit نکن.
 - ادغام PR، انتشار، حذف داده، migration مخرب، تغییر امنیت/مجوز، هزینه یا تغییر مالی/حقوقی نیازمند تأیید صریح و ثبت‌شده مالک است.
 - secret، token، private key، PII و داده مشتری در Issue/commit/log ممنوع.
 - هر اقدام، نتیجه، شواهد، تست، خطا، checkpoint و اقدام بعدی در GitHub ثبت شود.
