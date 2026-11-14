@@ -46,7 +46,7 @@
 
 
 ## آزمون‌های خودکار اجراشونده در CI
-فایل .github/scripts/coordinator-core.test.js با Node.js test runner اجرا می‌شود و ۱۴ آزمون fixture این رفتارها را پوشش می‌دهند: تعارض دو Issue روی منبع مشترک، موفقیت منابع مستقل، acquire چندمنبعی all-or-none، یک owner فعال برای هر Issue، انقضای lease و fencing token جدید، رد token/actor stale، parse کردن target repository و resource keys، approval مستقل روی head فعلی، تطبیق PR با branch/repository آخرین REVIEW، تمدید یکپارچه heartbeat برای همه منابع و محاسبه close eligibility از آخرین transition موفق ledger، جلوگیری از branch reuse و انتقال lineage، و اعتبارسنجی طول/قالب CHAT_ID و RUN_ID، و نقش‌های OWNER/SENIOR_MANAGER/WORKER/READ_ONLY. این آزمون‌ها منطق هسته را اعتبارسنجی می‌کنند و جای آزمون واقعی GitHub Actions و دو حساب مستقل را نمی‌گیرند.
+فایل .github/scripts/coordinator-core.test.js با Node.js test runner اجرا می‌شود و ۱۴ آزمون fixture این رفتارها را پوشش می‌دهند: تعارض دو Issue روی منبع مشترک، موفقیت منابع مستقل، acquire چندمنبعی all-or-none، یک owner فعال برای هر Issue، انقضای lease و fencing token جدید، رد token/actor stale، parse کردن target repository و resource keys، approval مستقل روی head فعلی، تطبیق PR با branch/repository آخرین REVIEW، تمدید یکپارچه heartbeat برای همه منابع و محاسبه close eligibility از آخرین transition موفق ledger، جلوگیری از branch reuse و انتقال lineage، و اعتبارسنجی طول/قالب CHAT_ID و RUN_ID، و نقش‌های OWNER/SENIOR_MANAGER/WORKER/READ_ONLY با enforce شدن repository/resource scope برای مدیر ارشد. این آزمون‌ها منطق هسته را اعتبارسنجی می‌کنند و جای آزمون واقعی GitHub Actions و دو حساب مستقل را نمی‌گیرند.
 
 
 ## آزمون lineage و جلوگیری از stale branch
