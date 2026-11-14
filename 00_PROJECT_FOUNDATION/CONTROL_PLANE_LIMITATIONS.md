@@ -56,3 +56,6 @@
 - CI موفق روی همین SHA: https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/43594945741 و https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/43594950344 .
 - ۱۱/۱۱ آزمون هسته coordination PASS، ۰ FAIL؛ YAML workflow، syntax JavaScript، قرارداد هر ۱۷ prompt و static assertions نیز PASS.
 - هنوز workflow روی default branch فعال نیست؛ اجرای واقعی GitHub Actions، آزمون دو حساب مستقل، interruption و takeover عملیاتی NOT_RUN است.
+
+
+سیاست تفویض اختیار فرمان‌ها در `04_COORDINATION/ACTOR_AUTHORIZATION.json` ثبت شده است؛ نقش پیش‌فرض WORKER به فرمان‌های اجرایی پایه محدود است و فرمان‌های حساس فقط برای OWNER یا actor صریحاً تفویض‌شده فعال‌اند.
