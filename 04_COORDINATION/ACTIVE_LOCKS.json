@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "revision": 17,
-  "next_fencing_token": 28,
+  "revision": 18,
+  "next_fencing_token": 29,
   "locks": [
     {
       "resource_key": "doc:04_COORDINATION/LEGACY_COORDINATOR_MIGRATION.md",
@@ -109,6 +109,18 @@
       "heartbeat_at_utc": "2026-11-14T11:44:03.187Z",
       "lease_expires_at_utc": "2026-11-14T12:04:03.187Z",
       "fencing_token": 27,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "doc:03_PROJECT_STATE/MASTER_STATUS.md",
+      "task_id": "FCP-CP-LEGACY-COORDINATOR-AUDIT-001",
+      "run_id": "RUN-20261114-LEGACY-COORDINATOR-AUDIT-01",
+      "agent_alias": "chatgpt-session",
+      "branch": "setup/control-plane-bootstrap",
+      "acquired_at_utc": "2026-11-14T11:47:21.310Z",
+      "heartbeat_at_utc": "2026-11-14T11:47:21.310Z",
+      "lease_expires_at_utc": "2026-11-14T12:02:21.310Z",
+      "fencing_token": 28,
       "status": "ACTIVE"
     }
   ],
@@ -378,6 +390,18 @@
       ],
       "at_utc": "2026-11-14T11:44:03.187Z",
       "note": "Expanded legacy coordinator audit to bootstrap docs and CI references."
+    },
+    {
+      "event": "ACQUIRED",
+      "task_id": "FCP-CP-LEGACY-COORDINATOR-AUDIT-001",
+      "run_id": "RUN-20261114-LEGACY-COORDINATOR-AUDIT-01",
+      "resource_keys": [
+        "doc:03_PROJECT_STATE/MASTER_STATUS.md"
+      ],
+      "fencing_tokens": [
+        28
+      ],
+      "at_utc": "2026-11-14T11:47:21.310Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref."
