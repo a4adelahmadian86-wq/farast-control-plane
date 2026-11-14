@@ -1,7 +1,6 @@
 name: FARAST Task
 description: Create or resume a tracked FARAST work package
 title: "[TASK] "
-labels: ["task", "triage"]
 body:
   - type: markdown
     attributes:
