@@ -133,7 +133,7 @@ jobs:
                 const formResources = resourcesFor(issue);
                 const formGoals = scalar('Parent Goal IDs').split(/[\n,;]+/).map(x => x.trim()).filter(Boolean).sort();
                 const formExps = scalar('Parent EXP IDs').split(/[\n,;]+/).map(x => x.trim()).filter(Boolean).sort();
-                const formPriority = Number(scalar('Owner-assigned priority (0-100; lower is higher)'));
+                const formPriority = Number(scalar('Priority (0-100; lower is higher)'));
                 const formWritePolicy = scalar('Write policy');
                 const formPrioritySource = scalar('Priority source');
                 const specResources = [...new Set((item.resource_keys || []).map(x => String(x).trim().toLowerCase().replace(/\\/g, '/')))].sort();
