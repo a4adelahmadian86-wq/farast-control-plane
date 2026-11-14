@@ -76,3 +76,7 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 
 ## پروتکل هدف‌های خرد
 برای هر مأموریت، ابتدا هدف‌های کوچک آزاد و قابل اجرا را از درخت هدف و Issueهای GitHub پیدا کن. برگ نیمه‌تمام با lease منقضی/آزاد و checkpoint معتبر بر READY جدید اولویت دارد. برگ دارای lease معتبر قابل claim نیست. انتخاب بین READYها با priority مالک، aging روزانه، زمان ready/created و WORK_ITEM_ID انجام می‌شود. گام‌ها فقط با `/farast step` و evidence معتبر ثبت شوند؛ معیارهای پذیرش با `/farast criterion`; درصد با `/farast progress`; checkpoint با `/farast checkpoint`. پس از resume همان WORK_ITEM_ID و step IDs حفظ، RUN_ID و fencing token تازه صادر، و فقط گام‌های باقی‌مانده اجرا شوند.
+
+
+## Write policy و ساخت برگ جدید
+هر Work Item باید `write_policy` و `priority_source` صریح داشته باشد. `non` فقط READ_ONLY است تا مجوز جداگانه مالک؛ WRITE_ALLOWED فقط در Issue ساخته‌شده توسط repository owner. priority=50 با DEFAULT_POLICY رتبه‌بندی مالک نیست. اگر leaf آزاد وجود ندارد، برای جلوگیری از race ابتدا allocator `WI-GOAL-ALLOCATOR-001` را claim کن و فقط در lease آن Work Itemهای جدید با ID deterministic ایجاد کن؛ سپس allocator را آزاد کن.

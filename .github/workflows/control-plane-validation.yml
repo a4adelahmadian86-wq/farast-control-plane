@@ -113,7 +113,7 @@ jobs:
           checkpoint_schema = json.loads(Path("04_COORDINATION/CHECKPOINT_SCHEMA.json").read_text(encoding="utf-8"))
           Draft202012Validator.check_schema(work_schema)
           Draft202012Validator.check_schema(checkpoint_schema)
-          work_item_sample = {"schema_version":"1.0","work_item_id":"WI-CI-001","title":"CI work item","parent_goal_ids":["G-09"],"parent_exp_ids":["EXP-01"],"status":"READY","target_repository":"owner/repo","resource_keys":["module:ci"],"dependencies":[],"steps":[{"step_id":"S1","title":"Inspect"}],"acceptance_criteria":[{"criterion_id":"AC1","title":"Evidence exists"}],"priority":50,"created_at_utc":"2026-11-14T00:00:00Z"}
+          work_item_sample = {"schema_version":"1.0","write_policy":"READ_ONLY","priority_source":"DEFAULT_POLICY","work_item_id":"WI-CI-001","title":"CI work item","parent_goal_ids":["G-09"],"parent_exp_ids":["EXP-01"],"status":"READY","target_repository":"owner/repo","resource_keys":["module:ci"],"dependencies":[],"steps":[{"step_id":"S1","title":"Inspect"}],"acceptance_criteria":[{"criterion_id":"AC1","title":"Evidence exists"}],"priority":50,"created_at_utc":"2026-11-14T00:00:00Z"}
           work_item_checkpoint_sample = {"work_item_id":"WI-CI-001","run_id":"RUN-CI-001","checkpoint_version":1,"created_at_utc":"2026-11-14T00:00:00Z","last_verified_step_id":None,"current_step_id":"S1","completed_step_ids":[],"remaining_step_ids":["S1"],"progress_percentage":0,"evidence_refs":[],"blockers":[],"owner":{"actor":"ci","chat_id":"ci-chat","fencing_token":1,"lease_expires_at_utc":"2026-11-14T01:00:00Z"},"next_action":"inspect"}
           Draft202012Validator(work_item_schema, format_checker=FormatChecker()).validate(work_item_sample)
           Draft202012Validator(work_item_checkpoint_schema, format_checker=FormatChecker()).validate(work_item_checkpoint_sample)
@@ -127,7 +127,7 @@ jobs:
               matches = list(Path("05_PROMPT_LIBRARY").glob(f"PR-{n:02d}_*.md"))
               assert len(matches) == 1, (n, matches)
               body = matches[0].read_text(encoding="utf-8")
-              for required in ("START_HERE.md", "LOCK_MANAGER_PROTOCOL.md", "INTERRUPTION_RECOVERY_PROTOCOL.md", "MASTER-00.md", "OPERATION_ID", "AMBIGUOUS", "TASK_ID", "GitHub", "WORK_ITEM_EXECUTION_PROTOCOL.md", "WORK_ITEM_SCHEMA.json", "/farast step", "/farast criterion", "/farast progress", "/farast checkpoint"):
+              for required in ("START_HERE.md", "LOCK_MANAGER_PROTOCOL.md", "INTERRUPTION_RECOVERY_PROTOCOL.md", "MASTER-00.md", "OPERATION_ID", "AMBIGUOUS", "TASK_ID", "GitHub", "WORK_ITEM_EXECUTION_PROTOCOL.md", "WORK_ITEM_SCHEMA.json", "WI-GOAL-ALLOCATOR-001", "write_policy", "WRITE_REQUIRES_OWNER_APPROVAL", "/farast step", "/farast criterion", "/farast progress", "/farast checkpoint"):
                   assert required in body, (matches[0], required)
               assert "قفل این نسخه اتمیک نیست" not in body, matches[0]
               assert "رجیستری `coordination/locks` فقط توسط workflow مرکزی نوشته می‌شود" in body, matches[0]
@@ -145,7 +145,7 @@ jobs:
           assert "WORK_ORDER_SCHEMA.json" in start_here and "CHECKPOINT_SCHEMA.json" in start_here
           assert "HANDOFF_PROTOCOL.md" in start_here and "ACCEPTANCE_FRAMEWORK.md" in start_here
           coordinator = Path(".github/workflows/farast-coordinator.yml").read_text(encoding="utf-8")
-          for required in ("farast-control-plane-single-writer", "schedule:", "issue_comment:", "workItemCore", "new github.constructor", "typeof issue === 'number' ? issue : issue.number", "recordStepEvidence", "recordCriterionEvidence", "createCheckpoint", "processed_operations", "FARAST_OP_RESPONSE:", "coordination/locks", "pulls.listReviews", "workerActor", "task_already_claimed", "branch_reuse", "claim.previousRun", "next_status: nextStatus", "FARAST_GITHUB_TOKEN", "prUrl", "targetRepositoryFor", "authorizationPolicy", "resourceKeys: resourcesFor(issue)", "coordinatorCore.isCommandAllowed", "coordinatorCore.isSafeRunId", "coordinatorCore.claimResources", "coordinatorCore.ownsLease", "coordinatorCore.renewLease", "coordinatorCore.hasIndependentApproval", "coordinatorCore.matchesReviewLease", "const taskBranch =", "expiredLeases", "event: 'HEARTBEAT'", "if (!accepted && labelsOf(issue).includes('agent:done'))", "else if (!current.length && !['agent:blocked','agent:review','agent:done'].some(x => labelsOf(issue).includes(x)) && !labelsOf(issue).includes('agent:ready'))"):
+          for required in ("farast-control-plane-single-writer", "schedule:", "issue_comment:", "workItemCore", "new github.constructor", "typeof issue === 'number' ? issue : issue.number", "NON product repository is READ_ONLY", "Only repository owner may create a write-enabled Work Item", "owner_approval_ref", "recordStepEvidence", "recordCriterionEvidence", "createCheckpoint", "processed_operations", "FARAST_OP_RESPONSE:", "coordination/locks", "pulls.listReviews", "workerActor", "task_already_claimed", "branch_reuse", "claim.previousRun", "next_status: nextStatus", "FARAST_GITHUB_TOKEN", "prUrl", "targetRepositoryFor", "authorizationPolicy", "resourceKeys: resourcesFor(issue)", "coordinatorCore.isCommandAllowed", "coordinatorCore.isSafeRunId", "coordinatorCore.claimResources", "coordinatorCore.ownsLease", "coordinatorCore.renewLease", "coordinatorCore.hasIndependentApproval", "coordinatorCore.matchesReviewLease", "const taskBranch =", "expiredLeases", "event: 'HEARTBEAT'", "if (!accepted && labelsOf(issue).includes('agent:done'))", "else if (!current.length && !['agent:blocked','agent:review','agent:done'].some(x => labelsOf(issue).includes(x)) && !labelsOf(issue).includes('agent:ready'))"):
               assert required in coordinator, required
           assert "require('@actions/github')" not in coordinator
           core = Path(".github/scripts/coordinator-core.js").read_text(encoding="utf-8")
@@ -179,7 +179,7 @@ jobs:
           checkpoint = Path("04_COORDINATION/CHECKPOINT_TEMPLATE.md").read_text(encoding="utf-8")
           assert "OPERATION_ID_LAST_CONFIRMED" in checkpoint
           bundle = Path("05_PROMPT_LIBRARY/FARAST_EXECUTABLE_PROMPTS_COMPLETE.md").read_text(encoding="utf-8")
-          assert "نسخه: 1.4.0" in bundle
+          assert "نسخه: 1.5.0" in bundle
           assert bundle.count("# SOURCE: 05_PROMPT_LIBRARY/") == 18
           assert bundle.count("# PR-") >= 17
           assert "ACTOR_AUTHORIZATION.json" in bundle

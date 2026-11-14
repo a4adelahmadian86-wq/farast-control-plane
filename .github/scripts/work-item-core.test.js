@@ -5,7 +5,7 @@ const wi = require('./work-item-core');
 
 function item(overrides = {}) {
   return {
-    schema_version:'1.0', work_item_id:'WI-EXP03-001', title:'Catalog one capability', status:'READY', parent_goal_ids:['G-01'], parent_exp_ids:['EXP-03'], priority:50, created_at_utc:'2026-01-01T00:00:00Z',
+    schema_version:'1.0', write_policy:'READ_ONLY', priority_source:'DEFAULT_POLICY', work_item_id:'WI-EXP03-001', title:'Catalog one capability', status:'READY', parent_goal_ids:['G-01'], parent_exp_ids:['EXP-03'], priority:50, created_at_utc:'2026-01-01T00:00:00Z',
     target_repository:'owner/repo',
     resource_keys:['module:catalog'], dependencies:[],
     steps:[
@@ -115,4 +115,19 @@ test('unaccepted dependency prevents acceptance even when all local steps and cr
 test('rejects a work item without a required acceptance criterion',()=>{
  const x=item({acceptance_criteria:[{criterion_id:'AC1',title:'Optional only',required:false}]});
  assert.throws(()=>wi.calculateProgress(x),/at least one required acceptance criterion/);
+});
+
+test('rejects missing write policy instead of assuming write permission',()=>{
+ const x=item(); delete x.write_policy; assert.throws(()=>wi.calculateProgress(x),/invalid write_policy/);
+});
+
+test('product repository Work Items cannot declare write access without a new owner policy',()=>{
+ const x=item({target_repository:'a4adelahmadian86-wq/non',write_policy:'WRITE_ALLOWED'});
+ assert.throws(()=>wi.calculateProgress(x),/NON product repository is READ_ONLY/);
+});
+test('approval-gated writes require an owner approval evidence reference',()=>{
+ const x=item({write_policy:'WRITE_REQUIRES_OWNER_APPROVAL'});
+ assert.throws(()=>wi.calculateProgress(x),/owner_approval_ref is required/);
+ x.owner_approval_ref='https://github.com/owner/repo/issues/1#issuecomment-1';
+ assert.doesNotThrow(()=>wi.calculateProgress(x));
 });

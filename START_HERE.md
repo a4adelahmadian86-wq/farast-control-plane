@@ -77,3 +77,9 @@
 
 ## تفویض اختیار فرمان‌های چندچتی
 سیاست فعال در `04_COORDINATION/ACTOR_AUTHORIZATION.json` اعمال می‌شود: OWNER همه فرمان‌ها را دارد؛ COLLABORATOR/MEMBER به‌صورت پیش‌فرض نقش WORKER می‌گیرند (claim/heartbeat/release/status/block/review) و حق unblock/reopen/accept ندارند. نقش SENIOR_MANAGER تمام فرمان‌ها را فقط پس از درج دقیق GitHub login در `actor_roles` و تعیین دقیق `repositories` و `resource_key_prefixes` در `actor_scopes`، با تأیید مالک دریافت می‌کند؛ خارج از آن scope فرمان رد می‌شود. READ_ONLY فقط status دارد. `actor_roles` فعلاً خالی است؛ بنابراین هیچ مدیر ارشدی به‌صورت حدسی مجاز نشده است. تغییر این فایل باید از PR و با تأیید مالک انجام شود.
+
+
+**Write policy:** Work Itemهای مخزن محصول `non` باید `READ_ONLY` باشند؛ هیچ تغییر فایل یا PR در آن مخزن بدون مجوز صریح جداگانه مالک مجاز نیست. `priority_source=DEFAULT_POLICY` اولویت برابر و FIFO/aging را نشان می‌دهد، نه رتبه‌بندی مالک.
+
+
+**ساخت برگ جدید:** فقط پس از جست‌وجوی Issueهای موجود و claim موفق allocator با `WORK_ITEM_ID=WI-GOAL-ALLOCATOR-001` می‌توان Work Itemهای جدید را ایجاد کرد. این قفل مانع ایجاد برگ‌های تکراری توسط چند چت هم‌زمان می‌شود.

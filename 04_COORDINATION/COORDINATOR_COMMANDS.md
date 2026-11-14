@@ -75,4 +75,14 @@ Coordinator مقدار branch را به‌صورت work/GH-ISSUE_NUMBER-RUN_ID �
 
 
 ## قالب Work Item
-هر Issue برگ باید فیلد `Work item specification JSON` را طبق `04_COORDINATION/WORK_ITEM_SCHEMA.json` پر کند. WORK_ITEM_ID، resource keys و target repository در JSON باید با فیلدهای Issue منطبق باشند. JSON نامعتبر یا ناقص باید fail-closed بماند. Checkpointهای ماشین‌خوان در رجیستری مرکزی ثبت می‌شوند و schema آن `WORK_ITEM_CHECKPOINT_SCHEMA.json` است.
+هر Issue برگ باید فیلدهای `Write policy` و `Priority source` و `Work item specification JSON` را طبق `04_COORDINATION/WORK_ITEM_SCHEMA.json` پر کند. WORK_ITEM_ID، resource keys و target repository در JSON باید با فیلدهای Issue منطبق باشند. JSON نامعتبر یا ناقص باید fail-closed بماند. Checkpointهای ماشین‌خوان در رجیستری مرکزی ثبت می‌شوند و schema آن `WORK_ITEM_CHECKPOINT_SCHEMA.json` است.
+
+
+## Write policy اجباری
+- `READ_ONLY`: مجاز به read/analysis/evidence gathering هستی، نه file write یا PR در مخزن هدف.
+- `WRITE_REQUIRES_OWNER_APPROVAL`: فقط proposal بساز؛ پیش از تأیید صریح مالک هیچ write نکن.
+- `WRITE_ALLOWED`: تنها در scope مجاز و با lease/fencing معتبر write کن.
+- `a4adelahmadian86-wq/non` تا اعلام مجوز جدید مالک فقط READ_ONLY است و workflow Work Item غیر READ_ONLY را رد می‌کند.
+- priority=50 با `DEFAULT_POLICY` اولویت خنثی است؛ FIFO و aging tie-break می‌کنند. رتبه‌بندی اختصاصی فقط با `OWNER_ASSIGNED` ثبت شود.
+
+ساخت Work Item جدید فقط زیر قفل allocator با شناسه ثابت `WI-GOAL-ALLOCATOR-001` مجاز است. ابتدا Issueهای موجود و WORK_ITEM_IDها را جست‌وجو کن؛ سپس allocator را claim کن، leafهای جدید را با شناسه deterministic بساز و پس از read-back قفل را release کن. هیچ دو چتی نباید هم‌زمان pool را گسترش دهند.
