@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 34,
+  "revision": 35,
   "next_fencing_token": 50,
   "locks": [
     {
@@ -556,6 +556,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-14T17:12:30.444Z"
+    },
+    "6881253455": {
+      "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-CP-SMOKE-001; progress=100%; next_action=Review smoke evidence, then block this disposable test issue; remaining_steps=.",
+      "response_posted": false,
+      "issue_number": 5,
+      "actor": "a4adelahmadian86-wq",
+      "command": "checkpoint",
+      "next_status": null,
+      "at_utc": "2026-11-14T17:12:55.001Z"
     }
   },
   "work_items": {
@@ -605,6 +614,32 @@
       ],
       "priority": 50,
       "created_at_utc": "2026-11-14T17:07:00Z"
+    }
+  },
+  "checkpoints": {
+    "5": {
+      "work_item_id": "WI-CP-SMOKE-001",
+      "run_id": "smoke-run-001",
+      "checkpoint_version": 1,
+      "created_at_utc": "2026-11-14T17:12:54.854Z",
+      "last_verified_step_id": "S1",
+      "current_step_id": "S1",
+      "completed_step_ids": [
+        "S1"
+      ],
+      "remaining_step_ids": [],
+      "progress_percentage": 100,
+      "evidence_refs": [
+        "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/43619833932"
+      ],
+      "blockers": [],
+      "owner": {
+        "actor": "a4adelahmadian86-wq",
+        "chat_id": "smoke-chat",
+        "fencing_token": 49,
+        "lease_expires_at_utc": "2026-11-14T17:15:03.523Z"
+      },
+      "next_action": "Review smoke evidence, then block this disposable test issue"
     }
   }
 }
