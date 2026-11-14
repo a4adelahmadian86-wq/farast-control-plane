@@ -73,6 +73,13 @@ function ownsLease(currentLocks, actor, chatId, runId, token) {
       x.run_id === runId && x.fencing_token === Number(token));
 }
 
+function latestTaskStatus(processedOperations, issueNumber) {
+  const transitions = Object.values(processedOperations || {})
+    .filter(op => op.issue_number === issueNumber && op.next_status)
+    .sort((a, b) => Date.parse(a.at_utc) - Date.parse(b.at_utc));
+  return transitions.length ? transitions[transitions.length - 1].next_status : null;
+}
+
 function matchesReviewLease(pr, reviewEvent) {
   return !!reviewEvent && reviewEvent.branch === pr.head.ref && reviewEvent.target_repository === pr.head.repo?.full_name;
 }
@@ -87,5 +94,5 @@ function hasIndependentApproval(reviews, pr, workerActor, acceptActor) {
 
 module.exports = {
   resourcesFor, targetRepositoryFor, expireLocks, activeForIssue,
-  claimResources, renewLease, ownsLease, matchesReviewLease, hasIndependentApproval
+  claimResources, renewLease, ownsLease, latestTaskStatus, matchesReviewLease, hasIndependentApproval
 };
