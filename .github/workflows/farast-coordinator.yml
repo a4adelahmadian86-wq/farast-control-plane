@@ -132,8 +132,8 @@ jobs:
                 const formId = scalar('Stable Work Item ID');
                 const formTarget = targetRepositoryFor(issue);
                 const formResources = resourcesFor(issue);
-                const formGoals = scalar('Parent Goal IDs').split(/[\\n,;]+/).map(x => x.trim()).filter(Boolean).sort();
-                const formExps = scalar('Parent EXP IDs').split(/[\\n,;]+/).map(x => x.trim()).filter(Boolean).sort();
+                const formGoals = scalar('Parent Goal IDs').split(/[\n,;]+/).map(x => x.trim()).filter(Boolean).sort();
+                const formExps = scalar('Parent EXP IDs').split(/[\n,;]+/).map(x => x.trim()).filter(Boolean).sort();
                 const formPriority = Number(scalar('Owner-assigned priority (0-100; lower is higher)'));
                 const specResources = [...new Set((item.resource_keys || []).map(x => String(x).trim().toLowerCase().replace(/\\/g, '/')))].sort();
                 if (formId && formId !== item.work_item_id) throw new Error('Stable Work Item ID does not match JSON');
