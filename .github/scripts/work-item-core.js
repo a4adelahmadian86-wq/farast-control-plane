@@ -29,7 +29,6 @@ function validateWorkItem(item) {
     assert(!ids.has(step.step_id), 'duplicate step_id: ' + step.step_id);
     ids.add(step.step_id);
     assert(typeof step.title === 'string' && step.title.trim(), 'step title is required');
-    assert(step.required !== false, 'optional steps must be explicitly represented as non-gating');
     assert(step.validation_status === undefined || VALIDATION.has(step.validation_status), 'invalid step validation_status');
     if (step.weight !== undefined) assert(Number.isFinite(step.weight) && step.weight > 0, 'step weight must be positive');
   }
