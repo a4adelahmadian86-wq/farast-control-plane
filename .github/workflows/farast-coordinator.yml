@@ -26,6 +26,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
       - name: Reconcile durable command inbox and central lock registry
         uses: actions/github-script@v7
         env:
@@ -34,6 +37,7 @@ jobs:
           script: |
             const owner = context.repo.owner;
             const repo = context.repo.repo;
+            const coordinatorCore = require('./.github/scripts/coordinator-core');
             const registryBranch = 'coordination/locks';
             const { getOctokit } = require('@actions/github');
             const crossRepoGithub = process.env.FARAST_GITHUB_TOKEN ? getOctokit(process.env.FARAST_GITHUB_TOKEN) : null;
@@ -104,24 +108,10 @@ jobs:
               for (const m of s.matchAll(/([a-z_]+)=("[^"]*"|'[^']*'|[^\s]+)/g)) out[m[1]] = m[2].replace(/^["']|["']$/g, '');
               return out;
             };
-            const resourcesFor = issue => {
-              const body = issue.body || '';
-              const m = body.match(/(?:^|\n)###\s*Resource keys\s*\n([\s\S]*?)(?=\n###|$)/i);
-              if (!m) return [];
-              const keys = m[1].split(/[\n,;]+/).map(x => x.trim().replace(/^[-*\s]+/, '').toLowerCase()).filter(Boolean);
-              return [...new Set(keys)].sort().map(x => x.replace(/\\/g, '/'));
-            };
-            const targetRepositoryFor = issue => {
-              const m = (issue.body || '').match(/(?:^|\n)###\s*Target repository(?: \(owner\/name\))?\s*\n([\s\S]*?)(?=\n###|$)/i);
-              return m ? m[1].trim().split(/\s+/)[0] : '';
-            };
-            const activeForIssue = (state, n) => state.locks.filter(x => x.issue_number === n && Date.parse(x.lease_expires_at_utc) > Date.now());
-            const expireLocks = state => {
-              const now = Date.now();
-              const expired = state.locks.filter(x => Date.parse(x.lease_expires_at_utc) <= now);
-              state.locks = state.locks.filter(x => Date.parse(x.lease_expires_at_utc) > now);
-              for (const x of expired) state.history.push({ event: 'LEASE_EXPIRED', issue_number: x.issue_number, resource_key: x.resource_key, task_id: x.task_id, run_id: x.run_id, fencing_token: x.fencing_token, at_utc: new Date().toISOString() });
-            };
+            const resourcesFor = issue => coordinatorCore.resourcesFor(issue.body, issue.number);
+            const targetRepositoryFor = issue => coordinatorCore.targetRepositoryFor(issue.body);
+            const activeForIssue = (state, n) => coordinatorCore.activeForIssue(state, n);
+            const expireLocks = state => coordinatorCore.expireLocks(state);
 
             const handleCommand = async (issue, comment, snapshot) => {
               const state = snapshot.state;
@@ -144,7 +134,7 @@ jobs:
               } else {
                 expireLocks(state);
                 const current = activeForIssue(state, issue.number);
-                const owned = current.length > 0 && current.every(x => x.actor === actor && x.chat_id === chat && x.run_id === run && x.fencing_token === token);
+                const owned = coordinatorCore.ownsLease(current, actor, chat, run, token);
                 if (command === 'claim') {
                   if (!chat || !run || !Number.isFinite(lease) || lease < 5 || lease > 120) {
                     response = 'Claim رد شد. قالب: /farast claim chat=شناسه run=شناسه lease=30 (۵ تا ۱۲۰ دقیقه).';
@@ -153,29 +143,25 @@ jobs:
                   } else {
                     const keys = resourcesFor(issue);
                     const targetRepository = targetRepositoryFor(issue);
-                    if (!/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(targetRepository)) {
+                    if (!targetRepository) {
                       response = 'Claim رد شد: Target repository باید به‌صورت owner/name در Issue مشخص شود.';
-                    } else if (!keys.length) {
-                      response = 'Claim رد شد: بخش Resource keys در Issue خالی است؛ کلیدهای دقیق منابع را اضافه و فرمان جدید ثبت کنید.';
                     } else {
-                    const conflict = state.locks.find(x => keys.includes(x.resource_key) && Date.parse(x.lease_expires_at_utc) > Date.now());
-                    if (conflict) {
-                      response = 'Claim رد شد: منبع ' + conflict.resource_key + ' در اختیار Issue #' + conflict.issue_number + ' / @' + conflict.actor + ' تا ' + conflict.lease_expires_at_utc + ' UTC است.';
-                    } else {
-                      const fencing = state.next_fencing_token++;
-                      const expires = new Date(Date.now() + lease * 60000).toISOString();
-                      for (const key of keys) state.locks.push({
-                        resource_key: key, issue_number: issue.number, task_id: 'GH-' + issue.number,
-                        actor, agent_alias: chat || actor, chat_id: chat, run_id: run, target_repository: targetRepository, branch: 'work/GH-' + issue.number,
-                        acquired_at_utc: new Date().toISOString(), heartbeat_at_utc: new Date().toISOString(),
-                        lease_expires_at_utc: expires, fencing_token: fencing, status: 'ACTIVE'
+                      const claim = coordinatorCore.claimResources(state, {
+                        issueNumber: issue.number, taskId: 'GH-' + issue.number, actor,
+                        chatId: chat, runId: run, targetRepository,
+                        branch: 'work/GH-' + issue.number, resourceKeys: keys,
+                        leaseMinutes: lease, nowMs: Date.now()
                       });
-                      state.history.push({ event: 'ACQUIRED', issue_number: issue.number, actor, chat_id: chat, run_id: run, resource_keys: keys, fencing_token: fencing, at_utc: new Date().toISOString() });
-                      response = 'CLAIM GRANTED. TASK=GH-' + issue.number + '; actor=@' + actor + '; chat=' + chat + '; run=' + run + '; resource_keys=' + keys.join(',') + '; target_repository=' + targetRepository + '; branch=work/GH-' + issue.number + '; fencing_token=' + fencing + '; lease_expires=' + expires + '. پیش از هر write و checkpoint، heartbeat را تمدید و token را بررسی کن.';
-                      nextStatus = 'locked';
+                      if (!claim.ok && claim.reason === 'missing_resources') {
+                        response = 'Claim رد شد: بخش Resource keys در Issue خالی است؛ کلیدهای دقیق منابع را اضافه و فرمان جدید ثبت کنید.';
+                      } else if (!claim.ok && claim.reason === 'resource_conflict') {
+                        const conflict = claim.conflict;
+                        response = 'Claim رد شد: منبع ' + conflict.resource_key + ' در اختیار Issue #' + conflict.issue_number + ' / @' + conflict.actor + ' تا ' + conflict.lease_expires_at_utc + ' UTC است.';
+                      } else if (claim.ok) {
+                        response = 'CLAIM GRANTED. TASK=GH-' + issue.number + '; actor=@' + actor + '; chat=' + chat + '; run=' + run + '; resource_keys=' + claim.resourceKeys.join(',') + '; target_repository=' + targetRepository + '; branch=work/GH-' + issue.number + '; fencing_token=' + claim.fencingToken + '; lease_expires=' + claim.expiresAt + '. پیش از هر write و checkpoint، heartbeat را تمدید و token را بررسی کن.';
+                        nextStatus = 'locked';
+                      }
                     }
-                    }
-                  }
                 } else if (command === 'status') {
                   response = current.length ? 'وضعیت: LOCKED؛ مالک @' + current[0].actor + '؛ chat=' + current[0].chat_id + '؛ run=' + current[0].run_id + '؛ token=' + current[0].fencing_token + '؛ expiry=' + current[0].lease_expires_at_utc : 'وضعیت: بدون lease فعال.';
                 } else if (['heartbeat','release','block','review'].includes(command)) {
@@ -212,7 +198,7 @@ jobs:
                     const reviews = await prClient.paginate(prClient.rest.pulls.listReviews, { owner: prOwner, repo: prRepo, pull_number: Number(prNumber), per_page: 100 });
                     const reviewEvent = [...state.history].reverse().find(x => x.issue_number === issue.number && x.event === 'REVIEW');
                     const workerActor = reviewEvent?.actor;
-                    const independent = reviews.some(r => r.state === 'APPROVED' && r.commit_id === pr.head.sha && r.user?.login !== pr.user?.login && r.user?.login !== workerActor && r.user?.login !== actor);
+                    const independent = coordinatorCore.hasIndependentApproval(reviews, pr, workerActor, actor);
                     if (!labelsOf(issue).includes('agent:review') || current.length) response = 'پذیرش رد شد: وظیفه باید در وضعیت review و بدون lease فعال باشد.';
                     else if (!pr.merged || !independent) response = 'پذیرش رد شد: PR باید merged باشد و approval مستقل روی head فعلی داشته باشد.';
                     else { nextStatus = 'done'; response = 'پذیرش تأیید شد: PR ادغام‌شده و approval مستقل روی head فعلی احراز شد.'; }
