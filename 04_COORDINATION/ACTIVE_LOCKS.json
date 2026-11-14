@@ -1,129 +1,8 @@
 {
   "schema_version": "1.0",
-  "revision": 14,
+  "revision": 15,
   "next_fencing_token": 19,
-  "locks": [
-    {
-      "resource_key": "doc:README.md",
-      "task_id": "FCP-CP-BOOTSTRAP-ENTRYPOINT-001",
-      "run_id": "RUN-20261114-BOOTSTRAP-PIN-01",
-      "agent_alias": "chatgpt-session",
-      "branch": "setup/control-plane-bootstrap",
-      "acquired_at_utc": "2026-11-14T11:28:53.523Z",
-      "heartbeat_at_utc": "2026-11-14T11:28:53.523Z",
-      "lease_expires_at_utc": "2026-11-14T11:58:53.526Z",
-      "fencing_token": 9,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "doc:START_HERE.md",
-      "task_id": "FCP-CP-BOOTSTRAP-ENTRYPOINT-001",
-      "run_id": "RUN-20261114-BOOTSTRAP-PIN-01",
-      "agent_alias": "chatgpt-session",
-      "branch": "setup/control-plane-bootstrap",
-      "acquired_at_utc": "2026-11-14T11:28:53.523Z",
-      "heartbeat_at_utc": "2026-11-14T11:28:53.523Z",
-      "lease_expires_at_utc": "2026-11-14T11:58:53.526Z",
-      "fencing_token": 10,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "doc:USAGE_GUIDE_FA.md",
-      "task_id": "FCP-CP-BOOTSTRAP-ENTRYPOINT-001",
-      "run_id": "RUN-20261114-BOOTSTRAP-PIN-01",
-      "agent_alias": "chatgpt-session",
-      "branch": "setup/control-plane-bootstrap",
-      "acquired_at_utc": "2026-11-14T11:28:53.523Z",
-      "heartbeat_at_utc": "2026-11-14T11:28:53.523Z",
-      "lease_expires_at_utc": "2026-11-14T11:58:53.526Z",
-      "fencing_token": 11,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "module:prompt-library",
-      "task_id": "FCP-CP-BOOTSTRAP-ENTRYPOINT-001",
-      "run_id": "RUN-20261114-BOOTSTRAP-PIN-01",
-      "agent_alias": "chatgpt-session",
-      "branch": "setup/control-plane-bootstrap",
-      "acquired_at_utc": "2026-11-14T11:28:53.523Z",
-      "heartbeat_at_utc": "2026-11-14T11:28:53.523Z",
-      "lease_expires_at_utc": "2026-11-14T11:58:53.526Z",
-      "fencing_token": 12,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "doc:.github/workflows/control-plane-validation.yml",
-      "task_id": "FCP-CP-BOOTSTRAP-ENTRYPOINT-001",
-      "run_id": "RUN-20261114-BOOTSTRAP-PIN-01",
-      "agent_alias": "chatgpt-session",
-      "branch": "setup/control-plane-bootstrap",
-      "acquired_at_utc": "2026-11-14T11:33:13.479Z",
-      "heartbeat_at_utc": "2026-11-14T11:33:13.479Z",
-      "lease_expires_at_utc": "2026-11-14T11:58:13.479Z",
-      "fencing_token": 13,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "doc:00_PROJECT_FOUNDATION/KNOWN_UNKNOWN.md",
-      "task_id": "FCP-CP-BOOTSTRAP-ENTRYPOINT-001",
-      "run_id": "RUN-20261114-BOOTSTRAP-PIN-01",
-      "agent_alias": "chatgpt-session",
-      "branch": "setup/control-plane-bootstrap",
-      "acquired_at_utc": "2026-11-14T11:34:29.836Z",
-      "heartbeat_at_utc": "2026-11-14T11:34:29.836Z",
-      "lease_expires_at_utc": "2026-11-14T11:59:29.836Z",
-      "fencing_token": 14,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "doc:00_PROJECT_FOUNDATION/CONTROL_PLANE_LIMITATIONS.md",
-      "task_id": "FCP-CP-BOOTSTRAP-ENTRYPOINT-001",
-      "run_id": "RUN-20261114-BOOTSTRAP-PIN-01",
-      "agent_alias": "chatgpt-session",
-      "branch": "setup/control-plane-bootstrap",
-      "acquired_at_utc": "2026-11-14T11:34:29.836Z",
-      "heartbeat_at_utc": "2026-11-14T11:34:29.836Z",
-      "lease_expires_at_utc": "2026-11-14T11:59:29.836Z",
-      "fencing_token": 15,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "doc:BOOTSTRAP_STATUS.md",
-      "task_id": "FCP-CP-BOOTSTRAP-ENTRYPOINT-001",
-      "run_id": "RUN-20261114-BOOTSTRAP-PIN-01",
-      "agent_alias": "chatgpt-session",
-      "branch": "setup/control-plane-bootstrap",
-      "acquired_at_utc": "2026-11-14T11:34:29.836Z",
-      "heartbeat_at_utc": "2026-11-14T11:34:29.836Z",
-      "lease_expires_at_utc": "2026-11-14T11:59:29.836Z",
-      "fencing_token": 16,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "doc:03_PROJECT_STATE/MASTER_STATUS.md",
-      "task_id": "FCP-CP-BOOTSTRAP-ENTRYPOINT-001",
-      "run_id": "RUN-20261114-BOOTSTRAP-PIN-01",
-      "agent_alias": "chatgpt-session",
-      "branch": "setup/control-plane-bootstrap",
-      "acquired_at_utc": "2026-11-14T11:34:29.836Z",
-      "heartbeat_at_utc": "2026-11-14T11:34:29.836Z",
-      "lease_expires_at_utc": "2026-11-14T11:59:29.836Z",
-      "fencing_token": 17,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "module:coordination-contracts",
-      "task_id": "FCP-CP-BOOTSTRAP-ENTRYPOINT-001",
-      "run_id": "RUN-20261114-BOOTSTRAP-PIN-01",
-      "agent_alias": "chatgpt-session",
-      "branch": "setup/control-plane-bootstrap",
-      "acquired_at_utc": "2026-11-14T11:34:29.836Z",
-      "heartbeat_at_utc": "2026-11-14T11:34:29.836Z",
-      "lease_expires_at_utc": "2026-11-14T11:59:29.836Z",
-      "fencing_token": 18,
-      "status": "ACTIVE"
-    }
-  ],
+  "locks": [],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -319,6 +198,37 @@
       ],
       "at_utc": "2026-11-14T11:34:29.836Z",
       "note": "Expanded entrypoint correction task to stale-state docs and coordination contract/schema coverage."
+    },
+    {
+      "event": "RELEASED",
+      "task_id": "FCP-CP-BOOTSTRAP-ENTRYPOINT-001",
+      "run_id": "RUN-20261114-BOOTSTRAP-PIN-01",
+      "resource_keys": [
+        "doc:README.md",
+        "doc:START_HERE.md",
+        "doc:USAGE_GUIDE_FA.md",
+        "module:prompt-library",
+        "doc:.github/workflows/control-plane-validation.yml",
+        "doc:00_PROJECT_FOUNDATION/KNOWN_UNKNOWN.md",
+        "doc:00_PROJECT_FOUNDATION/CONTROL_PLANE_LIMITATIONS.md",
+        "doc:BOOTSTRAP_STATUS.md",
+        "doc:03_PROJECT_STATE/MASTER_STATUS.md",
+        "module:coordination-contracts"
+      ],
+      "fencing_tokens": [
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ],
+      "at_utc": "2026-11-14T11:39:50.005Z",
+      "note": "Bootstrap entrypoint pinned; PR-02 EXP mapping corrected; schemas/handoff/acceptance/coverage added; current head f3143aeb2bc4ca2a4f5ccad18e613d7f8692ce26. CI on current head not yet observed."
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref."
