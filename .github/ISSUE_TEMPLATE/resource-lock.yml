@@ -1,7 +1,6 @@
 name: Resource Lock Request
 description: Request atomic ownership of shared resources
 title: "[LOCK] "
-labels: []
 body:
   - type: markdown
     attributes:
