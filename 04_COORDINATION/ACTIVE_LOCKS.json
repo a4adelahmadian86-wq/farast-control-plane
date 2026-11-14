@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 29,
+  "revision": 30,
   "next_fencing_token": 50,
   "locks": [
     {
@@ -532,7 +532,7 @@
     },
     "6881236508": {
       "response": "WORK_ITEM=WI-CP-SMOKE-001; progress=0%; verified_steps=0/1; weighting=EQUAL_STEPS_V1; acceptance_criteria=INCOMPLETE; dependencies=PASS; can_accept=false. درصد پیشرفت به‌تنهایی پذیرش نیست.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 5,
       "actor": "a4adelahmadian86-wq",
       "command": "progress",
