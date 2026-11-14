@@ -43,6 +43,28 @@ body:
       placeholder: "50"
     validations:
       required: true
+  - type: dropdown
+    id: write_policy
+    attributes:
+      label: Write policy
+      description: Product repository tasks remain READ_ONLY unless the owner explicitly authorizes writes.
+      options:
+        - READ_ONLY
+        - WRITE_REQUIRES_OWNER_APPROVAL
+        - WRITE_ALLOWED
+      default: 1
+    validations:
+      required: true
+  - type: dropdown
+    id: priority_source
+    attributes:
+      label: Priority source
+      options:
+        - DEFAULT_POLICY
+        - OWNER_ASSIGNED
+      default: 1
+    validations:
+      required: true
   - type: textarea
     id: scope
     attributes:
@@ -122,6 +144,8 @@ body:
       placeholder: |
         {
           "schema_version": "1.0",
+          "write_policy": "READ_ONLY",
+          "priority_source": "DEFAULT_POLICY",
           "work_item_id": "WI-EXP03-001",
           "title": "Example leaf task",
           "parent_goal_ids": ["G-01"],
