@@ -10,7 +10,7 @@
 - ایجاد راهنمای مبتدی، Issue templates، checkpoint، گزارش و evidence conventions.
 - ایجاد branch مستقل `coordination/locks` و رجیستری `ACTIVE_LOCKS.json`.
 - probe اولیه uniqueness و CAS انجام شد؛ stale attempt خطا داد و head روی commit برنده باقی ماند. آزمون واقعی دو حساب مستقل هنوز انجام نشده.
-- GitHub Actions validation در چندین commit PR با conclusion=success اجرا شد؛ آخرین run مشاهده‌شده روی commit `17cc078cf5ad3ba9120813e0c3c9179a27ba689f` موفق بود. پس از آن چند تغییر مستنداتی دیگر ثبت شده‌اند؛ run نهایی روی آخرین head باید دوباره بررسی شود.
+- GitHub Actions validation در چندین commit PR با conclusion=success اجرا شد؛ آخرین run شماره 38 روی head نهایی `7fa6d554f98b77795d0f0a034c62b122e57fe398` با conclusion=success پایان یافت: https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/43588146194.
 
 ## وضعیت کار محصول
 هیچ‌یک از EXP-01 تا EXP-27 در این bootstrap اجرا نشده است. کد سایت، محیط محلی، production، backup/restore، hosting، Voice-typing billing و امنیت عملیاتی ممیزی یا تغییر داده نشده‌اند. همه stageها NOT_STARTED باقی می‌مانند.
