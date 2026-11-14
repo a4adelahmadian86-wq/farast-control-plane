@@ -32,6 +32,8 @@ function claimResources(state, args) {
   const nowMs = args.nowMs ?? Date.now();
   const keys = [...new Set(args.resourceKeys || [])].sort();
   if (!keys.length) return { ok: false, reason: 'missing_resources' };
+  const taskConflict = state.locks.find(x => x.issue_number === args.issueNumber && Date.parse(x.lease_expires_at_utc) > nowMs);
+  if (taskConflict) return { ok: false, reason: 'task_already_claimed', conflict: taskConflict };
   const conflict = state.locks.find(x => keys.includes(x.resource_key) && Date.parse(x.lease_expires_at_utc) > nowMs);
   if (conflict) return { ok: false, reason: 'resource_conflict', conflict };
   const fencingToken = state.next_fencing_token++;
