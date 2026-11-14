@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 75,
+  "revision": 76,
   "next_fencing_token": 54,
   "locks": [
     {
@@ -851,7 +851,7 @@
     },
     "6881493631": {
       "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-GOAL-ALLOCATOR-001; progress=80%; next_action=Release allocator lease with /farast release; preserve WORK_ITEM_ID and resume S5_RELEASE on the next allocator run; remaining_steps=S5_RELEASE.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 11,
       "actor": "a4adelahmadian86-wq",
       "command": "checkpoint",
