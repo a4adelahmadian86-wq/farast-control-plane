@@ -2,32 +2,109 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "FARAST Atomic Resource Lock Registry",
   "type": "object",
-  "required": ["schema_version", "revision", "next_fencing_token", "locks", "history"],
+  "required": [
+    "schema_version",
+    "revision",
+    "next_fencing_token",
+    "locks",
+    "history"
+  ],
   "properties": {
-    "schema_version": {"const": "1.0"},
-    "revision": {"type": "integer", "minimum": 0},
-    "next_fencing_token": {"type": "integer", "minimum": 1},
+    "schema_version": {
+      "const": "1.0"
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "next_fencing_token": {
+      "type": "integer",
+      "minimum": 1
+    },
     "locks": {
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["resource_key", "task_id", "run_id", "agent_alias", "branch", "acquired_at_utc", "heartbeat_at_utc", "lease_expires_at_utc", "fencing_token", "status"],
+        "required": [
+          "resource_key",
+          "task_id",
+          "run_id",
+          "agent_alias",
+          "branch",
+          "acquired_at_utc",
+          "heartbeat_at_utc",
+          "lease_expires_at_utc",
+          "fencing_token",
+          "status"
+        ],
         "properties": {
-          "resource_key": {"type": "string", "minLength": 1},
-          "task_id": {"type": "string", "minLength": 1},
-          "run_id": {"type": "string", "minLength": 1},
-          "agent_alias": {"type": "string", "minLength": 1},
-          "branch": {"type": "string", "minLength": 1},
-          "acquired_at_utc": {"type": "string", "format": "date-time"},
-          "heartbeat_at_utc": {"type": "string", "format": "date-time"},
-          "lease_expires_at_utc": {"type": "string", "format": "date-time"},
-          "fencing_token": {"type": "integer", "minimum": 1},
-          "status": {"const": "ACTIVE"}
+          "resource_key": {
+            "type": "string",
+            "minLength": 1
+          },
+          "task_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "run_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "agent_alias": {
+            "type": "string",
+            "minLength": 1
+          },
+          "branch": {
+            "type": "string",
+            "minLength": 1
+          },
+          "acquired_at_utc": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "heartbeat_at_utc": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lease_expires_at_utc": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "fencing_token": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "status": {
+            "const": "ACTIVE"
+          }
         },
         "additionalProperties": true
       }
     },
-    "history": {"type": "array"}
+    "history": {
+      "type": "array"
+    },
+    "work_items": {
+      "type": "object",
+      "description": "Central Work Item state keyed by GitHub issue number; stable work_item_id is the semantic identity.",
+      "additionalProperties": {
+        "$ref": "WORK_ITEM_SCHEMA.json"
+      }
+    },
+    "checkpoints": {
+      "type": "object",
+      "description": "Latest verified checkpoint per Work Item issue number.",
+      "additionalProperties": {
+        "$ref": "WORK_ITEM_CHECKPOINT_SCHEMA.json"
+      }
+    },
+    "processed_operations": {
+      "type": "object",
+      "description": "Idempotency ledger for durable coordinator commands.",
+      "additionalProperties": {
+        "type": "object"
+      }
+    }
   },
   "additionalProperties": true
 }
