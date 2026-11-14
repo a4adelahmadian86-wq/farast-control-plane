@@ -45,10 +45,13 @@
 
 
 ## آزمون‌های خودکار اجراشونده در CI
-فایل .github/scripts/coordinator-core.test.js با Node.js test runner اجرا می‌شود و ۱۳ آزمون fixture این رفتارها را پوشش می‌دهند: تعارض دو Issue روی منبع مشترک، موفقیت منابع مستقل، acquire چندمنبعی all-or-none، یک owner فعال برای هر Issue، انقضای lease و fencing token جدید، رد token/actor stale، parse کردن target repository و resource keys، approval مستقل روی head فعلی، تطبیق PR با branch/repository آخرین REVIEW، تمدید یکپارچه heartbeat برای همه منابع و محاسبه close eligibility از آخرین transition موفق ledger، جلوگیری از branch reuse و انتقال lineage، و اعتبارسنجی طول/قالب CHAT_ID و RUN_ID. این آزمون‌ها منطق هسته را اعتبارسنجی می‌کنند و جای آزمون واقعی GitHub Actions و دو حساب مستقل را نمی‌گیرند.
+فایل .github/scripts/coordinator-core.test.js با Node.js test runner اجرا می‌شود و ۱۴ آزمون fixture این رفتارها را پوشش می‌دهند: تعارض دو Issue روی منبع مشترک، موفقیت منابع مستقل، acquire چندمنبعی all-or-none، یک owner فعال برای هر Issue، انقضای lease و fencing token جدید، رد token/actor stale، parse کردن target repository و resource keys، approval مستقل روی head فعلی، تطبیق PR با branch/repository آخرین REVIEW، تمدید یکپارچه heartbeat برای همه منابع و محاسبه close eligibility از آخرین transition موفق ledger، جلوگیری از branch reuse و انتقال lineage، و اعتبارسنجی طول/قالب CHAT_ID و RUN_ID، و نقش‌های OWNER/SENIOR_MANAGER/WORKER/READ_ONLY. این آزمون‌ها منطق هسته را اعتبارسنجی می‌کنند و جای آزمون واقعی GitHub Actions و دو حساب مستقل را نمی‌گیرند.
 
 
 ## آزمون lineage و جلوگیری از stale branch
 - پس از RELEASE/REVIEW/LEASE_EXPIRED، claim با RUN_ID قبلی باید با `branch_reuse` رد شود. شناسه‌های chat/run باید فقط از حروف/اعداد/نقطه/underscore/hyphen و حداکثر ۶۴ نویسه باشند.
 - claim با RUN_ID جدید باید previous_run/previous_branch/previous_target_repository را دقیقاً از آخرین handoff همان Issue برگرداند.
 - worker جدید باید branch جدید را از checkpoint معتبر branch قبلی بسازد؛ این مرحله در workflow خودکار نیست و باید در آزمون end-to-end در target repository مشاهده شود.
+
+
+سیاست تفویض اختیار فرمان‌ها در `04_COORDINATION/ACTOR_AUTHORIZATION.json` ثبت شده است؛ نقش پیش‌فرض WORKER به فرمان‌های اجرایی پایه محدود است و فرمان‌های حساس فقط برای OWNER یا actor صریحاً تفویض‌شده فعال‌اند.
