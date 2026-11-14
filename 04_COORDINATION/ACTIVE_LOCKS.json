@@ -1,25 +1,8 @@
 {
   "schema_version": "1.0",
-  "revision": 58,
+  "revision": 59,
   "next_fencing_token": 53,
-  "locks": [
-    {
-      "resource_key": "module:independent-resource-smoke",
-      "issue_number": 9,
-      "task_id": "GH-9",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "parallel-chat-C",
-      "chat_id": "parallel-chat-C",
-      "run_id": "independent-C-001",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": "work/GH-9-independent-C-001",
-      "acquired_at_utc": "2026-11-14T17:21:53.245Z",
-      "heartbeat_at_utc": "2026-11-14T17:21:53.245Z",
-      "lease_expires_at_utc": "2026-11-14T17:26:53.245Z",
-      "fencing_token": 52,
-      "status": "ACTIVE"
-    }
-  ],
+  "locks": [],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -592,6 +575,17 @@
       "branch": "work/GH-7-shared-A-001",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "at_utc": "2026-11-14T17:23:08.082Z"
+    },
+    {
+      "event": "BLOCK",
+      "issue_number": 9,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "parallel-chat-C",
+      "run_id": "independent-C-001",
+      "fencing_token": 52,
+      "branch": "work/GH-9-independent-C-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "at_utc": "2026-11-14T17:23:27.536Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -748,6 +742,15 @@
       "command": "block",
       "next_status": "blocked",
       "at_utc": "2026-11-14T17:23:08.087Z"
+    },
+    "6881385369": {
+      "response": "وظیفه مسدود شد و lease آزاد شد.",
+      "response_posted": false,
+      "issue_number": 9,
+      "actor": "a4adelahmadian86-wq",
+      "command": "block",
+      "next_status": "blocked",
+      "at_utc": "2026-11-14T17:23:27.540Z"
     }
   },
   "work_items": {
@@ -839,7 +842,7 @@
       "parent_exp_ids": [
         "EXP-01"
       ],
-      "status": "CLAIMED",
+      "status": "BLOCKED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "module:independent-resource-smoke"
