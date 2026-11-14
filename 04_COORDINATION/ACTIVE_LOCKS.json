@@ -1,24 +1,8 @@
 {
   "schema_version": "1.0",
-  "revision": 56,
+  "revision": 57,
   "next_fencing_token": 53,
   "locks": [
-    {
-      "resource_key": "module:shared-resource-smoke",
-      "issue_number": 7,
-      "task_id": "GH-7",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "concurrency-chat-A",
-      "chat_id": "concurrency-chat-A",
-      "run_id": "shared-A-001",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": "work/GH-7-shared-A-001",
-      "acquired_at_utc": "2026-11-14T17:21:33.131Z",
-      "heartbeat_at_utc": "2026-11-14T17:21:33.131Z",
-      "lease_expires_at_utc": "2026-11-14T17:26:33.131Z",
-      "fencing_token": 51,
-      "status": "ACTIVE"
-    },
     {
       "resource_key": "module:independent-resource-smoke",
       "issue_number": 9,
@@ -597,6 +581,17 @@
       "previous_run_id": null,
       "fencing_token": 52,
       "at_utc": "2026-11-14T17:21:53.245Z"
+    },
+    {
+      "event": "BLOCK",
+      "issue_number": 7,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "concurrency-chat-A",
+      "run_id": "shared-A-001",
+      "fencing_token": 51,
+      "branch": "work/GH-7-shared-A-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "at_utc": "2026-11-14T17:23:08.082Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -744,6 +739,15 @@
       "command": "claim",
       "next_status": null,
       "at_utc": "2026-11-14T17:22:39.866Z"
+    },
+    "6881384939": {
+      "response": "وظیفه مسدود شد و lease آزاد شد.",
+      "response_posted": false,
+      "issue_number": 7,
+      "actor": "a4adelahmadian86-wq",
+      "command": "block",
+      "next_status": "blocked",
+      "at_utc": "2026-11-14T17:23:08.087Z"
     }
   },
   "work_items": {
@@ -804,7 +808,7 @@
       "parent_exp_ids": [
         "EXP-01"
       ],
-      "status": "CLAIMED",
+      "status": "BLOCKED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "module:shared-resource-smoke"
