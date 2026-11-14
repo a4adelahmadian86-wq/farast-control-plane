@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 35,
+  "revision": 36,
   "next_fencing_token": 50,
   "locks": [
     {
@@ -559,7 +559,7 @@
     },
     "6881253455": {
       "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-CP-SMOKE-001; progress=100%; next_action=Review smoke evidence, then block this disposable test issue; remaining_steps=.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 5,
       "actor": "a4adelahmadian86-wq",
       "command": "checkpoint",
