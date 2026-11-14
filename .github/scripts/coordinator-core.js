@@ -4,6 +4,16 @@ function isSafeRunId(value) {
   return typeof value === 'string' && /^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$/.test(value);
 }
 
+function roleForActor(policy, actor, association) {
+  const role = policy?.actor_roles?.[actor] || policy?.default_association_roles?.[association] || null;
+  return Object.prototype.hasOwnProperty.call(policy?.roles || {}, role) ? role : null;
+}
+
+function isCommandAllowed(policy, actor, association, command) {
+  const role = roleForActor(policy, actor, association);
+  return !!role && Array.isArray(policy.roles[role]) && policy.roles[role].includes(String(command).toLowerCase());
+}
+
 function resourcesFor(body, issueNumber) {
   const text = body || '';
   const match = text.match(/(?:^|\n)###\s*Resource keys\s*\n([\s\S]*?)(?=\n###|$)/i);
@@ -103,6 +113,6 @@ function hasIndependentApproval(reviews, pr, workerActor, acceptActor) {
 }
 
 module.exports = {
-  isSafeRunId, resourcesFor, targetRepositoryFor, expireLocks, activeForIssue,
+  isSafeRunId, roleForActor, isCommandAllowed, resourcesFor, targetRepositoryFor, expireLocks, activeForIssue,
   claimResources, renewLease, ownsLease, latestTaskStatus, matchesReviewLease, hasIndependentApproval
 };
