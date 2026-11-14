@@ -77,6 +77,9 @@
 ## وضعیت جاری چندچتی — 2026-11-14
 - Head branch: `af6dfe5ebeca13674ac516c013fa25db18b6ca09` (وضعیت به‌روزرسانی اسناد/کد پس از این SHA باید از PR زنده خوانده شود).
 - workflow فرمانی در شاخه PR وجود دارد؛ فعال‌سازی schedule و issue_comment نیازمند ادغام PR #1 در default branch است.
-- CI در commit `af6dfe5ebeca13674ac516c013fa25db18b6ca09` موفق؛ ۱۲/۱۲ تست هسته و اعتبارسنجی ۱۷ پرامپت موفق.
+- CI در commit `af6dfe5ebeca13674ac516c013fa25db18b6ca09` موفق؛ ۱۴/۱۴ تست هسته و اعتبارسنجی ۱۷ پرامپت موفق.
 - هandoff: branch یکتا برای هر RUN، رد branch reuse، بازگرداندن lineage اجرای قبلی؛ ایجاد branch جدید در مخزن هدف هنوز مسئولیت worker و نیازمند آزمون E2E است.
 - آزمون واقعی دو حساب GitHub/ChatGPT مستقل، قطع اتصال/takeover و اجرای workflow روی default branch هنوز NOT_RUN.
+
+
+سیاست تفویض اختیار فرمان‌ها در `04_COORDINATION/ACTOR_AUTHORIZATION.json` ثبت شده است؛ نقش پیش‌فرض WORKER به فرمان‌های اجرایی پایه محدود است و فرمان‌های حساس فقط برای OWNER یا actor صریحاً تفویض‌شده فعال‌اند.
