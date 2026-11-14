@@ -27,6 +27,7 @@ visibility این مخزن طبق تصمیم فعلی مالک `PUBLIC` باقی
 - [پرامپت مادر MASTER-00](05_PROMPT_LIBRARY/MASTER-00.md)
 
 ## اسناد تکمیلی معماری و پذیرش
+- [ارزیابی آمادگی اجرای چندچتی](04_COORDINATION/MULTI_CHAT_READINESS.md)
 - [تطبیق معماری مصوب با فایل‌های canonical](00_PROJECT_FOUNDATION/ARCHITECTURE_COVERAGE.md)
 - [چارچوب پذیرش و اثبات تکمیل](04_COORDINATION/ACCEPTANCE_FRAMEWORK.md)
 - قراردادهای ماشین‌خوان: `04_COORDINATION/WORK_ORDER_SCHEMA.json` و `CHECKPOINT_SCHEMA.json`
