@@ -72,15 +72,25 @@ test('acceptance approval must be current-head and independent of PR author, wor
   assert.equal(core.hasIndependentApproval([{...base, commit_id: 'old-head'}], pr, 'worker', 'owner'), false);
   assert.equal(core.hasIndependentApproval([{...base, user: { login: 'worker' }}], pr, 'worker', 'owner'), false);
   assert.equal(core.hasIndependentApproval([{...base, user: { login: 'author' }}], pr, 'worker', 'owner'), false);
+  assert.equal(core.hasIndependentApproval([
+    {...base, submitted_at: '2026-11-14T10:00:00Z'},
+    {...base, state: 'CHANGES_REQUESTED', submitted_at: '2026-11-14T10:01:00Z'}
+  ], pr, 'worker', 'owner'), false);
+  assert.equal(core.hasIndependentApproval([
+    {...base, commit_id: 'old-head', submitted_at: '2026-11-14T10:00:00Z'},
+    {...base, commit_id: 'head-2', submitted_at: '2026-11-14T10:01:00Z'}
+  ], pr, 'worker', 'owner'), true);
 });
 
 
 test('accepted PR must come from the exact branch and repository recorded by the latest lease review', () => {
-  const pr = { head: { ref: 'work/GH-10-run-2', repo: { full_name: 'owner/product' } } };
+  const pr = { head: { ref: 'work/GH-10-run-2', repo: { full_name: 'owner/product' } }, base: { repo: { full_name: 'owner/product' } } };
   const review = { branch: 'work/GH-10-run-2', target_repository: 'owner/product' };
   assert.equal(core.matchesReviewLease(pr, review), true);
   assert.equal(core.matchesReviewLease(pr, { ...review, branch: 'work/GH-10-run-1' }), false);
   assert.equal(core.matchesReviewLease(pr, { ...review, target_repository: 'owner/other' }), false);
+  assert.equal(core.matchesReviewLease({ ...pr, base: { repo: { full_name: 'owner/other' } } }, review), false);
+  assert.equal(core.matchesReviewLease({ ...pr, head: { ...pr.head, repo: { full_name: 'owner/fork' } } }, review), false);
   assert.equal(core.matchesReviewLease(pr, null), false);
 });
 
