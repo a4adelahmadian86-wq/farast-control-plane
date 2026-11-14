@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "revision": 52,
-  "next_fencing_token": 52,
+  "revision": 53,
+  "next_fencing_token": 53,
   "locks": [
     {
       "resource_key": "module:shared-resource-smoke",
@@ -17,6 +17,22 @@
       "heartbeat_at_utc": "2026-11-14T17:21:33.131Z",
       "lease_expires_at_utc": "2026-11-14T17:26:33.131Z",
       "fencing_token": 51,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "module:independent-resource-smoke",
+      "issue_number": 9,
+      "task_id": "GH-9",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "parallel-chat-C",
+      "chat_id": "parallel-chat-C",
+      "run_id": "independent-C-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-9-independent-C-001",
+      "acquired_at_utc": "2026-11-14T17:21:53.245Z",
+      "heartbeat_at_utc": "2026-11-14T17:21:53.245Z",
+      "lease_expires_at_utc": "2026-11-14T17:26:53.245Z",
+      "fencing_token": 52,
       "status": "ACTIVE"
     }
   ],
@@ -564,6 +580,23 @@
       "previous_run_id": null,
       "fencing_token": 51,
       "at_utc": "2026-11-14T17:21:33.131Z"
+    },
+    {
+      "event": "ACQUIRED",
+      "issue_number": 9,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "parallel-chat-C",
+      "run_id": "independent-C-001",
+      "resource_keys": [
+        "module:independent-resource-smoke"
+      ],
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-9-independent-C-001",
+      "previous_branch": null,
+      "previous_target_repository": null,
+      "previous_run_id": null,
+      "fencing_token": 52,
+      "at_utc": "2026-11-14T17:21:53.245Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -693,6 +726,15 @@
       "command": "claim",
       "next_status": "locked",
       "at_utc": "2026-11-14T17:21:33.136Z"
+    },
+    "6881367486": {
+      "response": "CLAIM GRANTED. TASK=GH-9; WORK_ITEM_ID=WI-CP-INDEPENDENT-C; verified_steps=; remaining_steps=S1; progress=0%; actor=@a4adelahmadian86-wq; chat=parallel-chat-C; run=independent-C-001; resource_keys=module:independent-resource-smoke; target_repository=a4adelahmadian86-wq/farast-control-plane; branch=work/GH-9-independent-C-001; previous_run=none; fencing_token=52; lease_expires=2026-11-14T17:26:53.245Z. پیش از هر write و checkpoint، heartbeat را تمدید و token را بررسی کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز؛ هرگز branch قبلی را تغییر نده.",
+      "response_posted": false,
+      "issue_number": 9,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "locked",
+      "at_utc": "2026-11-14T17:21:53.367Z"
     }
   },
   "work_items": {
@@ -757,6 +799,37 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "module:shared-resource-smoke"
+      ],
+      "dependencies": [],
+      "steps": [
+        {
+          "step_id": "S1",
+          "title": "Verify concurrency claim behavior"
+        }
+      ],
+      "acceptance_criteria": [
+        {
+          "criterion_id": "AC1",
+          "title": "Coordinator enforces intended claim isolation"
+        }
+      ],
+      "priority": 50,
+      "created_at_utc": "2026-11-14T17:20:00Z"
+    },
+    "9": {
+      "schema_version": "1.0",
+      "work_item_id": "WI-CP-INDEPENDENT-C",
+      "title": "Independent resource parallel C",
+      "parent_goal_ids": [
+        "G-CP-CONCURRENCY-SMOKE"
+      ],
+      "parent_exp_ids": [
+        "EXP-01"
+      ],
+      "status": "CLAIMED",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "resource_keys": [
+        "module:independent-resource-smoke"
       ],
       "dependencies": [],
       "steps": [
