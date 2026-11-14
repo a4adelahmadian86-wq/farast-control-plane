@@ -1,6 +1,6 @@
 # کتابخانه کامل پرامپت‌های اجرایی FARAST
 
-نسخه: 1.1.0 | زبان: فارسی | مرجع وضعیت: farast-control-plane
+نسخه: 1.2.0 | زبان: فارسی | مرجع وضعیت: farast-control-plane
 
 > این فایل تجمیعی از نسخه‌های مستقل و مرجع پرامپت‌ها در همین شاخه بازسازی شده است. پیش از اجرا، وضعیت و آخرین نسخه GitHub را بخوانید. هر پرامپت تخصصی باید START_HERE، MASTER-00 و پروتکل INTERRUPTION_RECOVERY را از GitHub دریافت کند. در قطع اتصال یا پرشدن پنجره زمینه، فقط از آخرین checkpoint تأییدشده ادامه دهید؛ خلاصه خودکار چت مرجع حقیقت نیست.
 
@@ -44,7 +44,7 @@
 - الگوریتم دقیق در `04_COORDINATION/LOCK_MANAGER_PROTOCOL.md` است.
 - Acquire/heartbeat/release باید با Git Data API و `update_ref(expected_sha=...)` انجام شود.
 - همه منابع یک TASK یا یکجا گرفته می‌شوند یا هیچ‌کدام.
-- Lease پیش‌فرض 30 دقیقه، heartbeat هر 10 دقیقه و fencing token اجباری است.
+- Lease پیش‌فرض 30 دقیقه، heartbeat هدف‌گذاری‌شده هر 10 دقیقه و fencing token اجباری است؛ heartbeat خودکار/پس‌زمینه تضمین‌شده نیست. پیش از هر write و در هر checkpoint، lease را زنده بررسی و در صورت نیاز با CAS تمدید کن؛ اگر تمدید یا اعتبار token ممکن نیست، نوشتن را متوقف کن.
 - CAS ناموفق، timeout یا ابزار ناقص یعنی STOP WRITES؛ هرگز به قفل تعاونی/حافظه چت fallback نکن.
 - قبل از هر commit/PR، lease و fencing token را دوباره اعتبارسنجی کن.
 - هیچ چتی branch یا فایل عامل دیگر را تصاحب نکند.
