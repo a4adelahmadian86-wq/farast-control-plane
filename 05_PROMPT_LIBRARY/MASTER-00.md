@@ -21,8 +21,8 @@
 
 ## هماهنگی چندعاملی
 - کارهای read-only موازی‌اند.
-- کارهای write فقط در branch اختصاصی و پس از بررسی قفل اتمیک مجازند.
-- قفل فعلی اتمیک نیست. اگر وضعیت قفل متناقض/نامعلوم است، STOP WRITES.
+- کارهای write فقط در branch اختصاصی و پس از acquire اتمیک همه RESOURCE_KEYها در رجیستری `coordination/locks` و CAS موفق با `expected_sha` مجازند.
+- lease، heartbeat و fencing token را طبق `04_COORDINATION/LOCK_MANAGER_PROTOCOL.md` رعایت کن. اگر Git Data write یا CAS در دسترس نیست، یا وضعیت قفل متناقض/نامعلوم است، STOP WRITES.
 - هیچ چتی نباید branch یا فایل چت دیگر را تصاحب کند.
 - منابع مشترک، فایل‌های حساس و قراردادهای API باید در RESOURCE_KEYS ثبت شوند.
 - تمام تغییرات محصول از PR و review عبور کنند؛ ادغام/deploy بدون مجوز ممنوع.
