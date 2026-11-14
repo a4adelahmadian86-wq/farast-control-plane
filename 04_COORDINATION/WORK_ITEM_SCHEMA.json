@@ -245,6 +245,11 @@
         "OWNER_ASSIGNED",
         "DEFAULT_POLICY"
       ]
+    },
+    "owner_approval_ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Required when write_policy is WRITE_REQUIRES_OWNER_APPROVAL; owner approval evidence reference."
     }
   },
   "additionalProperties": false
