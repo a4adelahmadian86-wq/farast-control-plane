@@ -26,7 +26,7 @@
 11. `04_COORDINATION/WORKER_PROTOCOL.md`، `LOCK_PROTOCOL.md`، `LOCK_MANAGER_PROTOCOL.md` و `TASK_SCHEMA.md`
 12. `04_COORDINATION/WORK_ORDER_SCHEMA.json`، `CHECKPOINT_SCHEMA.json`، `HANDOFF_PROTOCOL.md` و `ACCEPTANCE_FRAMEWORK.md` را بخوان.
 13. `04_COORDINATION/INTERRUPTION_RECOVERY_PROTOCOL.md` را کامل بخوان؛ این سند برای قطع اینترنت، timeout، توقف نشست و پرشدن context لازم‌الاجراست.
-14. `04_COORDINATION/LEGACY_COORDINATOR_MIGRATION.md` را بخوان؛ قابلیت‌های coordinator قدیمی PR #479 هنوز منتقل نشده‌اند و نباید /farast commands را فعال فرض کنی.
+14. 04_COORDINATION/LEGACY_COORDINATOR_MIGRATION.md و 04_COORDINATION/COORDINATOR_COMMANDS.md و 04_COORDINATION/COORDINATOR_TEST_PLAN.md را بخوان؛ وضعیت فعال‌سازی workflow را از Actions زنده بررسی کن.
 15. `05_PROMPT_LIBRARY/MASTER-00.md` را کامل بخوان و سپس پرامپت تخصصی مربوط را اجرا کن؛ پرامپت تخصصی بدون پروتکل مادر مجاز به نوشتن نیست.
 16. `05_PROMPT_LIBRARY/PROMPT_CATALOG.md` و پرامپت تخصصی
 
@@ -38,9 +38,10 @@
 - اگر دسترسی GitHub یا ابزار لازم وجود ندارد، نوشتن ممنوع؛ فقط تحلیل read-only و ثبت محدودیت در پاسخ.
 - وظایف مستقل می‌توانند موازی باشند؛ وابستگی و RESOURCE_KEY تعیین‌کننده‌اند، نه شماره PR.
 - TASK_ID موجود و آخرین checkpoint را ادامه بده؛ duplicate نساز.
-- پیش از هر نوشتن در فایل/ماژول/schema/API مشترک، همه RESOURCE_KEYها را با CAS در branch `coordination/locks` یکجا acquire کن.
-- فقط update_ref موفق با expected_sha قفل را تأیید می‌کند. خطا/timeout/ابهام = STOP WRITES.
-- Lease، heartbeat و fencing token را رعایت کن؛ قبل از هر commit/PR اعتبار token را دوباره بررسی کن.
+- پیش از هر write، از طریق Issue فرمان /farast claim chat=... run=... lease=30 ثبت کن؛ فقط پاسخ CLAIM GRANTED و read-back رجیستری مجوز نوشتن است.
+- چت worker هرگز رجیستری ACTIVE_LOCKS.json را مستقیم تغییر نمی‌دهد؛ workflow مرکزی تنها نویسنده است.
+- پیش از هر write/checkpoint، heartbeat با chat/run/token صحیح و read-back انجام بده؛ timeout/عدم پاسخ/ابهام = STOP WRITES.
+- دستورها و الگوهای دقیق در 04_COORDINATION/COORDINATOR_COMMANDS.md هستند.
 - هر چت branch اختصاصی داشته باشد؛ مستقیم روی main commit نکن.
 - ادغام PR، انتشار، حذف داده، migration مخرب، تغییر امنیت/مجوز، هزینه یا تغییر مالی/حقوقی نیازمند تأیید صریح و ثبت‌شده مالک است.
 - secret، token، private key، PII و داده مشتری در Issue/commit/log ممنوع.
@@ -53,7 +54,7 @@
 3. وظایف/PRهای مرتبط و کارهای فعال را جست‌وجو کن.
 4. duplicate و dependency را بررسی کن.
 5. TASK موجود را بازیابی یا Issue جدید بساز.
-6. RESOURCE_KEYها را canonicalize و به‌صورت all-or-none با CAS قفل کن.
+6. RESOURCE_KEYها را در Issue ثبت و با فرمان coordinator به‌صورت all-or-none claim کن؛ توکن صادرشده را در checkpoint نگه دار.
 7. در branch اختصاصی `work/<TASK_ID>-<slug>` کار کن.
 8. checkpoint اولیه و مرحله‌ای ثبت کن.
 9. PR و handoff بساز؛ ادغام نکن.
