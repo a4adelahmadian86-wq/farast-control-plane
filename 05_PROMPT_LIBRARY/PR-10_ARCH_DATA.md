@@ -44,7 +44,7 @@
 معماری فعلی، مرز ماژول‌ها، جریان داده، وابستگی‌ها و طرح migration را مستند کن؛ در این اجرا هیچ migration یا تغییر schema اعمال نکن.
 
 ## مراحل
-1. TASK `FCP-EXP10-001` را بازیابی کن.
+1. Work Itemهای موجود متناظر با `EXP-10` و `EXP-11` را از Issueها و WORK_ITEM_IDهای واقعی بازیابی کن؛ شناسه فرضی نساز و dependencyهای ثبت‌شده را رعایت کن.
 2. entry pointها، routeها، controller/service/model/job/event, external integration, frontend, database و deployment را نقشه‌برداری کن.
 3. وابستگی چرخه‌ای، سرویس‌های هم‌پوشان، legacy/new implementation و نقاط coupling را مشخص کن.
 4. مدل داده، ownership، FK، index، constraint، PII، مالی، audit و retention را بررسی کن.
