@@ -14,6 +14,35 @@ body:
       description: State the required outcome and evidence-based context.
     validations:
       required: true
+  - type: input
+    id: work_item_id
+    attributes:
+      label: Stable Work Item ID
+      description: Stable across chats, accounts and RUN_ID changes; never reuse for a different leaf.
+      placeholder: WI-EXP03-001
+    validations:
+      required: true
+  - type: input
+    id: parent_goal_ids
+    attributes:
+      label: Parent Goal IDs
+      placeholder: G-01
+    validations:
+      required: true
+  - type: input
+    id: parent_exp_ids
+    attributes:
+      label: Parent EXP IDs
+      placeholder: EXP-03
+    validations:
+      required: true
+  - type: input
+    id: priority
+    attributes:
+      label: Owner-assigned priority (0-100; lower is higher)
+      placeholder: "50"
+    validations:
+      required: true
   - type: textarea
     id: scope
     attributes:
@@ -84,3 +113,27 @@ body:
       label: Dependencies, rollback and handoff
     validations:
       required: false
+
+  - type: textarea
+    id: work_item_specification_json
+    attributes:
+      label: Work item specification JSON
+      description: Valid JSON conforming to 04_COORDINATION/WORK_ITEM_SCHEMA.json. Include steps, evidence requirements, dependencies and acceptance criteria. Do not mark anything PASS at creation.
+      placeholder: |
+        {
+          "schema_version": "1.0",
+          "work_item_id": "WI-EXP03-001",
+          "title": "Example leaf task",
+          "parent_goal_ids": ["G-01"],
+          "parent_exp_ids": ["EXP-03"],
+          "status": "READY",
+          "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+          "resource_keys": ["module:capability-catalog"],
+          "dependencies": [],
+          "steps": [{"step_id": "S1", "title": "Inspect evidence"}],
+          "acceptance_criteria": [{"criterion_id": "AC1", "title": "Evidence is traceable"}],
+          "priority": 50,
+          "created_at_utc": "2026-11-14T00:00:00Z"
+        }
+    validations:
+      required: true
