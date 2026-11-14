@@ -43,4 +43,4 @@
 
 
 ## آزمون‌های خودکار اجراشونده در CI
-فایل .github/scripts/coordinator-core.test.js با Node.js test runner اجرا می‌شود و این رفتارها را به‌صورت fixture پوشش می‌دهد: تعارض دو Issue روی منبع مشترک، موفقیت منابع مستقل، acquire چندمنبعی all-or-none، انقضای lease و افزایش fencing token، رد token/actor stale، parse کردن target repository و resource keys، و approval مستقل روی head فعلی. این آزمون‌ها منطق هسته را اعتبارسنجی می‌کنند و جای آزمون واقعی GitHub Actions و دو حساب مستقل را نمی‌گیرند.
+فایل .github/scripts/coordinator-core.test.js با Node.js test runner اجرا می‌شود و ۱۰ آزمون fixture این رفتارها را پوشش می‌دهند: تعارض دو Issue روی منبع مشترک، موفقیت منابع مستقل، acquire چندمنبعی all-or-none، یک owner فعال برای هر Issue، انقضای lease و fencing token جدید، رد token/actor stale، parse کردن target repository و resource keys، approval مستقل روی head فعلی، تطبیق PR با branch/repository آخرین REVIEW و تمدید یکپارچه heartbeat برای همه منابع. این آزمون‌ها منطق هسته را اعتبارسنجی می‌کنند و جای آزمون واقعی GitHub Actions و دو حساب مستقل را نمی‌گیرند.
