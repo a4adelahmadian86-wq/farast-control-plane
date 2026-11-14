@@ -38,10 +38,10 @@ jobs:
             const owner = context.repo.owner;
             const repo = context.repo.repo;
             const coordinatorCore = require(process.env.GITHUB_WORKSPACE + '/.github/scripts/coordinator-core.js');
+            const workItemCore = require(process.env.GITHUB_WORKSPACE + '/.github/scripts/work-item-core.js');
             const authorizationPolicy = require(process.env.GITHUB_WORKSPACE + '/04_COORDINATION/ACTOR_AUTHORIZATION.json');
             const registryBranch = 'coordination/locks';
-            const { getOctokit } = require('@actions/github');
-            const crossRepoGithub = process.env.FARAST_GITHUB_TOKEN ? getOctokit(process.env.FARAST_GITHUB_TOKEN) : null;
+            const crossRepoGithub = process.env.FARAST_GITHUB_TOKEN ? new github.constructor({ auth: process.env.FARAST_GITHUB_TOKEN }) : null;
             const registryPath = '04_COORDINATION/ACTIVE_LOCKS.json';
             const allowedAssociations = new Set(['OWNER', 'COLLABORATOR', 'MEMBER']);
             const labelDefs = [
@@ -113,12 +113,52 @@ jobs:
             const targetRepositoryFor = issue => coordinatorCore.targetRepositoryFor(issue.body);
             const activeForIssue = (state, n) => coordinatorCore.activeForIssue(state, n);
             const expireLocks = state => coordinatorCore.expireLocks(state);
+            const workItemSpecFor = issue => {
+              const match = (issue.body || '').match(/(?:^|\n)###\s*Work item specification JSON\s*\n([\s\S]*?)(?=\n###|$)/i);
+              if (!match) return null;
+              const raw = match[1].trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '');
+              try {
+                const item = JSON.parse(raw);
+                workItemCore.validateWorkItem(item);
+                const scalar = label => {
+                  const body = issue.body || '';
+                  const at = body.indexOf('### ' + label);
+                  if (at < 0) return '';
+                  const start = body.indexOf('\n', at) + 1;
+                  const next = body.indexOf('\n###', start);
+                  return body.slice(start, next < 0 ? undefined : next).trim();
+                };
+                const formId = scalar('Stable Work Item ID');
+                const formTarget = targetRepositoryFor(issue);
+                const formResources = resourcesFor(issue);
+                const formGoals = scalar('Parent Goal IDs').split(/[\n,;]+/).map(x => x.trim()).filter(Boolean).sort();
+                const formExps = scalar('Parent EXP IDs').split(/[\n,;]+/).map(x => x.trim()).filter(Boolean).sort();
+                const formPriority = Number(scalar('Owner-assigned priority (0-100; lower is higher)'));
+                const specResources = [...new Set((item.resource_keys || []).map(x => String(x).trim().toLowerCase().replace(/\\/g, '/')))].sort();
+                if (formId && formId !== item.work_item_id) throw new Error('Stable Work Item ID does not match JSON');
+                if (formTarget && formTarget !== item.target_repository) throw new Error('Target repository does not match JSON');
+                if (JSON.stringify(formResources) !== JSON.stringify(specResources)) throw new Error('Resource keys do not match JSON');
+                if (formGoals.length && JSON.stringify(formGoals) !== JSON.stringify([...(item.parent_goal_ids || [])].sort())) throw new Error('Parent Goal IDs do not match JSON');
+                if (formExps.length && JSON.stringify(formExps) !== JSON.stringify([...(item.parent_exp_ids || [])].sort())) throw new Error('Parent EXP IDs do not match JSON');
+                if (Number.isFinite(formPriority) && formPriority !== item.priority) throw new Error('Priority does not match JSON');
+                return item;
+              } catch (error) {
+                throw new Error('Invalid Work item specification JSON in Issue #' + issue.number + ': ' + error.message);
+              }
+            };
+            const savedWorkItemFor = (state, issue) => {
+              const item = (state.work_items && state.work_items[issue.number]) || workItemSpecFor(issue);
+              if (!item) return null;
+              const byId = new Map(Object.values(state.work_items || {}).map(x => [x.work_item_id, x]));
+              item.dependencies = (item.dependencies || []).map(dep => ({ ...dep, status: (byId.get(dep.work_item_id) && byId.get(dep.work_item_id).status) || dep.status || 'UNKNOWN' }));
+              return item;
+            };
 
             const handleCommand = async (issue, comment, snapshot) => {
               const state = snapshot.state;
               const id = String(comment.id);
               if (state.processed_operations?.[id]) return snapshot;
-              const match = comment.body.match(/^\s*\/farast\s+(claim|heartbeat|release|status|block|unblock|review|reopen|accept)\b([\s\S]*)$/i);
+              const match = comment.body.match(/^\s*\/farast\s+(claim|heartbeat|release|status|progress|step|criterion|checkpoint|block|unblock|review|reopen|accept)\b([\s\S]*)$/i);
               if (!match) return snapshot;
               const command = match[1].toLowerCase();
               const args = parseArgs(match[2]);
@@ -167,13 +207,51 @@ jobs:
                         response = 'Claim رد شد: منبع ' + conflict.resource_key + ' در اختیار Issue #' + conflict.issue_number + ' / @' + conflict.actor + ' تا ' + conflict.lease_expires_at_utc + ' UTC است.';
                       } else if (claim.ok) {
                         const handoff = claim.previousRun ? '; previous_run=' + claim.previousRun.runId + '; previous_target_repository=' + claim.previousRun.targetRepository + '; previous_branch=' + claim.previousRun.branch : '; previous_run=none';
-                        response = 'CLAIM GRANTED. TASK=GH-' + issue.number + '; actor=@' + actor + '; chat=' + chat + '; run=' + run + '; resource_keys=' + claim.resourceKeys.join(',') + '; target_repository=' + targetRepository + '; branch=' + taskBranch + handoff + '; fencing_token=' + claim.fencingToken + '; lease_expires=' + claim.expiresAt + '. پیش از هر write و checkpoint، heartbeat را تمدید و token را بررسی کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز؛ هرگز branch قبلی را تغییر نده.';
+                        const workItem = savedWorkItemFor(state, issue);
+                        let resumeText = '';
+                        if (workItem) {
+                          state.work_items ||= {};
+                          state.work_items[issue.number] ||= workItem;
+                          state.work_items[issue.number].status = 'CLAIMED';
+                          const plan = workItemCore.resumePlan(state.work_items[issue.number]);
+                          resumeText = '; WORK_ITEM_ID=' + plan.work_item_id + '; verified_steps=' + plan.completed_step_ids.join(',') + '; remaining_steps=' + plan.remaining_step_ids.join(',') + '; progress=' + plan.percentage + '%';
+                        }
+                        response = 'CLAIM GRANTED. TASK=GH-' + issue.number + resumeText + '; actor=@' + actor + '; chat=' + chat + '; run=' + run + '; resource_keys=' + claim.resourceKeys.join(',') + '; target_repository=' + targetRepository + '; branch=' + taskBranch + handoff + '; fencing_token=' + claim.fencingToken + '; lease_expires=' + claim.expiresAt + '. پیش از هر write و checkpoint، heartbeat را تمدید و token را بررسی کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز؛ هرگز branch قبلی را تغییر نده.';
                         nextStatus = 'locked';
                       }
                     }
                   }
                 } else if (command === 'status') {
                   response = current.length ? 'وضعیت: LOCKED؛ مالک @' + current[0].actor + '؛ chat=' + current[0].chat_id + '؛ run=' + current[0].run_id + '؛ token=' + current[0].fencing_token + '؛ expiry=' + current[0].lease_expires_at_utc : 'وضعیت: بدون lease فعال.';
+                } else if (command === 'progress') {
+                  const item = savedWorkItemFor(state, issue);
+                  if (!item) response = 'Work item specification JSON معتبر در Issue ثبت نشده است.';
+                  else {
+                    state.work_items ||= {}; state.work_items[issue.number] ||= item;
+                    const p = workItemCore.calculateProgress(state.work_items[issue.number]);
+                    response = 'WORK_ITEM=' + item.work_item_id + '; progress=' + p.percentage + '%; verified_steps=' + p.verified_steps + '/' + p.total_steps + '; weighting=' + p.weighting_version + '; acceptance_criteria=' + (p.all_required_criteria_passed ? 'PASS' : 'INCOMPLETE') + '; dependencies=' + (p.dependencies_accepted ? 'PASS' : 'INCOMPLETE') + '; can_accept=' + p.can_accept + '. درصد پیشرفت به‌تنهایی پذیرش نیست.';
+                  }
+                } else if (['step','criterion','checkpoint'].includes(command)) {
+                  const item = savedWorkItemFor(state, issue);
+                  if (!item) response = 'Work item specification JSON معتبر در Issue ثبت نشده است.';
+                  else if (!owned || !token) response = 'فرمان رد شد: lease معتبر نیست.';
+                  else {
+                    state.work_items ||= {}; state.work_items[issue.number] ||= item;
+                    const saved = state.work_items[issue.number];
+                    const evidence = (args.evidence || '').split(',').map(x => x.trim()).filter(Boolean);
+                    if (command === 'step') {
+                      const result = workItemCore.recordStepEvidence(saved, { lease: current[0], actor, chat_id: chat, run_id: run, fencing_token: token, step_id: args.step || '', validation_status: (args.result || '').toUpperCase(), evidence_refs: evidence, note: args.note || '', nowMs: Date.now() });
+                      saved.status = 'IN_PROGRESS';
+                      response = 'STEP ثبت شد: ' + args.step + '; progress=' + result.progress.percentage + '%; verified=' + result.progress.verified_steps + '/' + result.progress.total_steps + '.';
+                    } else if (command === 'criterion') {
+                      const result = workItemCore.recordCriterionEvidence(saved, { lease: current[0], actor, chat_id: chat, run_id: run, fencing_token: token, criterion_id: args.id || '', validation_status: (args.result || '').toUpperCase(), evidence_refs: evidence, note: args.note || '', nowMs: Date.now() });
+                      response = 'معیار پذیرش ثبت شد: ' + args.id + '; can_accept=' + result.progress.can_accept + '; progress=' + result.progress.percentage + '%.';
+                    } else {
+                      const checkpoint = workItemCore.createCheckpoint(saved, { lease: current[0], actor, chat_id: chat, run_id: run, fencing_token: token, current_step_id: args.step || '', next_action: args.next_action || '', evidence_refs: evidence, blockers: args.blockers ? args.blockers.split(',') : [], nowMs: Date.now() });
+                      state.checkpoints ||= {}; state.checkpoints[issue.number] = checkpoint;
+                      response = 'CHECKPOINT ذخیره شد: WORK_ITEM=' + checkpoint.work_item_id + '; progress=' + checkpoint.progress_percentage + '%; next_action=' + checkpoint.next_action + '; remaining_steps=' + checkpoint.remaining_step_ids.join(',') + '.';
+                    }
+                  }
                 } else if (['heartbeat','release','block','review'].includes(command)) {
                   if (!owned || !token) response = 'فرمان رد شد: actor/chat/run/token با lease فعال تطبیق ندارد؛ هیچ تغییری انجام نشد.';
                   else if (command === 'heartbeat') {
@@ -187,6 +265,13 @@ jobs:
                   } else {
                     state.locks = state.locks.filter(x => !(x.issue_number === issue.number && x.actor === actor && x.chat_id === chat && x.run_id === run && x.fencing_token === token));
                     state.history.push({ event: command.toUpperCase(), issue_number: issue.number, actor, chat_id: chat, run_id: run, fencing_token: token, branch: current[0]?.branch, target_repository: current[0]?.target_repository, at_utc: new Date().toISOString() });
+                    const workItem = savedWorkItemFor(state, issue);
+                    if (workItem) {
+                      state.work_items ||= {}; state.work_items[issue.number] ||= workItem;
+                      if (command === 'block') state.work_items[issue.number].status = 'BLOCKED';
+                      else if (command === 'review') state.work_items[issue.number].status = 'REVIEW_REQUIRED';
+                      else if (command === 'release' && state.work_items[issue.number].status === 'CLAIMED') state.work_items[issue.number].status = 'READY';
+                    }
                     nextStatus = command === 'block' ? 'blocked' : command === 'review' ? 'review' : 'ready';
                     response = command === 'release' ? 'Lease آزاد شد؛ وظیفه تکمیل‌شده محسوب نمی‌شود.' : command === 'block' ? 'وظیفه مسدود شد و lease آزاد شد.' : 'پیاده‌سازی برای بازبینی مستقل تحویل شد؛ این به معنی پذیرش نیست.';
                   }
@@ -194,7 +279,7 @@ jobs:
                   if (current.length) response = 'فرمان رد شد: ابتدا lease فعال باید با مالکیت معتبر آزاد شود.';
                   else if (command === 'unblock' && !labelsOf(issue).includes('agent:blocked')) response = 'وظیفه blocked نیست.';
                   else if (command === 'reopen' && !['agent:review','agent:done'].some(x => labelsOf(issue).includes(x))) response = 'فقط وظیفه review/done قابل بازگشایی است.';
-                  else { nextStatus = 'ready'; response = 'وظیفه به ready بازگشت؛ برای شروع دوباره claim لازم است.'; }
+                  else { const workItem = savedWorkItemFor(state, issue); if (workItem) { state.work_items ||= {}; state.work_items[issue.number] ||= workItem; state.work_items[issue.number].status = 'READY'; } nextStatus = 'ready'; response = 'وظیفه به ready بازگشت؛ برای شروع دوباره claim لازم است.'; }
                 } else if (command === 'accept') {
                   const prUrl = args.pr || (issue.body || '').match(/https:\/\/github\.com\/[^\s)]+\/pull\/\d+/)?.[0];
                   const prMatch = prUrl?.match(/github\.com\/([^/]+)\/([^/]+)\/pull\/(\d+)/);
@@ -214,7 +299,15 @@ jobs:
                     if (!labelsOf(issue).includes('agent:review') || current.length) response = 'پذیرش رد شد: وظیفه باید در وضعیت review و بدون lease فعال باشد.';
                     else if (!branchBound) response = 'پذیرش رد شد: PR باید از branch و target repository ثبت‌شده در آخرین handoff همان lease ساخته شده باشد.';
                     else if (!pr.merged || !independent) response = 'پذیرش رد شد: PR باید merged باشد و approval مستقل روی head فعلی داشته باشد.';
-                    else { nextStatus = 'done'; response = 'پذیرش تأیید شد: PR ادغام‌شده و approval مستقل روی head فعلی احراز شد.'; }
+                    else {
+                      const workItem = savedWorkItemFor(state, issue);
+                      if (workItem) {
+                        state.work_items ||= {}; state.work_items[issue.number] ||= workItem;
+                        const gate = workItemCore.calculateProgress(state.work_items[issue.number]);
+                        if (!gate.can_accept) response = 'پذیرش Work Item رد شد: همه گام‌های اجباری، معیارهای پذیرش و dependencyها باید با evidence معتبر PASS شوند؛ progress=' + gate.percentage + '%.';
+                        else { state.work_items[issue.number].status = 'ACCEPTED'; nextStatus = 'done'; response = 'Work Item ACCEPTED: همه گام‌ها و معیارهای اجباری با evidence معتبر پاس شده‌اند؛ PR ادغام‌شده و approval مستقل روی head فعلی نیز احراز شد.'; }
+                      } else { nextStatus = 'done'; response = 'پذیرش تأیید شد: PR ادغام‌شده و approval مستقل روی head فعلی احراز شد.'; }
+                    }
                     }
                   }
                 }

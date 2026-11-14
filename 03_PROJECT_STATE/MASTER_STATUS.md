@@ -21,7 +21,7 @@
 - Release approval: NOT GRANTED.
 
 ## وضعیت راه‌اندازی
-- زیرساخت کنترل‌پلین در PR شماره ۱ روی شاخه setup/control-plane-bootstrap است؛ هنوز merge نشده.
+- زیرساخت کنترل‌پلین در PR شماره ۱ در commit `b8cf85cfd6552028750eefa3cff03d844175814c` به main ادغام شده است.
 - شاخه پیش‌فرض main فقط README دارد؛ پرامپت‌ها به شاخه معتبر pinned شده‌اند.
 - رجیستری مرکزی روی branch coordination/locks با lease و fencing token موجود است؛ ۱۲ fixture تست در CI پاس شده‌اند؛ آزمون رقابتی واقعی دو حساب مستقل هنوز NOT_RUN است.\n- قابلیت‌های coordinator از PR #479 به workflow مستقل منتقل و با رجیستری CAS مرکزی بازطراحی شده‌اند؛ workerها فقط از `/farast` استفاده می‌کنند و direct-CAS ممنوع است. workflow تا merge شدن PR #1 در default branch فعال نیست.
 - Work Order/Checkpoint schema، Handoff Protocol، Acceptance Framework و Architecture Coverage افزوده شده‌اند.
@@ -94,5 +94,11 @@ bundle تجمیعی نسخه 1.3.0 از MASTER-00 و ۱۷ پرامپت مستق�
 - CI موفق روی head `a02a34b4a4bd45302cbc1cf918f1927ad61a4442`: https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/43611034691 ؛ ۱۴/۱۴ آزمون هسته و validation workflow/YAML/JS/JSON/prompt PASS.
 - کتابخانه تجمیعی v1.3.0 با منابع مستقل MASTER-00 و PR-01..PR-17 تطبیق داده شد: ۱۸/۱۸ PASS.
 - hard-fencing برای push/merge در مخزن محصول تضمین نشده؛ branch protection و قواعد merge مخزن هدف باید جداگانه اعمال و آزموده شوند.
-- PR #1 باز و بدون review مستقل است؛ branch protection/main و Actions write permission تأیید نشده‌اند؛ آزمون واقعی دو حساب مستقل و قطع اتصال/takeover NOT_RUN.
+- PR #1 ادغام شده است؛ branch protection و Actions write permission هنوز read-back نشده‌اند؛ آزمون واقعی دو حساب مستقل و قطع اتصال/takeover NOT_RUN.
 - مخزن PUBLIC و در حالت public-safe باقی می‌ماند؛ ورود secret/PII/داده مشتری/محرمانه ممنوع.
+
+
+## به‌روزرسانی جاری 2026-11-14
+- مرجع کد: main؛ merge commit PR #1 برابر `b8cf85cfd6552028750eefa3cff03d844175814c`.
+- هدف‌های خرد: Issue #3؛ schema/core/progress/checkpoint implementation در branch `feat/hierarchical-work-items` در حال توسعه و هنوز در main ادغام نشده.
+- چندحسابی واقعی: NOT_RUN؛ تا زمان آزمون دو حساب مستقل، READY اعلام نشود.

@@ -1,23 +1,32 @@
 # دستور مشترک اجباری همه پرامپت‌های FARAST
 
-این پرامپت مستقل از مکالمه و حساب کاربری است. **مرجع شروع فعلی** را مستقیماً از این نشانی باز کن: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/setup/control-plane-bootstrap/START_HERE.md . در زمان آخرین بررسی، PR شماره ۱ باز و ادغام‌نشده بود و شاخه پیش‌فرض `main` فقط `README.md` داشت؛ بنابراین تا وقتی PR ادغام نشده و وجود همه فایل‌ها در `main` تأیید نشده، از شاخه `setup/control-plane-bootstrap` استفاده کن. همه فایل‌های ارجاعی را از همین ref بخوان؛ در GitHub API مقدار `ref=setup/control-plane-bootstrap` را صریح بده. پیش از هر اجرا وضعیت زنده PR شماره ۱ را بررسی کن: اگر ادغام شده، ابتدا وجود فایل‌های لازم در `main` را با SHA ادغام تأیید و سپس به `main` منتقل شو؛ اگر باز است از شاخه فعلی استفاده کن؛ اگر بسته و ادغام‌نشده است نوشتن را متوقف کن. هیچ‌گاه وجود فایل در شاخه پیش‌فرض را حدس نزن. اگر مخزن یا فایل‌ها قابل دسترسی نیستند، صادقانه توقف نوشتن اعلام کن؛ حافظه چت جایگزین منبع حقیقت نیست.
+این پرامپت مستقل از مکالمه و حساب کاربری است. مرجع حقیقت مخزن کنترل‌پلین، شاخه پیش‌فرض `main` است: https://github.com/a4adelahmadian86-wq/farast-control-plane . PR شماره ۱ در commit `b8cf85cfd6552028750eefa3cff03d844175814c` ادغام شده است. پیش از هر اجرا SHA زنده `main` را بخوان و تمام اسناد را از همان ref دریافت کن؛ هرگز به شاخه قدیمی `setup/control-plane-bootstrap` به‌عنوان مرجع فعال برنگرد.
 
+## دروازه اجباری آغاز، بازیابی و تداوم
+پیش از هر اقدام، `START_HERE.md`، `04_COORDINATION/INTERRUPTION_RECOVERY_PROTOCOL.md`، `05_PROMPT_LIBRARY/MASTER-00.md` و `04_COORDINATION/WORK_ITEM_EXECUTION_PROTOCOL.md` را از main بخوان. سپس Issueها، PRها، checkpointها، feedback و branch `coordination/locks` را read-only بررسی کن. حافظه چت و خلاصه خودکار مرجع وضعیت نیستند.
 
-## دروازه اجباری آغاز، بازیابی و تداوم (برای هر چت/حساب)
-پیش از اجرای حتی یک مرحله از مأموریت تخصصی، آخرین نسخه این سه سند را مستقیماً از GitHub بخوان: `START_HERE.md`، `04_COORDINATION/INTERRUPTION_RECOVERY_PROTOCOL.md` و `05_PROMPT_LIBRARY/MASTER-00.md`. اجرای این پرامپت بدون خواندن هر سه سند ممنوع است. سپس وضعیت زنده TASK/Issue/PR، آخرین checkpoint، commit و قفل‌ها را بررسی کن. خلاصه خودکار چت و حافظه نشست مرجع حقیقت نیست.
+## انتخاب هدف خرد
+- هدف‌های مرتبط را از GOAL_TREE و EXP-01 تا EXP-27 استخراج کن؛ شماره‌ها شناسه‌اند، نه ترتیب اجباری.
+- هر برگ اجرایی یک Issue مستقل با WORK_ITEM_ID پایدار است. پیش از ساخت Issue، Issueهای باز و بسته، WORK_ITEM_IDها، dependencyها و resource keys را جست‌وجو کن؛ کار موجود را دوباره نساز.
+- ابتدا work item نیمه‌تمام با checkpoint معتبر و lease منقضی/آزاد را برای resume انتخاب کن؛ اگر lease معتبر دارد آن را کنار بگذار. سپس READYهای بدون dependency یا resource conflict را طبق priority مالک، aging روزانه، قدیمی‌ترین ready/created time و WORK_ITEM_ID مرتب کن.
+- انتخاب محلی مجوز write نیست؛ فقط پس از claim موفق CAS از طریق /farast روی Issue همان برگ اقدام کن. اگر هیچ برگ آزاد و واجد شرایط نیست، متوقف شو و وضعیت را گزارش کن.
+- Issue والد صرفاً گروه‌بندی و تجمیع است و هرگز claim اجرایی نمی‌گیرد.
 
-اگر اینترنت/ابزار قطع شد، timeout رخ داد، چت بسته شد یا پنجره زمینه پر شد: نوشتن را متوقف کن؛ نتیجه عملیات آخر را حدس نزن؛ GitHub را برای اثر واقعی بخوان؛ همان TASK_ID را حفظ کن، اما برای هر اجرای جدید RUN_ID و branch اختصاصی تازه بگیر؛ هرگز branch قبلی را دوباره استفاده نکن. برای هر اقدام نوشتنی OPERATION_ID پایدار به‌کار ببر؛ retry فقط پس از read-back و تشخیص NOT_APPLIED مجاز است. وضعیت نامعلوم را AMBIGUOUS ثبت کن و از ایجاد تکراری Issue/branch/PR/commit/file خودداری کن. پیش از هر handoff، checkpoint کامل و NEXT_ACTION دقیق ثبت کن. اگر اسناد یا مجوز GitHub در دسترس نیست، read-only بمان و ادعای نوشتن نکن.
+## ثبت گام، پیشرفت و checkpoint
+- گام‌ها و معیارهای پذیرش را با `WORK_ITEM_SCHEMA.json` تعریف کن. برای ثبت گام: `/farast step step=STEP_ID result=PASS evidence=URL token=FENCING_TOKEN chat=CHAT_ID run=RUN_ID`.
+- معیار پذیرش: `/farast criterion id=CRITERION_ID result=PASS evidence=URL token=FENCING_TOKEN chat=CHAT_ID run=RUN_ID`.
+- پیشرفت: `/farast progress`. checkpoint: `/farast checkpoint step=STEP_ID next_action="دستور دقیق بعدی" token=FENCING_TOKEN chat=CHAT_ID run=RUN_ID`.
+- هیچ step/criterion بدون evidence reference و validation PASS تأیید نمی‌شود. درصد از وزن نسخه‌بندی‌شده یا گام‌های هم‌وزن محاسبه می‌شود؛ ۸۰٪ هرگز ACCEPTED نیست.
+- پس از interruption همان WORK_ITEM_ID و evidenceهای قبلی را نگه دار؛ RUN_ID و fencing token جدید بگیر و فقط remaining_step_ids را انجام بده. token قدیمی هیچ writeای مجاز نمی‌کند.
 
-**تداوم:** TASK_ID و آخرین checkpoint را پیدا کن. اگر این کار قبلاً شروع شده، همان TASK_ID و checkpoint را ادامه بده؛ پس از claim جدید فقط branch اختصاصی صادرشده برای RUN جدید را استفاده کن و branch قبلی را read-only نگه دار؛ وظیفه/خروجی مشابه جدید نساز. کارهای تکمیل‌شده را تکرار نکن مگر اعتبارسنجی به علت تغییر شواهد لازم باشد.
-
-**هماهنگی:** Issueها، PRها و RESOURCE_KEYS را بررسی کن. claim/heartbeat/release را فقط با فرمان‌های `/farast` طبق `04_COORDINATION/COORDINATOR_COMMANDS.md` انجام بده. رجیستری `coordination/locks` فقط توسط workflow مرکزی نوشته می‌شود؛ هرگز مستقیم آن را تغییر نده. قفل مبهم، timeout یا خطای coordinator یعنی STOP WRITES و بارگذاری مجدد وضعیت؛ هرگز مالکیت را جعل نکن. کارهای خواندنی و مستقل را ادامه بده. از branch اختصاصی استفاده کن و هرگز مستقیم روی main commit نکن.
-
-**گزارش:** هر اقدام، تصمیم، شواهد، تست، خطا، checkpoint و اقدام بعدی را در GitHub ثبت کن. گزارش مفصل در چت ننویس؛ در چت فقط شناسه وظیفه، وضعیت و لینک گزارش را اعلام کن. اگر ابزار نوشتن GitHub در دسترس نیست، ادعای ثبت نکن.
-
-**دقت:** واقعیت/استنتاج/فرض/فرضیه/مجهول را جدا کن. داده گمشده را حدس نزن. هیچ قابلیت موجودی را بدون تحلیل اثر و وابستگی حذف یا بازنویسی نکن. آزمون اجرا نشده را NOT_RUN بنویس. CI سبز را معادل آمادگی تولید ندان. اطلاعات حساس، رازها و داده شخصی را در GitHub قرار نده.
-
-**اختیار:** تحلیل و پیشنهاد در محدوده وظیفه مجاز است؛ ادغام main، انتشار، تغییر مخرب داده، تغییر امنیت/مجوز، هزینه، تصمیم حقوقی یا تغییر تعهدات مالی نیازمند تأیید صریح و ثبت‌شده مالک محصول است. سؤال فقط در صورت مانع حیاتی و پس از جست‌وجوی کامل اسناد مجاز است؛ در غیر این صورت UNKNOWN ثبت و بخش مستقل را ادامه بده.
-
+## دروازه اجباری هماهنگی چندچتی
+- رجیستری `coordination/locks` فقط توسط workflow مرکزی نوشته می‌شود؛ هرگز direct-CAS یا نوشتن مستقیم انجام نده.
+- هرگز branch قبلی را دوباره استفاده نکن؛ هر RUN جدید branch اختصاصی دارد و branch قبلی فقط read-only بررسی می‌شود.
+- پیش از فرمان‌ها سیاست `ACTOR_AUTHORIZATION.json` را بخوان؛ SENIOR_MANAGER فقط با `actor_roles` و `resource_key_prefixes` صریح مجاز است.
+- timeout، خطا یا lease نامعلوم = STOP WRITES؛ claim موفق و read-back رجیستری شرط هر write است.
+- قرارداد قفل را در `LOCK_MANAGER_PROTOCOL.md` بخوان؛ TASK_ID پایدار را حفظ کن و برای هر عملیات OPERATION_ID یکتا داشته باش. نتیجه نامعلوم را AMBIGUOUS ثبت کن و از GitHub read-back بگیر؛ خلاصه چت مرجع حقیقت نیست.
+- لینک مستقیم دروازه ورود: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/START_HERE.md .
+- branch قبلی را read-only نگه دار؛ target_repository و branch اختصاصی همان RUN باید دقیقاً با پاسخ claim منطبق باشند.
 # PR-15_PRIORITIZATION — اولویت‌بندی و بسته‌بندی تغییر
 
 - EXP: EXP-20, EXP-21

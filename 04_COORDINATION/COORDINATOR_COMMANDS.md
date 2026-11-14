@@ -5,7 +5,7 @@
 - همه فرمان‌ها در کامنت Issue ثبت می‌شوند؛ کامنت صندوق ورودی پایدار و تاریخچه است، نه منبع حقیقت مالکیت.
 - هماهنگ‌کننده همه Issueهای FARAST را با یک concurrency group سراسری پردازش می‌کند. اجرای دوره‌ای هر پنج دقیقه فرمان‌های جامانده را بازیابی می‌کند.
 - هیچ چت/حسابی حق نوشتن مستقیم در رجیستری قفل ندارد. اگر workflow فعال نیست یا پاسخ معتبر دریافت نشده، نوشتن روی منابع مشترک ممنوع است.
-- این workflow تا ادغام PR کنترل‌پلین در شاخه پیش‌فرض، اجرای schedule را دریافت نمی‌کند؛ در این فاصله فقط منبع پیاده‌سازی/بازبینی است و برای استفاده عملیاتی آماده نیست.
+- PR #1 ادغام شده و workflow در main قرار دارد؛ با این حال فعال بودن schedule و مجوز write باید از run زنده Actions تأیید شود.
 
 ## ساخت TASK
 Issue باید عنوان `[FARAST-TASK]` داشته باشد. فیلد Target repository باید به شکل owner/name تکمیل شود و بخش Resource keys کلیدهای canonical و جداشده با خط جدید داشته باشد. Claim بدون هرکدام رد می‌شود. اگر خالی باشد، Claim رد می‌شود؛ برای هر کار باید دست‌کم یک کلید دقیق ثبت شود. fallback به قفل Issueمحور مجاز نیست.
@@ -25,6 +25,10 @@ api-contract:payment-callback
 - `/farast heartbeat chat=CHAT_ID run=RUN_ID token=FENCING_TOKEN lease=30`
 - `/farast release chat=CHAT_ID run=RUN_ID token=FENCING_TOKEN`
 - `/farast status`
+- `/farast progress`
+- `/farast step step=STEP_ID result=PASS evidence=https://... token=FENCING_TOKEN chat=CHAT_ID run=RUN_ID`
+- `/farast criterion id=CRITERION_ID result=PASS evidence=https://... token=FENCING_TOKEN chat=CHAT_ID run=RUN_ID`
+- `/farast checkpoint step=STEP_ID next_action="دستور دقیق بعدی" token=FENCING_TOKEN chat=CHAT_ID run=RUN_ID`
 - `/farast block chat=CHAT_ID run=RUN_ID token=FENCING_TOKEN`
 - `/farast unblock`
 - `/farast review chat=CHAT_ID run=RUN_ID token=FENCING_TOKEN`
@@ -46,6 +50,9 @@ api-contract:payment-callback
 8. بستن دستی Issue یا افزودن دستی label agent:done بدون transition موفق accept در operation ledger رد و Issue دوباره باز می‌شود؛ label به‌تنهایی منبع پذیرش نیست.
 9. عملیات با شناسه comment یکتا deduplicate می‌شود؛ پاسخ نیمه‌تمام پس از وقفه بازیابی می‌شود.
 10. عدم پاسخ، timeout یا خطای workflow هرگز grant محسوب نمی‌شود؛ وضعیت را از رجیستری و Actions run دوباره بخوانید.
+11. هر برگ اجرایی یک Issue مستقل با WORK_ITEM_ID پایدار است؛ هنگام claim، coordinator همان WORK_ITEM_ID و فهرست گام‌های تأییدشده/باقی‌مانده را در پاسخ می‌دهد.
+12. `/farast step` و `/farast criterion` فقط با lease فعال و evidence reference ثبت می‌شوند؛ `/farast progress` درصد محاسبه‌شده را نشان می‌دهد و `/farast checkpoint` فقط با fencing token معتبر ذخیره می‌شود.
+13. `/farast accept` برای Work Item علاوه بر PR ادغام‌شده و approval مستقل، همه گام‌ها و معیارهای اجباری و dependencyهای ACCEPTED را لازم دارد؛ ۸۰٪ یا release به‌تنهایی پذیرش نیست.
 
 ## محدودیت هویت چندچتی
 GitHub هویت واقعی ChatGPT chat را تأیید نمی‌کند. CHAT_ID و RUN_ID خوداظهاری‌اند و فقط برای تشخیص نشست/اجرای worker استفاده می‌شوند. کنترل امنیتی واقعی بر حساب GitHub مجاز، مالکیت lease و fencing token متکی است.
@@ -65,3 +72,7 @@ Coordinator مقدار branch را به‌صورت work/GH-ISSUE_NUMBER-RUN_ID �
 
 ### نمونه تفویض محدود
 برای یک مدیر ارشد، هر دو بخش `actor_roles[login]=SENIOR_MANAGER` و `actor_scopes[login]` باید تنظیم شوند. `repositories` فهرست دقیق owner/name و `resource_key_prefixes` پیشوندهای دقیق مانند `module:commerce` یا `file:src/commerce` هستند. claim یا هر فرمان دیگر خارج از هرکدام از این محدوده‌ها رد می‌شود. خالی بودن actor_scopes به معنی عدم تفویض است.
+
+
+## قالب Work Item
+هر Issue برگ باید فیلد `Work item specification JSON` را طبق `04_COORDINATION/WORK_ITEM_SCHEMA.json` پر کند. WORK_ITEM_ID، resource keys و target repository در JSON باید با فیلدهای Issue منطبق باشند. JSON نامعتبر یا ناقص باید fail-closed بماند. Checkpointهای ماشین‌خوان در رجیستری مرکزی ثبت می‌شوند و schema آن `WORK_ITEM_CHECKPOINT_SCHEMA.json` است.

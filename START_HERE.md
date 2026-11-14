@@ -2,14 +2,16 @@
 
 این فایل دروازه اجباری ورود است. هر چت، حساب، کارمند یا عامل هوش مصنوعی باید پیش از هر اقدام آن را بخواند.
 
-## مرجع شاخه معتبر تا زمان ادغام PR شماره ۱
+## مرجع فعال
 
-- PR شماره ۱ در آخرین بررسی باز و ادغام‌نشده است؛ شاخه پیش‌فرض `main` فقط `README.md` دارد و منبع کامل کنترل‌پلین نیست.
-- مرجع عملیاتی فعلی: شاخه `setup/control-plane-bootstrap`.
-- نشانی مستقیم این فایل در شاخه معتبر: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/setup/control-plane-bootstrap/START_HERE.md
-- تمام مسیرهای نسبی این سند باید از همان شاخه خوانده شوند؛ در GitHub API، `ref=setup/control-plane-bootstrap` را صریح تنظیم کن.
-- قبل از هر اجرا وضعیت زنده PR شماره ۱ را بررسی کن. اگر merged شد، وجود همه فایل‌های لازم در `main` را در SHA ادغام‌شده تأیید کن و سپس به main منتقل شو. اگر PR باز است از شاخه بالا استفاده کن؛ اگر بسته و ادغام‌نشده است STOP WRITES.
-- تا زمان خصوصی‌سازی، فقط داده عمومی و غیرمحرمانه استفاده کن؛ secrets، PII، داده مشتری و جزئیات محرمانه وارد مخزن نشود.
+- شاخه پیش‌فرض `main` مرجع حقیقت و اجرای کنترل‌پلین است.
+- PR شماره ۱ در commit `b8cf85cfd6552028750eefa3cff03d844175814c` ادغام شده است.
+- همه فایل‌های مرجع باید از `main` و SHA زنده همان شاخه خوانده شوند؛ شاخه `setup/control-plane-bootstrap` فقط سابقه است.
+- پیش از هر اجرا SHA زنده `main`، PRها، Issueها و وضعیت Actions را بررسی کن.
+- مخزن همچنان PUBLIC است؛ secrets، PII، داده مشتری و اسناد محرمانه وارد آن نشود.
+
+## اجرای هدف‌های خرد
+هر برگ اجرایی باید Issue مستقل، WORK_ITEM_ID پایدار، گام‌ها، dependency، resource keys، معیار پذیرش و شواهد داشته باشد. پروتکل انتخاب، پیشرفت و resume در `04_COORDINATION/WORK_ITEM_EXECUTION_PROTOCOL.md` است.
 
 ## وضعیت آمادگی چندچتی
 پیش از اجرای نوشتنی، [ارزیابی آمادگی چندچتی](04_COORDINATION/MULTI_CHAT_READINESS.md) را بخوان. وضعیت پیاده‌سازی، موانع فعال‌سازی و مرز تضمین fencing در آن ثبت می‌شود.
@@ -27,7 +29,7 @@
 9. `02_GOVERNANCE/DECISION_REGISTER.md` و `USER_FEEDBACK_REGISTER.md`
 10. `03_PROJECT_STATE/MASTER_STATUS.md` و `TASK_INDEX.md`
 11. `04_COORDINATION/WORKER_PROTOCOL.md`، `LOCK_PROTOCOL.md`، `LOCK_MANAGER_PROTOCOL.md` و `TASK_SCHEMA.md`
-12. `04_COORDINATION/WORK_ORDER_SCHEMA.json`، `CHECKPOINT_SCHEMA.json`، `HANDOFF_PROTOCOL.md` و `ACCEPTANCE_FRAMEWORK.md` را بخوان.
+12. `04_COORDINATION/WORK_ORDER_SCHEMA.json`، `CHECKPOINT_SCHEMA.json`، `WORK_ITEM_SCHEMA.json`، `WORK_ITEM_CHECKPOINT_SCHEMA.json`، `WORK_ITEM_EXECUTION_PROTOCOL.md`، `HANDOFF_PROTOCOL.md` و `ACCEPTANCE_FRAMEWORK.md` را بخوان.
 13. `04_COORDINATION/INTERRUPTION_RECOVERY_PROTOCOL.md` را کامل بخوان؛ این سند برای قطع اینترنت، timeout، توقف نشست و پرشدن context لازم‌الاجراست.
 14. 04_COORDINATION/LEGACY_COORDINATOR_MIGRATION.md و 04_COORDINATION/COORDINATOR_COMMANDS.md و 04_COORDINATION/COORDINATOR_TEST_PLAN.md را بخوان؛ وضعیت فعال‌سازی workflow را از Actions زنده بررسی کن.
 15. `05_PROMPT_LIBRARY/MASTER-00.md` را کامل بخوان و سپس پرامپت تخصصی مربوط را اجرا کن؛ پرامپت تخصصی بدون پروتکل مادر مجاز به نوشتن نیست.

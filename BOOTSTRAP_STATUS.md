@@ -7,7 +7,7 @@
 - ساخت ساختار اسناد بنیادین، اهداف، نقشه راه، تصمیم‌ها، بازخوردها و رجیسترهای وضعیت.
 - حفظ متن کامل منبع نیازمندی نسخه ۲.۰ در 00_PROJECT_FOUNDATION/SOURCE_REQUIREMENTS_v2.md.
 - نگاشت ۱۷ پرامپت به ۲۷ بسته کاری EXP در SPECIALIST_WORKFLOW.md، به‌همراه MASTER-00 و bundle نسخه 1.2.1.
-- اصلاح دروازه شروع تمام ۱۷ پرامپت: هر ۱۷ فایل اکنون URL مستقیم START_HERE.md در شاخه setup/control-plane-bootstrap، recovery protocol، MASTER-00، فرمان‌های coordinator و handoff امن، TASK_ID و OPERATION_ID را دارند؛ read-back مستقیم 17/17 PASS.
+- (تاریخی) نسخه اولیه دروازه شروع تمام ۱۷ پرامپت در شاخه setup/control-plane-bootstrap ساخته شد؛ نسخه جاری در main به‌روزرسانی شده و پروتکل Work Item نیز افزوده شده است.
 - اصلاح نگاشت PR-02 به EXP-02؛ EXP-17 فقط زیر PR-14 (EXP-16 تا EXP-18) قرار دارد.
 - ایجاد Work Order Schema، Checkpoint Schema، Handoff Protocol، Acceptance Framework، Architecture Coverage و Pull Request Template.
 - ایجاد branch مستقل coordination/locks و رجیستری CAS با lease و fencing token؛ probe stale-SHA رد شده است، اما آزمون دو حساب مستقل هنوز انجام نشده.\n- ممیزی workflow قدیمی PR #479 انجام شد؛ قابلیت‌های مفید و نقص issue-level lock در LEGACY_COORDINATOR_MIGRATION.md ثبت شده‌اند. workflow رویدادمحور مستقل `.github/workflows/farast-coordinator.yml` در شاخه PR #1 پیاده‌سازی شده است؛ تا ادغام در default branch عملیاتی نیست.
@@ -59,7 +59,7 @@
 - فرمان‌ها و template: 04_COORDINATION/COORDINATOR_COMMANDS.md و .github/ISSUE_TEMPLATE/farast-task.yml؛ برنامه آزمون: 04_COORDINATION/COORDINATOR_TEST_PLAN.md.
 - workerها فقط از فرمان‌های Issue استفاده می‌کنند؛ نوشتن مستقیم ACTIVE_LOCKS.json ممنوع است.
 - وضعیت: IMPLEMENTED_ON_REVIEW_BRANCH / NOT_ACTIVE_ON_DEFAULT_BRANCH / E2E_NOT_VERIFIED.
-- مانع فعال‌سازی: PR #1 باز و ادغام‌نشده است؛ schedule و workflow_dispatch پس از حضور workflow در default branch قابل استفاده خواهند بود.
+- (تاریخی) مانع فعال‌سازی PR #1 قبل از merge؛ اکنون PR #1 ادغام شده و فعال‌سازی زنده coordinator باید با اجرای Actions اثبات شود.
 - آزمون واقعی دو حساب مستقل و اجرای هم‌زمان هنوز NOT_RUN است.
 
 
@@ -115,3 +115,10 @@ bundle تجمیعی نسخه 1.3.0 از MASTER-00 و ۱۷ پرامپت مستق�
 - hard-fencing برای push/merge در مخزن محصول تضمین نشده؛ branch protection و قواعد merge مخزن هدف باید جداگانه اعمال و آزموده شوند.
 - PR #1 باز و بدون review مستقل است؛ branch protection/main و Actions write permission تأیید نشده‌اند؛ آزمون واقعی دو حساب مستقل و قطع اتصال/takeover NOT_RUN.
 - مخزن PUBLIC و در حالت public-safe باقی می‌ماند؛ ورود secret/PII/داده مشتری/محرمانه ممنوع.
+
+
+## وضعیت جاری پس از ادغام PR #1
+- PR #1 در `main` با merge commit `b8cf85cfd6552028750eefa3cff03d844175814c` ادغام شد.
+- CI push روی main با run `43617444793` در حال اجرا بود هنگام آخرین read-back؛ نتیجه نهایی باید از GitHub Actions خوانده شود.
+- Work Item schema/core/tests و دستورات evidence/progress/checkpoint در شاخه `feat/hierarchical-work-items` در حال پیاده‌سازی‌اند؛ هنوز در main نیستند.
+- E2E واقعی دو حساب مستقل هنوز NOT_RUN است.

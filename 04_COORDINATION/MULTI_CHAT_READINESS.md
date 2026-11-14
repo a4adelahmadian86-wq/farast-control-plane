@@ -1,7 +1,7 @@
 # ارزیابی آمادگی اجرای چندچتی FARAST
 
 آخرین بازبینی: 2026-11-14  
-مرجع کد: شاخه `setup/control-plane-bootstrap`؛ SHA جاری را فقط از PR #1 بخوانید.  
+مرجع کد: شاخه `main`؛ SHA جاری را زنده از GitHub بخوانید.  
 PR کنترل‌پلین: https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/1
 
 ## نتیجه مدیریتی
@@ -35,19 +35,23 @@ PR کنترل‌پلین: https://github.com/a4adelahmadian86-wq/farast-control-
 
 ## موانع عملیاتی باقی‌مانده
 
-1. PR #1 باز و ادغام‌نشده است؛ workflow فرمانی و schedule هنوز در `main` فعال نیستند.
+1. PR #1 در commit `b8cf85cfd6552028750eefa3cff03d844175814c` ادغام شده است؛ اجرای زنده workflow فرمانی و schedule باید تأیید شود.
 2. هیچ review مستقل یا review thread برای PR #1 ثبت نشده است. CI سبز جایگزین بازبینی مستقل نیست.
-3. branch protection / ruleset شاخه `main` هنوز از طریق اتصال فعلی تأیید نشده است.
+3. branch protection / ruleset شاخه `main` از طریق اتصال فعلی تأیید نشده است.
 4. تنظیم GitHub Actions برای اجازه write در مخزن باید توسط مالک بررسی شود.
 5. آزمون دو حساب GitHub مستقل در دو نشست ChatGPT، claim هم‌زمان، منبع مشترک و disjoint، قطع اتصال، expiry/takeover و رد token قدیمی هنوز **NOT_RUN** است.
 6. برای بررسی PR در مخزن محصول `non`، Secret با نام `FARAST_GITHUB_TOKEN` و مجوز حداقلی read به Pull requests و Metadata لازم است.
 7. مخزن کنترل‌پلین فعلاً PUBLIC می‌ماند؛ فقط اطلاعات عمومی و غیرمحرمانه مجاز است.
 
+## وضعیت پس از ادغام PR #1
+
+PR #1 در SHA `b8cf85cfd6552028750eefa3cff03d844175814c` ادغام شده است. CI روی main در حال اجرا/اعتبارسنجی پس از merge است؛ وضعیت نهایی را از run زنده بخوانید. شاخه `coordination/locks` و رجیستری موجودند؛ workflow تنها writer مجاز باقی می‌ماند.
+
 ## معیار عبور به READY
 
 - [ ] PR #1 توسط فردی غیر از نویسنده، مستقل بازبینی و تأیید شود.
 - [ ] Ruleset/branch protection شاخه `main` و required checkها فعال و read-back شوند.
-- [ ] PR #1 با مجوز مالک ادغام شود؛ سپس تمام فایل‌ها در SHA ادغام‌شده `main` دوباره بررسی شوند.
+- [x] PR #1 با مجوز صریح مالک ادغام شد؛ فایل‌های مرجع در main باید همچنان read-back شوند.
 - [ ] Actions write permission و اجرای workflow، schedule و issue_comment در default branch به‌صورت زنده تأیید شوند.
 - [ ] دو حساب مستقل و دو نشست ChatGPT آزمون‌های بخش سطح ۳ در `COORDINATOR_TEST_PLAN.md` را بگذرانند.
 - [ ] branch protection و قواعد merge مخزن هدف بررسی شوند؛ تا آن زمان هیچ ادعای hard-fencing مطرح نشود.
@@ -55,7 +59,7 @@ PR کنترل‌پلین: https://github.com/a4adelahmadian86-wq/farast-control-
 
 ## استفاده در وضعیت فعلی
 
-برای بازبینی کد و کار عمومی/غیرمحرمانه از شاخه pinned استفاده کنید. برای هر اقدام نوشتنی، تا فعال شدن workflow در default branch و دریافت پاسخ قطعی `CLAIM GRANTED`، فقط read-only بمانید. هیچ secret، credential، PII، داده مشتری یا سند محرمانه در مخزن عمومی ثبت نشود.
+برای کار عمومی/غیرمحرمانه از شاخه `main` استفاده کنید. برای هر اقدام نوشتنی، تا فعال شدن workflow در default branch و دریافت پاسخ قطعی `CLAIM GRANTED`، فقط read-only بمانید. هیچ secret، credential، PII، داده مشتری یا سند محرمانه در مخزن عمومی ثبت نشود.
 
 راهنماهای مرتبط:
 - [START HERE](../START_HERE.md)
@@ -63,3 +67,8 @@ PR کنترل‌پلین: https://github.com/a4adelahmadian86-wq/farast-control-
 - [تنظیمات دستی GitHub](MANUAL_GITHUB_SETTINGS.md)
 - [برنامه آزمون پذیرش](COORDINATOR_TEST_PLAN.md)
 - [محدودیت‌های کنترل‌پلین](../00_PROJECT_FOUNDATION/CONTROL_PLANE_LIMITATIONS.md)
+
+
+## Work Item execution
+
+درخواست Issue #3 برای هدف‌های خرد در مرحله implementation. Schema و هسته محاسبه progress/resume و دستورات `/farast step`, `/farast criterion`, `/farast progress`, `/farast checkpoint` در شاخه feature توسعه می‌شوند؛ تا merge و CI سبز، آن‌ها را در main عملیاتی فرض نکنید. آزمون دو حساب مستقل همچنان NOT_RUN است.
