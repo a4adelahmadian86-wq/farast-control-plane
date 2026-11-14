@@ -49,3 +49,7 @@ api-contract:payment-callback
 
 ## محدودیت هویت چندچتی
 GitHub هویت واقعی ChatGPT chat را تأیید نمی‌کند. CHAT_ID و RUN_ID خوداظهاری‌اند و فقط برای تشخیص نشست/اجرای worker استفاده می‌شوند. کنترل امنیتی واقعی بر حساب GitHub مجاز، مالکیت lease و fencing token متکی است.
+
+
+## پیش‌نیاز پذیرش PR در مخزن دیگر
+اگر PR مرتبط در مخزنی غیر از farast-control-plane (مانند مخزن محصول non) قرار دارد، در تنظیمات Actions مخزن کنترل‌پلین یک Repository Secret با نام FARAST_GITHUB_TOKEN تعریف کنید. توکن باید فقط دسترسی read به Pull requests و metadata مخزن هدف را داشته باشد. مقدار توکن هرگز در Issue یا فایل مخزن نوشته نشود. بدون این Secret، پذیرش cross-repository عمداً رد می‌شود؛ پس از تنظیم Secret یک فرمان accept جدید ثبت کنید.
