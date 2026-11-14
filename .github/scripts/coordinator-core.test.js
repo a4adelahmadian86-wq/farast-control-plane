@@ -157,12 +157,16 @@ test('command authorization enforces owner-delegated bounded roles', () => {
       READ_ONLY: ['status']
     },
     default_association_roles: { OWNER: 'OWNER', COLLABORATOR: 'WORKER', MEMBER: 'WORKER' },
-    actor_roles: { manager: 'SENIOR_MANAGER', auditor: 'READ_ONLY' }
+    actor_roles: { manager: 'SENIOR_MANAGER', auditor: 'READ_ONLY' },
+    actor_scopes: { manager: { repositories: ['owner/product'], resource_key_prefixes: ['module:commerce', 'file:src/commerce'] } }
   };
   assert.equal(core.roleForActor(policy, 'owner', 'OWNER'), 'OWNER');
   assert.equal(core.isCommandAllowed(policy, 'worker', 'COLLABORATOR', 'claim'), true);
   assert.equal(core.isCommandAllowed(policy, 'worker', 'COLLABORATOR', 'accept'), false);
-  assert.equal(core.isCommandAllowed(policy, 'manager', 'COLLABORATOR', 'accept'), true);
+  assert.equal(core.isCommandAllowed(policy, 'manager', 'COLLABORATOR', 'accept'), false);
+  assert.equal(core.isCommandAllowed(policy, 'manager', 'COLLABORATOR', 'accept', { targetRepository: 'owner/product', resourceKeys: ['module:commerce', 'file:src/commerce/checkout.js'] }), true);
+  assert.equal(core.isCommandAllowed(policy, 'manager', 'COLLABORATOR', 'accept', { targetRepository: 'owner/other', resourceKeys: ['module:commerce'] }), false);
+  assert.equal(core.isCommandAllowed(policy, 'manager', 'COLLABORATOR', 'claim', { targetRepository: 'owner/product', resourceKeys: ['module:payments'] }), false);
   assert.equal(core.isCommandAllowed(policy, 'auditor', 'MEMBER', 'status'), true);
   assert.equal(core.isCommandAllowed(policy, 'auditor', 'MEMBER', 'release'), false);
   assert.equal(core.isCommandAllowed(policy, 'outsider', 'NONE', 'claim'), false);
