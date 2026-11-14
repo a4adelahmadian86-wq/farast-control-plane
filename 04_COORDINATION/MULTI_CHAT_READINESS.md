@@ -96,8 +96,16 @@ PR #1 در SHA `b8cf85cfd6552028750eefa3cff03d844175814c` ادغام شده اس
 - [x] دو Work Item با resource key مستقل: هر دو lease هم‌پوشان موفق.
 - [ ] آزمون با دو حساب GitHub مستقل و دو نشست ChatGPT مستقل.
 - [ ] قطع واقعی یکی از نشست‌ها، expiry/takeover در آزمون چندحسابی و رد فرمان‌های عامل قدیمی پس از takeover.
-- [ ] read-back قواعد branch protection/ruleset و required checks در مخزن کنترل‌پلین و مخزن هدف.
+- [ ] فعال‌سازی و read-back قواعد branch protection/ruleset و required checks در مخزن کنترل‌پلین و مخزن هدف؛ در snapshot فعلی `main` دارای `protected=false` و repository rulesets برابر `[]` است.
 - [ ] بررسی مستقل PR #1 توسط reviewer غیر از نویسنده؛ CI سبز جایگزین review مستقل نیست.
 - [ ] تأیید اجرای schedule پنج‌دقیقه‌ای به‌صورت زنده؛ شواهد فعلی اجرای issue_comment را ثابت می‌کنند، نه schedule.
 
 **نتیجه:** زیرساخت برای smoke test زنده تک‌حسابی و همکاری چند Work Item آماده است؛ وضعیت نهایی همچنان **MULTI-ACCOUNT E2E NOT VERIFIED** است. ادعای hard-fencing تمام مسیرهای مستقیم write در مخزن محصول مجاز نیست.
+
+
+### یافته‌های تکمیلی تنظیمات و رجیستری زنده
+
+- GitHub branches API برای `main` مقدار `protected=false` برگرداند و repository rulesets برابر `[]` بود؛ بنابراین شاخه اصلی در snapshot فعلی محافظت‌شده نیست. endpoint جزئیات branch protection با اتصال فعلی 403 داد.
+- مخزن کنترل‌پلین همچنان Public است.
+- رجیستری `04_COORDINATION/ACTIVE_LOCKS.json` روی شاخه مستقل `coordination/locks` نگهداری می‌شود؛ revision زنده هنگام بازبینی 88 بود.
+- هنگام این بازبینی، Issue #11 با resource key `coordination:work-item-allocation` در اختیار run فعال `RUN-20261114-ALLOC-01` با fencing token 53 و checkpoint 80% بود. این lease متعلق به alias دیگری بود و در این ادامه تصاحب یا تغییر داده نشد؛ تا release یا expiry باید به آن احترام گذاشت.
