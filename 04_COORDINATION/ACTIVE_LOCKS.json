@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 32,
+  "revision": 33,
   "next_fencing_token": 50,
   "locks": [
     {
@@ -547,6 +547,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-14T17:12:06.460Z"
+    },
+    "6881249827": {
+      "response": "معیار پذیرش ثبت شد: AC1; can_accept=true; progress=100%.",
+      "response_posted": false,
+      "issue_number": 5,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-14T17:12:30.444Z"
     }
   },
   "work_items": {
@@ -560,7 +569,7 @@
       "parent_exp_ids": [
         "EXP-01"
       ],
-      "status": "IN_PROGRESS",
+      "status": "REVIEW_REQUIRED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "module:coordinator-smoke-test"
@@ -583,7 +592,15 @@
       "acceptance_criteria": [
         {
           "criterion_id": "AC1",
-          "title": "Live coordinator response and registry evidence are available"
+          "title": "Live coordinator response and registry evidence are available",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/43619792990",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/coordination/locks/04_COORDINATION/ACTIVE_LOCKS.json"
+          ],
+          "validated_at_utc": "2026-11-14T17:12:30.439Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "priority": 50,
