@@ -62,7 +62,7 @@ body:
     attributes:
       label: Target repository (owner/name)
       description: Exact GitHub repository where this task's code or artifacts will be changed.
-      placeholder: a4adelahmadian86-wq/non
+      placeholder: a4adelahmadian86-wq/farast-control-plane
     validations:
       required: true
   - type: textarea
