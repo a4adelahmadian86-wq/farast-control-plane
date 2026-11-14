@@ -10,7 +10,7 @@
 
 **تداوم:** TASK_ID و آخرین checkpoint را پیدا کن. اگر این کار قبلاً شروع شده، همان TASK_ID و checkpoint را ادامه بده؛ پس از claim جدید فقط branch اختصاصی صادرشده برای RUN جدید را استفاده کن و branch قبلی را read-only نگه دار؛ وظیفه/خروجی مشابه جدید نساز. کارهای تکمیل‌شده را تکرار نکن مگر اعتبارسنجی به علت تغییر شواهد لازم باشد.
 
-**هماهنگی:** Issueها، PRها و RESOURCE_KEYS را بررسی کن. claim/heartbeat/release را فقط با فرمان‌های `/farast` طبق `04_COORDINATION/COORDINATOR_COMMANDS.md` انجام بده. رجیستری `coordination/locks` فقط توسط workflow مرکزی نوشته می‌شود؛ هرگز مستقیم آن را تغییر نده. قفل مبهم، timeout یا خطای CAS یعنی STOP WRITES و بارگذاری مجدد وضعیت؛ هرگز مالکیت را جعل نکن. کارهای خواندنی و مستقل را ادامه بده. از branch اختصاصی استفاده کن و هرگز مستقیم روی main commit نکن.
+**هماهنگی:** Issueها، PRها و RESOURCE_KEYS را بررسی کن. claim/heartbeat/release را فقط با فرمان‌های `/farast` طبق `04_COORDINATION/COORDINATOR_COMMANDS.md` انجام بده. رجیستری `coordination/locks` فقط توسط workflow مرکزی نوشته می‌شود؛ هرگز مستقیم آن را تغییر نده. قفل مبهم، timeout یا خطای coordinator یعنی STOP WRITES و بارگذاری مجدد وضعیت؛ هرگز مالکیت را جعل نکن. کارهای خواندنی و مستقل را ادامه بده. از branch اختصاصی استفاده کن و هرگز مستقیم روی main commit نکن.
 
 **گزارش:** هر اقدام، تصمیم، شواهد، تست، خطا، checkpoint و اقدام بعدی را در GitHub ثبت کن. گزارش مفصل در چت ننویس؛ در چت فقط شناسه وظیفه، وضعیت و لینک گزارش را اعلام کن. اگر ابزار نوشتن GitHub در دسترس نیست، ادعای ثبت نکن.
 
@@ -43,7 +43,7 @@
 نقشه journey و سناریوهای قابل آزمون با شناسه SCN؛ ماتریس نقش × اقدام × داده؛ فهرست سناریوهای منفی/مرزی. معیار پذیرش: هر سناریو قابل تبدیل به تست و مرتبط با REQ/CAP باشد.
 
 ## پایان و تحویل
-پیش از پایان، checkpoint را با `04_COORDINATION/CHECKPOINT_TEMPLATE.md` ثبت کن؛ Issue و PR را به‌روز کن؛ TASK_INDEX و MASTER_STATUS را فقط بر اساس وضعیت اثبات‌شده به‌روزرسانی کن؛ قفل‌های اتمیک را فقط با TASK_ID/RUN_ID/fencing_token خود و از طریق CAS آزاد کن؛ اگر ابزار لازم در دسترس نیست، وضعیت را مبهم ثبت کن و آزادسازی را ادعا نکن. وضعیت را DONE_VERIFIED نگذار مگر معیار پذیرش و شواهد معتبر کامل باشند. در صورت مانع، BLOCKED را با علت، شواهد و NEXT_ACTION ثبت کن.
+پیش از پایان، checkpoint را با `04_COORDINATION/CHECKPOINT_TEMPLATE.md` ثبت کن؛ Issue و PR را به‌روز کن؛ TASK_INDEX و MASTER_STATUS را فقط بر اساس وضعیت اثبات‌شده به‌روزرسانی کن؛ قفل را فقط با فرمان `/farast release` و TASK_ID/RUN_ID/fencing_token خود آزاد کن؛ اگر ابزار لازم در دسترس نیست، وضعیت را مبهم ثبت کن و آزادسازی را ادعا نکن. وضعیت را DONE_VERIFIED نگذار مگر معیار پذیرش و شواهد معتبر کامل باشند. در صورت مانع، BLOCKED را با علت، شواهد و NEXT_ACTION ثبت کن.
 
 
 ## دروازه اجباری هماهنگی چندچتی
@@ -56,3 +56,5 @@
 
 
 **ایمنی چندچتی و handoff:** branch قبلی یک Issue قابل claim مجدد نیست. اگر claim با branch_reuse رد شد، RUN_ID جدید و یکتا انتخاب کن. CLAIM GRANTED بدون read-back وضعیت زنده رجیستری و تطبیق actor/chat/run/token مجوز write نیست. هر RUN فقط branch خودش را تغییر می‌دهد؛ PR پذیرش فقط از branch آخرین REVIEW ثبت‌شده مجاز است.
+
+برای شناخت مبانی فنی رجیستری، `04_COORDINATION/LOCK_MANAGER_PROTOCOL.md` را فقط به‌عنوان شرح پیاده‌سازی داخلی بخوان؛ این سند مجوز CAS یا نوشتن مستقیم worker نیست.
