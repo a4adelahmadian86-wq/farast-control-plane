@@ -1,0 +1,261 @@
+name: FARAST durable multi-chat coordinator
+
+on:
+  issues:
+    types: [opened, reopened, closed]
+  issue_comment:
+    types: [created]
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+# One writer for the entire control plane, not one writer per Issue.
+# GitHub may replace a pending run; the durable comment inbox + scheduled
+# reconciliation recovers commands that were not handled by the replaced run.
+concurrency:
+  group: farast-control-plane-single-writer
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: read
+
+jobs:
+  coordinate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Reconcile durable command inbox and central lock registry
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const registryBranch = 'coordination/locks';
+            const registryPath = '04_COORDINATION/ACTIVE_LOCKS.json';
+            const allowedAssociations = new Set(['OWNER', 'COLLABORATOR', 'MEMBER']);
+            const labelDefs = [
+              { name: 'agent:task', color: '1D4ED8', description: 'Canonical FARAST task record' },
+              { name: 'agent:ready', color: '0E8A16', description: 'Ready for an authorized worker to claim' },
+              { name: 'agent:locked', color: 'B60205', description: 'One or more central resource leases are active' },
+              { name: 'agent:blocked', color: 'D93F0B', description: 'Blocked pending resolution' },
+              { name: 'agent:review', color: 'FBCA04', description: 'Implementation complete; independent review required' },
+              { name: 'agent:done', color: '5319E7', description: 'Accepted after merged PR and independent current-head approval' }
+            ];
+
+            for (const label of labelDefs) {
+              try { await github.rest.issues.createLabel({ owner, repo, ...label }); }
+              catch (e) { if (e.status !== 422) throw e; }
+            }
+
+            const getRegistry = async () => {
+              const ref = await github.rest.git.getRef({ owner, repo, ref: 'heads/' + registryBranch });
+              const commit = await github.rest.git.getCommit({ owner, repo, commit_sha: ref.data.object.sha });
+              const tree = await github.rest.git.getTree({ owner, repo, tree_sha: commit.data.tree.sha, recursive: '1' });
+              const entry = tree.data.tree.find(x => x.path === registryPath && x.type === 'blob');
+              if (!entry) throw new Error('STOP: central lock registry missing');
+              const blob = await github.rest.git.getBlob({ owner, repo, file_sha: entry.sha });
+              const decoded = Buffer.from(blob.data.content, 'base64').toString('utf8');
+              return { state: JSON.parse(decoded), refSha: ref.data.object.sha, treeSha: commit.data.tree.sha };
+            };
+
+            // This workflow is the sole authorized writer. Global Actions concurrency
+            // serializes every mutation; workers must never write ACTIVE_LOCKS.json directly.
+            const saveRegistry = async (state, snapshot, message) => {
+              state.revision = (state.revision || 0) + 1;
+              const blob = await github.rest.git.createBlob({
+                owner, repo, content: JSON.stringify(state, null, 2) + '\n', encoding: 'utf-8'
+              });
+              const tree = await github.rest.git.createTree({
+                owner, repo, base_tree: snapshot.treeSha,
+                tree: [{ path: registryPath, mode: '100644', type: 'blob', sha: blob.data.sha }]
+              });
+              const commit = await github.rest.git.createCommit({
+                owner, repo, message, tree: tree.data.sha, parents: [snapshot.refSha]
+              });
+              // If the ref moved unexpectedly, fail closed. Never retry blindly.
+              await github.rest.git.updateRef({
+                owner, repo, ref: 'heads/' + registryBranch, sha: commit.data.sha, force: false
+              });
+              return await getRegistry();
+            };
+
+            const labelsOf = issue => (issue.labels || []).map(x => typeof x === 'string' ? x : x.name);
+            const isTask = issue => issue.title.startsWith('[FARAST-TASK]') || labelsOf(issue).includes('agent:task');
+            const addLabel = (n, name) => github.rest.issues.addLabels({ owner, repo, issue_number: n, labels: [name] });
+            const removeLabel = async (n, name) => {
+              try { await github.rest.issues.removeLabel({ owner, repo, issue_number: n, name }); }
+              catch (e) { if (e.status !== 404) throw e; }
+            };
+            const setStatus = async (issue, status) => {
+              const n = issue.number;
+              for (const name of ['agent:ready','agent:locked','agent:blocked','agent:review','agent:done']) await removeLabel(n, name);
+              if (status !== 'task') await addLabel(n, 'agent:' + status);
+            };
+            const publish = (n, body) => github.rest.issues.createComment({ owner, repo, issue_number: n, body });
+
+            const parseArgs = s => {
+              const out = {};
+              for (const m of s.matchAll(/([a-z_]+)=("[^"]*"|'[^']*'|[^\\s]+)/g)) out[m[1]] = m[2].replace(/^["']|["']$/g, '');
+              return out;
+            };
+            const resourcesFor = issue => {
+              const body = issue.body || '';
+              const m = body.match(/(?:^|\\n)###\\s*Resource keys\\s*\\n([\\s\\S]*?)(?=\\n###|$)/i);
+              if (!m) return ['task:gh-' + issue.number];
+              const keys = m[1].split(/[\\n,;]+/).map(x => x.trim().replace(/^[-*\\s]+/, '').toLowerCase()).filter(Boolean);
+              return [...new Set(keys)].sort().map(x => x.replace(/\\\\/g, '/'));
+            };
+            const activeForIssue = (state, n) => state.locks.filter(x => x.issue_number === n && Date.parse(x.lease_expires_at_utc) > Date.now());
+            const expireLocks = state => {
+              const now = Date.now();
+              const expired = state.locks.filter(x => Date.parse(x.lease_expires_at_utc) <= now);
+              state.locks = state.locks.filter(x => Date.parse(x.lease_expires_at_utc) > now);
+              for (const x of expired) state.history.push({ event: 'LEASE_EXPIRED', issue_number: x.issue_number, resource_key: x.resource_key, task_id: x.task_id, run_id: x.run_id, fencing_token: x.fencing_token, at_utc: new Date().toISOString() });
+            };
+
+            const handleCommand = async (issue, comment, snapshot) => {
+              const state = snapshot.state;
+              const id = String(comment.id);
+              if (state.processed_operations?.[id]) return snapshot;
+              const match = comment.body.match(/^\\s*\\/farast\\s+(claim|heartbeat|release|status|block|unblock|review|reopen|accept)\\b([\\s\\S]*)$/i);
+              if (!match) return snapshot;
+              const command = match[1].toLowerCase();
+              const args = parseArgs(match[2]);
+              const actor = comment.user?.login || 'unknown';
+              const chat = args.chat || '';
+              const run = args.run || '';
+              const lease = Number(args.lease || 30);
+              const token = Number(args.token || 0);
+              let response = '';
+              let nextStatus = null;
+
+              if (!allowedAssociations.has(comment.author_association)) {
+                response = 'فرمان رد شد: حساب فرستنده در مخزن عضو/همکار/مالک مجاز شناخته نشده است.';
+              } else {
+                expireLocks(state);
+                const current = activeForIssue(state, issue.number);
+                const owned = current.length > 0 && current.every(x => x.actor === actor && x.chat_id === chat && x.run_id === run && x.fencing_token === token);
+                if (command === 'claim') {
+                  if (!chat || !run || !Number.isFinite(lease) || lease < 5 || lease > 120) {
+                    response = 'Claim رد شد. قالب: /farast claim chat=شناسه run=شناسه lease=30 (۵ تا ۱۲۰ دقیقه).';
+                  } else if (['agent:blocked','agent:review','agent:done'].some(x => labelsOf(issue).includes(x))) {
+                    response = 'Claim رد شد: وضعیت وظیفه blocked/review/done است؛ ابتدا تصمیم مجاز لازم است.';
+                  } else {
+                    const keys = resourcesFor(issue);
+                    const conflict = state.locks.find(x => keys.includes(x.resource_key) && Date.parse(x.lease_expires_at_utc) > Date.now());
+                    if (conflict) {
+                      response = 'Claim رد شد: منبع ' + conflict.resource_key + ' در اختیار Issue #' + conflict.issue_number + ' / @' + conflict.actor + ' تا ' + conflict.lease_expires_at_utc + ' UTC است.';
+                    } else {
+                      const fencing = state.next_fencing_token++;
+                      const expires = new Date(Date.now() + lease * 60000).toISOString();
+                      for (const key of keys) state.locks.push({
+                        resource_key: key, issue_number: issue.number, task_id: 'GH-' + issue.number,
+                        actor, chat_id: chat, run_id: run, branch: 'work/GH-' + issue.number,
+                        acquired_at_utc: new Date().toISOString(), heartbeat_at_utc: new Date().toISOString(),
+                        lease_expires_at_utc: expires, fencing_token: fencing, status: 'ACTIVE'
+                      });
+                      state.history.push({ event: 'ACQUIRED', issue_number: issue.number, actor, chat_id: chat, run_id: run, resource_keys: keys, fencing_token: fencing, at_utc: new Date().toISOString() });
+                      response = 'CLAIM GRANTED. TASK=GH-' + issue.number + '; actor=@' + actor + '; chat=' + chat + '; run=' + run + '; resource_keys=' + keys.join(',') + '; fencing_token=' + fencing + '; lease_expires=' + expires + '. پیش از هر write و checkpoint، heartbeat را تمدید و token را بررسی کن.';
+                      nextStatus = 'locked';
+                    }
+                  }
+                } else if (command === 'status') {
+                  response = current.length ? 'وضعیت: LOCKED؛ مالک @' + current[0].actor + '؛ chat=' + current[0].chat_id + '؛ run=' + current[0].run_id + '؛ token=' + current[0].fencing_token + '؛ expiry=' + current[0].lease_expires_at_utc : 'وضعیت: بدون lease فعال.';
+                } else if (['heartbeat','release','block','review'].includes(command)) {
+                  if (!owned || !token) response = 'فرمان رد شد: actor/chat/run/token با lease فعال تطبیق ندارد؛ هیچ تغییری انجام نشد.';
+                  else if (command === 'heartbeat') {
+                    if (!Number.isFinite(lease) || lease < 5 || lease > 120) response = 'Heartbeat رد شد: lease باید بین ۵ تا ۱۲۰ دقیقه باشد.';
+                    else {
+                      const expiry = new Date(Date.now() + lease * 60000).toISOString();
+                      for (const x of current) { x.heartbeat_at_utc = new Date().toISOString(); x.lease_expires_at_utc = expiry; }
+                      response = 'Lease تمدید شد تا ' + expiry + ' UTC؛ fencing_token=' + token + '.';
+                    }
+                  } else {
+                    state.locks = state.locks.filter(x => !(x.issue_number === issue.number && x.actor === actor && x.chat_id === chat && x.run_id === run && x.fencing_token === token));
+                    state.history.push({ event: command.toUpperCase(), issue_number: issue.number, actor, chat_id: chat, run_id: run, fencing_token: token, at_utc: new Date().toISOString() });
+                    nextStatus = command === 'block' ? 'blocked' : command === 'review' ? 'review' : 'ready';
+                    response = command === 'release' ? 'Lease آزاد شد؛ وظیفه تکمیل‌شده محسوب نمی‌شود.' : command === 'block' ? 'وظیفه مسدود شد و lease آزاد شد.' : 'پیاده‌سازی برای بازبینی مستقل تحویل شد؛ این به معنی پذیرش نیست.';
+                  }
+                } else if (command === 'unblock' || command === 'reopen') {
+                  if (current.length) response = 'فرمان رد شد: ابتدا lease فعال باید با مالکیت معتبر آزاد شود.';
+                  else if (command === 'unblock' && !labelsOf(issue).includes('agent:blocked')) response = 'وظیفه blocked نیست.';
+                  else if (command === 'reopen' && !['agent:review','agent:done'].some(x => labelsOf(issue).includes(x))) response = 'فقط وظیفه review/done قابل بازگشایی است.';
+                  else { nextStatus = 'ready'; response = 'وظیفه به ready بازگشت؛ برای شروع دوباره claim لازم است.'; }
+                } else if (command === 'accept') {
+                  const prUrl = args.pr || (issue.body || '').match(/https:\\/\\/github\\.com\\/[^\\s)]+\\/pull\\/\\d+/)?.[0];
+                  const prMatch = prUrl?.match(/github\\.com\\/([^/]+)\\/([^/]+)\\/pull\\/(\\d+)/);
+                  if (!prMatch) response = 'پذیرش رد شد: لینک PR مرتبط باید با pr=https://github.com/OWNER/REPO/pull/N مشخص شود.';
+                  else {
+                    const [__, prOwner, prRepo, prNumber] = prMatch;
+                    const pr = (await github.rest.pulls.get({ owner: prOwner, repo: prRepo, pull_number: Number(prNumber) })).data;
+                    const reviews = await github.paginate(github.rest.pulls.listReviews, { owner: prOwner, repo: prRepo, pull_number: Number(prNumber), per_page: 100 });
+                    const independent = reviews.some(r => r.state === 'APPROVED' && r.commit_id === pr.head.sha && r.user?.login !== pr.user?.login && r.user?.login !== actor);
+                    if (!pr.merged || !independent) response = 'پذیرش رد شد: PR باید merged باشد و approval مستقل روی head فعلی داشته باشد.';
+                    else { nextStatus = 'done'; response = 'پذیرش تأیید شد: PR ادغام‌شده و approval مستقل روی head فعلی احراز شد.'; }
+                  }
+                }
+              }
+
+              state.processed_operations ||= {};
+              state.processed_operations[id] = { response, response_posted: false, actor, command, at_utc: new Date().toISOString() };
+              const updated = await saveRegistry(state, snapshot, 'FARAST coordinator: ' + command + ' issue #' + issue.number + ' operation ' + id);
+              if (nextStatus) await setStatus(issue.number, nextStatus);
+              const marker = '<!-- FARAST_OP_RESPONSE:' + id + ' -->';
+              const comments = await github.paginate(github.rest.issues.listComments, { owner, repo, issue_number: issue.number, per_page: 100 });
+              if (!comments.some(c => c.body.includes(marker))) await publish(issue.number, response + '\\n\\n' + marker);
+              const latest = updated.state;
+              latest.processed_operations[id].response_posted = true;
+              return await saveRegistry(latest, updated, 'FARAST coordinator: record response for operation ' + id);
+            };
+
+            const processIssue = async issue => {
+              if (!isTask(issue)) return;
+              if (!labelsOf(issue).includes('agent:task')) await addLabel(issue.number, 'agent:task');
+              if (issue.state === 'closed' && !labelsOf(issue).includes('agent:done')) {
+                await github.rest.issues.update({ owner, repo, issue_number: issue.number, state: 'open', state_reason: 'reopened' });
+                await publish(issue.number, 'إغلاق رد شد: دروازه پذیرش مستقل کامل نشده است. برای پذیرش از /farast accept pr=... استفاده کنید.');
+                return;
+              }
+              const comments = await github.paginate(github.rest.issues.listComments, { owner, repo, issue_number: issue.number, per_page: 100 });
+              let snapshot = await getRegistry();
+              // Recover responses that were committed but not posted before an interruption.
+              for (const [id, op] of Object.entries(snapshot.state.processed_operations || {})) {
+                if (op.issue_number !== issue.number || op.response_posted) continue;
+                const marker = '<!-- FARAST_OP_RESPONSE:' + id + ' -->';
+                if (!comments.some(c => c.body.includes(marker))) await publish(issue.number, op.response + '\\n\\n' + marker);
+                snapshot.state.processed_operations[id].response_posted = true;
+                snapshot = await saveRegistry(snapshot.state, snapshot, 'FARAST coordinator: recover response ' + id);
+              }
+              for (const comment of comments) {
+                if (!/^\\s*\\/farast\\s+/i.test(comment.body || '')) continue;
+                snapshot = await handleCommand(issue, comment, snapshot);
+              }
+              const current = snapshot.state.locks.filter(x => x.issue_number === issue.number && Date.parse(x.lease_expires_at_utc) > Date.now());
+              if (current.length && !labelsOf(issue).includes('agent:locked')) await setStatus(issue.number, 'locked');
+            };
+
+            if (context.eventName === 'issues' && context.payload.action === 'closed') {
+              const issue = context.payload.issue;
+              if (isTask(issue) && !labelsOf(issue).includes('agent:done')) {
+                await github.rest.issues.update({ owner, repo, issue_number: issue.number, state: 'open', state_reason: 'reopened' });
+                await publish(issue.number, 'بسته‌شدن خودکار/دستی رد شد: فقط پس از /farast accept با PR ادغام‌شده و approval مستقل روی head فعلی مجاز است.');
+              }
+            }
+
+            if (context.eventName === 'issues' && ['opened','reopened'].includes(context.payload.action)) {
+              const issue = context.payload.issue;
+              if (issue.title.startsWith('[FARAST-TASK]') || labelsOf(issue).includes('agent:task')) {
+                await addLabel(issue.number, 'agent:task');
+                if (!['agent:blocked','agent:review','agent:done'].some(x => labelsOf(issue).includes(x))) await addLabel(issue.number, 'agent:ready');
+              }
+            }
+
+            let targets = [];
+            if (context.eventName === 'schedule' || context.eventName === 'workflow_dispatch') {
+              targets = await github.paginate(github.rest.issues.listForRepo, { owner, repo, state: 'open', per_page: 100 });
+            } else if (context.payload.issue) {
+              targets = [context.payload.issue];
+            }
+            for (const issue of targets) await processIssue(issue);
