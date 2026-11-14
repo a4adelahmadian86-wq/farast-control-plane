@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 64,
+  "revision": 65,
   "next_fencing_token": 54,
   "locks": [
     {
@@ -803,6 +803,15 @@
       "command": "claim",
       "next_status": "locked",
       "at_utc": "2026-11-14T17:24:45.375Z"
+    },
+    "6881444584": {
+      "response": "WORK_ITEM=WI-EXP01-BASELINE-001; progress=0%; verified_steps=0/4; weighting=EQUAL_STEPS_V1; acceptance_criteria=INCOMPLETE; dependencies=PASS; can_accept=false. درصد پیشرفت به‌تنهایی پذیرش نیست.",
+      "response_posted": false,
+      "issue_number": 13,
+      "actor": "a4adelahmadian86-wq",
+      "command": "progress",
+      "next_status": null,
+      "at_utc": "2026-11-14T17:27:45.180Z"
     }
   },
   "work_items": {
@@ -971,6 +980,59 @@
       ],
       "priority": 100,
       "created_at_utc": "2026-11-14T17:23:43.733Z"
+    },
+    "13": {
+      "schema_version": "1.0",
+      "write_policy": "READ_ONLY",
+      "priority_source": "DEFAULT_POLICY",
+      "work_item_id": "WI-EXP01-BASELINE-001",
+      "title": "EXP-01 Baseline and environment inventory",
+      "parent_goal_ids": [
+        "G-01"
+      ],
+      "parent_exp_ids": [
+        "EXP-01"
+      ],
+      "status": "READY",
+      "target_repository": "a4adelahmadian86-wq/non",
+      "resource_keys": [
+        "analysis:exp-01"
+      ],
+      "dependencies": [],
+      "steps": [
+        {
+          "step_id": "S0_GATE",
+          "title": "Resolve applicable hard-gate dependencies from DEPENDENCY_GRAPH with evidence; if direction or status is unclear, block before continuing"
+        },
+        {
+          "step_id": "S1_DISCOVER",
+          "title": "Inventory current repository default branch, active branches, latest commits, deployment environments, runtime versions and dependency manifests."
+        },
+        {
+          "step_id": "S2_VALIDATE",
+          "title": "Cross-check version and branch facts against live GitHub refs, manifests and available deployment evidence; record any unavailable environment as UNKNOWN."
+        },
+        {
+          "step_id": "S3_REPORT",
+          "title": "A baseline register with exact SHAs, branch names, environment facts, dependency versions, drift and unknowns."
+        }
+      ],
+      "acceptance_criteria": [
+        {
+          "criterion_id": "AC_EVIDENCE",
+          "title": "Every factual conclusion has a direct GitHub source, test or runtime evidence reference"
+        },
+        {
+          "criterion_id": "AC_UNKNOWNS",
+          "title": "Unknowns, limitations, failed checks and unresolved dependencies are explicit; no unsupported assumptions"
+        },
+        {
+          "criterion_id": "AC_READONLY",
+          "title": "No file, branch, PR or production data is modified in the NON product repository"
+        }
+      ],
+      "priority": 50,
+      "created_at_utc": "2026-11-14T17:25:15.652Z"
     }
   },
   "checkpoints": {
