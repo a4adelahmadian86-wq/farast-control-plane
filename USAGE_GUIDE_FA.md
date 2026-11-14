@@ -6,9 +6,9 @@
 
 **پیش از اجرای محرمانه و چندحسابی کامل:** مالک باید خصوصی‌سازی، بازبینی و ادغام PR شماره ۱، تنظیم و راستی‌آزمایی branch protection، تأیید دسترسی هر اتصال GitHub و اجرای آزمون واقعی دو حساب مستقل را تکمیل کند. این موارد هنوز اثبات نشده‌اند.
 
-1. branch `coordination/locks` را حفظ کن؛ این branch پایگاه قفل اتمیک است.
-2. برای هر حساب ChatGPT، GitHub را جداگانه وصل و دسترسی read/write به همین مخزن را مجاز کن. اگر حساب ابزار Git Data write ندارد، آن حساب فقط مجاز به تحلیل read-only است.
-3. تنظیمات branch protection و required check را طبق راهنما فعال و نتیجه را بررسی کن.
+1. branch coordination/locks را حفظ کن؛ فقط workflow مرکزی farast-coordinator.yml حق نوشتن رجیستری آن را دارد.
+2. برای هر حساب/کاربر مستقل، GitHub را جداگانه وصل و دسترسی لازم به Issueها و مخزن کنترل‌پلین را مجاز کن. actor باید OWNER/COLLABORATOR/MEMBER باشد.
+3. تنظیمات Actions write permission و در صورت پذیرش PRهای مخزن دیگر، Secret FARAST_GITHUB_TOKEN را طبق MANUAL_GITHUB_SETTINGS.md تنظیم کن.
 
 ## اجرای هر کار
 1. وارد چت دلخواه شو.
@@ -38,4 +38,13 @@
 
 ## وضعیت هماهنگ‌کننده خودکار
 
-workflow فرمانی /farast از PR #479 هنوز به مخزن مستقل منتقل نشده است؛ بنابراین به پیام خودکار claim/heartbeat انتظار نداشته باش. تا زمان پیاده‌سازی آن، هر عامل باید مستقیماً LOCK_MANAGER_PROTOCOL.md را با Git Data CAS اجرا کند و فقط پس از read-back موفق بنویسد.
+workflow جدید .github/workflows/farast-coordinator.yml روی شاخه PR #1 پیاده‌سازی شده است، اما تا ادغام PR #1 در default branch فعال عملیاتی نیست. پس از ادغام، اجرای schedule پنج‌دقیقه‌ای، workflow_dispatch و دسترسی‌های Actions باید بررسی شوند.
+
+برای هر وظیفه، در Issue یک بخش Resource keys با کلیدهای دقیق و canonical ثبت کن. سپس از دستورهای 04_COORDINATION/COORDINATOR_COMMANDS.md استفاده کن:
+- claim: /farast claim chat=CHAT_ALIAS run=RUN_ID lease=30
+- heartbeat: /farast heartbeat chat=CHAT_ALIAS run=RUN_ID token=FENCING_TOKEN lease=30
+- پایان کار: /farast review یا /farast release با token صحیح.
+
+فقط پس از پاسخ CLAIM GRANTED و read-back رجیستری اجازه write داری. اگر workflow پاسخ نداد، timeout شد یا روی default branch فعال نبود، STOP WRITES. هیچ چتی حق نوشتن مستقیم ACTIVE_LOCKS.json یا fallback به CAS مستقیم ندارد. برای جزئیات، محدودیت‌ها و برنامه آزمون به COORDINATOR_COMMANDS.md، COORDINATOR_TEST_PLAN.md و LEGACY_COORDINATOR_MIGRATION.md مراجعه کن.
+
+آزمون واقعی دو حساب مستقل و contention هنوز انجام نشده است؛ بنابراین اجرای کامل چندچتی تا پایان این آزمون‌ها تأییدشده محسوب نمی‌شود.
