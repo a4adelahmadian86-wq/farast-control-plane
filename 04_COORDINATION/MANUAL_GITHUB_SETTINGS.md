@@ -38,3 +38,7 @@ Branch `coordination/locks` منبع registry است. حذف تصادفی آن �
 - هر حساب/کارمند/چت باید دسترسی GitHub مستقل و مجاز داشته باشد. نقش GitHub actor و author_association در coordinator بررسی می‌شود؛ CHAT_ID و RUN_ID فقط metadata خوداظهاری‌اند.
 - برای branch `coordination/locks` هیچ workflow یا عامل دیگری را به‌عنوان writer فعال نکن. workflow مرکزی تنها writer مجاز است؛ تغییر دستی registry ممنوع.
 - پیش از استفاده واقعی، آزمون‌های `04_COORDINATION/COORDINATOR_TEST_PLAN.md` را اجرا و نتایج را در GitHub ثبت کن. حداقل دو حساب مستقل برای اثبات contention و takeover لازم است.
+
+
+## 6. اجازه نوشتن برای GitHub Actions
+در Settings → Actions → General → Workflow permissions بررسی کن که GitHub Actions اجازه write به محتوا و Issueها داشته باشد؛ workflow خودش دسترسی‌ها را به contents:write و issues:write و pull-requests:read محدود کرده است. اگر policy مخزن/سازمان write را ممنوع کند، coordinator نمی‌تواند registry یا Issue comments را به‌روزرسانی کند و باید read-only/STOP WRITES بماند.
