@@ -1,0 +1,217 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/setup/control-plane-bootstrap/04_COORDINATION/CHECKPOINT_SCHEMA.json",
+  "title": "FARAST Execution Checkpoint",
+  "description": "Machine-readable contract for CHECKPOINT_TEMPLATE.md. A checkpoint is append-only evidence for resuming the same TASK_ID.",
+  "type": "object",
+  "required": [
+    "TASK_ID",
+    "PROMPT_ID",
+    "RUN_ID",
+    "OPERATION_ID_LAST_CONFIRMED",
+    "RECOVERY_STATE",
+    "AGENT_ALIAS",
+    "TIMESTAMP_UTC",
+    "TASK_STATUS",
+    "BRANCH",
+    "COMMIT_SHA",
+    "LAST_COMPLETED_STEP",
+    "CURRENT_STEP",
+    "NEXT_ACTION",
+    "EXACT_RESUME_INSTRUCTION",
+    "LAST_GITHUB_READBACK_UTC",
+    "PENDING_OPERATION_AND_ID",
+    "FILES_CHANGED",
+    "COMMANDS_EXECUTED",
+    "TESTS_AND_RESULTS",
+    "EVIDENCE_LINKS",
+    "FACTS_CONFIRMED",
+    "ASSUMPTIONS",
+    "UNKNOWN",
+    "BLOCKERS",
+    "RESOURCE_LEASES",
+    "HUMAN_APPROVAL",
+    "HANDOFF_NOTES"
+  ],
+  "properties": {
+    "TASK_ID": {
+      "type": "string",
+      "pattern": "^FCP-[A-Z0-9]+(?:-[A-Z0-9]+)*$"
+    },
+    "PROMPT_ID": {
+      "type": "string",
+      "pattern": "^(MASTER-00|PR-(0[1-9]|1[0-7]))$"
+    },
+    "RUN_ID": {
+      "type": "string",
+      "minLength": 1
+    },
+    "OPERATION_ID_LAST_CONFIRMED": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "RECOVERY_STATE": {
+      "type": "string",
+      "enum": [
+        "CONFIRMED",
+        "NOT_APPLIED",
+        "PARTIAL",
+        "AMBIGUOUS",
+        "BLOCKED"
+      ]
+    },
+    "AGENT_ALIAS": {
+      "type": "string",
+      "minLength": 1
+    },
+    "TIMESTAMP_UTC": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "TASK_STATUS": {
+      "type": "string",
+      "enum": [
+        "BACKLOG",
+        "READY",
+        "CLAIMED",
+        "IN_PROGRESS",
+        "BLOCKED",
+        "REVIEW",
+        "DONE_UNVERIFIED",
+        "DONE_VERIFIED",
+        "CANCELLED",
+        "SUPERSEDED"
+      ]
+    },
+    "BRANCH": {
+      "type": "string",
+      "minLength": 1
+    },
+    "COMMIT_SHA": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^([0-9a-f]{40})?$"
+    },
+    "LAST_COMPLETED_STEP": {
+      "type": "string"
+    },
+    "CURRENT_STEP": {
+      "type": "string"
+    },
+    "NEXT_ACTION": {
+      "type": "string",
+      "minLength": 1
+    },
+    "EXACT_RESUME_INSTRUCTION": {
+      "type": "string",
+      "minLength": 1
+    },
+    "LAST_GITHUB_READBACK_UTC": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "PENDING_OPERATION_AND_ID": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "FILES_CHANGED": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "COMMANDS_EXECUTED": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "TESTS_AND_RESULTS": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "EVIDENCE_LINKS": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "FACTS_CONFIRMED": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "ASSUMPTIONS": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "UNKNOWN": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "BLOCKERS": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "RESOURCE_LEASES": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "resource_key",
+          "fencing_token",
+          "lease_expires_at_utc"
+        ],
+        "properties": {
+          "resource_key": {
+            "type": "string"
+          },
+          "fencing_token": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "lease_expires_at_utc": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "branch": {
+            "type": "string"
+          },
+          "task_id": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "HUMAN_APPROVAL": {
+      "type": [
+        "string",
+        "object",
+        "null"
+      ]
+    },
+    "HANDOFF_NOTES": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}

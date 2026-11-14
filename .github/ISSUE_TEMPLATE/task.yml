@@ -1,0 +1,60 @@
+name: FARAST Task
+description: Create or resume a tracked FARAST work package
+title: "[TASK] "
+body:
+  - type: markdown
+    attributes:
+      value: "Before creating: read START_HERE.md, search existing Issues/PRs and check resource conflicts."
+  - type: input
+    id: task_id
+    attributes:
+      label: Stable TASK_ID
+      placeholder: FCP-EXP03-001
+    validations:
+      required: true
+  - type: input
+    id: prompt_id
+    attributes:
+      label: PROMPT_ID
+      placeholder: PR-03
+    validations:
+      required: true
+  - type: input
+    id: exp_ids
+    attributes:
+      label: EXP_IDS
+    validations:
+      required: true
+  - type: input
+    id: goal_ids
+    attributes:
+      label: GOAL_IDS
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope in / out
+    validations:
+      required: true
+  - type: textarea
+    id: resources
+    attributes:
+      label: RESOURCE_KEYS
+      description: List module:, file:, schema:, api-contract: keys
+    validations:
+      required: true
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies and active conflicts
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria and evidence required
+    validations:
+      required: true
+  - type: textarea
+    id: checkpoint
+    attributes:
+      label: Last checkpoint / next action (for resumed tasks)
