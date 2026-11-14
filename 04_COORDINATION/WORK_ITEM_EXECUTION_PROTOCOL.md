@@ -16,14 +16,14 @@
 4. میان نامزدها priority عددی مالک‌تعیین‌شده را با aging روزانه تعدیل کن؛ اولویت مالک را تغییر نده. سپس قدیمی‌ترین ready/created time و در نهایت WORK_ITEM_ID برای tie-break استفاده شود.
 5. اگر برگ IN_PROGRESS با lease منقضی یافت شد، همان برگ و checkpoint آن برای resume واجد انتخاب است؛ شناسه را عوض نکن.
 6. بعد از انتخاب، فقط با /farast claim روی Issue همان برگ claim بگیر. claim موفق CAS مرجع نهایی است؛ انتخاب محلی مجوز write نیست.
-7. اگر هیچ برگ واجد شرایط نبود، هیچ هدفی را حدس نزن؛ علت را گزارش کن.
+7. اگر هیچ برگ واجد شرایط نبود، درخت هدف و EXPهای ناقص را با Issueهای موجود تطبیق بده. برای ساخت برگ جدید ابتدا Issue allocator با WORK_ITEM_ID ثابت `WI-GOAL-ALLOCATOR-001` را claim کن؛ فقط در اختیار lease آن، WORK_ITEM_ID قطعی بساز و Issueهای leaf را ایجاد کن. اگر allocator موجود/آزاد نیست، duplicate نساز و گزارش بده.
 
 ## سیاست نوشتن و اولویت
 - `READ_ONLY`: فقط مشاهده/تحلیل/گزارش؛ هیچ تغییر فایل یا PR در target repository مجاز نیست.
 - `WRITE_REQUIRES_OWNER_APPROVAL`: فقط پیشنهاد تغییر؛ تا ثبت تأیید صریح مالک هیچ write انجام نشود.
 - `WRITE_ALLOWED`: فقط در محدوده مخزن و resourceهای مجاز و پس از claim معتبر.
 - برای مخزن محصول `a4adelahmadian86-wq/non`، coordinator فقط `READ_ONLY` را می‌پذیرد تا زمانی که مالک مجوز جداگانه و صریح صادر کند.
-- `priority_source=DEFAULT_POLICY` با priority=50 یعنی اولویت برابر و انتخاب FIFO/aging؛ این مقدار رتبه‌بندی مالک نیست. `OWNER_ASSIGNED` فقط با تصمیم صریح مالک ثبت شود.
+- `priority_source=DEFAULT_POLICY` با priority=50 یعنی اولویت برابر و انتخاب FIFO/aging؛ این مقدار رتبه‌بندی مالک نیست. فقط وقتی مالک صریحاً رتبه تعیین کرد `OWNER_ASSIGNED` ثبت شود. `OWNER_ASSIGNED` فقط با تصمیم صریح مالک ثبت شود.
 
 ## پیشرفت و پذیرش
 - هر step فقط با validation_status=PASS و حداقل یک evidence_ref معتبر شمرده می‌شود.
