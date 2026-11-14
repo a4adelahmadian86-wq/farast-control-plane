@@ -23,7 +23,7 @@
 ## وضعیت راه‌اندازی
 - زیرساخت کنترل‌پلین در PR شماره ۱ روی شاخه setup/control-plane-bootstrap است؛ هنوز merge نشده.
 - شاخه پیش‌فرض main فقط README دارد؛ پرامپت‌ها به شاخه معتبر pinned شده‌اند.
-- رجیستری CAS روی branch coordination/locks موجود است؛ آزمون رقابتی دو حساب مستقل هنوز لازم است.
+- رجیستری CAS روی branch coordination/locks موجود است؛ آزمون رقابتی دو حساب مستقل هنوز لازم است.\n- coordinator رویدادمحور legacy PR #479 هنوز منتقل نشده؛ تا آن زمان قفل مستقیم CAS طبق پروتکل و بدون اتکاء به فرمان‌های /farast انجام می‌شود.
 - Work Order/Checkpoint schema، Handoff Protocol، Acceptance Framework و Architecture Coverage افزوده شده‌اند.
 - Visibility مخزن PUBLIC است؛ فعلاً فقط کار عمومی و غیرمحرمانه.
 - Branch protection و review مستقل تأیید نشده‌اند.
