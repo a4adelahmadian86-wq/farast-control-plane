@@ -15,3 +15,7 @@
 
 ## آزمون
 probe اولیه branch uniqueness و CAS انجام شد؛ جزئیات/محدودیت‌ها در `LOCK_MANAGER_PROTOCOL.md` ثبت شده است. آزمون رقابتی end-to-end با دو حساب مستقل هنوز تکمیل نشده و باید قبل از اتکای عملیاتی گسترده انجام شود.
+
+
+## قرارداد فعال چندچتی
+این سند فقط سابقه/مبانی پروتکل قفل است. در نسخه اجرایی فعلی، workerها حق اجرای CAS یا نوشتن مستقیم `ACTIVE_LOCKS.json` را ندارند. تمام claim/heartbeat/release از طریق فرمان‌های `/farast` و workflow مرکزی انجام می‌شود. مرجع جاری: `COORDINATOR_COMMANDS.md` و `COORDINATOR_TEST_PLAN.md`.
