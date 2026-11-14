@@ -41,8 +41,7 @@ jobs:
             const workItemCore = require(process.env.GITHUB_WORKSPACE + '/.github/scripts/work-item-core.js');
             const authorizationPolicy = require(process.env.GITHUB_WORKSPACE + '/04_COORDINATION/ACTOR_AUTHORIZATION.json');
             const registryBranch = 'coordination/locks';
-            const { getOctokit } = require('@actions/github');
-            const crossRepoGithub = process.env.FARAST_GITHUB_TOKEN ? getOctokit(process.env.FARAST_GITHUB_TOKEN) : null;
+            const crossRepoGithub = process.env.FARAST_GITHUB_TOKEN ? new github.constructor({ auth: process.env.FARAST_GITHUB_TOKEN }) : null;
             const registryPath = '04_COORDINATION/ACTIVE_LOCKS.json';
             const allowedAssociations = new Set(['OWNER', 'COLLABORATOR', 'MEMBER']);
             const labelDefs = [
