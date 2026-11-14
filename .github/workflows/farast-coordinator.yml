@@ -215,9 +215,7 @@ jobs:
               }
 
               state.processed_operations ||= {};
-              state.processed_operations[id] = { response, response_posted: false, issue_number: issue.number, actor, command, at_utc: new Date().toISOString() };
-              const opIds = Object.keys(state.processed_operations);
-              while (opIds.length > 5000) delete state.processed_operations[opIds.shift()];
+              state.processed_operations[id] = { response, response_posted: false, issue_number: issue.number, actor, command, next_status: nextStatus, at_utc: new Date().toISOString() };
               const updated = await saveRegistry(state, snapshot, 'FARAST coordinator: ' + command + ' issue #' + issue.number + ' operation ' + id);
               if (nextStatus) await setStatus(issue.number, nextStatus);
               if (command === 'reopen' && nextStatus === 'ready') await github.rest.issues.update({ owner, repo, issue_number: issue.number, state: 'open', state_reason: 'reopened' });
@@ -233,6 +231,10 @@ jobs:
             const processIssue = async issue => {
               if (!isTask(issue)) return;
               if (!labelsOf(issue).includes('agent:task')) await addLabel(issue.number, 'agent:task');
+              if (issue.state === 'open' && labelsOf(issue).includes('agent:done')) {
+                await github.rest.issues.update({ owner, repo, issue_number: issue.number, state: 'closed', state_reason: 'completed' });
+                issue = (await github.rest.issues.get({ owner, repo, issue_number: issue.number })).data;
+              }
               if (issue.state === 'closed' && !labelsOf(issue).includes('agent:done')) {
                 await github.rest.issues.update({ owner, repo, issue_number: issue.number, state: 'open', state_reason: 'reopened' });
                 await publish(issue.number, 'إغلاق رد شد: دروازه پذیرش مستقل کامل نشده است. برای پذیرش از /farast accept pr=... استفاده کنید.');
@@ -243,6 +245,8 @@ jobs:
               // Recover responses that were committed but not posted before an interruption.
               for (const [id, op] of Object.entries(snapshot.state.processed_operations || {})) {
                 if (op.issue_number !== issue.number || op.response_posted) continue;
+                if (op.next_status) await setStatus(issue.number, op.next_status);
+                if (op.next_status === 'done' && issue.state !== 'closed') await github.rest.issues.update({ owner, repo, issue_number: issue.number, state: 'closed', state_reason: 'completed' });
                 const marker = '<!-- FARAST_OP_RESPONSE:' + id + ' -->';
                 if (!comments.some(c => c.body.includes(marker))) await publish(issue.number, op.response + '\n\n' + marker);
                 snapshot.state.processed_operations[id].response_posted = true;
