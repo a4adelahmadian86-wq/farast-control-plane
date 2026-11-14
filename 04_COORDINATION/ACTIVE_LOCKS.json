@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 65,
+  "revision": 66,
   "next_fencing_token": 54,
   "locks": [
     {
@@ -806,7 +806,7 @@
     },
     "6881444584": {
       "response": "WORK_ITEM=WI-EXP01-BASELINE-001; progress=0%; verified_steps=0/4; weighting=EQUAL_STEPS_V1; acceptance_criteria=INCOMPLETE; dependencies=PASS; can_accept=false. درصد پیشرفت به‌تنهایی پذیرش نیست.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 13,
       "actor": "a4adelahmadian86-wq",
       "command": "progress",
