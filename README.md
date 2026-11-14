@@ -4,21 +4,22 @@
 
 این مخزن از مخزن محصول `a4adelahmadian86-wq/non` جداست. کد اجرایی سایت در اینجا نگهداری نمی‌شود.
 
-## هشدار امنیتی فوری
-در زمان راه‌اندازی، visibility این مخزن `PUBLIC` مشاهده شد. چون اسناد نیازمندی و جزئیات کسب‌وکار در آن قرار دارد، مالک باید فوراً مخزن را PRIVATE کند. تا آن زمان هیچ secret، credential، PII، dump یا داده مشتری وارد نشود. راهنما: [تنظیمات دستی GitHub](04_COORDINATION/MANUAL_GITHUB_SETTINGS.md).
+## حالت امنیتی فعلی: public-safe
+visibility این مخزن طبق تصمیم فعلی مالک `PUBLIC` باقی می‌ماند. استفاده فقط برای داده عمومی و غیرمحرمانه مجاز است؛ هیچ secret، credential، PII، dump، داده مشتری یا سند محرمانه در repo، Issue، comment یا PR ثبت نشود. خصوصی‌سازی فقط پیش از ورود داده محرمانه/داخلی لازم است. راهنما: [تنظیمات دستی GitHub](04_COORDINATION/MANUAL_GITHUB_SETTINGS.md).
 
 ## شروع سریع
 
 **مرجع اجرایی فعلی:** تا زمان ادغام PR شماره ۱، فایل‌ها روی شاخه `setup/control-plane-bootstrap` هستند و `main` فقط README دارد. [ورود مستقیم به START_HERE در شاخه معتبر](https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/setup/control-plane-bootstrap/START_HERE.md). همه لینک‌های نسبی را از همان شاخه باز کن. وضعیت PR را زنده بررسی کن و پس از ادغام، وجود فایل‌ها در main را تأیید کن.
 
 **حالت فعلی عمومی:** چون مخزن هنوز PUBLIC است، فقط تحلیل/آزمون عمومی و غیرمحرمانه مجاز است؛ secret، PII، داده مشتری و اطلاعات محرمانه ثبت نکن.
-1. مخزن را PRIVATE کن و branch protection را طبق راهنما فعال کن.
-2. برای هر حساب ChatGPT، GitHub connector را جداگانه با دسترسی مناسب به این مخزن وصل کن.
-3. [START_HERE.md](START_HERE.md) را بخوان.
-4. منبع کامل نیازمندی‌ها: [SOURCE_REQUIREMENTS_v2.md](00_PROJECT_FOUNDATION/SOURCE_REQUIREMENTS_v2.md).
-5. الزامات اجرای چندچتی: [CONTROL_PLANE_REQUIREMENTS.md](00_PROJECT_FOUNDATION/CONTROL_PLANE_REQUIREMENTS.md).
-6. راهنمای کاربر مبتدی: [USAGE_GUIDE_FA.md](USAGE_GUIDE_FA.md).
-7. پیش از هر نوشتن، فقط فرمان `/farast claim` را طبق [قرارداد coordinator](04_COORDINATION/COORDINATOR_COMMANDS.md) اجرا کن؛ workerها حق CAS یا نوشتن مستقیم رجیستری را ندارند.
+1. branch protection را طبق راهنمای GitHub فعال کن؛ تا پیش از آن PRها را بدون review مستقل merge نکن.
+2. برای هر حساب/همکار، GitHub را جداگانه با دسترسی لازم به مخزن کنترل‌پلین و مخزن هدف وصل کن.
+3. [START_HERE.md](START_HERE.md) را از شاخه معتبر `setup/control-plane-bootstrap` بخوان.
+4. منبع نیازمندی‌ها: [SOURCE_REQUIREMENTS_v2.md](00_PROJECT_FOUNDATION/SOURCE_REQUIREMENTS_v2.md).
+5. الزامات چندچتی: [CONTROL_PLANE_REQUIREMENTS.md](00_PROJECT_FOUNDATION/CONTROL_PLANE_REQUIREMENTS.md).
+6. راهنمای کاربر: [USAGE_GUIDE_FA.md](USAGE_GUIDE_FA.md).
+7. پیش از هر write فقط فرمان `/farast claim` را طبق [قرارداد coordinator](04_COORDINATION/COORDINATOR_COMMANDS.md) اجرا کن؛ workerها حق CAS یا نوشتن مستقیم رجیستری را ندارند.
+8. نقش‌ها را فقط با تأیید مالک در [ACTOR_AUTHORIZATION.json](04_COORDINATION/ACTOR_AUTHORIZATION.json) تفویض کن.
 
 ## کتابخانه پرامپت‌ها
 - [کتابخانه کامل قابل کپی](05_PROMPT_LIBRARY/FARAST_EXECUTABLE_PROMPTS_COMPLETE.md)
