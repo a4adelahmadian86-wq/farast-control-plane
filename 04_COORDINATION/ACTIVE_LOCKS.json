@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 70,
+  "revision": 71,
   "next_fencing_token": 54,
   "locks": [
     {
@@ -830,6 +830,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-14T17:30:29.009Z"
+    },
+    "6881484187": {
+      "response": "STEP ثبت شد: S3_CREATE; progress=60%; verified=3/5.",
+      "response_posted": false,
+      "issue_number": 11,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-14T17:30:56.641Z"
     }
   },
   "work_items": {
@@ -988,7 +997,16 @@
         },
         {
           "step_id": "S3_CREATE",
-          "title": "Create the leaf Issue with schema-valid JSON, stable ID and explicit write policy"
+          "title": "Create the leaf Issue with schema-valid JSON, stable ID and explicit write policy",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/11#issuecomment-6881465362",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/13",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/39"
+          ],
+          "validated_at_utc": "2026-11-14T17:30:56.635Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S4_VERIFY",
