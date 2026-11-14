@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 83,
+  "revision": 84,
   "next_fencing_token": 54,
   "locks": [
     {
@@ -887,7 +887,7 @@
     },
     "6881696164": {
       "response": "وظیفه به ready بازگشت؛ برای شروع دوباره claim لازم است.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 7,
       "actor": "a4adelahmadian86-wq",
       "command": "unblock",
