@@ -43,7 +43,7 @@ api-contract:payment-callback
 5. پایان lease در reconciliation ثبت و قفل منقضی حذف می‌شود.
 6. release به معنی اتمام کار نیست؛ review به معنی پذیرش نیست.
 7. accept فقط وقتی مجاز است که Issue در وضعیت review و بدون lease باشد، لینک PR در بدنه Issue ثبت شده باشد، PR merged شده باشد و یک reviewer مستقل (نه نویسنده PR، نه worker اجراکننده و نه worker پذیرش‌دهنده) روی head فعلی approval داده باشد.
-8. بستن دستی Issue بدون label پذیرش agent:done رد و Issue دوباره باز می‌شود.
+8. بستن دستی Issue یا افزودن دستی label agent:done بدون transition موفق accept در operation ledger رد و Issue دوباره باز می‌شود؛ label به‌تنهایی منبع پذیرش نیست.
 9. عملیات با شناسه comment یکتا deduplicate می‌شود؛ پاسخ نیمه‌تمام پس از وقفه بازیابی می‌شود.
 10. عدم پاسخ، timeout یا خطای workflow هرگز grant محسوب نمی‌شود؛ وضعیت را از رجیستری و Actions run دوباره بخوانید.
 
