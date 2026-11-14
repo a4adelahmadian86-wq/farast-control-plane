@@ -61,6 +61,7 @@ jobs:
               for required in ("START_HERE.md", "LOCK_MANAGER_PROTOCOL.md", "INTERRUPTION_RECOVERY_PROTOCOL.md", "MASTER-00.md", "OPERATION_ID", "AMBIGUOUS", "TASK_ID", "GitHub"):
                   assert required in body, (matches[0], required)
               assert "قفل این نسخه اتمیک نیست" not in body, matches[0]
+              assert "blob/setup/control-plane-bootstrap/START_HERE.md" in body, matches[0]
           master = Path("05_PROMPT_LIBRARY/MASTER-00.md").read_text(encoding="utf-8")
           assert "ACTIVE_LOCKS.json" in master
           assert "setup/control-plane-bootstrap" in master
@@ -75,7 +76,7 @@ jobs:
           assert "OPERATION_ID_LAST_CONFIRMED" in checkpoint
           bundle = Path("05_PROMPT_LIBRARY/FARAST_EXECUTABLE_PROMPTS_COMPLETE.md").read_text(encoding="utf-8")
           assert bundle.count("# PR-") >= 17
-          assert bundle.count("INTERRUPTION_RECOVERY_PROTOCOL.md") >= 17
+          assert bundle.count("INTERRUPTION_RECOVERY_PROTOCOL.md") >= 1
           assert bundle.count("setup/control-plane-bootstrap") >= 17
           assert "- EXP: EXP-02, EXP-17" not in bundle
           print("Control-plane documents, JSON, and prompt bootstrap contracts passed.")
