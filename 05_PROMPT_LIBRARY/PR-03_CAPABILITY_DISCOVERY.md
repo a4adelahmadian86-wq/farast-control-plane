@@ -44,7 +44,7 @@
 تمام قابلیت‌های موجود محصول را از UI، route، controller، service، model، job، event، migration، permission، test و مستندات کشف و در کاتالوگ ثبت کن. کد را تغییر نده.
 
 ## روش
-1. وظیفه `FCP-EXP03-001` را بازیابی/ایجاد کن.
+1. Work Item موجود متناظر با `EXP-03` را با جست‌وجوی کامل Issueها و شناسه‌های واقعی بازیابی کن؛ duplicate یا شناسه فرضی نساز. اگر واقعاً وجود ندارد، فقط طبق allocator protocol پیشنهاد ایجاد بده.
 2. inventory مخزن و معماری را بساز؛ قابلیت‌ها را بر اساس حوزه کسب‌وکار، نقش، ماژول و journey گروه‌بندی کن.
 3. برای هر قابلیت ثبت کن: CAP_ID پایدار، نام، شرح، actor، ورودی/خروجی، مسیر UI/API، مجوز سمت سرور، اجزای backend، داده، وابستگی، تست، وضعیت اجرا و شواهد.
 4. وضعیت را یکی از این‌ها بگذار: PRESENT_CODE_ONLY، UI_ONLY، PARTIAL، TESTED_IN_SCOPE، VERIFIED_RUNTIME، BROKEN، NOT_FOUND، UNKNOWN.
