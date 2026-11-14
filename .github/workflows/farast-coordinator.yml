@@ -37,7 +37,7 @@ jobs:
           script: |
             const owner = context.repo.owner;
             const repo = context.repo.repo;
-            const coordinatorCore = require('./.github/scripts/coordinator-core');
+            const coordinatorCore = require(process.env.GITHUB_WORKSPACE + '/.github/scripts/coordinator-core.js');
             const registryBranch = 'coordination/locks';
             const { getOctokit } = require('@actions/github');
             const crossRepoGithub = process.env.FARAST_GITHUB_TOKEN ? getOctokit(process.env.FARAST_GITHUB_TOKEN) : null;
