@@ -35,6 +35,9 @@ function claimResources(state, args) {
   if (!keys.length) return { ok: false, reason: 'missing_resources' };
   const taskConflict = state.locks.find(x => x.issue_number === args.issueNumber && Date.parse(x.lease_expires_at_utc) > nowMs);
   if (taskConflict) return { ok: false, reason: 'task_already_claimed', conflict: taskConflict };
+  const branchUsed = (state.history || []).some(x => x.event === 'ACQUIRED' && x.issue_number === args.issueNumber && x.branch === args.branch);
+  if (branchUsed) return { ok: false, reason: 'branch_reuse' };
+  const previousRun = [...(state.history || [])].reverse().find(x => x.issue_number === args.issueNumber && ['RELEASE','REVIEW','BLOCK','LEASE_EXPIRED'].includes(x.event) && x.branch);
   const conflict = state.locks.find(x => keys.includes(x.resource_key) && Date.parse(x.lease_expires_at_utc) > nowMs);
   if (conflict) return { ok: false, reason: 'resource_conflict', conflict };
   const fencingToken = state.next_fencing_token++;
@@ -51,9 +54,12 @@ function claimResources(state, args) {
     event: 'ACQUIRED', issue_number: args.issueNumber, actor: args.actor,
     chat_id: args.chatId, run_id: args.runId, resource_keys: keys,
     target_repository: args.targetRepository, branch: args.branch,
+    previous_branch: previousRun?.branch || null,
+    previous_target_repository: previousRun?.target_repository || null,
+    previous_run_id: previousRun?.run_id || null,
     fencing_token: fencingToken, at_utc: acquiredAt
   });
-  return { ok: true, fencingToken, expiresAt, resourceKeys: keys };
+  return { ok: true, fencingToken, expiresAt, resourceKeys: keys, previousRun: previousRun ? { branch: previousRun.branch, targetRepository: previousRun.target_repository, runId: previousRun.run_id } : null };
 }
 
 function renewLease(currentLocks, leaseMinutes, nowMs = Date.now()) {
