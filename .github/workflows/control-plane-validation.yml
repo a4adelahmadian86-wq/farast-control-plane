@@ -186,7 +186,7 @@ jobs:
           source_paths = [Path("05_PROMPT_LIBRARY/MASTER-00.md"), *sorted(Path("05_PROMPT_LIBRARY").glob("PR-*.md"))]
           assert len(source_paths) == 18
           for source_path in source_paths:
-              source_block = f"# SOURCE: {source_path.as_posix()}\\n\\n{source_path.read_text(encoding='utf-8').rstrip()}\\n"
+              source_block = f"# SOURCE: {source_path.as_posix()}\n\n{source_path.read_text(encoding='utf-8').rstrip()}\n"
               assert source_block in bundle, f"bundle source mismatch: {source_path}"
           assert bundle.count("# SOURCE: 05_PROMPT_LIBRARY/") == 18
           assert bundle.count("# PR-") >= 17
