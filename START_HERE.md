@@ -10,6 +10,9 @@
 - پیش از هر اجرا SHA زنده `main`، PRها، Issueها و وضعیت Actions را بررسی کن.
 - مخزن همچنان PUBLIC است؛ secrets، PII، داده مشتری و اسناد محرمانه وارد آن نشود.
 
+## اجرای هدف‌های خرد
+هر برگ اجرایی باید Issue مستقل، WORK_ITEM_ID پایدار، گام‌ها، dependency، resource keys، معیار پذیرش و شواهد داشته باشد. پروتکل انتخاب، پیشرفت و resume در `04_COORDINATION/WORK_ITEM_EXECUTION_PROTOCOL.md` است.
+
 ## وضعیت آمادگی چندچتی
 پیش از اجرای نوشتنی، [ارزیابی آمادگی چندچتی](04_COORDINATION/MULTI_CHAT_READINESS.md) را بخوان. وضعیت پیاده‌سازی، موانع فعال‌سازی و مرز تضمین fencing در آن ثبت می‌شود.
 
