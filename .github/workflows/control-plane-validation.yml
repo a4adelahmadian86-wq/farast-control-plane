@@ -148,7 +148,11 @@ jobs:
           checkpoint = Path("04_COORDINATION/CHECKPOINT_TEMPLATE.md").read_text(encoding="utf-8")
           assert "OPERATION_ID_LAST_CONFIRMED" in checkpoint
           bundle = Path("05_PROMPT_LIBRARY/FARAST_EXECUTABLE_PROMPTS_COMPLETE.md").read_text(encoding="utf-8")
+          assert "نسخه: 1.3.0" in bundle
+          assert bundle.count("# SOURCE: 05_PROMPT_LIBRARY/") == 18
           assert bundle.count("# PR-") >= 17
+          assert "ACTOR_AUTHORIZATION.json" in bundle
+          assert "رجیستری `coordination/locks` فقط توسط workflow مرکزی نوشته می‌شود" in bundle
           assert bundle.count("INTERRUPTION_RECOVERY_PROTOCOL.md") >= 1
           assert bundle.count("setup/control-plane-bootstrap") >= 17
           assert "- EXP: EXP-02, EXP-17" not in bundle
