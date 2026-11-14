@@ -194,7 +194,7 @@ jobs:
                 } else if (command === 'accept') {
                   const prUrl = args.pr || (issue.body || '').match(/https:\/\/github\.com\/[^\s)]+\/pull\/\d+/)?.[0];
                   const prMatch = prUrl?.match(/github\.com\/([^/]+)\/([^/]+)\/pull\/(\d+)/);
-                  if (!prMatch) response = 'پذیرش رد شد: لینک PR مرتبط باید با pr=https://github.com/OWNER/REPO/pull/N مشخص شود.';
+                  if (!prMatch || !(issue.body || '').includes(prUrl)) response = 'پذیرش رد شد: لینک PR باید هم در بدنه Issue ثبت شده باشد و هم با pr= به فرمان accept داده شود.';
                   else {
                     const [__, prOwner, prRepo, prNumber] = prMatch;
                     const prClient = (prOwner === owner && prRepo === repo) ? github : crossRepoGithub;
