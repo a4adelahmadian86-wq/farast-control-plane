@@ -113,6 +113,10 @@ jobs:
           checkpoint_schema = json.loads(Path("04_COORDINATION/CHECKPOINT_SCHEMA.json").read_text(encoding="utf-8"))
           Draft202012Validator.check_schema(work_schema)
           Draft202012Validator.check_schema(checkpoint_schema)
+          work_item_sample = {"schema_version":"1.0","work_item_id":"WI-CI-001","title":"CI work item","parent_goal_ids":["G-09"],"parent_exp_ids":["EXP-01"],"status":"READY","target_repository":"owner/repo","resource_keys":["module:ci"],"dependencies":[],"steps":[{"step_id":"S1","title":"Inspect"}],"acceptance_criteria":[{"criterion_id":"AC1","title":"Evidence exists"}],"priority":50,"created_at_utc":"2026-11-14T00:00:00Z"}
+          work_item_checkpoint_sample = {"work_item_id":"WI-CI-001","run_id":"RUN-CI-001","checkpoint_version":1,"created_at_utc":"2026-11-14T00:00:00Z","last_verified_step_id":None,"current_step_id":"S1","completed_step_ids":[],"remaining_step_ids":["S1"],"progress_percentage":0,"evidence_refs":[],"blockers":[],"owner":{"actor":"ci","chat_id":"ci-chat","fencing_token":1,"lease_expires_at_utc":"2026-11-14T01:00:00Z"},"next_action":"inspect"}
+          Draft202012Validator(work_item_schema, format_checker=FormatChecker()).validate(work_item_sample)
+          Draft202012Validator(work_item_checkpoint_schema, format_checker=FormatChecker()).validate(work_item_checkpoint_sample)
           Draft202012Validator.check_schema(work_item_schema)
           Draft202012Validator.check_schema(work_item_checkpoint_schema)
           work_sample = {"TASK_ID":"FCP-EXP03-001","PROMPT_ID":"PR-03","EXP_IDS":["EXP-03"],"GOAL_IDS":["G-01"],"TITLE":"Sample","PURPOSE":"Schema validation fixture","STATUS":"READY","RESOURCE_KEYS":["module:sample"],"SCOPE_IN":["read-only inventory"],"SCOPE_OUT":["production changes"],"ACCEPTANCE_CRITERIA":["evidence linked"],"NEXT_ACTION":"inspect evidence"}
@@ -176,6 +180,8 @@ jobs:
           bundle = Path("05_PROMPT_LIBRARY/FARAST_EXECUTABLE_PROMPTS_COMPLETE.md").read_text(encoding="utf-8")
           assert "نسخه: 1.4.0" in bundle
           assert bundle.count("# SOURCE: 05_PROMPT_LIBRARY/") == 18
+          for source in ["05_PROMPT_LIBRARY/MASTER-00.md"] + [str(p) for p in sorted(Path("05_PROMPT_LIBRARY").glob("PR-[0-9][0-9]_*.md"))]:
+              assert Path(source).read_text(encoding="utf-8").strip() in bundle, source
           assert bundle.count("# PR-") >= 17
           assert "ACTOR_AUTHORIZATION.json" in bundle
           assert "رجیستری `coordination/locks` فقط توسط workflow مرکزی نوشته می‌شود" in bundle
