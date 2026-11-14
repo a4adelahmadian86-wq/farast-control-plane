@@ -18,9 +18,11 @@
 - وضعیت پذیرش را طبق `04_COORDINATION/ACCEPTANCE_FRAMEWORK.md` تعیین کن.
 
 ## وضعیت هماهنگ‌کننده رویدادمحور
-- در شاخه فعلی هنوز workflow فعال برای فرمان‌های /farast وجود ندارد؛ از این فرمان‌ها انتظار پاسخ خودکار نداشته باش.
-- برای مالکیت منابع فقط الگوریتم مستقیم Git Data CAS در LOCK_MANAGER_PROTOCOL.md معتبر است؛ تا موفقیت update_ref(expected_sha) نوشتن ممنوع.
-- قابلیت‌های workflow قدیمی PR #479 و طرح انتقال آن در 04_COORDINATION/LEGACY_COORDINATOR_MIGRATION.md ثبت شده است. هیچ lock issue-comment قدیمی را منبع حقیقت فرض نکن.
+- workflow مستقل .github/workflows/farast-coordinator.yml مدیریت فرمان‌های /farast، labelها، idempotency، lease و review/close gate را بر عهده دارد.
+- همه اجراها با concurrency group سراسری single-writer سریال می‌شوند؛ کامنت‌های Issue صندوق ورودی پایدارند و reconciliation دوره‌ای فرمان‌های جامانده را بازیابی می‌کند.
+- رجیستری coordination/locks فقط توسط workflow مرکزی نوشته می‌شود؛ workerها حق نوشتن مستقیم یا استفاده از direct CAS ندارند.
+- workflow باید در default branch فعال باشد؛ تا ادغام PR #1، schedule در شاخه feature اجرا نمی‌شود.
+- قرارداد فرمان‌ها در 04_COORDINATION/COORDINATOR_COMMANDS.md است.
 
 ## تاب‌آوری و بازیابی پس از وقفه
 - پیش از هر اجرا، `04_COORDINATION/INTERRUPTION_RECOVERY_PROTOCOL.md` را بخوان و اجرا کن.
@@ -40,16 +42,15 @@
 ## کشف تکرار و ادامه
 پیش از ساخت Issue، عنوان، REQ/CAP/EXP/GOAL IDs، RESOURCE_KEYS، Issueها و PRها را جست‌وجو کن. کار مشابه را با همان TASK_ID ادامه بده. کار تکمیل‌شده را فقط در صورت نیاز به اعتبارسنجی مجدد بررسی کن. TASK جدید فقط برای دامنه و معیار پذیرش واقعاً متفاوت ایجاد شود.
 
-## قفل اتمیک چندعاملی
+## قفل و هماهنگی چندعاملی
 - کارهای read-only موازی‌اند.
-- برای write، همه RESOURCE_KEYها را یکجا در رجیستری CAS بگیر.
-- الگوریتم دقیق در `04_COORDINATION/LOCK_MANAGER_PROTOCOL.md` است.
-- Acquire/heartbeat/release باید با Git Data API و `update_ref(expected_sha=...)` انجام شود.
-- همه منابع یک TASK یا یکجا گرفته می‌شوند یا هیچ‌کدام.
-- Lease پیش‌فرض 30 دقیقه، heartbeat هدف‌گذاری‌شده هر 10 دقیقه و fencing token اجباری است؛ heartbeat خودکار/پس‌زمینه تضمین‌شده نیست. پیش از هر write و در هر checkpoint، lease را زنده بررسی و در صورت نیاز با CAS تمدید کن؛ اگر تمدید یا اعتبار token ممکن نیست، نوشتن را متوقف کن.
-- CAS ناموفق، timeout یا ابزار ناقص یعنی STOP WRITES؛ هرگز به قفل تعاونی/حافظه چت fallback نکن.
-- قبل از هر commit/PR، lease و fencing token را دوباره اعتبارسنجی کن.
-- هیچ چتی branch یا فایل عامل دیگر را تصاحب نکند.
+- برای هر write، ابتدا در Issue مربوط فرمان /farast claim chat=CHAT_ID run=RUN_ID lease=30 ثبت کن.
+- فقط پاسخ صریح CLAIM GRANTED به‌همراه read-back رجیستری و token مجوز نوشتن است.
+- پیش از هر write/checkpoint، /farast heartbeat chat=CHAT_ID run=RUN_ID token=FENCING_TOKEN lease=30 را اجرا کن.
+- release/review/block فقط با actor/chat/run/token منطبق مجاز است؛ جزئیات در 04_COORDINATION/COORDINATOR_COMMANDS.md.
+- هیچ worker یا چتی حق نوشتن مستقیم ACTIVE_LOCKS.json را ندارد؛ coordinator تنها نویسنده رجیستری است.
+- timeout، عدم پاسخ، خطای workflow یا وضعیت نامعلوم = STOP WRITES؛ هرگز به قفل حافظه‌ای یا CAS مستقیم fallback نکن.
+- GitHub هویت واقعی ChatGPT chat را تأیید نمی‌کند؛ chat_id/run_id فقط metadata خوداظهاری‌اند.
 
 ## ثبت متمرکز
 هدف، TASK، مالک اجرا، RUN_ID، منابع، plan، زمان، checkpoint، شواهد، تست‌ها، تصمیم‌ها، بازخورد، مانع، اقدام بعدی و handoff در GitHub ثبت شوند. اگر دسترسی نوشتن نداری، نتیجه را ثبت‌نشده اعلام کن. گزارش مفصل در چت ننویس.
