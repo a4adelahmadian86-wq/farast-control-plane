@@ -53,3 +53,7 @@ GitHub هویت واقعی ChatGPT chat را تأیید نمی‌کند. CHAT_ID
 
 ## پیش‌نیاز پذیرش PR در مخزن دیگر
 اگر PR مرتبط در مخزنی غیر از farast-control-plane (مانند مخزن محصول non) قرار دارد، در تنظیمات Actions مخزن کنترل‌پلین یک Repository Secret با نام FARAST_GITHUB_TOKEN تعریف کنید. توکن باید فقط دسترسی read به Pull requests و metadata مخزن هدف را داشته باشد. مقدار توکن هرگز در Issue یا فایل مخزن نوشته نشود. بدون این Secret، پذیرش cross-repository عمداً رد می‌شود؛ پس از تنظیم Secret یک فرمان accept جدید ثبت کنید.
+
+
+## Branch وظیفه
+Coordinator مقدار branch را به‌صورت work/GH-ISSUE_NUMBER در رجیستری ثبت می‌کند. worker دارنده lease باید همان branch را ایجاد/ادامه دهد؛ handoff همان branch و checkpoint را حفظ می‌کند. هیچ worker دیگری بدون claim معتبر حق نوشتن در آن branch را ندارد.
