@@ -35,7 +35,8 @@ jobs:
             const owner = context.repo.owner;
             const repo = context.repo.repo;
             const registryBranch = 'coordination/locks';
-            const crossRepoGithub = process.env.FARAST_GITHUB_TOKEN ? github.getOctokit(process.env.FARAST_GITHUB_TOKEN) : null;
+            const { getOctokit } = require('@actions/github');
+            const crossRepoGithub = process.env.FARAST_GITHUB_TOKEN ? getOctokit(process.env.FARAST_GITHUB_TOKEN) : null;
             const registryPath = '04_COORDINATION/ACTIVE_LOCKS.json';
             const allowedAssociations = new Set(['OWNER', 'COLLABORATOR', 'MEMBER']);
             const labelDefs = [
