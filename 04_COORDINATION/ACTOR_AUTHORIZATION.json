@@ -12,5 +12,6 @@
     "COLLABORATOR": "WORKER",
     "MEMBER": "WORKER"
   },
-  "actor_roles": {}
+  "actor_roles": {},
+  "actor_scopes": {}
 }
