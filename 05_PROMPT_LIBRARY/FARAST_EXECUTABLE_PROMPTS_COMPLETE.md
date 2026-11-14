@@ -1,8 +1,8 @@
 # کتابخانه کامل پرامپت‌های اجرایی FARAST
 
-نسخه: 1.5.0 | زبان: فارسی | مرجع وضعیت: farast-control-plane
+نسخه: 1.6.0 | زبان: فارسی | مرجع وضعیت: farast-control-plane
 
-> این فایل تجمیعی به‌صورت دقیق از MASTER-00 و ۱۷ پرامپت مستقل شاخه main بازسازی شده است. برای اجرای معتبر، هر چت باید مرجع زنده GitHub و آخرین checkpoint را بخواند؛ این bundle جایگزین read-back زنده نیست.
+> این فایل تجمیعی دقیقاً از نسخه فعلی MASTER-00 و ۱۷ پرامپت مستقل شاخه main بازسازی شده است. تغییرات شناسه‌های Work Item و مرجع فعال main در نسخه 1.6.0 اعمال شده‌اند. برای اجرای معتبر، هر چت باید مرجع زنده GitHub و آخرین checkpoint را بخواند؛ این bundle جایگزین read-back زنده نیست.
 
 ---
 
@@ -14,7 +14,7 @@
 
 ## شروع اجباری
 1. مرجع شروع و همه اسناد را از شاخه پیش‌فرض `main` بخوان: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/START_HERE.md
-2. SHA زنده main را ثبت کن و فایل‌ها را همگی از همان SHA/ref بخوان؛ شاخه `main` فقط سابقه است و مرجع فعال نیست.
+2. SHA زنده `main` را ثبت کن و فایل‌های مرجع را همگی از همان SHA/ref بخوان؛ `main` شاخه پیش‌فرض و مرجع فعال کنترل‌پلین است. شاخه‌های feature یا bootstrap فقط سابقه/کار موقت‌اند و مرجع حقیقت نیستند.
 3. وضعیت TASKها، WORK_ITEM_IDها، PRها، feedbackها، checkpointها و رجیستری قفل را از GitHub زنده بازیابی کن.
 4. پیش از انتخاب، `04_COORDINATION/WORK_ITEM_EXECUTION_PROTOCOL.md` و `04_COORDINATION/INTERRUPTION_RECOVERY_PROTOCOL.md` را اجرا کن.
 5. برای هر برگ اجرایی یک Issue مستقل و WORK_ITEM_ID پایدار وجود دارد؛ Issue والد claim نمی‌شود.
@@ -87,12 +87,12 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 ## پروتکل هدف‌های خرد
 برای هر مأموریت، ابتدا هدف‌های کوچک آزاد و قابل اجرا را از درخت هدف و Issueهای GitHub پیدا کن. برگ نیمه‌تمام با lease منقضی/آزاد و checkpoint معتبر بر READY جدید اولویت دارد. برگ دارای lease معتبر قابل claim نیست. انتخاب بین READYها با priority مالک، aging روزانه، زمان ready/created و WORK_ITEM_ID انجام می‌شود. گام‌ها فقط با `/farast step` و evidence معتبر ثبت شوند؛ معیارهای پذیرش با `/farast criterion`; درصد با `/farast progress`; checkpoint با `/farast checkpoint`. پس از resume همان WORK_ITEM_ID و step IDs حفظ، RUN_ID و fencing token تازه صادر، و فقط گام‌های باقی‌مانده اجرا شوند.
 
----
-
-
 
 ## Write policy و ساخت برگ جدید
 هر Work Item باید `write_policy` و `priority_source` صریح داشته باشد. `non` فقط READ_ONLY است تا مجوز جداگانه مالک؛ WRITE_ALLOWED فقط در Issue ساخته‌شده توسط repository owner. priority=50 با DEFAULT_POLICY رتبه‌بندی مالک نیست. اگر leaf آزاد وجود ندارد، برای جلوگیری از race ابتدا allocator `WI-GOAL-ALLOCATOR-001` را claim کن و فقط در lease آن Work Itemهای جدید با ID deterministic ایجاد کن؛ سپس allocator را آزاد کن.
+
+---
+
 # SOURCE: 05_PROMPT_LIBRARY/PR-01_BASELINE.md
 
 # دستور مشترک اجباری همه پرامپت‌های FARAST
@@ -127,8 +127,6 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 - قرارداد قفل را در `LOCK_MANAGER_PROTOCOL.md` بخوان؛ TASK_ID پایدار را حفظ کن و برای هر عملیات OPERATION_ID یکتا داشته باش. نتیجه نامعلوم را AMBIGUOUS ثبت کن و از GitHub read-back بگیر؛ خلاصه چت مرجع حقیقت نیست.
 - لینک مستقیم دروازه ورود: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/START_HERE.md .
 - branch قبلی را read-only نگه دار؛ target_repository و branch اختصاصی همان RUN باید دقیقاً با پاسخ claim منطبق باشند.
-- لینک مستقیم دروازه ورود: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/START_HERE.md .
-- branch قبلی را read-only نگه دار؛ target_repository و branch اختصاصی همان RUN باید دقیقاً با پاسخ claim منطبق باشند.
 # PR-01_BASELINE — خط مبنا، نسخه‌ها و محیط‌ها
 
 - EXP: EXP-01
@@ -150,7 +148,7 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 - هر داده را با منبع، commit SHA، URL و زمان UTC مستند کن.
 
 ## مراحل
-1. وظیفه `FCP-EXP01-001` را بازیابی/ایجاد کن؛ منابع read-only تعریف کن.
+1. Issue/Work Item موجودِ متناظر با `EXP-01` را با جست‌وجوی همه Issueهای باز و بسته، `WORK_ITEM_ID` و گزارش‌های قبلی پیدا کن؛ از شناسه واقعی ثبت‌شده استفاده کن و هرگز `FCP-EXP01-001` یا شناسه فرضی نساز. اگر Work Item موجود است همان را ادامه بده؛ فقط نبود واقعی آن را طبق allocator protocol گزارش کن. منابع مخزن محصول را `READ_ONLY` نگه دار.
 2. وضعیت دو مخزن را مستقل snapshot کن.
 3. نقشه محیط‌ها و زنجیره انتشار را فقط از شواهد موجود بساز.
 4. مجهولات را در Known Unknown و موانع را در Issue ثبت کن.
@@ -215,8 +213,6 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 - قرارداد قفل را در `LOCK_MANAGER_PROTOCOL.md` بخوان؛ TASK_ID پایدار را حفظ کن و برای هر عملیات OPERATION_ID یکتا داشته باش. نتیجه نامعلوم را AMBIGUOUS ثبت کن و از GitHub read-back بگیر؛ خلاصه چت مرجع حقیقت نیست.
 - لینک مستقیم دروازه ورود: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/START_HERE.md .
 - branch قبلی را read-only نگه دار؛ target_repository و branch اختصاصی همان RUN باید دقیقاً با پاسخ claim منطبق باشند.
-- لینک مستقیم دروازه ورود: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/START_HERE.md .
-- branch قبلی را read-only نگه دار؛ target_repository و branch اختصاصی همان RUN باید دقیقاً با پاسخ claim منطبق باشند.
 # PR-02_RECOVERY — حفاظت، بکاپ و بازیابی
 
 - EXP: EXP-02
@@ -231,7 +227,7 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 طرح حفاظت و بازیابی را ارزیابی و برای اثبات واقعی backup/restore آماده کن. وجود اسکریپت یا پیام موفقیت بکاپ، اثبات قابلیت بازیابی نیست.
 
 ## مراحل
-1. وظیفه `FCP-EXP02-001` را بازیابی کن؛ ابتدا فقط خواندنی.
+1. Work Item موجود متناظر با `EXP-02` را از Issueهای باز و بسته و `WORK_ITEM_ID`های واقعی بازیابی کن؛ شناسه فرضی نساز و همان checkpoint معتبر را ادامه بده. بررسی محصول فقط READ_ONLY است.
 2. اسکریپت‌ها، مقصدها، رمزنگاری، کلیدها، manifest، checksum، retention، مجوزها، زمان‌بندی و وابستگی‌های بکاپ را بررسی کن؛ هرگز secret را بخوان/چاپ/ثبت نکن.
 3. بکاپ موجود را با زمان، حجم، checksum و محل امن شناسایی کن؛ فقط metadata غیرحساس ثبت شود.
 4. restore plan در محیط ایزوله بنویس: پیش‌شرط، نسخه نرم‌افزار، مقصد جدا، اعتبارسنجی DB/فایل، تست کاربری، rollback و پاکسازی.
@@ -297,8 +293,6 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 - قرارداد قفل را در `LOCK_MANAGER_PROTOCOL.md` بخوان؛ TASK_ID پایدار را حفظ کن و برای هر عملیات OPERATION_ID یکتا داشته باش. نتیجه نامعلوم را AMBIGUOUS ثبت کن و از GitHub read-back بگیر؛ خلاصه چت مرجع حقیقت نیست.
 - لینک مستقیم دروازه ورود: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/START_HERE.md .
 - branch قبلی را read-only نگه دار؛ target_repository و branch اختصاصی همان RUN باید دقیقاً با پاسخ claim منطبق باشند.
-- لینک مستقیم دروازه ورود: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/START_HERE.md .
-- branch قبلی را read-only نگه دار؛ target_repository و branch اختصاصی همان RUN باید دقیقاً با پاسخ claim منطبق باشند.
 # PR-03_CAPABILITY_DISCOVERY — کاتالوگ قابلیت‌ها
 
 - EXP: EXP-03
@@ -313,7 +307,7 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 تمام قابلیت‌های موجود محصول را از UI، route، controller، service، model، job، event، migration، permission، test و مستندات کشف و در کاتالوگ ثبت کن. کد را تغییر نده.
 
 ## روش
-1. وظیفه `FCP-EXP03-001` را بازیابی/ایجاد کن.
+1. Work Item موجود متناظر با `EXP-03` را با جست‌وجوی کامل Issueها و شناسه‌های واقعی بازیابی کن؛ duplicate یا شناسه فرضی نساز. اگر واقعاً وجود ندارد، فقط طبق allocator protocol پیشنهاد ایجاد بده.
 2. inventory مخزن و معماری را بساز؛ قابلیت‌ها را بر اساس حوزه کسب‌وکار، نقش، ماژول و journey گروه‌بندی کن.
 3. برای هر قابلیت ثبت کن: CAP_ID پایدار، نام، شرح، actor، ورودی/خروجی، مسیر UI/API، مجوز سمت سرور، اجزای backend، داده، وابستگی، تست، وضعیت اجرا و شواهد.
 4. وضعیت را یکی از این‌ها بگذار: PRESENT_CODE_ONLY، UI_ONLY، PARTIAL، TESTED_IN_SCOPE، VERIFIED_RUNTIME، BROKEN، NOT_FOUND، UNKNOWN.
@@ -379,8 +373,6 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 - قرارداد قفل را در `LOCK_MANAGER_PROTOCOL.md` بخوان؛ TASK_ID پایدار را حفظ کن و برای هر عملیات OPERATION_ID یکتا داشته باش. نتیجه نامعلوم را AMBIGUOUS ثبت کن و از GitHub read-back بگیر؛ خلاصه چت مرجع حقیقت نیست.
 - لینک مستقیم دروازه ورود: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/START_HERE.md .
 - branch قبلی را read-only نگه دار؛ target_repository و branch اختصاصی همان RUN باید دقیقاً با پاسخ claim منطبق باشند.
-- لینک مستقیم دروازه ورود: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/START_HERE.md .
-- branch قبلی را read-only نگه دار؛ target_repository و branch اختصاصی همان RUN باید دقیقاً با پاسخ claim منطبق باشند.
 # PR-04_TRACEABILITY — ردیابی نیازمندی‌ها
 
 - EXP: EXP-04
@@ -395,7 +387,7 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 نیازمندی‌های مصوب را به هدف، قابلیت، مسیر اجرایی، کد، تست، شواهد و معیار پذیرش پیوند بده؛ هیچ نیازمندی را حذف یا تفسیر دلخواه نکن.
 
 ## مراحل
-1. وظیفه `FCP-EXP04-001` را بازیابی کن.
+1. Work Itemهای موجود متناظر با `EXP-04` را از Issueها و WORK_ITEM_IDهای واقعی بازیابی کن؛ هیچ شناسه فرضی نساز و همه شواهد/checkpointهای قبلی را حفظ کن.
 2. منبع اصلی نیازمندی و آخرین بازخورد/تصمیم را بخوان؛ IDهای REQ پایدار بساز.
 3. هر نیازمندی را اتمی کن بدون تغییر معنا؛ متن منبع و محل آن را نگه دار.
 4. پیوند به G-ID، CAP-ID، EXP، فایل/route/test و evidence را ثبت کن.
@@ -460,8 +452,6 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 - پیش از فرمان‌ها سیاست `ACTOR_AUTHORIZATION.json` را بخوان؛ SENIOR_MANAGER فقط با `actor_roles` و `resource_key_prefixes` صریح مجاز است.
 - timeout، خطا یا lease نامعلوم = STOP WRITES؛ claim موفق و read-back رجیستری شرط هر write است.
 - قرارداد قفل را در `LOCK_MANAGER_PROTOCOL.md` بخوان؛ TASK_ID پایدار را حفظ کن و برای هر عملیات OPERATION_ID یکتا داشته باش. نتیجه نامعلوم را AMBIGUOUS ثبت کن و از GitHub read-back بگیر؛ خلاصه چت مرجع حقیقت نیست.
-- لینک مستقیم دروازه ورود: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/START_HERE.md .
-- branch قبلی را read-only نگه دار؛ target_repository و branch اختصاصی همان RUN باید دقیقاً با پاسخ claim منطبق باشند.
 - لینک مستقیم دروازه ورود: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/START_HERE.md .
 - branch قبلی را read-only نگه دار؛ target_repository و branch اختصاصی همان RUN باید دقیقاً با پاسخ claim منطبق باشند.
 # PR-05_USER_SCENARIOS — سناریوهای کاربران و سفرهای انتهابه‌انتها
@@ -542,8 +532,6 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 - پیش از فرمان‌ها سیاست `ACTOR_AUTHORIZATION.json` را بخوان؛ SENIOR_MANAGER فقط با `actor_roles` و `resource_key_prefixes` صریح مجاز است.
 - timeout، خطا یا lease نامعلوم = STOP WRITES؛ claim موفق و read-back رجیستری شرط هر write است.
 - قرارداد قفل را در `LOCK_MANAGER_PROTOCOL.md` بخوان؛ TASK_ID پایدار را حفظ کن و برای هر عملیات OPERATION_ID یکتا داشته باش. نتیجه نامعلوم را AMBIGUOUS ثبت کن و از GitHub read-back بگیر؛ خلاصه چت مرجع حقیقت نیست.
-- لینک مستقیم دروازه ورود: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/START_HERE.md .
-- branch قبلی را read-only نگه دار؛ target_repository و branch اختصاصی همان RUN باید دقیقاً با پاسخ claim منطبق باشند.
 - لینک مستقیم دروازه ورود: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/START_HERE.md .
 - branch قبلی را read-only نگه دار؛ target_repository و branch اختصاصی همان RUN باید دقیقاً با پاسخ claim منطبق باشند.
 # PR-06_EVIDENCE_TESTING — آزمون و جمع‌آوری شواهد
@@ -627,8 +615,6 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 - قرارداد قفل را در `LOCK_MANAGER_PROTOCOL.md` بخوان؛ TASK_ID پایدار را حفظ کن و برای هر عملیات OPERATION_ID یکتا داشته باش. نتیجه نامعلوم را AMBIGUOUS ثبت کن و از GitHub read-back بگیر؛ خلاصه چت مرجع حقیقت نیست.
 - لینک مستقیم دروازه ورود: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/START_HERE.md .
 - branch قبلی را read-only نگه دار؛ target_repository و branch اختصاصی همان RUN باید دقیقاً با پاسخ claim منطبق باشند.
-- لینک مستقیم دروازه ورود: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/START_HERE.md .
-- branch قبلی را read-only نگه دار؛ target_repository و branch اختصاصی همان RUN باید دقیقاً با پاسخ claim منطبق باشند.
 # PR-07_GAP_ROOT_CAUSE — تحلیل شکاف و علت ریشه‌ای
 
 - EXP: EXP-07
@@ -708,8 +694,6 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 - پیش از فرمان‌ها سیاست `ACTOR_AUTHORIZATION.json` را بخوان؛ SENIOR_MANAGER فقط با `actor_roles` و `resource_key_prefixes` صریح مجاز است.
 - timeout، خطا یا lease نامعلوم = STOP WRITES؛ claim موفق و read-back رجیستری شرط هر write است.
 - قرارداد قفل را در `LOCK_MANAGER_PROTOCOL.md` بخوان؛ TASK_ID پایدار را حفظ کن و برای هر عملیات OPERATION_ID یکتا داشته باش. نتیجه نامعلوم را AMBIGUOUS ثبت کن و از GitHub read-back بگیر؛ خلاصه چت مرجع حقیقت نیست.
-- لینک مستقیم دروازه ورود: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/START_HERE.md .
-- branch قبلی را read-only نگه دار؛ target_repository و branch اختصاصی همان RUN باید دقیقاً با پاسخ claim منطبق باشند.
 - لینک مستقیم دروازه ورود: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/START_HERE.md .
 - branch قبلی را read-only نگه دار؛ target_repository و branch اختصاصی همان RUN باید دقیقاً با پاسخ claim منطبق باشند.
 # PR-08_COMMERCE — چرخه تجارت دیجیتال و پرداخت
@@ -793,8 +777,6 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 - قرارداد قفل را در `LOCK_MANAGER_PROTOCOL.md` بخوان؛ TASK_ID پایدار را حفظ کن و برای هر عملیات OPERATION_ID یکتا داشته باش. نتیجه نامعلوم را AMBIGUOUS ثبت کن و از GitHub read-back بگیر؛ خلاصه چت مرجع حقیقت نیست.
 - لینک مستقیم دروازه ورود: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/START_HERE.md .
 - branch قبلی را read-only نگه دار؛ target_repository و branch اختصاصی همان RUN باید دقیقاً با پاسخ claim منطبق باشند.
-- لینک مستقیم دروازه ورود: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/START_HERE.md .
-- branch قبلی را read-only نگه دار؛ target_repository و branch اختصاصی همان RUN باید دقیقاً با پاسخ claim منطبق باشند.
 # PR-09_AI_SERVICES — خدمات هوشمند و ویرایشگرها
 
 - EXP: EXP-09
@@ -876,8 +858,6 @@ service catalog، sequence diagram، quota/pricing matrix، privacy & failure an
 - قرارداد قفل را در `LOCK_MANAGER_PROTOCOL.md` بخوان؛ TASK_ID پایدار را حفظ کن و برای هر عملیات OPERATION_ID یکتا داشته باش. نتیجه نامعلوم را AMBIGUOUS ثبت کن و از GitHub read-back بگیر؛ خلاصه چت مرجع حقیقت نیست.
 - لینک مستقیم دروازه ورود: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/START_HERE.md .
 - branch قبلی را read-only نگه دار؛ target_repository و branch اختصاصی همان RUN باید دقیقاً با پاسخ claim منطبق باشند.
-- لینک مستقیم دروازه ورود: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/START_HERE.md .
-- branch قبلی را read-only نگه دار؛ target_repository و branch اختصاصی همان RUN باید دقیقاً با پاسخ claim منطبق باشند.
 # PR-10_ARCH_DATA — معماری، داده و وابستگی‌ها
 
 - EXP: EXP-10, EXP-11
@@ -957,8 +937,6 @@ C4 سطح context/container/component در حد شواهد، data dictionary، d
 - پیش از فرمان‌ها سیاست `ACTOR_AUTHORIZATION.json` را بخوان؛ SENIOR_MANAGER فقط با `actor_roles` و `resource_key_prefixes` صریح مجاز است.
 - timeout، خطا یا lease نامعلوم = STOP WRITES؛ claim موفق و read-back رجیستری شرط هر write است.
 - قرارداد قفل را در `LOCK_MANAGER_PROTOCOL.md` بخوان؛ TASK_ID پایدار را حفظ کن و برای هر عملیات OPERATION_ID یکتا داشته باش. نتیجه نامعلوم را AMBIGUOUS ثبت کن و از GitHub read-back بگیر؛ خلاصه چت مرجع حقیقت نیست.
-- لینک مستقیم دروازه ورود: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/START_HERE.md .
-- branch قبلی را read-only نگه دار؛ target_repository و branch اختصاصی همان RUN باید دقیقاً با پاسخ claim منطبق باشند.
 - لینک مستقیم دروازه ورود: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/START_HERE.md .
 - branch قبلی را read-only نگه دار؛ target_repository و branch اختصاصی همان RUN باید دقیقاً با پاسخ claim منطبق باشند.
 # PR-11_AUTHORIZATION — هویت، نقش و مجوزها
@@ -1043,8 +1021,6 @@ authorization matrix، lifecycle diagram، gap/risk report و تست‌های ل
 - قرارداد قفل را در `LOCK_MANAGER_PROTOCOL.md` بخوان؛ TASK_ID پایدار را حفظ کن و برای هر عملیات OPERATION_ID یکتا داشته باش. نتیجه نامعلوم را AMBIGUOUS ثبت کن و از GitHub read-back بگیر؛ خلاصه چت مرجع حقیقت نیست.
 - لینک مستقیم دروازه ورود: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/START_HERE.md .
 - branch قبلی را read-only نگه دار؛ target_repository و branch اختصاصی همان RUN باید دقیقاً با پاسخ claim منطبق باشند.
-- لینک مستقیم دروازه ورود: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/START_HERE.md .
-- branch قبلی را read-only نگه دار؛ target_repository و branch اختصاصی همان RUN باید دقیقاً با پاسخ claim منطبق باشند.
 # PR-12_SECURITY_PRIVACY_AUDIT — امنیت، حریم خصوصی، ممیزی و حکمرانی
 
 - EXP: EXP-13, EXP-14, EXP-19
@@ -1124,8 +1100,6 @@ Threat model، privacy data map، audit integrity report، legal questions و se
 - پیش از فرمان‌ها سیاست `ACTOR_AUTHORIZATION.json` را بخوان؛ SENIOR_MANAGER فقط با `actor_roles` و `resource_key_prefixes` صریح مجاز است.
 - timeout، خطا یا lease نامعلوم = STOP WRITES؛ claim موفق و read-back رجیستری شرط هر write است.
 - قرارداد قفل را در `LOCK_MANAGER_PROTOCOL.md` بخوان؛ TASK_ID پایدار را حفظ کن و برای هر عملیات OPERATION_ID یکتا داشته باش. نتیجه نامعلوم را AMBIGUOUS ثبت کن و از GitHub read-back بگیر؛ خلاصه چت مرجع حقیقت نیست.
-- لینک مستقیم دروازه ورود: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/START_HERE.md .
-- branch قبلی را read-only نگه دار؛ target_repository و branch اختصاصی همان RUN باید دقیقاً با پاسخ claim منطبق باشند.
 - لینک مستقیم دروازه ورود: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/START_HERE.md .
 - branch قبلی را read-only نگه دار؛ target_repository و branch اختصاصی همان RUN باید دقیقاً با پاسخ claim منطبق باشند.
 # PR-13_TARGET_ARCH — معماری هدف و انتخاب راهکار
@@ -1209,8 +1183,6 @@ Architecture Decision Records، نمودار هدف، گزینه‌ها، migrat
 - قرارداد قفل را در `LOCK_MANAGER_PROTOCOL.md` بخوان؛ TASK_ID پایدار را حفظ کن و برای هر عملیات OPERATION_ID یکتا داشته باش. نتیجه نامعلوم را AMBIGUOUS ثبت کن و از GitHub read-back بگیر؛ خلاصه چت مرجع حقیقت نیست.
 - لینک مستقیم دروازه ورود: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/START_HERE.md .
 - branch قبلی را read-only نگه دار؛ target_repository و branch اختصاصی همان RUN باید دقیقاً با پاسخ claim منطبق باشند.
-- لینک مستقیم دروازه ورود: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/START_HERE.md .
-- branch قبلی را read-only نگه دار؛ target_repository و branch اختصاصی همان RUN باید دقیقاً با پاسخ claim منطبق باشند.
 # PR-14_HOSTING_OPERATIONS — امکان‌سنجی هاست و عملیات
 
 - EXP: EXP-16, EXP-17, EXP-18
@@ -1292,8 +1264,6 @@ Hosting feasibility matrix، deployment runbook، failure/rollback plan و فه�
 - قرارداد قفل را در `LOCK_MANAGER_PROTOCOL.md` بخوان؛ TASK_ID پایدار را حفظ کن و برای هر عملیات OPERATION_ID یکتا داشته باش. نتیجه نامعلوم را AMBIGUOUS ثبت کن و از GitHub read-back بگیر؛ خلاصه چت مرجع حقیقت نیست.
 - لینک مستقیم دروازه ورود: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/START_HERE.md .
 - branch قبلی را read-only نگه دار؛ target_repository و branch اختصاصی همان RUN باید دقیقاً با پاسخ claim منطبق باشند.
-- لینک مستقیم دروازه ورود: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/START_HERE.md .
-- branch قبلی را read-only نگه دار؛ target_repository و branch اختصاصی همان RUN باید دقیقاً با پاسخ claim منطبق باشند.
 # PR-15_PRIORITIZATION — اولویت‌بندی و بسته‌بندی تغییر
 
 - EXP: EXP-20, EXP-21
@@ -1373,8 +1343,6 @@ prioritized backlog، dependency graph، release slices و task definitions. م�
 - پیش از فرمان‌ها سیاست `ACTOR_AUTHORIZATION.json` را بخوان؛ SENIOR_MANAGER فقط با `actor_roles` و `resource_key_prefixes` صریح مجاز است.
 - timeout، خطا یا lease نامعلوم = STOP WRITES؛ claim موفق و read-back رجیستری شرط هر write است.
 - قرارداد قفل را در `LOCK_MANAGER_PROTOCOL.md` بخوان؛ TASK_ID پایدار را حفظ کن و برای هر عملیات OPERATION_ID یکتا داشته باش. نتیجه نامعلوم را AMBIGUOUS ثبت کن و از GitHub read-back بگیر؛ خلاصه چت مرجع حقیقت نیست.
-- لینک مستقیم دروازه ورود: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/START_HERE.md .
-- branch قبلی را read-only نگه دار؛ target_repository و branch اختصاصی همان RUN باید دقیقاً با پاسخ claim منطبق باشند.
 - لینک مستقیم دروازه ورود: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/START_HERE.md .
 - branch قبلی را read-only نگه دار؛ target_repository و branch اختصاصی همان RUN باید دقیقاً با پاسخ claim منطبق باشند.
 # PR-16_IMPLEMENTATION — پیاده‌سازی کنترل‌شده و رگرسیون
@@ -1466,8 +1434,6 @@ branch، PR، test report، risk/rollback note و checkpoint. معیار پذی�
 - قرارداد قفل را در `LOCK_MANAGER_PROTOCOL.md` بخوان؛ TASK_ID پایدار را حفظ کن و برای هر عملیات OPERATION_ID یکتا داشته باش. نتیجه نامعلوم را AMBIGUOUS ثبت کن و از GitHub read-back بگیر؛ خلاصه چت مرجع حقیقت نیست.
 - لینک مستقیم دروازه ورود: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/START_HERE.md .
 - branch قبلی را read-only نگه دار؛ target_repository و branch اختصاصی همان RUN باید دقیقاً با پاسخ claim منطبق باشند.
-- لینک مستقیم دروازه ورود: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/START_HERE.md .
-- branch قبلی را read-only نگه دار؛ target_repository و branch اختصاصی همان RUN باید دقیقاً با پاسخ claim منطبق باشند.
 # PR-17_ACCEPTANCE_RELEASE — پذیرش، امنیت، انتشار و پایش
 
 - EXP: EXP-24..EXP-27
@@ -1482,7 +1448,7 @@ branch، PR، test report، risk/rollback note و checkpoint. معیار پذی�
 آمادگی بسته تغییر را ارزیابی کن، آزمون پذیرش/امنیت/تاب‌آوری را هماهنگ کن و گزارش release readiness بساز. انتشار واقعی فقط با تأیید صریح مالک.
 
 ## مراحل
-1. TASK `FCP-EXP24-001` و PRهای مربوط را بازیابی کن.
+1. Work Itemهای موجود متناظر با `EXP-24` تا `EXP-27` و PRهای مرتبط را از Issueها و WORK_ITEM_IDهای واقعی بازیابی کن؛ شناسه فرضی نساز و هیچ release/merge/deploy را بدون approval صریح انجام نده.
 2. acceptance criteria را از REQ/SCN/GAP استخراج و هر مورد را PASS/FAIL/BLOCKED/NOT_RUN ثبت کن.
 3. regression، authorization negative tests، privacy، upload, payment, restore، performance و resilience را متناسب با دامنه بررسی کن.
 4. محدودیت محیط و تفاوت staging/production را ثبت کن؛ تست production مخرب ممنوع.
@@ -1514,6 +1480,4 @@ acceptance matrix، security/resilience report، release checklist، release not
 
 
 **نقش و اختیار فرمان‌ها:** پیش از اجرای هر فرمان، سیاست `04_COORDINATION/ACTOR_AUTHORIZATION.json` را بخوان. OWNER اختیار کامل دارد؛ COLLABORATOR/MEMBER به‌صورت پیش‌فرض WORKER با اختیارات پایه‌اند؛ SENIOR_MANAGER فقط با درج صریح GitHub login در actor_roles و تعیین repositories و resource_key_prefixes در actor_scopes، با تأیید مالک فعال می‌شود؛ READ_ONLY فقط status دارد. فرمان خارج از نقش را اجرا نکن و برای دور زدن محدودیت، نقش را حدس نزن.
-
----
 
