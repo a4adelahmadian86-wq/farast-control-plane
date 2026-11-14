@@ -156,13 +156,16 @@ jobs:
                       if (!claim.ok && claim.reason === 'task_already_claimed') {
                         const conflict = claim.conflict;
                         response = 'Claim رد شد: این TASK هم‌اکنون در اختیار @' + conflict.actor + ' با run=' + conflict.run_id + ' است؛ برای جلوگیری از دو نویسنده روی یک branch، ابتدا handoff یا انقضای lease لازم است.';
+                      } else if (!claim.ok && claim.reason === 'branch_reuse') {
+                        response = 'Claim رد شد: این RUN/branch قبلاً استفاده شده است؛ برای هر handoff یک RUN_ID جدید و یکتا انتخاب کن.';
                       } else if (!claim.ok && claim.reason === 'missing_resources') {
                         response = 'Claim رد شد: بخش Resource keys در Issue خالی است؛ کلیدهای دقیق منابع را اضافه و فرمان جدید ثبت کنید.';
                       } else if (!claim.ok && claim.reason === 'resource_conflict') {
                         const conflict = claim.conflict;
                         response = 'Claim رد شد: منبع ' + conflict.resource_key + ' در اختیار Issue #' + conflict.issue_number + ' / @' + conflict.actor + ' تا ' + conflict.lease_expires_at_utc + ' UTC است.';
                       } else if (claim.ok) {
-                        response = 'CLAIM GRANTED. TASK=GH-' + issue.number + '; actor=@' + actor + '; chat=' + chat + '; run=' + run + '; resource_keys=' + claim.resourceKeys.join(',') + '; target_repository=' + targetRepository + '; branch=' + taskBranch + '; fencing_token=' + claim.fencingToken + '; lease_expires=' + claim.expiresAt + '. پیش از هر write و checkpoint، heartbeat را تمدید و token را بررسی کن.';
+                        const handoff = claim.previousRun ? '; previous_run=' + claim.previousRun.runId + '; previous_target_repository=' + claim.previousRun.targetRepository + '; previous_branch=' + claim.previousRun.branch : '; previous_run=none';
+                        response = 'CLAIM GRANTED. TASK=GH-' + issue.number + '; actor=@' + actor + '; chat=' + chat + '; run=' + run + '; resource_keys=' + claim.resourceKeys.join(',') + '; target_repository=' + targetRepository + '; branch=' + taskBranch + handoff + '; fencing_token=' + claim.fencingToken + '; lease_expires=' + claim.expiresAt + '. پیش از هر write و checkpoint، heartbeat را تمدید و token را بررسی کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز؛ هرگز branch قبلی را تغییر نده.';
                         nextStatus = 'locked';
                       }
                     }
