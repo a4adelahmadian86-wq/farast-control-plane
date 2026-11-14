@@ -1,0 +1,222 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/setup/control-plane-bootstrap/04_COORDINATION/WORK_ORDER_SCHEMA.json",
+  "title": "FARAST Work Order",
+  "description": "Machine-readable contract derived from TASK_SCHEMA.md and the GitHub Issue task template. GitHub Issue remains the canonical task record.",
+  "type": "object",
+  "required": [
+    "TASK_ID",
+    "PROMPT_ID",
+    "EXP_IDS",
+    "GOAL_IDS",
+    "TITLE",
+    "PURPOSE",
+    "STATUS",
+    "RESOURCE_KEYS",
+    "SCOPE_IN",
+    "SCOPE_OUT",
+    "ACCEPTANCE_CRITERIA",
+    "NEXT_ACTION"
+  ],
+  "properties": {
+    "TASK_ID": {
+      "type": "string",
+      "pattern": "^FCP-[A-Z0-9]+(?:-[A-Z0-9]+)*$"
+    },
+    "PROMPT_ID": {
+      "type": "string",
+      "pattern": "^(MASTER-00|PR-(0[1-9]|1[0-7]))$"
+    },
+    "EXP_IDS": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^EXP-[0-9]{2}$"
+      },
+      "uniqueItems": true
+    },
+    "GOAL_IDS": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^G-[0-9]{2}$"
+      },
+      "uniqueItems": true
+    },
+    "TITLE": {
+      "type": "string",
+      "minLength": 1
+    },
+    "PURPOSE": {
+      "type": "string",
+      "minLength": 1
+    },
+    "STATUS": {
+      "type": "string",
+      "enum": [
+        "BACKLOG",
+        "READY",
+        "CLAIMED",
+        "IN_PROGRESS",
+        "BLOCKED",
+        "REVIEW",
+        "DONE_UNVERIFIED",
+        "DONE_VERIFIED",
+        "CANCELLED",
+        "SUPERSEDED"
+      ]
+    },
+    "OWNER_AGENT": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "RUN_ID": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "CREATED_AT_UTC": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "LAST_CHECKPOINT_UTC": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "BRANCH": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "RESOURCE_KEYS": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "INPUTS": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "SCOPE_IN": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "SCOPE_OUT": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "DEPENDENCIES": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "FACTS": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "ASSUMPTIONS": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "UNKNOWN": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "PLAN": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "ACCEPTANCE_CRITERIA": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "EVIDENCE": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "TESTS": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "RISKS": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "BLOCKERS": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "HUMAN_APPROVAL_REQUIRED": {
+      "type": [
+        "boolean",
+        "array"
+      ],
+      "items": {
+        "type": "string"
+      }
+    },
+    "NEXT_ACTION": {
+      "type": "string",
+      "minLength": 1
+    },
+    "HANDOFF": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "RELATED_ISSUES": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "RELATED_PRS": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": true
+}
