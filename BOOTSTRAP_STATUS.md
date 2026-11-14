@@ -51,3 +51,13 @@
 - Product audit / production readiness: NOT_STARTED.
 
 **نتیجه:** اصلاحات bootstrap و پرامپت‌ها روی شاخه PR انجام شده‌اند؛ اما coordinator رویدادمحور هنوز منتقل نشده و سیستم برای اجرای کامل چندچتی/محرمانه آماده و تأییدشده نیست.
+
+
+## الحاقیه وضعیت coordinator — 2026-11-14
+- Workflow چندچتی .github/workflows/farast-coordinator.yml به شاخه setup/control-plane-bootstrap افزوده شد.
+- معماری: single-writer سراسری، durable Issue-comment inbox، deduplication بر اساس comment ID، reconciliation زمان‌بندی‌شده، رجیستری مرکزی lease/fencing و review/close gate.
+- فرمان‌ها و template: 04_COORDINATION/COORDINATOR_COMMANDS.md و .github/ISSUE_TEMPLATE/farast-task.yml؛ برنامه آزمون: 04_COORDINATION/COORDINATOR_TEST_PLAN.md.
+- workerها فقط از فرمان‌های Issue استفاده می‌کنند؛ نوشتن مستقیم ACTIVE_LOCKS.json ممنوع است.
+- وضعیت: IMPLEMENTED_ON_REVIEW_BRANCH / NOT_ACTIVE_ON_DEFAULT_BRANCH / E2E_NOT_VERIFIED.
+- مانع فعال‌سازی: PR #1 باز و ادغام‌نشده است؛ schedule و workflow_dispatch پس از حضور workflow در default branch قابل استفاده خواهند بود.
+- آزمون واقعی دو حساب مستقل و اجرای هم‌زمان هنوز NOT_RUN است.
