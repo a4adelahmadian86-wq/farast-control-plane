@@ -51,6 +51,11 @@ jobs:
             .github/workflows/farast-coordinator.yml
             .github/scripts/coordinator-core.js
             .github/scripts/coordinator-core.test.js
+            .github/scripts/work-item-core.js
+            .github/scripts/work-item-core.test.js
+            04_COORDINATION/WORK_ITEM_SCHEMA.json
+            04_COORDINATION/WORK_ITEM_CHECKPOINT_SCHEMA.json
+            04_COORDINATION/WORK_ITEM_EXECUTION_PROTOCOL.md
             .github/ISSUE_TEMPLATE/farast-task.yml
             .github/PULL_REQUEST_TEMPLATE.md
             .github/CODEOWNERS
@@ -64,6 +69,8 @@ jobs:
           done
       - name: Run multi-chat contention and fencing fixtures
         run: node --test .github/scripts/coordinator-core.test.js
+      - name: Run hierarchical work item progress, fairness and resume fixtures
+        run: node --test .github/scripts/work-item-core.test.js
       - name: Validate JSON and all prompt bootstrap contracts
         shell: bash
         run: |
@@ -93,6 +100,10 @@ jobs:
           from pathlib import Path
           json.loads(Path("01_STRATEGY/DEPENDENCY_GRAPH.json").read_text(encoding="utf-8"))
           json.loads(Path("04_COORDINATION/ACTIVE_LOCKS.schema.json").read_text(encoding="utf-8"))
+          work_item_schema = json.loads(Path("04_COORDINATION/WORK_ITEM_SCHEMA.json").read_text(encoding="utf-8"))
+          work_item_checkpoint_schema = json.loads(Path("04_COORDINATION/WORK_ITEM_CHECKPOINT_SCHEMA.json").read_text(encoding="utf-8"))
+          Draft202012Validator.check_schema(work_item_schema)
+          Draft202012Validator.check_schema(work_item_checkpoint_schema)
           auth_policy = json.loads(Path("04_COORDINATION/ACTOR_AUTHORIZATION.json").read_text(encoding="utf-8"))
           assert set(auth_policy["roles"]) >= {"OWNER", "SENIOR_MANAGER", "WORKER", "READ_ONLY"}
           assert isinstance(auth_policy["actor_scopes"], dict)
