@@ -14,7 +14,8 @@
 9. `02_GOVERNANCE/DECISION_REGISTER.md` و `USER_FEEDBACK_REGISTER.md`
 10. `03_PROJECT_STATE/MASTER_STATUS.md` و `TASK_INDEX.md`
 11. `04_COORDINATION/WORKER_PROTOCOL.md`، `LOCK_PROTOCOL.md`، `LOCK_MANAGER_PROTOCOL.md` و `TASK_SCHEMA.md`
-12. `05_PROMPT_LIBRARY/PROMPT_CATALOG.md` و پرامپت تخصصی
+12. `04_COORDINATION/INTERRUPTION_RECOVERY_PROTOCOL.md` را کامل بخوان؛ این سند برای قطع اینترنت، timeout، توقف نشست و پرشدن context لازم‌الاجراست.
+13. `05_PROMPT_LIBRARY/PROMPT_CATALOG.md` و پرامپت تخصصی
 
 ترتیب بالا فقط ترتیب فهم زمینه است، نه ترتیب اجرای PRها.
 
