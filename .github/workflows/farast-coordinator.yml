@@ -240,6 +240,13 @@ jobs:
                   } else {
                     state.locks = state.locks.filter(x => !(x.issue_number === issue.number && x.actor === actor && x.chat_id === chat && x.run_id === run && x.fencing_token === token));
                     state.history.push({ event: command.toUpperCase(), issue_number: issue.number, actor, chat_id: chat, run_id: run, fencing_token: token, branch: current[0]?.branch, target_repository: current[0]?.target_repository, at_utc: new Date().toISOString() });
+                    const workItem = savedWorkItemFor(state, issue);
+                    if (workItem) {
+                      state.work_items ||= {}; state.work_items[issue.number] ||= workItem;
+                      if (command === 'block') state.work_items[issue.number].status = 'BLOCKED';
+                      else if (command === 'review') state.work_items[issue.number].status = 'REVIEW_REQUIRED';
+                      else if (command === 'release' && state.work_items[issue.number].status === 'CLAIMED') state.work_items[issue.number].status = 'READY';
+                    }
                     nextStatus = command === 'block' ? 'blocked' : command === 'review' ? 'review' : 'ready';
                     response = command === 'release' ? 'Lease آزاد شد؛ وظیفه تکمیل‌شده محسوب نمی‌شود.' : command === 'block' ? 'وظیفه مسدود شد و lease آزاد شد.' : 'پیاده‌سازی برای بازبینی مستقل تحویل شد؛ این به معنی پذیرش نیست.';
                   }
@@ -247,7 +254,7 @@ jobs:
                   if (current.length) response = 'فرمان رد شد: ابتدا lease فعال باید با مالکیت معتبر آزاد شود.';
                   else if (command === 'unblock' && !labelsOf(issue).includes('agent:blocked')) response = 'وظیفه blocked نیست.';
                   else if (command === 'reopen' && !['agent:review','agent:done'].some(x => labelsOf(issue).includes(x))) response = 'فقط وظیفه review/done قابل بازگشایی است.';
-                  else { nextStatus = 'ready'; response = 'وظیفه به ready بازگشت؛ برای شروع دوباره claim لازم است.'; }
+                  else { const workItem = savedWorkItemFor(state, issue); if (workItem) { state.work_items ||= {}; state.work_items[issue.number] ||= workItem; state.work_items[issue.number].status = 'READY'; } nextStatus = 'ready'; response = 'وظیفه به ready بازگشت؛ برای شروع دوباره claim لازم است.'; }
                 } else if (command === 'accept') {
                   const prUrl = args.pr || (issue.body || '').match(/https:\/\/github\.com\/[^\s)]+\/pull\/\d+/)?.[0];
                   const prMatch = prUrl?.match(/github\.com\/([^/]+)\/([^/]+)\/pull\/(\d+)/);
