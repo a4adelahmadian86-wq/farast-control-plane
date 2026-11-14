@@ -5,13 +5,13 @@
 ## ترتیب خواندن (ترتیب خواندن است، نه ترتیب اجرای وظایف)
 1. `README.md`
 2. `00_PROJECT_FOUNDATION/PROJECT_CHARTER.md`
-3. `00_PROJECT_FOUNDATION/APPROVED_REQUIREMENTS.md`
+3. `00_PROJECT_FOUNDATION/APPROVED_REQUIREMENTS.md` و متن کامل منبع `00_PROJECT_FOUNDATION/SOURCE_REQUIREMENTS_v2.md`
 4. `00_PROJECT_FOUNDATION/SPECIALIST_WORKFLOW.md`
 5. `00_PROJECT_FOUNDATION/KNOWN_UNKNOWN.md`
 6. `01_STRATEGY/GOAL_TREE.md` و `ROADMAP.md`
 7. `02_GOVERNANCE/DECISION_REGISTER.md` و `USER_FEEDBACK_REGISTER.md`
 8. `03_PROJECT_STATE/MASTER_STATUS.md` و `TASK_INDEX.md`
-9. `04_COORDINATION/WORKER_PROTOCOL.md`، `LOCK_PROTOCOL.md` و `TASK_SCHEMA.md`
+9. `04_COORDINATION/WORKER_PROTOCOL.md`، `LOCK_PROTOCOL.md`، `LOCK_MANAGER_PROTOCOL.md` و `TASK_SCHEMA.md`
 10. `05_PROMPT_LIBRARY/PROMPT_CATALOG.md` و پرامپت مربوط به وظیفه
 
 ## دستورهای غیرقابل‌مذاکره
@@ -21,7 +21,7 @@
 - وظایف مستقل می‌توانند موازی باشند؛ وابستگی و تداخل منابع باید بررسی شود.
 - شماره PR-ها ترتیب زمانی نیست. هر پرامپت فقط در دامنه خودش اجرا می‌شود.
 - کار تکمیل‌شده را تکرار نکن. با TASK_ID موجود و آخرین checkpoint ادامه بده.
-- قبل از تغییر هر منبع مشترک یا کد محصول، وضعیت مالکیت/قفل را طبق LOCK_PROTOCOL بررسی کن.
+- قبل از تغییر هر منبع مشترک یا کد محصول، وضعیت مالکیت/قفل را طبق LOCK_MANAGER_PROTOCOL بررسی کن.
 - هر چت فقط در شاخه اختصاصی خود کار کند؛ تغییر مستقیم روی main ممنوع.
 - چت حق ادغام PR، انتشار، حذف داده، تغییر schema مخرب، افشای رازها یا تغییر تنظیمات امنیتی را ندارد مگر مجوز صریح و ثبت‌شده مالک محصول وجود داشته باشد.
 - هیچ راز، توکن، کلید خصوصی، داده شخصی مشتری یا محتوای حساس را در Issue/commit/log قرار نده.
@@ -34,7 +34,7 @@
 3. Issueهای باز مرتبط، PRها، checkpointها، قفل‌های فعال و بازخوردهای جدید را جست‌وجو کن.
 4. وظیفه را با عنوان/شناسه/منابع تطبیق بده؛ تکراری نساز.
 5. TASK_ID موجود را بازیابی کن یا یک Issue جدید با قالب بساز.
-6. قفل منابع را طبق پروتکل درخواست کن. قفل قطعی نیست مگر تأیید سازوکار معتبر موجود باشد؛ ابهام را «در انتظار» ثبت کن.
+6. همه RESOURCE_KEYها را با CAS در رجیستری `coordination/locks` یکجا acquire کن؛ فقط پس از موفقیت update_ref با expected_sha مالکیت معتبر است. خطا/ابهام = STOP WRITES.
 7. کار را در branch اختصاصی با نام `work/<TASK_ID>-<slug>` انجام بده.
 8. checkpoint اولیه و سپس checkpointهای مرحله‌ای ثبت کن.
 9. تحویل را با گزارش کوتاه در Issue و PR انجام بده.
