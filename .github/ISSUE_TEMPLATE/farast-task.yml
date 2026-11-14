@@ -39,7 +39,7 @@ body:
   - type: input
     id: priority
     attributes:
-      label: Owner-assigned priority (0-100; lower is higher)
+      label: Priority (0-100; lower is higher)
       placeholder: "50"
     validations:
       required: true
