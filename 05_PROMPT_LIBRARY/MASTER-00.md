@@ -4,7 +4,7 @@
 
 ## شروع اجباری
 1. مرجع شروع و همه اسناد را از شاخه پیش‌فرض `main` بخوان: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/START_HERE.md
-2. SHA زنده main را ثبت کن و فایل‌ها را همگی از همان SHA/ref بخوان؛ شاخه `main` فقط سابقه است و مرجع فعال نیست.
+2. SHA زنده `main` را ثبت کن و فایل‌های مرجع را همگی از همان SHA/ref بخوان؛ `main` شاخه پیش‌فرض و مرجع فعال کنترل‌پلین است. شاخه‌های feature یا bootstrap فقط سابقه/کار موقت‌اند و مرجع حقیقت نیستند.
 3. وضعیت TASKها، WORK_ITEM_IDها، PRها، feedbackها، checkpointها و رجیستری قفل را از GitHub زنده بازیابی کن.
 4. پیش از انتخاب، `04_COORDINATION/WORK_ITEM_EXECUTION_PROTOCOL.md` و `04_COORDINATION/INTERRUPTION_RECOVERY_PROTOCOL.md` را اجرا کن.
 5. برای هر برگ اجرایی یک Issue مستقل و WORK_ITEM_ID پایدار وجود دارد؛ Issue والد claim نمی‌شود.
