@@ -49,3 +49,7 @@ DISCOVER → DEDUPLICATE → CLAIM → PLAN → EXECUTE → CHECKPOINT → REVIE
 - عامل‌های دیگر گزارش اختصاصی TASK، checkpoint و Issue خود را بنویسند و پیشنهاد تغییر رجیستر مرکزی را در PR جدا ارائه کنند.
 - اگر نقش steward مشخص نیست، رجیستر مرکزی را تغییر نده؛ فقط خروجی اختصاصی بساز و handoff کن.
 - هر نوشتن در رجیستر مرکزی نیازمند RESOURCE_KEY دقیق و قفل CAS تا ثبت commit/PR است. PRهای متعارض باید پیش از merge هماهنگ شوند.
+
+
+## Handoff بین چت‌ها و اجرای مجدد
+پاسخ CLAIM GRANTED ممکن است `previous_branch` و `previous_target_repository` را نیز برگرداند. Coordinator فقط lineage را ثبت/اعلام می‌کند و branch را در مخزن محصول نمی‌سازد. worker جدید باید branch قبلی را read-only بررسی، آخرین checkpoint/commit معتبر را از handoff استخراج و در مخزن هدف تأیید کند؛ سپس branch جدید صادرشده را از همان commit بسازد. هرگز روی branch قبلی write نکن. اگر checkpoint قابل اثبات نیست یا branch/repository با پاسخ claim تطبیق ندارد، STOP WRITES. branch مصرف‌شده برای همان Issue قابل claim مجدد نیست؛ RUN_ID یکتا انتخاب کن.
