@@ -45,6 +45,7 @@ jobs:
             04_COORDINATION/ACCEPTANCE_FRAMEWORK.md
             04_COORDINATION/LEGACY_COORDINATOR_MIGRATION.md
             04_COORDINATION/COORDINATOR_COMMANDS.md
+            04_COORDINATION/ACTOR_AUTHORIZATION.json
             04_COORDINATION/COORDINATOR_TEST_PLAN.md
             .github/workflows/farast-coordinator.yml
             .github/scripts/coordinator-core.js
@@ -90,6 +91,9 @@ jobs:
           from pathlib import Path
           json.loads(Path("01_STRATEGY/DEPENDENCY_GRAPH.json").read_text(encoding="utf-8"))
           json.loads(Path("04_COORDINATION/ACTIVE_LOCKS.schema.json").read_text(encoding="utf-8"))
+          auth_policy = json.loads(Path("04_COORDINATION/ACTOR_AUTHORIZATION.json").read_text(encoding="utf-8"))
+          assert set(auth_policy["roles"]) >= {"OWNER", "SENIOR_MANAGER", "WORKER", "READ_ONLY"}
+          assert "accept" not in auth_policy["roles"]["WORKER"] and "status" in auth_policy["roles"]["READ_ONLY"]
           work_schema = json.loads(Path("04_COORDINATION/WORK_ORDER_SCHEMA.json").read_text(encoding="utf-8"))
           checkpoint_schema = json.loads(Path("04_COORDINATION/CHECKPOINT_SCHEMA.json").read_text(encoding="utf-8"))
           Draft202012Validator.check_schema(work_schema)
@@ -116,10 +120,10 @@ jobs:
           assert "WORK_ORDER_SCHEMA.json" in start_here and "CHECKPOINT_SCHEMA.json" in start_here
           assert "HANDOFF_PROTOCOL.md" in start_here and "ACCEPTANCE_FRAMEWORK.md" in start_here
           coordinator = Path(".github/workflows/farast-coordinator.yml").read_text(encoding="utf-8")
-          for required in ("farast-control-plane-single-writer", "schedule:", "issue_comment:", "processed_operations", "FARAST_OP_RESPONSE:", "coordination/locks", "pulls.listReviews", "workerActor", "task_already_claimed", "branch_reuse", "claim.previousRun", "next_status: nextStatus", "FARAST_GITHUB_TOKEN", "prUrl", "targetRepositoryFor", "coordinatorCore.isSafeRunId", "coordinatorCore.claimResources", "coordinatorCore.ownsLease", "coordinatorCore.renewLease", "coordinatorCore.hasIndependentApproval", "coordinatorCore.matchesReviewLease", "const taskBranch =", "expiredLeases", "event: 'HEARTBEAT'"):
+          for required in ("farast-control-plane-single-writer", "schedule:", "issue_comment:", "processed_operations", "FARAST_OP_RESPONSE:", "coordination/locks", "pulls.listReviews", "workerActor", "task_already_claimed", "branch_reuse", "claim.previousRun", "next_status: nextStatus", "FARAST_GITHUB_TOKEN", "prUrl", "targetRepositoryFor", "authorizationPolicy", "coordinatorCore.isCommandAllowed", "coordinatorCore.isSafeRunId", "coordinatorCore.claimResources", "coordinatorCore.ownsLease", "coordinatorCore.renewLease", "coordinatorCore.hasIndependentApproval", "coordinatorCore.matchesReviewLease", "const taskBranch =", "expiredLeases", "event: 'HEARTBEAT'"):
               assert required in coordinator, required
           core = Path(".github/scripts/coordinator-core.js").read_text(encoding="utf-8")
-          for required in ("agent_alias: args.chatId || args.actor", "target_repository: args.targetRepository", "target_repository: x.target_repository", "function isSafeRunId", "function latestTaskStatus", "function matchesReviewLease", "function claimResources", "function ownsLease", "function renewLease", "task_already_claimed", "branchUsed", "previousRun"):
+          for required in ("agent_alias: args.chatId || args.actor", "target_repository: args.targetRepository", "target_repository: x.target_repository", "function isSafeRunId", "function roleForActor", "function isCommandAllowed", "function latestTaskStatus", "function matchesReviewLease", "function claimResources", "function ownsLease", "function renewLease", "task_already_claimed", "branchUsed", "previousRun", "function roleForActor", "function isCommandAllowed"):
               assert required in core, required
           commands = Path("04_COORDINATION/COORDINATOR_COMMANDS.md").read_text(encoding="utf-8")
           assert "CLAIM GRANTED" in commands and "FENCING_TOKEN" in commands
