@@ -1,6 +1,6 @@
 # وضعیت کلان پروژه — خط مبنای کنترل‌پلین
 
-**وضعیت این سند: INITIALIZED / NOT AUDITED**
+**وضعیت این سند: CONTROL_PLANE_BOOTSTRAP_IMPLEMENTED_ON_PR_BRANCH / PRODUCT_NOT_AUDITED**
 
 این فایل فقط راه‌اندازی کنترل‌پلین را ثبت می‌کند. به معنی اجرای ممیزی سایت نیست.
 
@@ -16,6 +16,13 @@
 - Security acceptance: NOT TESTED
 - Production readiness: NOT ESTABLISHED
 - Release approval: NOT GRANTED
+
+## وضعیت راه‌اندازی
+- زیرساخت کنترل‌پلین: در PR شماره 1 روی شاخه `setup/control-plane-bootstrap` آماده بازبینی؛ هنوز merge نشده.
+- کتابخانه: MASTER-00 + 17 پرامپت؛ فایل تجمیعی در `05_PROMPT_LIBRARY/FARAST_EXECUTABLE_PROMPTS_COMPLETE.md`.
+- قفل منابع: branch `coordination/locks` و registry CAS ایجاد شده؛ آزمون دو حساب مستقل هنوز لازم است.
+- Visibility مخزن هنگام بررسی PUBLIC بود؛ خصوصی‌سازی و branch protection هنوز اقدام مالک می‌خواهد.
+- جزئیات: `BOOTSTRAP_STATUS.md`.
 
 ## شمارنده وضعیت وظایف
 | وضعیت | تعداد |
