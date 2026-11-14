@@ -119,3 +119,20 @@ test('Issue close eligibility follows the latest successful state transition, no
   assert.equal(core.latestTaskStatus(operations, 10), 'ready');
   assert.equal(core.latestTaskStatus({}, 10), null);
 });
+
+
+test('a released run cannot reclaim its old branch; new run receives prior handoff lineage', () => {
+  const s = registry();
+  const first = core.claimResources(s, { issueNumber: 10, taskId: 'GH-10', actor: 'alice', chatId: 'chat-a', runId: 'run-a', targetRepository: 'owner/product', branch: 'work/GH-10-run-a', resourceKeys: ['module:payments'], leaseMinutes: 30, nowMs: 1000 });
+  assert.equal(first.ok, true);
+  s.locks = [];
+  s.history.push({ event: 'REVIEW', issue_number: 10, actor: 'alice', run_id: 'run-a', branch: 'work/GH-10-run-a', target_repository: 'owner/product', at_utc: new Date(2000).toISOString() });
+  const stale = core.claimResources(s, { issueNumber: 10, taskId: 'GH-10', actor: 'bob', chatId: 'chat-b', runId: 'run-a', targetRepository: 'owner/product', branch: 'work/GH-10-run-a', resourceKeys: ['module:payments'], leaseMinutes: 30, nowMs: 3000 });
+  assert.equal(stale.ok, false);
+  assert.equal(stale.reason, 'branch_reuse');
+  const next = core.claimResources(s, { issueNumber: 10, taskId: 'GH-10', actor: 'bob', chatId: 'chat-b', runId: 'run-b', targetRepository: 'owner/product', branch: 'work/GH-10-run-b', resourceKeys: ['module:payments'], leaseMinutes: 30, nowMs: 3000 });
+  assert.equal(next.ok, true);
+  assert.deepEqual(next.previousRun, { runId: 'run-a', branch: 'work/GH-10-run-a', targetRepository: 'owner/product' });
+  const acquired = s.history.filter(x => x.event === 'ACQUIRED').at(-1);
+  assert.equal(acquired.previous_branch, 'work/GH-10-run-a');
+});
