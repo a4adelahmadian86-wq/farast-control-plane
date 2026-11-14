@@ -40,3 +40,10 @@
 | Done unverified | 0 |
 
 این شمارنده‌ها تا زمان ایجاد Issueهای واقعی صفر/بدون داده می‌مانند؛ از روی فایل‌های برنامه‌ریزی، پیشرفت محصول استنتاج نشود. درصد وزنی هدف‌ها تا تصویب وزن معیارهای پذیرش محاسبه نمی‌شود.
+
+
+## به‌روزرسانی هماهنگ‌کننده چندچتی — 2026-11-14
+- workflow: .github/workflows/farast-coordinator.yml روی شاخه بازبینی PR #1.
+- قرارداد فرمان‌ها: 04_COORDINATION/COORDINATOR_COMMANDS.md؛ template: .github/ISSUE_TEMPLATE/farast-task.yml.
+- وضعیت: IMPLEMENTED_ON_REVIEW_BRANCH؛ هنوز روی main فعال نیست.
+- Multi-account contention / interruption E2E: NOT_RUN؛ تا اجرای واقعی با دو حساب مستقل، آمادگی کامل تأیید نمی‌شود.
