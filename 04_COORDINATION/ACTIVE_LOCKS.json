@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 76,
+  "revision": 77,
   "next_fencing_token": 54,
   "locks": [
     {
@@ -857,6 +857,15 @@
       "command": "checkpoint",
       "next_status": null,
       "at_utc": "2026-11-14T17:31:45.814Z"
+    },
+    "6881501675": {
+      "response": "معیار پذیرش ثبت شد: AC_UNIQUE; can_accept=false; progress=80%.",
+      "response_posted": false,
+      "issue_number": 11,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-14T17:32:21.041Z"
     }
   },
   "work_items": {
@@ -1046,7 +1055,14 @@
       "acceptance_criteria": [
         {
           "criterion_id": "AC_UNIQUE",
-          "title": "No duplicate WORK_ITEM_ID exists across open or closed Issues"
+          "title": "No duplicate WORK_ITEM_ID exists across open or closed Issues",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/11#issuecomment-6881465362"
+          ],
+          "validated_at_utc": "2026-11-14T17:32:21.035Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_POLICY",
