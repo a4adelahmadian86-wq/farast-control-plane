@@ -1,5 +1,4 @@
-# Owner approval is required for changes to the coordinator and authority boundaries.
-* @a4adelahmadian86-wq
+# Owner approval is required only for sensitive coordinator and authority boundaries.
 /.github/workflows/ @a4adelahmadian86-wq
 /.github/scripts/ @a4adelahmadian86-wq
 /04_COORDINATION/ACTOR_AUTHORIZATION.json @a4adelahmadian86-wq
