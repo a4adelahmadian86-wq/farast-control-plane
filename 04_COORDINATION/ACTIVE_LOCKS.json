@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 82,
+  "revision": 83,
   "next_fencing_token": 54,
   "locks": [
     {
@@ -884,6 +884,15 @@
       "command": "claim",
       "next_status": null,
       "at_utc": "2026-11-14T17:47:29.586Z"
+    },
+    "6881696164": {
+      "response": "وظیفه به ready بازگشت؛ برای شروع دوباره claim لازم است.",
+      "response_posted": false,
+      "issue_number": 7,
+      "actor": "a4adelahmadian86-wq",
+      "command": "unblock",
+      "next_status": "ready",
+      "at_utc": "2026-11-14T17:47:48.281Z"
     }
   },
   "work_items": {
@@ -944,7 +953,7 @@
       "parent_exp_ids": [
         "EXP-01"
       ],
-      "status": "BLOCKED",
+      "status": "READY",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "module:shared-resource-smoke"
@@ -963,7 +972,9 @@
         }
       ],
       "priority": 50,
-      "created_at_utc": "2026-11-14T17:20:00Z"
+      "created_at_utc": "2026-11-14T17:20:00Z",
+      "write_policy": "READ_ONLY",
+      "priority_source": "DEFAULT_POLICY"
     },
     "9": {
       "schema_version": "1.0",
