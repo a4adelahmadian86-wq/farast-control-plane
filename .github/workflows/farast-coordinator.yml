@@ -112,7 +112,7 @@ jobs:
               return [...new Set(keys)].sort().map(x => x.replace(/\\/g, '/'));
             };
             const targetRepositoryFor = issue => {
-              const m = (issue.body || '').match(/(?:^|\\n)###\\s*Target repository(?: \\(owner\\/name\\))?\\s*\\n([\\s\\S]*?)(?=\\n###|$)/i);
+              const m = (issue.body || '').match(/(?:^|\n)###\s*Target repository(?: \(owner\/name\))?\s*\n([\s\S]*?)(?=\n###|$)/i);
               return m ? m[1].trim().split(/\\s+/)[0] : '';
             };
             const activeForIssue = (state, n) => state.locks.filter(x => x.issue_number === n && Date.parse(x.lease_expires_at_utc) > Date.now());
@@ -153,7 +153,7 @@ jobs:
                   } else {
                     const keys = resourcesFor(issue);
                     const targetRepository = targetRepositoryFor(issue);
-                    if (!/^[A-Za-z0-9_.-]+\\/[A-Za-z0-9_.-]+$/.test(targetRepository)) {
+                    if (!/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(targetRepository)) {
                       response = 'Claim رد شد: Target repository باید به‌صورت owner/name در Issue مشخص شود.';
                     } else if (!keys.length) {
                       response = 'Claim رد شد: بخش Resource keys در Issue خالی است؛ کلیدهای دقیق منابع را اضافه و فرمان جدید ثبت کنید.';
