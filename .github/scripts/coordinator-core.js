@@ -1,5 +1,9 @@
 'use strict';
 
+function isSafeRunId(value) {
+  return typeof value === 'string' && /^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$/.test(value);
+}
+
 function resourcesFor(body, issueNumber) {
   const text = body || '';
   const match = text.match(/(?:^|\n)###\s*Resource keys\s*\n([\s\S]*?)(?=\n###|$)/i);
@@ -99,6 +103,6 @@ function hasIndependentApproval(reviews, pr, workerActor, acceptActor) {
 }
 
 module.exports = {
-  resourcesFor, targetRepositoryFor, expireLocks, activeForIssue,
+  isSafeRunId, resourcesFor, targetRepositoryFor, expireLocks, activeForIssue,
   claimResources, renewLease, ownsLease, latestTaskStatus, matchesReviewLease, hasIndependentApproval
 };
