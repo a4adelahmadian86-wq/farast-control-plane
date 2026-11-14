@@ -11,7 +11,7 @@
 - ایجاد branch مستقل `coordination/locks` و رجیستری CAS با lease و fencing token.
 - probe اولیه stale-SHA/CAS رد شده است؛ این فقط probe اولیه است و جای آزمون دو حساب مستقل را نمی‌گیرد.
 - ممیزی ایستای دروازه مشترک هر ۱۷ پرامپت انجام شد: 17/17 PASS.
-- GitHub Actions run #57 روی head فعلی PR با conclusion=success پایان یافت: https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/43589157552.
+- GitHub Actions run #58 روی head فعلی PR با conclusion=success پایان یافت: https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/43589665731.
 
 ## وضعیت محصول
 هیچ‌یک از EXP-01 تا EXP-27 در این bootstrap اجرا نشده است. مخزن محصول `a4adelahmadian86-wq/non` تغییر داده نشده؛ کد سایت، محیط محلی، production، backup/restore، hosting، Voice-typing billing و امنیت عملیاتی هنوز ممیزی نشده‌اند. همه stageهای محصول باید تا زمان جمع‌آوری شواهد واقعی NOT_STARTED/UNKNOWN باقی بمانند.
@@ -19,7 +19,7 @@
 ## وضعیت GitHub
 - PR: https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/1
 - Branch: `setup/control-plane-bootstrap`
-- Head: `f9c390a06b1c0038e29903df97cc2e6384fdfdcc` (در آخرین snapshot این گزارش)
+- Head: `2b0f683c3767a047f8437aad35b818fc562b1dcc` (در آخرین snapshot این گزارش)
 - Lock branch: `coordination/locks`
 - PR #1: OPEN، NOT MERGED؛ GitHub API در آخرین بررسی `mergeable=true` و `mergeable_state=clean` گزارش کرد.
 - شاخه PR در مقایسه با main دو commit عقب و ۱۴۰ commit جلو بود؛ دو commit روی main شامل sync bundle و revert همان تغییر بودند و compare نشان داد تغییر فایل خالصی نسبت به merge-base باقی نمانده است.
@@ -38,7 +38,7 @@
 
 ## وضعیت آزمون
 - Static prompt/bootstrap validation: PASS (17/17).
-- CI run #57: PASS.
+- CI run #58: PASS.
 - Full multi-account CAS contention: NOT_RUN.
 - Full interruption/idempotency end-to-end suite: NOT_RUN.
 - Private-repository access tests: BLOCKED/NOT_RUN چون مخزن هنوز public است.
