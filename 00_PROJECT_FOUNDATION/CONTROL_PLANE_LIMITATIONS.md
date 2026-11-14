@@ -35,3 +35,11 @@
 
 ## یادداشت ممیزی پروتکل قفل — 2026-11-14
 پس از یک رویداد RELEASED اولیه، چند commit تکمیلی مربوط به hardening هماهنگ‌کننده پیش از reacquire کردن قفل ثبت شدند. این انحراف از پروتکل ثبت شد؛ در رجیستری coordination/locks رویداد PROTOCOL_DEVIATION_RECORDED وجود دارد. هیچ writer متعارضی در read-back مشاهده نشد، اما این مشاهده اثبات عدم تداخل نیست. برای ادامه کار قفل‌ها دوباره با fencing tokenهای جدید گرفته شدند و پس از تکمیل، آزاد خواهند شد.
+
+
+## نتیجه اعتبارسنجی چندچتی — 2026-11-14
+- آخرین head تأییدشده: e6113207987b93ef7a78913ba487571ad34787bf.
+- CI موفق: https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/43593994379 .
+- 8 آزمون fixture هسته coordination موفق شدند: claim متعارض روی منبع مشترک، منابع مستقل، all-or-none، انقضای lease و fencing token جدید، رد مالکیت/token stale، parse کردن target repository/resource keys، approval مستقل روی head فعلی، و تطبیق PR با branch/repository آخرین REVIEW.
+- YAML workflow و syntax جاوااسکریپت آن نیز در CI بررسی شده‌اند.
+- این نتیجه فقط static/unit validation است؛ workflow روی default branch و آزمون واقعی دو حساب مستقل هنوز NOT RUN است.
