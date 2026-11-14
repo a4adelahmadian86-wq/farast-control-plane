@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 72,
+  "revision": 73,
   "next_fencing_token": 54,
   "locks": [
     {
@@ -839,6 +839,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-14T17:30:56.641Z"
+    },
+    "6881488920": {
+      "response": "STEP ثبت شد: S4_VERIFY; progress=80%; verified=4/5.",
+      "response_posted": false,
+      "issue_number": 11,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-14T17:31:18.561Z"
     }
   },
   "work_items": {
@@ -1010,7 +1019,15 @@
         },
         {
           "step_id": "S4_VERIFY",
-          "title": "Read back the new Issue, confirm no duplicate ID and verify ready/blocked state"
+          "title": "Read back the new Issue, confirm no duplicate ID and verify ready/blocked state",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/11#issuecomment-6881465362",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/13#issuecomment-6881444584"
+          ],
+          "validated_at_utc": "2026-11-14T17:31:18.555Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S5_RELEASE",
