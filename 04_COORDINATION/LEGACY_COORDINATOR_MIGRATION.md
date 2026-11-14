@@ -100,3 +100,11 @@ NOT_IMPLEMENTED / OWNER_DECISION_REQUIRED
 - CI موفق روی همین SHA: https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/43594945741 و https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/43594950344 .
 - ۱۱/۱۱ آزمون هسته coordination PASS، ۰ FAIL؛ YAML workflow، syntax JavaScript، قرارداد هر ۱۷ prompt و static assertions نیز PASS.
 - هنوز workflow روی default branch فعال نیست؛ اجرای واقعی GitHub Actions، آزمون دو حساب مستقل، interruption و takeover عملیاتی NOT_RUN است.
+
+## تکمیل hardening چندچتی و تفویض اختیار — 2026-11-14
+- نقش‌های OWNER، SENIOR_MANAGER، WORKER و READ_ONLY در ACTOR_AUTHORIZATION.json تعریف و در coordinator enforce می‌شوند؛ WORKER به‌صورت پیش‌فرض اجازه unblock/reopen/accept ندارد. هیچ senior manager بدون GitHub login صریح و تأیید مالک فعال نمی‌شود.
+- .github/CODEOWNERS تغییرات حساس workflow، core و policy را به review مالک مقید می‌کند؛ اجرای این الزام در GitHub branch protection هنوز نیازمند تنظیم دستی است.
+- branch برای هر RUN یکتا است؛ branch قبلی برای همان Issue دوباره claim نمی‌شود. coordinator lineage قبلی را برمی‌گرداند؛ ایجاد branch تازه در مخزن هدف و انتخاب checkpoint پایه همچنان مسئولیت worker و نیازمند E2E است.
+- همه ۱۷ پرامپت مستقل و MASTER-00 از policy نقش‌ها و coordinator-only lock تبعیت می‌کنند؛ bundle نسخه 1.3.0 دقیقاً از منابع مستقل بازتولید و read-back شد (18/18 بخش منطبق).
+- ۱۴/۱۴ fixture تست هسته و CI ساختاری روی snapshot 028afdd4dc9edc5a9aeb0eba4248ee756be1c714 موفق بوده‌اند؛ آزمون واقعی workflow در default branch و دو حساب مستقل هنوز NOT_RUN است.
+- وضعیت: IMPLEMENTED_ON_REVIEW_BRANCH / NOT_ACTIVE_ON_DEFAULT_BRANCH / MULTI_ACCOUNT_E2E_NOT_VERIFIED.
