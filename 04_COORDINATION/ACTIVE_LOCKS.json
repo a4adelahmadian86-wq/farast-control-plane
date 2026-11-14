@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "revision": 16,
-  "next_fencing_token": 24,
+  "revision": 17,
+  "next_fencing_token": 28,
   "locks": [
     {
       "resource_key": "doc:04_COORDINATION/LEGACY_COORDINATOR_MIGRATION.md",
@@ -61,6 +61,54 @@
       "heartbeat_at_utc": "2026-11-14T11:43:27.254Z",
       "lease_expires_at_utc": "2026-11-14T12:08:27.254Z",
       "fencing_token": 23,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "doc:START_HERE.md",
+      "task_id": "FCP-CP-LEGACY-COORDINATOR-AUDIT-001",
+      "run_id": "RUN-20261114-LEGACY-COORDINATOR-AUDIT-01",
+      "agent_alias": "chatgpt-session",
+      "branch": "setup/control-plane-bootstrap",
+      "acquired_at_utc": "2026-11-14T11:44:03.187Z",
+      "heartbeat_at_utc": "2026-11-14T11:44:03.187Z",
+      "lease_expires_at_utc": "2026-11-14T12:04:03.187Z",
+      "fencing_token": 24,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "doc:05_PROMPT_LIBRARY/MASTER-00.md",
+      "task_id": "FCP-CP-LEGACY-COORDINATOR-AUDIT-001",
+      "run_id": "RUN-20261114-LEGACY-COORDINATOR-AUDIT-01",
+      "agent_alias": "chatgpt-session",
+      "branch": "setup/control-plane-bootstrap",
+      "acquired_at_utc": "2026-11-14T11:44:03.187Z",
+      "heartbeat_at_utc": "2026-11-14T11:44:03.187Z",
+      "lease_expires_at_utc": "2026-11-14T12:04:03.187Z",
+      "fencing_token": 25,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "doc:USAGE_GUIDE_FA.md",
+      "task_id": "FCP-CP-LEGACY-COORDINATOR-AUDIT-001",
+      "run_id": "RUN-20261114-LEGACY-COORDINATOR-AUDIT-01",
+      "agent_alias": "chatgpt-session",
+      "branch": "setup/control-plane-bootstrap",
+      "acquired_at_utc": "2026-11-14T11:44:03.187Z",
+      "heartbeat_at_utc": "2026-11-14T11:44:03.187Z",
+      "lease_expires_at_utc": "2026-11-14T12:04:03.187Z",
+      "fencing_token": 26,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "doc:.github/workflows/control-plane-validation.yml",
+      "task_id": "FCP-CP-LEGACY-COORDINATOR-AUDIT-001",
+      "run_id": "RUN-20261114-LEGACY-COORDINATOR-AUDIT-01",
+      "agent_alias": "chatgpt-session",
+      "branch": "setup/control-plane-bootstrap",
+      "acquired_at_utc": "2026-11-14T11:44:03.187Z",
+      "heartbeat_at_utc": "2026-11-14T11:44:03.187Z",
+      "lease_expires_at_utc": "2026-11-14T12:04:03.187Z",
+      "fencing_token": 27,
       "status": "ACTIVE"
     }
   ],
@@ -311,6 +359,25 @@
       ],
       "at_utc": "2026-11-14T11:43:27.254Z",
       "note": "Audit and document migration boundary for legacy issue-level coordinator in NON PR #479."
+    },
+    {
+      "event": "ACQUIRED",
+      "task_id": "FCP-CP-LEGACY-COORDINATOR-AUDIT-001",
+      "run_id": "RUN-20261114-LEGACY-COORDINATOR-AUDIT-01",
+      "resource_keys": [
+        "doc:START_HERE.md",
+        "doc:05_PROMPT_LIBRARY/MASTER-00.md",
+        "doc:USAGE_GUIDE_FA.md",
+        "doc:.github/workflows/control-plane-validation.yml"
+      ],
+      "fencing_tokens": [
+        24,
+        25,
+        26,
+        27
+      ],
+      "at_utc": "2026-11-14T11:44:03.187Z",
+      "note": "Expanded legacy coordinator audit to bootstrap docs and CI references."
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref."
