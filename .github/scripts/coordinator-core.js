@@ -59,6 +59,10 @@ function ownsLease(currentLocks, actor, chatId, runId, token) {
       x.run_id === runId && x.fencing_token === Number(token));
 }
 
+function matchesReviewLease(pr, reviewEvent) {
+  return !!reviewEvent && reviewEvent.branch === pr.head.ref && reviewEvent.target_repository === pr.head.repo?.full_name;
+}
+
 function hasIndependentApproval(reviews, pr, workerActor, acceptActor) {
   return reviews.some(r => r.state === 'APPROVED' &&
     r.commit_id === pr.head.sha &&
@@ -69,5 +73,5 @@ function hasIndependentApproval(reviews, pr, workerActor, acceptActor) {
 
 module.exports = {
   resourcesFor, targetRepositoryFor, expireLocks, activeForIssue,
-  claimResources, ownsLease, hasIndependentApproval
+  claimResources, ownsLease, matchesReviewLease, hasIndependentApproval
 };
