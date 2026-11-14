@@ -10,7 +10,9 @@
 
 ## سطح ۲ — آزمون‌های منطقی/fixture
 - Issue فاقد Target repository یا Resource keys: claim باید رد شود.
-- Claim موفق: target_repository و branch صحیح در همه lockهای ثبت‌شده قرار بگیرند.
+- Claim موفق: target_repository و branch اختصاصی همان RUN در همه lockهای ثبت‌شده قرار بگیرند.
+- handoff با RUN_ID جدید: branch جدید و مستقل ساخته شود؛ branch قبلی تغییر نکند.
+- accept از branch یا target repository غیر از آخرین رویداد REVIEW: رد شود.
 - accept با PR که در بدنه Issue لینک نشده: رد شود.
 - دو Issue متفاوت با RESOURCE_KEY مشترک: فقط یک claim موفق.
 - دو Issue با RESOURCE_KEYهای disjoint: هر دو claim موفق.
