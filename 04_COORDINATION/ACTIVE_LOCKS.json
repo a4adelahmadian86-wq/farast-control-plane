@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 41,
+  "revision": 42,
   "next_fencing_token": 50,
   "locks": [],
   "history": [
@@ -580,7 +580,7 @@
     },
     "6881271387": {
       "response": "وظیفه به ready بازگشت؛ برای شروع دوباره claim لازم است.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 5,
       "actor": "a4adelahmadian86-wq",
       "command": "unblock",
