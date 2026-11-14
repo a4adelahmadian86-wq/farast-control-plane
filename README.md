@@ -12,8 +12,9 @@
 2. برای هر حساب ChatGPT، GitHub connector را جداگانه با دسترسی مناسب به این مخزن وصل کن.
 3. [START_HERE.md](START_HERE.md) را بخوان.
 4. منبع کامل نیازمندی‌ها: [SOURCE_REQUIREMENTS_v2.md](00_PROJECT_FOUNDATION/SOURCE_REQUIREMENTS_v2.md).
-5. راهنمای کاربر مبتدی: [USAGE_GUIDE_FA.md](USAGE_GUIDE_FA.md).
-6. پیش از هر نوشتن، پروتکل [قفل اتمیک CAS](04_COORDINATION/LOCK_MANAGER_PROTOCOL.md) را اجرا کن.
+5. الزامات اجرای چندچتی: [CONTROL_PLANE_REQUIREMENTS.md](00_PROJECT_FOUNDATION/CONTROL_PLANE_REQUIREMENTS.md).
+6. راهنمای کاربر مبتدی: [USAGE_GUIDE_FA.md](USAGE_GUIDE_FA.md).
+7. پیش از هر نوشتن، پروتکل [قفل اتمیک CAS](04_COORDINATION/LOCK_MANAGER_PROTOCOL.md) را اجرا کن.
 
 ## کتابخانه پرامپت‌ها
 - [کتابخانه کامل قابل کپی](05_PROMPT_LIBRARY/FARAST_EXECUTABLE_PROMPTS_COMPLETE.md)
