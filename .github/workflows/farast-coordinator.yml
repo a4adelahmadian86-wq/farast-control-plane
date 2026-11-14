@@ -113,7 +113,7 @@ jobs:
             };
             const targetRepositoryFor = issue => {
               const m = (issue.body || '').match(/(?:^|\n)###\s*Target repository(?: \(owner\/name\))?\s*\n([\s\S]*?)(?=\n###|$)/i);
-              return m ? m[1].trim().split(/\\s+/)[0] : '';
+              return m ? m[1].trim().split(/\s+/)[0] : '';
             };
             const activeForIssue = (state, n) => state.locks.filter(x => x.issue_number === n && Date.parse(x.lease_expires_at_utc) > Date.now());
             const expireLocks = state => {
