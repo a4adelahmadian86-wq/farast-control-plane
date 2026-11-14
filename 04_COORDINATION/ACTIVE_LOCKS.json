@@ -1,21 +1,8 @@
 {
   "schema_version": "1.0",
-  "revision": 8,
+  "revision": 9,
   "next_fencing_token": 8,
-  "locks": [
-    {
-      "resource_key": "doc:BOOTSTRAP_STATUS.md",
-      "task_id": "FCP-CP-RESILIENCE-001",
-      "run_id": "RUN-20261114-CP-RESILIENCE-DOCSYNC-04",
-      "agent_alias": "chatgpt-session",
-      "branch": "setup/control-plane-bootstrap",
-      "acquired_at_utc": "2026-11-14T11:23:44Z",
-      "heartbeat_at_utc": "2026-11-14T11:23:44Z",
-      "lease_expires_at_utc": "2026-11-14T11:53:44Z",
-      "fencing_token": 7,
-      "status": "ACTIVE"
-    }
-  ],
+  "locks": [],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -120,6 +107,19 @@
         7
       ],
       "at_utc": "2026-11-14T11:23:44Z"
+    },
+    {
+      "event": "RELEASED",
+      "task_id": "FCP-CP-RESILIENCE-001",
+      "run_id": "RUN-20261114-CP-RESILIENCE-DOCSYNC-04",
+      "resource_keys": [
+        "doc:BOOTSTRAP_STATUS.md"
+      ],
+      "fencing_tokens": [
+        7
+      ],
+      "at_utc": "2026-11-14T11:24:11Z",
+      "note": "Bootstrap status historical CI references clarified in commit 0041c8ba8b4e069bceec4c902812c36c5928a51a."
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref."
