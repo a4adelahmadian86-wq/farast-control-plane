@@ -11,7 +11,7 @@
 - ایجاد branch مستقل `coordination/locks` و رجیستری CAS با lease و fencing token.
 - probe اولیه stale-SHA/CAS رد شده است؛ این فقط probe اولیه است و جای آزمون دو حساب مستقل را نمی‌گیرد.
 - ممیزی ایستای دروازه مشترک هر ۱۷ پرامپت انجام شد: 17/17 PASS.
-- GitHub Actions run #59 روی head فعلی PR با conclusion=success پایان یافت: https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/43589728185.
+- GitHub Actions run #59 روی snapshot قبلی `1439bbcc8bd9d6f0945f671d2e8f7eb48a2e49bc` موفق شد؛ سپس run #60 روی commit `e803138c8b0edbf7243c7741023790f40df23e3e` نیز پس از همگام‌سازی وضعیت موفق شد. لینک‌ها: https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/43589728185 و https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/43589789474.
 
 ## وضعیت محصول
 هیچ‌یک از EXP-01 تا EXP-27 در این bootstrap اجرا نشده است. مخزن محصول `a4adelahmadian86-wq/non` تغییر داده نشده؛ کد سایت، محیط محلی، production، backup/restore، hosting، Voice-typing billing و امنیت عملیاتی هنوز ممیزی نشده‌اند. همه stageهای محصول باید تا زمان جمع‌آوری شواهد واقعی NOT_STARTED/UNKNOWN باقی بمانند.
@@ -19,10 +19,10 @@
 ## وضعیت GitHub
 - PR: https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/1
 - Branch: `setup/control-plane-bootstrap`
-- Head: `1439bbcc8bd9d6f0945f671d2e8f7eb48a2e49bc` (در آخرین snapshot این گزارش)
+- SHA زنده head و وضعیت ahead/behind را همیشه از metadata و compare زنده PR #1 بخوان؛ SHAهای تاریخی در لینک‌های CI بالا ثبت شده‌اند.
 - Lock branch: `coordination/locks`
 - PR #1: OPEN، NOT MERGED؛ GitHub API در آخرین بررسی `mergeable=true` و `mergeable_state=clean` گزارش کرد.
-- شاخه PR در مقایسه با main دو commit عقب و ۱۴۲ commit جلو بود؛ دو commit روی main شامل sync bundle و revert همان تغییر بودند و compare نشان داد تغییر فایل خالصی نسبت به merge-base باقی نمانده است.
+- تاریخچه PR و main واگراست؛ آخرین compare نشان داد دو commit روی main شامل sync bundle و revert همان تغییر بودند و تغییر فایل خالصی نسبت به merge-base باقی نمانده است. پیش از merge، compare زنده را دوباره بررسی کن.
 - Visibility: PUBLIC؛ مالک فعلاً خصوصی‌سازی را به تعویق انداخته است. تا تغییر visibility فقط کار عمومی و غیرمحرمانه مجاز است.
 - Rulesets فهرست‌شده: صفر. وضعیت legacy branch protection از اتصال فعلی قابل خواندن نبود؛ پس فعال‌بودن branch protection تأیید نشده است.
 - دسترسی این اتصال به مخزن در زمان بررسی admin/push بود؛ دسترسی سایر حساب‌ها یا چت‌ها جداگانه تأیید نشده است.
@@ -38,7 +38,7 @@
 
 ## وضعیت آزمون
 - Static prompt/bootstrap validation: PASS (17/17).
-- CI run #59: PASS.
+- CI run #59 و #60: PASS.
 - Full multi-account CAS contention: NOT_RUN.
 - Full interruption/idempotency end-to-end suite: NOT_RUN.
 - Private-repository access tests: BLOCKED/NOT_RUN چون مخزن هنوز public است.
