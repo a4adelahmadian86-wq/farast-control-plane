@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 68,
+  "revision": 69,
   "next_fencing_token": 54,
   "locks": [
     {
@@ -821,6 +821,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-14T17:30:02.281Z"
+    },
+    "6881478091": {
+      "response": "STEP ثبت شد: S2_DECOMPOSE; progress=40%; verified=2/5.",
+      "response_posted": false,
+      "issue_number": 11,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-14T17:30:29.009Z"
     }
   },
   "work_items": {
@@ -967,7 +976,15 @@
         },
         {
           "step_id": "S2_DECOMPOSE",
-          "title": "Identify an incomplete goal with no existing leaf and define a deterministic small Work Item"
+          "title": "Identify an incomplete goal with no existing leaf and define a deterministic small Work Item",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/11#issuecomment-6881465362",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/3"
+          ],
+          "validated_at_utc": "2026-11-14T17:30:29.003Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S3_CREATE",
