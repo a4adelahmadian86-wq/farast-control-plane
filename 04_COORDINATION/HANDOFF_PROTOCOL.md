@@ -39,3 +39,7 @@
 
 ## قرارداد
 ساختار checkpoint باید با `CHECKPOINT_SCHEMA.json` معتبر باشد؛ فیلدهای TASK با `WORK_ORDER_SCHEMA.json` سازگار باشند. قالب مرجع انسانی: `CHECKPOINT_TEMPLATE.md`. گردش کار وظیفه: `WORKER_PROTOCOL.md`.
+
+
+## Handoff مبتنی بر branch اختصاصی
+هر RUN branch تازه و یکتا دارد. claim جدید previous_run/previous_branch/previous_target_repository را برمی‌گرداند. worker جدید branch قبلی را فقط read-only بررسی می‌کند، آخرین checkpoint معتبر را در مخزن هدف تأیید و branch جدید را از همان commit ایجاد می‌کند. coordinator در نسخه فعلی branch مخزن محصول را خودکار ایجاد نمی‌کند. اگر checkpoint مبهم باشد، write متوقف می‌شود.
