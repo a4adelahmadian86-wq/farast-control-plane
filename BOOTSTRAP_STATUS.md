@@ -4,45 +4,52 @@
 **وضعیت:** IMPLEMENTED_ON_REVIEW_BRANCH / NOT_MERGED / EXECUTION_GATES_PENDING
 
 ## کارهای انجام‌شده
-- ساخت ساختار اسناد بنیادین، اهداف، نقشه راه، تصمیم‌ها، بازخوردها و وضعیت.
-- حفظ متن کامل منبع نیازمندی نسخه ۲.۰ در `00_PROJECT_FOUNDATION/SOURCE_REQUIREMENTS_v2.md`.
-- ایجاد MASTER-00 و ۱۷ پرامپت مستقل؛ نسخه یکپارچه در `05_PROMPT_LIBRARY/FARAST_EXECUTABLE_PROMPTS_COMPLETE.md` با نسخه 1.2.0.
-- ایجاد راهنمای کاربر، Issue templates، پروتکل بازیابی وقفه، checkpoint، گزارش و conventions شواهد.
-- ایجاد branch مستقل `coordination/locks` و رجیستری CAS با lease و fencing token.
-- probe اولیه stale-SHA/CAS رد شده است؛ این فقط probe اولیه است و جای آزمون دو حساب مستقل را نمی‌گیرد.
-- ممیزی ایستای دروازه مشترک هر ۱۷ پرامپت انجام شد: 17/17 PASS.
-- GitHub Actions run #59 روی snapshot قبلی `1439bbcc8bd9d6f0945f671d2e8f7eb48a2e49bc` موفق شد؛ سپس run #60 روی commit `e803138c8b0edbf7243c7741023790f40df23e3e` نیز پس از همگام‌سازی وضعیت موفق شد. لینک‌ها: https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/43589728185 و https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/43589789474.
+- ساخت ساختار اسناد بنیادین، اهداف، نقشه راه، تصمیم‌ها، بازخوردها و رجیسترهای وضعیت.
+- حفظ متن کامل منبع نیازمندی نسخه ۲.۰ در 00_PROJECT_FOUNDATION/SOURCE_REQUIREMENTS_v2.md.
+- نگاشت ۱۷ پرامپت به ۲۷ بسته کاری EXP در SPECIALIST_WORKFLOW.md، به‌همراه MASTER-00 و bundle نسخه 1.2.1.
+- اصلاح دروازه شروع تمام ۱۷ پرامپت: هر ۱۷ فایل اکنون URL مستقیم START_HERE.md در شاخه setup/control-plane-bootstrap، recovery protocol، MASTER-00، CAS، TASK_ID و OPERATION_ID را دارند؛ read-back مستقیم 17/17 PASS.
+- اصلاح نگاشت PR-02 به EXP-02؛ EXP-17 فقط زیر PR-14 (EXP-16 تا EXP-18) قرار دارد.
+- ایجاد Work Order Schema، Checkpoint Schema، Handoff Protocol، Acceptance Framework، Architecture Coverage و Pull Request Template.
+- ایجاد branch مستقل coordination/locks و رجیستری CAS با lease و fencing token؛ probe stale-SHA رد شده است، اما آزمون دو حساب مستقل هنوز انجام نشده.
+- افزودن اعتبارسنجی schemaها و قرارداد ref/نگاشت prompt به CI؛ اجرای جدید CI روی head فعلی هنوز مشاهده نشده است.
 
 ## وضعیت محصول
-هیچ‌یک از EXP-01 تا EXP-27 در این bootstrap اجرا نشده است. مخزن محصول `a4adelahmadian86-wq/non` تغییر داده نشده؛ کد سایت، محیط محلی، production، backup/restore، hosting، Voice-typing billing و امنیت عملیاتی هنوز ممیزی نشده‌اند. همه stageهای محصول باید تا زمان جمع‌آوری شواهد واقعی NOT_STARTED/UNKNOWN باقی بمانند.
+هیچ‌یک از EXP-01 تا EXP-27 اجرا نشده است. مخزن محصول a4adelahmadian86-wq/non در این کار تغییر داده نشده؛ ممیزی محصول، runtime، backup/restore، hosting، Voice-typing billing، امنیت عملیاتی و deployment هنوز اجرا نشده‌اند. Capability Register و Requirements Traceability عمداً خالی‌اند تا کشف واقعی انجام شود؛ این خالی‌بودن به معنی نبود قابلیت/نیاز نیست.
 
 ## وضعیت GitHub
 - PR: https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/1
-- Branch: `setup/control-plane-bootstrap`
-- SHA زنده head و وضعیت ahead/behind را همیشه از metadata و compare زنده PR #1 بخوان؛ SHAهای تاریخی در لینک‌های CI بالا ثبت شده‌اند.
-- Lock branch: `coordination/locks`
-- PR #1: OPEN، NOT MERGED؛ GitHub API در آخرین بررسی `mergeable=true` و `mergeable_state=clean` گزارش کرد.
-- تاریخچه PR و main واگراست؛ آخرین compare نشان داد دو commit روی main شامل sync bundle و revert همان تغییر بودند و تغییر فایل خالصی نسبت به merge-base باقی نمانده است. پیش از merge، compare زنده را دوباره بررسی کن.
-- Visibility: PUBLIC؛ مالک فعلاً خصوصی‌سازی را به تعویق انداخته است. تا تغییر visibility فقط کار عمومی و غیرمحرمانه مجاز است.
-- Rulesets فهرست‌شده: صفر. وضعیت legacy branch protection از اتصال فعلی قابل خواندن نبود؛ پس فعال‌بودن branch protection تأیید نشده است.
-- دسترسی این اتصال به مخزن در زمان بررسی admin/push بود؛ دسترسی سایر حساب‌ها یا چت‌ها جداگانه تأیید نشده است.
-- Review submission و inline review thread مستقلی برای PR #1 ثبت نشده بود.
+- Branch: setup/control-plane-bootstrap
+- آخرین head مشاهده‌شده هنگام ثبت این وضعیت: dd87d7f36bf22562a30a264bb141e84ab8f25667
+- PR #1: OPEN، NOT MERGED؛ آخرین metadata mergeable=true و mergeable_state=clean گزارش کرد.
+- شاخه پیش‌فرض main فقط README.md دارد؛ تا ادغام PR و تأیید فایل‌ها، مرجع اجرایی همان شاخه pinned بالاست.
+- Lock branch: coordination/locks.
+- Visibility: PUBLIC؛ مالک فعلاً خصوصی‌سازی را به تعویق انداخته است. فقط کار عمومی/غیرمحرمانه مجاز.
+- Rulesets فهرست‌شده: صفر؛ branch protection تأیید نشده و endpoint قدیمی برای اتصال فعلی قابل خواندن نبود.
+- Review submission و inline review thread مستقل برای PR #1: صفر.
+- Issue #2: OPEN؛ آزمون‌های end-to-end هنوز انجام نشده‌اند.
 
-## دروازه‌های باقی‌مانده پیش از اجرای محرمانه/چندحسابی
-1. مالک در زمان مناسب visibility را PRIVATE کند و آثار/دسترسی‌ها را بررسی کند.
-2. برای هر حساب/اتصال ChatGPT، دسترسی read/write و ابزار Git Data/CAS جداگانه آزمایش شود.
-3. branch protection و required check روی main فعال و از طریق تنظیمات زنده تأیید شود.
-4. COORD-01 تا COORD-15 و آزمون‌های وقفه/عدم‌تکرار با دو حساب مستقل و fixtureهای آزمایشی اجرا و evidence ثبت شوند.
-5. بازبینی مستقل PR #1 انجام شود؛ سپس تصمیم merge فقط با اختیار مالک.
-6. پس از merge مجاز، صحت فایل‌ها و CI روی main دوباره بررسی شود.
+## وضعیت CI
+- آخرین CI موفق قابل مشاهده: Run #62 روی commit 4f83e136059066c719130a26b40ab6343a2e1f09: https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/43589931689
+- Run #66 روی commit قدیمی‌تر 55604614ac9dac8839fb06c472e164c28eb4d20b به‌علت assertion نامتناسب درباره تعداد recovery markerهای bundle شکست خورد: https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/43590509141
+- assertion اصلاح و schema checks اضافه شدند؛ برای head فعلی dd87d7f36bf22562a30a264bb141e84ab8f25667 اجرای جدید CI مشاهده نشده است. پس CI فعلی UNVERIFIED است، نه PASS.
+- read-back مستقیم ۱۷ پرامپت و بررسی وجود فایل‌های جدید: PASS در سطح منبع.
+
+## دروازه‌های باقی‌مانده
+1. تعیین تکلیف توسط مالک: آیا سند ۱۰ مرحله‌ای ۱۲ نوامبر منسوخ است یا باید به‌عنوان لایه/ورک‌فلوی دیگری ادغام شود؟ تا پاسخ، فایل ۲۷ مرحله‌ای مبنای mapping فعلی است، اما تعارض ثبت‌شده باقی می‌ماند.
+2. اجرای CI روی head فعلی و رفع هر شکست احتمالی.
+3. خصوصی‌سازی در زمان موردنظر مالک و سپس تأیید دسترسی هر حساب/اتصال.
+4. فعال‌سازی و راستی‌آزمایی branch protection و required check.
+5. اجرای COORD-01 تا COORD-15 و آزمون وقفه/عدم‌تکرار با دو حساب مستقل و fixtureهای آزمایشی.
+6. بازبینی مستقل PR #1؛ سپس تصمیم merge فقط با اختیار مالک.
+7. پس از merge مجاز، تأیید همه فایل‌ها و CI روی main.
 
 ## وضعیت آزمون
-- Static prompt/bootstrap validation: PASS (17/17).
-- CI run #59 و #60: PASS.
-- Full multi-account CAS contention: NOT_RUN.
-- Full interruption/idempotency end-to-end suite: NOT_RUN.
-- Private-repository access tests: BLOCKED/NOT_RUN چون مخزن هنوز public است.
+- Static source read-back برای ۱۷ پرامپت: PASS (17/17).
+- CI روی head فعلی: UNVERIFIED؛ آخرین run جدید مشاهده نشده.
+- Multi-account CAS contention: NOT_RUN.
+- Full interruption/idempotency E2E: NOT_RUN.
+- Private repository access per account: NOT_RUN (مخزن هنوز public است).
 - Independent review: NOT_RUN.
 - Product audit / production readiness: NOT_STARTED.
 
-**نتیجه:** کتابخانه و کنترل‌پلین روی شاخه PR برای شروع کارهای عمومی و غیرمحرمانه آماده‌اند؛ کنترل‌پلین هنوز merge نشده و برای اجرای محرمانه، چندحسابی قابل اتکا یا production-ready اعلام نمی‌شود.
+**نتیجه:** اصلاحات لازم برای bootstrap و شروع مستقل پرامپت‌ها روی شاخه PR انجام شده‌اند؛ اما هنوز مجاز نیستیم سیستم را برای اجرای محرمانه/چندحسابی «کاملاً آماده و تأییدشده» اعلام کنیم.

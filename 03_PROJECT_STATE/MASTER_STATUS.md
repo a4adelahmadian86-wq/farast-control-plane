@@ -4,28 +4,30 @@
 
 این فایل فقط راه‌اندازی کنترل‌پلین را ثبت می‌کند. به معنی اجرای ممیزی سایت نیست.
 
-- Control-plane repo: initialized
-- Product repo: موجود در `a4adelahmadian86-wq/non`
-- Master goal: G-00
-- Enabling goal: G-09 (multi-chat control plane)
-- EXP work packages: 27
-- Prompt catalog: PR-01..PR-17 + MASTER-00
-- Product baseline audit: NOT VERIFIED IN THIS RUN
-- Control-plane requirements: CP-01..CP-08 recorded
-- Owner feedback: FB-20261114-001 recorded
-- Backup/restore production: UNKNOWN
-- Hosting/runtime: UNKNOWN
-- Voice service billing/runtime: UNKNOWN
-- Security acceptance: NOT TESTED
-- Production readiness: NOT ESTABLISHED
-- Release approval: NOT GRANTED
+- Control-plane repo: initialized on review branch; not merged.
+- Product repo: موجود در a4adelahmadian86-wq/non؛ در این کار تغییر نکرده است.
+- Master goal: G-00.
+- Enabling goal: G-09 (multi-chat control plane).
+- EXP work packages: 27; همه NOT_STARTED تا تولید شواهد.
+- Prompt catalog: PR-01..PR-17 + MASTER-00؛ bundle v1.2.1.
+- Product baseline audit: NOT VERIFIED.
+- Control-plane requirements: CP-01..CP-08 recorded.
+- Owner feedback: FB-20261114-001 recorded.
+- Backup/restore production: UNKNOWN.
+- Hosting/runtime: UNKNOWN.
+- Voice service billing/runtime: UNKNOWN.
+- Security acceptance: NOT TESTED.
+- Production readiness: NOT ESTABLISHED.
+- Release approval: NOT GRANTED.
 
 ## وضعیت راه‌اندازی
-- زیرساخت کنترل‌پلین: در PR شماره 1 روی شاخه `setup/control-plane-bootstrap` آماده بازبینی؛ هنوز merge نشده.
-- کتابخانه: MASTER-00 + 17 پرامپت؛ فایل تجمیعی در `05_PROMPT_LIBRARY/FARAST_EXECUTABLE_PROMPTS_COMPLETE.md`.
-- قفل منابع: branch `coordination/locks` و registry CAS ایجاد شده؛ آزمون دو حساب مستقل هنوز لازم است.
-- Visibility مخزن هنگام بررسی PUBLIC بود؛ خصوصی‌سازی و branch protection هنوز اقدام مالک می‌خواهد.
-- جزئیات: `BOOTSTRAP_STATUS.md`.
+- زیرساخت کنترل‌پلین در PR شماره ۱ روی شاخه setup/control-plane-bootstrap است؛ هنوز merge نشده.
+- شاخه پیش‌فرض main فقط README دارد؛ پرامپت‌ها به شاخه معتبر pinned شده‌اند.
+- رجیستری CAS روی branch coordination/locks موجود است؛ آزمون رقابتی دو حساب مستقل هنوز لازم است.
+- Work Order/Checkpoint schema، Handoff Protocol، Acceptance Framework و Architecture Coverage افزوده شده‌اند.
+- Visibility مخزن PUBLIC است؛ فعلاً فقط کار عمومی و غیرمحرمانه.
+- Branch protection و review مستقل تأیید نشده‌اند.
+- وضعیت تفصیلی: BOOTSTRAP_STATUS.md و 00_PROJECT_FOUNDATION/CONTROL_PLANE_LIMITATIONS.md.
 
 ## شمارنده وضعیت وظایف
 | وضعیت | تعداد |
@@ -37,7 +39,4 @@
 | Done verified | 0 |
 | Done unverified | 0 |
 
-این شمارنده‌ها تا زمان ایجاد Issueهای واقعی باید صفر/بدون داده بمانند؛ از روی فایل‌های برنامه‌ریزی، پیشرفت پروژه استنتاج نشود.
-
-## آخرین به‌روزرسانی
-تاریخ commit اولیه این مخزن در GitHub قابل مشاهده است. برای گزارش زمان دقیق اجرا، عامل باید زمان معتبر UTC ثبت کند.
+این شمارنده‌ها تا زمان ایجاد Issueهای واقعی صفر/بدون داده می‌مانند؛ از روی فایل‌های برنامه‌ریزی، پیشرفت محصول استنتاج نشود. درصد وزنی هدف‌ها تا تصویب وزن معیارهای پذیرش محاسبه نمی‌شود.
