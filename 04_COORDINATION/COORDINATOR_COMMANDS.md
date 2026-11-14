@@ -84,3 +84,5 @@ Coordinator مقدار branch را به‌صورت work/GH-ISSUE_NUMBER-RUN_ID �
 - `WRITE_ALLOWED`: تنها در scope مجاز و با lease/fencing معتبر write کن.
 - `a4adelahmadian86-wq/non` تا اعلام مجوز جدید مالک فقط READ_ONLY است و workflow Work Item غیر READ_ONLY را رد می‌کند.
 - priority=50 با `DEFAULT_POLICY` اولویت خنثی است؛ FIFO و aging tie-break می‌کنند. رتبه‌بندی اختصاصی فقط با `OWNER_ASSIGNED` ثبت شود.
+
+ساخت Work Item جدید فقط زیر قفل allocator با شناسه ثابت `WI-GOAL-ALLOCATOR-001` مجاز است. ابتدا Issueهای موجود و WORK_ITEM_IDها را جست‌وجو کن؛ سپس allocator را claim کن، leafهای جدید را با شناسه deterministic بساز و پس از read-back قفل را release کن. هیچ دو چتی نباید هم‌زمان pool را گسترش دهند.
