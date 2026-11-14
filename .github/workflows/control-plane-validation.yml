@@ -128,7 +128,8 @@ jobs:
               prompt_text = p.read_text(encoding="utf-8")
               assert "COORDINATOR_COMMANDS.md" in prompt_text, p
               assert "target_repository و branch اختصاصی همان RUN" in prompt_text, p
-              assert "branch قبلی را تغییر نده" in prompt_text, p
+              assert "branch قبلی را read-only نگه دار" in prompt_text, p
+              assert "از طریق CAS آزاد کن" not in prompt_text, p
           legacy = Path("04_COORDINATION/LEGACY_COORDINATOR_MIGRATION.md").read_text(encoding="utf-8")
           assert "PR #479" in legacy and "CAS" in legacy
           assert "LEGACY_COORDINATOR_MIGRATION.md" in start_here
