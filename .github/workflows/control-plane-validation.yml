@@ -63,6 +63,12 @@ jobs:
               assert "قفل این نسخه اتمیک نیست" not in body, matches[0]
           master = Path("05_PROMPT_LIBRARY/MASTER-00.md").read_text(encoding="utf-8")
           assert "ACTIVE_LOCKS.json" in master
+          assert "setup/control-plane-bootstrap" in master
+          start_here = Path("START_HERE.md").read_text(encoding="utf-8")
+          assert "setup/control-plane-bootstrap" in start_here
+          catalog = Path("05_PROMPT_LIBRARY/PROMPT_CATALOG.md").read_text(encoding="utf-8")
+          assert "| PR-02 | PR-02_RECOVERY.md | EXP-02 |" in catalog
+          assert "| PR-14 | PR-14_HOSTING_OPERATIONS.md | EXP-16,17,18 |" in catalog
           assert "INTERRUPTION_RECOVERY_PROTOCOL.md" in master
           assert "OPERATION_ID" in master and "AMBIGUOUS" in master
           checkpoint = Path("04_COORDINATION/CHECKPOINT_TEMPLATE.md").read_text(encoding="utf-8")
@@ -70,5 +76,7 @@ jobs:
           bundle = Path("05_PROMPT_LIBRARY/FARAST_EXECUTABLE_PROMPTS_COMPLETE.md").read_text(encoding="utf-8")
           assert bundle.count("# PR-") >= 17
           assert bundle.count("INTERRUPTION_RECOVERY_PROTOCOL.md") >= 17
+          assert bundle.count("setup/control-plane-bootstrap") >= 17
+          assert "- EXP: EXP-02, EXP-17" not in bundle
           print("Control-plane documents, JSON, and prompt bootstrap contracts passed.")
           PY

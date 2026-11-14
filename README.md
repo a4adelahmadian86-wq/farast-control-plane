@@ -8,6 +8,10 @@
 در زمان راه‌اندازی، visibility این مخزن `PUBLIC` مشاهده شد. چون اسناد نیازمندی و جزئیات کسب‌وکار در آن قرار دارد، مالک باید فوراً مخزن را PRIVATE کند. تا آن زمان هیچ secret، credential، PII، dump یا داده مشتری وارد نشود. راهنما: [تنظیمات دستی GitHub](04_COORDINATION/MANUAL_GITHUB_SETTINGS.md).
 
 ## شروع سریع
+
+**مرجع اجرایی فعلی:** تا زمان ادغام PR شماره ۱، فایل‌ها روی شاخه `setup/control-plane-bootstrap` هستند و `main` فقط README دارد. [ورود مستقیم به START_HERE در شاخه معتبر](https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/setup/control-plane-bootstrap/START_HERE.md). همه لینک‌های نسبی را از همان شاخه باز کن. وضعیت PR را زنده بررسی کن و پس از ادغام، وجود فایل‌ها در main را تأیید کن.
+
+**حالت فعلی عمومی:** چون مخزن هنوز PUBLIC است، فقط تحلیل/آزمون عمومی و غیرمحرمانه مجاز است؛ secret، PII، داده مشتری و اطلاعات محرمانه ثبت نکن.
 1. مخزن را PRIVATE کن و branch protection را طبق راهنما فعال کن.
 2. برای هر حساب ChatGPT، GitHub connector را جداگانه با دسترسی مناسب به این مخزن وصل کن.
 3. [START_HERE.md](START_HERE.md) را بخوان.

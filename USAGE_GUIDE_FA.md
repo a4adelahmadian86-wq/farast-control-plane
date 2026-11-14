@@ -1,11 +1,14 @@
 # راهنمای استفاده برای مالک محصول و کاربر مبتدی
 
-## راه‌اندازی یک‌باره
-1. مخزن را PRIVATE کنید؛ راهنما در `04_COORDINATION/MANUAL_GITHUB_SETTINGS.md`.
-2. PR شماره 1 را بررسی و پس از تنظیمات لازم merge کنید.
-3. branch `coordination/locks` را حفظ کنید؛ این branch پایگاه قفل اتمیک است.
-4. برای هر حساب ChatGPT که قرار است کار کند، GitHub را جداگانه وصل و دسترسی read/write به همین مخزن را مجاز کنید. اگر حساب ابزار Git Data write ندارد، آن حساب فقط مجاز به تحلیل read-only است.
-5. تنظیمات branch protection و required check را طبق راهنما فعال کنید.
+## وضعیت فعلی و راه‌اندازی کامل
+
+**اکنون:** مخزن PUBLIC است، PR شماره ۱ هنوز ادغام نشده و فایل‌های کامل در شاخه `setup/control-plane-bootstrap` قرار دارند؛ `main` فعلاً فقط README دارد. برای آزمایش عمومی/غیرمحرمانه از [START_HERE شاخه معتبر](https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/setup/control-plane-bootstrap/START_HERE.md) شروع کن و همه فایل‌ها را از همان ref بخوان. تا زمان خصوصی‌سازی، اطلاعات محرمانه، secret، PII و داده مشتری ثبت نکن.
+
+**پیش از اجرای محرمانه و چندحسابی کامل:** مالک باید خصوصی‌سازی، بازبینی و ادغام PR شماره ۱، تنظیم و راستی‌آزمایی branch protection، تأیید دسترسی هر اتصال GitHub و اجرای آزمون واقعی دو حساب مستقل را تکمیل کند. این موارد هنوز اثبات نشده‌اند.
+
+1. branch `coordination/locks` را حفظ کن؛ این branch پایگاه قفل اتمیک است.
+2. برای هر حساب ChatGPT، GitHub را جداگانه وصل و دسترسی read/write به همین مخزن را مجاز کن. اگر حساب ابزار Git Data write ندارد، آن حساب فقط مجاز به تحلیل read-only است.
+3. تنظیمات branch protection و required check را طبق راهنما فعال و نتیجه را بررسی کن.
 
 ## اجرای هر کار
 1. وارد چت دلخواه شو.

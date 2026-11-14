@@ -22,7 +22,7 @@
 |---|---|---|---|
 | MASTER-00 | MASTER-00.md | همه | زمینه، بازیابی، هماهنگی، تداوم |
 | PR-01 | PR-01_BASELINE.md | EXP-01 | خط مبنا |
-| PR-02 | PR-02_RECOVERY.md | EXP-02,17 | backup و restore |
+| PR-02 | PR-02_RECOVERY.md | EXP-02 | حفاظت و بازیابی |
 | PR-03 | PR-03_CAPABILITY_DISCOVERY.md | EXP-03 | کاتالوگ قابلیت |
 | PR-04 | PR-04_TRACEABILITY.md | EXP-04 | ردیابی نیازمندی |
 | PR-05 | PR-05_USER_SCENARIOS.md | EXP-05 | سناریوها |
