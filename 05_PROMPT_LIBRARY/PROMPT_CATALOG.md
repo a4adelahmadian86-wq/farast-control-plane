@@ -4,6 +4,9 @@
 
 برای کپی یکجای همه پرامپت‌ها: [FARAST_EXECUTABLE_PROMPTS_COMPLETE.md](FARAST_EXECUTABLE_PROMPTS_COMPLETE.md). نسخه‌های مستقل و قابل به‌روزرسانی در همین پوشه مرجع‌اند.
 
+## زمینه پروژه
+نیازمندی‌های اجرای چندچتی در [CONTROL_PLANE_REQUIREMENTS.md](../00_PROJECT_FOUNDATION/CONTROL_PLANE_REQUIREMENTS.md) و بازخورد مالک در دفتر مرکزی ثبت شده‌اند.
+
 ## راهنمای مبتدی
 
 راهنمای گام‌به‌گام: [USAGE_GUIDE_FA.md](../USAGE_GUIDE_FA.md). پرامپت‌ها مستقل‌اند و متن مشترک لازم را درون خود دارند؛ کاربر لازم نیست MASTER-00 را دستی به هرکدام بچسباند.
