@@ -77,7 +77,7 @@
 ## وضعیت جاری چندچتی — 2026-11-14
 - SHA شاخه فعال را همیشه از PR #1 زنده بخوان؛ hash داخل این سند منبع وضعیت جاری نیست.
 - workflow فرمانی در شاخه PR وجود دارد؛ فعال‌سازی schedule و issue_comment نیازمند ادغام PR #1 در default branch است.
-- CI موفق روی snapshot ثبت‌شده: https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/43598753386 ؛ ۱۴/۱۴ تست هسته، اعتبارسنجی workflow/YAML/JavaScript/JSON و قرارداد هر ۱۷ پرامپت موفق.
+- CI موفق روی snapshot ثبت‌شده: https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/43598835221 ؛ ۱۴/۱۴ تست هسته، اعتبارسنجی workflow/YAML/JavaScript/JSON و قرارداد هر ۱۷ پرامپت موفق.
 - هandoff: branch یکتا برای هر RUN، رد branch reuse، بازگرداندن lineage اجرای قبلی؛ ایجاد branch جدید در مخزن هدف هنوز مسئولیت worker و نیازمند آزمون E2E است.
 - آزمون واقعی دو حساب GitHub/ChatGPT مستقل، قطع اتصال/takeover و اجرای workflow روی default branch هنوز NOT_RUN.
 
