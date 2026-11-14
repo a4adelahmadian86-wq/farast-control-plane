@@ -15,7 +15,8 @@
 10. `03_PROJECT_STATE/MASTER_STATUS.md` و `TASK_INDEX.md`
 11. `04_COORDINATION/WORKER_PROTOCOL.md`، `LOCK_PROTOCOL.md`، `LOCK_MANAGER_PROTOCOL.md` و `TASK_SCHEMA.md`
 12. `04_COORDINATION/INTERRUPTION_RECOVERY_PROTOCOL.md` را کامل بخوان؛ این سند برای قطع اینترنت، timeout، توقف نشست و پرشدن context لازم‌الاجراست.
-13. `05_PROMPT_LIBRARY/PROMPT_CATALOG.md` و پرامپت تخصصی
+13. `05_PROMPT_LIBRARY/MASTER-00.md` را کامل بخوان و سپس پرامپت تخصصی مربوط را اجرا کن؛ پرامپت تخصصی بدون پروتکل مادر مجاز به نوشتن نیست.
+14. `05_PROMPT_LIBRARY/PROMPT_CATALOG.md` و پرامپت تخصصی
 
 ترتیب بالا فقط ترتیب فهم زمینه است، نه ترتیب اجرای PRها.
 
