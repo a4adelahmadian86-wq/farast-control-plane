@@ -71,7 +71,7 @@ PR #1 در SHA `b8cf85cfd6552028750eefa3cff03d844175814c` ادغام شده اس
 
 ## Work Item execution
 
-درخواست Issue #3 برای هدف‌های خرد در مرحله implementation. Schema و هسته محاسبه progress/resume و دستورات `/farast step`, `/farast criterion`, `/farast progress`, `/farast checkpoint` در شاخه feature توسعه می‌شوند؛ تا merge و CI سبز، آن‌ها را در main عملیاتی فرض نکنید. آزمون دو حساب مستقل همچنان NOT_RUN است.
+هسته Work Item و دستورات `/farast step`, `/farast criterion`, `/farast progress`, `/farast checkpoint` در `main` موجودند و ۲۰ آزمون اختصاصی آن‌ها در CI موفق است. این نتیجه به معنی اجرای E2E چندحسابی نیست؛ آزمون دو حساب مستقل همچنان NOT_RUN است.
 
 
 ---
