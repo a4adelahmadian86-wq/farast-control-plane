@@ -7,10 +7,10 @@
 - ساخت ساختار اسناد بنیادین، اهداف، نقشه راه، تصمیم‌ها، بازخوردها و رجیسترهای وضعیت.
 - حفظ متن کامل منبع نیازمندی نسخه ۲.۰ در 00_PROJECT_FOUNDATION/SOURCE_REQUIREMENTS_v2.md.
 - نگاشت ۱۷ پرامپت به ۲۷ بسته کاری EXP در SPECIALIST_WORKFLOW.md، به‌همراه MASTER-00 و bundle نسخه 1.2.1.
-- اصلاح دروازه شروع تمام ۱۷ پرامپت: هر ۱۷ فایل اکنون URL مستقیم START_HERE.md در شاخه setup/control-plane-bootstrap، recovery protocol، MASTER-00، CAS، TASK_ID و OPERATION_ID را دارند؛ read-back مستقیم 17/17 PASS.
+- اصلاح دروازه شروع تمام ۱۷ پرامپت: هر ۱۷ فایل اکنون URL مستقیم START_HERE.md در شاخه setup/control-plane-bootstrap، recovery protocol، MASTER-00، فرمان‌های coordinator و handoff امن، TASK_ID و OPERATION_ID را دارند؛ read-back مستقیم 17/17 PASS.
 - اصلاح نگاشت PR-02 به EXP-02؛ EXP-17 فقط زیر PR-14 (EXP-16 تا EXP-18) قرار دارد.
 - ایجاد Work Order Schema، Checkpoint Schema، Handoff Protocol، Acceptance Framework، Architecture Coverage و Pull Request Template.
-- ایجاد branch مستقل coordination/locks و رجیستری CAS با lease و fencing token؛ probe stale-SHA رد شده است، اما آزمون دو حساب مستقل هنوز انجام نشده.\n- ممیزی workflow قدیمی PR #479 انجام شد؛ قابلیت‌های مفید و نقص issue-level lock در LEGACY_COORDINATOR_MIGRATION.md ثبت شده‌اند. workflow رویدادمحور جدید هنوز پیاده‌سازی نشده است.
+- ایجاد branch مستقل coordination/locks و رجیستری CAS با lease و fencing token؛ probe stale-SHA رد شده است، اما آزمون دو حساب مستقل هنوز انجام نشده.\n- ممیزی workflow قدیمی PR #479 انجام شد؛ قابلیت‌های مفید و نقص issue-level lock در LEGACY_COORDINATOR_MIGRATION.md ثبت شده‌اند. workflow رویدادمحور مستقل `.github/workflows/farast-coordinator.yml` در شاخه PR #1 پیاده‌سازی شده است؛ تا ادغام در default branch عملیاتی نیست.
 - افزودن اعتبارسنجی schemaها و قرارداد ref/نگاشت prompt به CI؛ run #84 روی commit 4fb2b07e3d700cb975133602c291acf62fb1035c موفق شد.
 
 ## وضعیت محصول
@@ -37,7 +37,7 @@
 2. اجرای CI روی head فعلی و رفع هر شکست احتمالی.
 3. خصوصی‌سازی در زمان موردنظر مالک و سپس تأیید دسترسی هر حساب/اتصال.
 4. فعال‌سازی و راستی‌آزمایی branch protection و required check.
-5. تصمیم مالک و پیاده‌سازی/آزمون coordinator رویدادمحور مبتنی بر CAS، طبق LEGACY_COORDINATOR_MIGRATION.md.\n6. اجرای COORD-01 تا COORD-15 و آزمون وقفه/عدم‌تکرار با دو حساب مستقل و fixtureهای آزمایشی.
+5. اجرای واقعی workflow پس از ادغام PR #1، تنظیم permissions/secrets لازم و آزمون دو حساب مستقل.\n6. اجرای COORD-01 تا COORD-15 و آزمون وقفه/عدم‌تکرار با دو حساب مستقل و fixtureهای آزمایشی.
 7. بازبینی مستقل PR #1؛ سپس تصمیم merge فقط با اختیار مالک.
 8. پس از merge مجاز، تأیید همه فایل‌ها و CI روی main.
 
@@ -50,7 +50,7 @@
 - Independent review: NOT_RUN.
 - Product audit / production readiness: NOT_STARTED.
 
-**نتیجه:** اصلاحات bootstrap و پرامپت‌ها روی شاخه PR انجام شده‌اند؛ اما coordinator رویدادمحور هنوز منتقل نشده و سیستم برای اجرای کامل چندچتی/محرمانه آماده و تأییدشده نیست.
+**نتیجه:** coordinator و ۱۷ پرامپت روی شاخه PR پیاده‌سازی و CI آن‌ها پاس شده است؛ اما چون PR #1 هنوز merge نشده، workflow در default branch فعال نیست و E2E دو حساب مستقل اجرا نشده است. وضعیت: IMPLEMENTED / NOT YET OPERATIONAL. مخزن public است و استفاده محرمانه مجاز نیست.
 
 
 ## الحاقیه وضعیت coordinator — 2026-11-14
@@ -90,3 +90,11 @@
 
 ## مرز اجرایی handoff چندچتی
 هماهنگ‌کننده مالکیت منابع و lineage اجرای قبلی را کنترل می‌کند، اما ایجاد branch در مخزن هدف و تعیین commit پایه را خودکار انجام نمی‌دهد. worker جدید باید آخرین checkpoint قابل اثبات را read-only بررسی و branch جدید صادرشده را از آن commit ایجاد کند؛ اگر commit پایه قابل اثبات نیست، نوشتن ممنوع است. آزمون این رفتار در مخزن هدف هنوز end-to-end نشده است.
+
+
+## وضعیت جاری چندچتی — 2026-11-14
+- Head branch: `af6dfe5ebeca13674ac516c013fa25db18b6ca09` (وضعیت به‌روزرسانی اسناد/کد پس از این SHA باید از PR زنده خوانده شود).
+- workflow فرمانی در شاخه PR وجود دارد؛ فعال‌سازی schedule و issue_comment نیازمند ادغام PR #1 در default branch است.
+- CI در commit `af6dfe5ebeca13674ac516c013fa25db18b6ca09` موفق؛ ۱۲/۱۲ تست هسته و اعتبارسنجی ۱۷ پرامپت موفق.
+- هandoff: branch یکتا برای هر RUN، رد branch reuse، بازگرداندن lineage اجرای قبلی؛ ایجاد branch جدید در مخزن هدف هنوز مسئولیت worker و نیازمند آزمون E2E است.
+- آزمون واقعی دو حساب GitHub/ChatGPT مستقل، قطع اتصال/takeover و اجرای workflow روی default branch هنوز NOT_RUN.
