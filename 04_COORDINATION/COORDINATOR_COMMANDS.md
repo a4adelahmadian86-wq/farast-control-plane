@@ -56,4 +56,4 @@ GitHub هویت واقعی ChatGPT chat را تأیید نمی‌کند. CHAT_ID
 
 
 ## Branch وظیفه
-Coordinator مقدار branch را به‌صورت work/GH-ISSUE_NUMBER در رجیستری ثبت می‌کند. worker دارنده lease باید همان branch را ایجاد/ادامه دهد؛ handoff همان branch و checkpoint را حفظ می‌کند. هیچ worker دیگری بدون claim معتبر حق نوشتن در آن branch را ندارد.
+Coordinator مقدار branch را به‌صورت work/GH-ISSUE_NUMBER-RUN_ID در رجیستری ثبت می‌کند. worker دارنده lease باید همان branch را ایجاد کند. در handoff، RUN جدید از آخرین commit تأییدشده branch قبلی، branch جدید می‌سازد؛ branch قبلی را تغییر نمی‌دهد. پذیرش PR فقط از branch آخرین رویداد REVIEW همان lease ممکن است. هیچ worker دیگری بدون claim معتبر حق نوشتن در آن branch را ندارد.
