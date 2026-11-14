@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "description": "Explicit command authorization for FARAST multi-chat coordination. Add exact GitHub logins to actor_roles only after owner approval.",
+  "description": "Explicit command authorization for FARAST multi-chat coordination. Add exact GitHub logins to actor_roles only after owner approval; SENIOR_MANAGER also requires actor_scopes with exact repositories and resource_key_prefixes. Missing scope denies all manager commands.",
   "roles": {
     "OWNER": ["claim", "heartbeat", "release", "status", "block", "unblock", "review", "reopen", "accept"],
     "SENIOR_MANAGER": ["claim", "heartbeat", "release", "status", "block", "unblock", "review", "reopen", "accept"],
