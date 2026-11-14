@@ -1,7 +1,9 @@
 # وضعیت راه‌اندازی کنترل‌پلین
 
 **آخرین بازبینی زنده:** 2026-11-14  
-**وضعیت:** IMPLEMENTED_ON_REVIEW_BRANCH / NOT_MERGED / EXECUTION_GATES_PENDING
+**وضعیت جاری:** CONTROL_PLANE_MERGED_AND_LIVE / SINGLE_ACCOUNT_SMOKE_PASS / MULTI_ACCOUNT_E2E_NOT_VERIFIED
+
+> هشدار: بخش‌های پایین این سند شامل snapshotها و گزارش‌های تاریخی‌اند و بعضی وضعیت‌های قدیمیِ پیش از ادغام PR #1 را نقل می‌کنند. برای وضعیت جاری، این سربرگ و `04_COORDINATION/MULTI_CHAT_READINESS.md` را ملاک قرار بده؛ هر ادعای قدیمی درباره NOT_MERGED یا فعال نبودن workflow superseded است.
 
 ## کارهای انجام‌شده
 - ساخت ساختار اسناد بنیادین، اهداف، نقشه راه، تصمیم‌ها، بازخوردها و رجیسترهای وضعیت.
