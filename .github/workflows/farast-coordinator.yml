@@ -152,7 +152,7 @@ jobs:
                       const expires = new Date(Date.now() + lease * 60000).toISOString();
                       for (const key of keys) state.locks.push({
                         resource_key: key, issue_number: issue.number, task_id: 'GH-' + issue.number,
-                        actor, chat_id: chat, run_id: run, branch: 'work/GH-' + issue.number,
+                        actor, agent_alias: chat || actor, chat_id: chat, run_id: run, branch: 'work/GH-' + issue.number,
                         acquired_at_utc: new Date().toISOString(), heartbeat_at_utc: new Date().toISOString(),
                         lease_expires_at_utc: expires, fencing_token: fencing, status: 'ACTIVE'
                       });
@@ -203,6 +203,7 @@ jobs:
               state.processed_operations[id] = { response, response_posted: false, issue_number: issue.number, actor, command, at_utc: new Date().toISOString() };
               const updated = await saveRegistry(state, snapshot, 'FARAST coordinator: ' + command + ' issue #' + issue.number + ' operation ' + id);
               if (nextStatus) await setStatus(issue.number, nextStatus);
+              if (command === 'reopen' && nextStatus === 'ready') await github.rest.issues.update({ owner, repo, issue_number: issue.number, state: 'open', state_reason: 'reopened' });
               if (nextStatus === 'done') await github.rest.issues.update({ owner, repo, issue_number: issue.number, state: 'closed', state_reason: 'completed' });
               const marker = '<!-- FARAST_OP_RESPONSE:' + id + ' -->';
               const comments = await github.paginate(github.rest.issues.listComments, { owner, repo, issue_number: issue.number, per_page: 100 });
@@ -233,6 +234,7 @@ jobs:
               for (const comment of comments) {
                 if (!/^\s*\/farast\s+/i.test(comment.body || '')) continue;
                 snapshot = await handleCommand(issue, comment, snapshot);
+                issue = (await github.rest.issues.get({ owner, repo, issue_number: issue.number })).data;
               }
               const current = snapshot.state.locks.filter(x => x.issue_number === issue.number && Date.parse(x.lease_expires_at_utc) > Date.now());
               if (current.length && !labelsOf(issue).includes('agent:locked')) await setStatus(issue.number, 'locked');
