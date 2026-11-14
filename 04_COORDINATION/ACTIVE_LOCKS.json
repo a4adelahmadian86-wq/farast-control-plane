@@ -1,0 +1,8 @@
+{
+  "schema_version": "1.0",
+  "revision": 0,
+  "next_fencing_token": 1,
+  "locks": [],
+  "history": [],
+  "policy": "Atomic compare-and-swap updates on this branch ref. Every acquisition/release/heartbeat must update the ref with expected_sha; stale writers must reload and retry."
+}
