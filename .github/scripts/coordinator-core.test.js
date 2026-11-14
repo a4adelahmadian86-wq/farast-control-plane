@@ -92,3 +92,14 @@ test('one Issue cannot have two active workers even when their resource keys are
   assert.equal(b.reason, 'task_already_claimed');
   assert.equal(s.locks.length, 1);
 });
+
+
+test('valid heartbeat renews every resource lease with one expiry', () => {
+  const s = registry();
+  const claim = core.claimResources(s, { issueNumber: 10, taskId: 'GH-10', actor: 'alice', chatId: 'chat-a', runId: 'run-a', targetRepository: 'owner/repo', branch: 'work/GH-10-run-a', resourceKeys: ['module:payments','file:src/payments.js'], leaseMinutes: 30, nowMs: 1000 });
+  const locks = core.activeForIssue(s, 10, 1001);
+  const renewed = core.renewLease(locks, 15, 2000);
+  assert.equal(renewed.ok, true);
+  assert.equal(renewed.expiresAt, new Date(2000 + 15 * 60000).toISOString());
+  assert.ok(locks.every(x => x.heartbeat_at_utc === renewed.heartbeatAt && x.lease_expires_at_utc === renewed.expiresAt));
+});
