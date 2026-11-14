@@ -54,7 +54,7 @@
 3. وظایف/PRهای مرتبط و کارهای فعال را جست‌وجو کن.
 4. duplicate و dependency را بررسی کن.
 5. TASK موجود را بازیابی یا Issue جدید بساز.
-6. RESOURCE_KEYها را در Issue ثبت و با فرمان coordinator به‌صورت all-or-none claim کن؛ توکن صادرشده را در checkpoint نگه دار.
+6. Target repository و RESOURCE_KEYهای دقیق را در Issue ثبت و با فرمان coordinator به‌صورت all-or-none claim کن؛ branch و fencing token صادرشده را در checkpoint نگه دار.
 7. در branch اختصاصی `work/<TASK_ID>-<slug>` کار کن.
 8. checkpoint اولیه و مرحله‌ای ثبت کن.
 9. PR و handoff بساز؛ ادغام نکن.
