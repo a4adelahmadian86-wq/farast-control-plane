@@ -43,7 +43,9 @@ test('expired lease can be replaced with a strictly newer fencing token', () => 
   const second = core.claimResources(s, { issueNumber: 11, taskId: 'GH-11', actor: 'bob', chatId: 'chat-b', runId: 'run-b', targetRepository: 'owner/repo', branch: 'work/GH-11', resourceKeys: ['module:payments'], leaseMinutes: 5, nowMs: 1000 + 5 * 60000 });
   assert.equal(second.ok, true);
   assert.ok(second.fencingToken > first.fencingToken);
-  assert.equal(s.history.some(x => x.event === 'LEASE_EXPIRED'), true);
+  const expired = s.history.find(x => x.event === 'LEASE_EXPIRED');
+  assert.ok(expired);
+  assert.equal(expired.branch, 'work/GH-10');
 });
 
 test('stale or mismatched worker cannot renew/release a lease', () => {
