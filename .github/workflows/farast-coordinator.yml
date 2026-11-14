@@ -153,7 +153,10 @@ jobs:
                         branch: taskBranch, resourceKeys: keys,
                         leaseMinutes: lease, nowMs: Date.now()
                       });
-                      if (!claim.ok && claim.reason === 'missing_resources') {
+                      if (!claim.ok && claim.reason === 'task_already_claimed') {
+                        const conflict = claim.conflict;
+                        response = 'Claim رد شد: این TASK هم‌اکنون در اختیار @' + conflict.actor + ' با run=' + conflict.run_id + ' است؛ برای جلوگیری از دو نویسنده روی یک branch، ابتدا handoff یا انقضای lease لازم است.';
+                      } else if (!claim.ok && claim.reason === 'missing_resources') {
                         response = 'Claim رد شد: بخش Resource keys در Issue خالی است؛ کلیدهای دقیق منابع را اضافه و فرمان جدید ثبت کنید.';
                       } else if (!claim.ok && claim.reason === 'resource_conflict') {
                         const conflict = claim.conflict;
