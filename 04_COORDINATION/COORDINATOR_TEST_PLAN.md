@@ -34,6 +34,18 @@
 - پس از accept موفق، Issue بازمانده بر اثر interruption: reconciliation آن را ببندد؛ پس از فرمان reopen موفق، دیگر خودکار بسته نشود.
 - accept معتبر: label done و بسته‌شدن Issue.
 
+## سطح ۲ب — آزمون‌های Work Item
+- Work Item فاقد WORK_ITEM_ID یا JSON/schema نامعتبر: fail-closed.
+- progress فقط از stepهای PASS دارای evidence reference محاسبه شود.
+- وزن‌های نسخه‌بندی‌شده؛ در نبود وزن، گام‌های اجباری هم‌وزن باشند.
+- ۸۰٪ هرگز ACCEPTED نشود؛ معیار پذیرش ناقص یا dependency ناتمام پذیرش را مسدود کند.
+- step/criterion/checkpoint با fencing token منقضی یا متعلق به worker دیگر رد شود.
+- duplicate step confirmation idempotent باشد.
+- dependency parent تا ACCEPTED شدن مانع انتخاب/پذیرش child شود.
+- lease فعال و resource conflict نامزد را از انتخاب حذف کند؛ lease منقضی همان WORK_ITEM_ID را برای resume قابل انتخاب کند.
+- checkpoint باید فقط stepهای باقی‌مانده را بازگرداند؛ verified stepها دوباره اجرا نشوند.
+- priority aging نباید مقدار priority مصوب مالک را بازنویسی کند و tie-break پایدار باشد.
+
 ## سطح ۳ — آزمون واقعی چندحسابی
 - حداقل دو حساب GitHub مستقل و مجاز، از دو نشست ChatGPT جداگانه.
 - claim هم‌زمان روی یک RESOURCE_KEY و تأیید اینکه دقیقاً یکی grant می‌گیرد.
@@ -48,7 +60,7 @@
 
 
 ## آزمون‌های خودکار اجراشونده در CI
-فایل .github/scripts/coordinator-core.test.js با Node.js test runner اجرا می‌شود و ۱۴ آزمون fixture این رفتارها را پوشش می‌دهند: تعارض دو Issue روی منبع مشترک، موفقیت منابع مستقل، acquire چندمنبعی all-or-none، یک owner فعال برای هر Issue، انقضای lease و fencing token جدید، رد token/actor stale، parse کردن target repository و resource keys، approval مستقل روی head فعلی، تطبیق PR با branch/repository آخرین REVIEW، تمدید یکپارچه heartbeat برای همه منابع و محاسبه close eligibility از آخرین transition موفق ledger، جلوگیری از branch reuse و انتقال lineage، و اعتبارسنجی طول/قالب CHAT_ID و RUN_ID، و نقش‌های OWNER/SENIOR_MANAGER/WORKER/READ_ONLY با enforce شدن repository/resource scope برای مدیر ارشد. این آزمون‌ها منطق هسته را اعتبارسنجی می‌کنند و جای آزمون واقعی GitHub Actions و دو حساب مستقل را نمی‌گیرند.
+فایل‌های `.github/scripts/coordinator-core.test.js` و `.github/scripts/work-item-core.test.js` با Node.js test runner اجرا می‌شوند؛ ۱۴ آزمون هسته coordinator و ۱۴ آزمون Work Item این رفتارها را پوشش می‌دهند: تعارض دو Issue روی منبع مشترک، موفقیت منابع مستقل، acquire چندمنبعی all-or-none، یک owner فعال برای هر Issue، انقضای lease و fencing token جدید، رد token/actor stale، parse کردن target repository و resource keys، approval مستقل روی head فعلی، تطبیق PR با branch/repository آخرین REVIEW، تمدید یکپارچه heartbeat برای همه منابع و محاسبه close eligibility از آخرین transition موفق ledger، جلوگیری از branch reuse و انتقال lineage، و اعتبارسنجی طول/قالب CHAT_ID و RUN_ID، و نقش‌های OWNER/SENIOR_MANAGER/WORKER/READ_ONLY با enforce شدن repository/resource scope برای مدیر ارشد. این آزمون‌ها منطق هسته را اعتبارسنجی می‌کنند و جای آزمون واقعی GitHub Actions و دو حساب مستقل را نمی‌گیرند.
 
 
 ## آزمون lineage و جلوگیری از stale branch
@@ -60,4 +72,8 @@
 سیاست تفویض اختیار فرمان‌ها در `04_COORDINATION/ACTOR_AUTHORIZATION.json` ثبت شده است؛ نقش پیش‌فرض WORKER به فرمان‌های اجرایی پایه محدود است و فرمان‌های حساس فقط برای OWNER یا actor صریحاً تفویض‌شده فعال‌اند.
 
 
-bundle تجمیعی نسخه 1.3.0 از MASTER-00 و ۱۷ پرامپت مستقل بازتولید شده است؛ تطبیق محتوای هر ۱۸ بخش با منبع مستقل 18/18 PASS. سیاست نقش‌ها و CODEOWNERS برای تغییرات حساس نیز اضافه شده‌اند.
+bundle تجمیعی نسخه 1.4.0 از MASTER-00 و ۱۷ پرامپت مستقل بازتولید شده است؛ تطبیق محتوای هر ۱۸ بخش با منبع مستقل 18/18 PASS. سیاست نقش‌ها و CODEOWNERS برای تغییرات حساس نیز اضافه شده‌اند.
+
+
+## وضعیت اجرای Work Item tests
+CI باید دو suite مستقل coordinator و work-item-core را اجرا کند. PASS این fixtureها منطق محلی را اثبات می‌کند؛ workflow زنده، دو حساب GitHub مستقل و دو نشست ChatGPT هنوز نیازمند E2E هستند.
