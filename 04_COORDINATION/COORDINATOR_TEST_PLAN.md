@@ -16,6 +16,7 @@
 - accept با PR که در بدنه Issue لینک نشده: رد شود.
 - دو Issue متفاوت با RESOURCE_KEY مشترک: فقط یک claim موفق.
 - دو Issue با RESOURCE_KEYهای disjoint: هر دو claim موفق.
+- دو worker روی یک Issue با RESOURCE_KEYهای disjoint: claim دوم رد شود؛ یک TASK فقط یک owner فعال دارد.
 - چند claim برای یک Issue: فقط یک lease معتبر.
 - comment ID تکراری: بدون token یا عملیات تکراری.
 - actor غیرمجاز: رد.
