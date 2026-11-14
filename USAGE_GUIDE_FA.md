@@ -4,7 +4,7 @@
 
 پیش از اجرای واقعی چندچتی، وضعیت و محدودیت‌های جاری را در [ارزیابی آمادگی چندچتی](04_COORDINATION/MULTI_CHAT_READINESS.md) بررسی کن.
 
-**اکنون:** مخزن PUBLIC است، PR شماره ۱ هنوز ادغام نشده و فایل‌های کامل در شاخه `setup/control-plane-bootstrap` قرار دارند؛ `main` فعلاً فقط README دارد. برای آزمایش عمومی/غیرمحرمانه از [START_HERE شاخه معتبر](https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/setup/control-plane-bootstrap/START_HERE.md) شروع کن و همه فایل‌ها را از همان ref بخوان. تا زمان خصوصی‌سازی، اطلاعات محرمانه، secret، PII و داده مشتری ثبت نکن.
+**اکنون:** مخزن PUBLIC است و PR شماره ۱ در commit `b8cf85cfd6552028750eefa3cff03d844175814c` در `main` ادغام شده است؛ `main` مرجع فعال است. برای آزمایش عمومی/غیرمحرمانه از [START_HERE](https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/START_HERE.md) شروع کن و همه فایل‌ها را از همان ref بخوان. تا زمان خصوصی‌سازی، اطلاعات محرمانه، secret، PII و داده مشتری ثبت نکن.
 
 **پیش از اجرای چندچتی عمومی و واقعی:** PR شماره ۱ باید مستقل بازبینی و ادغام شود، دسترسی نوشتن GitHub Actions و دسترسی حساب‌های مستقل بررسی شود و آزمون واقعی دو حساب انجام شود. خصوصی‌سازی فقط زمانی لازم است که قرار باشد اطلاعات محرمانه/داخلی نگهداری شود؛ در حالت فعلی public-safe mode حفظ می‌شود.
 
@@ -40,7 +40,7 @@
 
 ## وضعیت هماهنگ‌کننده خودکار
 
-workflow جدید .github/workflows/farast-coordinator.yml روی شاخه PR #1 پیاده‌سازی شده است، اما تا ادغام PR #1 در default branch فعال عملیاتی نیست. پس از ادغام، اجرای schedule پنج‌دقیقه‌ای، workflow_dispatch و دسترسی‌های Actions باید بررسی شوند.
+workflow جدید .github/workflows/farast-coordinator.yml روی شاخه PR #1 پیاده‌سازی شده است، اما پس از ادغام PR #1 در default branch فعال شده است؛ اجرای زنده و دسترسی write باید بررسی شود. پس از ادغام، اجرای schedule پنج‌دقیقه‌ای، workflow_dispatch و دسترسی‌های Actions باید بررسی شوند.
 
 برای هر وظیفه، در Issue یک بخش Resource keys با کلیدهای دقیق و canonical ثبت کن. سپس از دستورهای 04_COORDINATION/COORDINATOR_COMMANDS.md استفاده کن:
 - claim: /farast claim chat=CHAT_ALIAS run=RUN_ID lease=30
@@ -50,3 +50,7 @@ workflow جدید .github/workflows/farast-coordinator.yml روی شاخه PR #1
 فقط پس از پاسخ CLAIM GRANTED و read-back رجیستری اجازه write داری. اگر workflow پاسخ نداد، timeout شد یا روی default branch فعال نبود، STOP WRITES. هیچ چتی حق نوشتن مستقیم ACTIVE_LOCKS.json یا fallback به CAS مستقیم ندارد. برای جزئیات، محدودیت‌ها و برنامه آزمون به COORDINATOR_COMMANDS.md، COORDINATOR_TEST_PLAN.md و LEGACY_COORDINATOR_MIGRATION.md مراجعه کن.
 
 آزمون واقعی دو حساب مستقل و contention هنوز انجام نشده است؛ بنابراین اجرای کامل چندچتی تا پایان این آزمون‌ها تأییدشده محسوب نمی‌شود.
+
+
+## هدف‌های خرد و ادامه بین چت‌ها
+برای هر برگ اجرایی یک Issue مستقل با WORK_ITEM_ID پایدار بساز. دستورهای `/farast step`, `/farast criterion`, `/farast progress`, `/farast checkpoint` برای ثبت evidence، محاسبه درصد و checkpoint هستند. جزئیات انتخاب عادلانه، dependency، resume و وضعیت‌ها در `04_COORDINATION/WORK_ITEM_EXECUTION_PROTOCOL.md` است. این قابلیت تا تکمیل CI و آزمون E2E چندحسابی آماده عملیاتی تلقی نمی‌شود.
