@@ -45,7 +45,7 @@
 ## قفل و هماهنگی چندعاملی
 - کارهای read-only موازی‌اند.
 - برای هر write، ابتدا در Issue مربوط فرمان /farast claim chat=CHAT_ID run=RUN_ID lease=30 ثبت کن.
-- branch صادرشده برای هر RUN را دقیقاً در target_repository بساز؛ در handoff، RUN جدید از آخرین commit تأییدشده branch قبلی branch جدید می‌سازد و branch قبلی را تغییر نمی‌دهد.
+- branch صادرشده برای هر RUN را دقیقاً در target_repository بساز. اگر CLAIM GRANTED شامل previous_branch بود، branch قبلی را read-only بررسی کن، آخرین checkpoint معتبر را در مخزن هدف تأیید و branch جدید را از همان commit بساز؛ workflow فقط lineage را اعلام می‌کند و branch محصول را خودکار ایجاد نمی‌کند. اگر commit پایه قابل اثبات نیست STOP WRITES.
 - فقط پاسخ صریح CLAIM GRANTED به‌همراه read-back رجیستری و token مجوز نوشتن است.
 - پیش از هر write/checkpoint، /farast heartbeat chat=CHAT_ID run=RUN_ID token=FENCING_TOKEN lease=30 را اجرا کن.
 - release/review/block فقط با actor/chat/run/token منطبق مجاز است؛ جزئیات در 04_COORDINATION/COORDINATOR_COMMANDS.md.
@@ -67,3 +67,6 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 
 ## اگر کاربر گفت «ادامه بده»
 از آخرین TASK_ID، checkpoint، branch، commit، شواهد و اقدام ناتمام ادامه بده؛ هیچ خروجی را از نو تولید نکن. اگر چند TASK هم‌زمان محتمل است و ارتباط مکالمه برای تشخیص کافی نیست، فقط یک سؤال درباره TASK_ID بپرس.
+
+
+**قفل و handoff چندچتی:** فقط `/farast claim|heartbeat|release|review` مجاز است؛ نوشتن مستقیم رجیستری `coordination/locks` ممنوع است. هر RUN branch یکتا دارد؛ branch مصرف‌شده قابل claim مجدد نیست. worker جدید از previous_branch و checkpoint تأییدشده branch جدید می‌سازد و branch قدیمی را تغییر نمی‌دهد.
