@@ -60,4 +60,8 @@ Coordinator مقدار branch را به‌صورت work/GH-ISSUE_NUMBER-RUN_ID �
 
 
 ## تفویض اختیار فرمان‌های چندچتی
-سیاست فعال در `04_COORDINATION/ACTOR_AUTHORIZATION.json` اعمال می‌شود: OWNER همه فرمان‌ها را دارد؛ COLLABORATOR/MEMBER به‌صورت پیش‌فرض نقش WORKER می‌گیرند (claim/heartbeat/release/status/block/review) و حق unblock/reopen/accept ندارند. نقش SENIOR_MANAGER تمام فرمان‌ها را فقط پس از درج دقیق GitHub login در `actor_roles` و تأیید مالک دریافت می‌کند. READ_ONLY فقط status دارد. `actor_roles` فعلاً خالی است؛ بنابراین هیچ مدیر ارشدی به‌صورت حدسی مجاز نشده است. تغییر این فایل باید از PR و با تأیید مالک انجام شود.
+سیاست فعال در `04_COORDINATION/ACTOR_AUTHORIZATION.json` اعمال می‌شود: OWNER همه فرمان‌ها را دارد؛ COLLABORATOR/MEMBER به‌صورت پیش‌فرض نقش WORKER می‌گیرند (claim/heartbeat/release/status/block/review) و حق unblock/reopen/accept ندارند. نقش SENIOR_MANAGER تمام فرمان‌ها را فقط پس از درج دقیق GitHub login در `actor_roles` و تعیین دقیق `repositories` و `resource_key_prefixes` در `actor_scopes`، با تأیید مالک دریافت می‌کند؛ خارج از آن scope فرمان رد می‌شود. READ_ONLY فقط status دارد. `actor_roles` فعلاً خالی است؛ بنابراین هیچ مدیر ارشدی به‌صورت حدسی مجاز نشده است. تغییر این فایل باید از PR و با تأیید مالک انجام شود.
+
+
+### نمونه تفویض محدود
+برای یک مدیر ارشد، هر دو بخش `actor_roles[login]=SENIOR_MANAGER` و `actor_scopes[login]` باید تنظیم شوند. `repositories` فهرست دقیق owner/name و `resource_key_prefixes` پیشوندهای دقیق مانند `module:commerce` یا `file:src/commerce` هستند. claim یا هر فرمان دیگر خارج از هرکدام از این محدوده‌ها رد می‌شود. خالی بودن actor_scopes به معنی عدم تفویض است.
