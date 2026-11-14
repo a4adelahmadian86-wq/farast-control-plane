@@ -55,6 +55,17 @@ function claimResources(state, args) {
   return { ok: true, fencingToken, expiresAt, resourceKeys: keys };
 }
 
+function renewLease(currentLocks, leaseMinutes, nowMs = Date.now()) {
+  if (!currentLocks.length) return { ok: false };
+  const heartbeatAt = new Date(nowMs).toISOString();
+  const expiresAt = new Date(nowMs + leaseMinutes * 60000).toISOString();
+  for (const lock of currentLocks) {
+    lock.heartbeat_at_utc = heartbeatAt;
+    lock.lease_expires_at_utc = expiresAt;
+  }
+  return { ok: true, heartbeatAt, expiresAt };
+}
+
 function ownsLease(currentLocks, actor, chatId, runId, token) {
   return currentLocks.length > 0 && Number(token) > 0 &&
     currentLocks.every(x => x.actor === actor && x.chat_id === chatId &&
@@ -75,5 +86,5 @@ function hasIndependentApproval(reviews, pr, workerActor, acceptActor) {
 
 module.exports = {
   resourcesFor, targetRepositoryFor, expireLocks, activeForIssue,
-  claimResources, ownsLease, matchesReviewLease, hasIndependentApproval
+  claimResources, renewLease, ownsLease, matchesReviewLease, hasIndependentApproval
 };
