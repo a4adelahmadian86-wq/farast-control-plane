@@ -36,7 +36,7 @@ api-contract:payment-callback
 پاسخ موفق claim باید دقیقاً شامل عبارت **CLAIM GRANTED**، کلیدهای منبع، زمان پایان lease و fencing token باشد. بدون این پاسخ، claim موفق نیست.
 
 ## قواعد
-1. Claim همه RESOURCE_KEYهای Issue را یکجا می‌گیرد یا هیچ‌کدام را؛ هر Issue در هر لحظه فقط یک owner فعال دارد، حتی اگر دو worker منابع disjoint درخواست کنند.
+1. Claim همه RESOURCE_KEYهای Issue را یکجا می‌گیرد یا هیچ‌کدام را؛ هر Issue در هر لحظه فقط یک owner فعال دارد، حتی اگر دو worker منابع disjoint درخواست کنند. branch قبلی یک Issue نیز قابل استفاده مجدد نیست؛ برای هر RUN شناسه یکتا لازم است.
 2. یک fencing token برای کل مجموعه منابع یک claim صادر می‌شود.
 3. lease پیش‌فرض ۳۰ دقیقه و بازه مجاز ۵ تا ۱۲۰ دقیقه است.
 4. heartbeat/release/block/review فقط با actor، chat، run و token منطبق مجاز است.
@@ -56,4 +56,4 @@ GitHub هویت واقعی ChatGPT chat را تأیید نمی‌کند. CHAT_ID
 
 
 ## Branch وظیفه
-Coordinator مقدار branch را به‌صورت work/GH-ISSUE_NUMBER-RUN_ID در رجیستری ثبت می‌کند. worker دارنده lease باید همان branch را ایجاد کند. در handoff یا lease expiry، RUN جدید branch و target_repository قبلی را از history رجیستری پیدا می‌کند و از آخرین commit تأییدشده آن branch، branch جدید می‌سازد؛ branch قبلی را تغییر نمی‌دهد. پذیرش PR فقط از branch آخرین رویداد REVIEW همان lease ممکن است. هیچ worker دیگری بدون claim معتبر حق نوشتن در آن branch را ندارد.
+Coordinator مقدار branch را به‌صورت work/GH-ISSUE_NUMBER-RUN_ID در رجیستری ثبت می‌کند و در claim بعدی previous_run/previous_branch/previous_target_repository را از history بازمی‌گرداند. خود workflow در مخزن هدف branch نمی‌سازد؛ worker دارنده lease باید target repository و branch را دقیقاً مطابق پاسخ claim بسازد. اگر previous_branch وجود داشت، worker ابتدا آن branch را read-only بررسی کند، آخرین commit تأییدشده/checkpoint را از سابقه کار استخراج و صحت آن را در target repository تأیید کند، سپس branch جدید را از همان commit بسازد؛ branch قبلی را هرگز تغییر ندهد. اگر checkpoint معتبر قابل تعیین نیست، قبل از هر write متوقف و گزارش دهد. branch استفاده‌شده قبلی برای همان Issue دوباره قابل claim نیست؛ RUN_ID جدید الزامی است. پذیرش PR فقط از branch آخرین رویداد REVIEW همان lease ممکن است.
