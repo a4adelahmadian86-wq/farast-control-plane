@@ -7,7 +7,7 @@
 2. تا وقتی PR شماره ۱ باز است، همه فایل‌های مرجع را با `ref=setup/control-plane-bootstrap` بخوان؛ `main` فعلاً فقط README دارد. پیش از هر اجرا وضعیت زنده PR را بررسی کن و فقط پس از ادغام و تأیید وجود فایل‌ها به main منتقل شو.
 3. `START_HERE.md` و تمام اسناد مرجع معرفی‌شده در آن را بخوان؛ به‌ویژه `SOURCE_REQUIREMENTS_v2.md` و `CONTROL_PLANE_REQUIREMENTS.md`.
 3. `MASTER_STATUS.md`، TASKها، PRها، feedbackها و آخرین checkpointها را از GitHub زنده بازیابی کن.
-4. قفل‌ها را از branch مستقل `coordination/locks` و فایل `04_COORDINATION/ACTIVE_LOCKS.json` بخوان.
+4. وضعیت قفل‌ها را از branch مستقل coordination/locks و فایل 04_COORDINATION/ACTIVE_LOCKS.json فقط read-only بخوان؛ برای claim فقط از فرمان coordinator استفاده کن.
 5. پرامپت تخصصی مربوط را از `05_PROMPT_LIBRARY/` بخوان.
 
 
@@ -45,6 +45,7 @@
 ## قفل و هماهنگی چندعاملی
 - کارهای read-only موازی‌اند.
 - برای هر write، ابتدا در Issue مربوط فرمان /farast claim chat=CHAT_ID run=RUN_ID lease=30 ثبت کن.
+- branch صادرشده برای هر RUN را دقیقاً در target_repository بساز؛ در handoff، RUN جدید از آخرین commit تأییدشده branch قبلی branch جدید می‌سازد و branch قبلی را تغییر نمی‌دهد.
 - فقط پاسخ صریح CLAIM GRANTED به‌همراه read-back رجیستری و token مجوز نوشتن است.
 - پیش از هر write/checkpoint، /farast heartbeat chat=CHAT_ID run=RUN_ID token=FENCING_TOKEN lease=30 را اجرا کن.
 - release/review/block فقط با actor/chat/run/token منطبق مجاز است؛ جزئیات در 04_COORDINATION/COORDINATOR_COMMANDS.md.
