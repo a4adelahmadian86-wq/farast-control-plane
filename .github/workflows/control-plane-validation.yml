@@ -44,6 +44,10 @@ jobs:
             04_COORDINATION/HANDOFF_PROTOCOL.md
             04_COORDINATION/ACCEPTANCE_FRAMEWORK.md
             04_COORDINATION/LEGACY_COORDINATOR_MIGRATION.md
+            04_COORDINATION/COORDINATOR_COMMANDS.md
+            04_COORDINATION/COORDINATOR_TEST_PLAN.md
+            .github/workflows/farast-coordinator.yml
+            .github/ISSUE_TEMPLATE/farast-task.yml
             .github/PULL_REQUEST_TEMPLATE.md
             05_PROMPT_LIBRARY/MASTER-00.md
             05_PROMPT_LIBRARY/PROMPT_CATALOG.md
@@ -87,6 +91,14 @@ jobs:
           assert "setup/control-plane-bootstrap" in start_here
           assert "WORK_ORDER_SCHEMA.json" in start_here and "CHECKPOINT_SCHEMA.json" in start_here
           assert "HANDOFF_PROTOCOL.md" in start_here and "ACCEPTANCE_FRAMEWORK.md" in start_here
+          coordinator = Path(".github/workflows/farast-coordinator.yml").read_text(encoding="utf-8")
+          for required in ("farast-control-plane-single-writer", "schedule:", "issue_comment:", "processed_operations", "FARAST_OP_RESPONSE:", "coordination/locks", "pulls.listReviews"):
+              assert required in coordinator, required
+          commands = Path("04_COORDINATION/COORDINATOR_COMMANDS.md").read_text(encoding="utf-8")
+          assert "CLAIM GRANTED" in commands and "FENCING_TOKEN" in commands
+          for n in range(1, 18):
+              p = list(Path("05_PROMPT_LIBRARY").glob(f"PR-{n:02d}_*.md"))[0]
+              assert "COORDINATOR_COMMANDS.md" in p.read_text(encoding="utf-8"), p
           legacy = Path("04_COORDINATION/LEGACY_COORDINATOR_MIGRATION.md").read_text(encoding="utf-8")
           assert "PR #479" in legacy and "CAS" in legacy
           assert "LEGACY_COORDINATOR_MIGRATION.md" in start_here
