@@ -38,6 +38,7 @@ jobs:
             const owner = context.repo.owner;
             const repo = context.repo.repo;
             const coordinatorCore = require(process.env.GITHUB_WORKSPACE + '/.github/scripts/coordinator-core.js');
+            const authorizationPolicy = require(process.env.GITHUB_WORKSPACE + '/04_COORDINATION/ACTOR_AUTHORIZATION.json');
             const registryBranch = 'coordination/locks';
             const { getOctokit } = require('@actions/github');
             const crossRepoGithub = process.env.FARAST_GITHUB_TOKEN ? getOctokit(process.env.FARAST_GITHUB_TOKEN) : null;
@@ -129,8 +130,9 @@ jobs:
               let response = '';
               let nextStatus = null;
 
-              if (!allowedAssociations.has(comment.author_association)) {
-                response = 'فرمان رد شد: حساب فرستنده در مخزن عضو/همکار/مالک مجاز شناخته نشده است.';
+              if (!allowedAssociations.has(comment.author_association) || !coordinatorCore.isCommandAllowed(authorizationPolicy, actor, comment.author_association, command)) {
+                const role = coordinatorCore.roleForActor(authorizationPolicy, actor, comment.author_association) || 'UNASSIGNED';
+                response = 'فرمان رد شد: نقش ' + role + ' اجازه اجرای فرمان /farast ' + command + ' را ندارد یا حساب در مخزن مجاز نیست. تغییر نقش فقط با تأیید مالک و در ACTOR_AUTHORIZATION.json انجام می‌شود.';
               } else {
                 expireLocks(state);
                 const current = activeForIssue(state, issue.number);
