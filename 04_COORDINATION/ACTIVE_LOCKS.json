@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 53,
+  "revision": 54,
   "next_fencing_token": 53,
   "locks": [
     {
@@ -729,7 +729,7 @@
     },
     "6881367486": {
       "response": "CLAIM GRANTED. TASK=GH-9; WORK_ITEM_ID=WI-CP-INDEPENDENT-C; verified_steps=; remaining_steps=S1; progress=0%; actor=@a4adelahmadian86-wq; chat=parallel-chat-C; run=independent-C-001; resource_keys=module:independent-resource-smoke; target_repository=a4adelahmadian86-wq/farast-control-plane; branch=work/GH-9-independent-C-001; previous_run=none; fencing_token=52; lease_expires=2026-11-14T17:26:53.245Z. پیش از هر write و checkpoint، heartbeat را تمدید و token را بررسی کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز؛ هرگز branch قبلی را تغییر نده.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 9,
       "actor": "a4adelahmadian86-wq",
       "command": "claim",
