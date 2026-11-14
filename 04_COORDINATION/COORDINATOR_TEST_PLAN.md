@@ -20,6 +20,7 @@
 - comment ID تکراری: بدون token یا عملیات تکراری.
 - actor غیرمجاز: رد.
 - heartbeat با actor/chat/run/token اشتباه: رد.
+- heartbeat معتبر: expiry تمدید و event آن در history مرکزی ثبت شود.
 - release با token قدیمی: رد.
 - lease منقضی: پاک‌سازی و ثبت history.
 - timeout پس از commit رجیستری و قبل از پاسخ: پاسخ با marker بازیابی شود.
