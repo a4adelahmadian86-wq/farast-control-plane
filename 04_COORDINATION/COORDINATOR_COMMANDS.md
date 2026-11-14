@@ -33,6 +33,8 @@ api-contract:payment-callback
 
 مقادیر CHAT_ID و RUN_ID شناسه‌های metadata هستند و هویت واقعی مکالمه را اثبات نمی‌کنند. هویت مجاز از actor GitHub و author_association بررسی می‌شود.
 
+پاسخ موفق claim باید دقیقاً شامل عبارت **CLAIM GRANTED**، کلیدهای منبع، زمان پایان lease و fencing token باشد. بدون این پاسخ، claim موفق نیست.
+
 ## قواعد
 1. Claim همه RESOURCE_KEYهای Issue را یکجا می‌گیرد یا هیچ‌کدام را.
 2. یک fencing token برای کل مجموعه منابع یک claim صادر می‌شود.
