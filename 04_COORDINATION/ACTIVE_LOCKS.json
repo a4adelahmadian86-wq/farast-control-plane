@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 66,
+  "revision": 67,
   "next_fencing_token": 54,
   "locks": [
     {
@@ -812,6 +812,15 @@
       "command": "progress",
       "next_status": null,
       "at_utc": "2026-11-14T17:27:45.180Z"
+    },
+    "6881471367": {
+      "response": "STEP ثبت شد: S1_SCAN; progress=20%; verified=1/5.",
+      "response_posted": false,
+      "issue_number": 11,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-14T17:30:02.281Z"
     }
   },
   "work_items": {
@@ -936,7 +945,7 @@
       "parent_exp_ids": [
         "EXP-01"
       ],
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "coordination:work-item-allocation"
@@ -945,7 +954,16 @@
       "steps": [
         {
           "step_id": "S1_SCAN",
-          "title": "Read GOAL_TREE, EXP workflow, dependency graph and all existing Work Item issues"
+          "title": "Read GOAL_TREE, EXP workflow, dependency graph and all existing Work Item issues",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/01_STRATEGY/GOAL_TREE.md",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/01_STRATEGY/DEPENDENCY_GRAPH.json",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/00_PROJECT_FOUNDATION/SPECIALIST_WORKFLOW.md"
+          ],
+          "validated_at_utc": "2026-11-14T17:30:02.098Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S2_DECOMPOSE",
