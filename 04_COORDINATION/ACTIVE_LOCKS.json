@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 30,
+  "revision": 31,
   "next_fencing_token": 50,
   "locks": [
     {
@@ -538,6 +538,15 @@
       "command": "progress",
       "next_status": null,
       "at_utc": "2026-11-14T17:11:35.753Z"
+    },
+    "6881243893": {
+      "response": "STEP ثبت شد: S1; progress=100%; verified=1/1.",
+      "response_posted": false,
+      "issue_number": 5,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-14T17:12:06.460Z"
     }
   },
   "work_items": {
@@ -551,7 +560,7 @@
       "parent_exp_ids": [
         "EXP-01"
       ],
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "module:coordinator-smoke-test"
@@ -560,7 +569,15 @@
       "steps": [
         {
           "step_id": "S1",
-          "title": "Confirm coordinator action and registry write"
+          "title": "Confirm coordinator action and registry write",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/43619737606",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/5#issuecomment-6881217770"
+          ],
+          "validated_at_utc": "2026-11-14T17:12:06.454Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "acceptance_criteria": [
