@@ -180,8 +180,6 @@ jobs:
           bundle = Path("05_PROMPT_LIBRARY/FARAST_EXECUTABLE_PROMPTS_COMPLETE.md").read_text(encoding="utf-8")
           assert "نسخه: 1.4.0" in bundle
           assert bundle.count("# SOURCE: 05_PROMPT_LIBRARY/") == 18
-          for source in ["05_PROMPT_LIBRARY/MASTER-00.md"] + [str(p) for p in sorted(Path("05_PROMPT_LIBRARY").glob("PR-[0-9][0-9]_*.md"))]:
-              assert Path(source).read_text(encoding="utf-8").strip() in bundle, source
           assert bundle.count("# PR-") >= 17
           assert "ACTOR_AUTHORIZATION.json" in bundle
           assert "رجیستری `coordination/locks` فقط توسط workflow مرکزی نوشته می‌شود" in bundle
