@@ -1,71 +1,53 @@
 # گزارش آماده‌سازی ساختار ۱۷×۲۷ FARAST
 
 تاریخ: 2026-11-15  
-شاخه اجرا: `work/GH-11-RUN-20261115-PROMPT-PREP-01`  
-Work Item مالک تغییرات: `WI-GOAL-ALLOCATOR-001` / Issue #11  
-Claim: `RUN-20261115-PROMPT-PREP-01`, fencing token 58  
-مخزن هدف: `a4adelahmadian86-wq/farast-control-plane`
+شاخه اجرا: work/GH-11-RUN-20261115-PROMPT-PREP-01  
+Work Item مالک تغییرات: WI-GOAL-ALLOCATOR-001 / Issue #11  
+Claim: RUN-20261115-PROMPT-PREP-01، fencing token 58  
+مخزن هدف: a4adelahmadian86-wq/farast-control-plane
 
-## دامنه تحویل این تغییر
-
+## ساختار تحویل
 - یک هدف کلان G-00.
-- ۱۷ پرامپت تخصصی مستقل PR-01 تا PR-17؛ MASTER-00 نقش هماهنگ‌کننده دارد و جزو ۱۷ پرامپت نیست.
-- ۲۷ مأموریت عمیق EXP-01 تا EXP-27، با نگاشت صریح به پرامپت‌ها.
-- استاندارد عمق هر leaf: حداقل ۶ گام substantive، ۴ معیار پذیرش، ۳ deliverable، evidence requirement و effort هدف ۲۰–۳۰ دقیقه.
-- سه شاخص مستقل پیشرفت: EXECUTION_PROGRESS، ACCEPTANCE_PROGRESS و OVERALL_COMPLETION.
-- claim/lease/owner/blocker مستقل از درصد پیشرفت نگه داشته می‌شوند.
+- ۱۷ پرامپت تخصصی مستقل PR-01 تا PR-17؛ MASTER-00 فقط هماهنگ‌کننده است و جزو ۱۷ پرامپت نیست.
+- ۲۷ مأموریت عمیق EXP-01 تا EXP-27.
+- هر EXP: هفت گام substantive، حداقل چهار معیار پذیرش، حداقل سه deliverable، evidence requirement و effort هدف ۲۵ دقیقه.
+- زمان ۲۰–۳۰ دقیقه effort هدف است، نه الزام به اتلاف زمان.
 
-## تغییرات انجام‌شده
-
-| بخش | نتیجه |
+## اجزای تحویل
+| بخش | وضعیت |
 |---|---|
-| سند نگاشت ۱۷×۲۷ | ساخته شد؛ ۲۷ مأموریت با مراحل و خروجی تخصصی |
-| استاندارد عمق Work Item | ساخته شد |
-| پروتکل گزارش پیشرفت | ساخته شد |
-| MASTER-00 | قرارداد عمق و پیشرفت اضافه شد |
-| ۱۷ پرامپت تخصصی | قرارداد مشترک به ۱۷/۱۷ فایل مستقل افزوده شد |
-| bundle تجمیعی | نسخه 1.9.0؛ ۱۸ منبع (MASTER-00 + ۱۷ prompt) همگام شد |
-| Work Item Schema | effort, depth_profile, deliverables, step outputs/evidence و وزن معیارها افزوده شد |
-| Checkpoint Schema | سه درصد جداگانه و شمارنده‌های step/criteria افزوده شد |
-| Progress engine | محاسبه واقعی سه درصد در work-item-core و گزارش آن در /farast progress/step/criterion/checkpoint پیاده شد |
-| Depth enforcement | work-item-core برای Work Itemهایی که depth_profile دارند، عمق ۶/۴/۳، effort و evidence را validate می‌کند |
-| Work Item Execution Protocol | استاندارد عمق و گزارش سه‌گانه به پروتکل اجرایی متصل شد |
-| START_HERE و Prompt Catalog | لینک‌ها و ترتیب اجرای اسناد افزوده شد |
-| Issue Template | ساخت Work Item عمیق را به فرم ایجاد Issue متصل کرد |
-| CI validation | اعتبارسنجی نگاشت ۱۷×۲۷، وجود اسناد، قرارداد promptها و schemaهای جدید افزوده شد |
+| نگاشت ۱۷ پرامپت به ۲۷ EXP | تکمیل؛ هر EXP دامنه، مراحل و خروجی تخصصی دارد |
+| MASTER-00 و ۱۷ پرامپت مستقل | قرارداد عمق و پیشرفت در ۱۸/۱۸ فایل درج شده |
+| bundle تجمیعی | نسخه 1.9.0؛ از ۱۸ منبع واقعی بازسازی و همگام شده |
+| Work Item Schema | effort، depth_profile، deliverables، step evidence و acceptance weighting |
+| Checkpoint Schema | سه درصد، نسخه محاسبه و شمارنده‌های گام/معیار |
+| Progress engine | محاسبه واقعی سه درصد در work-item-core |
+| Coordinator | گزارش سه درصد در progress/step/criterion/checkpoint؛ refresh امن فقط برای OWNER |
+| Depth enforcement | اگر depth_profile موجود باشد، core حداقل عمق، effort و evidence را validate می‌کند |
+| Issue Template و CI | فرم ایجاد Work Item عمیق و آزمون‌های schema، prompt، چندچتی، progress و refresh |
 
-## وضعیت ۲۷ Issue اجرایی
+## وضعیت ۲۷ Issue
+Read-back زنده نشان داد **۲۷/۲۷ Issue از #13 تا #39** دارای:
+- ۷ گام اجرایی با expected_output و evidence_requirement؛
+- حداقل ۴ معیار پذیرش با evidence_requirement؛
+- حداقل ۳ deliverable با evidence_requirement؛
+- effort_estimate_minutes=25 و depth_profile نسخه 2.0.0.
 
-- Issueهای #14 تا #39 (EXP-02 تا EXP-27): **۲۶/۲۶ غنی‌سازی شدند**؛ هرکدام ۷ گام، ۴ معیار پذیرش، ۳ یا ۴ deliverable و effort هدف ۲۵ دقیقه دارند.
-- Issue #13 (EXP-01): پس از انقضای lease قبلی، body و JSON آن در GitHub به قالب عمیق ارتقا یافت: ۷ گام تخصصی، ۵ معیار پذیرش، ۴ خروجی و effort هدف ۲۵ دقیقه. با این حال registry مرکزی هنوز نسخه قدیمی ۴ گام/۳ معیار را نگه می‌دارد. coordinator فعال در `main` فرمان `refresh` را نمی‌شناسد؛ PR #42 فرمان owner-only `/farast refresh` را اضافه می‌کند. پس از ادغام PR با review مستقل، باید این فرمان روی Issue #13 اجرا شود تا registry بدون از دست‌دادن evidence همگام شود. تا آن زمان Issue #13 از نظر Issue body عمیق است اما از نظر registry `DEPTH_SYNC_PENDING`.
-- هیچ‌یک از این Work Itemها به‌دلیل غنی‌سازی، اجراشده یا پذیرفته‌شده محسوب نمی‌شوند؛ وضعیت کار و progress فقط با evidence واقعی تغییر می‌کند.
+Issueهای #14 تا #39 در registry هنوز ذخیره نشده‌اند؛ هنگام اولین claim، JSON عمیق را از Issue body می‌خوانند.
+
+### همگام‌سازی registry برای Issue #13
+Issue #13 هنگام lease فعال دست‌نخورده ماند و پس از انقضای lease، body/JSON آن به عمق جدید ارتقا یافت. رجیستری مرکزی هنوز نسخه قبلی چهارمرحله‌ای را نگه می‌دارد. فرمان /farast refresh برای همگام‌سازی امن در همین PR پیاده شده، اما تا merge شدن PR #42 روی main فعال نیست. پس از merge، مالک باید /farast refresh را روی Issue #13 اجرا کند؛ این کار progress را به‌صورت خودکار از گام‌ها و معیارهای جدید محاسبه می‌کند. تا آن زمان registry13Steps=4 و Issue body=7 steps است.
 
 ## اعتبارسنجی
-
-- Read-back زنده نشان داد ۲۶ Issue دارای `effort_estimate_minutes=25`، ۷ گام، ۴ معیار و حداقل ۳ deliverable هستند.
-- MASTER-00 و bundle بررسی شدند؛ قرارداد در ۱۸/۱۸ بخش bundle وجود دارد.
-- JSON Schemaهای Work Item و Checkpoint از GitHub بازخوانی شدند و workflow اعتبارسنجی روی آخرین head `3cd423e89b93d6dedad5122da36ef38fa79e7d94` با موفقیت کامل شد: [Control Plane Validation run #865](https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/43735999137).
-- آزمون end-to-end واقعی دو حساب مستقل در دامنه این تغییر انجام نشده و ادعای VERIFIED چندحسابی جدید صادر نمی‌شود.
+- بررسی زنده ۲۷/۲۷ Issue: همه ۲۷ مورد با عمق و evidence requirement معتبر.
+- CI run #867 روی head commit 7c008e00a0f66a6850525653c4ef07505c4f8906 موفق شد؛ تمام مراحل validate، contention/fencing، progress/resume، JSON/schema و prompt bootstrap PASS شدند.
+- پس از آخرین تغییرات گزارش و command refresh، اجرای CI مجدد روی head نهایی PR لازم است.
+- آزمون end-to-end واقعی دو حساب مستقل و دو نشست مستقل انجام نشده؛ چندحسابی VERIFIED اعلام نمی‌شود.
 
 ## مرز ایمنی
+- هیچ فایل، branch، PR، داده یا محیطی در مخزن محصول a4adelahmadian86-wq/non تغییر نکرد.
+- هیچ merge، deploy، migration یا تغییر داده عملیاتی انجام نشده است.
+- PR #42 باز و merge نشده و review مستقل هنوز ثبت نشده است.
 
-- هیچ فایل، branch، PR، داده یا محیطی در مخزن محصول `a4adelahmadian86-wq/non` تغییر نکرد.
-- این تغییر صرفاً زیرساخت و اسناد control-plane است.
-- merge شدن PR و release عملیاتی همچنان تابع review/approval مستقل است.
-
-
-## وضعیت نهایی PR و موانع تحویل
-
-- PR شماره 42 باز و merge نشده است؛ head فعلی `3cd423e89b93d6dedad5122da36ef38fa79e7d94` و CI آخرین commit سبز است.
-- بازبینی مستقل هنوز ثبت نشده است؛ فهرست reviews خالی است. بنابراین ادغام خودکار یا تأیید به‌جای بازبین مستقل انجام نشده است.
-- آزمون واقعی E2E با دو حساب مستقل و دو نشست مستقل هنوز اجرا نشده؛ قابلیت چندحسابی VERIFIED اعلام نمی‌شود.
-- Issue #13 تنها Work Item از ۲۷ مورد است که تبدیل ساختاری آن به عمق جدید به‌دلیل Claim مستقل فعال به تعویق افتاده است. سایر Issueهای #14 تا #39 با read-back زنده دارای ۷ گام، ۴ معیار، حداقل ۳ خروجی و effort هدف ۲۵ دقیقه‌اند.
-- مخزن محصول `a4adelahmadian86-wq/non` در تمام این کارها READ_ONLY باقی مانده است.
-
-
-## همگام‌سازی registry و مرزهای تحویل
-
-- Read-back شاخه `coordination/locks` نشان داد registry مرکزی فعلاً ۶ Work Item ذخیره‌شده دارد؛ Issue #13 در آن هنوز ساختار قدیمی ۴/۳ را دارد. Issueهای #14 تا #39 در registry ذخیره نشده‌اند و هنگام claim اولیه از body عمیق فعلی خود بارگذاری خواهند شد.
-- Issue #13 اکنون body عمیق v2.0 دارد، اما تلاش `/farast refresh` در workflow فعال `main` بی‌اثر است، زیرا command فقط در شاخه PR #42 پیاده‌سازی شده و هنوز فعال نشده است.
-- پس از review مستقل و merge مجاز PR #42، فرمان owner-only `/farast refresh` را برای Issue #13 اجرا کنید؛ سپس progress/step/checkpoint را از registry read-back کنید.
-- PR #42 باز و merge‌نشده است. هیچ review مستقلی ثبت نشده و آزمون واقعی E2E دو حساب مستقل نیز انجام نشده است؛ این دو مورد هنوز مانع ادعای تحویل نهایی زیرساخت چندحسابی‌اند.
+## یادداشت فرایندی
+یک فایل گزارش وضعیت در commit جداگانه 2cffae4 به‌اشتباه مستقیماً روی main ایجاد شد؛ این commit فقط شامل سند گزارش است و هیچ کد اجرایی یا داده محصولی را تغییر نداده است. نسخه نهایی و اصلاح‌شده همین گزارش نیز در این PR قرار دارد تا تغییر مستندات در بازبینی نهایی دیده شود.
