@@ -174,7 +174,7 @@ jobs:
               const state = snapshot.state;
               const id = String(comment.id);
               if (state.processed_operations?.[id]) return snapshot;
-              const match = comment.body.match(/^\s*\/farast\s+(claim|heartbeat|release|status|progress|step|criterion|checkpoint|block|unblock|review|reopen|accept)\b([\s\S]*)$/i);
+              const match = comment.body.match(/^\s*\/farast\s+(claim|heartbeat|release|status|progress|step|criterion|checkpoint|block|unblock|review|reopen|accept|refresh)\b([\s\S]*)$/i);
               if (!match) return snapshot;
               const command = match[1].toLowerCase();
               const args = parseArgs(match[2]);
@@ -193,7 +193,37 @@ jobs:
                 expireLocks(state);
                 const current = activeForIssue(state, issue.number);
                 const owned = coordinatorCore.ownsLease(current, actor, chat, run, token);
-                if (command === 'claim') {
+                if (command === 'refresh') {
+                  if (current.length) {
+                    response = 'Refresh رد شد: ابتدا lease فعال باید با فرمان release معتبر آزاد شود.';
+                  } else {
+                    const fresh = workItemSpecFor(issue);
+                    const previous = state.work_items?.[issue.number];
+                    if (!fresh) {
+                      response = 'Refresh رد شد: Work Item JSON معتبر در بدنه Issue وجود ندارد.';
+                    } else if (previous && previous.work_item_id !== fresh.work_item_id) {
+                      response = 'Refresh رد شد: WORK_ITEM_ID تغییر کرده است؛ شناسه پایدار را عوض نکن.';
+                    } else {
+                      const oldSteps = new Map((previous?.steps || []).map(x => [x.step_id, x]));
+                      const oldCriteria = new Map((previous?.acceptance_criteria || []).map(x => [x.criterion_id, x]));
+                      fresh.steps = fresh.steps.map(step => {
+                        const old = oldSteps.get(step.step_id);
+                        return old ? { ...step, validation_status: old.validation_status, evidence_refs: old.evidence_refs, validated_at_utc: old.validated_at_utc, validated_by: old.validated_by, validation_note: old.validation_note } : step;
+                      });
+                      fresh.acceptance_criteria = fresh.acceptance_criteria.map(criterion => {
+                        const old = oldCriteria.get(criterion.criterion_id);
+                        return old ? { ...criterion, validation_status: old.validation_status, evidence_refs: old.evidence_refs, validated_at_utc: old.validated_at_utc, validated_by: old.validated_by, validation_note: old.validation_note } : criterion;
+                      });
+                      const p = workItemCore.calculateProgress(fresh);
+                      fresh.status = p.can_accept ? 'REVIEW_REQUIRED' : p.verified_steps > 0 ? 'IN_PROGRESS' : 'READY';
+                      state.work_items ||= {};
+                      state.work_items[issue.number] = fresh;
+                      state.history.push({ event: 'WORK_ITEM_REFRESHED', issue_number: issue.number, work_item_id: fresh.work_item_id, actor, preserved_steps: p.verified_steps, preserved_criteria: p.verified_criteria, at_utc: new Date().toISOString() });
+                      nextStatus = fresh.status === 'REVIEW_REQUIRED' ? 'review' : 'ready';
+                      response = 'Work Item specification refreshed from Issue body; preserved_steps=' + p.verified_steps + '; preserved_criteria=' + p.verified_criteria + '; EXECUTION_PROGRESS=' + p.execution_percentage + '%; ACCEPTANCE_PROGRESS=' + p.acceptance_percentage + '%; OVERALL_COMPLETION=' + p.overall_completion_percentage + '%.';
+                    }
+                  }
+                } else if (command === 'claim') {
                   if (!coordinatorCore.isSafeRunId(chat) || !coordinatorCore.isSafeRunId(run) || !Number.isFinite(lease) || lease < 5 || lease > 120) {
                     response = 'Claim رد شد. قالب: /farast claim chat=شناسه run=شناسه lease=30 (۵ تا ۱۲۰ دقیقه).';
                   } else if (['agent:blocked','agent:review','agent:done'].some(x => labelsOf(issue).includes(x))) {
