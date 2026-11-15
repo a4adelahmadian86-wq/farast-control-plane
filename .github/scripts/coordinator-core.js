@@ -63,6 +63,27 @@ function branchForWritePolicy(issueNumber, runId, writePolicy) {
   throw new Error('Unknown write_policy; refusing branch allocation');
 }
 
+function resolveWritePolicy(liveWorkItem, storedWorkItem) {
+  const policy = liveWorkItem?.write_policy || 'READ_ONLY';
+  if (!['READ_ONLY', 'WRITE_REQUIRES_OWNER_APPROVAL', 'WRITE_ALLOWED'].includes(policy)) {
+    throw new Error('Unknown live write_policy; refusing write authorization');
+  }
+  if (storedWorkItem) {
+    const storedPolicy = storedWorkItem.write_policy || 'READ_ONLY';
+    if (storedPolicy !== policy) throw new Error('Registry write_policy differs from live Issue specification; owner refresh required');
+    if (storedWorkItem.target_repository && storedWorkItem.target_repository !== liveWorkItem?.target_repository) {
+      throw new Error('Registry target_repository differs from live Issue specification; owner refresh required');
+    }
+    const normalizeKeys = keys => [...new Set((keys || []).map(x =>
+      String(x).trim().toLowerCase().split(String.fromCharCode(92)).join('/')
+    ))].sort();
+    if (JSON.stringify(normalizeKeys(storedWorkItem.resource_keys)) !== JSON.stringify(normalizeKeys(liveWorkItem?.resource_keys))) {
+      throw new Error('Registry resource_keys differ from live Issue specification; owner refresh required');
+    }
+  }
+  return policy;
+}
+
 function claimResources(state, args) {
   const nowMs = args.nowMs ?? Date.now();
   const keys = [...new Set(args.resourceKeys || [])].sort();
@@ -152,6 +173,6 @@ function hasIndependentApproval(reviews, pr, workerActor, acceptActor) {
 }
 
 module.exports = {
-  isSafeRunId, roleForActor, isWithinDelegatedScope, isCommandAllowed, resourcesFor, targetRepositoryFor, branchForWritePolicy, expireLocks, activeForIssue,
+  isSafeRunId, roleForActor, isWithinDelegatedScope, isCommandAllowed, resourcesFor, targetRepositoryFor, branchForWritePolicy, resolveWritePolicy, expireLocks, activeForIssue,
   claimResources, renewLease, ownsLease, latestTaskStatus, matchesReviewLease, hasIndependentApproval
 };
