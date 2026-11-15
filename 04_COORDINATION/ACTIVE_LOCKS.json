@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 147,
+  "revision": 148,
   "next_fencing_token": 59,
   "locks": [
     {
@@ -1430,7 +1430,7 @@
     },
     "6897751639": {
       "response": "WORK_ITEM=WI-GOAL-ALLOCATOR-001; progress=100%; verified_steps=5/5; weighting=EQUAL_STEPS_V1; acceptance_criteria=PASS; dependencies=PASS; can_accept=true. درصد پیشرفت به‌تنهایی پذیرش نیست.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 11,
       "actor": "a4adelahmadian86-wq",
       "command": "progress",
