@@ -25,6 +25,13 @@
 - برای مخزن محصول `a4adelahmadian86-wq/non`، coordinator فقط `READ_ONLY` را می‌پذیرد تا زمانی که مالک مجوز جداگانه و صریح صادر کند.
 - `priority_source=DEFAULT_POLICY` با priority=50 یعنی اولویت برابر و انتخاب FIFO/aging؛ این مقدار رتبه‌بندی مالک نیست. فقط وقتی مالک صریحاً رتبه تعیین کرد `OWNER_ASSIGNED` ثبت شود. `OWNER_ASSIGNED` فقط با تصمیم صریح مالک ثبت شود.
 
+## تخصیص branch بر اساس write_policy
+- `WRITE_ALLOWED`: Coordinator یک branch یکتای `work/GH-ISSUE-RUN` صادر می‌کند؛ worker فقط پس از Claim و Heartbeat معتبر آن را در همان target repository می‌سازد.
+- `READ_ONLY`: Coordinator باید `branch=none` ثبت کند. worker حق ساخت branch، commit، file یا PR در target repository را ندارد؛ evidence فقط در Issue thread یا artifact location صریحاً مجاز در control-plane ثبت می‌شود.
+- `WRITE_REQUIRES_OWNER_APPROVAL`: تا زمان ثبت approval معتبر مالک، مانند READ_ONLY بدون branch و بدون write در target repository رفتار کن؛ فقط proposal در Issue ثبت شود.
+- Work Item فاقد policy معتبر یا دارای اختلاف میان Issue form و JSON باید fail-closed شود؛ default سازگار قدیمی فقط READ_ONLY است و هرگز نباید به branch-write تبدیل شود.
+- branch lineage و previous_branch فقط برای مسیرهای WRITE_ALLOWED قابل استفاده‌اند؛ claim branchless نباید branch قدیمی محصول را به عامل بعدی تحویل دهد.
+
 ## پیشرفت و پذیرش
 - هر step فقط با validation_status=PASS و حداقل یک evidence_ref معتبر شمرده می‌شود.
 - اگر weighting.version و وزن مثبت برای تمام stepهای اجباری وجود داشته باشد، درصد بر اساس وزن‌هاست؛ در غیر این صورت همه stepهای اجباری هم‌وزن‌اند.
