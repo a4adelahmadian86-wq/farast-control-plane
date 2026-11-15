@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 214,
+  "revision": 215,
   "next_fencing_token": 63,
   "locks": [
     {
@@ -2126,6 +2126,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-15T18:10:25.082Z"
+    },
+    "6898950157": {
+      "response": "STEP ثبت شد: S2_ROUTING; progress=42.85%; verified=3/7.",
+      "response_posted": false,
+      "issue_number": 44,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-15T18:10:30.187Z"
     }
   },
   "work_items": {
@@ -2501,8 +2510,13 @@
           "title": "Change claim/branch routing so READ_ONLY work uses no target-repository write branch and evidence remains in authorized control-plane records",
           "required": true,
           "weight": 1,
-          "validation_status": "NOT_RUN",
-          "evidence_refs": []
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/a501553ff832510258f9e859cd1c8de023ce3b8e"
+          ],
+          "validated_at_utc": "2026-11-15T18:10:30.187Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S3_PROMPTS",
