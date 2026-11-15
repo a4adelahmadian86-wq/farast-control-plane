@@ -16,7 +16,7 @@
 4. میان نامزدها priority عددی مالک‌تعیین‌شده را با aging روزانه تعدیل کن؛ اولویت مالک را تغییر نده. سپس قدیمی‌ترین ready/created time و در نهایت WORK_ITEM_ID برای tie-break استفاده شود.
 5. اگر برگ IN_PROGRESS با lease منقضی یافت شد، همان برگ و checkpoint آن برای resume واجد انتخاب است؛ شناسه را عوض نکن.
 6. بعد از انتخاب، فقط با /farast claim روی Issue همان برگ claim بگیر. claim موفق CAS مرجع نهایی است؛ انتخاب محلی مجوز write نیست.
-7. اگر هیچ برگ واجد شرایط نبود، درخت هدف و EXPهای ناقص را با Issueهای موجود تطبیق بده. برای ساخت برگ جدید ابتدا Issue allocator با WORK_ITEM_ID ثابت `WI-GOAL-ALLOCATOR-001` را claim کن؛ فقط در اختیار lease آن، WORK_ITEM_ID قطعی بساز و Issueهای leaf را ایجاد کن. اگر allocator موجود/آزاد نیست، duplicate نساز و گزارش بده.
+7. اگر هیچ برگ واجد شرایط نبود، درخت هدف و EXPهای ناقص را با Issueهای موجود تطبیق بده. برای ساخت برگ جدید ابتدا Issue allocator با WORK_ITEM_ID ثابت `WI-GOAL-ALLOCATOR-001` را claim کن؛ فقط در اختیار lease آن، WORK_ITEM_ID قطعی بساز و Issueهای leaf را ایجاد کن. اگر allocator موجود/آزاد نیست، duplicate نساز و claim را دور نزن؛ discovery، تحلیل dependency، ممیزی شواهد و آماده‌سازی read-only کارهای مستقل را ادامه بده و بعداً دوباره allocator را بررسی کن. نبود Lease فقط همان کار را متوقف می‌کند، نه کل چت را.
 
 ## سیاست نوشتن و اولویت
 - `READ_ONLY`: فقط مشاهده/تحلیل/گزارش؛ هیچ تغییر فایل یا PR در target repository مجاز نیست.
@@ -46,3 +46,8 @@ BACKLOG, READY, CLAIMED, IN_PROGRESS, BLOCKED, REVIEW_REQUIRED, PARTIALLY_ACCEPT
 
 ## وضعیت عملیاتی
 هسته Work Item، schema، template و فرمان‌های `/farast step`, `/farast criterion`, `/farast progress`, `/farast checkpoint` در main ادغام و در smoke test زنده یک حساب/دو CHAT_ID آزموده شده‌اند. این smoke test، آزمون دو حساب مستقل نیست. آزمون واقعی دو حساب مستقل، interruption واقعی بین دو نشست و schedule هنوز gateهای جداگانه‌اند؛ unit/fixture یا دو CHAT_ID با یک حساب جایگزین آن‌ها نیست.
+
+
+## حلقه پیوسته برای یک پرامپت مشترک
+
+هر چت که MASTER-00 یکسان دریافت می‌کند، پس از پایان یا مسدودشدن هر Work Item باید صف مشترک را دوباره از GitHub بخواند و نامزد بعدی را claim کند. چت‌ها نباید منتظر تخصیص دستی از سوی مالک بمانند. claim بازنده پس از read-back به نامزد بعدی منتقل می‌شود. هدف مسدودشده کنار گذاشته می‌شود، اما تحلیل و اجرای کارهای مستقل مجاز ادامه می‌یابد. در نبود leaf آزاد، allocator ثابت را claim کن؛ اگر allocator در اختیار چت دیگر است، فقط عملیات تخصیص را به تعویق بینداز و read-only discovery را ادامه بده. هیچ سؤال یا درخواست انتخابی از مالک مجاز نیست. پیش از محدودیت نشست/زمینه، checkpoint و next_action دقیق ثبت شود تا همان پرامپت در نوبت بعدی از همان نقطه ادامه دهد.
