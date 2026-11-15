@@ -134,7 +134,7 @@ jobs:
           prompt_ids = set(re.findall(r"^\| PR-(\d{2}) \|", decomposition, re.M))
           assert len(exp_ids) == 27, ("Expected 27 deep EXP plans", len(exp_ids))
           assert len(prompt_ids) == 17, ("Expected 17 prompt mappings", len(prompt_ids))
-          assert "هدف هر EXP یک مأموریت عمیق" in decomposition
+          assert "هدف برنامه‌ریزی هر EXP" in decomposition
           depth_standard = Path("04_COORDINATION/WORK_ITEM_DEPTH_STANDARD.md").read_text(encoding="utf-8")
           progress_protocol = Path("04_COORDINATION/PROGRESS_REPORTING_PROTOCOL.md").read_text(encoding="utf-8")
           assert "حداقل ۶ گام substantive" in depth_standard
