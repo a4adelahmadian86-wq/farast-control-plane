@@ -63,7 +63,7 @@ GitHub هویت واقعی ChatGPT chat را تأیید نمی‌کند. CHAT_ID
 
 
 ## Branch وظیفه
-Coordinator مقدار branch را به‌صورت work/GH-ISSUE_NUMBER-RUN_ID در رجیستری ثبت می‌کند و در claim بعدی previous_run/previous_branch/previous_target_repository را از history بازمی‌گرداند. خود workflow در مخزن هدف branch نمی‌سازد؛ worker دارنده lease باید target repository و branch را دقیقاً مطابق پاسخ claim بسازد. اگر previous_branch وجود داشت، worker ابتدا آن branch را read-only بررسی کند، آخرین commit تأییدشده/checkpoint را از سابقه کار استخراج و صحت آن را در target repository تأیید کند، سپس branch جدید را از همان commit بسازد؛ branch قبلی را هرگز تغییر ندهد. اگر checkpoint معتبر قابل تعیین نیست، قبل از هر write متوقف و گزارش دهد. branch استفاده‌شده قبلی برای همان Issue دوباره قابل claim نیست؛ RUN_ID جدید الزامی است. پذیرش PR فقط از branch آخرین رویداد REVIEW همان lease ممکن است.
+Coordinator فقط برای `write_policy=WRITE_ALLOWED` مقدار branch را به‌صورت `work/GH-ISSUE_NUMBER-RUN_ID` ثبت می‌کند. برای `READ_ONLY` و `WRITE_REQUIRES_OWNER_APPROVAL` مقدار branch باید null/none باشد و هیچ branch یا PR در target repository ساخته نشود؛ evidence در Issue thread یا محل مجاز control-plane ثبت می‌شود. خود workflow در مخزن هدف branch نمی‌سازد. worker فقط برای `WRITE_ALLOWED` باید branch را در target repository بسازد. اگر `previous_branch` وجود داشت، آن را read-only بررسی و آخرین commit/checkpoint معتبر را تأیید کند؛ سپس branch جدید را از همان commit بسازد. branch قبلی را هرگز تغییر ندهد. اگر checkpoint معتبر قابل تعیین نیست، پیش از هر write متوقف شود. branch استفاده‌شده قبلی برای همان Issue دوباره قابل claim نیست؛ RUN_ID جدید الزامی است. پذیرش PR فقط از branch آخرین رویداد REVIEW همان lease ممکن است.
 
 
 ## تفویض اختیار فرمان‌های چندچتی
