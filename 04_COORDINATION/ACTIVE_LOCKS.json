@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 151,
+  "revision": 152,
   "next_fencing_token": 60,
   "locks": [
     {
@@ -1476,7 +1476,7 @@
     },
     "6898390830": {
       "response": "CLAIM GRANTED. TASK=GH-11; WORK_ITEM_ID=WI-GOAL-ALLOCATOR-001; verified_steps=S1_SCAN,S2_DECOMPOSE,S3_CREATE,S4_VERIFY,S5_RELEASE; remaining_steps=; progress=100%; actor=@a4adelahmadian86-wq; chat=master00-finalize; run=RUN-20261115-FINALIZE-01; resource_keys=coordination:work-item-allocation; target_repository=a4adelahmadian86-wq/farast-control-plane; branch=work/GH-11-RUN-20261115-FINALIZE-01; previous_run=RUN-20261115-PROMPT-PREP-01; previous_target_repository=a4adelahmadian86-wq/farast-control-plane; previous_branch=work/GH-11-RUN-20261115-PROMPT-PREP-01; fencing_token=59; lease_expires=2026-11-15T17:57:11.028Z. پیش از هر write و checkpoint، heartbeat را تمدید و token را بررسی کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز؛ هرگز branch قبلی را تغییر نده.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 11,
       "actor": "a4adelahmadian86-wq",
       "command": "claim",
