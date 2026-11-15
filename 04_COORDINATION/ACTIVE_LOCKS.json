@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 220,
+  "revision": 221,
   "next_fencing_token": 63,
   "locks": [
     {
@@ -2153,6 +2153,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-15T18:10:40.447Z"
+    },
+    "6898951668": {
+      "response": "STEP ثبت شد: S5_NEGATIVE; progress=85.71%; verified=6/7.",
+      "response_posted": false,
+      "issue_number": 44,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-15T18:10:45.718Z"
     }
   },
   "work_items": {
@@ -2567,8 +2576,13 @@
           "title": "Prove fail-closed behavior when policy is missing, malformed, contradictory or disagrees with Issue form fields",
           "required": true,
           "weight": 1,
-          "validation_status": "NOT_RUN",
-          "evidence_refs": []
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/1ba88aeae1217fd882a2d4b11eb972018ffa3e40"
+          ],
+          "validated_at_utc": "2026-11-15T18:10:45.717Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S6_VERIFY",
