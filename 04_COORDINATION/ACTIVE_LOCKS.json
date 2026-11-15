@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 99,
+  "revision": 100,
   "next_fencing_token": 56,
   "locks": [
     {
@@ -1038,6 +1038,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-15T15:29:06.656Z"
+    },
+    "6896869805": {
+      "response": "STEP ثبت شد: S5_RELEASE; progress=100%; verified=5/5.",
+      "response_posted": false,
+      "issue_number": 11,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-15T15:29:23.318Z"
     }
   },
   "work_items": {
@@ -1199,7 +1208,7 @@
       "parent_exp_ids": [
         "EXP-01"
       ],
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "coordination:work-item-allocation"
@@ -1258,7 +1267,15 @@
         },
         {
           "step_id": "S5_RELEASE",
-          "title": "Release allocator lease and record the exact next allocation action"
+          "title": "Release allocator lease and record the exact next allocation action",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/11#issuecomment-6896854382",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/coordination/locks/04_COORDINATION/ACTIVE_LOCKS.json"
+          ],
+          "validated_at_utc": "2026-11-15T15:29:23.312Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "acceptance_criteria": [
