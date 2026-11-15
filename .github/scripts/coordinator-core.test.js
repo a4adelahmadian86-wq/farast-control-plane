@@ -181,3 +181,36 @@ test('command authorization enforces owner-delegated bounded roles', () => {
   assert.equal(core.isCommandAllowed(policy, 'auditor', 'MEMBER', 'release'), false);
   assert.equal(core.isCommandAllowed(policy, 'outsider', 'NONE', 'claim'), false);
 });
+
+ 
+test('branch allocation is disabled for READ_ONLY and approval-pending Work Items', () => {
+  assert.equal(core.branchForWritePolicy(13, 'run-read-only', 'READ_ONLY'), null);
+  assert.equal(core.branchForWritePolicy(14, 'run-proposal', 'WRITE_REQUIRES_OWNER_APPROVAL'), null);
+  assert.equal(core.branchForWritePolicy(15, 'run-write', 'WRITE_ALLOWED'), 'work/GH-15-run-write');
+  assert.throws(() => core.branchForWritePolicy(15, 'run-unknown', 'UNKNOWN'), /Unknown write_policy/);
+  assert.throws(() => core.branchForWritePolicy(15, '../main', 'WRITE_ALLOWED'), /Invalid RUN_ID/);
+});
+
+test('branchless READ_ONLY claim does not inherit or expose a prior target-repository branch', () => {
+  const s = registry();
+  const first = core.claimResources(s, {
+    issueNumber: 13, taskId: 'GH-13', actor: 'alice', chatId: 'chat-a', runId: 'run-write',
+    targetRepository: 'owner/product', branch: 'work/GH-13-run-write',
+    resourceKeys: ['analysis:exp-01'], leaseMinutes: 30, nowMs: 1000
+  });
+  assert.equal(first.ok, true);
+  s.locks = [];
+  s.history.push({
+    event: 'RELEASE', issue_number: 13, actor: 'alice', run_id: 'run-write',
+    branch: 'work/GH-13-run-write', target_repository: 'owner/product', at_utc: new Date(2000).toISOString()
+  });
+  const next = core.claimResources(s, {
+    issueNumber: 13, taskId: 'GH-13', actor: 'bob', chatId: 'chat-b', runId: 'run-read-only',
+    targetRepository: 'owner/product', branch: null,
+    resourceKeys: ['analysis:exp-01'], leaseMinutes: 30, nowMs: 3000
+  });
+  assert.equal(next.ok, true);
+  assert.equal(next.previousRun, null);
+  assert.equal(s.locks.at(-1).branch, null);
+  assert.equal(s.history.filter(x => x.event === 'ACQUIRED').at(-1).branch, null);
+});
