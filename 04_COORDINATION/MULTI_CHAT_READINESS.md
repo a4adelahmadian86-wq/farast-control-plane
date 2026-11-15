@@ -139,3 +139,44 @@ MASTER-00 یک فرمان ثابت برای تمام چت‌هاست؛ هر چت
 - MASTER-00 نسخه 1.8.0 اکنون حلقه خودگردان دارد: کشف کار بعدی از صف مشترک، claim اتمیک، رفتن به برگ بعدی پس از تعارض، ادامه discovery هنگام blocker/اشغال allocator، و checkpoint پیش از محدودیت نشست.
 - اتصال GitHub باید در هر حساب ChatGPT جداگانه authorize شود. اگر GitHub loginها متفاوت‌اند، هرکدام باید collaborator/member/owner مخزن باشند؛ فقط public visibility کافی نیست.
 - **این موارد هنوز اثبات نشده‌اند:** ارسال هم‌زمان MASTER-00 در دو حساب مستقل ChatGPT، رقابت واقعی دو login GitHub، اجرای هم‌پوشان دو Work Item، و interruption/resume واقعی بین دو حساب. وضعیت MULTI-ACCOUNT E2E و BROADCAST همچنان **NOT VERIFIED** است.
+
+
+---
+
+## وضعیت مرجع زنده — بازبینی مجدد 2026-11-15 (این بخش بر همه snapshotهای قدیمی بالا مقدم است)
+
+**Snapshot مرجع:** شاخه `main` در commit `84fd40403f8b0f4bfb9695b6be7c7bad44b6e0f6`؛ رجیستری `coordination/locks:04_COORDINATION/ACTIVE_LOCKS.json` در revision `113` و SHA فایل `1a3488db5f0eda2b2af67ce367541e0e9c8929b0`.
+
+### مواردی که اکنون با داده زنده تأیید شده‌اند
+
+- PR #40 ادغام شده است؛ merge commit `bd99a25ee58da8e8e27dc6269ff36f19ff8cb65d`.
+- اعتبارسنجی کنترل‌پلین روی SHA فعلی main در run `43730243174` با نتیجه success تکمیل شده است.
+- اجرای زنده coordinator روی همان SHA در runهای `43730884158`, `43730851290`, `43730794344` و `43730277332` موفق است.
+- schedule پنج‌دقیقه‌ای در run `43726463983` با نتیجه success اجرا شده است؛ runهای schedule قبلی نیز success هستند.
+- workflow در کد، permissions محدود `contents:write`, `issues:write`, `pull-requests:read` را تعریف می‌کند و schedule، issue_comment و workflow_dispatch در فایل workflow وجود دارند. این مورد به‌تنهایی تنظیمات سراسری Actions در GitHub Settings را اثبات نمی‌کند.
+- رجیستری زنده revision=113، next_fencing_token=57 و هیچ lock فعال ندارد.
+- Issue #11 در حال حاضر lease فعال ندارد. history آن نشان می‌دهد S1 تا S5 و معیارهای AC_UNIQUE، AC_POLICY و AC_RELEASE در اجراهای قبلی ثبت شده‌اند؛ پاسخ coordinator برای AC_RELEASE مقدار `can_accept=true` و progress=100% داده است. با این حال Issue هنوز باز است و هیچ PR/review/accept نهایی برای آن ثبت نشده؛ بنابراین آن را ACCEPTED یا DONE اعلام نکن.
+- Issue #11 در سه claim اخیر tokenهای 54، 55 و 56 branchهای جداگانه‌ای را در lineage ثبت کرده است. جست‌وجوی زنده branchها نشان می‌دهد branchهای RUNهای RESUME-01، RESUME-02 و MASTER00-ALLOC-03 در مخزن وجود ندارند. این وضعیت به‌عنوان lineage ناقص/غیرقابل اثبات ثبت می‌شود؛ branch گمشده را نساز یا به‌صورت حدسی بازسازی نکن. هر اجرای نوشتنی بعدی باید پیش از ادامه، checkpoint و commit پایه قابل اثبات را از منبع معتبر پیدا کند؛ در غیر این صورت STOP WRITES.
+- Issueهای EXP-01 تا EXP-27 قبلاً به‌صورت Work Itemهای مستقل ایجاد شده‌اند؛ برای شروع تحلیل EXPها نیازی به ساخت مجدد leaf یا تصاحب allocator نیست.
+
+### موانع و محدودیت‌های تأییدنشده
+
+1. شاخه `main` در پاسخ زنده GitHub دارای `protected=false` و `protection.enabled=false` است؛ repository rulesets نیز آرایه خالی `[]` است. بنابراین branch protection/required checks فعال نیستند.
+2. هیچ review مستقل یا review thread برای PR #40 در داده زنده وجود ندارد؛ CI سبز جایگزین review مستقل نیست. PR #40 قبلاً merge شده و اکنون نمی‌توان آن را به‌عنوان یک PR باز برای review تلقی کرد.
+3. تنظیمات سراسری Actions write permission از API اتصال فعلی قابل خواندن نبود. موفقیت workflow زنده نشان می‌دهد coordinator اکنون قادر به انجام عملیات ثبت‌شده است، اما مقدار دقیق تنظیم Settings را از این snapshot نتیجه‌گیری نکن.
+4. آزمون واقعی دو حساب GitHub مستقل در دو نشست ChatGPT مستقل، با loginهای متفاوت، هنوز اجرا نشده است. آزمون‌های تک‌حسابی و CHAT_IDهای متفاوت جایگزین آن نیستند.
+5. takeover پس از قطع/انقضای نشست و رد heartbeat/write با token قدیمی در آزمون واقعی دوحسابی هنوز اثبات نشده است.
+6. hard-fencing مسیرهای direct-write به مخزن محصول `non` تضمین نشده است. مخزن محصول همچنان READ_ONLY می‌ماند؛ هیچ write در آن انجام نشود.
+
+### حکم عملیاتی
+
+- **LIVE SINGLE-ACCOUNT COORDINATOR: VERIFIED**
+- **MAIN CI: PASS**
+- **SCHEDULE: LIVE SUCCESS OBSERVED**
+- **REGISTRY: NO ACTIVE LEASE**
+- **ALLOCATOR ISSUE #11: 100% STEPS/CRITERIA RECORDED, NOT ACCEPTED**
+- **MULTI-ACCOUNT / SINGLE-PROMPT BROADCAST E2E: NOT VERIFIED**
+- **MAIN BRANCH PROTECTION: NOT ENABLED**
+- **PRODUCT REPOSITORY WRITE: NOT AUTHORIZED**
+
+این بخش snapshotهای قدیمی‌تر همین سند را که schedule را NOT_RUN یا workflow زنده را نیازمند تأیید می‌دانند، فقط در مواردی که در بالا با شواهد جدید پوشش داده شده supersede می‌کند. سابقه قدیمی برای audit حفظ شده است.
