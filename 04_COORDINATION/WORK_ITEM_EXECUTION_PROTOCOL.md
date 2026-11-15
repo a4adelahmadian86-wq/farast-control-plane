@@ -10,13 +10,17 @@
 از `WORK_ITEM_SCHEMA.json` استفاده کن. هر برگ باید هدف والد، EXP، دامنه، target repository، resource keys، dependencies، priority و منبع اولویت، write_policy، گام‌های اتمی، خروجی هر گام، معیار پذیرش و evidence requirement داشته باشد. اگر این اطلاعات ناقص است، برگ READY نیست.
 
 ## انتخاب عادلانه و deterministic
-1. ابتدا همه برگ‌های باز و registry فعال را از GitHub بخوان.
-2. برگ‌های terminal، BLOCKED، REVIEW_REQUIRED و دارای dependency ناتمام را حذف کن.
-3. برگ دارای lease معتبر یا resource conflict را حذف کن.
-4. میان نامزدها priority عددی مالک‌تعیین‌شده را با aging روزانه تعدیل کن؛ اولویت مالک را تغییر نده. سپس قدیمی‌ترین ready/created time و در نهایت WORK_ITEM_ID برای tie-break استفاده شود.
-5. اگر برگ IN_PROGRESS با lease منقضی یافت شد، همان برگ و checkpoint آن برای resume واجد انتخاب است؛ شناسه را عوض نکن.
-6. بعد از انتخاب، فقط با /farast claim روی Issue همان برگ claim بگیر. claim موفق CAS مرجع نهایی است؛ انتخاب محلی مجوز write نیست.
-7. اگر هیچ برگ واجد شرایط نبود، درخت هدف و EXPهای ناقص را با Issueهای موجود تطبیق بده. برای ساخت برگ جدید ابتدا Issue allocator با WORK_ITEM_ID ثابت `WI-GOAL-ALLOCATOR-001` را claim کن؛ فقط در اختیار lease آن، WORK_ITEM_ID قطعی بساز و Issueهای leaf را ایجاد کن. اگر allocator موجود/آزاد نیست، duplicate نساز و claim را دور نزن؛ discovery، تحلیل dependency، ممیزی شواهد و آماده‌سازی read-only کارهای مستقل را ادامه بده و بعداً دوباره allocator را بررسی کن. نبود Lease فقط همان کار را متوقف می‌کند، نه کل چت را.
+
+1. snapshot زنده از همه Issueهای باز و بسته، Work Item JSONها، labels/statusها، رجیستری `coordination/locks`، checkpointها و dependency graph بگیر.
+2. محدوده را از سربرگ پرامپت تخصصی (`- EXP:` و `- GOAL:`) استخراج کن؛ فقط برگ‌هایی با اشتراک `parent_exp_ids` نامزدند. MASTER-00 عمومی می‌تواند همه هدف‌های باز را ببیند.
+3. فقط statusهای `READY`، `IN_PROGRESS` و `CLAIMED` بدون Lease فعال واجد بررسی‌اند. `BLOCKED`، `REVIEW_REQUIRED` و وضعیت‌های terminal حذف شوند.
+4. تمام `hard_gates` باید از منبع معتبر `ACCEPTED/PASS` باشند؛ `soft_inputs` gate نیستند. gate مبهم/حل‌نشده یعنی حذف نامزد و ثبت blocker، نه حدس.
+5. هر Lease فعال روی همان Issue یا یکی از `resource_keys` نامزد را حذف می‌کند. expiry نامعتبر fail-closed و فعال فرض می‌شود.
+6. ابتدا Work Item نیمه‌تمام `IN_PROGRESS/CLAIMED` با checkpoint معتبر یا step PASS دارای evidence را resume کن؛ همان `WORK_ITEM_ID` و step IDs حفظ شوند و فقط remaining steps اجرا شوند.
+7. برای بقیه نامزدها `effective_priority = max(0, priority - floor(age_days))` را محاسبه کن؛ سپس با ترتیب `effective_priority` صعودی، `ready_at_utc/created_at_utc` قدیمی‌تر، `WORK_ITEM_ID` و Issue number مرتب کن. priority عدد کمتر یعنی اولویت بالاتر؛ aging روزانه فقط tie/fairness را بهبود می‌دهد و priority مالک را در داده تغییر نمی‌دهد.
+8. فقط نامزد اول را با `/farast claim` امتحان کن. Claim موفق CAS و read-back مرجع نهایی است. در conflict/رد/timeout، اثر فرمان را بررسی و در صورت عدم grant نامزد بعدی را امتحان کن؛ رد یک claim کل چت را متوقف نمی‌کند.
+9. اگر هیچ leaf واجد شرایطی در محدوده پرامپت نبود، discovery، dependency analysis و evidence audit همان محدوده را read-only ادامه بده. برای ایجاد برگ جدید فقط allocator ثابت `WI-GOAL-ALLOCATOR-001` را با Lease انحصاری بگیر؛ اگر قفل است duplicate نساز و read-only ادامه بده.
+10. بعد از هر handoff، review، release یا block صف را دوباره snapshot و انتخاب را تکرار کن. چت تخصصی نباید کار خارج از EXPهای خود را claim کند.
 
 ## سیاست نوشتن و اولویت
 - `READ_ONLY`: فقط مشاهده/تحلیل/گزارش؛ هیچ تغییر فایل یا PR در target repository مجاز نیست.
