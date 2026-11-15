@@ -218,6 +218,7 @@ jobs:
                       fresh.status = p.can_accept ? 'REVIEW_REQUIRED' : p.verified_steps > 0 ? 'IN_PROGRESS' : 'READY';
                       state.work_items ||= {};
                       state.work_items[issue.number] = fresh;
+                      state.history ||= [];
                       state.history.push({ event: 'WORK_ITEM_REFRESHED', issue_number: issue.number, work_item_id: fresh.work_item_id, actor, preserved_steps: p.verified_steps, preserved_criteria: p.verified_criteria, at_utc: new Date().toISOString() });
                       nextStatus = fresh.status === 'REVIEW_REQUIRED' ? 'review' : 'ready';
                       response = 'Work Item specification refreshed from Issue body; preserved_steps=' + p.verified_steps + '; preserved_criteria=' + p.verified_criteria + '; EXECUTION_PROGRESS=' + p.execution_percentage + '%; ACCEPTANCE_PROGRESS=' + p.acceptance_percentage + '%; OVERALL_COMPLETION=' + p.overall_completion_percentage + '%.';
