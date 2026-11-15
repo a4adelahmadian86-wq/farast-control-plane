@@ -56,15 +56,23 @@ function activeForIssue(state, issueNumber, nowMs = Date.now()) {
   return state.locks.filter(x => x.issue_number === issueNumber && Date.parse(x.lease_expires_at_utc) > nowMs);
 }
 
+function branchForWritePolicy(issueNumber, runId, writePolicy) {
+  if (!isSafeRunId(runId)) throw new Error('Invalid RUN_ID for branch allocation');
+  if (writePolicy === 'WRITE_ALLOWED') return 'work/GH-' + issueNumber + '-' + runId.replace(/[^A-Za-z0-9._-]/g, '-');
+  if (writePolicy === 'READ_ONLY' || writePolicy === 'WRITE_REQUIRES_OWNER_APPROVAL') return null;
+  throw new Error('Unknown write_policy; refusing branch allocation');
+}
+
 function claimResources(state, args) {
   const nowMs = args.nowMs ?? Date.now();
   const keys = [...new Set(args.resourceKeys || [])].sort();
   if (!keys.length) return { ok: false, reason: 'missing_resources' };
   const taskConflict = state.locks.find(x => x.issue_number === args.issueNumber && Date.parse(x.lease_expires_at_utc) > nowMs);
   if (taskConflict) return { ok: false, reason: 'task_already_claimed', conflict: taskConflict };
-  const branchUsed = (state.history || []).some(x => x.event === 'ACQUIRED' && x.issue_number === args.issueNumber && x.branch === args.branch);
+  const branchUsed = !!args.branch && (state.history || []).some(x => x.event === 'ACQUIRED' && x.issue_number === args.issueNumber && x.branch === args.branch);
   if (branchUsed) return { ok: false, reason: 'branch_reuse' };
-  const previousRun = [...(state.history || [])].reverse().find(x => x.issue_number === args.issueNumber && ['RELEASE','REVIEW','BLOCK','LEASE_EXPIRED'].includes(x.event) && x.branch);
+  // A branchless claim is READ_ONLY or approval-pending: never inherit an old target-repository branch.
+  const previousRun = args.branch ? [...(state.history || [])].reverse().find(x => x.issue_number === args.issueNumber && ['RELEASE','REVIEW','BLOCK','LEASE_EXPIRED'].includes(x.event) && x.branch) : null;
   const conflict = state.locks.find(x => keys.includes(x.resource_key) && Date.parse(x.lease_expires_at_utc) > nowMs);
   if (conflict) return { ok: false, reason: 'resource_conflict', conflict };
   const fencingToken = state.next_fencing_token++;
@@ -144,6 +152,6 @@ function hasIndependentApproval(reviews, pr, workerActor, acceptActor) {
 }
 
 module.exports = {
-  isSafeRunId, roleForActor, isWithinDelegatedScope, isCommandAllowed, resourcesFor, targetRepositoryFor, expireLocks, activeForIssue,
+  isSafeRunId, roleForActor, isWithinDelegatedScope, isCommandAllowed, resourcesFor, targetRepositoryFor, branchForWritePolicy, expireLocks, activeForIssue,
   claimResources, renewLease, ownsLease, latestTaskStatus, matchesReviewLease, hasIndependentApproval
 };
