@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 282,
+  "revision": 283,
   "next_fencing_token": 64,
   "locks": [
     {
@@ -2593,6 +2593,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-15T18:25:16.964Z"
+    },
+    "6899135242": {
+      "response": "معیار پذیرش ثبت شد: AC_TRANSPARENCY; can_accept=true; progress=100%.",
+      "response_posted": false,
+      "issue_number": 43,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-15T18:25:21.850Z"
     }
   },
   "work_items": {
@@ -2929,7 +2938,7 @@
       "parent_exp_ids": [
         "EXP-01"
       ],
-      "status": "IN_PROGRESS",
+      "status": "REVIEW_REQUIRED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "module:prompt-bootstrap",
@@ -3082,8 +3091,13 @@
           "criterion_id": "AC_TRANSPARENCY",
           "title": "Prompt and CI documentation distinguish proven single-chat behavior from unproven two-account/two-session E2E behavior; no unsupported auto-spawning of ChatGPT sessions is claimed",
           "required": true,
-          "validation_status": "NOT_RUN",
-          "evidence_refs": []
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/46"
+          ],
+          "validated_at_utc": "2026-11-15T18:25:21.850Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "priority": 50,
