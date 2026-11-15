@@ -28,6 +28,7 @@ jobs:
             01_STRATEGY/GOAL_TREE.md
             01_STRATEGY/ROADMAP.md
             01_STRATEGY/DEPENDENCY_GRAPH.json
+            01_STRATEGY/EXECUTION_DECOMPOSITION_17x27.md
             02_GOVERNANCE/DECISION_REGISTER.md
             02_GOVERNANCE/USER_FEEDBACK_REGISTER.md
             03_PROJECT_STATE/MASTER_STATUS.md
@@ -56,6 +57,8 @@ jobs:
             04_COORDINATION/WORK_ITEM_SCHEMA.json
             04_COORDINATION/WORK_ITEM_CHECKPOINT_SCHEMA.json
             04_COORDINATION/WORK_ITEM_EXECUTION_PROTOCOL.md
+            04_COORDINATION/WORK_ITEM_DEPTH_STANDARD.md
+            04_COORDINATION/PROGRESS_REPORTING_PROTOCOL.md
             04_COORDINATION/SINGLE_PROMPT_MULTI_CHAT_DISPATCH.md
             .github/ISSUE_TEMPLATE/farast-task.yml
             .github/PULL_REQUEST_TEMPLATE.md
@@ -82,6 +85,7 @@ jobs:
           from pathlib import Path
           source = Path('.github/workflows/farast-coordinator.yml').read_text(encoding='utf-8')
           yaml.safe_load(source)
+          yaml.safe_load(Path('.github/ISSUE_TEMPLATE/farast-task.yml').read_text(encoding='utf-8'))
           lines = source.splitlines()
           start = next(i for i, line in enumerate(lines) if line.strip() == 'script: |')
           block = []
@@ -124,11 +128,32 @@ jobs:
           checkpoint_sample = {"TASK_ID":"FCP-EXP03-001","PROMPT_ID":"PR-03","RUN_ID":"RUN-SAMPLE-001","OPERATION_ID_LAST_CONFIRMED":None,"RECOVERY_STATE":"CONFIRMED","AGENT_ALIAS":"ci-fixture","TIMESTAMP_UTC":"2026-11-14T00:00:00Z","TASK_STATUS":"READY","BRANCH":"work/FCP-EXP03-001","COMMIT_SHA":None,"LAST_COMPLETED_STEP":"none","CURRENT_STEP":"fixture","NEXT_ACTION":"resume","EXACT_RESUME_INSTRUCTION":"read task and continue","LAST_GITHUB_READBACK_UTC":None,"PENDING_OPERATION_AND_ID":None,"FILES_CHANGED":[],"COMMANDS_EXECUTED":[],"TESTS_AND_RESULTS":[],"EVIDENCE_LINKS":[],"FACTS_CONFIRMED":[],"ASSUMPTIONS":[],"UNKNOWN":[],"BLOCKERS":[],"RESOURCE_LEASES":[],"HUMAN_APPROVAL":None,"HANDOFF_NOTES":""}
           Draft202012Validator(work_schema, format_checker=FormatChecker()).validate(work_sample)
           Draft202012Validator(checkpoint_schema, format_checker=FormatChecker()).validate(checkpoint_sample)
+          import re
+          decomposition = Path("01_STRATEGY/EXECUTION_DECOMPOSITION_17x27.md").read_text(encoding="utf-8")
+          exp_ids = set(re.findall(r"^### EXP-(\\d{2}) —", decomposition, re.M))
+          prompt_ids = set(re.findall(r"^\\| PR-(\\d{2}) \\|", decomposition, re.M))
+          assert len(exp_ids) == 27, ("Expected 27 deep EXP plans", len(exp_ids))
+          assert len(prompt_ids) == 17, ("Expected 17 prompt mappings", len(prompt_ids))
+          assert "هدف هر EXP یک مأموریت عمیق" in decomposition
+          depth_standard = Path("04_COORDINATION/WORK_ITEM_DEPTH_STANDARD.md").read_text(encoding="utf-8")
+          progress_protocol = Path("04_COORDINATION/PROGRESS_REPORTING_PROTOCOL.md").read_text(encoding="utf-8")
+          assert "حداقل ۶ گام substantive" in depth_standard
+          for metric in ("EXECUTION_PROGRESS", "ACCEPTANCE_PROGRESS", "OVERALL_COMPLETION"):
+              assert metric in progress_protocol, metric
+          assert "effort_estimate_minutes" in work_item_schema["properties"]
+          assert "depth_profile" in work_item_schema["properties"]
+          assert "deliverables" in work_item_schema["properties"]
+          assert "execution_progress_percentage" in work_item_checkpoint_schema["properties"]
+          assert "acceptance_progress_percentage" in work_item_checkpoint_schema["properties"]
+          assert "overall_completion_percentage" in work_item_checkpoint_schema["properties"]
+          prompt_bundle = Path("05_PROMPT_LIBRARY/FARAST_EXECUTABLE_PROMPTS_COMPLETE.md").read_text(encoding="utf-8")
+          assert "نسخه: 1.9.0" in prompt_bundle
+          assert "قرارداد اجباری عمق مأموریت و گزارش پیشرفت (نسخه 2.0)" in prompt_bundle
           for n in range(1, 18):
               matches = list(Path("05_PROMPT_LIBRARY").glob(f"PR-{n:02d}_*.md"))
               assert len(matches) == 1, (n, matches)
               body = matches[0].read_text(encoding="utf-8")
-              for required in ("START_HERE.md", "LOCK_MANAGER_PROTOCOL.md", "INTERRUPTION_RECOVERY_PROTOCOL.md", "MASTER-00.md", "OPERATION_ID", "AMBIGUOUS", "TASK_ID", "GitHub", "WORK_ITEM_EXECUTION_PROTOCOL.md", "WORK_ITEM_SCHEMA.json", "WI-GOAL-ALLOCATOR-001", "write_policy", "WRITE_REQUIRES_OWNER_APPROVAL", "/farast step", "/farast criterion", "/farast progress", "/farast checkpoint"):
+              for required in ("قرارداد اجباری عمق مأموریت و گزارش پیشرفت (نسخه 2.0)", "EXECUTION_DECOMPOSITION_17x27.md", "WORK_ITEM_DEPTH_STANDARD.md", "PROGRESS_REPORTING_PROTOCOL.md", "START_HERE.md", "LOCK_MANAGER_PROTOCOL.md", "INTERRUPTION_RECOVERY_PROTOCOL.md", "MASTER-00.md", "OPERATION_ID", "AMBIGUOUS", "TASK_ID", "GitHub", "WORK_ITEM_EXECUTION_PROTOCOL.md", "WORK_ITEM_SCHEMA.json", "WI-GOAL-ALLOCATOR-001", "write_policy", "WRITE_REQUIRES_OWNER_APPROVAL", "/farast step", "/farast criterion", "/farast progress", "/farast checkpoint"):
                   assert required in body, (matches[0], required)
               assert "قفل این نسخه اتمیک نیست" not in body, matches[0]
               assert "رجیستری `coordination/locks` فقط توسط workflow مرکزی نوشته می‌شود" in body, matches[0]
