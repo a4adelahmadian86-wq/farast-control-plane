@@ -145,6 +145,17 @@
           },
           "validation_note": {
             "type": "string"
+          },
+          "expected_output": {
+            "type": "string"
+          },
+          "evidence_requirement": {
+            "type": "string"
+          },
+          "estimate_minutes": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 30
           }
         }
       }
@@ -205,6 +216,13 @@
           },
           "validation_note": {
             "type": "string"
+          },
+          "weight": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "evidence_requirement": {
+            "type": "string"
           }
         }
       }
@@ -250,6 +268,79 @@
       "type": "string",
       "minLength": 1,
       "description": "Required when write_policy is WRITE_REQUIRES_OWNER_APPROVAL; owner approval evidence reference."
+    },
+    "effort_estimate_minutes": {
+      "type": "integer",
+      "minimum": 20,
+      "maximum": 30,
+      "description": "Target focused effort for a standard deep leaf; not a forced minimum duration."
+    },
+    "effort_rationale": {
+      "type": "string",
+      "minLength": 1
+    },
+    "depth_profile": {
+      "type": "object",
+      "required": [
+        "profile_version",
+        "min_substantive_steps",
+        "min_acceptance_criteria",
+        "min_deliverables"
+      ],
+      "properties": {
+        "profile_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "min_substantive_steps": {
+          "type": "integer",
+          "minimum": 6
+        },
+        "min_acceptance_criteria": {
+          "type": "integer",
+          "minimum": 4
+        },
+        "min_deliverables": {
+          "type": "integer",
+          "minimum": 3
+        },
+        "target_effort_minutes": {
+          "type": "integer",
+          "minimum": 20,
+          "maximum": 30
+        }
+      },
+      "additionalProperties": false
+    },
+    "deliverables": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "required": [
+          "deliverable_id",
+          "description",
+          "evidence_requirement"
+        ],
+        "properties": {
+          "deliverable_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence_requirement": {
+            "type": "string",
+            "minLength": 1
+          },
+          "artifact_path": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
     }
   },
   "additionalProperties": false
