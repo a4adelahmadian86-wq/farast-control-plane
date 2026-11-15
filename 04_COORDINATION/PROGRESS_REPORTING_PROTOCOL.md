@@ -15,7 +15,7 @@
 
 ## 2. ACCEPTANCE_PROGRESS
 درصد معیارهای پذیرش required که validation_status=PASS و evidence معتبر دارند.
-- از وزن‌های معتبر و versioned استفاده کن؛ در غیر این صورت criteria هم‌وزن‌اند.
+- از وزن‌های معتبر و versioned در acceptance_weighting.version استفاده کن؛ در غیر این صورت criteria هم‌وزن‌اند. اگر weighting فعال است، تمام معیارهای required باید weight مثبت داشته باشند.
 - اگر معیارهای پذیرش هنوز تعریف نشده‌اند یا schema ناقص است، N/A گزارش کن؛ هرگز ۰ یا ۱۰۰ حدسی نساز.
 - PASS بدون evidence معتبر پذیرفته نیست.
 
@@ -55,3 +55,8 @@
 - گزارش فاقد evidence ref باید UNVERIFIED باشد.
 - اگر تعداد/وزن criteria نامعلوم است، ACCEPTANCE_PROGRESS=N/A.
 - هر تغییر وزن باید weighting.version جدید و دلیل داشته باشد؛ وزن گذشته را بی‌صدا بازنویسی نکن.
+
+## 7. اجرای واقعی در Control Plane
+- `.github/scripts/work-item-core.js` مقدارهای execution_percentage، acceptance_percentage و overall_completion_percentage را محاسبه می‌کند؛ percentage قدیمی alias اجرای گام‌ها برای سازگاری عقب‌رو است.
+- `/farast progress`، ثبت step/criterion و checkpoint باید هر سه شاخص را گزارش کنند.
+- checkpoint شامل progress_calculation_version، required_step_counts و acceptance_criteria_counts است تا چت بعدی بتواند دقیق resume کند.
