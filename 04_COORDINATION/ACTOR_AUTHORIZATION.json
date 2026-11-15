@@ -15,7 +15,8 @@
       "progress",
       "step",
       "criterion",
-      "checkpoint"
+      "checkpoint",
+      "refresh"
     ],
     "SENIOR_MANAGER": [
       "claim",
