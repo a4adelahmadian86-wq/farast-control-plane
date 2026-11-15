@@ -214,3 +214,37 @@ test('branchless READ_ONLY claim does not inherit or expose a prior target-repos
   assert.equal(s.locks.at(-1).branch, null);
   assert.equal(s.history.filter(x => x.event === 'ACQUIRED').at(-1).branch, null);
 });
+
+ 
+test('write policy resolution defaults legacy tasks to READ_ONLY and rejects stale registry authorization', () => {
+  assert.equal(core.resolveWritePolicy(null, null), 'READ_ONLY');
+  assert.equal(core.resolveWritePolicy({ write_policy: 'READ_ONLY' }, { write_policy: undefined }), 'READ_ONLY');
+  assert.equal(core.resolveWritePolicy(
+    { write_policy: 'WRITE_ALLOWED', target_repository: 'owner/control', resource_keys: ['module:ci'] },
+    { write_policy: 'WRITE_ALLOWED', target_repository: 'owner/control', resource_keys: ['module:ci'] }
+  ), 'WRITE_ALLOWED');
+  assert.equal(core.resolveWritePolicy(
+    { write_policy: 'WRITE_REQUIRES_OWNER_APPROVAL', target_repository: 'owner/control', resource_keys: ['module:proposal'] },
+    { write_policy: 'WRITE_REQUIRES_OWNER_APPROVAL', target_repository: 'owner/control', resource_keys: ['module:proposal'] }
+  ), 'WRITE_REQUIRES_OWNER_APPROVAL');
+  assert.throws(() => core.resolveWritePolicy(
+    { write_policy: 'READ_ONLY', target_repository: 'owner/product', resource_keys: ['analysis:exp-01'] },
+    { write_policy: 'WRITE_ALLOWED', target_repository: 'owner/product', resource_keys: ['analysis:exp-01'] }
+  ), /write_policy differs/);
+  assert.throws(() => core.resolveWritePolicy(
+    { write_policy: 'READ_ONLY', target_repository: 'owner/product', resource_keys: ['analysis:exp-01'] },
+    { write_policy: 'READ_ONLY', target_repository: 'owner/control', resource_keys: ['analysis:exp-01'] }
+  ), /target_repository differs/);
+  assert.throws(() => core.resolveWritePolicy(
+    { write_policy: 'READ_ONLY', target_repository: 'owner/product', resource_keys: ['analysis:exp-01'] },
+    { write_policy: 'READ_ONLY', target_repository: 'owner/product', resource_keys: ['analysis:other'] }
+  ), /resource_keys differ/);
+  assert.throws(() => core.resolveWritePolicy(
+    { write_policy: 'INVALID', target_repository: 'owner/product', resource_keys: ['analysis:exp-01'] },
+    null
+  ), /Unknown live write_policy/);
+  assert.throws(() => core.resolveWritePolicy(
+    null,
+    { write_policy: 'WRITE_ALLOWED', target_repository: 'owner/control', resource_keys: ['module:ci'] }
+  ), /write_policy differs/);
+});
