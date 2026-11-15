@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 146,
+  "revision": 147,
   "next_fencing_token": 59,
   "locks": [
     {
@@ -1427,6 +1427,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-15T16:36:43.732Z"
+    },
+    "6897751639": {
+      "response": "WORK_ITEM=WI-GOAL-ALLOCATOR-001; progress=100%; verified_steps=5/5; weighting=EQUAL_STEPS_V1; acceptance_criteria=PASS; dependencies=PASS; can_accept=true. درصد پیشرفت به‌تنهایی پذیرش نیست.",
+      "response_posted": false,
+      "issue_number": 11,
+      "actor": "a4adelahmadian86-wq",
+      "command": "progress",
+      "next_status": null,
+      "at_utc": "2026-11-15T16:37:59.319Z"
     }
   },
   "work_items": {
