@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 268,
+  "revision": 269,
   "next_fencing_token": 64,
   "locks": [
     {
@@ -2530,6 +2530,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-15T18:24:29.578Z"
+    },
+    "6899131761": {
+      "response": "STEP ثبت شد: S4_EXECUTE; progress=71.42%; verified=5/7.",
+      "response_posted": false,
+      "issue_number": 43,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-15T18:24:36.068Z"
     }
   },
   "work_items": {
@@ -2931,8 +2940,13 @@
           "title": "Connect selected specialist prompt to claim, heartbeat, evidence-backed steps/criteria, checkpoint, block/release and next-action handoff",
           "required": true,
           "weight": 1,
-          "validation_status": "NOT_RUN",
-          "evidence_refs": []
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/43"
+          ],
+          "validated_at_utc": "2026-11-15T18:24:36.068Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S5_REGRESSION",
