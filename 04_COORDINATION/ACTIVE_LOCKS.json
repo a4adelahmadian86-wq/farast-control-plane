@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 232,
+  "revision": 233,
   "next_fencing_token": 63,
   "locks": [
     {
@@ -2207,6 +2207,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-15T18:11:27.950Z"
+    },
+    "6898955720": {
+      "response": "معیار پذیرش ثبت شد: AC_REGRESSION; can_accept=true; progress=100%.",
+      "response_posted": false,
+      "issue_number": 44,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-15T18:11:33.372Z"
     }
   },
   "work_items": {
@@ -2543,7 +2552,7 @@
       "parent_exp_ids": [
         "EXP-01"
       ],
-      "status": "IN_PROGRESS",
+      "status": "REVIEW_REQUIRED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "module:coordinator-claim-routing",
@@ -2696,8 +2705,13 @@
           "criterion_id": "AC_REGRESSION",
           "title": "Automated tests cover all policy modes and latest CI passes on the proposed head",
           "required": true,
-          "validation_status": "NOT_RUN",
-          "evidence_refs": []
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/43745065814"
+          ],
+          "validated_at_utc": "2026-11-15T18:11:33.372Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "priority": 40,
