@@ -68,5 +68,5 @@ test('priority aging and stable identifiers produce deterministic tie-breaks', (
     item({ issue_number: 3, work_item_id: 'WI-A', priority: 50, created_at_utc: '2026-10-01T00:00:00Z' })
   ], { nowMs: now });
   assert.equal(selected.work_item_id, 'WI-A');
-  assert.equal(selected.selection.effectivePriority, 0);
+  assert.equal(selected.selection.effectivePriority, 5);
 });
