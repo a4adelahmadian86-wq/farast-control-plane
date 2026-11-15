@@ -131,3 +131,56 @@ test('approval-gated writes require an owner approval evidence reference',()=>{
  x.owner_approval_ref='https://github.com/owner/repo/issues/1#issuecomment-1';
  assert.doesNotThrow(()=>wi.calculateProgress(x));
 });
+
+
+test('execution, acceptance and overall completion are calculated separately',()=>{
+ const x=item();
+ for(const step of x.steps) wi.recordStepEvidence(x,{...input(step.step_id)});
+ wi.recordCriterionEvidence(x,{lease,actor:'alice',chat_id:'chat-a',run_id:'run-a',fencing_token:7,criterion_id:'AC1',validation_status:'PASS',evidence_refs:['evidence:criterion-1'],nowMs:Date.parse('2026-01-01T00:30:00Z')});
+ const p=wi.calculateProgress(x);
+ assert.equal(p.execution_percentage,100);
+ assert.equal(p.acceptance_percentage,50);
+ assert.equal(p.overall_completion_percentage,50);
+ assert.equal(p.percentage,100);
+ assert.equal(p.can_accept,false);
+});
+
+test('versioned acceptance weighting is applied independently from execution weighting',()=>{
+ const x=item({
+  acceptance_weighting:{version:'acceptance-v1'},
+  acceptance_criteria:[
+   {criterion_id:'AC1',title:'Critical',weight:3},
+   {criterion_id:'AC2',title:'Minor',weight:1}
+  ]
+ });
+ wi.recordCriterionEvidence(x,{lease,actor:'alice',chat_id:'chat-a',run_id:'run-a',fencing_token:7,criterion_id:'AC2',validation_status:'PASS',evidence_refs:['evidence:minor'],nowMs:Date.parse('2026-01-01T00:30:00Z')});
+ const p=wi.calculateProgress(x);
+ assert.equal(p.acceptance_percentage,25);
+ assert.equal(p.acceptance_weighting_version,'acceptance-v1');
+ assert.equal(p.overall_completion_percentage,0);
+});
+
+test('deep profile rejects a Work Item without substantive depth metadata',()=>{
+ const x=item({
+  effort_estimate_minutes:25,
+  effort_rationale:'Focused discovery and cross-check.',
+  depth_profile:{profile_version:'2.0.0',min_substantive_steps:6,min_acceptance_criteria:4,min_deliverables:3,target_effort_minutes:25},
+  steps:Array.from({length:6},(_,i)=>({step_id:'S'+i,title:'Step '+i,expected_output:'Output '+i,evidence_requirement:'Evidence '+i})),
+  acceptance_criteria:Array.from({length:4},(_,i)=>({criterion_id:'AC'+i,title:'Criterion '+i,evidence_requirement:'Evidence '+i})),
+  deliverables:Array.from({length:3},(_,i)=>({deliverable_id:'D'+i,description:'Deliverable '+i,evidence_requirement:'Evidence '+i}))
+ });
+ assert.doesNotThrow(()=>wi.validateWorkItem(x));
+ delete x.steps[0].evidence_requirement;
+ assert.throws(()=>wi.validateWorkItem(x),/deep Work Item steps need evidence_requirement/);
+});
+
+test('checkpoint stores all three progress dimensions and state counts',()=>{
+ const x=item();
+ const cp=wi.createCheckpoint(x,{lease,actor:'alice',chat_id:'chat-a',run_id:'run-a',fencing_token:7,nowMs:Date.parse('2026-01-01T00:30:00Z')});
+ assert.equal(cp.execution_progress_percentage,0);
+ assert.equal(cp.acceptance_progress_percentage,0);
+ assert.equal(cp.overall_completion_percentage,0);
+ assert.equal(cp.progress_calculation_version,'PROGRESS_V2');
+ assert.equal(cp.required_step_counts.not_run,3);
+ assert.equal(cp.acceptance_criteria_counts.not_run,2);
+});
