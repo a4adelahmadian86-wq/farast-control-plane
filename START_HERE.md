@@ -90,3 +90,15 @@
 
 
 **ساخت برگ جدید:** فقط پس از جست‌وجوی Issueهای موجود و claim موفق allocator با `WORK_ITEM_ID=WI-GOAL-ALLOCATOR-001` می‌توان Work Itemهای جدید را ایجاد کرد. این قفل مانع ایجاد برگ‌های تکراری توسط چند چت هم‌زمان می‌شود.
+
+
+## بازبینی زنده وضعیت — 2026-11-15
+
+آخرین وضعیت تأییدشده را از [MULTI_CHAT_READINESS.md](04_COORDINATION/MULTI_CHAT_READINESS.md) بخوانید. snapshot فعلی:
+- main: `84fd40403f8b0f4bfb9695b6be7c7bad44b6e0f6`
+- CI: run `43730243174` موفق
+- coordinator: run `43730884158` موفق
+- schedule: run `43726463983` موفق
+- registry revision 113، بدون lease فعال.
+
+این شواهد اجرای زنده single-account را تأیید می‌کنند، نه E2E دو حساب مستقل. branch protection شاخه main فعال نیست؛ تا ثبت آزمون دوحسابی و اعمال/read-back حفاظت لازم، MASTER-00 برای شروع کارهای مجاز READ_ONLY قابل استفاده است، اما چندحسابی را VERIFIED تلقی نکنید. مخزن محصول `non` همچنان READ_ONLY است.
