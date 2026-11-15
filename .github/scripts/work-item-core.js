@@ -221,6 +221,8 @@ function resumePlan(item) {
     execution_progress_percentage: progress.execution_percentage,
     acceptance_progress_percentage: progress.acceptance_percentage,
     overall_completion_percentage: progress.overall_completion_percentage,
+    required_step_counts: progress.required_step_counts,
+    acceptance_criteria_counts: progress.acceptance_criteria_counts,
     next_action: item.steps.find(s => s.required !== false && !evidenceVerified(s))?.step_id || 'verify_acceptance_criteria'
   };
 }
