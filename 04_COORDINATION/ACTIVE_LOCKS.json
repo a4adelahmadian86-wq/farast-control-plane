@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 179,
+  "revision": 180,
   "next_fencing_token": 63,
   "locks": [
     {
@@ -1787,7 +1787,7 @@
     },
     "6898691582": {
       "response": "CLAIM GRANTED. TASK=GH-44; WORK_ITEM_ID=WI-READONLY-ROUTING-001; verified_steps=; remaining_steps=S0_AUDIT,S1_POLICY,S2_ROUTING,S3_PROMPTS,S4_TESTS,S5_NEGATIVE,S6_VERIFY; progress=0%; actor=@a4adelahmadian86-wq; chat=master00-readonly-routing; run=RUN-20261115-READONLY-ROUTING-01; resource_keys=module:coordinator-claim-routing,module:write-policy-enforcement; target_repository=a4adelahmadian86-wq/farast-control-plane; branch=work/GH-44-RUN-20261115-READONLY-ROUTING-01; previous_run=none; fencing_token=62; lease_expires=2026-11-15T18:20:19.947Z. پیش از هر write و checkpoint، heartbeat را تمدید و token را بررسی کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز؛ هرگز branch قبلی را تغییر نده.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 44,
       "actor": "a4adelahmadian86-wq",
       "command": "claim",
