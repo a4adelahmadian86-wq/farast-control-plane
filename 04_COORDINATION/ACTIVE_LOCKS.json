@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 210,
+  "revision": 211,
   "next_fencing_token": 63,
   "locks": [
     {
@@ -2108,6 +2108,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-15T18:09:47.480Z"
+    },
+    "6898949135": {
+      "response": "STEP ثبت شد: S0_AUDIT; progress=14.28%; verified=1/7.",
+      "response_posted": false,
+      "issue_number": 44,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-15T18:10:19.891Z"
     }
   },
   "work_items": {
@@ -2444,7 +2453,7 @@
       "parent_exp_ids": [
         "EXP-01"
       ],
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "module:coordinator-claim-routing",
@@ -2457,8 +2466,13 @@
           "title": "Trace write_policy parsing, target repository resolution, claim branch metadata, prompt instructions and all affected tests",
           "required": true,
           "weight": 1,
-          "validation_status": "NOT_RUN",
-          "evidence_refs": []
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/45"
+          ],
+          "validated_at_utc": "2026-11-15T18:10:19.709Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S1_POLICY",
