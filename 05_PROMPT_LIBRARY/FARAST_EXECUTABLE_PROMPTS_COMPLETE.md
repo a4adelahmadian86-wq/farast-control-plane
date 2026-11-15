@@ -59,6 +59,23 @@
 
 این حلقه به معنی اجرای نامحدود خارج از محدودیت‌های ChatGPT نیست؛ عامل باید در هر نوبت تا حد مجاز ادامه دهد و قبل از هر توقف اجباری وضعیت را پایدار کند. پایان یک Work Item پایان مأموریت کلی نیست.
 
+## انتخاب خودکار برای پرامپت تخصصی — بدون تخصیص دستی
+
+هر پرامپت PR-01 تا PR-17 محدوده خودش را در سربرگ با `- EXP:` و `- GOAL:` اعلام می‌کند. همان محدوده، فیلتر اولیه صف است؛ چت تخصصی حق ندارد صرفاً چون یک Issue آزادتر است، مأموریت نامرتبط را claim کند. MASTER-00 بدون PR تخصصی، همه هدف‌های باز و مجاز را بررسی می‌کند.
+
+الگوریتم اجباری انتخاب:
+1. EXPهای این پرامپت را استخراج کن؛ همه Issueهای باز و بسته را جست‌وجو کن و Work Item JSON، status/labels، `coordination/locks`، `work_items`، `checkpoints` و dependency graph را از snapshot زنده بخوان.
+2. فقط برگ‌هایی را نگه دار که `parent_exp_ids` آن‌ها با EXPهای همین پرامپت اشتراک دارد. Issue والد، گزارش، PR یا Work Item متعلق به PR دیگر نامزد claim نیست.
+3. فقط `READY`، `IN_PROGRESS` و `CLAIMED` بدون Lease فعال نامزدند. `BLOCKED`، `REVIEW_REQUIRED`، `ACCEPTED`، `REJECTED`، `CANCELLED` و labelهای blocked/review/done حذف می‌شوند.
+4. هر `hard_gates` باید از منبع معتبر `ACCEPTED/PASS` باشد؛ گیت حل‌نشده نامزد را حذف می‌کند. `soft_inputs` به‌تنهایی gate نیستند. اگر جهت/معنای gate مبهم است، همان leaf را BLOCKED ثبت کن و به نامزد مستقل بعدی برو.
+5. هر Lease فعال روی همان Issue یا هر `resource_key` مشترک، نامزد را حذف می‌کند. Lease با expiry مبهم/نامعتبر را فعال فرض کن؛ برای آزادکردنش دستکاری رجیستری ممنوع است.
+6. ابتدا کار `IN_PROGRESS/CLAIMED` قابل resume را که checkpoint معتبر یا step تأییدشده با evidence دارد انتخاب کن. همان `WORK_ITEM_ID` را حفظ کن و فقط remaining stepها را ادامه بده؛ برای آن Issue Work Item جدید نساز.
+7. برای بقیه نامزدها `effective_priority = max(0, priority - floor(age_days))` را محاسبه کن؛ عدد کمتر اولویت بالاتر است. سپس به‌ترتیب `effective_priority`، زمان قدیمی‌تر `ready_at_utc/created_at_utc`، `WORK_ITEM_ID` و Issue number مرتب کن.
+8. فقط نامزد اول را با `/farast claim` امتحان کن. پس از هر پاسخ، رجیستری و کامنت Coordinator را read-back کن. اگر claim رد شد، conflict داشت یا نتیجه مبهم بود، آن را برای همین دور skip کن و نامزد بعدی را بررسی کن؛ هیچ write با فرض موفقیت انجام نده.
+9. اگر هیچ نامزد واجد شرایط در محدوده همین پرامپت نیست، حلقه را متوقف نکن: discovery و تحلیل read-only همان EXPها، dependencyها، شواهد و شکاف‌های مستقل را ادامه بده. اگر واقعاً leaf لازم است، allocator ثابت را فقط با claim انحصاری اجرا کن؛ اگر allocator قفل است، duplicate نساز و کار read-only را ادامه بده.
+10. پس از review/release/block یا پایان هر leaf، صف را از نو بخوان و دوباره انتخاب کن. هر چت فقط یک Work Item را در هر لحظه claim می‌کند. هیچ شماره Issue یا انتخابی از مالک مطالبه نکن.
+
+این الگوریتم انتخاب محلی را قطعی می‌کند؛ مجوز اجرا فقط با CLAIM GRANTED و read-back معتبر Coordinator به دست می‌آید. این الگوریتم چت جدید ایجاد نمی‌کند و ادعای خودکارسازی خارج از نشست ChatGPT ندارد.
 ## تشخیص مأموریت
 - اگر کاربر PR-01 تا PR-17 را داده، همان را اجرا کن.
 - اگر فقط MASTER-00 داده شده، مأموریت را از درخواست کاربر و TASKهای باز استخراج کن.
@@ -135,10 +152,11 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 پیش از هر اقدام، `START_HERE.md`، `04_COORDINATION/INTERRUPTION_RECOVERY_PROTOCOL.md`، `05_PROMPT_LIBRARY/MASTER-00.md` و `04_COORDINATION/WORK_ITEM_EXECUTION_PROTOCOL.md` را از main بخوان. سپس Issueها، PRها، checkpointها، feedback و branch `coordination/locks` را read-only بررسی کن. حافظه چت و خلاصه خودکار مرجع وضعیت نیستند.
 
 ## انتخاب هدف خرد
-- هدف‌های مرتبط را از GOAL_TREE و EXP-01 تا EXP-27 استخراج کن؛ شماره‌ها شناسه‌اند، نه ترتیب اجباری.
+- محدوده تخصصی را فقط از EXP IDهای سربرگ همین پرامپت استخراج کن؛ فقط Issueهایی که parent_exp_ids با این مجموعه اشتراک دارد نامزدند. MASTER-00 عمومی می‌تواند همه هدف‌های باز را بررسی کند.
+- با دریافت همین پرامپت، بدون درخواست شماره Issue یا تخصیص دستی از مالک، صف زنده را طبق الگوریتم MASTER-00 و WORK_ITEM_EXECUTION_PROTOCOL بخوان و خودکار برگ بعدی را انتخاب کن.
 - هر برگ اجرایی یک Issue مستقل با WORK_ITEM_ID پایدار است. پیش از ساخت Issue، Issueهای باز و بسته، WORK_ITEM_IDها، dependencyها و resource keys را جست‌وجو کن؛ کار موجود را دوباره نساز.
 - ابتدا work item نیمه‌تمام با checkpoint معتبر و lease منقضی/آزاد را برای resume انتخاب کن؛ اگر lease معتبر دارد آن را کنار بگذار. سپس READYهای بدون dependency یا resource conflict را طبق priority مالک، aging روزانه، قدیمی‌ترین ready/created time و WORK_ITEM_ID مرتب کن.
-- انتخاب محلی مجوز write نیست؛ فقط پس از claim موفق CAS از طریق /farast روی Issue همان برگ اقدام کن. اگر هیچ برگ آزاد و واجد شرایط نیست، متوقف شو و وضعیت را گزارش کن.
+- انتخاب محلی مجوز write نیست؛ فقط پس از CLAIM GRANTED و read-back رجیستری از طریق /farast روی Issue همان برگ اقدام کن. اگر claim رد شد، conflict داشت یا timeout شد، اثر را read-back کن و نامزد بعدی را امتحان کن. اگر هیچ برگ واجد شرایطی در محدوده همین پرامپت نیست، discovery و تحلیل dependency/evidence همان EXPها را read-only ادامه بده؛ allocator فقط با Lease انحصاری، و بدون duplicate.
 - Issue والد صرفاً گروه‌بندی و تجمیع است و هرگز claim اجرایی نمی‌گیرد.
 - هر Work Item باید `write_policy` داشته باشد: `READ_ONLY`, `WRITE_REQUIRES_OWNER_APPROVAL` یا `WRITE_ALLOWED`. مخزن محصول `a4adelahmadian86-wq/non` فقط `READ_ONLY` است تا مجوز جداگانه مالک ثبت شود. WRITE_ALLOWED فقط برای Issue ساخته‌شده توسط repository owner پذیرفته می‌شود.
 - `priority_source=DEFAULT_POLICY` و priority=50 یعنی اولویت برابر و FIFO/aging، نه رتبه‌بندی مالک؛ `OWNER_ASSIGNED` فقط با تصمیم صریح مالک.
@@ -219,10 +237,11 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 پیش از هر اقدام، `START_HERE.md`، `04_COORDINATION/INTERRUPTION_RECOVERY_PROTOCOL.md`، `05_PROMPT_LIBRARY/MASTER-00.md` و `04_COORDINATION/WORK_ITEM_EXECUTION_PROTOCOL.md` را از main بخوان. سپس Issueها، PRها، checkpointها، feedback و branch `coordination/locks` را read-only بررسی کن. حافظه چت و خلاصه خودکار مرجع وضعیت نیستند.
 
 ## انتخاب هدف خرد
-- هدف‌های مرتبط را از GOAL_TREE و EXP-01 تا EXP-27 استخراج کن؛ شماره‌ها شناسه‌اند، نه ترتیب اجباری.
+- محدوده تخصصی را فقط از EXP IDهای سربرگ همین پرامپت استخراج کن؛ فقط Issueهایی که parent_exp_ids با این مجموعه اشتراک دارد نامزدند. MASTER-00 عمومی می‌تواند همه هدف‌های باز را بررسی کند.
+- با دریافت همین پرامپت، بدون درخواست شماره Issue یا تخصیص دستی از مالک، صف زنده را طبق الگوریتم MASTER-00 و WORK_ITEM_EXECUTION_PROTOCOL بخوان و خودکار برگ بعدی را انتخاب کن.
 - هر برگ اجرایی یک Issue مستقل با WORK_ITEM_ID پایدار است. پیش از ساخت Issue، Issueهای باز و بسته، WORK_ITEM_IDها، dependencyها و resource keys را جست‌وجو کن؛ کار موجود را دوباره نساز.
 - ابتدا work item نیمه‌تمام با checkpoint معتبر و lease منقضی/آزاد را برای resume انتخاب کن؛ اگر lease معتبر دارد آن را کنار بگذار. سپس READYهای بدون dependency یا resource conflict را طبق priority مالک، aging روزانه، قدیمی‌ترین ready/created time و WORK_ITEM_ID مرتب کن.
-- انتخاب محلی مجوز write نیست؛ فقط پس از claim موفق CAS از طریق /farast روی Issue همان برگ اقدام کن. اگر هیچ برگ آزاد و واجد شرایط نیست، متوقف شو و وضعیت را گزارش کن.
+- انتخاب محلی مجوز write نیست؛ فقط پس از CLAIM GRANTED و read-back رجیستری از طریق /farast روی Issue همان برگ اقدام کن. اگر claim رد شد، conflict داشت یا timeout شد، اثر را read-back کن و نامزد بعدی را امتحان کن. اگر هیچ برگ واجد شرایطی در محدوده همین پرامپت نیست، discovery و تحلیل dependency/evidence همان EXPها را read-only ادامه بده؛ allocator فقط با Lease انحصاری، و بدون duplicate.
 - Issue والد صرفاً گروه‌بندی و تجمیع است و هرگز claim اجرایی نمی‌گیرد.
 - هر Work Item باید `write_policy` داشته باشد: `READ_ONLY`, `WRITE_REQUIRES_OWNER_APPROVAL` یا `WRITE_ALLOWED`. مخزن محصول `a4adelahmadian86-wq/non` فقط `READ_ONLY` است تا مجوز جداگانه مالک ثبت شود. WRITE_ALLOWED فقط برای Issue ساخته‌شده توسط repository owner پذیرفته می‌شود.
 - `priority_source=DEFAULT_POLICY` و priority=50 یعنی اولویت برابر و FIFO/aging، نه رتبه‌بندی مالک؛ `OWNER_ASSIGNED` فقط با تصمیم صریح مالک.
@@ -297,10 +316,11 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 پیش از هر اقدام، `START_HERE.md`، `04_COORDINATION/INTERRUPTION_RECOVERY_PROTOCOL.md`، `05_PROMPT_LIBRARY/MASTER-00.md` و `04_COORDINATION/WORK_ITEM_EXECUTION_PROTOCOL.md` را از main بخوان. سپس Issueها، PRها، checkpointها، feedback و branch `coordination/locks` را read-only بررسی کن. حافظه چت و خلاصه خودکار مرجع وضعیت نیستند.
 
 ## انتخاب هدف خرد
-- هدف‌های مرتبط را از GOAL_TREE و EXP-01 تا EXP-27 استخراج کن؛ شماره‌ها شناسه‌اند، نه ترتیب اجباری.
+- محدوده تخصصی را فقط از EXP IDهای سربرگ همین پرامپت استخراج کن؛ فقط Issueهایی که parent_exp_ids با این مجموعه اشتراک دارد نامزدند. MASTER-00 عمومی می‌تواند همه هدف‌های باز را بررسی کند.
+- با دریافت همین پرامپت، بدون درخواست شماره Issue یا تخصیص دستی از مالک، صف زنده را طبق الگوریتم MASTER-00 و WORK_ITEM_EXECUTION_PROTOCOL بخوان و خودکار برگ بعدی را انتخاب کن.
 - هر برگ اجرایی یک Issue مستقل با WORK_ITEM_ID پایدار است. پیش از ساخت Issue، Issueهای باز و بسته، WORK_ITEM_IDها، dependencyها و resource keys را جست‌وجو کن؛ کار موجود را دوباره نساز.
 - ابتدا work item نیمه‌تمام با checkpoint معتبر و lease منقضی/آزاد را برای resume انتخاب کن؛ اگر lease معتبر دارد آن را کنار بگذار. سپس READYهای بدون dependency یا resource conflict را طبق priority مالک، aging روزانه، قدیمی‌ترین ready/created time و WORK_ITEM_ID مرتب کن.
-- انتخاب محلی مجوز write نیست؛ فقط پس از claim موفق CAS از طریق /farast روی Issue همان برگ اقدام کن. اگر هیچ برگ آزاد و واجد شرایط نیست، متوقف شو و وضعیت را گزارش کن.
+- انتخاب محلی مجوز write نیست؛ فقط پس از CLAIM GRANTED و read-back رجیستری از طریق /farast روی Issue همان برگ اقدام کن. اگر claim رد شد، conflict داشت یا timeout شد، اثر را read-back کن و نامزد بعدی را امتحان کن. اگر هیچ برگ واجد شرایطی در محدوده همین پرامپت نیست، discovery و تحلیل dependency/evidence همان EXPها را read-only ادامه بده؛ allocator فقط با Lease انحصاری، و بدون duplicate.
 - Issue والد صرفاً گروه‌بندی و تجمیع است و هرگز claim اجرایی نمی‌گیرد.
 - هر Work Item باید `write_policy` داشته باشد: `READ_ONLY`, `WRITE_REQUIRES_OWNER_APPROVAL` یا `WRITE_ALLOWED`. مخزن محصول `a4adelahmadian86-wq/non` فقط `READ_ONLY` است تا مجوز جداگانه مالک ثبت شود. WRITE_ALLOWED فقط برای Issue ساخته‌شده توسط repository owner پذیرفته می‌شود.
 - `priority_source=DEFAULT_POLICY` و priority=50 یعنی اولویت برابر و FIFO/aging، نه رتبه‌بندی مالک؛ `OWNER_ASSIGNED` فقط با تصمیم صریح مالک.
@@ -375,10 +395,11 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 پیش از هر اقدام، `START_HERE.md`، `04_COORDINATION/INTERRUPTION_RECOVERY_PROTOCOL.md`، `05_PROMPT_LIBRARY/MASTER-00.md` و `04_COORDINATION/WORK_ITEM_EXECUTION_PROTOCOL.md` را از main بخوان. سپس Issueها، PRها، checkpointها، feedback و branch `coordination/locks` را read-only بررسی کن. حافظه چت و خلاصه خودکار مرجع وضعیت نیستند.
 
 ## انتخاب هدف خرد
-- هدف‌های مرتبط را از GOAL_TREE و EXP-01 تا EXP-27 استخراج کن؛ شماره‌ها شناسه‌اند، نه ترتیب اجباری.
+- محدوده تخصصی را فقط از EXP IDهای سربرگ همین پرامپت استخراج کن؛ فقط Issueهایی که parent_exp_ids با این مجموعه اشتراک دارد نامزدند. MASTER-00 عمومی می‌تواند همه هدف‌های باز را بررسی کند.
+- با دریافت همین پرامپت، بدون درخواست شماره Issue یا تخصیص دستی از مالک، صف زنده را طبق الگوریتم MASTER-00 و WORK_ITEM_EXECUTION_PROTOCOL بخوان و خودکار برگ بعدی را انتخاب کن.
 - هر برگ اجرایی یک Issue مستقل با WORK_ITEM_ID پایدار است. پیش از ساخت Issue، Issueهای باز و بسته، WORK_ITEM_IDها، dependencyها و resource keys را جست‌وجو کن؛ کار موجود را دوباره نساز.
 - ابتدا work item نیمه‌تمام با checkpoint معتبر و lease منقضی/آزاد را برای resume انتخاب کن؛ اگر lease معتبر دارد آن را کنار بگذار. سپس READYهای بدون dependency یا resource conflict را طبق priority مالک، aging روزانه، قدیمی‌ترین ready/created time و WORK_ITEM_ID مرتب کن.
-- انتخاب محلی مجوز write نیست؛ فقط پس از claim موفق CAS از طریق /farast روی Issue همان برگ اقدام کن. اگر هیچ برگ آزاد و واجد شرایط نیست، متوقف شو و وضعیت را گزارش کن.
+- انتخاب محلی مجوز write نیست؛ فقط پس از CLAIM GRANTED و read-back رجیستری از طریق /farast روی Issue همان برگ اقدام کن. اگر claim رد شد، conflict داشت یا timeout شد، اثر را read-back کن و نامزد بعدی را امتحان کن. اگر هیچ برگ واجد شرایطی در محدوده همین پرامپت نیست، discovery و تحلیل dependency/evidence همان EXPها را read-only ادامه بده؛ allocator فقط با Lease انحصاری، و بدون duplicate.
 - Issue والد صرفاً گروه‌بندی و تجمیع است و هرگز claim اجرایی نمی‌گیرد.
 - هر Work Item باید `write_policy` داشته باشد: `READ_ONLY`, `WRITE_REQUIRES_OWNER_APPROVAL` یا `WRITE_ALLOWED`. مخزن محصول `a4adelahmadian86-wq/non` فقط `READ_ONLY` است تا مجوز جداگانه مالک ثبت شود. WRITE_ALLOWED فقط برای Issue ساخته‌شده توسط repository owner پذیرفته می‌شود.
 - `priority_source=DEFAULT_POLICY` و priority=50 یعنی اولویت برابر و FIFO/aging، نه رتبه‌بندی مالک؛ `OWNER_ASSIGNED` فقط با تصمیم صریح مالک.
@@ -454,10 +475,11 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 پیش از هر اقدام، `START_HERE.md`، `04_COORDINATION/INTERRUPTION_RECOVERY_PROTOCOL.md`، `05_PROMPT_LIBRARY/MASTER-00.md` و `04_COORDINATION/WORK_ITEM_EXECUTION_PROTOCOL.md` را از main بخوان. سپس Issueها، PRها، checkpointها، feedback و branch `coordination/locks` را read-only بررسی کن. حافظه چت و خلاصه خودکار مرجع وضعیت نیستند.
 
 ## انتخاب هدف خرد
-- هدف‌های مرتبط را از GOAL_TREE و EXP-01 تا EXP-27 استخراج کن؛ شماره‌ها شناسه‌اند، نه ترتیب اجباری.
+- محدوده تخصصی را فقط از EXP IDهای سربرگ همین پرامپت استخراج کن؛ فقط Issueهایی که parent_exp_ids با این مجموعه اشتراک دارد نامزدند. MASTER-00 عمومی می‌تواند همه هدف‌های باز را بررسی کند.
+- با دریافت همین پرامپت، بدون درخواست شماره Issue یا تخصیص دستی از مالک، صف زنده را طبق الگوریتم MASTER-00 و WORK_ITEM_EXECUTION_PROTOCOL بخوان و خودکار برگ بعدی را انتخاب کن.
 - هر برگ اجرایی یک Issue مستقل با WORK_ITEM_ID پایدار است. پیش از ساخت Issue، Issueهای باز و بسته، WORK_ITEM_IDها، dependencyها و resource keys را جست‌وجو کن؛ کار موجود را دوباره نساز.
 - ابتدا work item نیمه‌تمام با checkpoint معتبر و lease منقضی/آزاد را برای resume انتخاب کن؛ اگر lease معتبر دارد آن را کنار بگذار. سپس READYهای بدون dependency یا resource conflict را طبق priority مالک، aging روزانه، قدیمی‌ترین ready/created time و WORK_ITEM_ID مرتب کن.
-- انتخاب محلی مجوز write نیست؛ فقط پس از claim موفق CAS از طریق /farast روی Issue همان برگ اقدام کن. اگر هیچ برگ آزاد و واجد شرایط نیست، متوقف شو و وضعیت را گزارش کن.
+- انتخاب محلی مجوز write نیست؛ فقط پس از CLAIM GRANTED و read-back رجیستری از طریق /farast روی Issue همان برگ اقدام کن. اگر claim رد شد، conflict داشت یا timeout شد، اثر را read-back کن و نامزد بعدی را امتحان کن. اگر هیچ برگ واجد شرایطی در محدوده همین پرامپت نیست، discovery و تحلیل dependency/evidence همان EXPها را read-only ادامه بده؛ allocator فقط با Lease انحصاری، و بدون duplicate.
 - Issue والد صرفاً گروه‌بندی و تجمیع است و هرگز claim اجرایی نمی‌گیرد.
 - هر Work Item باید `write_policy` داشته باشد: `READ_ONLY`, `WRITE_REQUIRES_OWNER_APPROVAL` یا `WRITE_ALLOWED`. مخزن محصول `a4adelahmadian86-wq/non` فقط `READ_ONLY` است تا مجوز جداگانه مالک ثبت شود. WRITE_ALLOWED فقط برای Issue ساخته‌شده توسط repository owner پذیرفته می‌شود.
 - `priority_source=DEFAULT_POLICY` و priority=50 یعنی اولویت برابر و FIFO/aging، نه رتبه‌بندی مالک؛ `OWNER_ASSIGNED` فقط با تصمیم صریح مالک.
@@ -532,10 +554,11 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 پیش از هر اقدام، `START_HERE.md`، `04_COORDINATION/INTERRUPTION_RECOVERY_PROTOCOL.md`، `05_PROMPT_LIBRARY/MASTER-00.md` و `04_COORDINATION/WORK_ITEM_EXECUTION_PROTOCOL.md` را از main بخوان. سپس Issueها، PRها، checkpointها، feedback و branch `coordination/locks` را read-only بررسی کن. حافظه چت و خلاصه خودکار مرجع وضعیت نیستند.
 
 ## انتخاب هدف خرد
-- هدف‌های مرتبط را از GOAL_TREE و EXP-01 تا EXP-27 استخراج کن؛ شماره‌ها شناسه‌اند، نه ترتیب اجباری.
+- محدوده تخصصی را فقط از EXP IDهای سربرگ همین پرامپت استخراج کن؛ فقط Issueهایی که parent_exp_ids با این مجموعه اشتراک دارد نامزدند. MASTER-00 عمومی می‌تواند همه هدف‌های باز را بررسی کند.
+- با دریافت همین پرامپت، بدون درخواست شماره Issue یا تخصیص دستی از مالک، صف زنده را طبق الگوریتم MASTER-00 و WORK_ITEM_EXECUTION_PROTOCOL بخوان و خودکار برگ بعدی را انتخاب کن.
 - هر برگ اجرایی یک Issue مستقل با WORK_ITEM_ID پایدار است. پیش از ساخت Issue، Issueهای باز و بسته، WORK_ITEM_IDها، dependencyها و resource keys را جست‌وجو کن؛ کار موجود را دوباره نساز.
 - ابتدا work item نیمه‌تمام با checkpoint معتبر و lease منقضی/آزاد را برای resume انتخاب کن؛ اگر lease معتبر دارد آن را کنار بگذار. سپس READYهای بدون dependency یا resource conflict را طبق priority مالک، aging روزانه، قدیمی‌ترین ready/created time و WORK_ITEM_ID مرتب کن.
-- انتخاب محلی مجوز write نیست؛ فقط پس از claim موفق CAS از طریق /farast روی Issue همان برگ اقدام کن. اگر هیچ برگ آزاد و واجد شرایط نیست، متوقف شو و وضعیت را گزارش کن.
+- انتخاب محلی مجوز write نیست؛ فقط پس از CLAIM GRANTED و read-back رجیستری از طریق /farast روی Issue همان برگ اقدام کن. اگر claim رد شد، conflict داشت یا timeout شد، اثر را read-back کن و نامزد بعدی را امتحان کن. اگر هیچ برگ واجد شرایطی در محدوده همین پرامپت نیست، discovery و تحلیل dependency/evidence همان EXPها را read-only ادامه بده؛ allocator فقط با Lease انحصاری، و بدون duplicate.
 - Issue والد صرفاً گروه‌بندی و تجمیع است و هرگز claim اجرایی نمی‌گیرد.
 - هر Work Item باید `write_policy` داشته باشد: `READ_ONLY`, `WRITE_REQUIRES_OWNER_APPROVAL` یا `WRITE_ALLOWED`. مخزن محصول `a4adelahmadian86-wq/non` فقط `READ_ONLY` است تا مجوز جداگانه مالک ثبت شود. WRITE_ALLOWED فقط برای Issue ساخته‌شده توسط repository owner پذیرفته می‌شود.
 - `priority_source=DEFAULT_POLICY` و priority=50 یعنی اولویت برابر و FIFO/aging، نه رتبه‌بندی مالک؛ `OWNER_ASSIGNED` فقط با تصمیم صریح مالک.
@@ -611,10 +634,11 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 پیش از هر اقدام، `START_HERE.md`، `04_COORDINATION/INTERRUPTION_RECOVERY_PROTOCOL.md`، `05_PROMPT_LIBRARY/MASTER-00.md` و `04_COORDINATION/WORK_ITEM_EXECUTION_PROTOCOL.md` را از main بخوان. سپس Issueها، PRها، checkpointها، feedback و branch `coordination/locks` را read-only بررسی کن. حافظه چت و خلاصه خودکار مرجع وضعیت نیستند.
 
 ## انتخاب هدف خرد
-- هدف‌های مرتبط را از GOAL_TREE و EXP-01 تا EXP-27 استخراج کن؛ شماره‌ها شناسه‌اند، نه ترتیب اجباری.
+- محدوده تخصصی را فقط از EXP IDهای سربرگ همین پرامپت استخراج کن؛ فقط Issueهایی که parent_exp_ids با این مجموعه اشتراک دارد نامزدند. MASTER-00 عمومی می‌تواند همه هدف‌های باز را بررسی کند.
+- با دریافت همین پرامپت، بدون درخواست شماره Issue یا تخصیص دستی از مالک، صف زنده را طبق الگوریتم MASTER-00 و WORK_ITEM_EXECUTION_PROTOCOL بخوان و خودکار برگ بعدی را انتخاب کن.
 - هر برگ اجرایی یک Issue مستقل با WORK_ITEM_ID پایدار است. پیش از ساخت Issue، Issueهای باز و بسته، WORK_ITEM_IDها، dependencyها و resource keys را جست‌وجو کن؛ کار موجود را دوباره نساز.
 - ابتدا work item نیمه‌تمام با checkpoint معتبر و lease منقضی/آزاد را برای resume انتخاب کن؛ اگر lease معتبر دارد آن را کنار بگذار. سپس READYهای بدون dependency یا resource conflict را طبق priority مالک، aging روزانه، قدیمی‌ترین ready/created time و WORK_ITEM_ID مرتب کن.
-- انتخاب محلی مجوز write نیست؛ فقط پس از claim موفق CAS از طریق /farast روی Issue همان برگ اقدام کن. اگر هیچ برگ آزاد و واجد شرایط نیست، متوقف شو و وضعیت را گزارش کن.
+- انتخاب محلی مجوز write نیست؛ فقط پس از CLAIM GRANTED و read-back رجیستری از طریق /farast روی Issue همان برگ اقدام کن. اگر claim رد شد، conflict داشت یا timeout شد، اثر را read-back کن و نامزد بعدی را امتحان کن. اگر هیچ برگ واجد شرایطی در محدوده همین پرامپت نیست، discovery و تحلیل dependency/evidence همان EXPها را read-only ادامه بده؛ allocator فقط با Lease انحصاری، و بدون duplicate.
 - Issue والد صرفاً گروه‌بندی و تجمیع است و هرگز claim اجرایی نمی‌گیرد.
 - هر Work Item باید `write_policy` داشته باشد: `READ_ONLY`, `WRITE_REQUIRES_OWNER_APPROVAL` یا `WRITE_ALLOWED`. مخزن محصول `a4adelahmadian86-wq/non` فقط `READ_ONLY` است تا مجوز جداگانه مالک ثبت شود. WRITE_ALLOWED فقط برای Issue ساخته‌شده توسط repository owner پذیرفته می‌شود.
 - `priority_source=DEFAULT_POLICY` و priority=50 یعنی اولویت برابر و FIFO/aging، نه رتبه‌بندی مالک؛ `OWNER_ASSIGNED` فقط با تصمیم صریح مالک.
@@ -690,10 +714,11 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 پیش از هر اقدام، `START_HERE.md`، `04_COORDINATION/INTERRUPTION_RECOVERY_PROTOCOL.md`، `05_PROMPT_LIBRARY/MASTER-00.md` و `04_COORDINATION/WORK_ITEM_EXECUTION_PROTOCOL.md` را از main بخوان. سپس Issueها، PRها، checkpointها، feedback و branch `coordination/locks` را read-only بررسی کن. حافظه چت و خلاصه خودکار مرجع وضعیت نیستند.
 
 ## انتخاب هدف خرد
-- هدف‌های مرتبط را از GOAL_TREE و EXP-01 تا EXP-27 استخراج کن؛ شماره‌ها شناسه‌اند، نه ترتیب اجباری.
+- محدوده تخصصی را فقط از EXP IDهای سربرگ همین پرامپت استخراج کن؛ فقط Issueهایی که parent_exp_ids با این مجموعه اشتراک دارد نامزدند. MASTER-00 عمومی می‌تواند همه هدف‌های باز را بررسی کند.
+- با دریافت همین پرامپت، بدون درخواست شماره Issue یا تخصیص دستی از مالک، صف زنده را طبق الگوریتم MASTER-00 و WORK_ITEM_EXECUTION_PROTOCOL بخوان و خودکار برگ بعدی را انتخاب کن.
 - هر برگ اجرایی یک Issue مستقل با WORK_ITEM_ID پایدار است. پیش از ساخت Issue، Issueهای باز و بسته، WORK_ITEM_IDها، dependencyها و resource keys را جست‌وجو کن؛ کار موجود را دوباره نساز.
 - ابتدا work item نیمه‌تمام با checkpoint معتبر و lease منقضی/آزاد را برای resume انتخاب کن؛ اگر lease معتبر دارد آن را کنار بگذار. سپس READYهای بدون dependency یا resource conflict را طبق priority مالک، aging روزانه، قدیمی‌ترین ready/created time و WORK_ITEM_ID مرتب کن.
-- انتخاب محلی مجوز write نیست؛ فقط پس از claim موفق CAS از طریق /farast روی Issue همان برگ اقدام کن. اگر هیچ برگ آزاد و واجد شرایط نیست، متوقف شو و وضعیت را گزارش کن.
+- انتخاب محلی مجوز write نیست؛ فقط پس از CLAIM GRANTED و read-back رجیستری از طریق /farast روی Issue همان برگ اقدام کن. اگر claim رد شد، conflict داشت یا timeout شد، اثر را read-back کن و نامزد بعدی را امتحان کن. اگر هیچ برگ واجد شرایطی در محدوده همین پرامپت نیست، discovery و تحلیل dependency/evidence همان EXPها را read-only ادامه بده؛ allocator فقط با Lease انحصاری، و بدون duplicate.
 - Issue والد صرفاً گروه‌بندی و تجمیع است و هرگز claim اجرایی نمی‌گیرد.
 - هر Work Item باید `write_policy` داشته باشد: `READ_ONLY`, `WRITE_REQUIRES_OWNER_APPROVAL` یا `WRITE_ALLOWED`. مخزن محصول `a4adelahmadian86-wq/non` فقط `READ_ONLY` است تا مجوز جداگانه مالک ثبت شود. WRITE_ALLOWED فقط برای Issue ساخته‌شده توسط repository owner پذیرفته می‌شود.
 - `priority_source=DEFAULT_POLICY` و priority=50 یعنی اولویت برابر و FIFO/aging، نه رتبه‌بندی مالک؛ `OWNER_ASSIGNED` فقط با تصمیم صریح مالک.
@@ -769,10 +794,11 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 پیش از هر اقدام، `START_HERE.md`، `04_COORDINATION/INTERRUPTION_RECOVERY_PROTOCOL.md`، `05_PROMPT_LIBRARY/MASTER-00.md` و `04_COORDINATION/WORK_ITEM_EXECUTION_PROTOCOL.md` را از main بخوان. سپس Issueها، PRها، checkpointها، feedback و branch `coordination/locks` را read-only بررسی کن. حافظه چت و خلاصه خودکار مرجع وضعیت نیستند.
 
 ## انتخاب هدف خرد
-- هدف‌های مرتبط را از GOAL_TREE و EXP-01 تا EXP-27 استخراج کن؛ شماره‌ها شناسه‌اند، نه ترتیب اجباری.
+- محدوده تخصصی را فقط از EXP IDهای سربرگ همین پرامپت استخراج کن؛ فقط Issueهایی که parent_exp_ids با این مجموعه اشتراک دارد نامزدند. MASTER-00 عمومی می‌تواند همه هدف‌های باز را بررسی کند.
+- با دریافت همین پرامپت، بدون درخواست شماره Issue یا تخصیص دستی از مالک، صف زنده را طبق الگوریتم MASTER-00 و WORK_ITEM_EXECUTION_PROTOCOL بخوان و خودکار برگ بعدی را انتخاب کن.
 - هر برگ اجرایی یک Issue مستقل با WORK_ITEM_ID پایدار است. پیش از ساخت Issue، Issueهای باز و بسته، WORK_ITEM_IDها، dependencyها و resource keys را جست‌وجو کن؛ کار موجود را دوباره نساز.
 - ابتدا work item نیمه‌تمام با checkpoint معتبر و lease منقضی/آزاد را برای resume انتخاب کن؛ اگر lease معتبر دارد آن را کنار بگذار. سپس READYهای بدون dependency یا resource conflict را طبق priority مالک، aging روزانه، قدیمی‌ترین ready/created time و WORK_ITEM_ID مرتب کن.
-- انتخاب محلی مجوز write نیست؛ فقط پس از claim موفق CAS از طریق /farast روی Issue همان برگ اقدام کن. اگر هیچ برگ آزاد و واجد شرایط نیست، متوقف شو و وضعیت را گزارش کن.
+- انتخاب محلی مجوز write نیست؛ فقط پس از CLAIM GRANTED و read-back رجیستری از طریق /farast روی Issue همان برگ اقدام کن. اگر claim رد شد، conflict داشت یا timeout شد، اثر را read-back کن و نامزد بعدی را امتحان کن. اگر هیچ برگ واجد شرایطی در محدوده همین پرامپت نیست، discovery و تحلیل dependency/evidence همان EXPها را read-only ادامه بده؛ allocator فقط با Lease انحصاری، و بدون duplicate.
 - Issue والد صرفاً گروه‌بندی و تجمیع است و هرگز claim اجرایی نمی‌گیرد.
 - هر Work Item باید `write_policy` داشته باشد: `READ_ONLY`, `WRITE_REQUIRES_OWNER_APPROVAL` یا `WRITE_ALLOWED`. مخزن محصول `a4adelahmadian86-wq/non` فقط `READ_ONLY` است تا مجوز جداگانه مالک ثبت شود. WRITE_ALLOWED فقط برای Issue ساخته‌شده توسط repository owner پذیرفته می‌شود.
 - `priority_source=DEFAULT_POLICY` و priority=50 یعنی اولویت برابر و FIFO/aging، نه رتبه‌بندی مالک؛ `OWNER_ASSIGNED` فقط با تصمیم صریح مالک.
@@ -848,10 +874,11 @@ service catalog، sequence diagram، quota/pricing matrix، privacy & failure an
 پیش از هر اقدام، `START_HERE.md`، `04_COORDINATION/INTERRUPTION_RECOVERY_PROTOCOL.md`، `05_PROMPT_LIBRARY/MASTER-00.md` و `04_COORDINATION/WORK_ITEM_EXECUTION_PROTOCOL.md` را از main بخوان. سپس Issueها، PRها، checkpointها، feedback و branch `coordination/locks` را read-only بررسی کن. حافظه چت و خلاصه خودکار مرجع وضعیت نیستند.
 
 ## انتخاب هدف خرد
-- هدف‌های مرتبط را از GOAL_TREE و EXP-01 تا EXP-27 استخراج کن؛ شماره‌ها شناسه‌اند، نه ترتیب اجباری.
+- محدوده تخصصی را فقط از EXP IDهای سربرگ همین پرامپت استخراج کن؛ فقط Issueهایی که parent_exp_ids با این مجموعه اشتراک دارد نامزدند. MASTER-00 عمومی می‌تواند همه هدف‌های باز را بررسی کند.
+- با دریافت همین پرامپت، بدون درخواست شماره Issue یا تخصیص دستی از مالک، صف زنده را طبق الگوریتم MASTER-00 و WORK_ITEM_EXECUTION_PROTOCOL بخوان و خودکار برگ بعدی را انتخاب کن.
 - هر برگ اجرایی یک Issue مستقل با WORK_ITEM_ID پایدار است. پیش از ساخت Issue، Issueهای باز و بسته، WORK_ITEM_IDها، dependencyها و resource keys را جست‌وجو کن؛ کار موجود را دوباره نساز.
 - ابتدا work item نیمه‌تمام با checkpoint معتبر و lease منقضی/آزاد را برای resume انتخاب کن؛ اگر lease معتبر دارد آن را کنار بگذار. سپس READYهای بدون dependency یا resource conflict را طبق priority مالک، aging روزانه، قدیمی‌ترین ready/created time و WORK_ITEM_ID مرتب کن.
-- انتخاب محلی مجوز write نیست؛ فقط پس از claim موفق CAS از طریق /farast روی Issue همان برگ اقدام کن. اگر هیچ برگ آزاد و واجد شرایط نیست، متوقف شو و وضعیت را گزارش کن.
+- انتخاب محلی مجوز write نیست؛ فقط پس از CLAIM GRANTED و read-back رجیستری از طریق /farast روی Issue همان برگ اقدام کن. اگر claim رد شد، conflict داشت یا timeout شد، اثر را read-back کن و نامزد بعدی را امتحان کن. اگر هیچ برگ واجد شرایطی در محدوده همین پرامپت نیست، discovery و تحلیل dependency/evidence همان EXPها را read-only ادامه بده؛ allocator فقط با Lease انحصاری، و بدون duplicate.
 - Issue والد صرفاً گروه‌بندی و تجمیع است و هرگز claim اجرایی نمی‌گیرد.
 - هر Work Item باید `write_policy` داشته باشد: `READ_ONLY`, `WRITE_REQUIRES_OWNER_APPROVAL` یا `WRITE_ALLOWED`. مخزن محصول `a4adelahmadian86-wq/non` فقط `READ_ONLY` است تا مجوز جداگانه مالک ثبت شود. WRITE_ALLOWED فقط برای Issue ساخته‌شده توسط repository owner پذیرفته می‌شود.
 - `priority_source=DEFAULT_POLICY` و priority=50 یعنی اولویت برابر و FIFO/aging، نه رتبه‌بندی مالک؛ `OWNER_ASSIGNED` فقط با تصمیم صریح مالک.
@@ -927,10 +954,11 @@ C4 سطح context/container/component در حد شواهد، data dictionary، d
 پیش از هر اقدام، `START_HERE.md`، `04_COORDINATION/INTERRUPTION_RECOVERY_PROTOCOL.md`، `05_PROMPT_LIBRARY/MASTER-00.md` و `04_COORDINATION/WORK_ITEM_EXECUTION_PROTOCOL.md` را از main بخوان. سپس Issueها، PRها، checkpointها، feedback و branch `coordination/locks` را read-only بررسی کن. حافظه چت و خلاصه خودکار مرجع وضعیت نیستند.
 
 ## انتخاب هدف خرد
-- هدف‌های مرتبط را از GOAL_TREE و EXP-01 تا EXP-27 استخراج کن؛ شماره‌ها شناسه‌اند، نه ترتیب اجباری.
+- محدوده تخصصی را فقط از EXP IDهای سربرگ همین پرامپت استخراج کن؛ فقط Issueهایی که parent_exp_ids با این مجموعه اشتراک دارد نامزدند. MASTER-00 عمومی می‌تواند همه هدف‌های باز را بررسی کند.
+- با دریافت همین پرامپت، بدون درخواست شماره Issue یا تخصیص دستی از مالک، صف زنده را طبق الگوریتم MASTER-00 و WORK_ITEM_EXECUTION_PROTOCOL بخوان و خودکار برگ بعدی را انتخاب کن.
 - هر برگ اجرایی یک Issue مستقل با WORK_ITEM_ID پایدار است. پیش از ساخت Issue، Issueهای باز و بسته، WORK_ITEM_IDها، dependencyها و resource keys را جست‌وجو کن؛ کار موجود را دوباره نساز.
 - ابتدا work item نیمه‌تمام با checkpoint معتبر و lease منقضی/آزاد را برای resume انتخاب کن؛ اگر lease معتبر دارد آن را کنار بگذار. سپس READYهای بدون dependency یا resource conflict را طبق priority مالک، aging روزانه، قدیمی‌ترین ready/created time و WORK_ITEM_ID مرتب کن.
-- انتخاب محلی مجوز write نیست؛ فقط پس از claim موفق CAS از طریق /farast روی Issue همان برگ اقدام کن. اگر هیچ برگ آزاد و واجد شرایط نیست، متوقف شو و وضعیت را گزارش کن.
+- انتخاب محلی مجوز write نیست؛ فقط پس از CLAIM GRANTED و read-back رجیستری از طریق /farast روی Issue همان برگ اقدام کن. اگر claim رد شد، conflict داشت یا timeout شد، اثر را read-back کن و نامزد بعدی را امتحان کن. اگر هیچ برگ واجد شرایطی در محدوده همین پرامپت نیست، discovery و تحلیل dependency/evidence همان EXPها را read-only ادامه بده؛ allocator فقط با Lease انحصاری، و بدون duplicate.
 - Issue والد صرفاً گروه‌بندی و تجمیع است و هرگز claim اجرایی نمی‌گیرد.
 - هر Work Item باید `write_policy` داشته باشد: `READ_ONLY`, `WRITE_REQUIRES_OWNER_APPROVAL` یا `WRITE_ALLOWED`. مخزن محصول `a4adelahmadian86-wq/non` فقط `READ_ONLY` است تا مجوز جداگانه مالک ثبت شود. WRITE_ALLOWED فقط برای Issue ساخته‌شده توسط repository owner پذیرفته می‌شود.
 - `priority_source=DEFAULT_POLICY` و priority=50 یعنی اولویت برابر و FIFO/aging، نه رتبه‌بندی مالک؛ `OWNER_ASSIGNED` فقط با تصمیم صریح مالک.
@@ -1007,10 +1035,11 @@ authorization matrix، lifecycle diagram، gap/risk report و تست‌های ل
 پیش از هر اقدام، `START_HERE.md`، `04_COORDINATION/INTERRUPTION_RECOVERY_PROTOCOL.md`، `05_PROMPT_LIBRARY/MASTER-00.md` و `04_COORDINATION/WORK_ITEM_EXECUTION_PROTOCOL.md` را از main بخوان. سپس Issueها، PRها، checkpointها، feedback و branch `coordination/locks` را read-only بررسی کن. حافظه چت و خلاصه خودکار مرجع وضعیت نیستند.
 
 ## انتخاب هدف خرد
-- هدف‌های مرتبط را از GOAL_TREE و EXP-01 تا EXP-27 استخراج کن؛ شماره‌ها شناسه‌اند، نه ترتیب اجباری.
+- محدوده تخصصی را فقط از EXP IDهای سربرگ همین پرامپت استخراج کن؛ فقط Issueهایی که parent_exp_ids با این مجموعه اشتراک دارد نامزدند. MASTER-00 عمومی می‌تواند همه هدف‌های باز را بررسی کند.
+- با دریافت همین پرامپت، بدون درخواست شماره Issue یا تخصیص دستی از مالک، صف زنده را طبق الگوریتم MASTER-00 و WORK_ITEM_EXECUTION_PROTOCOL بخوان و خودکار برگ بعدی را انتخاب کن.
 - هر برگ اجرایی یک Issue مستقل با WORK_ITEM_ID پایدار است. پیش از ساخت Issue، Issueهای باز و بسته، WORK_ITEM_IDها، dependencyها و resource keys را جست‌وجو کن؛ کار موجود را دوباره نساز.
 - ابتدا work item نیمه‌تمام با checkpoint معتبر و lease منقضی/آزاد را برای resume انتخاب کن؛ اگر lease معتبر دارد آن را کنار بگذار. سپس READYهای بدون dependency یا resource conflict را طبق priority مالک، aging روزانه، قدیمی‌ترین ready/created time و WORK_ITEM_ID مرتب کن.
-- انتخاب محلی مجوز write نیست؛ فقط پس از claim موفق CAS از طریق /farast روی Issue همان برگ اقدام کن. اگر هیچ برگ آزاد و واجد شرایط نیست، متوقف شو و وضعیت را گزارش کن.
+- انتخاب محلی مجوز write نیست؛ فقط پس از CLAIM GRANTED و read-back رجیستری از طریق /farast روی Issue همان برگ اقدام کن. اگر claim رد شد، conflict داشت یا timeout شد، اثر را read-back کن و نامزد بعدی را امتحان کن. اگر هیچ برگ واجد شرایطی در محدوده همین پرامپت نیست، discovery و تحلیل dependency/evidence همان EXPها را read-only ادامه بده؛ allocator فقط با Lease انحصاری، و بدون duplicate.
 - Issue والد صرفاً گروه‌بندی و تجمیع است و هرگز claim اجرایی نمی‌گیرد.
 - هر Work Item باید `write_policy` داشته باشد: `READ_ONLY`, `WRITE_REQUIRES_OWNER_APPROVAL` یا `WRITE_ALLOWED`. مخزن محصول `a4adelahmadian86-wq/non` فقط `READ_ONLY` است تا مجوز جداگانه مالک ثبت شود. WRITE_ALLOWED فقط برای Issue ساخته‌شده توسط repository owner پذیرفته می‌شود.
 - `priority_source=DEFAULT_POLICY` و priority=50 یعنی اولویت برابر و FIFO/aging، نه رتبه‌بندی مالک؛ `OWNER_ASSIGNED` فقط با تصمیم صریح مالک.
@@ -1086,10 +1115,11 @@ Threat model، privacy data map، audit integrity report، legal questions و se
 پیش از هر اقدام، `START_HERE.md`، `04_COORDINATION/INTERRUPTION_RECOVERY_PROTOCOL.md`، `05_PROMPT_LIBRARY/MASTER-00.md` و `04_COORDINATION/WORK_ITEM_EXECUTION_PROTOCOL.md` را از main بخوان. سپس Issueها، PRها، checkpointها، feedback و branch `coordination/locks` را read-only بررسی کن. حافظه چت و خلاصه خودکار مرجع وضعیت نیستند.
 
 ## انتخاب هدف خرد
-- هدف‌های مرتبط را از GOAL_TREE و EXP-01 تا EXP-27 استخراج کن؛ شماره‌ها شناسه‌اند، نه ترتیب اجباری.
+- محدوده تخصصی را فقط از EXP IDهای سربرگ همین پرامپت استخراج کن؛ فقط Issueهایی که parent_exp_ids با این مجموعه اشتراک دارد نامزدند. MASTER-00 عمومی می‌تواند همه هدف‌های باز را بررسی کند.
+- با دریافت همین پرامپت، بدون درخواست شماره Issue یا تخصیص دستی از مالک، صف زنده را طبق الگوریتم MASTER-00 و WORK_ITEM_EXECUTION_PROTOCOL بخوان و خودکار برگ بعدی را انتخاب کن.
 - هر برگ اجرایی یک Issue مستقل با WORK_ITEM_ID پایدار است. پیش از ساخت Issue، Issueهای باز و بسته، WORK_ITEM_IDها، dependencyها و resource keys را جست‌وجو کن؛ کار موجود را دوباره نساز.
 - ابتدا work item نیمه‌تمام با checkpoint معتبر و lease منقضی/آزاد را برای resume انتخاب کن؛ اگر lease معتبر دارد آن را کنار بگذار. سپس READYهای بدون dependency یا resource conflict را طبق priority مالک، aging روزانه، قدیمی‌ترین ready/created time و WORK_ITEM_ID مرتب کن.
-- انتخاب محلی مجوز write نیست؛ فقط پس از claim موفق CAS از طریق /farast روی Issue همان برگ اقدام کن. اگر هیچ برگ آزاد و واجد شرایط نیست، متوقف شو و وضعیت را گزارش کن.
+- انتخاب محلی مجوز write نیست؛ فقط پس از CLAIM GRANTED و read-back رجیستری از طریق /farast روی Issue همان برگ اقدام کن. اگر claim رد شد، conflict داشت یا timeout شد، اثر را read-back کن و نامزد بعدی را امتحان کن. اگر هیچ برگ واجد شرایطی در محدوده همین پرامپت نیست، discovery و تحلیل dependency/evidence همان EXPها را read-only ادامه بده؛ allocator فقط با Lease انحصاری، و بدون duplicate.
 - Issue والد صرفاً گروه‌بندی و تجمیع است و هرگز claim اجرایی نمی‌گیرد.
 - هر Work Item باید `write_policy` داشته باشد: `READ_ONLY`, `WRITE_REQUIRES_OWNER_APPROVAL` یا `WRITE_ALLOWED`. مخزن محصول `a4adelahmadian86-wq/non` فقط `READ_ONLY` است تا مجوز جداگانه مالک ثبت شود. WRITE_ALLOWED فقط برای Issue ساخته‌شده توسط repository owner پذیرفته می‌شود.
 - `priority_source=DEFAULT_POLICY` و priority=50 یعنی اولویت برابر و FIFO/aging، نه رتبه‌بندی مالک؛ `OWNER_ASSIGNED` فقط با تصمیم صریح مالک.
@@ -1165,10 +1195,11 @@ Architecture Decision Records، نمودار هدف، گزینه‌ها، migrat
 پیش از هر اقدام، `START_HERE.md`، `04_COORDINATION/INTERRUPTION_RECOVERY_PROTOCOL.md`، `05_PROMPT_LIBRARY/MASTER-00.md` و `04_COORDINATION/WORK_ITEM_EXECUTION_PROTOCOL.md` را از main بخوان. سپس Issueها، PRها، checkpointها، feedback و branch `coordination/locks` را read-only بررسی کن. حافظه چت و خلاصه خودکار مرجع وضعیت نیستند.
 
 ## انتخاب هدف خرد
-- هدف‌های مرتبط را از GOAL_TREE و EXP-01 تا EXP-27 استخراج کن؛ شماره‌ها شناسه‌اند، نه ترتیب اجباری.
+- محدوده تخصصی را فقط از EXP IDهای سربرگ همین پرامپت استخراج کن؛ فقط Issueهایی که parent_exp_ids با این مجموعه اشتراک دارد نامزدند. MASTER-00 عمومی می‌تواند همه هدف‌های باز را بررسی کند.
+- با دریافت همین پرامپت، بدون درخواست شماره Issue یا تخصیص دستی از مالک، صف زنده را طبق الگوریتم MASTER-00 و WORK_ITEM_EXECUTION_PROTOCOL بخوان و خودکار برگ بعدی را انتخاب کن.
 - هر برگ اجرایی یک Issue مستقل با WORK_ITEM_ID پایدار است. پیش از ساخت Issue، Issueهای باز و بسته، WORK_ITEM_IDها، dependencyها و resource keys را جست‌وجو کن؛ کار موجود را دوباره نساز.
 - ابتدا work item نیمه‌تمام با checkpoint معتبر و lease منقضی/آزاد را برای resume انتخاب کن؛ اگر lease معتبر دارد آن را کنار بگذار. سپس READYهای بدون dependency یا resource conflict را طبق priority مالک، aging روزانه، قدیمی‌ترین ready/created time و WORK_ITEM_ID مرتب کن.
-- انتخاب محلی مجوز write نیست؛ فقط پس از claim موفق CAS از طریق /farast روی Issue همان برگ اقدام کن. اگر هیچ برگ آزاد و واجد شرایط نیست، متوقف شو و وضعیت را گزارش کن.
+- انتخاب محلی مجوز write نیست؛ فقط پس از CLAIM GRANTED و read-back رجیستری از طریق /farast روی Issue همان برگ اقدام کن. اگر claim رد شد، conflict داشت یا timeout شد، اثر را read-back کن و نامزد بعدی را امتحان کن. اگر هیچ برگ واجد شرایطی در محدوده همین پرامپت نیست، discovery و تحلیل dependency/evidence همان EXPها را read-only ادامه بده؛ allocator فقط با Lease انحصاری، و بدون duplicate.
 - Issue والد صرفاً گروه‌بندی و تجمیع است و هرگز claim اجرایی نمی‌گیرد.
 - هر Work Item باید `write_policy` داشته باشد: `READ_ONLY`, `WRITE_REQUIRES_OWNER_APPROVAL` یا `WRITE_ALLOWED`. مخزن محصول `a4adelahmadian86-wq/non` فقط `READ_ONLY` است تا مجوز جداگانه مالک ثبت شود. WRITE_ALLOWED فقط برای Issue ساخته‌شده توسط repository owner پذیرفته می‌شود.
 - `priority_source=DEFAULT_POLICY` و priority=50 یعنی اولویت برابر و FIFO/aging، نه رتبه‌بندی مالک؛ `OWNER_ASSIGNED` فقط با تصمیم صریح مالک.
@@ -1244,10 +1275,11 @@ Hosting feasibility matrix، deployment runbook، failure/rollback plan و فه�
 پیش از هر اقدام، `START_HERE.md`، `04_COORDINATION/INTERRUPTION_RECOVERY_PROTOCOL.md`، `05_PROMPT_LIBRARY/MASTER-00.md` و `04_COORDINATION/WORK_ITEM_EXECUTION_PROTOCOL.md` را از main بخوان. سپس Issueها، PRها، checkpointها، feedback و branch `coordination/locks` را read-only بررسی کن. حافظه چت و خلاصه خودکار مرجع وضعیت نیستند.
 
 ## انتخاب هدف خرد
-- هدف‌های مرتبط را از GOAL_TREE و EXP-01 تا EXP-27 استخراج کن؛ شماره‌ها شناسه‌اند، نه ترتیب اجباری.
+- محدوده تخصصی را فقط از EXP IDهای سربرگ همین پرامپت استخراج کن؛ فقط Issueهایی که parent_exp_ids با این مجموعه اشتراک دارد نامزدند. MASTER-00 عمومی می‌تواند همه هدف‌های باز را بررسی کند.
+- با دریافت همین پرامپت، بدون درخواست شماره Issue یا تخصیص دستی از مالک، صف زنده را طبق الگوریتم MASTER-00 و WORK_ITEM_EXECUTION_PROTOCOL بخوان و خودکار برگ بعدی را انتخاب کن.
 - هر برگ اجرایی یک Issue مستقل با WORK_ITEM_ID پایدار است. پیش از ساخت Issue، Issueهای باز و بسته، WORK_ITEM_IDها، dependencyها و resource keys را جست‌وجو کن؛ کار موجود را دوباره نساز.
 - ابتدا work item نیمه‌تمام با checkpoint معتبر و lease منقضی/آزاد را برای resume انتخاب کن؛ اگر lease معتبر دارد آن را کنار بگذار. سپس READYهای بدون dependency یا resource conflict را طبق priority مالک، aging روزانه، قدیمی‌ترین ready/created time و WORK_ITEM_ID مرتب کن.
-- انتخاب محلی مجوز write نیست؛ فقط پس از claim موفق CAS از طریق /farast روی Issue همان برگ اقدام کن. اگر هیچ برگ آزاد و واجد شرایط نیست، متوقف شو و وضعیت را گزارش کن.
+- انتخاب محلی مجوز write نیست؛ فقط پس از CLAIM GRANTED و read-back رجیستری از طریق /farast روی Issue همان برگ اقدام کن. اگر claim رد شد، conflict داشت یا timeout شد، اثر را read-back کن و نامزد بعدی را امتحان کن. اگر هیچ برگ واجد شرایطی در محدوده همین پرامپت نیست، discovery و تحلیل dependency/evidence همان EXPها را read-only ادامه بده؛ allocator فقط با Lease انحصاری، و بدون duplicate.
 - Issue والد صرفاً گروه‌بندی و تجمیع است و هرگز claim اجرایی نمی‌گیرد.
 - هر Work Item باید `write_policy` داشته باشد: `READ_ONLY`, `WRITE_REQUIRES_OWNER_APPROVAL` یا `WRITE_ALLOWED`. مخزن محصول `a4adelahmadian86-wq/non` فقط `READ_ONLY` است تا مجوز جداگانه مالک ثبت شود. WRITE_ALLOWED فقط برای Issue ساخته‌شده توسط repository owner پذیرفته می‌شود.
 - `priority_source=DEFAULT_POLICY` و priority=50 یعنی اولویت برابر و FIFO/aging، نه رتبه‌بندی مالک؛ `OWNER_ASSIGNED` فقط با تصمیم صریح مالک.
@@ -1323,10 +1355,11 @@ prioritized backlog، dependency graph، release slices و task definitions. م�
 پیش از هر اقدام، `START_HERE.md`، `04_COORDINATION/INTERRUPTION_RECOVERY_PROTOCOL.md`، `05_PROMPT_LIBRARY/MASTER-00.md` و `04_COORDINATION/WORK_ITEM_EXECUTION_PROTOCOL.md` را از main بخوان. سپس Issueها، PRها، checkpointها، feedback و branch `coordination/locks` را read-only بررسی کن. حافظه چت و خلاصه خودکار مرجع وضعیت نیستند.
 
 ## انتخاب هدف خرد
-- هدف‌های مرتبط را از GOAL_TREE و EXP-01 تا EXP-27 استخراج کن؛ شماره‌ها شناسه‌اند، نه ترتیب اجباری.
+- محدوده تخصصی را فقط از EXP IDهای سربرگ همین پرامپت استخراج کن؛ فقط Issueهایی که parent_exp_ids با این مجموعه اشتراک دارد نامزدند. MASTER-00 عمومی می‌تواند همه هدف‌های باز را بررسی کند.
+- با دریافت همین پرامپت، بدون درخواست شماره Issue یا تخصیص دستی از مالک، صف زنده را طبق الگوریتم MASTER-00 و WORK_ITEM_EXECUTION_PROTOCOL بخوان و خودکار برگ بعدی را انتخاب کن.
 - هر برگ اجرایی یک Issue مستقل با WORK_ITEM_ID پایدار است. پیش از ساخت Issue، Issueهای باز و بسته، WORK_ITEM_IDها، dependencyها و resource keys را جست‌وجو کن؛ کار موجود را دوباره نساز.
 - ابتدا work item نیمه‌تمام با checkpoint معتبر و lease منقضی/آزاد را برای resume انتخاب کن؛ اگر lease معتبر دارد آن را کنار بگذار. سپس READYهای بدون dependency یا resource conflict را طبق priority مالک، aging روزانه، قدیمی‌ترین ready/created time و WORK_ITEM_ID مرتب کن.
-- انتخاب محلی مجوز write نیست؛ فقط پس از claim موفق CAS از طریق /farast روی Issue همان برگ اقدام کن. اگر هیچ برگ آزاد و واجد شرایط نیست، متوقف شو و وضعیت را گزارش کن.
+- انتخاب محلی مجوز write نیست؛ فقط پس از CLAIM GRANTED و read-back رجیستری از طریق /farast روی Issue همان برگ اقدام کن. اگر claim رد شد، conflict داشت یا timeout شد، اثر را read-back کن و نامزد بعدی را امتحان کن. اگر هیچ برگ واجد شرایطی در محدوده همین پرامپت نیست، discovery و تحلیل dependency/evidence همان EXPها را read-only ادامه بده؛ allocator فقط با Lease انحصاری، و بدون duplicate.
 - Issue والد صرفاً گروه‌بندی و تجمیع است و هرگز claim اجرایی نمی‌گیرد.
 - هر Work Item باید `write_policy` داشته باشد: `READ_ONLY`, `WRITE_REQUIRES_OWNER_APPROVAL` یا `WRITE_ALLOWED`. مخزن محصول `a4adelahmadian86-wq/non` فقط `READ_ONLY` است تا مجوز جداگانه مالک ثبت شود. WRITE_ALLOWED فقط برای Issue ساخته‌شده توسط repository owner پذیرفته می‌شود.
 - `priority_source=DEFAULT_POLICY` و priority=50 یعنی اولویت برابر و FIFO/aging، نه رتبه‌بندی مالک؛ `OWNER_ASSIGNED` فقط با تصمیم صریح مالک.
@@ -1410,10 +1443,11 @@ branch، PR، test report، risk/rollback note و checkpoint. معیار پذی�
 پیش از هر اقدام، `START_HERE.md`، `04_COORDINATION/INTERRUPTION_RECOVERY_PROTOCOL.md`، `05_PROMPT_LIBRARY/MASTER-00.md` و `04_COORDINATION/WORK_ITEM_EXECUTION_PROTOCOL.md` را از main بخوان. سپس Issueها، PRها، checkpointها، feedback و branch `coordination/locks` را read-only بررسی کن. حافظه چت و خلاصه خودکار مرجع وضعیت نیستند.
 
 ## انتخاب هدف خرد
-- هدف‌های مرتبط را از GOAL_TREE و EXP-01 تا EXP-27 استخراج کن؛ شماره‌ها شناسه‌اند، نه ترتیب اجباری.
+- محدوده تخصصی را فقط از EXP IDهای سربرگ همین پرامپت استخراج کن؛ فقط Issueهایی که parent_exp_ids با این مجموعه اشتراک دارد نامزدند. MASTER-00 عمومی می‌تواند همه هدف‌های باز را بررسی کند.
+- با دریافت همین پرامپت، بدون درخواست شماره Issue یا تخصیص دستی از مالک، صف زنده را طبق الگوریتم MASTER-00 و WORK_ITEM_EXECUTION_PROTOCOL بخوان و خودکار برگ بعدی را انتخاب کن.
 - هر برگ اجرایی یک Issue مستقل با WORK_ITEM_ID پایدار است. پیش از ساخت Issue، Issueهای باز و بسته، WORK_ITEM_IDها، dependencyها و resource keys را جست‌وجو کن؛ کار موجود را دوباره نساز.
 - ابتدا work item نیمه‌تمام با checkpoint معتبر و lease منقضی/آزاد را برای resume انتخاب کن؛ اگر lease معتبر دارد آن را کنار بگذار. سپس READYهای بدون dependency یا resource conflict را طبق priority مالک، aging روزانه، قدیمی‌ترین ready/created time و WORK_ITEM_ID مرتب کن.
-- انتخاب محلی مجوز write نیست؛ فقط پس از claim موفق CAS از طریق /farast روی Issue همان برگ اقدام کن. اگر هیچ برگ آزاد و واجد شرایط نیست، متوقف شو و وضعیت را گزارش کن.
+- انتخاب محلی مجوز write نیست؛ فقط پس از CLAIM GRANTED و read-back رجیستری از طریق /farast روی Issue همان برگ اقدام کن. اگر claim رد شد، conflict داشت یا timeout شد، اثر را read-back کن و نامزد بعدی را امتحان کن. اگر هیچ برگ واجد شرایطی در محدوده همین پرامپت نیست، discovery و تحلیل dependency/evidence همان EXPها را read-only ادامه بده؛ allocator فقط با Lease انحصاری، و بدون duplicate.
 - Issue والد صرفاً گروه‌بندی و تجمیع است و هرگز claim اجرایی نمی‌گیرد.
 - هر Work Item باید `write_policy` داشته باشد: `READ_ONLY`, `WRITE_REQUIRES_OWNER_APPROVAL` یا `WRITE_ALLOWED`. مخزن محصول `a4adelahmadian86-wq/non` فقط `READ_ONLY` است تا مجوز جداگانه مالک ثبت شود. WRITE_ALLOWED فقط برای Issue ساخته‌شده توسط repository owner پذیرفته می‌شود.
 - `priority_source=DEFAULT_POLICY` و priority=50 یعنی اولویت برابر و FIFO/aging، نه رتبه‌بندی مالک؛ `OWNER_ASSIGNED` فقط با تصمیم صریح مالک.
