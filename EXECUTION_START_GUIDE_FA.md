@@ -49,7 +49,7 @@
 
 - [فهرست و نگاشت 17 پرامپت](05_PROMPT_LIBRARY/PROMPT_CATALOG.md)
 - [MASTER-00 — هماهنگی، بازیابی و تداوم](05_PROMPT_LIBRARY/MASTER-00.md)
-- [Bundle کامل نسخه 1.6.2](05_PROMPT_LIBRARY/FARAST_EXECUTABLE_PROMPTS_COMPLETE.md)
+- [Bundle کامل نسخه 1.7.0](05_PROMPT_LIBRARY/FARAST_EXECUTABLE_PROMPTS_COMPLETE.md)
 
 پرامپت‌های تخصصی:
 - [PR-01 Baseline](05_PROMPT_LIBRARY/PR-01_BASELINE.md)
