@@ -1,41 +1,8 @@
 {
   "schema_version": "1.0",
-  "revision": 290,
+  "revision": 291,
   "next_fencing_token": 64,
-  "locks": [
-    {
-      "resource_key": "module:prompt-bootstrap",
-      "issue_number": 43,
-      "task_id": "GH-43",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "master00-prompt-autorun",
-      "chat_id": "master00-prompt-autorun",
-      "run_id": "RUN-20261115-PROMPT-AUTORUN-01",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": "work/GH-43-RUN-20261115-PROMPT-AUTORUN-01",
-      "acquired_at_utc": "2026-11-15T18:14:39.652Z",
-      "heartbeat_at_utc": "2026-11-15T18:27:09.954Z",
-      "lease_expires_at_utc": "2026-11-15T18:57:09.954Z",
-      "fencing_token": 63,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "module:work-item-dispatch",
-      "issue_number": 43,
-      "task_id": "GH-43",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "master00-prompt-autorun",
-      "chat_id": "master00-prompt-autorun",
-      "run_id": "RUN-20261115-PROMPT-AUTORUN-01",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": "work/GH-43-RUN-20261115-PROMPT-AUTORUN-01",
-      "acquired_at_utc": "2026-11-15T18:14:39.652Z",
-      "heartbeat_at_utc": "2026-11-15T18:27:09.954Z",
-      "lease_expires_at_utc": "2026-11-15T18:57:09.954Z",
-      "fencing_token": 63,
-      "status": "ACTIVE"
-    }
-  ],
+  "locks": [],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -1462,6 +1429,17 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "lease_expires_at_utc": "2026-11-15T18:57:09.954Z",
       "at_utc": "2026-11-15T18:27:09.954Z"
+    },
+    {
+      "event": "REVIEW",
+      "issue_number": 43,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "master00-prompt-autorun",
+      "run_id": "RUN-20261115-PROMPT-AUTORUN-01",
+      "fencing_token": 63,
+      "branch": "work/GH-43-RUN-20261115-PROMPT-AUTORUN-01",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "at_utc": "2026-11-15T18:27:36.897Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -2653,6 +2631,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-15T18:27:09.958Z"
+    },
+    "6899172424": {
+      "response": "پیاده‌سازی برای بازبینی مستقل تحویل شد؛ این به معنی پذیرش نیست.",
+      "response_posted": false,
+      "issue_number": 43,
+      "actor": "a4adelahmadian86-wq",
+      "command": "review",
+      "next_status": "review",
+      "at_utc": "2026-11-15T18:27:36.902Z"
     }
   },
   "work_items": {
