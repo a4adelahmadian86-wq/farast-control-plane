@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 280,
+  "revision": 281,
   "next_fencing_token": 64,
   "locks": [
     {
@@ -2584,6 +2584,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-15T18:25:12.204Z"
+    },
+    "6899134827": {
+      "response": "معیار پذیرش ثبت شد: AC_EXECUTION; can_accept=false; progress=100%.",
+      "response_posted": false,
+      "issue_number": 43,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-15T18:25:16.964Z"
     }
   },
   "work_items": {
@@ -3061,8 +3070,13 @@
           "criterion_id": "AC_EXECUTION",
           "title": "Execution is bound to a confirmed coordinator claim, valid heartbeat/fencing token and evidence-backed progress/checkpoint transitions",
           "required": true,
-          "validation_status": "NOT_RUN",
-          "evidence_refs": []
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/43"
+          ],
+          "validated_at_utc": "2026-11-15T18:25:16.964Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_TRANSPARENCY",
