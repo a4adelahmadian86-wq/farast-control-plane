@@ -67,7 +67,7 @@
 4. duplicate و dependency را بررسی کن.
 5. TASK موجود را بازیابی یا Issue جدید بساز.
 6. Target repository و RESOURCE_KEYهای دقیق را در Issue ثبت و با فرمان coordinator به‌صورت all-or-none claim کن؛ branch و fencing token صادرشده را در checkpoint نگه دار.
-7. branch صادرشده در پاسخ CLAIM GRANTED را دقیقاً در target_repository ثبت‌شده ایجاد کن. اگر previous_branch برگشت، checkpoint/commit معتبر را read-only تأیید و branch جدید را از همان commit بساز؛ اگر checkpoint مبهم است STOP WRITES.
+7. فقط اگر `write_policy=WRITE_ALLOWED` است branch صادرشده در `target_repository` بساز؛ در `READ_ONLY` و `WRITE_REQUIRES_OWNER_APPROVAL` هیچ branch/file/commit/PR در مخزن هدف نساز و شواهد را در Issue یا محل مجاز control-plane ثبت کن. در مسیر مجاز، `previous_branch` و checkpoint را read-only تأیید و branch تازه را از commit معتبر بساز؛ اگر commit پایه مبهم است STOP WRITES.
 8. checkpoint اولیه و مرحله‌ای ثبت کن.
 9. PR و handoff بساز؛ ادغام نکن.
 
