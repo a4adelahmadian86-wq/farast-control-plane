@@ -130,3 +130,7 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 5. Claim فقط مالکیت موقت است؛ شروع، progress یا acceptance محسوب نمی‌شود.
 6. اگر کار مسدود است، blocker و کار read-only مستقل را ثبت کن؛ زمان را مصنوعی پر نکن و به مأموریت نامرتبط نپرداز.
 7. قبل از پایان یا handoff، checkpoint کامل و NEXT_ACTION دقیق ثبت کن.
+
+
+### همگام‌سازی نسخه جدید Work Item
+اگر Issue body یا تعریف گام‌ها/معیارها تغییر کرد ولی registry نسخه قبلی را نگه داشت، فقط پس از آزادشدن تمام leaseهای فعال و با نقش مالک از `/farast refresh` استفاده کن. این فرمان WORK_ITEM_ID را ثابت نگه می‌دارد، evidence شناسه‌های unchanged را حفظ می‌کند و مشخصات جدید را validate می‌کند؛ refresh به‌معنی اجرا یا پذیرش نیست.
