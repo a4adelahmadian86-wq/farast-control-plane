@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 125,
+  "revision": 126,
   "next_fencing_token": 59,
   "locks": [
     {
@@ -1304,6 +1304,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-15T16:26:43.489Z"
+    },
+    "6897663846": {
+      "response": "Claim رد شد: این TASK هم‌اکنون در اختیار @a4adelahmadian86-wq با run=RUN-20261115-EXP01-BASELINE-01 است؛ برای جلوگیری از دو نویسنده روی یک branch، ابتدا handoff یا انقضای lease لازم است.",
+      "response_posted": false,
+      "issue_number": 13,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": null,
+      "at_utc": "2026-11-15T16:31:04.696Z"
     }
   },
   "work_items": {
