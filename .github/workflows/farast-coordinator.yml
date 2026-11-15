@@ -227,7 +227,7 @@ jobs:
                           state.work_items[issue.number] ||= workItem;
                           state.work_items[issue.number].status = 'CLAIMED';
                           const plan = workItemCore.resumePlan(state.work_items[issue.number]);
-                          resumeText = '; WORK_ITEM_ID=' + plan.work_item_id + '; verified_steps=' + plan.completed_step_ids.join(',') + '; remaining_steps=' + plan.remaining_step_ids.join(',') + '; progress=' + plan.percentage + '%';
+                          resumeText = '; WORK_ITEM_ID=' + plan.work_item_id + '; verified_steps=' + plan.completed_step_ids.join(',') + '; remaining_steps=' + plan.remaining_step_ids.join(',') + '; EXECUTION_PROGRESS=' + plan.execution_progress_percentage + '%; ACCEPTANCE_PROGRESS=' + (plan.acceptance_progress_percentage === null ? 'N/A' : plan.acceptance_progress_percentage + '%') + '; OVERALL_COMPLETION=' + (plan.overall_completion_percentage === null ? 'N/A' : plan.overall_completion_percentage + '%');
                         }
                         response = 'CLAIM GRANTED. TASK=GH-' + issue.number + resumeText + '; actor=@' + actor + '; chat=' + chat + '; run=' + run + '; resource_keys=' + claim.resourceKeys.join(',') + '; target_repository=' + targetRepository + '; branch=' + taskBranch + handoff + '; fencing_token=' + claim.fencingToken + '; lease_expires=' + claim.expiresAt + '. پیش از هر write و checkpoint، heartbeat را تمدید و token را بررسی کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز؛ هرگز branch قبلی را تغییر نده.';
                         nextStatus = 'locked';
@@ -242,7 +242,7 @@ jobs:
                   else {
                     state.work_items ||= {}; state.work_items[issue.number] ||= item;
                     const p = workItemCore.calculateProgress(state.work_items[issue.number]);
-                    response = 'WORK_ITEM=' + item.work_item_id + '; progress=' + p.percentage + '%; verified_steps=' + p.verified_steps + '/' + p.total_steps + '; weighting=' + p.weighting_version + '; acceptance_criteria=' + (p.all_required_criteria_passed ? 'PASS' : 'INCOMPLETE') + '; dependencies=' + (p.dependencies_accepted ? 'PASS' : 'INCOMPLETE') + '; can_accept=' + p.can_accept + '. درصد پیشرفت به‌تنهایی پذیرش نیست.';
+                    response = 'WORK_ITEM=' + item.work_item_id + '; EXECUTION_PROGRESS=' + p.execution_percentage + '%; ACCEPTANCE_PROGRESS=' + (p.acceptance_percentage === null ? 'N/A' : p.acceptance_percentage + '%') + '; OVERALL_COMPLETION=' + (p.overall_completion_percentage === null ? 'N/A' : p.overall_completion_percentage + '%') + '; verified_steps=' + p.verified_steps + '/' + p.total_steps + '; verified_criteria=' + p.verified_criteria + '/' + p.total_criteria + '; step_weighting=' + p.weighting_version + '; criteria_weighting=' + p.acceptance_weighting_version + '; dependencies=' + (p.dependencies_accepted ? 'PASS' : 'INCOMPLETE') + '; can_accept=' + p.can_accept + '. claim/lease مستقل از درصد است.';
                   }
                 } else if (['step','criterion','checkpoint'].includes(command)) {
                   const item = savedWorkItemFor(state, issue);
@@ -255,14 +255,14 @@ jobs:
                     if (command === 'step') {
                       const result = workItemCore.recordStepEvidence(saved, { lease: current[0], actor, chat_id: chat, run_id: run, fencing_token: token, step_id: args.step || '', validation_status: (args.result || '').toUpperCase(), evidence_refs: evidence, note: args.note || '', nowMs: Date.now() });
                       saved.status = 'IN_PROGRESS';
-                      response = 'STEP ثبت شد: ' + args.step + '; progress=' + result.progress.percentage + '%; verified=' + result.progress.verified_steps + '/' + result.progress.total_steps + '.';
+                      response = 'STEP ثبت شد: ' + args.step + '; EXECUTION_PROGRESS=' + result.progress.execution_percentage + '%; ACCEPTANCE_PROGRESS=' + (result.progress.acceptance_percentage === null ? 'N/A' : result.progress.acceptance_percentage + '%') + '; OVERALL_COMPLETION=' + (result.progress.overall_completion_percentage === null ? 'N/A' : result.progress.overall_completion_percentage + '%') + '; verified_steps=' + result.progress.verified_steps + '/' + result.progress.total_steps + '.';
                     } else if (command === 'criterion') {
                       const result = workItemCore.recordCriterionEvidence(saved, { lease: current[0], actor, chat_id: chat, run_id: run, fencing_token: token, criterion_id: args.id || '', validation_status: (args.result || '').toUpperCase(), evidence_refs: evidence, note: args.note || '', nowMs: Date.now() });
-                      response = 'معیار پذیرش ثبت شد: ' + args.id + '; can_accept=' + result.progress.can_accept + '; progress=' + result.progress.percentage + '%.';
+                      response = 'معیار پذیرش ثبت شد: ' + args.id + '; ACCEPTANCE_PROGRESS=' + (result.progress.acceptance_percentage === null ? 'N/A' : result.progress.acceptance_percentage + '%') + '; OVERALL_COMPLETION=' + (result.progress.overall_completion_percentage === null ? 'N/A' : result.progress.overall_completion_percentage + '%') + '; can_accept=' + result.progress.can_accept + '.';
                     } else {
                       const checkpoint = workItemCore.createCheckpoint(saved, { lease: current[0], actor, chat_id: chat, run_id: run, fencing_token: token, current_step_id: args.step || '', next_action: args.next_action || '', evidence_refs: evidence, blockers: args.blockers ? args.blockers.split(',') : [], nowMs: Date.now() });
                       state.checkpoints ||= {}; state.checkpoints[issue.number] = checkpoint;
-                      response = 'CHECKPOINT ذخیره شد: WORK_ITEM=' + checkpoint.work_item_id + '; progress=' + checkpoint.progress_percentage + '%; next_action=' + checkpoint.next_action + '; remaining_steps=' + checkpoint.remaining_step_ids.join(',') + '.';
+                      response = 'CHECKPOINT ذخیره شد: WORK_ITEM=' + checkpoint.work_item_id + '; EXECUTION_PROGRESS=' + checkpoint.execution_progress_percentage + '%; ACCEPTANCE_PROGRESS=' + (checkpoint.acceptance_progress_percentage === null ? 'N/A' : checkpoint.acceptance_progress_percentage + '%') + '; OVERALL_COMPLETION=' + (checkpoint.overall_completion_percentage === null ? 'N/A' : checkpoint.overall_completion_percentage + '%') + '; next_action=' + checkpoint.next_action + '; remaining_steps=' + checkpoint.remaining_step_ids.join(',') + '.';
                     }
                   }
                 } else if (['heartbeat','release','block','review'].includes(command)) {
@@ -317,7 +317,7 @@ jobs:
                       if (workItem) {
                         state.work_items ||= {}; state.work_items[issue.number] ||= workItem;
                         const gate = workItemCore.calculateProgress(state.work_items[issue.number]);
-                        if (!gate.can_accept) response = 'پذیرش Work Item رد شد: همه گام‌های اجباری، معیارهای پذیرش و dependencyها باید با evidence معتبر PASS شوند؛ progress=' + gate.percentage + '%.';
+                        if (!gate.can_accept) response = 'پذیرش Work Item رد شد: همه گام‌های اجباری، معیارهای پذیرش و dependencyها باید با evidence معتبر PASS شوند؛ EXECUTION_PROGRESS=' + gate.execution_percentage + '%; ACCEPTANCE_PROGRESS=' + (gate.acceptance_percentage === null ? 'N/A' : gate.acceptance_percentage + '%') + '; OVERALL_COMPLETION=' + (gate.overall_completion_percentage === null ? 'N/A' : gate.overall_completion_percentage + '%') + '.';
                         else { state.work_items[issue.number].status = 'ACCEPTED'; nextStatus = 'done'; response = 'Work Item ACCEPTED: همه گام‌ها و معیارهای اجباری با evidence معتبر پاس شده‌اند؛ PR ادغام‌شده و approval مستقل روی head فعلی نیز احراز شد.'; }
                       } else { nextStatus = 'done'; response = 'پذیرش تأیید شد: PR ادغام‌شده و approval مستقل روی head فعلی احراز شد.'; }
                     }
