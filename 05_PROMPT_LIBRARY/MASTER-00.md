@@ -62,7 +62,7 @@
 ## قفل و هماهنگی چندعاملی
 - کارهای read-only موازی‌اند.
 - برای هر write، ابتدا در Issue مربوط فرمان /farast claim chat=CHAT_ID run=RUN_ID lease=30 ثبت کن.
-- branch صادرشده برای هر RUN را دقیقاً در target_repository بساز. اگر CLAIM GRANTED شامل previous_branch بود، branch قبلی را read-only بررسی کن، آخرین checkpoint معتبر را در مخزن هدف تأیید و branch جدید را از همان commit بساز؛ workflow فقط lineage را اعلام می‌کند و branch محصول را خودکار ایجاد نمی‌کند. اگر commit پایه قابل اثبات نیست STOP WRITES.
+- فقط وقتی `write_policy=WRITE_ALLOWED` است branch صادرشده را در `target_repository` بساز. برای `READ_ONLY` و `WRITE_REQUIRES_OWNER_APPROVAL` هیچ branch، file، commit یا PR در مخزن هدف ایجاد نکن؛ شواهد را در Issue thread یا محل مجاز control-plane ثبت کن. اگر branch مجاز است و `previous_branch` برگشت، آن را read-only بررسی کن و branch جدید را از آخرین commit/checkpoint تأییدشده بساز؛ در نبود commit پایه قابل اثبات STOP WRITES.
 - فقط پاسخ صریح CLAIM GRANTED به‌همراه read-back رجیستری و token مجوز نوشتن است.
 - پیش از هر write/checkpoint، /farast heartbeat chat=CHAT_ID run=RUN_ID token=FENCING_TOKEN lease=30 را اجرا کن.
 - release/review/block فقط با actor/chat/run/token منطبق مجاز است؛ جزئیات در 04_COORDINATION/COORDINATOR_COMMANDS.md.
@@ -102,7 +102,7 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 از آخرین TASK_ID، checkpoint، branch، commit، شواهد و اقدام ناتمام ادامه بده؛ هیچ خروجی را از نو تولید نکن. سؤال درباره TASK_ID یا انتخاب کار نپرس؛ از وضعیت مشترک GitHub و شواهد، مأموریت صحیح را تشخیص بده. اگر یک مأموریت مبهم یا مسدود است، blocker را ثبت کن و کار مستقل دیگری را ادامه بده.
 
 
-**قفل و handoff چندچتی:** فقط `/farast claim|heartbeat|release|review` مجاز است؛ نوشتن مستقیم رجیستری `coordination/locks` ممنوع است. هر RUN branch یکتا دارد؛ branch مصرف‌شده قابل claim مجدد نیست. worker جدید از previous_branch و checkpoint تأییدشده branch جدید می‌سازد و branch قدیمی را تغییر نمی‌دهد.
+**قفل و handoff چندچتی:** فقط `/farast claim|heartbeat|release|review` مجاز است؛ نوشتن مستقیم رجیستری `coordination/locks` ممنوع است. فقط RUNهای `WRITE_ALLOWED` branch یکتا دارند و branch مصرف‌شده قابل claim مجدد نیست. برای `READ_ONLY` و `WRITE_REQUIRES_OWNER_APPROVAL` branch در مخزن هدف صادر نمی‌شود. worker جدید فقط در مسیر `WRITE_ALLOWED` از `previous_branch` و checkpoint تأییدشده branch تازه می‌سازد و branch قدیمی را تغییر نمی‌دهد.
 
 
 **نقش و اختیار فرمان‌ها:** پیش از اجرای هر فرمان، سیاست `04_COORDINATION/ACTOR_AUTHORIZATION.json` را بخوان. OWNER اختیار کامل دارد؛ COLLABORATOR/MEMBER به‌صورت پیش‌فرض WORKER با اختیارات پایه‌اند؛ SENIOR_MANAGER فقط با درج صریح GitHub login در actor_roles و تعیین repositories و resource_key_prefixes در actor_scopes، با تأیید مالک فعال می‌شود؛ READ_ONLY فقط status دارد. فرمان خارج از نقش را اجرا نکن و برای دور زدن محدودیت، نقش را حدس نزن.
