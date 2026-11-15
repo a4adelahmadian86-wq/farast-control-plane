@@ -171,6 +171,8 @@ jobs:
           assert "WORK_ORDER_SCHEMA.json" in start_here and "CHECKPOINT_SCHEMA.json" in start_here
           assert "HANDOFF_PROTOCOL.md" in start_here and "ACCEPTANCE_FRAMEWORK.md" in start_here
           coordinator = Path(".github/workflows/farast-coordinator.yml").read_text(encoding="utf-8")
+          for metric in ("EXECUTION_PROGRESS=", "ACCEPTANCE_PROGRESS=", "OVERALL_COMPLETION="):
+              assert metric in coordinator, metric
           assert "item.write_policy ||= 'READ_ONLY';\n                item.priority_source ||= 'DEFAULT_POLICY';\n                workItemCore.validateWorkItem(item);" in coordinator
           assert "const formPriorityRaw = scalar('Priority (0-100; lower is higher)');" in coordinator
           assert "formPriorityRaw ? Number(formPriorityRaw) : Number.NaN" in coordinator
