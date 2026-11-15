@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 230,
+  "revision": 231,
   "next_fencing_token": 63,
   "locks": [
     {
@@ -2198,6 +2198,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-15T18:11:22.593Z"
+    },
+    "6898954073": {
+      "response": "معیار پذیرش ثبت شد: AC_WRITE_ALLOWED; can_accept=false; progress=100%.",
+      "response_posted": false,
+      "issue_number": 44,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-15T18:11:27.950Z"
     }
   },
   "work_items": {
@@ -2675,8 +2684,13 @@
           "criterion_id": "AC_WRITE_ALLOWED",
           "title": "WRITE_ALLOWED control-plane tasks retain their valid run-specific branch and fencing-token workflow",
           "required": true,
-          "validation_status": "NOT_RUN",
-          "evidence_refs": []
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/e0fc0741cb4ea4fe63d2fcbfe236a7133849f28a"
+          ],
+          "validated_at_utc": "2026-11-15T18:11:27.949Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_REGRESSION",
