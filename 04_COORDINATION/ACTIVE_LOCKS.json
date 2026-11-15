@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 228,
+  "revision": 229,
   "next_fencing_token": 63,
   "locks": [
     {
@@ -2189,6 +2189,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-15T18:11:16.693Z"
+    },
+    "6898953626": {
+      "response": "معیار پذیرش ثبت شد: AC_POLICY_CONFLICT; can_accept=false; progress=100%.",
+      "response_posted": false,
+      "issue_number": 44,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-15T18:11:22.593Z"
     }
   },
   "work_items": {
@@ -2654,8 +2663,13 @@
           "criterion_id": "AC_POLICY_CONFLICT",
           "title": "Missing or conflicting write policy causes claim/write to fail closed and never defaults into a write path",
           "required": true,
-          "validation_status": "NOT_RUN",
-          "evidence_refs": []
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/1ba88aeae1217fd882a2d4b11eb972018ffa3e40"
+          ],
+          "validated_at_utc": "2026-11-15T18:11:22.592Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_WRITE_ALLOWED",
