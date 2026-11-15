@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 218,
+  "revision": 219,
   "next_fencing_token": 63,
   "locks": [
     {
@@ -2144,6 +2144,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-15T18:10:35.393Z"
+    },
+    "6898951193": {
+      "response": "STEP ثبت شد: S4_TESTS; progress=71.42%; verified=5/7.",
+      "response_posted": false,
+      "issue_number": 44,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-15T18:10:40.447Z"
     }
   },
   "work_items": {
@@ -2545,8 +2554,13 @@
           "title": "Add regression tests for READ_ONLY, WRITE_ALLOWED, owner-approval-required and cross-repository target combinations",
           "required": true,
           "weight": 1,
-          "validation_status": "NOT_RUN",
-          "evidence_refs": []
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/43745065814"
+          ],
+          "validated_at_utc": "2026-11-15T18:10:40.447Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S5_NEGATIVE",
