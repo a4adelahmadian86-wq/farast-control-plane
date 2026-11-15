@@ -1,6 +1,6 @@
 # ارزیابی آمادگی اجرای چندچتی FARAST
 
-آخرین بازبینی: 2026-11-14  
+آخرین بازبینی: 2026-11-15  
 مرجع کد: شاخه `main`؛ SHA جاری را زنده از GitHub بخوانید.  
 PR کنترل‌پلین: https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/1
 
@@ -129,3 +129,13 @@ PR #1 در SHA `b8cf85cfd6552028750eefa3cff03d844175814c` ادغام شده اس
 MASTER-00 یک فرمان ثابت برای تمام چت‌هاست؛ هر چت به‌طور مستقل صف مشترک GitHub را می‌خواند، یک برگ آزاد claim می‌کند، کار را ثبت و تحویل می‌دهد و سپس دوباره صف را بررسی می‌کند. تخصیص دستی شماره کار به هر چت لازم نیست. claim ناموفق یا blocker فقط همان نامزد را skip می‌کند؛ discovery و اجرای کارهای مستقل ادامه می‌یابد. در نبود leaf، allocator با شناسه ثابت claim می‌شود؛ اگر allocator مشغول است، چت فقط از ساخت برگ جدید صرف‌نظر کرده و read-only discovery را ادامه می‌دهد. هر نشست پیش از سقف زمینه/زمان checkpoint می‌گذارد.
 
 این رفتار خودگردان در MASTER-00 و پروتکل BROADCAST تعریف شده است، اما پذیرش عملی آن به آزمون هم‌زمان واقعی چند حساب وابسته است.
+
+
+## به‌روزرسانی پس از PR #40 — 2026-11-15
+
+- PR #40 با عنوان «Add autonomous single-prompt multi-chat execution» ادغام شد: https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/40
+- merge commit: `bd99a25ee58da8e8e27dc6269ff36f19ff8cb65d`
+- CI روی head نهایی PR، commit `f37f0e75982259d782e9f2606b2a09ee62676f58`، در run شماره `43729840131` با نتیجه **success** تمام شد: https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/43729840131
+- MASTER-00 نسخه 1.8.0 اکنون حلقه خودگردان دارد: کشف کار بعدی از صف مشترک، claim اتمیک، رفتن به برگ بعدی پس از تعارض، ادامه discovery هنگام blocker/اشغال allocator، و checkpoint پیش از محدودیت نشست.
+- اتصال GitHub باید در هر حساب ChatGPT جداگانه authorize شود. اگر GitHub loginها متفاوت‌اند، هرکدام باید collaborator/member/owner مخزن باشند؛ فقط public visibility کافی نیست.
+- **این موارد هنوز اثبات نشده‌اند:** ارسال هم‌زمان MASTER-00 در دو حساب مستقل ChatGPT، رقابت واقعی دو login GitHub، اجرای هم‌پوشان دو Work Item، و interruption/resume واقعی بین دو حساب. وضعیت MULTI-ACCOUNT E2E و BROADCAST همچنان **NOT VERIFIED** است.
