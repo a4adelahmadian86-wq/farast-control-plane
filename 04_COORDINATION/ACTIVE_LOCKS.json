@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 264,
+  "revision": 265,
   "next_fencing_token": 64,
   "locks": [
     {
@@ -2512,6 +2512,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-15T18:24:17.069Z"
+    },
+    "6899130833": {
+      "response": "STEP ثبت شد: S2_SELECT; progress=42.85%; verified=3/7.",
+      "response_posted": false,
+      "issue_number": 43,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-15T18:24:23.310Z"
     }
   },
   "work_items": {
@@ -2887,8 +2896,13 @@
           "title": "Implement automatic queue discovery and deterministic next-Work-Item selection without asking the owner to choose an Issue",
           "required": true,
           "weight": 1,
-          "validation_status": "NOT_RUN",
-          "evidence_refs": []
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/12da373acf7f28239536a1b1cd822f5512d16fc4"
+          ],
+          "validated_at_utc": "2026-11-15T18:24:23.310Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S3_RESUME",
