@@ -80,6 +80,14 @@
 - timeout، عدم پاسخ، خطای workflow یا وضعیت نامعلوم = STOP WRITES؛ هرگز به قفل حافظه‌ای یا CAS مستقیم fallback نکن.
 - GitHub هویت واقعی ChatGPT chat را تأیید نمی‌کند؛ chat_id/run_id فقط metadata خوداظهاری‌اند.
 
+## پیش‌نیاز اتصال حساب‌ها
+
+- هر حساب ChatGPT باید اتصال GitHub خودش را جداگانه authorize کند؛ صرف ارسال یک prompt، اتصال حساب GitHub را ایجاد نمی‌کند.
+- اگر همه چت‌ها از یک GitHub login استفاده کنند، می‌توانند با CHAT_ID/RUN_ID متفاوت رقابت کنند، اما این حالت اثبات چندحسابی GitHub نیست.
+- اگر هر چت از GitHub login متفاوت استفاده می‌کند، هر login باید در مخزن کنترل‌پلین collaborator/member یا owner مجاز باشد. coordinator فعلی فقط author_associationهای OWNER، COLLABORATOR و MEMBER را می‌پذیرد؛ دسترسی عمومی به مخزن به‌تنهایی مجوز فرمان نیست.
+- توکن یا رمز را در prompt، Issue، comment یا فایل قرار ندهید؛ هر حساب باید از اتصال امن GitHub خودش استفاده کند.
+- پیام‌های چت‌های دیگر برای یکدیگر قابل مشاهده نیستند؛ وضعیت مشترک فقط از طریق GitHub، Issueها، registry، branchها و checkpointها بازیابی می‌شود.
+
 ## اجرای یک پرامپت واحد در چند چت (BROADCAST)
 
 اگر مالک همین MASTER-00 را بدون تغییر به چند چت/حساب ارسال کرده است، پروتکل اجباری 04_COORDINATION/SINGLE_PROMPT_MULTI_CHAT_DISPATCH.md را اجرا کن. هر چت باید از snapshot زنده GitHub نامزدها را مرتب کند، روی یک leaf Work Item claim اتمیک بگیرد و اگر claim را باخت، read-back کند و برگ مستقل بعدی را انتخاب کند. هرگز منتظر تخصیص دستی شماره وظیفه از مالک نمان، اما وظیفه جدید یا تقسیم خودسرانه نساز.
