@@ -205,13 +205,7 @@ jobs:
                     try {
                       const liveWorkItem = workItemSpecFor(issue);
                       const storedWorkItem = state.work_items?.[issue.number];
-                      const normalizeKeys = keys => [...new Set((keys || []).map(x => String(x).trim().toLowerCase().split(String.fromCharCode(92)).join('/')))].sort();
-                      if (storedWorkItem) {
-                        if ((storedWorkItem.write_policy || 'READ_ONLY') !== (liveWorkItem?.write_policy || 'READ_ONLY')) throw new Error('Registry write_policy differs from live Issue specification; owner refresh required');
-                        if (storedWorkItem.target_repository && storedWorkItem.target_repository !== liveWorkItem?.target_repository) throw new Error('Registry target_repository differs from live Issue specification; owner refresh required');
-                        if (JSON.stringify(normalizeKeys(storedWorkItem.resource_keys)) !== JSON.stringify(normalizeKeys(liveWorkItem?.resource_keys))) throw new Error('Registry resource_keys differ from live Issue specification; owner refresh required');
-                      }
-                      writePolicy = liveWorkItem?.write_policy || 'READ_ONLY';
+                      writePolicy = coordinatorCore.resolveWritePolicy(liveWorkItem, storedWorkItem);
                     } catch (error) {
                       policyError = error.message;
                     }
