@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 272,
+  "revision": 273,
   "next_fencing_token": 64,
   "locks": [
     {
@@ -2548,6 +2548,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-15T18:24:53.154Z"
+    },
+    "6899132674": {
+      "response": "STEP ثبت شد: S6_VERIFY; progress=100%; verified=7/7.",
+      "response_posted": false,
+      "issue_number": 43,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-15T18:24:57.919Z"
     }
   },
   "work_items": {
@@ -2975,8 +2984,13 @@
           "title": "Run CI and read back all changed prompts, workflow behavior, issue/registry transitions and document remaining cross-account limitations",
           "required": true,
           "weight": 1,
-          "validation_status": "NOT_RUN",
-          "evidence_refs": []
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/43746348013"
+          ],
+          "validated_at_utc": "2026-11-15T18:24:57.919Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "acceptance_criteria": [
