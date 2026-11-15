@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 101,
+  "revision": 102,
   "next_fencing_token": 56,
   "locks": [
     {
@@ -1047,6 +1047,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-15T15:29:23.318Z"
+    },
+    "6896874986": {
+      "response": "معیار پذیرش ثبت شد: AC_RELEASE; can_accept=true; progress=100%.",
+      "response_posted": false,
+      "issue_number": 11,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-15T15:29:52.469Z"
     }
   },
   "work_items": {
@@ -1208,7 +1217,7 @@
       "parent_exp_ids": [
         "EXP-01"
       ],
-      "status": "IN_PROGRESS",
+      "status": "REVIEW_REQUIRED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "coordination:work-item-allocation"
@@ -1304,7 +1313,15 @@
         },
         {
           "criterion_id": "AC_RELEASE",
-          "title": "Allocator lease is released after the creation batch and evidence is recorded"
+          "title": "Allocator lease is released after the creation batch and evidence is recorded",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/11#issuecomment-6896854382",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/coordination/locks/04_COORDINATION/ACTIVE_LOCKS.json"
+          ],
+          "validated_at_utc": "2026-11-15T15:29:52.401Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "priority": 100,
