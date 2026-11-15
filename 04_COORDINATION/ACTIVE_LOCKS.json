@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 266,
+  "revision": 267,
   "next_fencing_token": 64,
   "locks": [
     {
@@ -2521,6 +2521,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-15T18:24:23.310Z"
+    },
+    "6899131333": {
+      "response": "STEP ثبت شد: S3_RESUME; progress=57.14%; verified=4/7.",
+      "response_posted": false,
+      "issue_number": 43,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-15T18:24:29.578Z"
     }
   },
   "work_items": {
@@ -2909,8 +2918,13 @@
           "title": "Implement resume-first behavior from durable Issue, registry and checkpoint evidence; preserve stable WORK_ITEM_ID and require a fresh RUN_ID",
           "required": true,
           "weight": 1,
-          "validation_status": "NOT_RUN",
-          "evidence_refs": []
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/0058c7c552f1f486143e3c14a99eac0222d67835"
+          ],
+          "validated_at_utc": "2026-11-15T18:24:29.578Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S4_EXECUTE",
