@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 262,
+  "revision": 263,
   "next_fencing_token": 64,
   "locks": [
     {
@@ -2503,6 +2503,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-15T18:24:11.275Z"
+    },
+    "6899130297": {
+      "response": "STEP ثبت شد: S1_CONTRACT; progress=28.57%; verified=2/7.",
+      "response_posted": false,
+      "issue_number": 43,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-15T18:24:17.069Z"
     }
   },
   "work_items": {
@@ -2865,8 +2874,13 @@
           "title": "Define a deterministic prompt-entry contract: bootstrap, identity, objective mapping, eligible leaf selection, dependency gates and fail-closed behavior",
           "required": true,
           "weight": 1,
-          "validation_status": "NOT_RUN",
-          "evidence_refs": []
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/cf6b394cdecd7ab0d8d44778b0de711d3aea3a0f"
+          ],
+          "validated_at_utc": "2026-11-15T18:24:17.069Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S2_SELECT",
