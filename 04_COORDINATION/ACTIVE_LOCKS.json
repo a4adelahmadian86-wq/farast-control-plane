@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 212,
+  "revision": 213,
   "next_fencing_token": 63,
   "locks": [
     {
@@ -2117,6 +2117,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-15T18:10:19.891Z"
+    },
+    "6898949648": {
+      "response": "STEP ثبت شد: S1_POLICY; progress=28.57%; verified=2/7.",
+      "response_posted": false,
+      "issue_number": 44,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-15T18:10:25.082Z"
     }
   },
   "work_items": {
@@ -2479,8 +2488,13 @@
           "title": "Specify the invariant that READ_ONLY work cannot create, push, modify branches or open PRs in its target repository",
           "required": true,
           "weight": 1,
-          "validation_status": "NOT_RUN",
-          "evidence_refs": []
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/48600069148bcf14b8be06ed6a50ce9200427f46"
+          ],
+          "validated_at_utc": "2026-11-15T18:10:25.082Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S2_ROUTING",
