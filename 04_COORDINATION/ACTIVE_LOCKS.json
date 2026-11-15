@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 131,
+  "revision": 132,
   "next_fencing_token": 59,
   "locks": [
     {
@@ -1343,6 +1343,15 @@
       "command": "status",
       "next_status": null,
       "at_utc": "2026-11-15T16:32:26.673Z"
+    },
+    "6897694648": {
+      "response": "وضعیت: LOCKED؛ مالک @a4adelahmadian86-wq؛ chat=farast-baseline-chat؛ run=RUN-20261115-EXP01-BASELINE-01؛ token=57؛ expiry=2026-11-15T16:34:42.642Z",
+      "response_posted": false,
+      "issue_number": 13,
+      "actor": "a4adelahmadian86-wq",
+      "command": "status",
+      "next_status": null,
+      "at_utc": "2026-11-15T16:33:28.436Z"
     }
   },
   "work_items": {
