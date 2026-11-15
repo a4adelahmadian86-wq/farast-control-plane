@@ -156,7 +156,7 @@ jobs:
           for required in ("agent_alias: args.chatId || args.actor", "target_repository: args.targetRepository", "target_repository: x.target_repository", "function isSafeRunId", "function roleForActor", "function isWithinDelegatedScope", "function isCommandAllowed", "function latestTaskStatus", "function matchesReviewLease", "function claimResources", "function ownsLease", "function renewLease", "task_already_claimed", "branchUsed", "previousRun", "function roleForActor", "function isCommandAllowed"):
               assert required in core, required
           broadcast = Path("04_COORDINATION/SINGLE_PROMPT_MULTI_CHAT_DISPATCH.md").read_text(encoding="utf-8")
-          for required in ("همین متن واحد MASTER-00", "توزیع رقابتی", "resource keyهایشان مستقل", "allocator", "RUN_ID", "fencing token", "NOT VERIFIED", "دو حساب مستقل", "بازنده باید وضعیت زنده را دوباره بخواند", "حلقه خودگردان مأموریت", "هیچ سؤال یا درخواست انتخابی از مالک مجاز نیست"):
+          for required in ("همین متن واحد MASTER-00", "توزیع رقابتی", "resource keyهایشان مستقل", "allocator", "RUN_ID", "fencing token", "NOT VERIFIED", "دو حساب مستقل", "بازنده باید وضعیت زنده را دوباره بخواند", "حلقه خودگردان مأموریت", "هیچ سؤال یا درخواست انتخابی از مالک مجاز نیست", "هر حساب ChatGPT باید اتصال GitHub خودش را جداگانه authorize کند", "collaborator/member"):
               assert required in broadcast, required
           master = Path("05_PROMPT_LIBRARY/MASTER-00.md").read_text(encoding="utf-8")
           assert "SINGLE_PROMPT_MULTI_CHAT_DISPATCH.md" in master
@@ -164,6 +164,8 @@ jobs:
           assert "حلقه خودگردان مأموریت" in master
           assert "منتظر دستور «ادامه بده» یا تخصیص کاربر نمان" in master
           assert "هیچ سؤال یا درخواست انتخابی از مالک مجاز نیست" in master
+          assert "هر حساب ChatGPT باید اتصال GitHub خودش را جداگانه authorize کند" in master
+          assert "collaborator/member" in master
           start_here = Path("START_HERE.md").read_text(encoding="utf-8")
           assert "SINGLE_PROMPT_MULTI_CHAT_DISPATCH.md" in start_here
           readiness = Path("04_COORDINATION/MULTI_CHAT_READINESS.md").read_text(encoding="utf-8")
