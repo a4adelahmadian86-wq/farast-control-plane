@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 215,
+  "revision": 216,
   "next_fencing_token": 63,
   "locks": [
     {
@@ -2129,7 +2129,7 @@
     },
     "6898950157": {
       "response": "STEP ثبت شد: S2_ROUTING; progress=42.85%; verified=3/7.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 44,
       "actor": "a4adelahmadian86-wq",
       "command": "step",
