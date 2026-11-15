@@ -37,14 +37,14 @@ Claim: `RUN-20261115-PROMPT-PREP-01`, fencing token 58
 ## وضعیت ۲۷ Issue اجرایی
 
 - Issueهای #14 تا #39 (EXP-02 تا EXP-27): **۲۶/۲۶ غنی‌سازی شدند**؛ هرکدام ۷ گام، ۴ معیار پذیرش، ۳ یا ۴ deliverable و effort هدف ۲۵ دقیقه دارند.
-- Issue #13 (EXP-01): در زمان این تغییر توسط اجرای مستقل `farast-baseline-chat` با token 57 و lease فعال claim شده بود. برای جلوگیری از تداخل، body و JSON آن تغییر داده نشد. سند decomposition دامنه و ۷ گام کامل EXP-01 را دارد، اما Issue #13 باید پس از release شدن claim به همان قالب ۷ گام/۴ معیار/۳ خروجی ارتقا یابد.
+- Issue #13 (EXP-01): در read-back نهایی هنوز در اختیار اجرای مستقل `RUN-20261115-EXP01-BASELINE-01` با token 57 بود؛ فرمان claim مجدد این اجرا به‌درستی به‌دلیل جلوگیری از دو نویسنده رد شد. بنابراین body و JSON آن عمداً تغییر نکرده است. طرح تخصصی ۷ گام، معیارها و خروجی‌های EXP-01 در سند decomposition موجود است؛ تبدیل Issue #13 به قالب عمیق فقط پس از handoff یا انقضای قطعی lease و Claim جدید مجاز است.
 - هیچ‌یک از این Work Itemها به‌دلیل غنی‌سازی، اجراشده یا پذیرفته‌شده محسوب نمی‌شوند؛ وضعیت کار و progress فقط با evidence واقعی تغییر می‌کند.
 
 ## اعتبارسنجی
 
 - Read-back زنده نشان داد ۲۶ Issue دارای `effort_estimate_minutes=25`، ۷ گام، ۴ معیار و حداقل ۳ deliverable هستند.
 - MASTER-00 و bundle بررسی شدند؛ قرارداد در ۱۸/۱۸ بخش bundle وجود دارد.
-- JSON schemaها از GitHub بازخوانی شدند؛ اجرای CI #851 و #852 روی head قبلی موفق شد. پس از افزودن progress engine، اجرای نهایی CI دوباره لازم است.
+- JSON Schemaهای Work Item و Checkpoint از GitHub بازخوانی شدند و workflow اعتبارسنجی روی آخرین head `3cd423e89b93d6dedad5122da36ef38fa79e7d94` با موفقیت کامل شد: [Control Plane Validation run #865](https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/43735999137).
 - آزمون end-to-end واقعی دو حساب مستقل در دامنه این تغییر انجام نشده و ادعای VERIFIED چندحسابی جدید صادر نمی‌شود.
 
 ## مرز ایمنی
@@ -52,3 +52,12 @@ Claim: `RUN-20261115-PROMPT-PREP-01`, fencing token 58
 - هیچ فایل، branch، PR، داده یا محیطی در مخزن محصول `a4adelahmadian86-wq/non` تغییر نکرد.
 - این تغییر صرفاً زیرساخت و اسناد control-plane است.
 - merge شدن PR و release عملیاتی همچنان تابع review/approval مستقل است.
+
+
+## وضعیت نهایی PR و موانع تحویل
+
+- PR شماره 42 باز و merge نشده است؛ head فعلی `3cd423e89b93d6dedad5122da36ef38fa79e7d94` و CI آخرین commit سبز است.
+- بازبینی مستقل هنوز ثبت نشده است؛ فهرست reviews خالی است. بنابراین ادغام خودکار یا تأیید به‌جای بازبین مستقل انجام نشده است.
+- آزمون واقعی E2E با دو حساب مستقل و دو نشست مستقل هنوز اجرا نشده؛ قابلیت چندحسابی VERIFIED اعلام نمی‌شود.
+- Issue #13 تنها Work Item از ۲۷ مورد است که تبدیل ساختاری آن به عمق جدید به‌دلیل Claim مستقل فعال به تعویق افتاده است. سایر Issueهای #14 تا #39 با read-back زنده دارای ۷ گام، ۴ معیار، حداقل ۳ خروجی و effort هدف ۲۵ دقیقه‌اند.
+- مخزن محصول `a4adelahmadian86-wq/non` در تمام این کارها READ_ONLY باقی مانده است.
