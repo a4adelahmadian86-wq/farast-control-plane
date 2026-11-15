@@ -153,7 +153,7 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 
 ## دروازه اجباری هماهنگی چندچتی
 - رجیستری `coordination/locks` فقط توسط workflow مرکزی نوشته می‌شود؛ هرگز direct-CAS یا نوشتن مستقیم انجام نده.
-- هر RUN جدید شناسه یکتا دارد؛ branch اختصاصی فقط برای `WRITE_ALLOWED` صادر می‌شود و branch قبلی فقط read-only بررسی می‌شود.
+- هرگز branch قبلی را دوباره استفاده نکن؛ هر RUN جدید شناسه یکتا دارد؛ branch اختصاصی فقط برای `WRITE_ALLOWED` صادر می‌شود و branch قبلی فقط read-only بررسی می‌شود.
 - پیش از فرمان‌ها سیاست `ACTOR_AUTHORIZATION.json` را بخوان؛ SENIOR_MANAGER فقط با `actor_roles` و `resource_key_prefixes` صریح مجاز است.
 - timeout، خطا یا lease نامعلوم = STOP WRITES؛ claim موفق و read-back رجیستری شرط هر write است.
 - قرارداد قفل را در `LOCK_MANAGER_PROTOCOL.md` بخوان؛ TASK_ID پایدار را حفظ کن و برای هر عملیات OPERATION_ID یکتا داشته باش. نتیجه نامعلوم را AMBIGUOUS ثبت کن و از GitHub read-back بگیر؛ خلاصه چت مرجع حقیقت نیست.
@@ -237,7 +237,7 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 
 ## دروازه اجباری هماهنگی چندچتی
 - رجیستری `coordination/locks` فقط توسط workflow مرکزی نوشته می‌شود؛ هرگز direct-CAS یا نوشتن مستقیم انجام نده.
-- هر RUN جدید شناسه یکتا دارد؛ branch اختصاصی فقط برای `WRITE_ALLOWED` صادر می‌شود و branch قبلی فقط read-only بررسی می‌شود.
+- هرگز branch قبلی را دوباره استفاده نکن؛ هر RUN جدید شناسه یکتا دارد؛ branch اختصاصی فقط برای `WRITE_ALLOWED` صادر می‌شود و branch قبلی فقط read-only بررسی می‌شود.
 - پیش از فرمان‌ها سیاست `ACTOR_AUTHORIZATION.json` را بخوان؛ SENIOR_MANAGER فقط با `actor_roles` و `resource_key_prefixes` صریح مجاز است.
 - timeout، خطا یا lease نامعلوم = STOP WRITES؛ claim موفق و read-back رجیستری شرط هر write است.
 - قرارداد قفل را در `LOCK_MANAGER_PROTOCOL.md` بخوان؛ TASK_ID پایدار را حفظ کن و برای هر عملیات OPERATION_ID یکتا داشته باش. نتیجه نامعلوم را AMBIGUOUS ثبت کن و از GitHub read-back بگیر؛ خلاصه چت مرجع حقیقت نیست.
@@ -315,7 +315,7 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 
 ## دروازه اجباری هماهنگی چندچتی
 - رجیستری `coordination/locks` فقط توسط workflow مرکزی نوشته می‌شود؛ هرگز direct-CAS یا نوشتن مستقیم انجام نده.
-- هر RUN جدید شناسه یکتا دارد؛ branch اختصاصی فقط برای `WRITE_ALLOWED` صادر می‌شود و branch قبلی فقط read-only بررسی می‌شود.
+- هرگز branch قبلی را دوباره استفاده نکن؛ هر RUN جدید شناسه یکتا دارد؛ branch اختصاصی فقط برای `WRITE_ALLOWED` صادر می‌شود و branch قبلی فقط read-only بررسی می‌شود.
 - پیش از فرمان‌ها سیاست `ACTOR_AUTHORIZATION.json` را بخوان؛ SENIOR_MANAGER فقط با `actor_roles` و `resource_key_prefixes` صریح مجاز است.
 - timeout، خطا یا lease نامعلوم = STOP WRITES؛ claim موفق و read-back رجیستری شرط هر write است.
 - قرارداد قفل را در `LOCK_MANAGER_PROTOCOL.md` بخوان؛ TASK_ID پایدار را حفظ کن و برای هر عملیات OPERATION_ID یکتا داشته باش. نتیجه نامعلوم را AMBIGUOUS ثبت کن و از GitHub read-back بگیر؛ خلاصه چت مرجع حقیقت نیست.
@@ -393,7 +393,7 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 
 ## دروازه اجباری هماهنگی چندچتی
 - رجیستری `coordination/locks` فقط توسط workflow مرکزی نوشته می‌شود؛ هرگز direct-CAS یا نوشتن مستقیم انجام نده.
-- هر RUN جدید شناسه یکتا دارد؛ branch اختصاصی فقط برای `WRITE_ALLOWED` صادر می‌شود و branch قبلی فقط read-only بررسی می‌شود.
+- هرگز branch قبلی را دوباره استفاده نکن؛ هر RUN جدید شناسه یکتا دارد؛ branch اختصاصی فقط برای `WRITE_ALLOWED` صادر می‌شود و branch قبلی فقط read-only بررسی می‌شود.
 - پیش از فرمان‌ها سیاست `ACTOR_AUTHORIZATION.json` را بخوان؛ SENIOR_MANAGER فقط با `actor_roles` و `resource_key_prefixes` صریح مجاز است.
 - timeout، خطا یا lease نامعلوم = STOP WRITES؛ claim موفق و read-back رجیستری شرط هر write است.
 - قرارداد قفل را در `LOCK_MANAGER_PROTOCOL.md` بخوان؛ TASK_ID پایدار را حفظ کن و برای هر عملیات OPERATION_ID یکتا داشته باش. نتیجه نامعلوم را AMBIGUOUS ثبت کن و از GitHub read-back بگیر؛ خلاصه چت مرجع حقیقت نیست.
@@ -472,7 +472,7 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 
 ## دروازه اجباری هماهنگی چندچتی
 - رجیستری `coordination/locks` فقط توسط workflow مرکزی نوشته می‌شود؛ هرگز direct-CAS یا نوشتن مستقیم انجام نده.
-- هر RUN جدید شناسه یکتا دارد؛ branch اختصاصی فقط برای `WRITE_ALLOWED` صادر می‌شود و branch قبلی فقط read-only بررسی می‌شود.
+- هرگز branch قبلی را دوباره استفاده نکن؛ هر RUN جدید شناسه یکتا دارد؛ branch اختصاصی فقط برای `WRITE_ALLOWED` صادر می‌شود و branch قبلی فقط read-only بررسی می‌شود.
 - پیش از فرمان‌ها سیاست `ACTOR_AUTHORIZATION.json` را بخوان؛ SENIOR_MANAGER فقط با `actor_roles` و `resource_key_prefixes` صریح مجاز است.
 - timeout، خطا یا lease نامعلوم = STOP WRITES؛ claim موفق و read-back رجیستری شرط هر write است.
 - قرارداد قفل را در `LOCK_MANAGER_PROTOCOL.md` بخوان؛ TASK_ID پایدار را حفظ کن و برای هر عملیات OPERATION_ID یکتا داشته باش. نتیجه نامعلوم را AMBIGUOUS ثبت کن و از GitHub read-back بگیر؛ خلاصه چت مرجع حقیقت نیست.
@@ -550,7 +550,7 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 
 ## دروازه اجباری هماهنگی چندچتی
 - رجیستری `coordination/locks` فقط توسط workflow مرکزی نوشته می‌شود؛ هرگز direct-CAS یا نوشتن مستقیم انجام نده.
-- هر RUN جدید شناسه یکتا دارد؛ branch اختصاصی فقط برای `WRITE_ALLOWED` صادر می‌شود و branch قبلی فقط read-only بررسی می‌شود.
+- هرگز branch قبلی را دوباره استفاده نکن؛ هر RUN جدید شناسه یکتا دارد؛ branch اختصاصی فقط برای `WRITE_ALLOWED` صادر می‌شود و branch قبلی فقط read-only بررسی می‌شود.
 - پیش از فرمان‌ها سیاست `ACTOR_AUTHORIZATION.json` را بخوان؛ SENIOR_MANAGER فقط با `actor_roles` و `resource_key_prefixes` صریح مجاز است.
 - timeout، خطا یا lease نامعلوم = STOP WRITES؛ claim موفق و read-back رجیستری شرط هر write است.
 - قرارداد قفل را در `LOCK_MANAGER_PROTOCOL.md` بخوان؛ TASK_ID پایدار را حفظ کن و برای هر عملیات OPERATION_ID یکتا داشته باش. نتیجه نامعلوم را AMBIGUOUS ثبت کن و از GitHub read-back بگیر؛ خلاصه چت مرجع حقیقت نیست.
@@ -629,7 +629,7 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 
 ## دروازه اجباری هماهنگی چندچتی
 - رجیستری `coordination/locks` فقط توسط workflow مرکزی نوشته می‌شود؛ هرگز direct-CAS یا نوشتن مستقیم انجام نده.
-- هر RUN جدید شناسه یکتا دارد؛ branch اختصاصی فقط برای `WRITE_ALLOWED` صادر می‌شود و branch قبلی فقط read-only بررسی می‌شود.
+- هرگز branch قبلی را دوباره استفاده نکن؛ هر RUN جدید شناسه یکتا دارد؛ branch اختصاصی فقط برای `WRITE_ALLOWED` صادر می‌شود و branch قبلی فقط read-only بررسی می‌شود.
 - پیش از فرمان‌ها سیاست `ACTOR_AUTHORIZATION.json` را بخوان؛ SENIOR_MANAGER فقط با `actor_roles` و `resource_key_prefixes` صریح مجاز است.
 - timeout، خطا یا lease نامعلوم = STOP WRITES؛ claim موفق و read-back رجیستری شرط هر write است.
 - قرارداد قفل را در `LOCK_MANAGER_PROTOCOL.md` بخوان؛ TASK_ID پایدار را حفظ کن و برای هر عملیات OPERATION_ID یکتا داشته باش. نتیجه نامعلوم را AMBIGUOUS ثبت کن و از GitHub read-back بگیر؛ خلاصه چت مرجع حقیقت نیست.
@@ -708,7 +708,7 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 
 ## دروازه اجباری هماهنگی چندچتی
 - رجیستری `coordination/locks` فقط توسط workflow مرکزی نوشته می‌شود؛ هرگز direct-CAS یا نوشتن مستقیم انجام نده.
-- هر RUN جدید شناسه یکتا دارد؛ branch اختصاصی فقط برای `WRITE_ALLOWED` صادر می‌شود و branch قبلی فقط read-only بررسی می‌شود.
+- هرگز branch قبلی را دوباره استفاده نکن؛ هر RUN جدید شناسه یکتا دارد؛ branch اختصاصی فقط برای `WRITE_ALLOWED` صادر می‌شود و branch قبلی فقط read-only بررسی می‌شود.
 - پیش از فرمان‌ها سیاست `ACTOR_AUTHORIZATION.json` را بخوان؛ SENIOR_MANAGER فقط با `actor_roles` و `resource_key_prefixes` صریح مجاز است.
 - timeout، خطا یا lease نامعلوم = STOP WRITES؛ claim موفق و read-back رجیستری شرط هر write است.
 - قرارداد قفل را در `LOCK_MANAGER_PROTOCOL.md` بخوان؛ TASK_ID پایدار را حفظ کن و برای هر عملیات OPERATION_ID یکتا داشته باش. نتیجه نامعلوم را AMBIGUOUS ثبت کن و از GitHub read-back بگیر؛ خلاصه چت مرجع حقیقت نیست.
@@ -787,7 +787,7 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 
 ## دروازه اجباری هماهنگی چندچتی
 - رجیستری `coordination/locks` فقط توسط workflow مرکزی نوشته می‌شود؛ هرگز direct-CAS یا نوشتن مستقیم انجام نده.
-- هر RUN جدید شناسه یکتا دارد؛ branch اختصاصی فقط برای `WRITE_ALLOWED` صادر می‌شود و branch قبلی فقط read-only بررسی می‌شود.
+- هرگز branch قبلی را دوباره استفاده نکن؛ هر RUN جدید شناسه یکتا دارد؛ branch اختصاصی فقط برای `WRITE_ALLOWED` صادر می‌شود و branch قبلی فقط read-only بررسی می‌شود.
 - پیش از فرمان‌ها سیاست `ACTOR_AUTHORIZATION.json` را بخوان؛ SENIOR_MANAGER فقط با `actor_roles` و `resource_key_prefixes` صریح مجاز است.
 - timeout، خطا یا lease نامعلوم = STOP WRITES؛ claim موفق و read-back رجیستری شرط هر write است.
 - قرارداد قفل را در `LOCK_MANAGER_PROTOCOL.md` بخوان؛ TASK_ID پایدار را حفظ کن و برای هر عملیات OPERATION_ID یکتا داشته باش. نتیجه نامعلوم را AMBIGUOUS ثبت کن و از GitHub read-back بگیر؛ خلاصه چت مرجع حقیقت نیست.
@@ -866,7 +866,7 @@ service catalog، sequence diagram، quota/pricing matrix، privacy & failure an
 
 ## دروازه اجباری هماهنگی چندچتی
 - رجیستری `coordination/locks` فقط توسط workflow مرکزی نوشته می‌شود؛ هرگز direct-CAS یا نوشتن مستقیم انجام نده.
-- هر RUN جدید شناسه یکتا دارد؛ branch اختصاصی فقط برای `WRITE_ALLOWED` صادر می‌شود و branch قبلی فقط read-only بررسی می‌شود.
+- هرگز branch قبلی را دوباره استفاده نکن؛ هر RUN جدید شناسه یکتا دارد؛ branch اختصاصی فقط برای `WRITE_ALLOWED` صادر می‌شود و branch قبلی فقط read-only بررسی می‌شود.
 - پیش از فرمان‌ها سیاست `ACTOR_AUTHORIZATION.json` را بخوان؛ SENIOR_MANAGER فقط با `actor_roles` و `resource_key_prefixes` صریح مجاز است.
 - timeout، خطا یا lease نامعلوم = STOP WRITES؛ claim موفق و read-back رجیستری شرط هر write است.
 - قرارداد قفل را در `LOCK_MANAGER_PROTOCOL.md` بخوان؛ TASK_ID پایدار را حفظ کن و برای هر عملیات OPERATION_ID یکتا داشته باش. نتیجه نامعلوم را AMBIGUOUS ثبت کن و از GitHub read-back بگیر؛ خلاصه چت مرجع حقیقت نیست.
@@ -945,7 +945,7 @@ C4 سطح context/container/component در حد شواهد، data dictionary، d
 
 ## دروازه اجباری هماهنگی چندچتی
 - رجیستری `coordination/locks` فقط توسط workflow مرکزی نوشته می‌شود؛ هرگز direct-CAS یا نوشتن مستقیم انجام نده.
-- هر RUN جدید شناسه یکتا دارد؛ branch اختصاصی فقط برای `WRITE_ALLOWED` صادر می‌شود و branch قبلی فقط read-only بررسی می‌شود.
+- هرگز branch قبلی را دوباره استفاده نکن؛ هر RUN جدید شناسه یکتا دارد؛ branch اختصاصی فقط برای `WRITE_ALLOWED` صادر می‌شود و branch قبلی فقط read-only بررسی می‌شود.
 - پیش از فرمان‌ها سیاست `ACTOR_AUTHORIZATION.json` را بخوان؛ SENIOR_MANAGER فقط با `actor_roles` و `resource_key_prefixes` صریح مجاز است.
 - timeout، خطا یا lease نامعلوم = STOP WRITES؛ claim موفق و read-back رجیستری شرط هر write است.
 - قرارداد قفل را در `LOCK_MANAGER_PROTOCOL.md` بخوان؛ TASK_ID پایدار را حفظ کن و برای هر عملیات OPERATION_ID یکتا داشته باش. نتیجه نامعلوم را AMBIGUOUS ثبت کن و از GitHub read-back بگیر؛ خلاصه چت مرجع حقیقت نیست.
@@ -1025,7 +1025,7 @@ authorization matrix، lifecycle diagram، gap/risk report و تست‌های ل
 
 ## دروازه اجباری هماهنگی چندچتی
 - رجیستری `coordination/locks` فقط توسط workflow مرکزی نوشته می‌شود؛ هرگز direct-CAS یا نوشتن مستقیم انجام نده.
-- هر RUN جدید شناسه یکتا دارد؛ branch اختصاصی فقط برای `WRITE_ALLOWED` صادر می‌شود و branch قبلی فقط read-only بررسی می‌شود.
+- هرگز branch قبلی را دوباره استفاده نکن؛ هر RUN جدید شناسه یکتا دارد؛ branch اختصاصی فقط برای `WRITE_ALLOWED` صادر می‌شود و branch قبلی فقط read-only بررسی می‌شود.
 - پیش از فرمان‌ها سیاست `ACTOR_AUTHORIZATION.json` را بخوان؛ SENIOR_MANAGER فقط با `actor_roles` و `resource_key_prefixes` صریح مجاز است.
 - timeout، خطا یا lease نامعلوم = STOP WRITES؛ claim موفق و read-back رجیستری شرط هر write است.
 - قرارداد قفل را در `LOCK_MANAGER_PROTOCOL.md` بخوان؛ TASK_ID پایدار را حفظ کن و برای هر عملیات OPERATION_ID یکتا داشته باش. نتیجه نامعلوم را AMBIGUOUS ثبت کن و از GitHub read-back بگیر؛ خلاصه چت مرجع حقیقت نیست.
@@ -1104,7 +1104,7 @@ Threat model، privacy data map، audit integrity report، legal questions و se
 
 ## دروازه اجباری هماهنگی چندچتی
 - رجیستری `coordination/locks` فقط توسط workflow مرکزی نوشته می‌شود؛ هرگز direct-CAS یا نوشتن مستقیم انجام نده.
-- هر RUN جدید شناسه یکتا دارد؛ branch اختصاصی فقط برای `WRITE_ALLOWED` صادر می‌شود و branch قبلی فقط read-only بررسی می‌شود.
+- هرگز branch قبلی را دوباره استفاده نکن؛ هر RUN جدید شناسه یکتا دارد؛ branch اختصاصی فقط برای `WRITE_ALLOWED` صادر می‌شود و branch قبلی فقط read-only بررسی می‌شود.
 - پیش از فرمان‌ها سیاست `ACTOR_AUTHORIZATION.json` را بخوان؛ SENIOR_MANAGER فقط با `actor_roles` و `resource_key_prefixes` صریح مجاز است.
 - timeout، خطا یا lease نامعلوم = STOP WRITES؛ claim موفق و read-back رجیستری شرط هر write است.
 - قرارداد قفل را در `LOCK_MANAGER_PROTOCOL.md` بخوان؛ TASK_ID پایدار را حفظ کن و برای هر عملیات OPERATION_ID یکتا داشته باش. نتیجه نامعلوم را AMBIGUOUS ثبت کن و از GitHub read-back بگیر؛ خلاصه چت مرجع حقیقت نیست.
@@ -1183,7 +1183,7 @@ Architecture Decision Records، نمودار هدف، گزینه‌ها، migrat
 
 ## دروازه اجباری هماهنگی چندچتی
 - رجیستری `coordination/locks` فقط توسط workflow مرکزی نوشته می‌شود؛ هرگز direct-CAS یا نوشتن مستقیم انجام نده.
-- هر RUN جدید شناسه یکتا دارد؛ branch اختصاصی فقط برای `WRITE_ALLOWED` صادر می‌شود و branch قبلی فقط read-only بررسی می‌شود.
+- هرگز branch قبلی را دوباره استفاده نکن؛ هر RUN جدید شناسه یکتا دارد؛ branch اختصاصی فقط برای `WRITE_ALLOWED` صادر می‌شود و branch قبلی فقط read-only بررسی می‌شود.
 - پیش از فرمان‌ها سیاست `ACTOR_AUTHORIZATION.json` را بخوان؛ SENIOR_MANAGER فقط با `actor_roles` و `resource_key_prefixes` صریح مجاز است.
 - timeout، خطا یا lease نامعلوم = STOP WRITES؛ claim موفق و read-back رجیستری شرط هر write است.
 - قرارداد قفل را در `LOCK_MANAGER_PROTOCOL.md` بخوان؛ TASK_ID پایدار را حفظ کن و برای هر عملیات OPERATION_ID یکتا داشته باش. نتیجه نامعلوم را AMBIGUOUS ثبت کن و از GitHub read-back بگیر؛ خلاصه چت مرجع حقیقت نیست.
@@ -1262,7 +1262,7 @@ Hosting feasibility matrix، deployment runbook، failure/rollback plan و فه�
 
 ## دروازه اجباری هماهنگی چندچتی
 - رجیستری `coordination/locks` فقط توسط workflow مرکزی نوشته می‌شود؛ هرگز direct-CAS یا نوشتن مستقیم انجام نده.
-- هر RUN جدید شناسه یکتا دارد؛ branch اختصاصی فقط برای `WRITE_ALLOWED` صادر می‌شود و branch قبلی فقط read-only بررسی می‌شود.
+- هرگز branch قبلی را دوباره استفاده نکن؛ هر RUN جدید شناسه یکتا دارد؛ branch اختصاصی فقط برای `WRITE_ALLOWED` صادر می‌شود و branch قبلی فقط read-only بررسی می‌شود.
 - پیش از فرمان‌ها سیاست `ACTOR_AUTHORIZATION.json` را بخوان؛ SENIOR_MANAGER فقط با `actor_roles` و `resource_key_prefixes` صریح مجاز است.
 - timeout، خطا یا lease نامعلوم = STOP WRITES؛ claim موفق و read-back رجیستری شرط هر write است.
 - قرارداد قفل را در `LOCK_MANAGER_PROTOCOL.md` بخوان؛ TASK_ID پایدار را حفظ کن و برای هر عملیات OPERATION_ID یکتا داشته باش. نتیجه نامعلوم را AMBIGUOUS ثبت کن و از GitHub read-back بگیر؛ خلاصه چت مرجع حقیقت نیست.
@@ -1341,7 +1341,7 @@ prioritized backlog، dependency graph، release slices و task definitions. م�
 
 ## دروازه اجباری هماهنگی چندچتی
 - رجیستری `coordination/locks` فقط توسط workflow مرکزی نوشته می‌شود؛ هرگز direct-CAS یا نوشتن مستقیم انجام نده.
-- هر RUN جدید شناسه یکتا دارد؛ branch اختصاصی فقط برای `WRITE_ALLOWED` صادر می‌شود و branch قبلی فقط read-only بررسی می‌شود.
+- هرگز branch قبلی را دوباره استفاده نکن؛ هر RUN جدید شناسه یکتا دارد؛ branch اختصاصی فقط برای `WRITE_ALLOWED` صادر می‌شود و branch قبلی فقط read-only بررسی می‌شود.
 - پیش از فرمان‌ها سیاست `ACTOR_AUTHORIZATION.json` را بخوان؛ SENIOR_MANAGER فقط با `actor_roles` و `resource_key_prefixes` صریح مجاز است.
 - timeout، خطا یا lease نامعلوم = STOP WRITES؛ claim موفق و read-back رجیستری شرط هر write است.
 - قرارداد قفل را در `LOCK_MANAGER_PROTOCOL.md` بخوان؛ TASK_ID پایدار را حفظ کن و برای هر عملیات OPERATION_ID یکتا داشته باش. نتیجه نامعلوم را AMBIGUOUS ثبت کن و از GitHub read-back بگیر؛ خلاصه چت مرجع حقیقت نیست.
@@ -1428,7 +1428,7 @@ branch، PR، test report، risk/rollback note و checkpoint. معیار پذی�
 
 ## دروازه اجباری هماهنگی چندچتی
 - رجیستری `coordination/locks` فقط توسط workflow مرکزی نوشته می‌شود؛ هرگز direct-CAS یا نوشتن مستقیم انجام نده.
-- هر RUN جدید شناسه یکتا دارد؛ branch اختصاصی فقط برای `WRITE_ALLOWED` صادر می‌شود و branch قبلی فقط read-only بررسی می‌شود.
+- هرگز branch قبلی را دوباره استفاده نکن؛ هر RUN جدید شناسه یکتا دارد؛ branch اختصاصی فقط برای `WRITE_ALLOWED` صادر می‌شود و branch قبلی فقط read-only بررسی می‌شود.
 - پیش از فرمان‌ها سیاست `ACTOR_AUTHORIZATION.json` را بخوان؛ SENIOR_MANAGER فقط با `actor_roles` و `resource_key_prefixes` صریح مجاز است.
 - timeout، خطا یا lease نامعلوم = STOP WRITES؛ claim موفق و read-back رجیستری شرط هر write است.
 - قرارداد قفل را در `LOCK_MANAGER_PROTOCOL.md` بخوان؛ TASK_ID پایدار را حفظ کن و برای هر عملیات OPERATION_ID یکتا داشته باش. نتیجه نامعلوم را AMBIGUOUS ثبت کن و از GitHub read-back بگیر؛ خلاصه چت مرجع حقیقت نیست.
