@@ -27,6 +27,8 @@ Claim: `RUN-20261115-PROMPT-PREP-01`, fencing token 58
 | bundle تجمیعی | نسخه 1.9.0؛ ۱۸ منبع (MASTER-00 + ۱۷ prompt) همگام شد |
 | Work Item Schema | effort, depth_profile, deliverables, step outputs/evidence و وزن معیارها افزوده شد |
 | Checkpoint Schema | سه درصد جداگانه و شمارنده‌های step/criteria افزوده شد |
+| Progress engine | محاسبه واقعی سه درصد در work-item-core و گزارش آن در /farast progress/step/criterion/checkpoint پیاده شد |
+| Depth enforcement | work-item-core برای Work Itemهایی که depth_profile دارند، عمق ۶/۴/۳، effort و evidence را validate می‌کند |
 | Work Item Execution Protocol | استاندارد عمق و گزارش سه‌گانه به پروتکل اجرایی متصل شد |
 | START_HERE و Prompt Catalog | لینک‌ها و ترتیب اجرای اسناد افزوده شد |
 | Issue Template | ساخت Work Item عمیق را به فرم ایجاد Issue متصل کرد |
@@ -42,7 +44,7 @@ Claim: `RUN-20261115-PROMPT-PREP-01`, fencing token 58
 
 - Read-back زنده نشان داد ۲۶ Issue دارای `effort_estimate_minutes=25`، ۷ گام، ۴ معیار و حداقل ۳ deliverable هستند.
 - MASTER-00 و bundle بررسی شدند؛ قرارداد در ۱۸/۱۸ بخش bundle وجود دارد.
-- JSON schemaها از GitHub بازخوانی شدند؛ CI باید اعتبارسنجی نهایی را روی PR head اجرا کند.
+- JSON schemaها از GitHub بازخوانی شدند؛ اجرای CI #851 و #852 روی head قبلی موفق شد. پس از افزودن progress engine، اجرای نهایی CI دوباره لازم است.
 - آزمون end-to-end واقعی دو حساب مستقل در دامنه این تغییر انجام نشده و ادعای VERIFIED چندحسابی جدید صادر نمی‌شود.
 
 ## مرز ایمنی
