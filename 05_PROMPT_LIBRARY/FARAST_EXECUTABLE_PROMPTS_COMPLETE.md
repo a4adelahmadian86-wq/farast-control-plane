@@ -125,7 +125,6 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 ## Write policy و ساخت برگ جدید
 هر Work Item باید `write_policy` و `priority_source` صریح داشته باشد. `non` فقط READ_ONLY است تا مجوز جداگانه مالک؛ WRITE_ALLOWED فقط در Issue ساخته‌شده توسط repository owner. priority=50 با DEFAULT_POLICY رتبه‌بندی مالک نیست. اگر leaf آزاد وجود ندارد، برای جلوگیری از race ابتدا allocator `WI-GOAL-ALLOCATOR-001` را claim کن و فقط در lease آن Work Itemهای جدید با ID deterministic ایجاد کن؛ سپس allocator را آزاد کن.
 
----
 
 ## قرارداد اجباری عمق مأموریت و گزارش پیشرفت (نسخه 2.0)
 پیش از انتخاب یا اجرای Work Item این اسناد را از main بخوان:
@@ -141,6 +140,8 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 5. Claim فقط مالکیت موقت است؛ شروع، progress یا acceptance محسوب نمی‌شود.
 6. اگر کار مسدود است، blocker و کار read-only مستقل را ثبت کن؛ زمان را مصنوعی پر نکن و به مأموریت نامرتبط نپرداز.
 7. قبل از پایان یا handoff، checkpoint کامل و NEXT_ACTION دقیق ثبت کن.
+
+---
 
 # SOURCE: 05_PROMPT_LIBRARY/PR-01_BASELINE.md
 
@@ -226,7 +227,6 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 
 **نقش و اختیار فرمان‌ها:** پیش از اجرای هر فرمان، سیاست `04_COORDINATION/ACTOR_AUTHORIZATION.json` را بخوان. OWNER اختیار کامل دارد؛ COLLABORATOR/MEMBER به‌صورت پیش‌فرض WORKER با اختیارات پایه‌اند؛ SENIOR_MANAGER فقط با درج صریح GitHub login در actor_roles و تعیین repositories و resource_key_prefixes در actor_scopes، با تأیید مالک فعال می‌شود؛ READ_ONLY فقط status دارد. فرمان خارج از نقش را اجرا نکن و برای دور زدن محدودیت، نقش را حدس نزن.
 
----
 
 ## قرارداد اجباری عمق مأموریت و گزارش پیشرفت (نسخه 2.0)
 پیش از انتخاب یا اجرای Work Item این اسناد را از main بخوان:
@@ -242,6 +242,8 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 5. Claim فقط مالکیت موقت است؛ شروع، progress یا acceptance محسوب نمی‌شود.
 6. اگر کار مسدود است، blocker و کار read-only مستقل را ثبت کن؛ زمان را مصنوعی پر نکن و به مأموریت نامرتبط نپرداز.
 7. قبل از پایان یا handoff، checkpoint کامل و NEXT_ACTION دقیق ثبت کن.
+
+---
 
 # SOURCE: 05_PROMPT_LIBRARY/PR-02_RECOVERY.md
 
@@ -321,7 +323,6 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 
 **نقش و اختیار فرمان‌ها:** پیش از اجرای هر فرمان، سیاست `04_COORDINATION/ACTOR_AUTHORIZATION.json` را بخوان. OWNER اختیار کامل دارد؛ COLLABORATOR/MEMBER به‌صورت پیش‌فرض WORKER با اختیارات پایه‌اند؛ SENIOR_MANAGER فقط با درج صریح GitHub login در actor_roles و تعیین repositories و resource_key_prefixes در actor_scopes، با تأیید مالک فعال می‌شود؛ READ_ONLY فقط status دارد. فرمان خارج از نقش را اجرا نکن و برای دور زدن محدودیت، نقش را حدس نزن.
 
----
 
 ## قرارداد اجباری عمق مأموریت و گزارش پیشرفت (نسخه 2.0)
 پیش از انتخاب یا اجرای Work Item این اسناد را از main بخوان:
@@ -337,6 +338,8 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 5. Claim فقط مالکیت موقت است؛ شروع، progress یا acceptance محسوب نمی‌شود.
 6. اگر کار مسدود است، blocker و کار read-only مستقل را ثبت کن؛ زمان را مصنوعی پر نکن و به مأموریت نامرتبط نپرداز.
 7. قبل از پایان یا handoff، checkpoint کامل و NEXT_ACTION دقیق ثبت کن.
+
+---
 
 # SOURCE: 05_PROMPT_LIBRARY/PR-03_CAPABILITY_DISCOVERY.md
 
@@ -416,7 +419,6 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 
 **نقش و اختیار فرمان‌ها:** پیش از اجرای هر فرمان، سیاست `04_COORDINATION/ACTOR_AUTHORIZATION.json` را بخوان. OWNER اختیار کامل دارد؛ COLLABORATOR/MEMBER به‌صورت پیش‌فرض WORKER با اختیارات پایه‌اند؛ SENIOR_MANAGER فقط با درج صریح GitHub login در actor_roles و تعیین repositories و resource_key_prefixes در actor_scopes، با تأیید مالک فعال می‌شود؛ READ_ONLY فقط status دارد. فرمان خارج از نقش را اجرا نکن و برای دور زدن محدودیت، نقش را حدس نزن.
 
----
 
 ## قرارداد اجباری عمق مأموریت و گزارش پیشرفت (نسخه 2.0)
 پیش از انتخاب یا اجرای Work Item این اسناد را از main بخوان:
@@ -432,6 +434,8 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 5. Claim فقط مالکیت موقت است؛ شروع، progress یا acceptance محسوب نمی‌شود.
 6. اگر کار مسدود است، blocker و کار read-only مستقل را ثبت کن؛ زمان را مصنوعی پر نکن و به مأموریت نامرتبط نپرداز.
 7. قبل از پایان یا handoff، checkpoint کامل و NEXT_ACTION دقیق ثبت کن.
+
+---
 
 # SOURCE: 05_PROMPT_LIBRARY/PR-04_TRACEABILITY.md
 
@@ -512,7 +516,6 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 
 **نقش و اختیار فرمان‌ها:** پیش از اجرای هر فرمان، سیاست `04_COORDINATION/ACTOR_AUTHORIZATION.json` را بخوان. OWNER اختیار کامل دارد؛ COLLABORATOR/MEMBER به‌صورت پیش‌فرض WORKER با اختیارات پایه‌اند؛ SENIOR_MANAGER فقط با درج صریح GitHub login در actor_roles و تعیین repositories و resource_key_prefixes در actor_scopes، با تأیید مالک فعال می‌شود؛ READ_ONLY فقط status دارد. فرمان خارج از نقش را اجرا نکن و برای دور زدن محدودیت، نقش را حدس نزن.
 
----
 
 ## قرارداد اجباری عمق مأموریت و گزارش پیشرفت (نسخه 2.0)
 پیش از انتخاب یا اجرای Work Item این اسناد را از main بخوان:
@@ -528,6 +531,8 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 5. Claim فقط مالکیت موقت است؛ شروع، progress یا acceptance محسوب نمی‌شود.
 6. اگر کار مسدود است، blocker و کار read-only مستقل را ثبت کن؛ زمان را مصنوعی پر نکن و به مأموریت نامرتبط نپرداز.
 7. قبل از پایان یا handoff، checkpoint کامل و NEXT_ACTION دقیق ثبت کن.
+
+---
 
 # SOURCE: 05_PROMPT_LIBRARY/PR-05_USER_SCENARIOS.md
 
@@ -607,7 +612,6 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 
 **نقش و اختیار فرمان‌ها:** پیش از اجرای هر فرمان، سیاست `04_COORDINATION/ACTOR_AUTHORIZATION.json` را بخوان. OWNER اختیار کامل دارد؛ COLLABORATOR/MEMBER به‌صورت پیش‌فرض WORKER با اختیارات پایه‌اند؛ SENIOR_MANAGER فقط با درج صریح GitHub login در actor_roles و تعیین repositories و resource_key_prefixes در actor_scopes، با تأیید مالک فعال می‌شود؛ READ_ONLY فقط status دارد. فرمان خارج از نقش را اجرا نکن و برای دور زدن محدودیت، نقش را حدس نزن.
 
----
 
 ## قرارداد اجباری عمق مأموریت و گزارش پیشرفت (نسخه 2.0)
 پیش از انتخاب یا اجرای Work Item این اسناد را از main بخوان:
@@ -623,6 +627,8 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 5. Claim فقط مالکیت موقت است؛ شروع، progress یا acceptance محسوب نمی‌شود.
 6. اگر کار مسدود است، blocker و کار read-only مستقل را ثبت کن؛ زمان را مصنوعی پر نکن و به مأموریت نامرتبط نپرداز.
 7. قبل از پایان یا handoff، checkpoint کامل و NEXT_ACTION دقیق ثبت کن.
+
+---
 
 # SOURCE: 05_PROMPT_LIBRARY/PR-06_EVIDENCE_TESTING.md
 
@@ -703,7 +709,6 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 
 **نقش و اختیار فرمان‌ها:** پیش از اجرای هر فرمان، سیاست `04_COORDINATION/ACTOR_AUTHORIZATION.json` را بخوان. OWNER اختیار کامل دارد؛ COLLABORATOR/MEMBER به‌صورت پیش‌فرض WORKER با اختیارات پایه‌اند؛ SENIOR_MANAGER فقط با درج صریح GitHub login در actor_roles و تعیین repositories و resource_key_prefixes در actor_scopes، با تأیید مالک فعال می‌شود؛ READ_ONLY فقط status دارد. فرمان خارج از نقش را اجرا نکن و برای دور زدن محدودیت، نقش را حدس نزن.
 
----
 
 ## قرارداد اجباری عمق مأموریت و گزارش پیشرفت (نسخه 2.0)
 پیش از انتخاب یا اجرای Work Item این اسناد را از main بخوان:
@@ -719,6 +724,8 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 5. Claim فقط مالکیت موقت است؛ شروع، progress یا acceptance محسوب نمی‌شود.
 6. اگر کار مسدود است، blocker و کار read-only مستقل را ثبت کن؛ زمان را مصنوعی پر نکن و به مأموریت نامرتبط نپرداز.
 7. قبل از پایان یا handoff، checkpoint کامل و NEXT_ACTION دقیق ثبت کن.
+
+---
 
 # SOURCE: 05_PROMPT_LIBRARY/PR-07_GAP_ROOT_CAUSE.md
 
@@ -799,7 +806,6 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 
 **نقش و اختیار فرمان‌ها:** پیش از اجرای هر فرمان، سیاست `04_COORDINATION/ACTOR_AUTHORIZATION.json` را بخوان. OWNER اختیار کامل دارد؛ COLLABORATOR/MEMBER به‌صورت پیش‌فرض WORKER با اختیارات پایه‌اند؛ SENIOR_MANAGER فقط با درج صریح GitHub login در actor_roles و تعیین repositories و resource_key_prefixes در actor_scopes، با تأیید مالک فعال می‌شود؛ READ_ONLY فقط status دارد. فرمان خارج از نقش را اجرا نکن و برای دور زدن محدودیت، نقش را حدس نزن.
 
----
 
 ## قرارداد اجباری عمق مأموریت و گزارش پیشرفت (نسخه 2.0)
 پیش از انتخاب یا اجرای Work Item این اسناد را از main بخوان:
@@ -815,6 +821,8 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 5. Claim فقط مالکیت موقت است؛ شروع، progress یا acceptance محسوب نمی‌شود.
 6. اگر کار مسدود است، blocker و کار read-only مستقل را ثبت کن؛ زمان را مصنوعی پر نکن و به مأموریت نامرتبط نپرداز.
 7. قبل از پایان یا handoff، checkpoint کامل و NEXT_ACTION دقیق ثبت کن.
+
+---
 
 # SOURCE: 05_PROMPT_LIBRARY/PR-08_COMMERCE.md
 
@@ -895,7 +903,6 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 
 **نقش و اختیار فرمان‌ها:** پیش از اجرای هر فرمان، سیاست `04_COORDINATION/ACTOR_AUTHORIZATION.json` را بخوان. OWNER اختیار کامل دارد؛ COLLABORATOR/MEMBER به‌صورت پیش‌فرض WORKER با اختیارات پایه‌اند؛ SENIOR_MANAGER فقط با درج صریح GitHub login در actor_roles و تعیین repositories و resource_key_prefixes در actor_scopes، با تأیید مالک فعال می‌شود؛ READ_ONLY فقط status دارد. فرمان خارج از نقش را اجرا نکن و برای دور زدن محدودیت، نقش را حدس نزن.
 
----
 
 ## قرارداد اجباری عمق مأموریت و گزارش پیشرفت (نسخه 2.0)
 پیش از انتخاب یا اجرای Work Item این اسناد را از main بخوان:
@@ -911,6 +918,8 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 5. Claim فقط مالکیت موقت است؛ شروع، progress یا acceptance محسوب نمی‌شود.
 6. اگر کار مسدود است، blocker و کار read-only مستقل را ثبت کن؛ زمان را مصنوعی پر نکن و به مأموریت نامرتبط نپرداز.
 7. قبل از پایان یا handoff، checkpoint کامل و NEXT_ACTION دقیق ثبت کن.
+
+---
 
 # SOURCE: 05_PROMPT_LIBRARY/PR-09_AI_SERVICES.md
 
@@ -991,7 +1000,6 @@ service catalog، sequence diagram، quota/pricing matrix، privacy & failure an
 
 **نقش و اختیار فرمان‌ها:** پیش از اجرای هر فرمان، سیاست `04_COORDINATION/ACTOR_AUTHORIZATION.json` را بخوان. OWNER اختیار کامل دارد؛ COLLABORATOR/MEMBER به‌صورت پیش‌فرض WORKER با اختیارات پایه‌اند؛ SENIOR_MANAGER فقط با درج صریح GitHub login در actor_roles و تعیین repositories و resource_key_prefixes در actor_scopes، با تأیید مالک فعال می‌شود؛ READ_ONLY فقط status دارد. فرمان خارج از نقش را اجرا نکن و برای دور زدن محدودیت، نقش را حدس نزن.
 
----
 
 ## قرارداد اجباری عمق مأموریت و گزارش پیشرفت (نسخه 2.0)
 پیش از انتخاب یا اجرای Work Item این اسناد را از main بخوان:
@@ -1007,6 +1015,8 @@ service catalog، sequence diagram، quota/pricing matrix، privacy & failure an
 5. Claim فقط مالکیت موقت است؛ شروع، progress یا acceptance محسوب نمی‌شود.
 6. اگر کار مسدود است، blocker و کار read-only مستقل را ثبت کن؛ زمان را مصنوعی پر نکن و به مأموریت نامرتبط نپرداز.
 7. قبل از پایان یا handoff، checkpoint کامل و NEXT_ACTION دقیق ثبت کن.
+
+---
 
 # SOURCE: 05_PROMPT_LIBRARY/PR-10_ARCH_DATA.md
 
@@ -1087,7 +1097,6 @@ C4 سطح context/container/component در حد شواهد، data dictionary، d
 
 **نقش و اختیار فرمان‌ها:** پیش از اجرای هر فرمان، سیاست `04_COORDINATION/ACTOR_AUTHORIZATION.json` را بخوان. OWNER اختیار کامل دارد؛ COLLABORATOR/MEMBER به‌صورت پیش‌فرض WORKER با اختیارات پایه‌اند؛ SENIOR_MANAGER فقط با درج صریح GitHub login در actor_roles و تعیین repositories و resource_key_prefixes در actor_scopes، با تأیید مالک فعال می‌شود؛ READ_ONLY فقط status دارد. فرمان خارج از نقش را اجرا نکن و برای دور زدن محدودیت، نقش را حدس نزن.
 
----
 
 ## قرارداد اجباری عمق مأموریت و گزارش پیشرفت (نسخه 2.0)
 پیش از انتخاب یا اجرای Work Item این اسناد را از main بخوان:
@@ -1103,6 +1112,8 @@ C4 سطح context/container/component در حد شواهد، data dictionary، d
 5. Claim فقط مالکیت موقت است؛ شروع، progress یا acceptance محسوب نمی‌شود.
 6. اگر کار مسدود است، blocker و کار read-only مستقل را ثبت کن؛ زمان را مصنوعی پر نکن و به مأموریت نامرتبط نپرداز.
 7. قبل از پایان یا handoff، checkpoint کامل و NEXT_ACTION دقیق ثبت کن.
+
+---
 
 # SOURCE: 05_PROMPT_LIBRARY/PR-11_AUTHORIZATION.md
 
@@ -1184,7 +1195,6 @@ authorization matrix، lifecycle diagram، gap/risk report و تست‌های ل
 
 **نقش و اختیار فرمان‌ها:** پیش از اجرای هر فرمان، سیاست `04_COORDINATION/ACTOR_AUTHORIZATION.json` را بخوان. OWNER اختیار کامل دارد؛ COLLABORATOR/MEMBER به‌صورت پیش‌فرض WORKER با اختیارات پایه‌اند؛ SENIOR_MANAGER فقط با درج صریح GitHub login در actor_roles و تعیین repositories و resource_key_prefixes در actor_scopes، با تأیید مالک فعال می‌شود؛ READ_ONLY فقط status دارد. فرمان خارج از نقش را اجرا نکن و برای دور زدن محدودیت، نقش را حدس نزن.
 
----
 
 ## قرارداد اجباری عمق مأموریت و گزارش پیشرفت (نسخه 2.0)
 پیش از انتخاب یا اجرای Work Item این اسناد را از main بخوان:
@@ -1200,6 +1210,8 @@ authorization matrix، lifecycle diagram، gap/risk report و تست‌های ل
 5. Claim فقط مالکیت موقت است؛ شروع، progress یا acceptance محسوب نمی‌شود.
 6. اگر کار مسدود است، blocker و کار read-only مستقل را ثبت کن؛ زمان را مصنوعی پر نکن و به مأموریت نامرتبط نپرداز.
 7. قبل از پایان یا handoff، checkpoint کامل و NEXT_ACTION دقیق ثبت کن.
+
+---
 
 # SOURCE: 05_PROMPT_LIBRARY/PR-12_SECURITY_PRIVACY_AUDIT.md
 
@@ -1280,7 +1292,6 @@ Threat model، privacy data map، audit integrity report، legal questions و se
 
 **نقش و اختیار فرمان‌ها:** پیش از اجرای هر فرمان، سیاست `04_COORDINATION/ACTOR_AUTHORIZATION.json` را بخوان. OWNER اختیار کامل دارد؛ COLLABORATOR/MEMBER به‌صورت پیش‌فرض WORKER با اختیارات پایه‌اند؛ SENIOR_MANAGER فقط با درج صریح GitHub login در actor_roles و تعیین repositories و resource_key_prefixes در actor_scopes، با تأیید مالک فعال می‌شود؛ READ_ONLY فقط status دارد. فرمان خارج از نقش را اجرا نکن و برای دور زدن محدودیت، نقش را حدس نزن.
 
----
 
 ## قرارداد اجباری عمق مأموریت و گزارش پیشرفت (نسخه 2.0)
 پیش از انتخاب یا اجرای Work Item این اسناد را از main بخوان:
@@ -1296,6 +1307,8 @@ Threat model، privacy data map، audit integrity report، legal questions و se
 5. Claim فقط مالکیت موقت است؛ شروع، progress یا acceptance محسوب نمی‌شود.
 6. اگر کار مسدود است، blocker و کار read-only مستقل را ثبت کن؛ زمان را مصنوعی پر نکن و به مأموریت نامرتبط نپرداز.
 7. قبل از پایان یا handoff، checkpoint کامل و NEXT_ACTION دقیق ثبت کن.
+
+---
 
 # SOURCE: 05_PROMPT_LIBRARY/PR-13_TARGET_ARCH.md
 
@@ -1376,7 +1389,6 @@ Architecture Decision Records، نمودار هدف، گزینه‌ها، migrat
 
 **نقش و اختیار فرمان‌ها:** پیش از اجرای هر فرمان، سیاست `04_COORDINATION/ACTOR_AUTHORIZATION.json` را بخوان. OWNER اختیار کامل دارد؛ COLLABORATOR/MEMBER به‌صورت پیش‌فرض WORKER با اختیارات پایه‌اند؛ SENIOR_MANAGER فقط با درج صریح GitHub login در actor_roles و تعیین repositories و resource_key_prefixes در actor_scopes، با تأیید مالک فعال می‌شود؛ READ_ONLY فقط status دارد. فرمان خارج از نقش را اجرا نکن و برای دور زدن محدودیت، نقش را حدس نزن.
 
----
 
 ## قرارداد اجباری عمق مأموریت و گزارش پیشرفت (نسخه 2.0)
 پیش از انتخاب یا اجرای Work Item این اسناد را از main بخوان:
@@ -1392,6 +1404,8 @@ Architecture Decision Records، نمودار هدف، گزینه‌ها، migrat
 5. Claim فقط مالکیت موقت است؛ شروع، progress یا acceptance محسوب نمی‌شود.
 6. اگر کار مسدود است، blocker و کار read-only مستقل را ثبت کن؛ زمان را مصنوعی پر نکن و به مأموریت نامرتبط نپرداز.
 7. قبل از پایان یا handoff، checkpoint کامل و NEXT_ACTION دقیق ثبت کن.
+
+---
 
 # SOURCE: 05_PROMPT_LIBRARY/PR-14_HOSTING_OPERATIONS.md
 
@@ -1472,7 +1486,6 @@ Hosting feasibility matrix، deployment runbook، failure/rollback plan و فه�
 
 **نقش و اختیار فرمان‌ها:** پیش از اجرای هر فرمان، سیاست `04_COORDINATION/ACTOR_AUTHORIZATION.json` را بخوان. OWNER اختیار کامل دارد؛ COLLABORATOR/MEMBER به‌صورت پیش‌فرض WORKER با اختیارات پایه‌اند؛ SENIOR_MANAGER فقط با درج صریح GitHub login در actor_roles و تعیین repositories و resource_key_prefixes در actor_scopes، با تأیید مالک فعال می‌شود؛ READ_ONLY فقط status دارد. فرمان خارج از نقش را اجرا نکن و برای دور زدن محدودیت، نقش را حدس نزن.
 
----
 
 ## قرارداد اجباری عمق مأموریت و گزارش پیشرفت (نسخه 2.0)
 پیش از انتخاب یا اجرای Work Item این اسناد را از main بخوان:
@@ -1488,6 +1501,8 @@ Hosting feasibility matrix، deployment runbook، failure/rollback plan و فه�
 5. Claim فقط مالکیت موقت است؛ شروع، progress یا acceptance محسوب نمی‌شود.
 6. اگر کار مسدود است، blocker و کار read-only مستقل را ثبت کن؛ زمان را مصنوعی پر نکن و به مأموریت نامرتبط نپرداز.
 7. قبل از پایان یا handoff، checkpoint کامل و NEXT_ACTION دقیق ثبت کن.
+
+---
 
 # SOURCE: 05_PROMPT_LIBRARY/PR-15_PRIORITIZATION.md
 
@@ -1568,7 +1583,6 @@ prioritized backlog، dependency graph، release slices و task definitions. م�
 
 **نقش و اختیار فرمان‌ها:** پیش از اجرای هر فرمان، سیاست `04_COORDINATION/ACTOR_AUTHORIZATION.json` را بخوان. OWNER اختیار کامل دارد؛ COLLABORATOR/MEMBER به‌صورت پیش‌فرض WORKER با اختیارات پایه‌اند؛ SENIOR_MANAGER فقط با درج صریح GitHub login در actor_roles و تعیین repositories و resource_key_prefixes در actor_scopes، با تأیید مالک فعال می‌شود؛ READ_ONLY فقط status دارد. فرمان خارج از نقش را اجرا نکن و برای دور زدن محدودیت، نقش را حدس نزن.
 
----
 
 ## قرارداد اجباری عمق مأموریت و گزارش پیشرفت (نسخه 2.0)
 پیش از انتخاب یا اجرای Work Item این اسناد را از main بخوان:
@@ -1584,6 +1598,8 @@ prioritized backlog، dependency graph، release slices و task definitions. م�
 5. Claim فقط مالکیت موقت است؛ شروع، progress یا acceptance محسوب نمی‌شود.
 6. اگر کار مسدود است، blocker و کار read-only مستقل را ثبت کن؛ زمان را مصنوعی پر نکن و به مأموریت نامرتبط نپرداز.
 7. قبل از پایان یا handoff، checkpoint کامل و NEXT_ACTION دقیق ثبت کن.
+
+---
 
 # SOURCE: 05_PROMPT_LIBRARY/PR-16_IMPLEMENTATION.md
 
@@ -1672,7 +1688,6 @@ branch، PR، test report، risk/rollback note و checkpoint. معیار پذی�
 
 **نقش و اختیار فرمان‌ها:** پیش از اجرای هر فرمان، سیاست `04_COORDINATION/ACTOR_AUTHORIZATION.json` را بخوان. OWNER اختیار کامل دارد؛ COLLABORATOR/MEMBER به‌صورت پیش‌فرض WORKER با اختیارات پایه‌اند؛ SENIOR_MANAGER فقط با درج صریح GitHub login در actor_roles و تعیین repositories و resource_key_prefixes در actor_scopes، با تأیید مالک فعال می‌شود؛ READ_ONLY فقط status دارد. فرمان خارج از نقش را اجرا نکن و برای دور زدن محدودیت، نقش را حدس نزن.
 
----
 
 ## قرارداد اجباری عمق مأموریت و گزارش پیشرفت (نسخه 2.0)
 پیش از انتخاب یا اجرای Work Item این اسناد را از main بخوان:
@@ -1688,6 +1703,8 @@ branch، PR، test report، risk/rollback note و checkpoint. معیار پذی�
 5. Claim فقط مالکیت موقت است؛ شروع، progress یا acceptance محسوب نمی‌شود.
 6. اگر کار مسدود است، blocker و کار read-only مستقل را ثبت کن؛ زمان را مصنوعی پر نکن و به مأموریت نامرتبط نپرداز.
 7. قبل از پایان یا handoff، checkpoint کامل و NEXT_ACTION دقیق ثبت کن.
+
+---
 
 # SOURCE: 05_PROMPT_LIBRARY/PR-17_ACCEPTANCE_RELEASE.md
 
@@ -1770,7 +1787,6 @@ acceptance matrix، security/resilience report، release checklist، release not
 
 **نقش و اختیار فرمان‌ها:** پیش از اجرای هر فرمان، سیاست `04_COORDINATION/ACTOR_AUTHORIZATION.json` را بخوان. OWNER اختیار کامل دارد؛ COLLABORATOR/MEMBER به‌صورت پیش‌فرض WORKER با اختیارات پایه‌اند؛ SENIOR_MANAGER فقط با درج صریح GitHub login در actor_roles و تعیین repositories و resource_key_prefixes در actor_scopes، با تأیید مالک فعال می‌شود؛ READ_ONLY فقط status دارد. فرمان خارج از نقش را اجرا نکن و برای دور زدن محدودیت، نقش را حدس نزن.
 
----
 
 ## قرارداد اجباری عمق مأموریت و گزارش پیشرفت (نسخه 2.0)
 پیش از انتخاب یا اجرای Work Item این اسناد را از main بخوان:
@@ -1786,8 +1802,6 @@ acceptance matrix، security/resilience report، release checklist، release not
 5. Claim فقط مالکیت موقت است؛ شروع، progress یا acceptance محسوب نمی‌شود.
 6. اگر کار مسدود است، blocker و کار read-only مستقل را ثبت کن؛ زمان را مصنوعی پر نکن و به مأموریت نامرتبط نپرداز.
 7. قبل از پایان یا handoff، checkpoint کامل و NEXT_ACTION دقیق ثبت کن.
-
-
 
 ---
 
