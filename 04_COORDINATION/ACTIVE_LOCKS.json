@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 161,
+  "revision": 162,
   "next_fencing_token": 61,
   "locks": [
     {
@@ -1573,7 +1573,7 @@
     },
     "6898559288": {
       "response": "CLAIM GRANTED. TASK=GH-13; WORK_ITEM_ID=WI-EXP01-BASELINE-001; verified_steps=; remaining_steps=S0_GATE,S1_DISCOVER,S2_VALIDATE,S3_REPORT; progress=0%; actor=@a4adelahmadian86-wq; chat=master00-exp01-recovery; run=RUN-20261115-EXP01-RECOVERY-02; resource_keys=analysis:exp-01; target_repository=a4adelahmadian86-wq/non; branch=work/GH-13-RUN-20261115-EXP01-RECOVERY-02; previous_run=RUN-20261115-EXP01-BASELINE-01; previous_target_repository=a4adelahmadian86-wq/non; previous_branch=work/GH-13-RUN-20261115-EXP01-BASELINE-01; fencing_token=60; lease_expires=2026-11-15T18:09:55.568Z. پیش از هر write و checkpoint، heartbeat را تمدید و token را بررسی کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز؛ هرگز branch قبلی را تغییر نده.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 13,
       "actor": "a4adelahmadian86-wq",
       "command": "claim",
