@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 260,
+  "revision": 261,
   "next_fencing_token": 64,
   "locks": [
     {
@@ -2494,6 +2494,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-15T18:23:47.477Z"
+    },
+    "6899129839": {
+      "response": "STEP ثبت شد: S0_AUDIT; progress=14.28%; verified=1/7.",
+      "response_posted": false,
+      "issue_number": 43,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-15T18:24:11.275Z"
     }
   },
   "work_items": {
@@ -2830,7 +2839,7 @@
       "parent_exp_ids": [
         "EXP-01"
       ],
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "module:prompt-bootstrap",
@@ -2843,8 +2852,13 @@
           "title": "Audit main, PR #42, prompt library, queue and coordinator behavior; map gaps between prompt submission and actual execution",
           "required": true,
           "weight": 1,
-          "validation_status": "NOT_RUN",
-          "evidence_refs": []
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/46"
+          ],
+          "validated_at_utc": "2026-11-15T18:24:11.270Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S1_CONTRACT",
