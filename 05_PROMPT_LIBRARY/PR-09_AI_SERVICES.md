@@ -24,12 +24,12 @@
 
 ## دروازه اجباری هماهنگی چندچتی
 - رجیستری `coordination/locks` فقط توسط workflow مرکزی نوشته می‌شود؛ هرگز direct-CAS یا نوشتن مستقیم انجام نده.
-- هرگز branch قبلی را دوباره استفاده نکن؛ هر RUN جدید branch اختصاصی دارد و branch قبلی فقط read-only بررسی می‌شود.
+- هر RUN جدید شناسه یکتا دارد؛ branch اختصاصی فقط برای `WRITE_ALLOWED` صادر می‌شود و branch قبلی فقط read-only بررسی می‌شود.
 - پیش از فرمان‌ها سیاست `ACTOR_AUTHORIZATION.json` را بخوان؛ SENIOR_MANAGER فقط با `actor_roles` و `resource_key_prefixes` صریح مجاز است.
 - timeout، خطا یا lease نامعلوم = STOP WRITES؛ claim موفق و read-back رجیستری شرط هر write است.
 - قرارداد قفل را در `LOCK_MANAGER_PROTOCOL.md` بخوان؛ TASK_ID پایدار را حفظ کن و برای هر عملیات OPERATION_ID یکتا داشته باش. نتیجه نامعلوم را AMBIGUOUS ثبت کن و از GitHub read-back بگیر؛ خلاصه چت مرجع حقیقت نیست.
 - لینک مستقیم دروازه ورود: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/START_HERE.md .
-- branch قبلی را read-only نگه دار؛ target_repository و branch اختصاصی همان RUN باید دقیقاً با پاسخ claim منطبق باشند.
+- اگر `write_policy=WRITE_ALLOWED` است، target_repository و branch اختصاصی همان RUN باید دقیقاً با پاسخ claim منطبق باشند؛ در `READ_ONLY` و `WRITE_REQUIRES_OWNER_APPROVAL` branch در مخزن هدف نساز؛ branch قبلی را read-only نگه دار.
 # PR-09_AI_SERVICES — خدمات هوشمند و ویرایشگرها
 
 - EXP: EXP-09
@@ -61,7 +61,7 @@ service catalog، sequence diagram، quota/pricing matrix، privacy & failure an
 
 ## دروازه اجباری هماهنگی چندچتی
 - پیش از هر write، در Issue وظیفه فرمان /farast claim chat=CHAT_ID run=RUN_ID lease=30 را ثبت کن.
-- فقط پس از پاسخ صریح CLAIM GRANTED و read-back رجیستری زنده مجاز به نوشتن هستی؛ target_repository و branch اختصاصی همان RUN را عیناً از پاسخ بردار. عدم پاسخ/timeout/خطا = STOP WRITES.
+- فقط پس از پاسخ صریح CLAIM GRANTED و read-back رجیستری زنده مجاز به اقدام هستی؛ target_repository و branch اختصاصی همان RUN را فقط برای `WRITE_ALLOWED` از پاسخ بردار. در READ_ONLY/WRITE_REQUIRES_OWNER_APPROVAL مقدار branch=none است و هیچ write در مخزن هدف مجاز نیست. عدم پاسخ/timeout/خطا = STOP WRITES.
 - رجیستری ACTIVE_LOCKS.json فقط توسط workflow مرکزی نوشته می‌شود؛ نوشتن مستقیم یا direct-CAS توسط worker ممنوع است.
 - پیش از هر write/checkpoint، /farast heartbeat chat=CHAT_ID run=RUN_ID token=FENCING_TOKEN lease=30 را اجرا کن.
 - در پایان از /farast review یا /farast release با token صحیح استفاده کن؛ release به معنی پذیرش نیست.
