@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 275,
+  "revision": 276,
   "next_fencing_token": 64,
   "locks": [
     {
@@ -2560,7 +2560,7 @@
     },
     "6899133318": {
       "response": "معیار پذیرش ثبت شد: AC_BOOTSTRAP; can_accept=false; progress=100%.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 43,
       "actor": "a4adelahmadian86-wq",
       "command": "criterion",
