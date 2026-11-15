@@ -130,8 +130,8 @@ jobs:
           Draft202012Validator(checkpoint_schema, format_checker=FormatChecker()).validate(checkpoint_sample)
           import re
           decomposition = Path("01_STRATEGY/EXECUTION_DECOMPOSITION_17x27.md").read_text(encoding="utf-8")
-          exp_ids = set(re.findall(r"^### EXP-(\\d{2}) —", decomposition, re.M))
-          prompt_ids = set(re.findall(r"^\\| PR-(\\d{2}) \\|", decomposition, re.M))
+          exp_ids = set(re.findall(r"^### EXP-(\d{2}) —", decomposition, re.M))
+          prompt_ids = set(re.findall(r"^\| PR-(\d{2}) \|", decomposition, re.M))
           assert len(exp_ids) == 27, ("Expected 27 deep EXP plans", len(exp_ids))
           assert len(prompt_ids) == 17, ("Expected 17 prompt mappings", len(prompt_ids))
           assert "هدف هر EXP یک مأموریت عمیق" in decomposition
