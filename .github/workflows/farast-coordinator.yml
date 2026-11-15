@@ -198,12 +198,27 @@ jobs:
                   } else {
                     const keys = resourcesFor(issue);
                     const targetRepository = targetRepositoryFor(issue);
-                    // Resolve policy from the validated Work Item before allocating any branch.
-                    // Legacy/missing specs fail closed to READ_ONLY; malformed specs abort the claim.
-                    const workItemForClaim = savedWorkItemFor(state, issue);
-                    const writePolicy = workItemForClaim?.write_policy || 'READ_ONLY';
-                    const taskBranch = coordinatorCore.branchForWritePolicy(issue.number, run, writePolicy);
-                    if (!targetRepository) {
+                    // Resolve policy from the live Issue JSON, never from a potentially stale registry snapshot.
+                    // Any policy/target/resource disagreement fails closed until an owner refresh reconciles it.
+                    let writePolicy = 'READ_ONLY';
+                    let policyError = '';
+                    try {
+                      const liveWorkItem = workItemSpecFor(issue);
+                      const storedWorkItem = state.work_items?.[issue.number];
+                      const normalizeKeys = keys => [...new Set((keys || []).map(x => String(x).trim().toLowerCase().replace(/\\\\/g, '/')))].sort();
+                      if (storedWorkItem) {
+                        if ((storedWorkItem.write_policy || 'READ_ONLY') !== (liveWorkItem?.write_policy || 'READ_ONLY')) throw new Error('Registry write_policy differs from live Issue specification; owner refresh required');
+                        if (storedWorkItem.target_repository && storedWorkItem.target_repository !== liveWorkItem?.target_repository) throw new Error('Registry target_repository differs from live Issue specification; owner refresh required');
+                        if (JSON.stringify(normalizeKeys(storedWorkItem.resource_keys)) !== JSON.stringify(normalizeKeys(liveWorkItem?.resource_keys))) throw new Error('Registry resource_keys differ from live Issue specification; owner refresh required');
+                      }
+                      writePolicy = liveWorkItem?.write_policy || 'READ_ONLY';
+                    } catch (error) {
+                      policyError = error.message;
+                    }
+                    const taskBranch = policyError ? null : coordinatorCore.branchForWritePolicy(issue.number, run, writePolicy);
+                    if (policyError) {
+                      response = 'Claim رد شد: اختلاف یا نقص در Work Item زنده/رجیستری؛ هیچ branch تخصیص داده نشد. ' + policyError;
+                    } else if (!targetRepository) {
                       response = 'Claim رد شد: Target repository باید به‌صورت owner/name در Issue مشخص شود.';
                     } else {
                       const claim = coordinatorCore.claimResources(state, {
