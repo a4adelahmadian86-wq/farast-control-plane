@@ -43,7 +43,7 @@
 برای هر مأموریت تخصصی فقط همان PR prompt را کپی کنید؛ لازم نیست MASTER-00 را جداگانه به آن بچسبانید. پرامپت‌های مستقل، دروازه مشترک و الزام خواندن MASTER-00 را در خود دارند.
 
 ## 3) اجرای یک پرامپت واحد در چند چت
-برای اصل «یک متن واحد به چند چت»، MASTER-00 را بدون تغییر در تمام چت‌های موردنظر ارسال کنید. هر چت باید از صف مشترک GitHub یک برگ مستقل claim کند؛ در تعارض، claim بازنده پس از read-back به برگ بعدی می‌رود. جزئیات و معیارهای آزمون در [SINGLE_PROMPT_MULTI_CHAT_DISPATCH.md](04_COORDINATION/SINGLE_PROMPT_MULTI_CHAT_DISPATCH.md) است. این رفتار تا اجرای E2E دو حساب مستقل NOT VERIFIED است.
+برای اصل «یک متن واحد به چند چت»، MASTER-00 را بدون تغییر در تمام چت‌های موردنظر ارسال کنید. هر چت باید از صف مشترک GitHub یک برگ مستقل claim کند؛ در تعارض، claim بازنده پس از read-back به برگ بعدی می‌رود. پیش‌نیاز اتصال هر حساب و مجوز collaborator/member در [SINGLE_PROMPT_MULTI_CHAT_DISPATCH.md] آمده است. جزئیات و معیارهای آزمون در [SINGLE_PROMPT_MULTI_CHAT_DISPATCH.md](04_COORDINATION/SINGLE_PROMPT_MULTI_CHAT_DISPATCH.md) است. این رفتار تا اجرای E2E دو حساب مستقل NOT VERIFIED است.
 
 ## 4) کتابخانه کامل پرامپت‌ها
 
