@@ -121,7 +121,25 @@ jobs:
           work_item_sample = {"schema_version":"1.0","write_policy":"READ_ONLY","priority_source":"DEFAULT_POLICY","work_item_id":"WI-CI-001","title":"CI work item","parent_goal_ids":["G-09"],"parent_exp_ids":["EXP-01"],"status":"READY","target_repository":"owner/repo","resource_keys":["module:ci"],"dependencies":[],"steps":[{"step_id":"S1","title":"Inspect"}],"acceptance_criteria":[{"criterion_id":"AC1","title":"Evidence exists"}],"priority":50,"created_at_utc":"2026-11-14T00:00:00Z"}
           work_item_checkpoint_sample = {"work_item_id":"WI-CI-001","run_id":"RUN-CI-001","checkpoint_version":1,"created_at_utc":"2026-11-14T00:00:00Z","last_verified_step_id":None,"current_step_id":"S1","completed_step_ids":[],"remaining_step_ids":["S1"],"progress_percentage":0,"evidence_refs":[],"blockers":[],"owner":{"actor":"ci","chat_id":"ci-chat","fencing_token":1,"lease_expires_at_utc":"2026-11-14T01:00:00Z"},"next_action":"inspect"}
           Draft202012Validator(work_item_schema, format_checker=FormatChecker()).validate(work_item_sample)
+          deep_sample = {**work_item_sample,
+            "effort_estimate_minutes":25,
+            "effort_rationale":"Focused 25-minute discovery and verification task.",
+            "depth_profile":{"profile_version":"2.0.0","min_substantive_steps":6,"min_acceptance_criteria":4,"min_deliverables":3,"target_effort_minutes":25},
+            "steps":[{"step_id":f"S{i+1}","title":f"Step {i+1}","expected_output":"Output","evidence_requirement":"GitHub evidence","estimate_minutes":4} for i in range(6)],
+            "acceptance_criteria":[{"criterion_id":f"AC{i+1}","title":f"Criterion {i+1}","evidence_requirement":"Evidence ref"} for i in range(4)],
+            "deliverables":[{"deliverable_id":f"D{i+1}","description":f"Deliverable {i+1}","evidence_requirement":"GitHub URL"} for i in range(3)]
+          }
+          Draft202012Validator(work_item_schema, format_checker=FormatChecker()).validate(deep_sample)
           Draft202012Validator(work_item_checkpoint_schema, format_checker=FormatChecker()).validate(work_item_checkpoint_sample)
+          checkpoint_v2 = {**work_item_checkpoint_sample,
+            "execution_progress_percentage":0,
+            "acceptance_progress_percentage":0,
+            "overall_completion_percentage":0,
+            "progress_calculation_version":"PROGRESS_V2",
+            "required_step_counts":{"not_run":1},
+            "acceptance_criteria_counts":{"not_run":1}
+          }
+          Draft202012Validator(work_item_checkpoint_schema, format_checker=FormatChecker()).validate(checkpoint_v2)
           Draft202012Validator.check_schema(work_item_schema)
           Draft202012Validator.check_schema(work_item_checkpoint_schema)
           work_sample = {"TASK_ID":"FCP-EXP03-001","PROMPT_ID":"PR-03","EXP_IDS":["EXP-03"],"GOAL_IDS":["G-01"],"TITLE":"Sample","PURPOSE":"Schema validation fixture","STATUS":"READY","RESOURCE_KEYS":["module:sample"],"SCOPE_IN":["read-only inventory"],"SCOPE_OUT":["production changes"],"ACCEPTANCE_CRITERIA":["evidence linked"],"NEXT_ACTION":"inspect evidence"}
@@ -176,6 +194,8 @@ jobs:
           assert "item.write_policy ||= 'READ_ONLY';\n                item.priority_source ||= 'DEFAULT_POLICY';\n                workItemCore.validateWorkItem(item);" in coordinator
           assert "const formPriorityRaw = scalar('Priority (0-100; lower is higher)');" in coordinator
           assert "formPriorityRaw ? Number(formPriorityRaw) : Number.NaN" in coordinator
+          assert "formEffortRaw = scalar('Target focused effort (minutes)');" in coordinator
+          assert "formEffort !== item.effort_estimate_minutes" in coordinator
           for required in ("farast-control-plane-single-writer", "schedule:", "issue_comment:", "workItemCore", "new github.constructor", "typeof issue === 'number' ? issue : issue.number", "NON product repository is READ_ONLY", "Only repository owner may create a write-enabled Work Item", "owner_approval_ref", "recordStepEvidence", "recordCriterionEvidence", "createCheckpoint", "processed_operations", "FARAST_OP_RESPONSE:", "coordination/locks", "pulls.listReviews", "workerActor", "task_already_claimed", "branch_reuse", "claim.previousRun", "next_status: nextStatus", "FARAST_GITHUB_TOKEN", "prUrl", "targetRepositoryFor", "authorizationPolicy", "resourceKeys: resourcesFor(issue)", "coordinatorCore.isCommandAllowed", "coordinatorCore.isSafeRunId", "coordinatorCore.claimResources", "coordinatorCore.ownsLease", "coordinatorCore.renewLease", "coordinatorCore.hasIndependentApproval", "coordinatorCore.matchesReviewLease", "const taskBranch =", "expiredLeases", "event: 'HEARTBEAT'", "if (!accepted && labelsOf(issue).includes('agent:done'))", "else if (!current.length && !['agent:blocked','agent:review','agent:done'].some(x => labelsOf(issue).includes(x)) && !labelsOf(issue).includes('agent:ready'))"):
               assert required in coordinator, required
           assert "require('@actions/github')" not in coordinator
