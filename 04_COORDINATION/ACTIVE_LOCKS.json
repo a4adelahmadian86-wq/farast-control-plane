@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 274,
+  "revision": 275,
   "next_fencing_token": 64,
   "locks": [
     {
@@ -2557,6 +2557,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-15T18:24:57.919Z"
+    },
+    "6899133318": {
+      "response": "معیار پذیرش ثبت شد: AC_BOOTSTRAP; can_accept=false; progress=100%.",
+      "response_posted": false,
+      "issue_number": 43,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-15T18:25:02.619Z"
     }
   },
   "work_items": {
@@ -2998,8 +3007,13 @@
           "criterion_id": "AC_BOOTSTRAP",
           "title": "A user can paste one specialist prompt into a fresh chat and the prompt itself instructs a complete live bootstrap without requiring the user to select an Issue",
           "required": true,
-          "validation_status": "NOT_RUN",
-          "evidence_refs": []
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/46"
+          ],
+          "validated_at_utc": "2026-11-15T18:25:02.619Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_AUTO_SELECT",
