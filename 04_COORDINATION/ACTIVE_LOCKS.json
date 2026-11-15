@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 224,
+  "revision": 225,
   "next_fencing_token": 63,
   "locks": [
     {
@@ -2171,6 +2171,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-15T18:10:51.503Z"
+    },
+    "6898952621": {
+      "response": "معیار پذیرش ثبت شد: AC_READONLY; can_accept=false; progress=100%.",
+      "response_posted": false,
+      "issue_number": 44,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-15T18:11:10.903Z"
     }
   },
   "work_items": {
@@ -2612,8 +2621,13 @@
           "criterion_id": "AC_READONLY",
           "title": "A READ_ONLY task cannot create or mutate a branch, file, PR, CI setting or data in its target repository",
           "required": true,
-          "validation_status": "NOT_RUN",
-          "evidence_refs": []
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/c0dfb2d939586d452f970bda63eca4df41c794e4"
+          ],
+          "validated_at_utc": "2026-11-15T18:11:10.897Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_EVIDENCE",
