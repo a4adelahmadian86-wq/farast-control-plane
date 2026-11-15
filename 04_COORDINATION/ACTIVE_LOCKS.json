@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 270,
+  "revision": 271,
   "next_fencing_token": 64,
   "locks": [
     {
@@ -2539,6 +2539,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-15T18:24:36.068Z"
+    },
+    "6899132205": {
+      "response": "STEP ثبت شد: S5_REGRESSION; progress=85.71%; verified=6/7.",
+      "response_posted": false,
+      "issue_number": 43,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-15T18:24:53.154Z"
     }
   },
   "work_items": {
@@ -2953,8 +2962,13 @@
           "title": "Add tests for no-task-choice bootstrap, dependency blocking, duplicate prevention, active lease avoidance, resume, blocked-task fallback and stale-token rejection",
           "required": true,
           "weight": 1,
-          "validation_status": "NOT_RUN",
-          "evidence_refs": []
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/43746348013"
+          ],
+          "validated_at_utc": "2026-11-15T18:24:53.150Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S6_VERIFY",
