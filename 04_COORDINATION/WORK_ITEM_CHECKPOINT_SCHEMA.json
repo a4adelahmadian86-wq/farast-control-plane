@@ -88,6 +88,36 @@
     },
     "next_action": {
       "type": "string"
+    },
+    "execution_progress_percentage": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "acceptance_progress_percentage": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 100
+    },
+    "overall_completion_percentage": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 100
+    },
+    "progress_calculation_version": {
+      "type": "string"
+    },
+    "acceptance_criteria_counts": {
+      "type": "object"
+    },
+    "required_step_counts": {
+      "type": "object"
     }
   },
   "additionalProperties": false
