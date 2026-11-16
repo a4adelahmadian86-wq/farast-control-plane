@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 570,
+  "revision": 571,
   "next_fencing_token": 75,
   "locks": [
     {
@@ -5071,6 +5071,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-16T18:22:40.195Z"
+    },
+    "6925184719": {
+      "response": "STEP ثبت شد: S3_ANALYZE; EXECUTION_PROGRESS=42.85%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=3/7.",
+      "response_posted": false,
+      "issue_number": 35,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-16T18:23:01.677Z"
     }
   },
   "work_items": {
@@ -5666,7 +5675,14 @@
           "weight": 1,
           "expected_output": "خروجی قابل بازبینی برای مرحله: بررسی تست‌های موجود و تعیین blind spotها.",
           "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/35#issuecomment-6925145425"
+          ],
+          "validated_at_utc": "2026-11-16T18:23:01.672Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S4_CROSSCHECK",
