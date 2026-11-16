@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 512,
+  "revision": 513,
   "next_fencing_token": 74,
   "locks": [
     {
@@ -4600,6 +4600,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-16T18:07:38.311Z"
+    },
+    "6916089109": {
+      "response": "WORK_ITEM=WI-NON-IMPLEMENTATION-VERTICAL-SLICE-001; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=0/7; verified_criteria=0/5; step_weighting=EQUAL_STEPS_V1; criteria_weighting=EQUAL_CRITERIA_V1; dependencies=PASS; can_accept=false. claim/lease مستقل از درصد است.",
+      "response_posted": false,
+      "issue_number": 51,
+      "actor": "a4adelahmadian86-wq",
+      "command": "progress",
+      "next_status": null,
+      "at_utc": "2026-11-16T18:08:08.514Z"
     }
   },
   "work_items": {
@@ -5655,6 +5664,148 @@
       ],
       "priority": 5,
       "created_at_utc": "2026-11-16T10:56:00Z"
+    },
+    "51": {
+      "schema_version": "1.0",
+      "write_policy": "WRITE_ALLOWED",
+      "owner_approval_ref": "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/51",
+      "priority_source": "DEFAULT_POLICY",
+      "work_item_id": "WI-NON-IMPLEMENTATION-VERTICAL-SLICE-001",
+      "title": "NON first owner-authorized implementation vertical slice",
+      "parent_goal_ids": [
+        "G-00",
+        "G-04",
+        "G-05",
+        "G-08"
+      ],
+      "parent_exp_ids": [
+        "EXP-22",
+        "EXP-23"
+      ],
+      "status": "READY",
+      "target_repository": "a4adelahmadian86-wq/non",
+      "resource_keys": [
+        "repo:non:controlled-implementation"
+      ],
+      "dependencies": [],
+      "steps": [
+        {
+          "step_id": "S0_AUTH_GATE",
+          "title": "Verify this owner-created Issue, its explicit WRITE_ALLOWED policy, actor authorization, live coordinator workflow, successful claim, registry read-back and exact run branch",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Recorded owner authorization, exact GitHub actor, RUN_ID, fencing token, lease, resource key, product target and run-specific branch",
+          "evidence_requirement": "Issue URL, claim command/response, live registry read-back and branch ref"
+        },
+        {
+          "step_id": "S1_PRODUCT_BASELINE",
+          "title": "Read the exact current product main SHA, tree, relevant requirements, existing tests, open Issues/PRs and active change scopes; establish the relevant pre-change test baseline",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Reproducible product snapshot and relevant test baseline, including explicit overlap check against live PRs",
+          "evidence_requirement": "Exact SHA, source URLs, test command/output and current PR/Issue links"
+        },
+        {
+          "step_id": "S2_SELECT_SLICE",
+          "title": "Choose one evidenced, high-value, low-risk user-facing or operational defect/missing behavior with a bounded scope and no active-PR overlap",
+          "required": true,
+          "weight": 1,
+          "expected_output": "One selected implementation slice with before/after behavior, affected files, rationale, risk and rollback path",
+          "evidence_requirement": "Direct code/test/requirement evidence and read-back of relevant active PR scopes"
+        },
+        {
+          "step_id": "S3_IMPLEMENT_CODE",
+          "title": "Implement the selected improvement in application source code on this RUN's dedicated product branch; preserve existing capabilities and avoid unrelated refactoring",
+          "required": true,
+          "weight": 1,
+          "expected_output": "A real runtime source-code diff that changes or repairs application behavior; tests-only or documentation-only work does not satisfy this step",
+          "evidence_requirement": "Product branch commit and exact source diff"
+        },
+        {
+          "step_id": "S4_REGRESSION_TEST",
+          "title": "Add or strengthen automated regression tests for the selected behavior, run the relevant test suite and record failures without disguising NOT_RUN as PASS",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Regression test(s) and reproducible test results demonstrating the intended behavior and preservation of adjacent behavior",
+          "evidence_requirement": "Test source diff, commands, exit codes and CI run URL for the exact PR head"
+        },
+        {
+          "step_id": "S5_QUALITY_ROLLBACK",
+          "title": "Review the exact diff for scope creep, security/privacy exposure, compatibility, performance and rollback; confirm no prohibited data/schema/production action occurred",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Focused review checklist, risk assessment and concrete revert/rollback instructions",
+          "evidence_requirement": "Exact diff/read-back, test results and rollback instructions"
+        },
+        {
+          "step_id": "S6_PR_HANDOFF",
+          "title": "Open a review-ready product PR from the exact RUN branch, link it to this Issue, record evidence/checkpoint and hand off without merging or deploying",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Review-ready PR, complete test/risk summary and durable next action",
+          "evidence_requirement": "PR URL/head SHA, CI links, Issue read-back and checkpoint URL"
+        }
+      ],
+      "acceptance_criteria": [
+        {
+          "criterion_id": "AC_OWNER_AUTHORIZED_WRITE",
+          "title": "The Work Item is owner-created, explicitly WRITE_ALLOWED for NON, and all product writes were performed only after CLAIM GRANTED, registry read-back and valid heartbeat/fencing token",
+          "evidence_requirement": "Evidence: owner-authored Issue #51 body, exact owner_approval_ref, successful /farast claim response, ACTIVE_LOCKS registry read-back and current fencing token."
+        },
+        {
+          "criterion_id": "AC_REAL_PRODUCT_CHANGE",
+          "title": "At least one substantive application runtime source file is changed to implement a concrete behavior improvement; report-only, inventory-only, plan-only, docs-only or tests-only output fails",
+          "evidence_requirement": "Evidence: substantive application runtime source diff on the dedicated product branch, exact commit SHA and PR diff; report-only, documentation-only or tests-only output does not satisfy this criterion."
+        },
+        {
+          "criterion_id": "AC_BOUNDED_SAFE_SCOPE",
+          "title": "The change is evidence-based, does not overlap active PRs, preserves existing capabilities, and introduces no prohibited destructive, financial, authorization, privacy-policy, production or external-cost action",
+          "evidence_requirement": "Evidence: baseline and active-PR overlap inventory, selected-slice risk note, exact diff review and confirmation that no prohibited migration, data, security, financial or production action occurred."
+        },
+        {
+          "criterion_id": "AC_REGRESSION_EVIDENCE",
+          "title": "Relevant automated regression coverage is added or strengthened and test/CI results are read back on the exact PR head; unrun or failed checks are not marked PASS",
+          "evidence_requirement": "Evidence: regression test source, exact test command and exit code, and CI result for the exact PR head SHA; NOT_RUN or failed checks are not PASS."
+        },
+        {
+          "criterion_id": "AC_REVIEW_READY_HANDOFF",
+          "title": "A review-ready PR, exact head SHA, evidence links, risks and rollback instructions are recorded; no merge, deployment or release is performed",
+          "evidence_requirement": "Evidence: review-ready PR URL and exact head SHA, successful required checks, linked Issue, risk/rollback note and durable checkpoint; no merge or deployment is authorized."
+        }
+      ],
+      "priority": 50,
+      "created_at_utc": "2026-11-16T12:10:00Z",
+      "effort_estimate_minutes": 25,
+      "effort_rationale": "حداقل ۲۵ دقیقه کار تخصصی واقعی شامل baseline مرتبط، انتخاب یک برش محدود، پیاده‌سازی کد، رگرسیون، بازبینی و تحویل؛ زمان انتظار مصنوعی ممنوع است.",
+      "depth_profile": {
+        "profile_version": "2.0.0",
+        "min_substantive_steps": 7,
+        "min_acceptance_criteria": 5,
+        "min_deliverables": 4,
+        "target_effort_minutes": 25
+      },
+      "deliverables": [
+        {
+          "deliverable_id": "D1",
+          "description": "Evidence-backed selected-slice note with before/after behavior, affected files, overlap check and rollback plan",
+          "evidence_requirement": "GitHub Issue comment or artifact URL with exact source references"
+        },
+        {
+          "deliverable_id": "D2",
+          "description": "Implemented NON application source-code change and automated regression tests",
+          "evidence_requirement": "Product branch commit and read-back source diff"
+        },
+        {
+          "deliverable_id": "D3",
+          "description": "Reproducible test report and exact-head CI evidence",
+          "evidence_requirement": "Test commands, exit codes and CI run URL"
+        },
+        {
+          "deliverable_id": "D4",
+          "description": "Review-ready PR, risk/rollback note and durable checkpoint/handoff",
+          "evidence_requirement": "PR URL, head SHA, rollback steps and checkpoint read-back"
+        }
+      ]
     },
     "52": {
       "schema_version": "1.0",
