@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 394,
+  "revision": 395,
   "next_fencing_token": 71,
   "locks": [
     {
@@ -3820,6 +3820,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-16T12:38:34.143Z"
+    },
+    "6916634707": {
+      "response": "STEP ثبت شد: S2_CORE; progress=42.85%; verified=3/7.",
+      "response_posted": false,
+      "issue_number": 52,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-16T12:38:40.934Z"
     }
   },
   "work_items": {
@@ -4732,7 +4741,14 @@
           "required": true,
           "weight": 1,
           "expected_output": "Core and workflow code accept only owner-created, explicitly approved, correctly referenced NON WRITE_ALLOWED Issues",
-          "evidence_requirement": "Source diff and focused tests"
+          "evidence_requirement": "Source diff and focused tests",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/53/files"
+          ],
+          "validated_at_utc": "2026-11-16T12:38:40.933Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S3_REGRESSION",
