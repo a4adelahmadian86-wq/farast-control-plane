@@ -152,7 +152,14 @@ jobs:
                 if (Number.isFinite(formEffort) && formEffort !== item.effort_estimate_minutes) throw new Error('Target focused effort does not match JSON');
                 if (formWritePolicy && formWritePolicy !== item.write_policy) throw new Error('Write policy does not match JSON');
                 if (formPrioritySource && formPrioritySource !== item.priority_source) throw new Error('Priority source does not match JSON');
-                if (item.target_repository === 'a4adelahmadian86-wq/non' && item.write_policy !== 'READ_ONLY') throw new Error('NON product repository is READ_ONLY until explicit owner authorization is recorded');
+                if (item.target_repository === 'a4adelahmadian86-wq/non' && item.write_policy === 'WRITE_ALLOWED') {
+                  workItemCore.validateProductWriteAuthorization(item, {
+                    repository_owner: owner,
+                    issue_author: issue.user?.login || '',
+                    issue_url: `https://github.com/${owner}/${repo}/issues/${issue.number}`,
+                    issue_body: issue.body || ''
+                  });
+                }
                 if (item.write_policy !== 'READ_ONLY' && issue.user && issue.user.login !== owner) throw new Error('Only repository owner may create a write-enabled Work Item');
                 if (item.write_policy === 'WRITE_REQUIRES_OWNER_APPROVAL' && !item.owner_approval_ref) throw new Error('Owner approval evidence reference is required');
                 return item;
@@ -161,8 +168,25 @@ jobs:
               }
             };
             const savedWorkItemFor = (state, issue) => {
-              const item = (state.work_items && state.work_items[issue.number]) || workItemSpecFor(issue);
+              // Revalidate the live Issue on every command so owner authorization cannot be
+              // silently removed or changed after a Work Item was first saved in the registry.
+              const liveSpec = workItemSpecFor(issue);
+              const stored = state.work_items && state.work_items[issue.number];
+              const item = stored || liveSpec;
               if (!item) return null;
+              if (!liveSpec && stored &&
+                stored.target_repository === 'a4adelahmadian86-wq/non' &&
+                stored.write_policy === 'WRITE_ALLOWED') {
+                throw new Error('Owner-authorized NON Work Item requires a live Issue specification');
+              }
+              if (liveSpec && (
+                item.work_item_id !== liveSpec.work_item_id ||
+                item.write_policy !== liveSpec.write_policy ||
+                item.target_repository !== liveSpec.target_repository ||
+                (item.owner_approval_ref || '') !== (liveSpec.owner_approval_ref || '') ||
+                JSON.stringify([...new Set((item.resource_keys || []).map(x => String(x).trim().toLowerCase().split(String.fromCharCode(92)).join('/')))].sort()) !==
+                  JSON.stringify([...new Set((liveSpec.resource_keys || []).map(x => String(x).trim().toLowerCase().split(String.fromCharCode(92)).join('/')))].sort())
+              )) throw new Error('Saved Work Item identity/policy/resources do not match live Issue');
               item.write_policy ||= 'READ_ONLY';
               item.priority_source ||= 'DEFAULT_POLICY';
               const byId = new Map(Object.values(state.work_items || {}).map(x => [x.work_item_id, x]));
