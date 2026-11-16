@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 473,
+  "revision": 474,
   "next_fencing_token": 72,
   "locks": [
     {
@@ -4206,7 +4206,7 @@
     },
     "6923693793": {
       "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-EXP22-CONTROLLED-IMPLEMENTATION-001; EXECUTION_PROGRESS=85.71%; ACCEPTANCE_PROGRESS=75%; OVERALL_COMPLETION=75%; next_action=Complete Issue #52 S5_VALIDATE with a successful live /farast progress response and registry read-back for Issue #51; verify FARAST_GITHUB_TOKEN has checks:read, statuses:read, pull_requests:write on non; reconcile Issue #51 no-merge scope with EXP-23 merge gate; approve an explicit ticket status-transition matrix or select another evidence-backed behavior; then start a fresh RUN and claim the authorized product Work Item.; remaining_steps=S2_MAP.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 34,
       "actor": "a4adelahmadian86-wq",
       "command": "checkpoint",
