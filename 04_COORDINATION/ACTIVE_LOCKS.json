@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 612,
+  "revision": 613,
   "next_fencing_token": 76,
   "locks": [
     {
@@ -5425,6 +5425,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-16T18:33:20.332Z"
+    },
+    "6925433148": {
+      "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-EXP23-REGRESSION-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=75%; OVERALL_COMPLETION=75%; next_action=After GH-58 releases issue:51 and issue:52, re-read ACTIVE_LOCKS and Issue #51; if repo:non:controlled-implementation is unleased, start a fresh RUN_ID, claim Issue #51, read back CLAIM GRANTED/token/branch, and revalidate all hard gates before product writes. Do not infer or implement a ticket transition matrix.; remaining_steps=.",
+      "response_posted": false,
+      "issue_number": 35,
+      "actor": "a4adelahmadian86-wq",
+      "command": "checkpoint",
+      "next_status": null,
+      "at_utc": "2026-11-16T18:33:45.658Z"
     }
   },
   "work_items": {
@@ -7349,6 +7358,52 @@
         "lease_expires_at_utc": "2026-11-16T17:50:44.691Z"
       },
       "next_action": "Complete Issue #52 S5_VALIDATE with a successful live /farast progress response and registry read-back for Issue #51; verify FARAST_GITHUB_TOKEN has checks:read, statuses:read, pull_requests:write on non; reconcile Issue #51 no-merge scope with EXP-23 merge gate; approve an explicit ticket status-transition matrix or select another evidence-backed behavior; then start a fresh RUN and claim the authorized product Work Item."
+    },
+    "35": {
+      "work_item_id": "WI-EXP23-REGRESSION-001",
+      "run_id": "RUN-20261116-PR16-EXP23-001",
+      "checkpoint_version": 1,
+      "created_at_utc": "2026-11-16T18:33:45.654Z",
+      "last_verified_step_id": "S7_VERIFY",
+      "current_step_id": "S7_VERIFY",
+      "completed_step_ids": [
+        "S1_DISCOVER",
+        "S2_MAP",
+        "S3_ANALYZE",
+        "S4_CROSSCHECK",
+        "S5_ASSESS",
+        "S6_REPORT",
+        "S7_VERIFY"
+      ],
+      "remaining_step_ids": [],
+      "progress_percentage": 100,
+      "execution_progress_percentage": 100,
+      "acceptance_progress_percentage": 75,
+      "overall_completion_percentage": 75,
+      "progress_calculation_version": "PROGRESS_V2",
+      "required_step_counts": {
+        "pass": 7,
+        "fail": 0,
+        "blocked": 0,
+        "unknown": 0,
+        "not_run": 0
+      },
+      "acceptance_criteria_counts": {
+        "pass": 3,
+        "fail": 0,
+        "blocked": 1,
+        "unknown": 0,
+        "not_run": 0
+      },
+      "evidence_refs": [],
+      "blockers": [],
+      "owner": {
+        "actor": "a4adelahmadian86-wq",
+        "chat_id": "CHAT-PR16-20261116-04",
+        "fencing_token": 74,
+        "lease_expires_at_utc": "2026-11-16T19:03:20.325Z"
+      },
+      "next_action": "After GH-58 releases issue:51 and issue:52, re-read ACTIVE_LOCKS and Issue #51; if repo:non:controlled-implementation is unleased, start a fresh RUN_ID, claim Issue #51, read back CLAIM GRANTED/token/branch, and revalidate all hard gates before product writes. Do not infer or implement a ticket transition matrix."
     },
     "43": {
       "work_item_id": "WI-PROMPT-AUTORUN-001",
