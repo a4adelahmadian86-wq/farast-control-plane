@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 412,
+  "revision": 413,
   "next_fencing_token": 71,
   "locks": [
     {
@@ -3901,6 +3901,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-16T12:39:52.938Z"
+    },
+    "6916648505": {
+      "response": "معیار پذیرش ثبت شد: AC_LIVE_SMOKE; can_accept=false; progress=85.71%.",
+      "response_posted": false,
+      "issue_number": 52,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-16T12:40:00.163Z"
     }
   },
   "work_items": {
@@ -4930,7 +4939,14 @@
         },
         {
           "criterion_id": "AC_LIVE_SMOKE",
-          "title": "After the patched coordinator is merged/live, /farast progress on Issue #51 returns a valid Work Item response and registry state remains consistent"
+          "title": "After the patched coordinator is merged/live, /farast progress on Issue #51 returns a valid Work Item response and registry state remains consistent",
+          "validation_status": "BLOCKED",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/53"
+          ],
+          "validated_at_utc": "2026-11-16T12:40:00.163Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "priority": 40,
