@@ -96,7 +96,7 @@ function validateProductWriteAuthorization(item, context = {}) {
   assert(context.issue_author === context.repository_owner, 'NON WRITE_ALLOWED requires an owner-authored Issue');
   assert(typeof context.issue_url === 'string' && context.issue_url.trim() && item.owner_approval_ref === context.issue_url,
     'owner_approval_ref must exactly reference the owner-created Issue');
-  const approvalText = String(context.issue_body || '').replace(/[`*_]/g, '').toLowerCase();
+  const approvalText = String(context.issue_body || '').replace(/[`*]/g, '').toLowerCase();
   assert(approvalText.includes('owner decision') &&
     approvalText.includes('explicitly approved write_allowed') &&
     approvalText.includes(PRODUCT_REPOSITORY),
