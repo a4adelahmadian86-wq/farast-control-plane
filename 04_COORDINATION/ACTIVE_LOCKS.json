@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 496,
+  "revision": 497,
   "next_fencing_token": 74,
   "locks": [
     {
@@ -14,8 +14,8 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "branch": "work/GH-58-RUN-20261116-PR16-SPEC-REPAIR-001",
       "acquired_at_utc": "2026-11-16T17:59:02.291Z",
-      "heartbeat_at_utc": "2026-11-16T18:01:33.678Z",
-      "lease_expires_at_utc": "2026-11-16T18:31:33.678Z",
+      "heartbeat_at_utc": "2026-11-16T18:02:46.304Z",
+      "lease_expires_at_utc": "2026-11-16T18:32:46.304Z",
       "fencing_token": 73,
       "status": "ACTIVE"
     },
@@ -30,8 +30,8 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "branch": "work/GH-58-RUN-20261116-PR16-SPEC-REPAIR-001",
       "acquired_at_utc": "2026-11-16T17:59:02.291Z",
-      "heartbeat_at_utc": "2026-11-16T18:01:33.678Z",
-      "lease_expires_at_utc": "2026-11-16T18:31:33.678Z",
+      "heartbeat_at_utc": "2026-11-16T18:02:46.304Z",
+      "lease_expires_at_utc": "2026-11-16T18:32:46.304Z",
       "fencing_token": 73,
       "status": "ACTIVE"
     }
@@ -2338,6 +2338,18 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "lease_expires_at_utc": "2026-11-16T18:31:33.678Z",
       "at_utc": "2026-11-16T18:01:33.678Z"
+    },
+    {
+      "event": "HEARTBEAT",
+      "issue_number": 58,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-PR16-20261116-03",
+      "run_id": "RUN-20261116-PR16-SPEC-REPAIR-001",
+      "fencing_token": 73,
+      "branch": "work/GH-58-RUN-20261116-PR16-SPEC-REPAIR-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "lease_expires_at_utc": "2026-11-16T18:32:46.304Z",
+      "at_utc": "2026-11-16T18:02:46.304Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -4456,6 +4468,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-16T18:02:06.720Z"
+    },
+    "6924703267": {
+      "response": "Lease تمدید شد تا 2026-11-16T18:32:46.304Z UTC؛ fencing_token=73.",
+      "response_posted": false,
+      "issue_number": 58,
+      "actor": "a4adelahmadian86-wq",
+      "command": "heartbeat",
+      "next_status": null,
+      "at_utc": "2026-11-16T18:02:46.308Z"
     }
   },
   "work_items": {
