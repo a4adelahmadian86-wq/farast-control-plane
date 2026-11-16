@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 448,
+  "revision": 449,
   "next_fencing_token": 72,
   "locks": [
     {
@@ -4023,6 +4023,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-16T17:13:19.823Z"
+    },
+    "6923529090": {
+      "response": "STEP ثبت شد: S6_REPORT; EXECUTION_PROGRESS=71.42%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=5/7.",
+      "response_posted": false,
+      "issue_number": 34,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-16T17:13:57.913Z"
     }
   },
   "work_items": {
@@ -4453,7 +4462,14 @@
           "weight": 1,
           "expected_output": "خروجی قابل بازبینی برای مرحله: تهیه اجرای مرحله‌ای، تقسیم کار و برنامه verification مستقل.",
           "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/34#issuecomment-6923371651"
+          ],
+          "validated_at_utc": "2026-11-16T17:13:57.908Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S7_VERIFY",
