@@ -1,25 +1,8 @@
 {
   "schema_version": "1.0",
-  "revision": 476,
+  "revision": 477,
   "next_fencing_token": 72,
-  "locks": [
-    {
-      "resource_key": "analysis:exp-22",
-      "issue_number": 34,
-      "task_id": "GH-34",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "CHAT-PR16-20261116-01",
-      "chat_id": "CHAT-PR16-20261116-01",
-      "run_id": "RUN-20261116-PR16-EXP22-001",
-      "target_repository": "a4adelahmadian86-wq/non",
-      "branch": null,
-      "acquired_at_utc": "2026-11-16T17:02:59.016Z",
-      "heartbeat_at_utc": "2026-11-16T17:21:35.982Z",
-      "lease_expires_at_utc": "2026-11-16T17:51:35.982Z",
-      "fencing_token": 71,
-      "status": "ACTIVE"
-    }
-  ],
+  "locks": [],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -2205,6 +2188,17 @@
       "target_repository": "a4adelahmadian86-wq/non",
       "lease_expires_at_utc": "2026-11-16T17:51:35.982Z",
       "at_utc": "2026-11-16T17:21:35.982Z"
+    },
+    {
+      "event": "BLOCK",
+      "issue_number": 34,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-PR16-20261116-01",
+      "run_id": "RUN-20261116-PR16-EXP22-001",
+      "fencing_token": 71,
+      "branch": null,
+      "target_repository": "a4adelahmadian86-wq/non",
+      "at_utc": "2026-11-16T17:22:06.168Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -4233,6 +4227,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-16T17:21:35.989Z"
+    },
+    "6923722244": {
+      "response": "وظیفه مسدود شد و lease آزاد شد.",
+      "response_posted": false,
+      "issue_number": 34,
+      "actor": "a4adelahmadian86-wq",
+      "command": "block",
+      "next_status": "blocked",
+      "at_utc": "2026-11-16T17:22:06.177Z"
     }
   },
   "work_items": {
@@ -4569,7 +4572,7 @@
       "parent_exp_ids": [
         "EXP-22"
       ],
-      "status": "IN_PROGRESS",
+      "status": "BLOCKED",
       "target_repository": "a4adelahmadian86-wq/non",
       "resource_keys": [
         "analysis:exp-22"
