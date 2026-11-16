@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 307,
+  "revision": 308,
   "next_fencing_token": 66,
   "locks": [
     {
@@ -2872,7 +2872,7 @@
     },
     "6914701120": {
       "response": "STEP ثبت شد: S1_MERGE_PLAN; progress=28.57%; verified=2/7.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 47,
       "actor": "a4adelahmadian86-wq",
       "command": "step",
