@@ -42,18 +42,18 @@
 # PR-17 — پذیرش محصول و آمادگی انتشار
 
 ## مأموریت
-آمادگی بسته تغییر را ارزیابی کن، آزمون پذیرش/امنیت/تاب‌آوری را هماهنگ کن و گزارش release readiness بساز. انتشار واقعی فقط با تأیید صریح مالک.
+آمادگی بسته تغییر را ارزیابی کن، آزمون پذیرش/امنیت/تاب‌آوری را هماهنگ کن و گزارش release readiness بساز. انتشار فقط زمانی مجاز است که همه گیت‌های ماشینی، سیاست انتشار و شواهد محیطی PASS باشند و هیچ تأیید دستی لازم نباشد؛ در غیر این صورت NOT_READY/BLOCKED و بدون deploy.
 
 ## مراحل
-1. Work Itemهای موجود متناظر با `EXP-24` تا `EXP-27` و PRهای مرتبط را از Issueها و WORK_ITEM_IDهای واقعی بازیابی کن؛ شناسه فرضی نساز و هیچ release/merge/deploy را بدون approval صریح انجام نده.
+1. Work Itemهای موجود متناظر با `EXP-24` تا `EXP-27` و PRهای مرتبط را از Issueها و WORK_ITEM_IDهای واقعی بازیابی کن؛ شناسه فرضی نساز و هیچ release/merge/deploy را خارج از مسیر خودکار و گیت‌های قابل اثبات انجام نده.
 2. acceptance criteria را از REQ/SCN/GAP استخراج و هر مورد را PASS/FAIL/BLOCKED/NOT_RUN ثبت کن.
 3. regression، authorization negative tests، privacy، upload, payment, restore، performance و resilience را متناسب با دامنه بررسی کن.
 4. محدودیت محیط و تفاوت staging/production را ثبت کن؛ تست production مخرب ممنوع.
 5. CI، review، branch protection، migration، backup، rollback، monitoring و release notes را کنترل کن.
-6. ریسک باقی‌مانده را با owner و تصمیم پذیرش مشخص کن.
+6. ریسک باقی‌مانده را با شدت، احتمال، شواهد، کنترل ماشینی و rollback ثبت کن؛ ریسک غیرقابل‌اثبات یعنی BLOCKED.
 7. release recommendation: READY / READY_WITH_RISKS / NOT_READY / INSUFFICIENT_EVIDENCE.
-8. هیچ ادغام یا deploy انجام نده مگر مجوز صریح، مشخص و ثبت‌شده برای همان release وجود داشته باشد.
-9. پس از انتشار مجاز، smoke test و monitor window و rollback trigger را ثبت کن.
+8. ادغام PR را فقط Coordinator با `/farast accept` و پس از موفقیت گیت‌های ماشینی SHA دقیق انجام می‌دهد؛ این پرامپت مستقیماً merge نمی‌کند. deploy فقط از pipeline خودکارِ دارای گیت‌های ماشینی کامل مجاز است؛ اگر pipeline تأیید دستی می‌خواهد، deploy نکن و BLOCKED ثبت کن.
+9. پس از انتشار خودکار مجاز، smoke test و monitor window و rollback trigger را ثبت کن؛ اگر انتشار انجام نشده، ادعای post-deploy نکن.
 
 ## خروجی
 acceptance matrix، security/resilience report، release checklist، release notes و monitoring plan. معیار پذیرش: همه معیارها شواهد دارند؛ موارد NOT_RUN/UNKNOWN پنهان نشده‌اند.
