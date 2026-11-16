@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 547,
+  "revision": 548,
   "next_fencing_token": 75,
   "locks": [
     {
@@ -4882,7 +4882,7 @@
     },
     "6925064709": {
       "response": "CLAIM GRANTED. TASK=GH-35; WORK_ITEM_ID=WI-EXP23-REGRESSION-001; verified_steps=; remaining_steps=S1_DISCOVER,S2_MAP,S3_ANALYZE,S4_CROSSCHECK,S5_ASSESS,S6_REPORT,S7_VERIFY; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; actor=@a4adelahmadian86-wq; chat=CHAT-PR16-20261116-04; run=RUN-20261116-PR16-EXP23-001; resource_keys=analysis:exp-23; target_repository=a4adelahmadian86-wq/non; write_policy=READ_ONLY; branch=none; previous_run=none; fencing_token=74; lease_expires=2026-11-16T18:47:54.954Z. این Work Item با سیاست READ_ONLY است؛ در target_repository هیچ branch، file، commit یا PR ایجاد/تغییر نده. شواهد را فقط در Issue thread یا محل مجاز control-plane ثبت کن؛ برای WRITE_REQUIRES_OWNER_APPROVAL فقط proposal ارائه بده.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 35,
       "actor": "a4adelahmadian86-wq",
       "command": "claim",
