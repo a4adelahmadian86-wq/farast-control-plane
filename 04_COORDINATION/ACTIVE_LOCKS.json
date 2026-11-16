@@ -1,89 +1,8 @@
 {
   "schema_version": "1.0",
-  "revision": 338,
+  "revision": 339,
   "next_fencing_token": 67,
-  "locks": [
-    {
-      "resource_key": "doc:.github/workflows/control-plane-validation.yml",
-      "issue_number": 47,
-      "task_id": "GH-47",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "master00-prompt-integration-worker",
-      "chat_id": "master00-prompt-integration-worker",
-      "run_id": "RUN-20261116-FINALIZE-002",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": "work/GH-47-RUN-20261116-FINALIZE-002",
-      "acquired_at_utc": "2026-11-16T11:44:42.040Z",
-      "heartbeat_at_utc": "2026-11-16T11:46:35.197Z",
-      "lease_expires_at_utc": "2026-11-16T12:16:35.197Z",
-      "fencing_token": 66,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "doc:05_prompt_library/farast_executable_prompts_complete.md",
-      "issue_number": 47,
-      "task_id": "GH-47",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "master00-prompt-integration-worker",
-      "chat_id": "master00-prompt-integration-worker",
-      "run_id": "RUN-20261116-FINALIZE-002",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": "work/GH-47-RUN-20261116-FINALIZE-002",
-      "acquired_at_utc": "2026-11-16T11:44:42.040Z",
-      "heartbeat_at_utc": "2026-11-16T11:46:35.197Z",
-      "lease_expires_at_utc": "2026-11-16T12:16:35.197Z",
-      "fencing_token": 66,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "module:coordinator-claim-routing",
-      "issue_number": 47,
-      "task_id": "GH-47",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "master00-prompt-integration-worker",
-      "chat_id": "master00-prompt-integration-worker",
-      "run_id": "RUN-20261116-FINALIZE-002",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": "work/GH-47-RUN-20261116-FINALIZE-002",
-      "acquired_at_utc": "2026-11-16T11:44:42.040Z",
-      "heartbeat_at_utc": "2026-11-16T11:46:35.197Z",
-      "lease_expires_at_utc": "2026-11-16T12:16:35.197Z",
-      "fencing_token": 66,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "module:prompt-library",
-      "issue_number": 47,
-      "task_id": "GH-47",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "master00-prompt-integration-worker",
-      "chat_id": "master00-prompt-integration-worker",
-      "run_id": "RUN-20261116-FINALIZE-002",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": "work/GH-47-RUN-20261116-FINALIZE-002",
-      "acquired_at_utc": "2026-11-16T11:44:42.040Z",
-      "heartbeat_at_utc": "2026-11-16T11:46:35.197Z",
-      "lease_expires_at_utc": "2026-11-16T12:16:35.197Z",
-      "fencing_token": 66,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "module:work-item-dispatch",
-      "issue_number": 47,
-      "task_id": "GH-47",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "master00-prompt-integration-worker",
-      "chat_id": "master00-prompt-integration-worker",
-      "run_id": "RUN-20261116-FINALIZE-002",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": "work/GH-47-RUN-20261116-FINALIZE-002",
-      "acquired_at_utc": "2026-11-16T11:44:42.040Z",
-      "heartbeat_at_utc": "2026-11-16T11:46:35.197Z",
-      "lease_expires_at_utc": "2026-11-16T12:16:35.197Z",
-      "fencing_token": 66,
-      "status": "ACTIVE"
-    }
-  ],
+  "locks": [],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -1710,6 +1629,17 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "lease_expires_at_utc": "2026-11-16T12:16:35.197Z",
       "at_utc": "2026-11-16T11:46:35.197Z"
+    },
+    {
+      "event": "REVIEW",
+      "issue_number": 47,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "master00-prompt-integration-worker",
+      "run_id": "RUN-20261116-FINALIZE-002",
+      "fencing_token": 66,
+      "branch": "work/GH-47-RUN-20261116-FINALIZE-002",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "at_utc": "2026-11-16T11:47:47.823Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -3117,6 +3047,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-16T11:46:35.203Z"
+    },
+    "6915544808": {
+      "response": "پیاده‌سازی برای بازبینی مستقل تحویل شد؛ این به معنی پذیرش نیست.",
+      "response_posted": false,
+      "issue_number": 47,
+      "actor": "a4adelahmadian86-wq",
+      "command": "review",
+      "next_status": "review",
+      "at_utc": "2026-11-16T11:47:47.870Z"
     }
   },
   "work_items": {
@@ -3815,7 +3754,7 @@
         "EXP-23",
         "EXP-26"
       ],
-      "status": "CLAIMED",
+      "status": "REVIEW_REQUIRED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "module:prompt-library",
