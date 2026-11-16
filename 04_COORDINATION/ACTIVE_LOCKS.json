@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 327,
+  "revision": 328,
   "next_fencing_token": 66,
   "locks": [],
   "history": [
@@ -2940,7 +2940,7 @@
     },
     "6914887042": {
       "response": "پیاده‌سازی برای بازبینی مستقل تحویل شد؛ این به معنی پذیرش نیست.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 47,
       "actor": "a4adelahmadian86-wq",
       "command": "review",
