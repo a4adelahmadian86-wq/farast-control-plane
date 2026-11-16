@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 410,
+  "revision": 411,
   "next_fencing_token": 71,
   "locks": [
     {
@@ -3892,6 +3892,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-16T12:39:45.678Z"
+    },
+    "6916647180": {
+      "response": "معیار پذیرش ثبت شد: AC_TESTS_CI; can_accept=false; progress=85.71%.",
+      "response_posted": false,
+      "issue_number": 52,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-16T12:39:52.938Z"
     }
   },
   "work_items": {
@@ -4910,7 +4919,14 @@
         },
         {
           "criterion_id": "AC_TESTS_CI",
-          "title": "Focused tests, schema/YAML/JavaScript checks and full control-plane CI pass on the exact stacked PR head"
+          "title": "Focused tests, schema/YAML/JavaScript checks and full control-plane CI pass on the exact stacked PR head",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/43868045242"
+          ],
+          "validated_at_utc": "2026-11-16T12:39:52.937Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_LIVE_SMOKE",
