@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 390,
+  "revision": 391,
   "next_fencing_token": 71,
   "locks": [
     {
@@ -3802,6 +3802,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-16T12:38:04.801Z"
+    },
+    "6916632307": {
+      "response": "STEP ثبت شد: S0_REPRODUCE; progress=14.28%; verified=1/7.",
+      "response_posted": false,
+      "issue_number": 52,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-16T12:38:27.150Z"
     }
   },
   "work_items": {
@@ -4660,7 +4669,7 @@
       "parent_exp_ids": [
         "EXP-22"
       ],
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "module:work-item-policy",
@@ -4684,7 +4693,14 @@
           "required": true,
           "weight": 1,
           "expected_output": "Evidence-backed failure reproduction and exact base SHA",
-          "evidence_requirement": "GitHub Actions run, Issue #51, source and PR links"
+          "evidence_requirement": "GitHub Actions run, Issue #51, source and PR links",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/43864606942"
+          ],
+          "validated_at_utc": "2026-11-16T12:38:27.022Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S1_DESIGN",
