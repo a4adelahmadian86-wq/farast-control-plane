@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 399,
+  "revision": 400,
   "next_fencing_token": 71,
   "locks": [
     {
@@ -3841,7 +3841,7 @@
     },
     "6916637332": {
       "response": "STEP ثبت شد: S4_FIX_TASK; progress=71.42%; verified=5/7.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 52,
       "actor": "a4adelahmadian86-wq",
       "command": "step",
