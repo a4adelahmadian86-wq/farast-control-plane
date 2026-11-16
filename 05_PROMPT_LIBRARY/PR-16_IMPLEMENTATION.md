@@ -42,10 +42,10 @@
 # PR-16 — اجرای تغییر کنترل‌شده و آزمون رگرسیون
 
 ## مأموریت
-فقط یک بسته تغییر تأییدشده را اجرا کن؛ ارزش موجود را حفظ کن و هر تغییر را با تست و rollback همراه ساز.
+فقط یک بسته تغییر مجاز و دارای scope را اجرا کن؛ ارزش موجود را حفظ کن و هر تغییر را با تست و rollback همراه ساز.
 
 ## شروط شروع
-- TASK دارای scope، acceptance criteria و approval معتبر است.
+- TASK دارای scope، acceptance criteria و write_policy معتبر است؛ مجوز نوشتن فقط از Work Item زنده و Claim معتبر می‌آید، نه از تأیید انسانی.
 - baseline و backup gate مناسب تکمیل شده.
 - منابع و فایل‌های درگیر قفل اتمیک معتبر و fencing token معتبر دارند؛ تداخل نامعلوم = توقف نوشتن.
 - branch اختصاصی و working tree تمیز/شناخته‌شده است.
@@ -55,17 +55,18 @@
 1. TASK موجود را بازیابی کن؛ branch و commit مبنا را ثبت کن.
 2. تست‌های پیش از تغییر را اجرا کن و baseline شکست‌ها را ثبت کن.
 3. کمترین تغییر لازم را پیاده کن؛ refactor نامرتبط ممنوع.
-4. migration سازگار و reversible طراحی کن؛ migration مخرب بدون تأیید ممنوع.
+4. migration سازگار و reversible طراحی کن؛ migration مخرب، تغییر داده برگشت‌ناپذیر و تغییر خارج از scope در این مأموریت ممنوع است؛ اگر لازم شد BLOCKED کن.
 5. تست unit/feature/integration/E2E/security مرتبط را اجرا کن؛ NOT_RUN را شفاف نگه دار.
 6. diff را از نظر scope creep، secret، data exposure، regression و کیفیت بازبینی کن.
 7. مستندات/release notes و rollback را به‌روز کن.
-8. PR بساز؛ ادغام/انتشار نکن.
+8. PR بساز و لینک آن را در Issue ثبت کن؛ سپس `/farast review chat=CHAT_ID run=RUN_ID token=FENCING_TOKEN` را برای handoff ثبت کن. این وضعیت صرفاً تحویل فنی است و به معنی Review انسانی نیست.
+9. پس از آزاد شدن Lease، وقتی Check Runها و Commit Statusهای SHA دقیق head همگی success شدند، خود worker فرمان `/farast accept pr=https://github.com/OWNER/REPO/pull/NUMBER` را اجرا کند. Coordinator پس از کنترل branch lineage، نبود Lease فعال و تمام معیارهای Work Item، PR را خودکار با expected head SHA ادغام و وضعیت را ثبت می‌کند. هیچ بازبین دوم، self-review یا تأیید دستی مالک لازم نیست.
 
 ## خروجی
-branch، PR، test report، risk/rollback note و checkpoint. معیار پذیرش: تمام criteria پوشش، تست‌های لازم گزارش، تغییر محدود و reviewable باشد. CI سبز به‌تنهایی پذیرش نیست.
+branch، PR، test report، risk/rollback note و checkpoint. معیار پذیرش: تمام criteria پوشش، تست‌های لازم گزارش، تغییر محدود و reviewable باشد. CI سبز روی SHA دقیق لازم است اما کافی نیست؛ تمام stepها، acceptance criteria، evidence و dependencyها نیز باید PASS باشند. پذیرش ماشینی از طریق `/farast accept` انجام می‌شود؛ تأیید انسانی مطالبه یا جعل نمی‌شود.
 
 ## پایان و تحویل
-پیش از پایان، checkpoint را با `04_COORDINATION/CHECKPOINT_TEMPLATE.md` ثبت کن؛ Issue و PR را به‌روز کن؛ TASK_INDEX و MASTER_STATUS را فقط بر اساس وضعیت اثبات‌شده به‌روزرسانی کن؛ قفل را فقط با فرمان `/farast release` و TASK_ID/RUN_ID/fencing_token خود آزاد کن؛ اگر ابزار لازم در دسترس نیست، وضعیت را مبهم ثبت کن و آزادسازی را ادعا نکن. وضعیت را DONE_VERIFIED نگذار مگر معیار پذیرش و شواهد معتبر کامل باشند. در صورت مانع، BLOCKED را با علت، شواهد و NEXT_ACTION ثبت کن.
+پیش از پایان، checkpoint را با `04_COORDINATION/CHECKPOINT_TEMPLATE.md` ثبت کن؛ Issue و PR را به‌روز کن؛ TASK_INDEX و MASTER_STATUS را فقط بر اساس وضعیت اثبات‌شده به‌روزرسانی کن؛ قفل را فقط با فرمان `/farast release` و TASK_ID/RUN_ID/fencing_token خود آزاد کن؛ اگر ابزار لازم در دسترس نیست، وضعیت را مبهم ثبت کن و آزادسازی را ادعا نکن. وضعیت را DONE_VERIFIED نگذار مگر معیار پذیرش و شواهد معتبر کامل باشند. در صورت مانع، BLOCKED را با علت، شواهد و NEXT_ACTION ثبت کن. هیچ مرحله‌ای را برای گرفتن تأیید انسانی متوقف نکن؛ گیت ماشینی ناموفق یا نامعلوم باید fail-closed بماند.
 
 
 ## دروازه اجباری هماهنگی چندچتی
