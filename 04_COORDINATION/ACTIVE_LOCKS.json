@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 631,
+  "revision": 632,
   "next_fencing_token": 77,
   "locks": [
     {
@@ -2882,6 +2882,15 @@
       "previous_run_id": null,
       "fencing_token": 76,
       "at_utc": "2026-11-16T21:12:34.708Z"
+    },
+    {
+      "event": "WORK_ITEM_REFRESHED",
+      "issue_number": 13,
+      "work_item_id": "WI-EXP01-BASELINE-001",
+      "actor": "a4adelahmadian86-wq",
+      "preserved_steps": 0,
+      "preserved_criteria": 0,
+      "at_utc": "2026-11-16T21:14:22.224Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -5603,6 +5612,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-16T21:12:54.656Z"
+    },
+    "6897721275": {
+      "response": "Work Item specification refreshed from Issue body; preserved_steps=0; preserved_criteria=0; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%.",
+      "response_posted": false,
+      "issue_number": 13,
+      "actor": "a4adelahmadian86-wq",
+      "command": "refresh",
+      "next_status": "ready",
+      "at_utc": "2026-11-16T21:14:22.224Z"
     }
   },
   "work_items": {
@@ -5886,42 +5904,133 @@
       "parent_exp_ids": [
         "EXP-01"
       ],
-      "status": "BLOCKED",
+      "status": "READY",
       "target_repository": "a4adelahmadian86-wq/non",
       "resource_keys": [
         "analysis:exp-01"
       ],
       "dependencies": [],
+      "effort_estimate_minutes": 25,
+      "effort_rationale": "Focused discovery, cross-check, risk analysis, artifact preparation and read-back; 25 minutes is an estimate, not a forced delay.",
+      "depth_profile": {
+        "profile_version": "2.0.0",
+        "min_substantive_steps": 7,
+        "min_acceptance_criteria": 5,
+        "min_deliverables": 4,
+        "target_effort_minutes": 25
+      },
       "steps": [
         {
           "step_id": "S0_GATE",
-          "title": "Resolve applicable hard-gate dependencies from DEPENDENCY_GRAPH with evidence; if direction or status is unclear, block before continuing"
+          "title": "Resolve hard/soft dependency direction and gate semantics",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Evidence-backed dependency decision or explicit BLOCKED verdict with next action",
+          "evidence_requirement": "Exact dependency graph and relevant Issue/decision URLs; unresolved contradiction must be recorded as BLOCKED",
+          "estimate_minutes": 3
         },
         {
           "step_id": "S1_DISCOVER",
-          "title": "Inventory current repository default branch, active branches, latest commits, deployment environments, runtime versions and dependency manifests."
+          "title": "Capture separate live snapshots of product and control-plane repositories",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Repository snapshot matrix with default branches, HEAD SHAs, branches, PRs, commits, workflows and CI",
+          "evidence_requirement": "Direct GitHub refs/URLs and UTC observation time for both repositories",
+          "estimate_minutes": 4
         },
         {
-          "step_id": "S2_VALIDATE",
-          "title": "Cross-check version and branch facts against live GitHub refs, manifests and available deployment evidence; record any unavailable environment as UNKNOWN."
+          "step_id": "S2_ENVIRONMENT",
+          "title": "Inventory runtime, framework, dependency manifests and evidenced environments",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Runtime/dependency inventory and environment evidence matrix",
+          "evidence_requirement": "Exact manifest, lockfile, workflow or deployment evidence; unsupported values marked UNKNOWN",
+          "estimate_minutes": 4
         },
         {
-          "step_id": "S3_REPORT",
-          "title": "A baseline register with exact SHAs, branch names, environment facts, dependency versions, drift and unknowns."
+          "step_id": "S3_VALIDATE",
+          "title": "Cross-check repository facts, version claims and release evidence",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Discrepancy and version-drift matrix",
+          "evidence_requirement": "At least two relevant source types where available, with exact refs/SHAs",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S4_RISK_REGISTER",
+          "title": "Classify unknowns, conflicts, failed checks and operational risks",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Known-unknown and risk register with confidence and next evidence needed",
+          "evidence_requirement": "Every finding linked to a source or explicitly marked as unavailable/UNKNOWN",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S5_REPORT",
+          "title": "Prepare baseline report, machine-readable facts and environment/release map",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Four deliverables D1-D4 recorded in the Issue thread or authorized control-plane artifact location",
+          "evidence_requirement": "Direct URLs to all artifacts; no writes to the product repository",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S6_VERIFY",
+          "title": "Read back artifacts, validate JSON and prove product repository remained unchanged",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Read-back verification record and READY/BLOCKED verdict with exact next action",
+          "evidence_requirement": "Artifact URLs, JSON validation result, and before/after product refs/SHAs",
+          "estimate_minutes": 3
         }
       ],
       "acceptance_criteria": [
         {
-          "criterion_id": "AC_EVIDENCE",
-          "title": "Every factual conclusion has a direct GitHub source, test or runtime evidence reference"
+          "criterion_id": "AC_GATE",
+          "title": "Hard/soft dependency semantics are resolved with evidence or the task is explicitly BLOCKED before dependent work",
+          "evidence_requirement": "Dependency graph and authoritative decision/Issue references; no unsupported PASS"
         },
         {
-          "criterion_id": "AC_UNKNOWNS",
-          "title": "Unknowns, limitations, failed checks and unresolved dependencies are explicit; no unsupported assumptions"
+          "criterion_id": "AC_EVIDENCE",
+          "title": "Every factual conclusion has a direct, reproducible source reference and UTC observation time",
+          "evidence_requirement": "Source URLs, paths, refs/SHAs and observation timestamps"
+        },
+        {
+          "criterion_id": "AC_OUTPUT",
+          "title": "All four baseline deliverables exist and have been read back",
+          "evidence_requirement": "Direct links to report, facts JSON, environment/release map and unknown/risk register"
+        },
+        {
+          "criterion_id": "AC_UNKNOWN",
+          "title": "Unknowns, inaccessible sources, failed checks, conflicts and version drift are explicit; no guessing",
+          "evidence_requirement": "Known-unknown register with status, confidence, impact and next action"
         },
         {
           "criterion_id": "AC_READONLY",
-          "title": "No file, branch, PR or production data is modified in the NON product repository"
+          "title": "Product repository remains unchanged throughout the task",
+          "evidence_requirement": "Before/after branch and HEAD SHA comparison; no product file, branch, PR, CI setting or data mutation"
+        }
+      ],
+      "deliverables": [
+        {
+          "deliverable_id": "D1",
+          "description": "Baseline report and repository snapshot matrix",
+          "evidence_requirement": "Direct Issue-thread or authorized control-plane artifact URL and read-back"
+        },
+        {
+          "deliverable_id": "D2",
+          "description": "Machine-readable baseline facts JSON",
+          "evidence_requirement": "Direct URL plus successful JSON validation/read-back"
+        },
+        {
+          "deliverable_id": "D3",
+          "description": "Environment and release map",
+          "evidence_requirement": "Direct URL and source links for every asserted environment/transition"
+        },
+        {
+          "deliverable_id": "D4",
+          "description": "Known-unknown, discrepancy and risk register",
+          "evidence_requirement": "Direct URL and evidence/UNKNOWN classification for every entry"
         }
       ],
       "priority": 50,
