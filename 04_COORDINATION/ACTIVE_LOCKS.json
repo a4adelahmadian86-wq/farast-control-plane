@@ -1,8 +1,25 @@
 {
   "schema_version": "1.0",
-  "revision": 420,
-  "next_fencing_token": 71,
-  "locks": [],
+  "revision": 421,
+  "next_fencing_token": 72,
+  "locks": [
+    {
+      "resource_key": "analysis:exp-22",
+      "issue_number": 34,
+      "task_id": "GH-34",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-PR16-20261116-01",
+      "chat_id": "CHAT-PR16-20261116-01",
+      "run_id": "RUN-20261116-PR16-EXP22-001",
+      "target_repository": "a4adelahmadian86-wq/non",
+      "branch": null,
+      "acquired_at_utc": "2026-11-16T17:02:59.016Z",
+      "heartbeat_at_utc": "2026-11-16T17:02:59.016Z",
+      "lease_expires_at_utc": "2026-11-16T17:32:59.016Z",
+      "fencing_token": 71,
+      "status": "ACTIVE"
+    }
+  ],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -1991,6 +2008,23 @@
       "branch": "work/GH-52-RUN-20261116-NON-WRITE-POLICY-IMPLEMENTATION-001",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "at_utc": "2026-11-16T12:42:14.876Z"
+    },
+    {
+      "event": "ACQUIRED",
+      "issue_number": 34,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-PR16-20261116-01",
+      "run_id": "RUN-20261116-PR16-EXP22-001",
+      "resource_keys": [
+        "analysis:exp-22"
+      ],
+      "target_repository": "a4adelahmadian86-wq/non",
+      "branch": null,
+      "previous_branch": null,
+      "previous_target_repository": null,
+      "previous_run_id": null,
+      "fencing_token": 71,
+      "at_utc": "2026-11-16T17:02:59.016Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -3767,6 +3801,15 @@
       "command": "block",
       "next_status": "blocked",
       "at_utc": "2026-11-16T12:42:14.883Z"
+    },
+    "6923249490": {
+      "response": "CLAIM GRANTED. TASK=GH-34; WORK_ITEM_ID=WI-EXP22-CONTROLLED-IMPLEMENTATION-001; verified_steps=; remaining_steps=S1_DISCOVER,S2_MAP,S3_ANALYZE,S4_CROSSCHECK,S5_ASSESS,S6_REPORT,S7_VERIFY; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; actor=@a4adelahmadian86-wq; chat=CHAT-PR16-20261116-01; run=RUN-20261116-PR16-EXP22-001; resource_keys=analysis:exp-22; target_repository=a4adelahmadian86-wq/non; write_policy=READ_ONLY; branch=none; previous_run=none; fencing_token=71; lease_expires=2026-11-16T17:32:59.016Z. این Work Item با سیاست READ_ONLY است؛ در target_repository هیچ branch، file، commit یا PR ایجاد/تغییر نده. شواهد را فقط در Issue thread یا محل مجاز control-plane ثبت کن؛ برای WRITE_REQUIRES_OWNER_APPROVAL فقط proposal ارائه بده.",
+      "response_posted": false,
+      "issue_number": 34,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "locked",
+      "at_utc": "2026-11-16T17:02:59.052Z"
     }
   },
   "work_items": {
@@ -4090,6 +4133,140 @@
       ],
       "priority": 50,
       "created_at_utc": "2026-11-14T17:25:15.652Z"
+    },
+    "34": {
+      "schema_version": "1.0",
+      "write_policy": "READ_ONLY",
+      "priority_source": "DEFAULT_POLICY",
+      "work_item_id": "WI-EXP22-CONTROLLED-IMPLEMENTATION-001",
+      "title": "EXP-22 Controlled implementation readiness and proposal",
+      "parent_goal_ids": [
+        "G-00"
+      ],
+      "parent_exp_ids": [
+        "EXP-22"
+      ],
+      "status": "CLAIMED",
+      "target_repository": "a4adelahmadian86-wq/non",
+      "resource_keys": [
+        "analysis:exp-22"
+      ],
+      "dependencies": [],
+      "steps": [
+        {
+          "step_id": "S1_DISCOVER",
+          "title": "انتخاب بسته تغییر مصوب و بررسی approval معتبر و current.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "خروجی قابل بازبینی برای مرحله: انتخاب بسته تغییر مصوب و بررسی approval معتبر و current.",
+          "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S2_MAP",
+          "title": "بررسی hard/soft dependencies و اثبات رفع gateها از منبع زنده.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "خروجی قابل بازبینی برای مرحله: بررسی hard/soft dependencies و اثبات رفع gateها از منبع زنده.",
+          "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S3_ANALYZE",
+          "title": "تأیید branch، commit base، resource keys، write policy و محدوده مجاز.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "خروجی قابل بازبینی برای مرحله: تأیید branch، commit base، resource keys، write policy و محدوده مجاز.",
+          "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S4_CROSSCHECK",
+          "title": "تعریف pre-change snapshot، backup/rollback و stop conditions.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "خروجی قابل بازبینی برای مرحله: تعریف pre-change snapshot، backup/rollback و stop conditions.",
+          "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S5_ASSESS",
+          "title": "بررسی test coverage و قابلیت بازگشت قبل از هر write.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "خروجی قابل بازبینی برای مرحله: بررسی test coverage و قابلیت بازگشت قبل از هر write.",
+          "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S6_REPORT",
+          "title": "تهیه اجرای مرحله‌ای، تقسیم کار و برنامه verification مستقل.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "خروجی قابل بازبینی برای مرحله: تهیه اجرای مرحله‌ای، تقسیم کار و برنامه verification مستقل.",
+          "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S7_VERIFY",
+          "title": "صدور readiness verdict: READY/BLOCKED با شواهد و اقدام بعدی.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "خروجی قابل بازبینی برای مرحله: صدور readiness verdict: READY/BLOCKED با شواهد و اقدام بعدی.",
+          "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
+          "estimate_minutes": 4
+        }
+      ],
+      "acceptance_criteria": [
+        {
+          "criterion_id": "AC_SCOPE",
+          "title": "تمام 7 مرحله تخصصی EXP-22 اجرا یا با blocker مستند متوقف شده‌اند",
+          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion."
+        },
+        {
+          "criterion_id": "AC_EVIDENCE",
+          "title": "تمام ادعاهای factual دارای evidence ref مستقیم و قابل بازبینی هستند",
+          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion."
+        },
+        {
+          "criterion_id": "AC_OUTPUT",
+          "title": "خروجی‌های تخصصی EXP-22 تولید و read-back شده‌اند: implementation readiness dossier، dependency proof، execution/rollback plan.",
+          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion."
+        },
+        {
+          "criterion_id": "AC_ACCEPTANCE",
+          "title": "approval معتبر؛ همه gateها evidence-backed؛ branch/base قابل اثبات؛ هیچ write بدون مجوز.",
+          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion."
+        }
+      ],
+      "priority": 50,
+      "created_at_utc": "2026-11-14T17:26:47.012Z",
+      "effort_estimate_minutes": 25,
+      "effort_rationale": "حدود ۲۵ دقیقه کار تخصصی شامل discovery، cross-check، تحلیل، تولید artifact و read-back؛ زمان واقعی ثبت شود و کار مصنوعی ممنوع است.",
+      "depth_profile": {
+        "profile_version": "2.0.0",
+        "min_substantive_steps": 6,
+        "min_acceptance_criteria": 4,
+        "min_deliverables": 3,
+        "target_effort_minutes": 25
+      },
+      "deliverables": [
+        {
+          "deliverable_id": "D1",
+          "description": "implementation readiness dossier",
+          "evidence_requirement": "مسیر فایل یا URL GitHub به خروجی و read-back آن"
+        },
+        {
+          "deliverable_id": "D2",
+          "description": "dependency proof",
+          "evidence_requirement": "مسیر فایل یا URL GitHub به خروجی و read-back آن"
+        },
+        {
+          "deliverable_id": "D3",
+          "description": "execution/rollback plan.",
+          "evidence_requirement": "مسیر فایل یا URL GitHub به خروجی و read-back آن"
+        }
+      ]
     },
     "43": {
       "schema_version": "1.0",
