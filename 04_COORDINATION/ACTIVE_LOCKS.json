@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 494,
+  "revision": 495,
   "next_fencing_token": 74,
   "locks": [
     {
@@ -4447,6 +4447,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-16T18:01:33.876Z"
+    },
+    "6924687582": {
+      "response": "STEP ثبت شد: S0_DISCOVER; EXECUTION_PROGRESS=14.28%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=1/7.",
+      "response_posted": false,
+      "issue_number": 58,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-16T18:02:06.720Z"
     }
   },
   "work_items": {
@@ -5745,7 +5754,7 @@
         "EXP-22",
         "EXP-23"
       ],
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "issue:51",
@@ -5769,7 +5778,14 @@
           "weight": 1,
           "expected_output": "Exact source-backed diagnosis of the schema rejection",
           "evidence_requirement": "Main source/schema URLs, issue URLs and failed Actions run URL",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/58#issuecomment-6924672242"
+          ],
+          "validated_at_utc": "2026-11-16T18:02:06.714Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S1_AUDIT",
