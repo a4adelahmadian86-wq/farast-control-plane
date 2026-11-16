@@ -86,7 +86,7 @@
 سیاست فعال در `04_COORDINATION/ACTOR_AUTHORIZATION.json` اعمال می‌شود: OWNER همه فرمان‌ها را دارد؛ COLLABORATOR/MEMBER به‌صورت پیش‌فرض نقش WORKER می‌گیرند (claim/heartbeat/release/status/block/review) و حق unblock/reopen/accept ندارند. نقش SENIOR_MANAGER تمام فرمان‌ها را فقط پس از درج دقیق GitHub login در `actor_roles` و تعیین دقیق `repositories` و `resource_key_prefixes` در `actor_scopes`، با تأیید مالک دریافت می‌کند؛ خارج از آن scope فرمان رد می‌شود. READ_ONLY فقط status دارد. `actor_roles` فعلاً خالی است؛ بنابراین هیچ مدیر ارشدی به‌صورت حدسی مجاز نشده است. تغییر این فایل باید از PR و با تأیید مالک انجام شود.
 
 
-**Write policy:** Work Itemهای مخزن محصول `non` باید `READ_ONLY` باشند؛ هیچ تغییر فایل یا PR در آن مخزن بدون مجوز صریح جداگانه مالک مجاز نیست. `priority_source=DEFAULT_POLICY` اولویت برابر و FIFO/aging را نشان می‌دهد، نه رتبه‌بندی مالک.
+**Write policy:** Work Itemهای مخزن محصول `non` به‌صورت پیش‌فرض `READ_ONLY` هستند. تنها استثنا، Work Itemی است که Issue آن را repository owner ساخته، `write_policy=WRITE_ALLOWED` دارد، `owner_approval_ref` دقیقاً URL همان Issue است و بدنه Issue تصمیم صریح مالک را ثبت می‌کند؛ این استثنا فقط همان Issue را پوشش می‌دهد و هیچ Work Item قدیمی خودکار ارتقا نمی‌یابد. `priority_source=DEFAULT_POLICY` اولویت برابر و FIFO/aging را نشان می‌دهد، نه رتبه‌بندی مالک.
 
 
 **ساخت برگ جدید:** فقط پس از جست‌وجوی Issueهای موجود و claim موفق allocator با `WORK_ITEM_ID=WI-GOAL-ALLOCATOR-001` می‌توان Work Itemهای جدید را ایجاد کرد. این قفل مانع ایجاد برگ‌های تکراری توسط چند چت هم‌زمان می‌شود.
@@ -101,7 +101,7 @@
 - schedule: run `43726463983` موفق
 - registry revision 113، بدون lease فعال.
 
-این شواهد اجرای زنده single-account را تأیید می‌کنند، نه E2E دو حساب مستقل. branch protection شاخه main فعال نیست؛ تا ثبت آزمون دوحسابی و اعمال/read-back حفاظت لازم، MASTER-00 برای شروع کارهای مجاز READ_ONLY قابل استفاده است، اما چندحسابی را VERIFIED تلقی نکنید. مخزن محصول `non` همچنان READ_ONLY است.
+این شواهد اجرای زنده single-account را تأیید می‌کنند، نه E2E دو حساب مستقل. branch protection شاخه main فعال نیست؛ تا ثبت آزمون دوحسابی و اعمال/read-back حفاظت لازم، MASTER-00 برای شروع کارهای مجاز READ_ONLY قابل استفاده است، اما چندحسابی را VERIFIED تلقی نکنید. مخزن محصول `non` به‌صورت پیش‌فرض READ_ONLY است؛ Issue #51 تنها استثنای صریح owner-approved با WRITE_ALLOWED و owner_approval_ref است.
 
 
 ## ساختار مأموریت‌ها و عمق اجرای هر پرامپت (نسخه 2.0)
