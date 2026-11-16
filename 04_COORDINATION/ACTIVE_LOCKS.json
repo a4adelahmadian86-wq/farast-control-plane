@@ -1,8 +1,89 @@
 {
   "schema_version": "1.0",
-  "revision": 298,
-  "next_fencing_token": 65,
-  "locks": [],
+  "revision": 299,
+  "next_fencing_token": 66,
+  "locks": [
+    {
+      "resource_key": "doc:.github/workflows/control-plane-validation.yml",
+      "issue_number": 47,
+      "task_id": "GH-47",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "master00-prompt-integration-worker",
+      "chat_id": "master00-prompt-integration-worker",
+      "run_id": "RUN-20261116-INTEGRATE-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-47-RUN-20261116-INTEGRATE-001",
+      "acquired_at_utc": "2026-11-16T10:59:14.178Z",
+      "heartbeat_at_utc": "2026-11-16T10:59:14.178Z",
+      "lease_expires_at_utc": "2026-11-16T11:29:14.178Z",
+      "fencing_token": 65,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "doc:05_prompt_library/farast_executable_prompts_complete.md",
+      "issue_number": 47,
+      "task_id": "GH-47",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "master00-prompt-integration-worker",
+      "chat_id": "master00-prompt-integration-worker",
+      "run_id": "RUN-20261116-INTEGRATE-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-47-RUN-20261116-INTEGRATE-001",
+      "acquired_at_utc": "2026-11-16T10:59:14.178Z",
+      "heartbeat_at_utc": "2026-11-16T10:59:14.178Z",
+      "lease_expires_at_utc": "2026-11-16T11:29:14.178Z",
+      "fencing_token": 65,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "module:coordinator-claim-routing",
+      "issue_number": 47,
+      "task_id": "GH-47",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "master00-prompt-integration-worker",
+      "chat_id": "master00-prompt-integration-worker",
+      "run_id": "RUN-20261116-INTEGRATE-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-47-RUN-20261116-INTEGRATE-001",
+      "acquired_at_utc": "2026-11-16T10:59:14.178Z",
+      "heartbeat_at_utc": "2026-11-16T10:59:14.178Z",
+      "lease_expires_at_utc": "2026-11-16T11:29:14.178Z",
+      "fencing_token": 65,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "module:prompt-library",
+      "issue_number": 47,
+      "task_id": "GH-47",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "master00-prompt-integration-worker",
+      "chat_id": "master00-prompt-integration-worker",
+      "run_id": "RUN-20261116-INTEGRATE-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-47-RUN-20261116-INTEGRATE-001",
+      "acquired_at_utc": "2026-11-16T10:59:14.178Z",
+      "heartbeat_at_utc": "2026-11-16T10:59:14.178Z",
+      "lease_expires_at_utc": "2026-11-16T11:29:14.178Z",
+      "fencing_token": 65,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "module:work-item-dispatch",
+      "issue_number": 47,
+      "task_id": "GH-47",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "master00-prompt-integration-worker",
+      "chat_id": "master00-prompt-integration-worker",
+      "run_id": "RUN-20261116-INTEGRATE-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-47-RUN-20261116-INTEGRATE-001",
+      "acquired_at_utc": "2026-11-16T10:59:14.178Z",
+      "heartbeat_at_utc": "2026-11-16T10:59:14.178Z",
+      "lease_expires_at_utc": "2026-11-16T11:29:14.178Z",
+      "fencing_token": 65,
+      "status": "ACTIVE"
+    }
+  ],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -1480,6 +1561,27 @@
       "branch": "work/GH-11-RUN-20261116-PROMPT-INTEGRATION-01",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "at_utc": "2026-11-16T10:57:43.244Z"
+    },
+    {
+      "event": "ACQUIRED",
+      "issue_number": 47,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "master00-prompt-integration-worker",
+      "run_id": "RUN-20261116-INTEGRATE-001",
+      "resource_keys": [
+        "doc:.github/workflows/control-plane-validation.yml",
+        "doc:05_prompt_library/farast_executable_prompts_complete.md",
+        "module:coordinator-claim-routing",
+        "module:prompt-library",
+        "module:work-item-dispatch"
+      ],
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-47-RUN-20261116-INTEGRATE-001",
+      "previous_branch": null,
+      "previous_target_repository": null,
+      "previous_run_id": null,
+      "fencing_token": 65,
+      "at_utc": "2026-11-16T10:59:14.178Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -2707,6 +2809,15 @@
       "command": "release",
       "next_status": "ready",
       "at_utc": "2026-11-16T10:57:43.247Z"
+    },
+    "6914487758": {
+      "response": "CLAIM GRANTED. TASK=GH-47; WORK_ITEM_ID=WI-PROMPT-INTEGRATION-001; verified_steps=; remaining_steps=S0_AUDIT,S1_MERGE_PLAN,S2_DEEP_STANDARD,S3_WRITE_POLICY,S4_AUTO_SELECTION,S5_BUNDLE_TESTS,S6_VERIFY_HANDOFF; progress=0%; actor=@a4adelahmadian86-wq; chat=master00-prompt-integration-worker; run=RUN-20261116-INTEGRATE-001; resource_keys=doc:.github/workflows/control-plane-validation.yml,doc:05_prompt_library/farast_executable_prompts_complete.md,module:coordinator-claim-routing,module:prompt-library,module:work-item-dispatch; target_repository=a4adelahmadian86-wq/farast-control-plane; branch=work/GH-47-RUN-20261116-INTEGRATE-001; previous_run=none; fencing_token=65; lease_expires=2026-11-16T11:29:14.178Z. پیش از هر write و checkpoint، heartbeat را تمدید و token را بررسی کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز؛ هرگز branch قبلی را تغییر نده.",
+      "response_posted": false,
+      "issue_number": 47,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "locked",
+      "at_utc": "2026-11-16T10:59:14.387Z"
     }
   },
   "work_items": {
@@ -3390,6 +3501,104 @@
       "weighting": {
         "version": "1.0"
       }
+    },
+    "47": {
+      "schema_version": "1.0",
+      "write_policy": "WRITE_ALLOWED",
+      "priority_source": "OWNER_ASSIGNED",
+      "work_item_id": "WI-PROMPT-INTEGRATION-001",
+      "title": "Integrate the deep 17-prompt/27-work-item standard with READ_ONLY-safe routing and autonomous multi-chat task selection",
+      "parent_goal_ids": [
+        "G-09"
+      ],
+      "parent_exp_ids": [
+        "EXP-21",
+        "EXP-23",
+        "EXP-26"
+      ],
+      "status": "CLAIMED",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "resource_keys": [
+        "module:prompt-library",
+        "module:coordinator-claim-routing",
+        "module:work-item-dispatch",
+        "doc:05_PROMPT_LIBRARY/FARAST_EXECUTABLE_PROMPTS_COMPLETE.md",
+        "doc:.github/workflows/control-plane-validation.yml"
+      ],
+      "dependencies": [],
+      "source_pull_requests": [
+        "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/42",
+        "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/45",
+        "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/46"
+      ],
+      "steps": [
+        {
+          "step_id": "S0_AUDIT",
+          "title": "Read back the exact heads, diffs, changed paths, CI evidence and current main for PRs 42, 45 and 46; map all overlapping files and incompatible instructions",
+          "required": true,
+          "weight": 1
+        },
+        {
+          "step_id": "S1_MERGE_PLAN",
+          "title": "Define a deterministic additive integration plan that preserves the complete 17 specialist prompts and 27 Work Items while resolving READ_ONLY routing and automatic queue selection conflicts",
+          "required": true,
+          "weight": 1
+        },
+        {
+          "step_id": "S2_DEEP_STANDARD",
+          "title": "Preserve and integrate the full deep execution contract across MASTER-00, all 17 specialist prompts, 27 Work Item definitions, seven-stage execution and five acceptance criteria per Work Item",
+          "required": true,
+          "weight": 1
+        },
+        {
+          "step_id": "S3_WRITE_POLICY",
+          "title": "Apply fail-closed write-policy-aware routing so READ_ONLY creates no target branch or product write, WRITE_ALLOWED uses only the authorized control-plane branch, and owner-approval work remains blocked",
+          "required": true,
+          "weight": 1
+        },
+        {
+          "step_id": "S4_AUTO_SELECTION",
+          "title": "Integrate deterministic scope-filtered Work Item selection, hard_gates, soft_inputs, active-lease/resource conflict avoidance, resume-first behavior, priority aging and candidate fallback",
+          "required": true,
+          "weight": 1
+        },
+        {
+          "step_id": "S5_BUNDLE_TESTS",
+          "title": "Synchronize the executable prompt bundle and all entrypoint documentation; add or reconcile regression and prompt-contract tests for all 17 prompts, 27 Work Items and policy/dispatch invariants",
+          "required": true,
+          "weight": 1
+        },
+        {
+          "step_id": "S6_VERIFY_HANDOFF",
+          "title": "Run the complete validation suite on the final integration head, inspect the exact diff and CI, create a review-ready PR, and record remaining independent-review and two-account E2E limitations without merging",
+          "required": true,
+          "weight": 1
+        }
+      ],
+      "acceptance_criteria": [
+        {
+          "criterion_id": "AC_DEEP_COVERAGE",
+          "title": "All 17 specialist prompts and 27 Work Items retain the full deep standard, seven ordered execution stages, five acceptance criteria and evidence requirements"
+        },
+        {
+          "criterion_id": "AC_READONLY_ISOLATION",
+          "title": "READ_ONLY work creates no branch, commit, PR or mutation in its target repository; invalid or conflicting policies fail closed"
+        },
+        {
+          "criterion_id": "AC_AUTONOMOUS_SELECTION",
+          "title": "A pasted specialist prompt selects and resumes the next eligible scoped Work Item without asking the owner for an Issue number, while respecting hard_gates, soft_inputs, leases, resource conflicts and deterministic fairness"
+        },
+        {
+          "criterion_id": "AC_BUNDLE_CONSISTENCY",
+          "title": "MASTER-00, all specialist prompt files, catalog, executable bundle, usage guide and CI contract checks are synchronized with no stale or contradictory instructions"
+        },
+        {
+          "criterion_id": "AC_VERIFIED_HANDOFF",
+          "title": "All relevant tests and CI pass on the exact final PR head; independent review is still required before merge, and two-account/two-session E2E is not claimed unless actually executed"
+        }
+      ],
+      "priority": 5,
+      "created_at_utc": "2026-11-16T10:56:00Z"
     }
   },
   "checkpoints": {
