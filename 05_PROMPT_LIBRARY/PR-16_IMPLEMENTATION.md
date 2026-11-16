@@ -45,6 +45,7 @@
 فقط یک بسته تغییر مجاز و دارای scope را اجرا کن؛ ارزش موجود را حفظ کن و هر تغییر را با تست و rollback همراه ساز.
 
 ## شروط شروع
+- برای Work Item مخزن محصول `a4adelahmadian86-wq/non`، Coordinator برای بررسی Check Runها/Commit Statusها و ادغام خودکار PR به Secret `FARAST_GITHUB_TOKEN` با دسترسی `checks:read`، `statuses:read` و `pull_requests:write` روی مخزن `non` نیاز دارد. اگر این دسترسی در دسترس نیست، PR را نساز/ادغام نکن و Work Item را BLOCKED با علت دقیق نگه دار؛ ادغام دستی یا دور زدن گیت مجاز نیست.
 - TASK دارای scope، acceptance criteria و write_policy معتبر است؛ مجوز نوشتن فقط از Work Item زنده و Claim معتبر می‌آید، نه از تأیید انسانی.
 - baseline و backup gate مناسب تکمیل شده.
 - منابع و فایل‌های درگیر قفل اتمیک معتبر و fencing token معتبر دارند؛ تداخل نامعلوم = توقف نوشتن.
