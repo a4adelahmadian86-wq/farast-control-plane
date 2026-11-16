@@ -1,8 +1,201 @@
 {
   "schema_version": "1.0",
-  "revision": 364,
-  "next_fencing_token": 70,
-  "locks": [],
+  "revision": 365,
+  "next_fencing_token": 71,
+  "locks": [
+    {
+      "resource_key": "file:.github/scripts/work-item-core.js",
+      "issue_number": 52,
+      "task_id": "GH-52",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "owner-write-policy-remediation-worker",
+      "chat_id": "owner-write-policy-remediation-worker",
+      "run_id": "RUN-20261116-NON-WRITE-POLICY-IMPLEMENTATION-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-52-RUN-20261116-NON-WRITE-POLICY-IMPLEMENTATION-001",
+      "acquired_at_utc": "2026-11-16T12:19:50.803Z",
+      "heartbeat_at_utc": "2026-11-16T12:19:50.803Z",
+      "lease_expires_at_utc": "2026-11-16T12:49:50.803Z",
+      "fencing_token": 70,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "file:.github/scripts/work-item-core.test.js",
+      "issue_number": 52,
+      "task_id": "GH-52",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "owner-write-policy-remediation-worker",
+      "chat_id": "owner-write-policy-remediation-worker",
+      "run_id": "RUN-20261116-NON-WRITE-POLICY-IMPLEMENTATION-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-52-RUN-20261116-NON-WRITE-POLICY-IMPLEMENTATION-001",
+      "acquired_at_utc": "2026-11-16T12:19:50.803Z",
+      "heartbeat_at_utc": "2026-11-16T12:19:50.803Z",
+      "lease_expires_at_utc": "2026-11-16T12:49:50.803Z",
+      "fencing_token": 70,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "file:.github/workflows/control-plane-validation.yml",
+      "issue_number": 52,
+      "task_id": "GH-52",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "owner-write-policy-remediation-worker",
+      "chat_id": "owner-write-policy-remediation-worker",
+      "run_id": "RUN-20261116-NON-WRITE-POLICY-IMPLEMENTATION-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-52-RUN-20261116-NON-WRITE-POLICY-IMPLEMENTATION-001",
+      "acquired_at_utc": "2026-11-16T12:19:50.803Z",
+      "heartbeat_at_utc": "2026-11-16T12:19:50.803Z",
+      "lease_expires_at_utc": "2026-11-16T12:49:50.803Z",
+      "fencing_token": 70,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "file:.github/workflows/farast-coordinator.yml",
+      "issue_number": 52,
+      "task_id": "GH-52",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "owner-write-policy-remediation-worker",
+      "chat_id": "owner-write-policy-remediation-worker",
+      "run_id": "RUN-20261116-NON-WRITE-POLICY-IMPLEMENTATION-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-52-RUN-20261116-NON-WRITE-POLICY-IMPLEMENTATION-001",
+      "acquired_at_utc": "2026-11-16T12:19:50.803Z",
+      "heartbeat_at_utc": "2026-11-16T12:19:50.803Z",
+      "lease_expires_at_utc": "2026-11-16T12:49:50.803Z",
+      "fencing_token": 70,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "file:04_coordination/coordinator_commands.md",
+      "issue_number": 52,
+      "task_id": "GH-52",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "owner-write-policy-remediation-worker",
+      "chat_id": "owner-write-policy-remediation-worker",
+      "run_id": "RUN-20261116-NON-WRITE-POLICY-IMPLEMENTATION-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-52-RUN-20261116-NON-WRITE-POLICY-IMPLEMENTATION-001",
+      "acquired_at_utc": "2026-11-16T12:19:50.803Z",
+      "heartbeat_at_utc": "2026-11-16T12:19:50.803Z",
+      "lease_expires_at_utc": "2026-11-16T12:49:50.803Z",
+      "fencing_token": 70,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "file:04_coordination/work_item_execution_protocol.md",
+      "issue_number": 52,
+      "task_id": "GH-52",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "owner-write-policy-remediation-worker",
+      "chat_id": "owner-write-policy-remediation-worker",
+      "run_id": "RUN-20261116-NON-WRITE-POLICY-IMPLEMENTATION-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-52-RUN-20261116-NON-WRITE-POLICY-IMPLEMENTATION-001",
+      "acquired_at_utc": "2026-11-16T12:19:50.803Z",
+      "heartbeat_at_utc": "2026-11-16T12:19:50.803Z",
+      "lease_expires_at_utc": "2026-11-16T12:49:50.803Z",
+      "fencing_token": 70,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "file:04_coordination/work_item_schema.json",
+      "issue_number": 52,
+      "task_id": "GH-52",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "owner-write-policy-remediation-worker",
+      "chat_id": "owner-write-policy-remediation-worker",
+      "run_id": "RUN-20261116-NON-WRITE-POLICY-IMPLEMENTATION-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-52-RUN-20261116-NON-WRITE-POLICY-IMPLEMENTATION-001",
+      "acquired_at_utc": "2026-11-16T12:19:50.803Z",
+      "heartbeat_at_utc": "2026-11-16T12:19:50.803Z",
+      "lease_expires_at_utc": "2026-11-16T12:49:50.803Z",
+      "fencing_token": 70,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "file:05_prompt_library/farast_executable_prompts_complete.md",
+      "issue_number": 52,
+      "task_id": "GH-52",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "owner-write-policy-remediation-worker",
+      "chat_id": "owner-write-policy-remediation-worker",
+      "run_id": "RUN-20261116-NON-WRITE-POLICY-IMPLEMENTATION-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-52-RUN-20261116-NON-WRITE-POLICY-IMPLEMENTATION-001",
+      "acquired_at_utc": "2026-11-16T12:19:50.803Z",
+      "heartbeat_at_utc": "2026-11-16T12:19:50.803Z",
+      "lease_expires_at_utc": "2026-11-16T12:49:50.803Z",
+      "fencing_token": 70,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "file:05_prompt_library/master-00.md",
+      "issue_number": 52,
+      "task_id": "GH-52",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "owner-write-policy-remediation-worker",
+      "chat_id": "owner-write-policy-remediation-worker",
+      "run_id": "RUN-20261116-NON-WRITE-POLICY-IMPLEMENTATION-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-52-RUN-20261116-NON-WRITE-POLICY-IMPLEMENTATION-001",
+      "acquired_at_utc": "2026-11-16T12:19:50.803Z",
+      "heartbeat_at_utc": "2026-11-16T12:19:50.803Z",
+      "lease_expires_at_utc": "2026-11-16T12:49:50.803Z",
+      "fencing_token": 70,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "file:05_prompt_library/pr-16_implementation.md",
+      "issue_number": 52,
+      "task_id": "GH-52",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "owner-write-policy-remediation-worker",
+      "chat_id": "owner-write-policy-remediation-worker",
+      "run_id": "RUN-20261116-NON-WRITE-POLICY-IMPLEMENTATION-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-52-RUN-20261116-NON-WRITE-POLICY-IMPLEMENTATION-001",
+      "acquired_at_utc": "2026-11-16T12:19:50.803Z",
+      "heartbeat_at_utc": "2026-11-16T12:19:50.803Z",
+      "lease_expires_at_utc": "2026-11-16T12:49:50.803Z",
+      "fencing_token": 70,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "file:start_here.md",
+      "issue_number": 52,
+      "task_id": "GH-52",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "owner-write-policy-remediation-worker",
+      "chat_id": "owner-write-policy-remediation-worker",
+      "run_id": "RUN-20261116-NON-WRITE-POLICY-IMPLEMENTATION-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-52-RUN-20261116-NON-WRITE-POLICY-IMPLEMENTATION-001",
+      "acquired_at_utc": "2026-11-16T12:19:50.803Z",
+      "heartbeat_at_utc": "2026-11-16T12:19:50.803Z",
+      "lease_expires_at_utc": "2026-11-16T12:49:50.803Z",
+      "fencing_token": 70,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "module:work-item-policy",
+      "issue_number": 52,
+      "task_id": "GH-52",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "owner-write-policy-remediation-worker",
+      "chat_id": "owner-write-policy-remediation-worker",
+      "run_id": "RUN-20261116-NON-WRITE-POLICY-IMPLEMENTATION-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-52-RUN-20261116-NON-WRITE-POLICY-IMPLEMENTATION-001",
+      "acquired_at_utc": "2026-11-16T12:19:50.803Z",
+      "heartbeat_at_utc": "2026-11-16T12:19:50.803Z",
+      "lease_expires_at_utc": "2026-11-16T12:49:50.803Z",
+      "fencing_token": 70,
+      "status": "ACTIVE"
+    }
+  ],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -1796,6 +1989,34 @@
       "branch": "work/GH-11-RUN-20261116-WRITE-POLICY-REMEDIATION-001",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "at_utc": "2026-11-16T12:19:04.421Z"
+    },
+    {
+      "event": "ACQUIRED",
+      "issue_number": 52,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "owner-write-policy-remediation-worker",
+      "run_id": "RUN-20261116-NON-WRITE-POLICY-IMPLEMENTATION-001",
+      "resource_keys": [
+        "file:.github/scripts/work-item-core.js",
+        "file:.github/scripts/work-item-core.test.js",
+        "file:.github/workflows/control-plane-validation.yml",
+        "file:.github/workflows/farast-coordinator.yml",
+        "file:04_coordination/coordinator_commands.md",
+        "file:04_coordination/work_item_execution_protocol.md",
+        "file:04_coordination/work_item_schema.json",
+        "file:05_prompt_library/farast_executable_prompts_complete.md",
+        "file:05_prompt_library/master-00.md",
+        "file:05_prompt_library/pr-16_implementation.md",
+        "file:start_here.md",
+        "module:work-item-policy"
+      ],
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-52-RUN-20261116-NON-WRITE-POLICY-IMPLEMENTATION-001",
+      "previous_branch": null,
+      "previous_target_repository": null,
+      "previous_run_id": null,
+      "fencing_token": 70,
+      "at_utc": "2026-11-16T12:19:50.803Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -3320,6 +3541,15 @@
       "command": "release",
       "next_status": "ready",
       "at_utc": "2026-11-16T12:19:04.427Z"
+    },
+    "6916223155": {
+      "response": "CLAIM GRANTED. TASK=GH-52; WORK_ITEM_ID=WI-NON-WRITE-POLICY-COORDINATOR-001; verified_steps=; remaining_steps=S0_REPRODUCE,S1_DESIGN,S2_CORE,S3_REGRESSION,S4_FIX_TASK,S5_VALIDATE,S6_HANDOFF; progress=0%; actor=@a4adelahmadian86-wq; chat=owner-write-policy-remediation-worker; run=RUN-20261116-NON-WRITE-POLICY-IMPLEMENTATION-001; resource_keys=file:.github/scripts/work-item-core.js,file:.github/scripts/work-item-core.test.js,file:.github/workflows/control-plane-validation.yml,file:.github/workflows/farast-coordinator.yml,file:04_coordination/coordinator_commands.md,file:04_coordination/work_item_execution_protocol.md,file:04_coordination/work_item_schema.json,file:05_prompt_library/farast_executable_prompts_complete.md,file:05_prompt_library/master-00.md,file:05_prompt_library/pr-16_implementation.md,file:start_here.md,module:work-item-policy; target_repository=a4adelahmadian86-wq/farast-control-plane; branch=work/GH-52-RUN-20261116-NON-WRITE-POLICY-IMPLEMENTATION-001; previous_run=none; fencing_token=70; lease_expires=2026-11-16T12:49:50.803Z. پیش از هر write و checkpoint، heartbeat را تمدید و token را بررسی کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز؛ هرگز branch قبلی را تغییر نده.",
+      "response_posted": false,
+      "issue_number": 52,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "locked",
+      "at_utc": "2026-11-16T12:19:50.815Z"
     }
   },
   "work_items": {
@@ -4164,6 +4394,150 @@
       ],
       "priority": 5,
       "created_at_utc": "2026-11-16T10:56:00Z"
+    },
+    "52": {
+      "schema_version": "1.0",
+      "write_policy": "WRITE_ALLOWED",
+      "priority_source": "DEFAULT_POLICY",
+      "work_item_id": "WI-NON-WRITE-POLICY-COORDINATOR-001",
+      "title": "Enable narrowly owner-authorized NON product Work Items",
+      "parent_goal_ids": [
+        "G-00",
+        "G-08"
+      ],
+      "parent_exp_ids": [
+        "EXP-22"
+      ],
+      "status": "CLAIMED",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "resource_keys": [
+        "module:work-item-policy",
+        "file:.github/workflows/farast-coordinator.yml",
+        "file:.github/scripts/work-item-core.js",
+        "file:.github/scripts/work-item-core.test.js",
+        "file:.github/workflows/control-plane-validation.yml",
+        "file:04_COORDINATION/WORK_ITEM_SCHEMA.json",
+        "file:04_COORDINATION/WORK_ITEM_EXECUTION_PROTOCOL.md",
+        "file:04_COORDINATION/COORDINATOR_COMMANDS.md",
+        "file:START_HERE.md",
+        "file:05_PROMPT_LIBRARY/MASTER-00.md",
+        "file:05_PROMPT_LIBRARY/PR-16_IMPLEMENTATION.md",
+        "file:05_PROMPT_LIBRARY/FARAST_EXECUTABLE_PROMPTS_COMPLETE.md"
+      ],
+      "dependencies": [],
+      "steps": [
+        {
+          "step_id": "S0_REPRODUCE",
+          "title": "Reproduce the exact live coordinator rejection and verify the stacked integration base",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Evidence-backed failure reproduction and exact base SHA",
+          "evidence_requirement": "GitHub Actions run, Issue #51, source and PR links"
+        },
+        {
+          "step_id": "S1_DESIGN",
+          "title": "Define the narrow fail-closed owner-approval contract for NON WRITE_ALLOWED",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Authorization decision table and helper contract",
+          "evidence_requirement": "Committed helper/test design and exact policy conditions"
+        },
+        {
+          "step_id": "S2_CORE",
+          "title": "Implement product owner-authorization validation in Work Item core and coordinator parsing",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Core and workflow code accept only owner-created, explicitly approved, correctly referenced NON WRITE_ALLOWED Issues",
+          "evidence_requirement": "Source diff and focused tests"
+        },
+        {
+          "step_id": "S3_REGRESSION",
+          "title": "Add policy regression tests and preserve existing READ_ONLY and branchless-routing guarantees",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Tests cover positive and negative authorization cases plus unchanged default policy",
+          "evidence_requirement": "Test diff and node --test output"
+        },
+        {
+          "step_id": "S4_FIX_TASK",
+          "title": "Add owner_approval_ref to Issue #51 and align schemas, protocols and the operational prompt",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Issue #51 read-back plus consistent schema and prompt policy wording",
+          "evidence_requirement": "Issue URL and exact changed file paths"
+        },
+        {
+          "step_id": "S5_VALIDATE",
+          "title": "Run complete control-plane validation and live coordinator smoke test for Issue #51",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Green focused tests and full CI; live /farast progress succeeds without product writes",
+          "evidence_requirement": "Exact-head CI run and successful coordinator response comment"
+        },
+        {
+          "step_id": "S6_HANDOFF",
+          "title": "Open stacked review-ready PR and record upstream merge prerequisites and checkpoint",
+          "required": true,
+          "weight": 1,
+          "expected_output": "PR against PR #49 branch with head SHA, test evidence and merge gate",
+          "evidence_requirement": "PR URL, CI URLs and checkpoint read-back"
+        }
+      ],
+      "acceptance_criteria": [
+        {
+          "criterion_id": "AC_OWNER_ONLY",
+          "title": "NON WRITE_ALLOWED is accepted only for an owner-authored Issue with exact self-referential owner_approval_ref and explicit owner approval text"
+        },
+        {
+          "criterion_id": "AC_FAIL_CLOSED",
+          "title": "Non-owner Issues, missing/mismatched references, absent approval statement and WRITE_REQUIRES_OWNER_APPROVAL are rejected for product writes"
+        },
+        {
+          "criterion_id": "AC_READONLY_PRESERVED",
+          "title": "All existing READ_ONLY Work Items remain READ_ONLY; no blanket authorization is introduced and PR #45 branchless routing remains intact"
+        },
+        {
+          "criterion_id": "AC_TESTS_CI",
+          "title": "Focused tests, schema/YAML/JavaScript checks and full control-plane CI pass on the exact stacked PR head"
+        },
+        {
+          "criterion_id": "AC_LIVE_SMOKE",
+          "title": "After the patched coordinator is merged/live, /farast progress on Issue #51 returns a valid Work Item response and registry state remains consistent"
+        }
+      ],
+      "priority": 40,
+      "created_at_utc": "2026-11-16T12:16:00Z",
+      "effort_estimate_minutes": 25,
+      "effort_rationale": "حداقل ۲۵ دقیقه کار واقعی شامل بازتولید، اصلاح منطق مجوز، آزمون مثبت/منفی، همگام‌سازی قرارداد و اجرای CI؛ زمان انتظار مصنوعی ممنوع است.",
+      "depth_profile": {
+        "profile_version": "2.0.0",
+        "min_substantive_steps": 7,
+        "min_acceptance_criteria": 5,
+        "min_deliverables": 4,
+        "target_effort_minutes": 25
+      },
+      "deliverables": [
+        {
+          "deliverable_id": "D1",
+          "description": "Evidence-backed root cause and owner-approval policy decision table",
+          "evidence_requirement": "Issue/Actions/source links"
+        },
+        {
+          "deliverable_id": "D2",
+          "description": "Updated coordinator and Work Item core validation with positive/negative regression tests",
+          "evidence_requirement": "Commit diff and test output"
+        },
+        {
+          "deliverable_id": "D3",
+          "description": "Updated Issue #51 owner_approval_ref, schema, execution protocol and operational prompt instructions",
+          "evidence_requirement": "Issue and file read-back URLs"
+        },
+        {
+          "deliverable_id": "D4",
+          "description": "Stacked PR with exact head SHA, passing CI, live smoke-test plan and merge handoff",
+          "evidence_requirement": "PR URL, Actions URL and checkpoint"
+        }
+      ]
     }
   },
   "checkpoints": {
