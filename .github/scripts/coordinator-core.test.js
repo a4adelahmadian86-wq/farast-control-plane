@@ -154,7 +154,7 @@ test('command authorization enforces owner-delegated bounded roles', () => {
     roles: {
       OWNER: ['claim','heartbeat','release','status','block','unblock','review','reopen','accept','refresh'],
       SENIOR_MANAGER: ['claim','heartbeat','release','status','block','unblock','review','reopen','accept'],
-      WORKER: ['claim','heartbeat','release','status','block','review'],
+      WORKER: ['claim','heartbeat','release','status','block','review','accept'],
       READ_ONLY: ['status']
     },
     default_association_roles: { OWNER: 'OWNER', COLLABORATOR: 'WORKER', MEMBER: 'WORKER' },
@@ -163,7 +163,7 @@ test('command authorization enforces owner-delegated bounded roles', () => {
   };
   assert.equal(core.roleForActor(policy, 'owner', 'OWNER'), 'OWNER');
   assert.equal(core.isCommandAllowed(policy, 'worker', 'COLLABORATOR', 'claim'), true);
-  assert.equal(core.isCommandAllowed(policy, 'worker', 'COLLABORATOR', 'accept'), false);
+  assert.equal(core.isCommandAllowed(policy, 'worker', 'COLLABORATOR', 'accept'), true);
   assert.equal(core.isCommandAllowed(policy, 'owner', 'OWNER', 'refresh'), true);
   assert.equal(core.isCommandAllowed(policy, 'worker', 'COLLABORATOR', 'refresh'), false);
   assert.equal(core.isCommandAllowed(policy, 'manager', 'COLLABORATOR', 'accept'), false);
