@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 392,
+  "revision": 393,
   "next_fencing_token": 71,
   "locks": [
     {
@@ -3811,6 +3811,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-16T12:38:27.150Z"
+    },
+    "6916633436": {
+      "response": "STEP ثبت شد: S1_DESIGN; progress=28.57%; verified=2/7.",
+      "response_posted": false,
+      "issue_number": 52,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-16T12:38:34.143Z"
     }
   },
   "work_items": {
@@ -4708,7 +4717,14 @@
           "required": true,
           "weight": 1,
           "expected_output": "Authorization decision table and helper contract",
-          "evidence_requirement": "Committed helper/test design and exact policy conditions"
+          "evidence_requirement": "Committed helper/test design and exact policy conditions",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/52"
+          ],
+          "validated_at_utc": "2026-11-16T12:38:34.143Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S2_CORE",
