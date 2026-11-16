@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 400,
+  "revision": 401,
   "next_fencing_token": 71,
   "locks": [
     {
@@ -3847,6 +3847,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-16T12:38:54.883Z"
+    },
+    "6916638690": {
+      "response": "STEP ثبت شد: S5_VALIDATE; progress=71.42%; verified=5/7.",
+      "response_posted": false,
+      "issue_number": 52,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-16T12:39:16.949Z"
     }
   },
   "work_items": {
@@ -4804,7 +4813,14 @@
           "required": true,
           "weight": 1,
           "expected_output": "Green focused tests and full CI; live /farast progress succeeds without product writes",
-          "evidence_requirement": "Exact-head CI run and successful coordinator response comment"
+          "evidence_requirement": "Exact-head CI run and successful coordinator response comment",
+          "validation_status": "BLOCKED",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/53"
+          ],
+          "validated_at_utc": "2026-11-16T12:39:16.761Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S6_HANDOFF",
