@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 333,
+  "revision": 334,
   "next_fencing_token": 67,
   "locks": [
     {
@@ -3069,7 +3069,7 @@
     },
     "6915479895": {
       "response": "CLAIM GRANTED. TASK=GH-47; WORK_ITEM_ID=WI-PROMPT-INTEGRATION-001; verified_steps=S0_AUDIT,S1_MERGE_PLAN,S2_DEEP_STANDARD,S3_WRITE_POLICY,S4_AUTO_SELECTION,S5_BUNDLE_TESTS,S6_VERIFY_HANDOFF; remaining_steps=; progress=100%; actor=@a4adelahmadian86-wq; chat=master00-prompt-integration-worker; run=RUN-20261116-FINALIZE-002; resource_keys=doc:.github/workflows/control-plane-validation.yml,doc:05_prompt_library/farast_executable_prompts_complete.md,module:coordinator-claim-routing,module:prompt-library,module:work-item-dispatch; target_repository=a4adelahmadian86-wq/farast-control-plane; branch=work/GH-47-RUN-20261116-FINALIZE-002; previous_run=RUN-20261116-INTEGRATE-001; previous_target_repository=a4adelahmadian86-wq/farast-control-plane; previous_branch=work/GH-47-RUN-20261116-INTEGRATE-001; fencing_token=66; lease_expires=2026-11-16T12:14:42.040Z. پیش از هر write و checkpoint، heartbeat را تمدید و token را بررسی کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز؛ هرگز branch قبلی را تغییر نده.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 47,
       "actor": "a4adelahmadian86-wq",
       "command": "claim",
