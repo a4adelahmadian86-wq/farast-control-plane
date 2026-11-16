@@ -8,6 +8,15 @@ function registry() {
   return { next_fencing_token: 1, locks: [], history: [] };
 }
 
+test('automated acceptance requires a successful combined status and at least one fully successful check run', () => {
+  assert.equal(core.hasSuccessfulChecks([{status:'completed',conclusion:'success'}], {state:'success'}), true);
+  assert.equal(core.hasSuccessfulChecks([], {state:'success'}), false);
+  assert.equal(core.hasSuccessfulChecks([{status:'completed',conclusion:'success'},{status:'completed',conclusion:'failure'}], {state:'success'}), false);
+  assert.equal(core.hasSuccessfulChecks([{status:'in_progress',conclusion:null}], {state:'pending'}), false);
+  assert.equal(core.hasSuccessfulChecks([{status:'completed',conclusion:'success'}], {state:'failure'}), false);
+  assert.equal(core.hasSuccessfulChecks([{status:'completed',conclusion:'neutral'}], {state:'success'}), false);
+});
+
 test('same resource across different Issues grants only one owner', () => {
   const s = registry();
   const a = core.claimResources(s, { issueNumber: 10, taskId: 'GH-10', actor: 'alice', chatId: 'chat-a', runId: 'run-a', targetRepository: 'owner/repo', branch: 'work/GH-10', resourceKeys: ['module:payments'], leaseMinutes: 30, nowMs: 1000 });
