@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 468,
+  "revision": 469,
   "next_fencing_token": 72,
   "locks": [
     {
@@ -4173,6 +4173,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-16T17:19:17.659Z"
+    },
+    "6923672830": {
+      "response": "معیار پذیرش ثبت شد: AC_ACCEPTANCE; ACCEPTANCE_PROGRESS=75%; OVERALL_COMPLETION=75%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 34,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-16T17:19:46.173Z"
     }
   },
   "work_items": {
@@ -4669,7 +4678,14 @@
         {
           "criterion_id": "AC_ACCEPTANCE",
           "title": "approval معتبر؛ همه gateها evidence-backed؛ branch/base قابل اثبات؛ هیچ write بدون مجوز.",
-          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion."
+          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion.",
+          "validation_status": "BLOCKED",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/52"
+          ],
+          "validated_at_utc": "2026-11-16T17:19:46.029Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "priority": 50,
