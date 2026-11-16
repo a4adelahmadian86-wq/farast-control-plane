@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 519,
+  "revision": 520,
   "next_fencing_token": 74,
   "locks": [
     {
@@ -4630,7 +4630,7 @@
     },
     "6922613359": {
       "response": "WORK_ITEM=WI-NON-IMPLEMENTATION-VERTICAL-SLICE-001; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=0/7; verified_criteria=0/5; step_weighting=EQUAL_STEPS_V1; criteria_weighting=EQUAL_CRITERIA_V1; dependencies=PASS; can_accept=false. claim/lease مستقل از درصد است.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 51,
       "actor": "a4adelahmadian86-wq",
       "command": "progress",
