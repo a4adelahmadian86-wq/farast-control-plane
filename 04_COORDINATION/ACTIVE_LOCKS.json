@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 398,
+  "revision": 399,
   "next_fencing_token": 71,
   "locks": [
     {
@@ -3838,6 +3838,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-16T12:38:47.914Z"
+    },
+    "6916637332": {
+      "response": "STEP ثبت شد: S4_FIX_TASK; progress=71.42%; verified=5/7.",
+      "response_posted": false,
+      "issue_number": 52,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-16T12:38:54.883Z"
     }
   },
   "work_items": {
@@ -4780,7 +4789,14 @@
           "required": true,
           "weight": 1,
           "expected_output": "Issue #51 read-back plus consistent schema and prompt policy wording",
-          "evidence_requirement": "Issue URL and exact changed file paths"
+          "evidence_requirement": "Issue URL and exact changed file paths",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/51"
+          ],
+          "validated_at_utc": "2026-11-16T12:38:54.883Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S5_VALIDATE",
