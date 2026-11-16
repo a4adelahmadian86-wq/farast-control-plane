@@ -377,7 +377,7 @@ jobs:
                     const [__, prOwner, prRepo, prNumber] = prMatch;
                     const prClient = (prOwner === owner && prRepo === repo) ? github : crossRepoGithub;
                     if (!prClient) {
-                      response = 'پذیرش انجام نشد: برای بررسی PR در مخزن دیگر، Secret با نام FARAST_GITHUB_TOKEN و دسترسی read به آن مخزن لازم است.';
+                      response = 'پذیرش انجام نشد: برای پذیرش خودکار PR در مخزن دیگر، Secret با نام FARAST_GITHUB_TOKEN با دسترسی checks:read، statuses:read و pull_requests:write روی مخزن مقصد لازم است؛ بدون آن merge انجام نمی‌شود.';
                     } else {
                     const pr = (await prClient.rest.pulls.get({ owner: prOwner, repo: prRepo, pull_number: Number(prNumber) })).data;
                     const reviewEvent = [...state.history].reverse().find(x => x.issue_number === issue.number && x.event === 'REVIEW');
