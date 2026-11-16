@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "revision": 546,
-  "next_fencing_token": 74,
+  "revision": 547,
+  "next_fencing_token": 75,
   "locks": [
     {
       "resource_key": "issue:51",
@@ -33,6 +33,22 @@
       "heartbeat_at_utc": "2026-11-16T18:17:37.829Z",
       "lease_expires_at_utc": "2026-11-16T18:47:37.829Z",
       "fencing_token": 73,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "analysis:exp-23",
+      "issue_number": 35,
+      "task_id": "GH-35",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-PR16-20261116-04",
+      "chat_id": "CHAT-PR16-20261116-04",
+      "run_id": "RUN-20261116-PR16-EXP23-001",
+      "target_repository": "a4adelahmadian86-wq/non",
+      "branch": null,
+      "acquired_at_utc": "2026-11-16T18:17:54.954Z",
+      "heartbeat_at_utc": "2026-11-16T18:17:54.954Z",
+      "lease_expires_at_utc": "2026-11-16T18:47:54.954Z",
+      "fencing_token": 74,
       "status": "ACTIVE"
     }
   ],
@@ -2503,6 +2519,23 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "lease_expires_at_utc": "2026-11-16T18:47:37.829Z",
       "at_utc": "2026-11-16T18:17:37.829Z"
+    },
+    {
+      "event": "ACQUIRED",
+      "issue_number": 35,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-PR16-20261116-04",
+      "run_id": "RUN-20261116-PR16-EXP23-001",
+      "resource_keys": [
+        "analysis:exp-23"
+      ],
+      "target_repository": "a4adelahmadian86-wq/non",
+      "branch": null,
+      "previous_branch": null,
+      "previous_target_repository": null,
+      "previous_run_id": null,
+      "fencing_token": 74,
+      "at_utc": "2026-11-16T18:17:54.954Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -4846,6 +4879,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-16T18:17:37.834Z"
+    },
+    "6925064709": {
+      "response": "CLAIM GRANTED. TASK=GH-35; WORK_ITEM_ID=WI-EXP23-REGRESSION-001; verified_steps=; remaining_steps=S1_DISCOVER,S2_MAP,S3_ANALYZE,S4_CROSSCHECK,S5_ASSESS,S6_REPORT,S7_VERIFY; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; actor=@a4adelahmadian86-wq; chat=CHAT-PR16-20261116-04; run=RUN-20261116-PR16-EXP23-001; resource_keys=analysis:exp-23; target_repository=a4adelahmadian86-wq/non; write_policy=READ_ONLY; branch=none; previous_run=none; fencing_token=74; lease_expires=2026-11-16T18:47:54.954Z. این Work Item با سیاست READ_ONLY است؛ در target_repository هیچ branch، file، commit یا PR ایجاد/تغییر نده. شواهد را فقط در Issue thread یا محل مجاز control-plane ثبت کن؛ برای WRITE_REQUIRES_OWNER_APPROVAL فقط proposal ارائه بده.",
+      "response_posted": false,
+      "issue_number": 35,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "locked",
+      "at_utc": "2026-11-16T18:17:54.959Z"
     }
   },
   "work_items": {
@@ -5377,6 +5419,142 @@
         {
           "deliverable_id": "D3",
           "description": "execution/rollback plan.",
+          "evidence_requirement": "مسیر فایل یا URL GitHub به خروجی و read-back آن"
+        }
+      ]
+    },
+    "35": {
+      "schema_version": "1.0",
+      "write_policy": "READ_ONLY",
+      "priority_source": "DEFAULT_POLICY",
+      "work_item_id": "WI-EXP23-REGRESSION-001",
+      "title": "EXP-23 Regression and compatibility validation",
+      "parent_goal_ids": [
+        "G-04",
+        "G-05",
+        "G-08"
+      ],
+      "parent_exp_ids": [
+        "EXP-23"
+      ],
+      "status": "CLAIMED",
+      "target_repository": "a4adelahmadian86-wq/non",
+      "resource_keys": [
+        "analysis:exp-23"
+      ],
+      "dependencies": [],
+      "steps": [
+        {
+          "step_id": "S1_DISCOVER",
+          "title": "شناسایی رفتارها و contractهای موجودی که باید حفظ شوند.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "خروجی قابل بازبینی برای مرحله: شناسایی رفتارها و contractهای موجودی که باید حفظ شوند.",
+          "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S2_MAP",
+          "title": "ساخت regression inventory از سناریو، API، data contract و integration.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "خروجی قابل بازبینی برای مرحله: ساخت regression inventory از سناریو، API، data contract و integration.",
+          "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S3_ANALYZE",
+          "title": "بررسی تست‌های موجود و تعیین blind spotها.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "خروجی قابل بازبینی برای مرحله: بررسی تست‌های موجود و تعیین blind spotها.",
+          "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S4_CROSSCHECK",
+          "title": "طراحی تست‌های مثبت، منفی، boundary، concurrency و failure recovery.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "خروجی قابل بازبینی برای مرحله: طراحی تست‌های مثبت، منفی، boundary، concurrency و failure recovery.",
+          "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S5_ASSESS",
+          "title": "بررسی backward compatibility برای schema، API و داده.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "خروجی قابل بازبینی برای مرحله: بررسی backward compatibility برای schema، API و داده.",
+          "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S6_REPORT",
+          "title": "اجرای تست‌های مجاز یا ثبت دقیق NOT_RUN و علت.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "خروجی قابل بازبینی برای مرحله: اجرای تست‌های مجاز یا ثبت دقیق NOT_RUN و علت.",
+          "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S7_VERIFY",
+          "title": "تهیه regression evidence report و release-blocking defects.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "خروجی قابل بازبینی برای مرحله: تهیه regression evidence report و release-blocking defects.",
+          "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
+          "estimate_minutes": 4
+        }
+      ],
+      "acceptance_criteria": [
+        {
+          "criterion_id": "AC_SCOPE",
+          "title": "تمام 7 مرحله تخصصی EXP-23 اجرا یا با blocker مستند متوقف شده‌اند",
+          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion."
+        },
+        {
+          "criterion_id": "AC_EVIDENCE",
+          "title": "تمام ادعاهای factual دارای evidence ref مستقیم و قابل بازبینی هستند",
+          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion."
+        },
+        {
+          "criterion_id": "AC_OUTPUT",
+          "title": "خروجی‌های تخصصی EXP-23 تولید و read-back شده‌اند: regression matrix، compatibility report، test evidence.",
+          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion."
+        },
+        {
+          "criterion_id": "AC_ACCEPTANCE",
+          "title": "قابلیت‌های موجود پوشش دارند؛ تست اجرا نشده PASS نیست؛ breaking change مشخص و approval-gated است.",
+          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion."
+        }
+      ],
+      "priority": 50,
+      "created_at_utc": "2026-11-14T17:26:49.039Z",
+      "effort_estimate_minutes": 25,
+      "effort_rationale": "حدود ۲۵ دقیقه کار تخصصی شامل discovery، cross-check، تحلیل، تولید artifact و read-back؛ زمان واقعی ثبت شود و کار مصنوعی ممنوع است.",
+      "depth_profile": {
+        "profile_version": "2.0.0",
+        "min_substantive_steps": 6,
+        "min_acceptance_criteria": 4,
+        "min_deliverables": 3,
+        "target_effort_minutes": 25
+      },
+      "deliverables": [
+        {
+          "deliverable_id": "D1",
+          "description": "regression matrix",
+          "evidence_requirement": "مسیر فایل یا URL GitHub به خروجی و read-back آن"
+        },
+        {
+          "deliverable_id": "D2",
+          "description": "compatibility report",
+          "evidence_requirement": "مسیر فایل یا URL GitHub به خروجی و read-back آن"
+        },
+        {
+          "deliverable_id": "D3",
+          "description": "test evidence.",
           "evidence_requirement": "مسیر فایل یا URL GitHub به خروجی و read-back آن"
         }
       ]
