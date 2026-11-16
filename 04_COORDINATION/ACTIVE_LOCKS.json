@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 566,
+  "revision": 567,
   "next_fencing_token": 75,
   "locks": [
     {
@@ -5041,6 +5041,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-16T18:22:00.741Z"
+    },
+    "6925172106": {
+      "response": "STEP ثبت شد: S2_MAP; EXECUTION_PROGRESS=28.57%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=2/7.",
+      "response_posted": false,
+      "issue_number": 35,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-16T18:22:19.529Z"
     }
   },
   "work_items": {
@@ -5620,7 +5629,14 @@
           "weight": 1,
           "expected_output": "خروجی قابل بازبینی برای مرحله: ساخت regression inventory از سناریو، API، data contract و integration.",
           "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/35#issuecomment-6925145425"
+          ],
+          "validated_at_utc": "2026-11-16T18:22:19.522Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S3_ANALYZE",
