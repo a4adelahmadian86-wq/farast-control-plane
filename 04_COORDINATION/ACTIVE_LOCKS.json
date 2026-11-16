@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 530,
+  "revision": 531,
   "next_fencing_token": 74,
   "locks": [
     {
@@ -4705,6 +4705,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-16T18:10:04.707Z"
+    },
+    "6924891517": {
+      "response": "STEP ثبت شد: S3_SMOKE_51; EXECUTION_PROGRESS=57.14%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=4/7.",
+      "response_posted": false,
+      "issue_number": 58,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-16T18:10:45.670Z"
     }
   },
   "work_items": {
@@ -6217,7 +6226,14 @@
           "weight": 1,
           "expected_output": "Successful live parse/progress response for the owner-authorized product task without product writes",
           "evidence_requirement": "Command/response URL, Actions run and registry read-back",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/58#issuecomment-6924877645"
+          ],
+          "validated_at_utc": "2026-11-16T18:10:45.525Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S4_SMOKE_52",
