@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 396,
+  "revision": 397,
   "next_fencing_token": 71,
   "locks": [
     {
@@ -3829,6 +3829,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-16T12:38:40.934Z"
+    },
+    "6916636070": {
+      "response": "STEP ثبت شد: S3_REGRESSION; progress=57.14%; verified=4/7.",
+      "response_posted": false,
+      "issue_number": 52,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-16T12:38:47.914Z"
     }
   },
   "work_items": {
@@ -4756,7 +4765,14 @@
           "required": true,
           "weight": 1,
           "expected_output": "Tests cover positive and negative authorization cases plus unchanged default policy",
-          "evidence_requirement": "Test diff and node --test output"
+          "evidence_requirement": "Test diff and node --test output",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/43868045242"
+          ],
+          "validated_at_utc": "2026-11-16T12:38:47.914Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S4_FIX_TASK",
