@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 498,
+  "revision": 499,
   "next_fencing_token": 74,
   "locks": [
     {
@@ -4477,6 +4477,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-16T18:02:46.308Z"
+    },
+    "6924721052": {
+      "response": "STEP ثبت شد: S1_AUDIT; EXECUTION_PROGRESS=28.57%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=2/7.",
+      "response_posted": false,
+      "issue_number": 58,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-16T18:03:32.442Z"
     }
   },
   "work_items": {
@@ -5815,7 +5824,14 @@
           "weight": 1,
           "expected_output": "Field-level repair matrix for every missing criterion evidence_requirement",
           "evidence_requirement": "Exact issue URLs and schema/core source references",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/58#issuecomment-6924672242"
+          ],
+          "validated_at_utc": "2026-11-16T18:03:32.435Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S2_REPAIR",
