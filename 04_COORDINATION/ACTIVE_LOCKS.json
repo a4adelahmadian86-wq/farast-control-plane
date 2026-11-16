@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 314,
+  "revision": 315,
   "next_fencing_token": 66,
   "locks": [
     {
@@ -2941,6 +2941,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-16T11:11:36.303Z"
+    },
+    "6914812929": {
+      "response": "STEP ثبت شد: S2_DEEP_STANDARD; progress=42.85%; verified=3/7.",
+      "response_posted": false,
+      "issue_number": 47,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-16T11:12:49.998Z"
     }
   },
   "work_items": {
@@ -3691,7 +3700,16 @@
           "step_id": "S2_DEEP_STANDARD",
           "title": "Preserve and integrate the full deep execution contract across MASTER-00, all 17 specialist prompts, 27 Work Item definitions, seven-stage execution and five acceptance criteria per Work Item",
           "required": true,
-          "weight": 1
+          "weight": 1,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/1bab37193e40c77916ac40bf665077234c4afaa2",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/13",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/39"
+          ],
+          "validated_at_utc": "2026-11-16T11:12:49.993Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Read"
         },
         {
           "step_id": "S3_WRITE_POLICY",
