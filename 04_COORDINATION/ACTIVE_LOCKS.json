@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 633,
+  "revision": 634,
   "next_fencing_token": 77,
   "locks": [
     {
@@ -2891,6 +2891,15 @@
       "preserved_steps": 0,
       "preserved_criteria": 0,
       "at_utc": "2026-11-16T21:14:22.224Z"
+    },
+    {
+      "event": "WORK_ITEM_REFRESHED",
+      "issue_number": 13,
+      "work_item_id": "WI-EXP01-BASELINE-001",
+      "actor": "a4adelahmadian86-wq",
+      "preserved_steps": 0,
+      "preserved_criteria": 0,
+      "at_utc": "2026-11-16T21:14:30.037Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -5621,6 +5630,15 @@
       "command": "refresh",
       "next_status": "ready",
       "at_utc": "2026-11-16T21:14:22.224Z"
+    },
+    "6897724363": {
+      "response": "Work Item specification refreshed from Issue body; preserved_steps=0; preserved_criteria=0; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%.",
+      "response_posted": false,
+      "issue_number": 13,
+      "actor": "a4adelahmadian86-wq",
+      "command": "refresh",
+      "next_status": "ready",
+      "at_utc": "2026-11-16T21:14:30.037Z"
     }
   },
   "work_items": {
