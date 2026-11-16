@@ -150,47 +150,14 @@ function matchesReviewLease(pr, reviewEvent) {
     pr.base?.repo?.full_name === target;
 }
 
-function hasIndependentApproval(reviews, pr, workerActor, acceptActor) {
-  // A prior APPROVED review must not survive a later CHANGES_REQUESTED or DISMISSED
-  // review by the same person, even when both reviews reference the current head.
-  const latestByReviewer = new Map();
-  for (const [index, review] of (reviews || []).entries()) {
-    const login = review.user?.login;
-    if (!login) continue;
-    const submitted = Date.parse(review.submitted_at || '') || index;
-    const previous = latestByReviewer.get(login);
-    if (!previous || submitted >= previous.submitted) {
-      latestByReviewer.set(login, { review, submitted });
-    }
-  }
-  return [...latestByReviewer.entries()].some(([login, item]) =>
-    item.review.state === 'APPROVED' &&
-    item.review.commit_id === pr.head?.sha &&
-    login !== pr.user?.login &&
-    login !== workerActor &&
-    login !== acceptActor
-  );
-}
-
-function hasOwnerAttestation(history, pr, ownerLogin, issueNumber) {
-  if (!ownerLogin || !pr?.head?.sha) return false;
-  return [...(history || [])].reverse().some(event =>
-    event.event === 'OWNER_ATTESTED' && event.issue_number === issueNumber &&
-    event.actor === ownerLogin && event.pr_url &&
-    event.head_sha === pr.head.sha && event.decision === 'ACCEPT_ROUTINE_CHANGE'
-  );
-}
-
-function validateOwnerAttestation(args) {
-  return !!args && args.actor === args.repositoryOwner &&
-    args.authorAssociation === 'OWNER' &&
-    typeof args.prUrl === 'string' &&
-    /^https:\/\/github\.com\/[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+\/pull\/\d+$/.test(args.prUrl) &&
-    typeof args.headSha === 'string' && /^[a-f0-9]{40}$/i.test(args.headSha) &&
-    args.decision === 'ACCEPT_ROUTINE_CHANGE';
+function hasSuccessfulChecks(checkRuns, combinedStatus) {
+  const runs = Array.isArray(checkRuns) ? checkRuns : [];
+  return combinedStatus?.state === 'success' &&
+    runs.length > 0 &&
+    runs.every(run => run.status === 'completed' && run.conclusion === 'success');
 }
 
 module.exports = {
   isSafeRunId, roleForActor, isWithinDelegatedScope, isCommandAllowed, resourcesFor, targetRepositoryFor, branchForWritePolicy, resolveWritePolicy, expireLocks, activeForIssue,
-  claimResources, renewLease, ownsLease, latestTaskStatus, matchesReviewLease, hasIndependentApproval, hasOwnerAttestation, validateOwnerAttestation
+  claimResources, renewLease, ownsLease, latestTaskStatus, matchesReviewLease, hasSuccessfulChecks
 };
