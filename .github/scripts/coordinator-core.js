@@ -172,7 +172,25 @@ function hasIndependentApproval(reviews, pr, workerActor, acceptActor) {
   );
 }
 
+function hasOwnerAttestation(history, pr, ownerLogin, issueNumber) {
+  if (!ownerLogin || !pr?.head?.sha) return false;
+  return [...(history || [])].reverse().some(event =>
+    event.event === 'OWNER_ATTESTED' && event.issue_number === issueNumber &&
+    event.actor === ownerLogin && event.pr_url &&
+    event.head_sha === pr.head.sha && event.decision === 'ACCEPT_ROUTINE_CHANGE'
+  );
+}
+
+function validateOwnerAttestation(args) {
+  return !!args && args.actor === args.repositoryOwner &&
+    args.authorAssociation === 'OWNER' &&
+    typeof args.prUrl === 'string' &&
+    /^https:\/\/github\.com\/[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+\/pull\/\d+$/.test(args.prUrl) &&
+    typeof args.headSha === 'string' && /^[a-f0-9]{40}$/i.test(args.headSha) &&
+    args.decision === 'ACCEPT_ROUTINE_CHANGE';
+}
+
 module.exports = {
   isSafeRunId, roleForActor, isWithinDelegatedScope, isCommandAllowed, resourcesFor, targetRepositoryFor, branchForWritePolicy, resolveWritePolicy, expireLocks, activeForIssue,
-  claimResources, renewLease, ownsLease, latestTaskStatus, matchesReviewLease, hasIndependentApproval
+  claimResources, renewLease, ownsLease, latestTaskStatus, matchesReviewLease, hasIndependentApproval, hasOwnerAttestation, validateOwnerAttestation
 };
