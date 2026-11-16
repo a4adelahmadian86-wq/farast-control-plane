@@ -123,7 +123,7 @@ test('rejects missing write policy instead of assuming write permission',()=>{
 
 const productRepository='a4adelahmadian86-wq/non';
 const ownerIssueUrl='https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/51';
-const ownerApprovalBody='## Owner authorization and scope\\nThe repository owner explicitly approved WRITE_ALLOWED development and strengthening of `a4adelahmadian86-wq/non` in the current ChatGPT conversation.';
+const ownerApprovalBody='## Owner authorization and scope\\n**Owner decision (2026-11-16):** The repository owner explicitly approved WRITE_ALLOWED development and strengthening of `a4adelahmadian86-wq/non` in the current ChatGPT conversation.';
 const ownerApprovalContext={
  repository_owner:'a4adelahmadian86-wq',
  issue_author:'a4adelahmadian86-wq',
