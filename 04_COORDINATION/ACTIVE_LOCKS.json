@@ -1,8 +1,89 @@
 {
   "schema_version": "1.0",
-  "revision": 625,
-  "next_fencing_token": 76,
-  "locks": [],
+  "revision": 626,
+  "next_fencing_token": 77,
+  "locks": [
+    {
+      "resource_key": "issue:13",
+      "issue_number": 59,
+      "task_id": "GH-59",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-FARAST-ORDER-20261116",
+      "chat_id": "CHAT-FARAST-ORDER-20261116",
+      "run_id": "RUN-20261116-ORDER-DEPENDENCY-REPAIR-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-59-RUN-20261116-ORDER-DEPENDENCY-REPAIR-001",
+      "acquired_at_utc": "2026-11-16T21:12:34.708Z",
+      "heartbeat_at_utc": "2026-11-16T21:12:34.708Z",
+      "lease_expires_at_utc": "2026-11-16T21:42:34.708Z",
+      "fencing_token": 76,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "module:coordinator-refresh",
+      "issue_number": 59,
+      "task_id": "GH-59",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-FARAST-ORDER-20261116",
+      "chat_id": "CHAT-FARAST-ORDER-20261116",
+      "run_id": "RUN-20261116-ORDER-DEPENDENCY-REPAIR-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-59-RUN-20261116-ORDER-DEPENDENCY-REPAIR-001",
+      "acquired_at_utc": "2026-11-16T21:12:34.708Z",
+      "heartbeat_at_utc": "2026-11-16T21:12:34.708Z",
+      "lease_expires_at_utc": "2026-11-16T21:42:34.708Z",
+      "fencing_token": 76,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "module:dependency-graph",
+      "issue_number": 59,
+      "task_id": "GH-59",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-FARAST-ORDER-20261116",
+      "chat_id": "CHAT-FARAST-ORDER-20261116",
+      "run_id": "RUN-20261116-ORDER-DEPENDENCY-REPAIR-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-59-RUN-20261116-ORDER-DEPENDENCY-REPAIR-001",
+      "acquired_at_utc": "2026-11-16T21:12:34.708Z",
+      "heartbeat_at_utc": "2026-11-16T21:12:34.708Z",
+      "lease_expires_at_utc": "2026-11-16T21:42:34.708Z",
+      "fencing_token": 76,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "module:prompt-bundle",
+      "issue_number": 59,
+      "task_id": "GH-59",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-FARAST-ORDER-20261116",
+      "chat_id": "CHAT-FARAST-ORDER-20261116",
+      "run_id": "RUN-20261116-ORDER-DEPENDENCY-REPAIR-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-59-RUN-20261116-ORDER-DEPENDENCY-REPAIR-001",
+      "acquired_at_utc": "2026-11-16T21:12:34.708Z",
+      "heartbeat_at_utc": "2026-11-16T21:12:34.708Z",
+      "lease_expires_at_utc": "2026-11-16T21:42:34.708Z",
+      "fencing_token": 76,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "module:prompt-library",
+      "issue_number": 59,
+      "task_id": "GH-59",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-FARAST-ORDER-20261116",
+      "chat_id": "CHAT-FARAST-ORDER-20261116",
+      "run_id": "RUN-20261116-ORDER-DEPENDENCY-REPAIR-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-59-RUN-20261116-ORDER-DEPENDENCY-REPAIR-001",
+      "acquired_at_utc": "2026-11-16T21:12:34.708Z",
+      "heartbeat_at_utc": "2026-11-16T21:12:34.708Z",
+      "lease_expires_at_utc": "2026-11-16T21:42:34.708Z",
+      "fencing_token": 76,
+      "status": "ACTIVE"
+    }
+  ],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -2780,6 +2861,27 @@
       "branch": "work/GH-58-RUN-20261116-PR16-SPEC-REPAIR-001",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "at_utc": "2026-11-16T21:12:32.265Z"
+    },
+    {
+      "event": "ACQUIRED",
+      "issue_number": 59,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-FARAST-ORDER-20261116",
+      "run_id": "RUN-20261116-ORDER-DEPENDENCY-REPAIR-001",
+      "resource_keys": [
+        "issue:13",
+        "module:coordinator-refresh",
+        "module:dependency-graph",
+        "module:prompt-bundle",
+        "module:prompt-library"
+      ],
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-59-RUN-20261116-ORDER-DEPENDENCY-REPAIR-001",
+      "previous_branch": null,
+      "previous_target_repository": null,
+      "previous_run_id": null,
+      "fencing_token": 76,
+      "at_utc": "2026-11-16T21:12:34.708Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -5474,6 +5576,15 @@
       "command": "block",
       "next_status": "blocked",
       "at_utc": "2026-11-16T18:36:16.915Z"
+    },
+    "6925460958": {
+      "response": "CLAIM GRANTED. TASK=GH-59; WORK_ITEM_ID=WI-PROMPT-ORDER-DEPENDENCY-REPAIR-001; verified_steps=; remaining_steps=S0_AUDIT,S1_PRIORITY_CONTRACT,S2_GRAPH_AND_BASELINE,S3_REFRESH_GATE_ENFORCEMENT,S4_SCHEMA_REGISTRY_SYNC,S5_TEST_AND_BUNDLE,S6_STACK_AND_HANDOFF; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; actor=@a4adelahmadian86-wq; chat=CHAT-FARAST-ORDER-20261116; run=RUN-20261116-ORDER-DEPENDENCY-REPAIR-001; resource_keys=issue:13,module:coordinator-refresh,module:dependency-graph,module:prompt-bundle,module:prompt-library; target_repository=a4adelahmadian86-wq/farast-control-plane; write_policy=WRITE_ALLOWED; branch=work/GH-59-RUN-20261116-ORDER-DEPENDENCY-REPAIR-001; previous_run=none; fencing_token=76; lease_expires=2026-11-16T21:42:34.708Z. این Work Item با سیاست WRITE_ALLOWED است؛ branch را فقط در target_repository ثبت‌شده بساز و قبل از هر write heartbeat/token را دوباره تأیید کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز و branch قبلی را تغییر نده.",
+      "response_posted": false,
+      "issue_number": 59,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "locked",
+      "at_utc": "2026-11-16T21:12:34.709Z"
     }
   },
   "work_items": {
@@ -7289,6 +7400,157 @@
           "evidence_requirement": "Actions run URLs, bot response URLs and registry read-back"
         }
       ]
+    },
+    "59": {
+      "schema_version": "1.0",
+      "write_policy": "WRITE_ALLOWED",
+      "priority_source": "DEFAULT_POLICY",
+      "work_item_id": "WI-PROMPT-ORDER-DEPENDENCY-REPAIR-001",
+      "title": "Implement owner-approved prompt priority order and repair dependency/refresh semantics",
+      "parent_goal_ids": [
+        "G-00",
+        "G-09"
+      ],
+      "parent_exp_ids": [
+        "EXP-01",
+        "EXP-22",
+        "EXP-23"
+      ],
+      "status": "CLAIMED",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "resource_keys": [
+        "module:dependency-graph",
+        "module:coordinator-refresh",
+        "module:prompt-library",
+        "module:prompt-bundle",
+        "issue:13"
+      ],
+      "dependencies": [],
+      "effort_estimate_minutes": 25,
+      "effort_rationale": "Focused audit, priority-contract documentation, dependency/refresh repair, issue-registry synchronization, automated regression tests and PR handoff; no artificial waiting.",
+      "depth_profile": {
+        "profile_version": "2.0.0",
+        "min_substantive_steps": 7,
+        "min_acceptance_criteria": 5,
+        "min_deliverables": 4,
+        "target_effort_minutes": 25
+      },
+      "steps": [
+        {
+          "step_id": "S0_AUDIT",
+          "title": "Audit live sources, Issue #13, registry and existing PR stack",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Source-backed change map with overlap and lineage analysis",
+          "evidence_requirement": "Exact main SHA, file URLs/SHAs, Issue #13, registry revision and PR/check URLs",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S1_PRIORITY_CONTRACT",
+          "title": "Record owner-approved advisory priority order without chronological hard gates",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Canonical priority-order document and catalog reference",
+          "evidence_requirement": "Read-back URLs for canonical order and catalog; explicit advisory/non-gating semantics",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S2_GRAPH_AND_BASELINE",
+          "title": "Remove the erroneous EXP-22 hard gate from EXP-01 and align PR-01/bundle",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Baseline is independently executable while real safety gates remain",
+          "evidence_requirement": "Dependency graph diff, PR-01 source diff and bundle parity validation",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S3_REFRESH_GATE_ENFORCEMENT",
+          "title": "Enforce canonical hard-gate semantics in refresh and keep soft inputs non-gating",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Fail-closed refresh behavior with accepted/unresolved gate handling",
+          "evidence_requirement": "Coordinator implementation diff and focused automated test results",
+          "estimate_minutes": 5
+        },
+        {
+          "step_id": "S4_SCHEMA_REGISTRY_SYNC",
+          "title": "Synchronize Issue #13 and registry through supported owner refresh",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Same stable Work Item ID and matching 7-step/5-criterion/4-deliverable definition",
+          "evidence_requirement": "Issue body read-back, refresh response and registry revision/read-back",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S5_TEST_AND_BUNDLE",
+          "title": "Run regression, safety, bundle parity and full exact-head CI",
+          "required": true,
+          "weight": 1,
+          "expected_output": "All required automated checks pass on the exact final head",
+          "evidence_requirement": "Focused test output, control-plane Actions URL and exact head SHA",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S6_STACK_AND_HANDOFF",
+          "title": "Reconcile PR lineage and publish automated acceptance/checkpoint evidence",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Safe non-overlapping PR stack or merged result with exact evidence",
+          "evidence_requirement": "PR URLs, branch lineage, exact-head CI, automated acceptance result and checkpoint read-back",
+          "estimate_minutes": 2
+        }
+      ],
+      "acceptance_criteria": [
+        {
+          "criterion_id": "AC_PRIORITY",
+          "title": "The owner-approved PR-01..PR-17 order is recorded as advisory priority only and never creates chronological execution gates",
+          "evidence_requirement": "Canonical priority document and catalog read-back plus tests/wording confirming prompt IDs are stable identifiers"
+        },
+        {
+          "criterion_id": "AC_EXP01_INDEPENDENCE",
+          "title": "EXP-01 baseline discovery is not hard-gated by EXP-22; EXP-22 may consume EXP-01 as soft context",
+          "evidence_requirement": "Dependency graph read-back, PR-01 text and a regression test proving EXP-01 eligibility without EXP-22 ACCEPTED"
+        },
+        {
+          "criterion_id": "AC_REFRESH_GATES",
+          "title": "Refresh cannot mark a hard-gate-blocked item READY; unresolved gates fail closed and soft inputs never block READY",
+          "evidence_requirement": "Positive and negative automated tests for accepted, blocked, unresolved and soft-only dependencies"
+        },
+        {
+          "criterion_id": "AC_SYNC",
+          "title": "Issue #13, registry, all independent prompt sources and aggregate bundle agree without changing WI-EXP01-BASELINE-001",
+          "evidence_requirement": "Issue/registry read-back, bundle parity test and exact file SHAs"
+        },
+        {
+          "criterion_id": "AC_AUTOMATION",
+          "title": "All required checks pass on exact PR head and acceptance requires no second human reviewer or signoff",
+          "evidence_requirement": "Exact-head CI, automated acceptance response and test evidence for no-human-signoff policy"
+        }
+      ],
+      "deliverables": [
+        {
+          "deliverable_id": "D1",
+          "description": "Owner-approved advisory prompt priority order and catalog integration",
+          "evidence_requirement": "Canonical file and catalog URLs with read-back"
+        },
+        {
+          "deliverable_id": "D2",
+          "description": "Corrected dependency graph and independent PR-01/bundle sources",
+          "evidence_requirement": "File SHAs and bundle/source parity validation"
+        },
+        {
+          "deliverable_id": "D3",
+          "description": "Refresh hard-gate implementation and automated regression suite",
+          "evidence_requirement": "Code diff and focused/full CI URLs"
+        },
+        {
+          "deliverable_id": "D4",
+          "description": "Issue #13/registry synchronization and PR reconciliation report",
+          "evidence_requirement": "Issue, registry, PR, exact commit, Actions and automated acceptance references"
+        }
+      ],
+      "priority": 35,
+      "created_at_utc": "2026-11-16T18:33:00Z"
     }
   },
   "checkpoints": {
