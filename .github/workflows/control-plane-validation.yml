@@ -170,7 +170,7 @@ jobs:
           assert "acceptance_progress_percentage" in work_item_checkpoint_schema["properties"]
           assert "overall_completion_percentage" in work_item_checkpoint_schema["properties"]
           prompt_bundle = Path("05_PROMPT_LIBRARY/FARAST_EXECUTABLE_PROMPTS_COMPLETE.md").read_text(encoding="utf-8")
-          assert "نسخه: 1.9.0" in prompt_bundle
+          assert "نسخه: 1.9.1" in prompt_bundle
           assert "قرارداد اجباری عمق مأموریت و گزارش پیشرفت (نسخه 2.0)" in prompt_bundle
           for n in range(1, 18):
               matches = list(Path("05_PROMPT_LIBRARY").glob(f"PR-{n:02d}_*.md"))
@@ -200,7 +200,7 @@ jobs:
           assert "item.write_policy ||= 'READ_ONLY';\n                item.priority_source ||= 'DEFAULT_POLICY';\n                workItemCore.validateWorkItem(item);" in coordinator
           assert "const formPriorityRaw = scalar('Priority (0-100; lower is higher)');" in coordinator
           assert "formPriorityRaw ? Number(formPriorityRaw) : Number.NaN" in coordinator
-          for required in ("farast-control-plane-single-writer", "schedule:", "issue_comment:", "workItemCore", "new github.constructor", "typeof issue === 'number' ? issue : issue.number", "NON product repository is READ_ONLY", "Only repository owner may create a write-enabled Work Item", "owner_approval_ref", "recordStepEvidence", "recordCriterionEvidence", "createCheckpoint", "processed_operations", "FARAST_OP_RESPONSE:", "coordination/locks", "pulls.listReviews", "workerActor", "task_already_claimed", "branch_reuse", "claim.previousRun", "next_status: nextStatus", "FARAST_GITHUB_TOKEN", "prUrl", "targetRepositoryFor", "authorizationPolicy", "resourceKeys: resourcesFor(issue)", "coordinatorCore.isCommandAllowed", "coordinatorCore.isSafeRunId", "coordinatorCore.claimResources", "coordinatorCore.ownsLease", "coordinatorCore.renewLease", "coordinatorCore.hasIndependentApproval", "coordinatorCore.matchesReviewLease", "const taskBranch =", "expiredLeases", "event: 'HEARTBEAT'", "if (!accepted && labelsOf(issue).includes('agent:done'))", "else if (!current.length && !['agent:blocked','agent:review','agent:done'].some(x => labelsOf(issue).includes(x)) && !labelsOf(issue).includes('agent:ready'))"):
+          for required in ("Owner-authorized NON Work Item requires a live Issue specification", "Saved Work Item identity/policy/resources do not match live Issue", "farast-control-plane-single-writer", "schedule:", "issue_comment:", "workItemCore", "new github.constructor", "typeof issue === 'number' ? issue : issue.number", "validateProductWriteAuthorization", "Only repository owner may create a write-enabled Work Item", "owner_approval_ref", "recordStepEvidence", "recordCriterionEvidence", "createCheckpoint", "processed_operations", "FARAST_OP_RESPONSE:", "coordination/locks", "pulls.listReviews", "workerActor", "task_already_claimed", "branch_reuse", "claim.previousRun", "next_status: nextStatus", "FARAST_GITHUB_TOKEN", "prUrl", "targetRepositoryFor", "authorizationPolicy", "resourceKeys: resourcesFor(issue)", "coordinatorCore.isCommandAllowed", "coordinatorCore.isSafeRunId", "coordinatorCore.claimResources", "coordinatorCore.ownsLease", "coordinatorCore.renewLease", "coordinatorCore.hasIndependentApproval", "coordinatorCore.matchesReviewLease", "const taskBranch =", "expiredLeases", "event: 'HEARTBEAT'", "if (!accepted && labelsOf(issue).includes('agent:done'))", "else if (!current.length && !['agent:blocked','agent:review','agent:done'].some(x => labelsOf(issue).includes(x)) && !labelsOf(issue).includes('agent:ready'))"):
               assert required in coordinator, required
           assert "require('@actions/github')" not in coordinator
           dispatch_core = Path(".github/scripts/work-item-dispatch-core.js").read_text(encoding="utf-8")
@@ -255,7 +255,7 @@ jobs:
           checkpoint = Path("04_COORDINATION/CHECKPOINT_TEMPLATE.md").read_text(encoding="utf-8")
           assert "OPERATION_ID_LAST_CONFIRMED" in checkpoint
           bundle = Path("05_PROMPT_LIBRARY/FARAST_EXECUTABLE_PROMPTS_COMPLETE.md").read_text(encoding="utf-8")
-          assert "نسخه: 1.9.0" in bundle
+          assert "نسخه: 1.9.1" in bundle
           source_paths = [Path("05_PROMPT_LIBRARY/MASTER-00.md"), *sorted(Path("05_PROMPT_LIBRARY").glob("PR-*.md"))]
           assert len(source_paths) == 18
           for source_path in source_paths:

@@ -82,7 +82,7 @@ Coordinator فقط برای `write_policy=WRITE_ALLOWED` مقدار branch را 
 - `READ_ONLY`: مجاز به read/analysis/evidence gathering هستی، نه file write یا PR در مخزن هدف.
 - `WRITE_REQUIRES_OWNER_APPROVAL`: فقط proposal بساز؛ پیش از تأیید صریح مالک هیچ write نکن.
 - `WRITE_ALLOWED`: تنها در scope مجاز و با lease/fencing معتبر write کن.
-- `a4adelahmadian86-wq/non` تا اعلام مجوز جدید مالک فقط READ_ONLY است و workflow Work Item غیر READ_ONLY را رد می‌کند.
+- `a4adelahmadian86-wq/non` به‌صورت پیش‌فرض READ_ONLY است. تنها `WRITE_ALLOWED` برای Issue ساخته‌شده توسط repository owner با `owner_approval_ref` دقیقاً برابر URL همان Issue و متن صریح تصمیم مالک پذیرفته می‌شود؛ این مجوز فقط همان Issue را پوشش می‌دهد.
 - priority=50 با `DEFAULT_POLICY` اولویت خنثی است؛ FIFO و aging tie-break می‌کنند. رتبه‌بندی اختصاصی فقط با `OWNER_ASSIGNED` ثبت شود.
 
 ساخت Work Item جدید فقط زیر قفل allocator با شناسه ثابت `WI-GOAL-ALLOCATOR-001` مجاز است. ابتدا Issueهای موجود و WORK_ITEM_IDها را جست‌وجو کن؛ سپس allocator را claim کن، leafهای جدید را با شناسه deterministic بساز و پس از read-back قفل را release کن. هیچ دو چتی نباید هم‌زمان pool را گسترش دهند.
