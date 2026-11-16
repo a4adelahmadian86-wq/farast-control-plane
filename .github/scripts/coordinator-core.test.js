@@ -8,13 +8,19 @@ function registry() {
   return { next_fencing_token: 1, locks: [], history: [] };
 }
 
-test('automated acceptance requires a successful combined status and at least one fully successful check run', () => {
-  assert.equal(core.hasSuccessfulChecks([{status:'completed',conclusion:'success'}], {state:'success'}), true);
-  assert.equal(core.hasSuccessfulChecks([], {state:'success'}), false);
-  assert.equal(core.hasSuccessfulChecks([{status:'completed',conclusion:'success'},{status:'completed',conclusion:'failure'}], {state:'success'}), false);
-  assert.equal(core.hasSuccessfulChecks([{status:'in_progress',conclusion:null}], {state:'pending'}), false);
-  assert.equal(core.hasSuccessfulChecks([{status:'completed',conclusion:'success'}], {state:'failure'}), false);
-  assert.equal(core.hasSuccessfulChecks([{status:'completed',conclusion:'neutral'}], {state:'success'}), false);
+test('automated acceptance requires all check runs and any reported commit statuses to succeed', () => {
+  const successRun = [{status:'completed',conclusion:'success'}];
+  assert.equal(core.hasSuccessfulChecks(successRun, {state:'success',statuses:[]}), true);
+  // GitHub reports combined status as pending when no legacy commit-status contexts exist.
+  assert.equal(core.hasSuccessfulChecks(successRun, {state:'pending',statuses:[]}), true);
+  assert.equal(core.hasSuccessfulChecks([], {state:'success',statuses:[]}), false);
+  assert.equal(core.hasSuccessfulChecks([{status:'completed',conclusion:'success'},{status:'completed',conclusion:'failure'}], {state:'success',statuses:[]}), false);
+  assert.equal(core.hasSuccessfulChecks([{status:'in_progress',conclusion:null}], {state:'pending',statuses:[]}), false);
+  assert.equal(core.hasSuccessfulChecks(successRun, {state:'failure',statuses:[]}), false);
+  assert.equal(core.hasSuccessfulChecks([{status:'completed',conclusion:'neutral'}], {state:'success',statuses:[]}), false);
+  assert.equal(core.hasSuccessfulChecks(successRun, {state:'success',statuses:[{state:'success'}]}), true);
+  assert.equal(core.hasSuccessfulChecks(successRun, {state:'failure',statuses:[{state:'failure'}]}), false);
+  assert.equal(core.hasSuccessfulChecks(successRun, {state:'pending',statuses:[{state:'pending'}]}), false);
 });
 
 test('same resource across different Issues grants only one owner', () => {
