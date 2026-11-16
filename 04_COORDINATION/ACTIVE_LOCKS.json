@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 318,
+  "revision": 319,
   "next_fencing_token": 66,
   "locks": [
     {
@@ -2959,6 +2959,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-16T11:12:56.209Z"
+    },
+    "6914818509": {
+      "response": "STEP ثبت شد: S4_AUTO_SELECTION; progress=71.42%; verified=5/7.",
+      "response_posted": false,
+      "issue_number": 47,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-16T11:13:18.595Z"
     }
   },
   "work_items": {
@@ -3738,7 +3747,15 @@
           "step_id": "S4_AUTO_SELECTION",
           "title": "Integrate deterministic scope-filtered Work Item selection, hard_gates, soft_inputs, active-lease/resource conflict avoidance, resume-first behavior, priority aging and candidate fallback",
           "required": true,
-          "weight": 1
+          "weight": 1,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/1bab37193e40c77916ac40bf665077234c4afaa2",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/43746348013"
+          ],
+          "validated_at_utc": "2026-11-16T11:13:18.551Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Verified"
         },
         {
           "step_id": "S5_BUNDLE_TESTS",
