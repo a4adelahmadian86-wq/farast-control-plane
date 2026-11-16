@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 316,
+  "revision": 317,
   "next_fencing_token": 66,
   "locks": [
     {
@@ -2950,6 +2950,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-16T11:12:49.998Z"
+    },
+    "6914815699": {
+      "response": "STEP ثبت شد: S3_WRITE_POLICY; progress=57.14%; verified=4/7.",
+      "response_posted": false,
+      "issue_number": 47,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-16T11:12:56.209Z"
     }
   },
   "work_items": {
@@ -3715,7 +3724,15 @@
           "step_id": "S3_WRITE_POLICY",
           "title": "Apply fail-closed write-policy-aware routing so READ_ONLY creates no target branch or product write, WRITE_ALLOWED uses only the authorized control-plane branch, and owner-approval work remains blocked",
           "required": true,
-          "weight": 1
+          "weight": 1,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/1bab37193e40c77916ac40bf665077234c4afaa2",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/43745065814"
+          ],
+          "validated_at_utc": "2026-11-16T11:12:56.209Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Verified"
         },
         {
           "step_id": "S4_AUTO_SELECTION",
