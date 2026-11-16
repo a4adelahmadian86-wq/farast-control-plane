@@ -378,22 +378,22 @@ jobs:
                       response = 'پذیرش انجام نشد: برای بررسی PR در مخزن دیگر، Secret با نام FARAST_GITHUB_TOKEN و دسترسی read به آن مخزن لازم است.';
                     } else {
                     const pr = (await prClient.rest.pulls.get({ owner: prOwner, repo: prRepo, pull_number: Number(prNumber) })).data;
-                    const reviews = await prClient.paginate(prClient.rest.pulls.listReviews, { owner: prOwner, repo: prRepo, pull_number: Number(prNumber), per_page: 100 });
                     const reviewEvent = [...state.history].reverse().find(x => x.issue_number === issue.number && x.event === 'REVIEW');
-                    const workerActor = reviewEvent?.actor;
                     const branchBound = coordinatorCore.matchesReviewLease(pr, reviewEvent);
-                    const independent = coordinatorCore.hasIndependentApproval(reviews, pr, workerActor, actor);
+                    const checkRuns = await prClient.rest.checks.listForRef({ owner: prOwner, repo: prRepo, ref: pr.head.sha, per_page: 100 });
+                    const combinedStatus = await prClient.rest.repos.getCombinedStatusForRef({ owner: prOwner, repo: prRepo, ref: pr.head.sha });
+                    const automatedChecksPassed = coordinatorCore.hasSuccessfulChecks(checkRuns.data.check_runs, combinedStatus.data);
                     if (!labelsOf(issue).includes('agent:review') || current.length) response = 'پذیرش رد شد: وظیفه باید در وضعیت review و بدون lease فعال باشد.';
                     else if (!branchBound) response = 'پذیرش رد شد: PR باید از branch و target repository ثبت‌شده در آخرین handoff همان lease ساخته شده باشد.';
-                    else if (!pr.merged || !independent) response = 'پذیرش رد شد: PR باید merged باشد و approval مستقل روی head فعلی داشته باشد.';
+                    else if (!pr.merged || !automatedChecksPassed) response = 'پذیرش خودکار رد شد: PR باید merged باشد و تمام Check Runها و Commit Statusهای SHA دقیق head با conclusion/state برابر success تکمیل شده باشند؛ تأیید انسانی مطالبه نمی‌شود.';
                     else {
                       const workItem = savedWorkItemFor(state, issue);
                       if (workItem) {
                         state.work_items ||= {}; state.work_items[issue.number] ||= workItem;
                         const gate = workItemCore.calculateProgress(state.work_items[issue.number]);
                         if (!gate.can_accept) response = 'پذیرش Work Item رد شد: همه گام‌های اجباری، معیارهای پذیرش و dependencyها باید با evidence معتبر PASS شوند؛ EXECUTION_PROGRESS=' + gate.execution_percentage + '%; ACCEPTANCE_PROGRESS=' + (gate.acceptance_percentage === null ? 'N/A' : gate.acceptance_percentage + '%') + '; OVERALL_COMPLETION=' + (gate.overall_completion_percentage === null ? 'N/A' : gate.overall_completion_percentage + '%') + '.';
-                        else { state.work_items[issue.number].status = 'ACCEPTED'; nextStatus = 'done'; response = 'Work Item ACCEPTED: همه گام‌ها و معیارهای اجباری با evidence معتبر پاس شده‌اند؛ PR ادغام‌شده و approval مستقل روی head فعلی نیز احراز شد.'; }
-                      } else { nextStatus = 'done'; response = 'پذیرش تأیید شد: PR ادغام‌شده و approval مستقل روی head فعلی احراز شد.'; }
+                        else { state.work_items[issue.number].status = 'ACCEPTED'; nextStatus = 'done'; response = 'Work Item ACCEPTED: همه گام‌ها و معیارهای اجباری با evidence معتبر پاس شده‌اند؛ PR ادغام‌شده و تمام گیت‌های ماشینی موفق روی SHA دقیق head احراز شد؛ هیچ Review انسانی شرط پذیرش نیست.'; }
+                      } else { nextStatus = 'done'; response = 'پذیرش تأیید شد: PR ادغام‌شده و تمام گیت‌های ماشینی موفق روی SHA دقیق head احراز شد؛ هیچ Review انسانی شرط پذیرش نیست.'; }
                     }
                     }
                   }
