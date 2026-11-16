@@ -1,8 +1,41 @@
 {
   "schema_version": "1.0",
-  "revision": 486,
-  "next_fencing_token": 73,
-  "locks": [],
+  "revision": 487,
+  "next_fencing_token": 74,
+  "locks": [
+    {
+      "resource_key": "issue:51",
+      "issue_number": 58,
+      "task_id": "GH-58",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-PR16-20261116-03",
+      "chat_id": "CHAT-PR16-20261116-03",
+      "run_id": "RUN-20261116-PR16-SPEC-REPAIR-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-58-RUN-20261116-PR16-SPEC-REPAIR-001",
+      "acquired_at_utc": "2026-11-16T17:59:02.291Z",
+      "heartbeat_at_utc": "2026-11-16T17:59:02.291Z",
+      "lease_expires_at_utc": "2026-11-16T18:29:02.291Z",
+      "fencing_token": 73,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "issue:52",
+      "issue_number": 58,
+      "task_id": "GH-58",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-PR16-20261116-03",
+      "chat_id": "CHAT-PR16-20261116-03",
+      "run_id": "RUN-20261116-PR16-SPEC-REPAIR-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-58-RUN-20261116-PR16-SPEC-REPAIR-001",
+      "acquired_at_utc": "2026-11-16T17:59:02.291Z",
+      "heartbeat_at_utc": "2026-11-16T17:59:02.291Z",
+      "lease_expires_at_utc": "2026-11-16T18:29:02.291Z",
+      "fencing_token": 73,
+      "status": "ACTIVE"
+    }
+  ],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -2251,6 +2284,24 @@
       "branch": "work/GH-11-RUN-20261116-PR16-ALLOC-001",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "at_utc": "2026-11-16T17:58:09.346Z"
+    },
+    {
+      "event": "ACQUIRED",
+      "issue_number": 58,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-PR16-20261116-03",
+      "run_id": "RUN-20261116-PR16-SPEC-REPAIR-001",
+      "resource_keys": [
+        "issue:51",
+        "issue:52"
+      ],
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-58-RUN-20261116-PR16-SPEC-REPAIR-001",
+      "previous_branch": null,
+      "previous_target_repository": null,
+      "previous_run_id": null,
+      "fencing_token": 73,
+      "at_utc": "2026-11-16T17:59:02.291Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -4324,6 +4375,15 @@
       "command": "release",
       "next_status": "ready",
       "at_utc": "2026-11-16T17:58:09.351Z"
+    },
+    "6924617371": {
+      "response": "CLAIM GRANTED. TASK=GH-58; WORK_ITEM_ID=WI-PR16-SPEC-REPAIR-001; verified_steps=; remaining_steps=S0_DISCOVER,S1_AUDIT,S2_REPAIR,S3_SMOKE_51,S4_SMOKE_52,S5_POLICY_VERIFY,S6_REPORT; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; actor=@a4adelahmadian86-wq; chat=CHAT-PR16-20261116-03; run=RUN-20261116-PR16-SPEC-REPAIR-001; resource_keys=issue:51,issue:52; target_repository=a4adelahmadian86-wq/farast-control-plane; write_policy=WRITE_ALLOWED; branch=work/GH-58-RUN-20261116-PR16-SPEC-REPAIR-001; previous_run=none; fencing_token=73; lease_expires=2026-11-16T18:29:02.291Z. این Work Item با سیاست WRITE_ALLOWED است؛ branch را فقط در target_repository ثبت‌شده بساز و قبل از هر write heartbeat/token را دوباره تأیید کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز و branch قبلی را تغییر نده.",
+      "response_posted": false,
+      "issue_number": 58,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "locked",
+      "at_utc": "2026-11-16T17:59:02.295Z"
     }
   },
   "work_items": {
@@ -5605,6 +5665,143 @@
           "deliverable_id": "D4",
           "description": "Stacked PR with exact head SHA, passing CI, live smoke-test plan and merge handoff",
           "evidence_requirement": "PR URL, Actions URL and checkpoint"
+        }
+      ]
+    },
+    "58": {
+      "schema_version": "1.0",
+      "write_policy": "WRITE_ALLOWED",
+      "priority_source": "DEFAULT_POLICY",
+      "work_item_id": "WI-PR16-SPEC-REPAIR-001",
+      "title": "Repair deep Work Item schema compatibility for EXP-22/EXP-23 tasks",
+      "parent_goal_ids": [
+        "G-00",
+        "G-08"
+      ],
+      "parent_exp_ids": [
+        "EXP-22",
+        "EXP-23"
+      ],
+      "status": "CLAIMED",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "resource_keys": [
+        "issue:51",
+        "issue:52"
+      ],
+      "dependencies": [],
+      "effort_estimate_minutes": 25,
+      "effort_rationale": "Focused diagnosis, two controlled metadata repairs, two live coordinator smoke tests, policy-preservation verification and read-back; no artificial waiting.",
+      "depth_profile": {
+        "profile_version": "2.0.0",
+        "min_substantive_steps": 6,
+        "min_acceptance_criteria": 4,
+        "min_deliverables": 3,
+        "target_effort_minutes": 25
+      },
+      "steps": [
+        {
+          "step_id": "S0_DISCOVER",
+          "title": "Read current main SHA, live schema/validator, Issues #51/#52 and the failing coordinator run",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Exact source-backed diagnosis of the schema rejection",
+          "evidence_requirement": "Main source/schema URLs, issue URLs and failed Actions run URL",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S1_AUDIT",
+          "title": "Compare both embedded JSON Work Item specifications with all current deep-validator requirements",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Field-level repair matrix for every missing criterion evidence_requirement",
+          "evidence_requirement": "Exact issue URLs and schema/core source references",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S2_REPAIR",
+          "title": "Add only missing evidence_requirement metadata to criteria in Issues #51 and #52 under this task's claim",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Both issue bodies updated without changing protected policy or scope fields",
+          "evidence_requirement": "Issue update/read-back URLs and before/after field comparison",
+          "estimate_minutes": 5
+        },
+        {
+          "step_id": "S3_SMOKE_51",
+          "title": "Run /farast progress on Issue #51 and verify coordinator response and registry",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Successful live parse/progress response for the owner-authorized product task without product writes",
+          "evidence_requirement": "Command/response URL, Actions run and registry read-back",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S4_SMOKE_52",
+          "title": "Run /farast progress on Issue #52 and verify coordinator response and registry",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Successful live parse/progress response for the control-plane task",
+          "evidence_requirement": "Command/response URL, Actions run and registry read-back",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S5_POLICY_VERIFY",
+          "title": "Verify owner authorization and target/policy preservation; confirm no product repository writes",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Policy-preservation and no-product-write verification record",
+          "evidence_requirement": "Exact issue, registry and product read-only references",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S6_REPORT",
+          "title": "Publish and read back repair report, blockers, checkpoint and exact next action",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Durable report and complete resumable checkpoint",
+          "evidence_requirement": "Report URL, checkpoint response and final registry read-back",
+          "estimate_minutes": 3
+        }
+      ],
+      "acceptance_criteria": [
+        {
+          "criterion_id": "AC_SCHEMA",
+          "title": "Both Issue #51 and #52 JSON specifications pass the live deep Work Item validator with evidence_requirement on every required criterion",
+          "evidence_requirement": "Successful /farast progress responses and read-back issue JSON for both issues"
+        },
+        {
+          "criterion_id": "AC_POLICY",
+          "title": "Issue #51 owner authorization and WRITE_ALLOWED scope are unchanged; Issue #52 remains control-plane-only; no blanket product authorization is introduced",
+          "evidence_requirement": "Before/after comparison of exact issue fields and live coordinator validation"
+        },
+        {
+          "criterion_id": "AC_SMOKE",
+          "title": "Live /farast progress succeeds on both issues and registry read-back confirms consistent Work Item identities/policies with no unintended active lease",
+          "evidence_requirement": "Exact coordinator Actions runs, bot response comments and registry revision/read-back"
+        },
+        {
+          "criterion_id": "AC_SCOPE",
+          "title": "Only the two control-plane issue metadata specifications are repaired; no product files, branches, PRs, data, deployment or merge are changed",
+          "evidence_requirement": "Issue update diffs, product repository read-only checks and final change inventory"
+        }
+      ],
+      "priority": 50,
+      "created_at_utc": "2026-11-16T17:56:30.387Z",
+      "deliverables": [
+        {
+          "deliverable_id": "D1",
+          "description": "Before/after Work Item schema validation matrix for Issues #51 and #52",
+          "evidence_requirement": "Report URL with exact issue and source references"
+        },
+        {
+          "deliverable_id": "D2",
+          "description": "Two repaired, read-back Work Item JSON specifications with protected fields unchanged",
+          "evidence_requirement": "Exact Issue URLs and before/after comparison"
+        },
+        {
+          "deliverable_id": "D3",
+          "description": "Two live coordinator progress smoke-test results and final registry verification",
+          "evidence_requirement": "Actions run URLs, bot response URLs and registry read-back"
         }
       ]
     }
