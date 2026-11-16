@@ -118,7 +118,7 @@ jobs:
           assert isinstance(auth_policy["actor_scopes"], dict)
           assert "refresh" in auth_policy["roles"]["OWNER"] and "refresh" not in auth_policy["roles"]["WORKER"]
           assert {"progress", "step", "criterion", "checkpoint"}.issubset(set(auth_policy["roles"]["WORKER"]))
-          assert "accept" not in auth_policy["roles"]["WORKER"] and "status" in auth_policy["roles"]["READ_ONLY"]
+          assert "accept" in auth_policy["roles"]["WORKER"] and "status" in auth_policy["roles"]["READ_ONLY"]
           work_schema = json.loads(Path("04_COORDINATION/WORK_ORDER_SCHEMA.json").read_text(encoding="utf-8"))
           checkpoint_schema = json.loads(Path("04_COORDINATION/CHECKPOINT_SCHEMA.json").read_text(encoding="utf-8"))
           Draft202012Validator.check_schema(work_schema)
@@ -170,7 +170,7 @@ jobs:
           assert "acceptance_progress_percentage" in work_item_checkpoint_schema["properties"]
           assert "overall_completion_percentage" in work_item_checkpoint_schema["properties"]
           prompt_bundle = Path("05_PROMPT_LIBRARY/FARAST_EXECUTABLE_PROMPTS_COMPLETE.md").read_text(encoding="utf-8")
-          assert "نسخه: 1.9.1" in prompt_bundle
+          assert "نسخه: 1.9.3" in prompt_bundle
           assert "قرارداد اجباری عمق مأموریت و گزارش پیشرفت (نسخه 2.0)" in prompt_bundle
           for n in range(1, 18):
               matches = list(Path("05_PROMPT_LIBRARY").glob(f"PR-{n:02d}_*.md"))
@@ -255,7 +255,7 @@ jobs:
           checkpoint = Path("04_COORDINATION/CHECKPOINT_TEMPLATE.md").read_text(encoding="utf-8")
           assert "OPERATION_ID_LAST_CONFIRMED" in checkpoint
           bundle = Path("05_PROMPT_LIBRARY/FARAST_EXECUTABLE_PROMPTS_COMPLETE.md").read_text(encoding="utf-8")
-          assert "نسخه: 1.9.1" in bundle
+          assert "نسخه: 1.9.3" in bundle
           source_paths = [Path("05_PROMPT_LIBRARY/MASTER-00.md"), *sorted(Path("05_PROMPT_LIBRARY").glob("PR-*.md"))]
           assert len(source_paths) == 18
           for source_path in source_paths:

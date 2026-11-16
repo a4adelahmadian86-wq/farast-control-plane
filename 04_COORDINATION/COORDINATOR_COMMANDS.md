@@ -43,11 +43,11 @@ api-contract:payment-callback
 1. Claim همه RESOURCE_KEYهای Issue را یکجا می‌گیرد یا هیچ‌کدام را؛ هر Issue در هر لحظه فقط یک owner فعال دارد، حتی اگر دو worker منابع disjoint درخواست کنند. branch قبلی یک Issue نیز قابل استفاده مجدد نیست؛ برای هر RUN شناسه یکتا لازم است.
 2. یک fencing token برای کل مجموعه منابع یک claim صادر می‌شود.
 3. lease پیش‌فرض ۳۰ دقیقه و بازه مجاز ۵ تا ۱۲۰ دقیقه است.
-4. heartbeat/release/block/review فقط با actor، chat، run و token منطبق مجاز است.
+4. heartbeat/release/block/review فقط با actor، chat، run و token منطبق مجاز است؛ accept پس از handoff و بدون Lease فعال اجرا می‌شود و گیت‌های ماشینی/branch lineage را بررسی می‌کند.
 5. پایان lease در reconciliation ثبت و قفل منقضی حذف می‌شود.
 6. release به معنی اتمام کار نیست؛ review به معنی پذیرش نیست.
 7. `/farast accept` فرمان اجرای پذیرش خودکار است: پس از آزاد شدن lease و تحویل Work Item به وضعیت review، Coordinator شاخه و مخزن PR را اعتبارسنجی می‌کند، همه Check Runها و Commit Statusهای SHA دقیق head را می‌سنجد، در صورت موفقیت PR را با SHA مورد انتظار ادغام می‌کند و سپس معیارهای Work Item را بررسی می‌کند. این فرمان به معنی درخواست Review یا تأیید انسانی نیست.
-8. accept فقط وقتی مجاز است که Issue در وضعیت review و بدون lease باشد، لینک PR در بدنه Issue ثبت شده باشد، PR merged شده باشد و تمام Check Runها و Commit Statusهای SHA دقیق head با موفقیت کامل شده باشند. Review انسانی، self-review و تأیید مالک شرط پذیرش نیستند.
+8. accept فقط وقتی مجاز است که Issue در وضعیت review و بدون lease باشد، لینک PR در بدنه Issue ثبت شده باشد، branch lineage معتبر باشد، همه Check Runها روی SHA دقیق head تکمیل و success باشند و تمام Commit Statusهای موجود نیز success باشند. اگر هیچ Commit Status قدیمی ثبت نشده، نبود آن‌ها مانع نیست؛ Check Run موفق همچنان الزامی است. سپس Coordinator PR را ادغام و معیارهای Work Item را بررسی می‌کند. Review انسانی، self-review و تأیید مالک شرط پذیرش نیستند.
 9. بستن دستی Issue یا افزودن دستی label agent:done بدون transition موفق accept در operation ledger رد و Issue دوباره باز می‌شود؛ label به‌تنهایی منبع پذیرش نیست.
 10. عملیات با شناسه comment یکتا deduplicate می‌شود؛ پاسخ نیمه‌تمام پس از وقفه بازیابی می‌شود.
 11. عدم پاسخ، timeout یا خطای workflow هرگز grant محسوب نمی‌شود؛ وضعیت را از رجیستری و Actions run دوباره بخوانید.
@@ -68,7 +68,7 @@ Coordinator فقط برای `write_policy=WRITE_ALLOWED` مقدار branch را 
 
 
 ## تفویض اختیار فرمان‌های چندچتی
-سیاست فعال در `04_COORDINATION/ACTOR_AUTHORIZATION.json` اعمال می‌شود: OWNER همه فرمان‌ها را دارد؛ COLLABORATOR/MEMBER به‌صورت پیش‌فرض نقش WORKER می‌گیرند (claim/heartbeat/release/status/block/review) و حق unblock/reopen/accept ندارند. نقش SENIOR_MANAGER تمام فرمان‌ها را فقط پس از درج دقیق GitHub login در `actor_roles` و تعیین دقیق `repositories` و `resource_key_prefixes` در `actor_scopes`، با تأیید مالک دریافت می‌کند؛ خارج از آن scope فرمان رد می‌شود. READ_ONLY فقط status دارد. `actor_roles` فعلاً خالی است؛ بنابراین هیچ مدیر ارشدی به‌صورت حدسی مجاز نشده است. تغییر این فایل باید از PR و با تأیید مالک انجام شود.
+سیاست فعال در `04_COORDINATION/ACTOR_AUTHORIZATION.json` اعمال می‌شود: OWNER همه فرمان‌ها را دارد؛ COLLABORATOR/MEMBER به‌صورت پیش‌فرض نقش WORKER می‌گیرند (claim/heartbeat/release/status/block/review/accept) و حق unblock/reopen ندارند. فرمان accept فقط پس از آزاد شدن Lease، ثبت REVIEW، تطبیق branch و repository، موفقیت تمام Check Runها و Commit Statusهای SHA دقیق و پاس شدن معیارهای Work Item پذیرفته می‌شود؛ Coordinator ادغام را خودکار انجام می‌دهد. این مسیر Review انسانی یا تأیید مالک نیست. نقش SENIOR_MANAGER تمام فرمان‌ها را فقط پس از درج دقیق GitHub login در `actor_roles` و تعیین دقیق `repositories` و `resource_key_prefixes` در `actor_scopes`، با تأیید مالک دریافت می‌کند؛ خارج از آن scope فرمان رد می‌شود. READ_ONLY فقط status دارد. `actor_roles` فعلاً خالی است؛ بنابراین هیچ مدیر ارشدی به‌صورت حدسی مجاز نشده است. تغییر این فایل باید از PR و با تأیید مالک انجام شود.
 
 
 ### نمونه تفویض محدود

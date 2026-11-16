@@ -8,13 +8,19 @@ function registry() {
   return { next_fencing_token: 1, locks: [], history: [] };
 }
 
-test('automated acceptance requires a successful combined status and at least one fully successful check run', () => {
-  assert.equal(core.hasSuccessfulChecks([{status:'completed',conclusion:'success'}], {state:'success'}), true);
-  assert.equal(core.hasSuccessfulChecks([], {state:'success'}), false);
-  assert.equal(core.hasSuccessfulChecks([{status:'completed',conclusion:'success'},{status:'completed',conclusion:'failure'}], {state:'success'}), false);
-  assert.equal(core.hasSuccessfulChecks([{status:'in_progress',conclusion:null}], {state:'pending'}), false);
-  assert.equal(core.hasSuccessfulChecks([{status:'completed',conclusion:'success'}], {state:'failure'}), false);
-  assert.equal(core.hasSuccessfulChecks([{status:'completed',conclusion:'neutral'}], {state:'success'}), false);
+test('automated acceptance requires all check runs and any reported commit statuses to succeed', () => {
+  const successRun = [{status:'completed',conclusion:'success'}];
+  assert.equal(core.hasSuccessfulChecks(successRun, {state:'success',statuses:[]}), true);
+  // GitHub reports combined status as pending when no legacy commit-status contexts exist.
+  assert.equal(core.hasSuccessfulChecks(successRun, {state:'pending',statuses:[]}), true);
+  assert.equal(core.hasSuccessfulChecks([], {state:'success',statuses:[]}), false);
+  assert.equal(core.hasSuccessfulChecks([{status:'completed',conclusion:'success'},{status:'completed',conclusion:'failure'}], {state:'success',statuses:[]}), false);
+  assert.equal(core.hasSuccessfulChecks([{status:'in_progress',conclusion:null}], {state:'pending',statuses:[]}), false);
+  assert.equal(core.hasSuccessfulChecks(successRun, {state:'failure',statuses:[]}), false);
+  assert.equal(core.hasSuccessfulChecks([{status:'completed',conclusion:'neutral'}], {state:'success',statuses:[]}), false);
+  assert.equal(core.hasSuccessfulChecks(successRun, {state:'success',statuses:[{state:'success'}]}), true);
+  assert.equal(core.hasSuccessfulChecks(successRun, {state:'failure',statuses:[{state:'failure'}]}), false);
+  assert.equal(core.hasSuccessfulChecks(successRun, {state:'pending',statuses:[{state:'pending'}]}), false);
 });
 
 test('same resource across different Issues grants only one owner', () => {
@@ -154,7 +160,7 @@ test('command authorization enforces owner-delegated bounded roles', () => {
     roles: {
       OWNER: ['claim','heartbeat','release','status','block','unblock','review','reopen','accept','refresh'],
       SENIOR_MANAGER: ['claim','heartbeat','release','status','block','unblock','review','reopen','accept'],
-      WORKER: ['claim','heartbeat','release','status','block','review'],
+      WORKER: ['claim','heartbeat','release','status','block','review','accept'],
       READ_ONLY: ['status']
     },
     default_association_roles: { OWNER: 'OWNER', COLLABORATOR: 'WORKER', MEMBER: 'WORKER' },
@@ -163,7 +169,7 @@ test('command authorization enforces owner-delegated bounded roles', () => {
   };
   assert.equal(core.roleForActor(policy, 'owner', 'OWNER'), 'OWNER');
   assert.equal(core.isCommandAllowed(policy, 'worker', 'COLLABORATOR', 'claim'), true);
-  assert.equal(core.isCommandAllowed(policy, 'worker', 'COLLABORATOR', 'accept'), false);
+  assert.equal(core.isCommandAllowed(policy, 'worker', 'COLLABORATOR', 'accept'), true);
   assert.equal(core.isCommandAllowed(policy, 'owner', 'OWNER', 'refresh'), true);
   assert.equal(core.isCommandAllowed(policy, 'worker', 'COLLABORATOR', 'refresh'), false);
   assert.equal(core.isCommandAllowed(policy, 'manager', 'COLLABORATOR', 'accept'), false);

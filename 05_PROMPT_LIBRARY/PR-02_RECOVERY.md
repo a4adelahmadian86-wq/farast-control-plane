@@ -53,7 +53,7 @@
 6. شکاف‌های RPO/RTO را بدون عددسازی فهرست کن؛ اعداد باید با مالک محصول تعیین شوند.
 
 ## خروجی و پذیرش
-گزارش معماری backup، جدول پوشش داده، تهدیدها، طرح restore و چک‌لیست آزمون. وضعیت هر قابلیت: CONFIGURED / RUNNING / VERIFIED / UNKNOWN. فقط restore موفق با شواهد و تأیید انسانی می‌تواند VERIFIED شود. خروجی `08_REPORTS/BACKUP_RECOVERY_ASSESSMENT.md`.
+گزارش معماری backup، جدول پوشش داده، تهدیدها، طرح restore و چک‌لیست آزمون. وضعیت هر قابلیت: CONFIGURED / RUNNING / VERIFIED / UNKNOWN. فقط restore test واقعاً اجراشده با شواهد ماشین‌خوان، checksum/consistency validation، زمان بازیابی و read-back کامل می‌تواند VERIFIED شود؛ تأیید انسانی شرط نیست و restore اجرا‌نشده UNKNOWN می‌ماند. خروجی `08_REPORTS/BACKUP_RECOVERY_ASSESSMENT.md`.
 
 ## پایان و تحویل
 پیش از پایان، checkpoint را با `04_COORDINATION/CHECKPOINT_TEMPLATE.md` ثبت کن؛ Issue و PR را به‌روز کن؛ TASK_INDEX و MASTER_STATUS را فقط بر اساس وضعیت اثبات‌شده به‌روزرسانی کن؛ قفل را فقط با فرمان `/farast release` و TASK_ID/RUN_ID/fencing_token خود آزاد کن؛ اگر ابزار لازم در دسترس نیست، وضعیت را مبهم ثبت کن و آزادسازی را ادعا نکن. وضعیت را DONE_VERIFIED نگذار مگر معیار پذیرش و شواهد معتبر کامل باشند. در صورت مانع، BLOCKED را با علت، شواهد و NEXT_ACTION ثبت کن.

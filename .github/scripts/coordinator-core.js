@@ -152,9 +152,13 @@ function matchesReviewLease(pr, reviewEvent) {
 
 function hasSuccessfulChecks(checkRuns, combinedStatus) {
   const runs = Array.isArray(checkRuns) ? checkRuns : [];
-  return combinedStatus?.state === 'success' &&
-    runs.length > 0 &&
-    runs.every(run => run.status === 'completed' && run.conclusion === 'success');
+  const statuses = Array.isArray(combinedStatus?.statuses) ? combinedStatus.statuses : [];
+  const statusChecksPassed = statuses.length === 0
+    ? ['success', 'pending'].includes(combinedStatus?.state)
+    : combinedStatus?.state === 'success' && statuses.every(status => status.state === 'success');
+  return runs.length > 0 &&
+    runs.every(run => run.status === 'completed' && run.conclusion === 'success') &&
+    statusChecksPassed;
 }
 
 module.exports = {
