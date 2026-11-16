@@ -53,6 +53,8 @@ jobs:
             .github/scripts/coordinator-core.test.js
             .github/scripts/work-item-core.js
             .github/scripts/work-item-core.test.js
+            .github/scripts/work-item-dispatch-core.js
+            .github/scripts/work-item-dispatch-core.test.js
             04_COORDINATION/WORK_ITEM_SCHEMA.json
             04_COORDINATION/WORK_ITEM_CHECKPOINT_SCHEMA.json
             04_COORDINATION/WORK_ITEM_EXECUTION_PROTOCOL.md
@@ -72,6 +74,8 @@ jobs:
         run: node --test .github/scripts/coordinator-core.test.js
       - name: Run hierarchical work item progress, fairness and resume fixtures
         run: node --test .github/scripts/work-item-core.test.js
+      - name: Run deterministic specialist prompt dispatch fixtures
+        run: node --test .github/scripts/work-item-dispatch-core.test.js
       - name: Validate JSON and all prompt bootstrap contracts
         shell: bash
         run: |
@@ -136,6 +140,9 @@ jobs:
               assert "blob/main/START_HERE.md" in body, matches[0]
               assert "ACTOR_AUTHORIZATION.json" in body, matches[0]
               assert "resource_key_prefixes" in body, matches[0]
+              assert "بدون درخواست شماره Issue یا تخصیص دستی از مالک" in body, matches[0]
+              assert "نامزد بعدی" in body and "Lease انحصاری" in body, matches[0]
+              assert "متوقف شو و وضعیت را گزارش کن" not in body, matches[0]
           master = Path("05_PROMPT_LIBRARY/MASTER-00.md").read_text(encoding="utf-8")
           assert "ACTIVE_LOCKS.json" in master
           assert "blob/main/START_HERE.md" in master
@@ -152,6 +159,9 @@ jobs:
           for required in ("farast-control-plane-single-writer", "schedule:", "issue_comment:", "workItemCore", "new github.constructor", "typeof issue === 'number' ? issue : issue.number", "NON product repository is READ_ONLY", "Only repository owner may create a write-enabled Work Item", "owner_approval_ref", "recordStepEvidence", "recordCriterionEvidence", "createCheckpoint", "processed_operations", "FARAST_OP_RESPONSE:", "coordination/locks", "pulls.listReviews", "workerActor", "task_already_claimed", "branch_reuse", "claim.previousRun", "next_status: nextStatus", "FARAST_GITHUB_TOKEN", "prUrl", "targetRepositoryFor", "authorizationPolicy", "resourceKeys: resourcesFor(issue)", "coordinatorCore.isCommandAllowed", "coordinatorCore.isSafeRunId", "coordinatorCore.claimResources", "coordinatorCore.ownsLease", "coordinatorCore.renewLease", "coordinatorCore.hasIndependentApproval", "coordinatorCore.matchesReviewLease", "const taskBranch =", "expiredLeases", "event: 'HEARTBEAT'", "if (!accepted && labelsOf(issue).includes('agent:done'))", "else if (!current.length && !['agent:blocked','agent:review','agent:done'].some(x => labelsOf(issue).includes(x)) && !labelsOf(issue).includes('agent:ready'))"):
               assert required in coordinator, required
           assert "require('@actions/github')" not in coordinator
+          dispatch_core = Path(".github/scripts/work-item-dispatch-core.js").read_text(encoding="utf-8")
+          for required in ("function selectNextWorkItem", "function hardGatesSatisfied", "function hasActiveConflict", "effectivePriority"):
+              assert required in dispatch_core, required
           core = Path(".github/scripts/coordinator-core.js").read_text(encoding="utf-8")
           for required in ("agent_alias: args.chatId || args.actor", "target_repository: args.targetRepository", "target_repository: x.target_repository", "function isSafeRunId", "function roleForActor", "function isWithinDelegatedScope", "function isCommandAllowed", "function latestTaskStatus", "function matchesReviewLease", "function claimResources", "function ownsLease", "function renewLease", "task_already_claimed", "branchUsed", "previousRun", "function roleForActor", "function isCommandAllowed"):
               assert required in core, required
@@ -162,6 +172,9 @@ jobs:
           assert "SINGLE_PROMPT_MULTI_CHAT_DISPATCH.md" in master
           assert "## اجرای یک پرامپت واحد در چند چت (BROADCAST)" in master
           assert "حلقه خودگردان مأموریت" in master
+          assert "انتخاب خودکار برای پرامپت تخصصی" in master
+          assert "بدون تخصیص دستی" in master
+          assert "effective_priority = max(0, priority - floor(age_days))" in master
           assert "منتظر دستور «ادامه بده» یا تخصیص کاربر نمان" in master
           assert "هیچ سؤال یا درخواست انتخابی از مالک مجاز نیست" in master
           assert "هر حساب ChatGPT باید اتصال GitHub خودش را جداگانه authorize کند" in master

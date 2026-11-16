@@ -50,6 +50,17 @@
 
 این حلقه به معنی اجرای نامحدود خارج از محدودیت‌های ChatGPT نیست؛ عامل باید در هر نوبت تا حد مجاز ادامه دهد و قبل از هر توقف اجباری وضعیت را پایدار کند. پایان یک Work Item پایان مأموریت کلی نیست.
 
+## انتخاب قطعی و خودکار برگ تخصصی
+
+- محدوده هر چت از سربرگ پرامپت تخصصی (`PR-ID`، `parent_exp_ids` و `parent_goal_ids`) استخراج می‌شود؛ همه چت‌ها یک صف جهانی نامحدود را claim نمی‌کنند.
+- candidateها فقط leaf Issueهایی هستند که parent_exp_ids آن‌ها با محدوده پرامپت اشتراک دارد، status آن‌ها READY/IN_PROGRESS/CLAIMED است، hard gateهایشان حل شده و هیچ lease/resource conflict فعال ندارند.
+- IN_PROGRESS/CLAIMED دارای checkpoint معتبر یا step PASS با evidence ابتدا برای resume انتخاب می‌شود؛ WORK_ITEM_ID ثابت می‌ماند و RUN_ID جدید پس از Claim جدید استفاده می‌شود.
+- سپس candidateها با effective_priority=max(0, priority-floor(age_days))، ready_at/created_at قدیمی‌تر، WORK_ITEM_ID و Issue number مرتب می‌شوند.
+- hard_gates فقط با evidence معتبر ACCEPTED/PASS حل می‌شوند؛ soft_inputs gate نیستند. gate مبهم نامزد را BLOCKED می‌کند، نه کل نشست را.
+- Claim روی اولین نامزد انجام می‌شود. هر رد/conflict/timeout باید read-back شود و سپس نامزد بعدی بررسی شود؛ هیچ write بدون CLAIM GRANTED و fencing token معتبر مجاز نیست.
+- اگر هیچ leaf واجد شرایط در محدوده همان PR نبود، چت discovery و evidence audit read-only را ادامه می‌دهد و allocator را فقط با Lease انحصاری به کار می‌گیرد. اگر allocator قفل است، duplicate نساز؛ discovery مستقل ادامه یابد.
+- پس از هر Work Item یا handoff، snapshot تازه بگیر و حلقه را تکرار کن. هیچ شماره Issue، انتخاب وظیفه یا «ادامه بده» از مالک مطالبه نشود.
+
 ## ممنوعیت‌ها و رفتار امن
 
 - هرگز بر اساس ترتیب رسیدن پیام‌ها، نام حساب، شماره چت یا حدس، یک وظیفه را به چت خاصی اختصاص نده.
