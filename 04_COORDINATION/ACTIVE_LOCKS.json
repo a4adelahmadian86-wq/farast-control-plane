@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 306,
+  "revision": 307,
   "next_fencing_token": 66,
   "locks": [
     {
@@ -2869,6 +2869,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-16T11:03:03.068Z"
+    },
+    "6914701120": {
+      "response": "STEP ثبت شد: S1_MERGE_PLAN; progress=28.57%; verified=2/7.",
+      "response_posted": false,
+      "issue_number": 47,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-16T11:07:46.133Z"
     }
   },
   "work_items": {
@@ -3604,7 +3613,16 @@
           "step_id": "S1_MERGE_PLAN",
           "title": "Define a deterministic additive integration plan that preserves the complete 17 specialist prompts and 27 Work Items while resolving READ_ONLY routing and automatic queue selection conflicts",
           "required": true,
-          "weight": 1
+          "weight": 1,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/b6baf10c18923ff7b0f164adadf56d2218449024",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/a501553ff832510258f9e859cd1c8de023ce3b8e",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/78dab5730d1c0e168804a2284229cd440a6d61a2"
+          ],
+          "validated_at_utc": "2026-11-16T11:07:45.952Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Integration"
         },
         {
           "step_id": "S2_DEEP_STANDARD",
