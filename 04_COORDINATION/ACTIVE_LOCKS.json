@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 472,
+  "revision": 473,
   "next_fencing_token": 72,
   "locks": [
     {
@@ -4203,6 +4203,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-16T17:20:44.695Z"
+    },
+    "6923693793": {
+      "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-EXP22-CONTROLLED-IMPLEMENTATION-001; EXECUTION_PROGRESS=85.71%; ACCEPTANCE_PROGRESS=75%; OVERALL_COMPLETION=75%; next_action=Complete Issue #52 S5_VALIDATE with a successful live /farast progress response and registry read-back for Issue #51; verify FARAST_GITHUB_TOKEN has checks:read, statuses:read, pull_requests:write on non; reconcile Issue #51 no-merge scope with EXP-23 merge gate; approve an explicit ticket status-transition matrix or select another evidence-backed behavior; then start a fresh RUN and claim the authorized product Work Item.; remaining_steps=S2_MAP.",
+      "response_posted": false,
+      "issue_number": 34,
+      "actor": "a4adelahmadian86-wq",
+      "command": "checkpoint",
+      "next_status": null,
+      "at_utc": "2026-11-16T17:20:52.966Z"
     }
   },
   "work_items": {
@@ -5541,6 +5550,60 @@
         "lease_expires_at_utc": "2026-11-14T17:54:45.317Z"
       },
       "next_action": "Release allocator lease with /farast release; preserve WORK_ITEM_ID and resume S5_RELEASE on the next allocator run"
+    },
+    "34": {
+      "work_item_id": "WI-EXP22-CONTROLLED-IMPLEMENTATION-001",
+      "run_id": "RUN-20261116-PR16-EXP22-001",
+      "checkpoint_version": 1,
+      "created_at_utc": "2026-11-16T17:20:52.966Z",
+      "last_verified_step_id": "S7_VERIFY",
+      "current_step_id": "S7_VERIFY",
+      "completed_step_ids": [
+        "S1_DISCOVER",
+        "S3_ANALYZE",
+        "S4_CROSSCHECK",
+        "S5_ASSESS",
+        "S6_REPORT",
+        "S7_VERIFY"
+      ],
+      "remaining_step_ids": [
+        "S2_MAP"
+      ],
+      "progress_percentage": 85.71,
+      "execution_progress_percentage": 85.71,
+      "acceptance_progress_percentage": 75,
+      "overall_completion_percentage": 75,
+      "progress_calculation_version": "PROGRESS_V2",
+      "required_step_counts": {
+        "pass": 6,
+        "fail": 0,
+        "blocked": 1,
+        "unknown": 0,
+        "not_run": 0
+      },
+      "acceptance_criteria_counts": {
+        "pass": 3,
+        "fail": 0,
+        "blocked": 1,
+        "unknown": 0,
+        "not_run": 0
+      },
+      "evidence_refs": [
+        "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/52"
+      ],
+      "blockers": [
+        "issue52-live-smoke",
+        "token-scopes-unverified",
+        "merge-scope-conflict",
+        "transition-policy-undefined"
+      ],
+      "owner": {
+        "actor": "a4adelahmadian86-wq",
+        "chat_id": "CHAT-PR16-20261116-01",
+        "fencing_token": 71,
+        "lease_expires_at_utc": "2026-11-16T17:50:44.691Z"
+      },
+      "next_action": "Complete Issue #52 S5_VALIDATE with a successful live /farast progress response and registry read-back for Issue #51; verify FARAST_GITHUB_TOKEN has checks:read, statuses:read, pull_requests:write on non; reconcile Issue #51 no-merge scope with EXP-23 merge gate; approve an explicit ticket status-transition matrix or select another evidence-backed behavior; then start a fresh RUN and claim the authorized product Work Item."
     },
     "43": {
       "work_item_id": "WI-PROMPT-AUTORUN-001",
