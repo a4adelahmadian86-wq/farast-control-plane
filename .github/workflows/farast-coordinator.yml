@@ -19,7 +19,9 @@ concurrency:
 permissions:
   contents: write
   issues: write
-  pull-requests: read
+  pull-requests: write
+  checks: read
+  statuses: read
 
 jobs:
   coordinate:
@@ -49,8 +51,8 @@ jobs:
               { name: 'agent:ready', color: '0E8A16', description: 'Ready for an authorized worker to claim' },
               { name: 'agent:locked', color: 'B60205', description: 'One or more central resource leases are active' },
               { name: 'agent:blocked', color: 'D93F0B', description: 'Blocked pending resolution' },
-              { name: 'agent:review', color: 'FBCA04', description: 'Implementation complete; independent review required' },
-              { name: 'agent:done', color: '5319E7', description: 'Accepted after merged PR and independent current-head approval' }
+              { name: 'agent:review', color: 'FBCA04', description: 'Implementation complete; automated checks and acceptance pending' },
+              { name: 'agent:done', color: '5319E7', description: 'Accepted after exact-head automated checks and merge' }
             ];
 
             for (const label of labelDefs) {
@@ -360,7 +362,7 @@ jobs:
                       else if (command === 'release' && state.work_items[issue.number].status === 'CLAIMED') state.work_items[issue.number].status = 'READY';
                     }
                     nextStatus = command === 'block' ? 'blocked' : command === 'review' ? 'review' : 'ready';
-                    response = command === 'release' ? 'Lease آزاد شد؛ وظیفه تکمیل‌شده محسوب نمی‌شود.' : command === 'block' ? 'وظیفه مسدود شد و lease آزاد شد.' : 'پیاده‌سازی برای بازبینی مستقل تحویل شد؛ این به معنی پذیرش نیست.';
+                    response = command === 'release' ? 'Lease آزاد شد؛ وظیفه تکمیل‌شده محسوب نمی‌شود.' : command === 'block' ? 'وظیفه مسدود شد و lease آزاد شد.' : 'پیاده‌سازی برای اجرای گیت‌های ماشینی و پذیرش خودکار تحویل شد؛ این فرمان به‌تنهایی پذیرش نیست.';
                   }
                 } else if (command === 'unblock' || command === 'reopen') {
                   if (current.length) response = 'فرمان رد شد: ابتدا lease فعال باید با مالکیت معتبر آزاد شود.';
@@ -385,15 +387,28 @@ jobs:
                     const automatedChecksPassed = coordinatorCore.hasSuccessfulChecks(checkRuns.data.check_runs, combinedStatus.data);
                     if (!labelsOf(issue).includes('agent:review') || current.length) response = 'پذیرش رد شد: وظیفه باید در وضعیت review و بدون lease فعال باشد.';
                     else if (!branchBound) response = 'پذیرش رد شد: PR باید از branch و target repository ثبت‌شده در آخرین handoff همان lease ساخته شده باشد.';
-                    else if (!pr.merged || !automatedChecksPassed) response = 'پذیرش خودکار رد شد: PR باید merged باشد و تمام Check Runها و Commit Statusهای SHA دقیق head با conclusion/state برابر success تکمیل شده باشند؛ تأیید انسانی مطالبه نمی‌شود.';
+                    else if (!automatedChecksPassed) response = 'پذیرش خودکار رد شد: تمام Check Runها و Commit Statusهای SHA دقیق head باید با conclusion/state برابر success تکمیل شده باشند؛ تأیید انسانی مطالبه نمی‌شود.';
                     else {
+                      let mergeConfirmed = pr.merged;
+                      if (!mergeConfirmed) {
+                        try {
+                          const mergeResponse = await prClient.rest.pulls.merge({ owner: prOwner, repo: prRepo, pull_number: Number(prNumber), sha: pr.head.sha });
+                          mergeConfirmed = mergeResponse.data.merged === true;
+                        } catch (mergeError) {
+                          response = 'ادغام خودکار انجام نشد؛ GitHub merge را رد کرد: ' + String(mergeError.message || mergeError).slice(0, 300);
+                        }
+                      }
+                      if (!mergeConfirmed) {
+                        if (!response) response = 'ادغام خودکار تأیید نشد؛ PR باز می‌ماند و پذیرش انجام نمی‌شود.';
+                      } else {
                       const workItem = savedWorkItemFor(state, issue);
                       if (workItem) {
                         state.work_items ||= {}; state.work_items[issue.number] ||= workItem;
                         const gate = workItemCore.calculateProgress(state.work_items[issue.number]);
                         if (!gate.can_accept) response = 'پذیرش Work Item رد شد: همه گام‌های اجباری، معیارهای پذیرش و dependencyها باید با evidence معتبر PASS شوند؛ EXECUTION_PROGRESS=' + gate.execution_percentage + '%; ACCEPTANCE_PROGRESS=' + (gate.acceptance_percentage === null ? 'N/A' : gate.acceptance_percentage + '%') + '; OVERALL_COMPLETION=' + (gate.overall_completion_percentage === null ? 'N/A' : gate.overall_completion_percentage + '%') + '.';
                         else { state.work_items[issue.number].status = 'ACCEPTED'; nextStatus = 'done'; response = 'Work Item ACCEPTED: همه گام‌ها و معیارهای اجباری با evidence معتبر پاس شده‌اند؛ PR ادغام‌شده و تمام گیت‌های ماشینی موفق روی SHA دقیق head احراز شد؛ هیچ Review انسانی شرط پذیرش نیست.'; }
-                      } else { nextStatus = 'done'; response = 'پذیرش تأیید شد: PR ادغام‌شده و تمام گیت‌های ماشینی موفق روی SHA دقیق head احراز شد؛ هیچ Review انسانی شرط پذیرش نیست.'; }
+                      } else { nextStatus = 'done'; response = 'پذیرش تأیید شد: PR به‌صورت خودکار ادغام شد و تمام گیت‌های ماشینی موفق روی SHA دقیق head احراز شد؛ هیچ Review انسانی شرط پذیرش نیست.'; }
+                      }
                     }
                     }
                   }
