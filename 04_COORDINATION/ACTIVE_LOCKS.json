@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 432,
+  "revision": 433,
   "next_fencing_token": 72,
   "locks": [
     {
@@ -3903,6 +3903,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-16T17:09:10.156Z"
+    },
+    "6923434604": {
+      "response": "STEP ثبت شد: S2_MAP; EXECUTION_PROGRESS=14.28%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=1/7.",
+      "response_posted": false,
+      "issue_number": 34,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-16T17:09:59.703Z"
     }
   },
   "work_items": {
@@ -4269,7 +4278,14 @@
           "weight": 1,
           "expected_output": "خروجی قابل بازبینی برای مرحله: بررسی hard/soft dependencies و اثبات رفع gateها از منبع زنده.",
           "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "BLOCKED",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/52"
+          ],
+          "validated_at_utc": "2026-11-16T17:09:59.698Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S3_ANALYZE",
