@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 440,
+  "revision": 441,
   "next_fencing_token": 72,
   "locks": [
     {
@@ -3963,6 +3963,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-16T17:11:17.524Z"
+    },
+    "6923477359": {
+      "response": "STEP ثبت شد: S4_CROSSCHECK; EXECUTION_PROGRESS=42.85%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=3/7.",
+      "response_posted": false,
+      "issue_number": 34,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-16T17:11:40.615Z"
     }
   },
   "work_items": {
@@ -4361,7 +4370,14 @@
           "weight": 1,
           "expected_output": "خروجی قابل بازبینی برای مرحله: تعریف pre-change snapshot، backup/rollback و stop conditions.",
           "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/34#issuecomment-6923371651"
+          ],
+          "validated_at_utc": "2026-11-16T17:11:40.611Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S5_ASSESS",
