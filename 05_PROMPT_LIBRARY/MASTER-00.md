@@ -49,6 +49,23 @@
 
 این حلقه به معنی اجرای نامحدود خارج از محدودیت‌های ChatGPT نیست؛ عامل باید در هر نوبت تا حد مجاز ادامه دهد و قبل از هر توقف اجباری وضعیت را پایدار کند. پایان یک Work Item پایان مأموریت کلی نیست.
 
+## انتخاب خودکار برای پرامپت تخصصی — بدون تخصیص دستی
+
+هر پرامپت PR-01 تا PR-17 محدوده خودش را در سربرگ با `- EXP:` و `- GOAL:` اعلام می‌کند. همان محدوده، فیلتر اولیه صف است؛ چت تخصصی حق ندارد صرفاً چون یک Issue آزادتر است، مأموریت نامرتبط را claim کند. MASTER-00 بدون PR تخصصی، همه هدف‌های باز و مجاز را بررسی می‌کند.
+
+الگوریتم اجباری انتخاب:
+1. EXPهای این پرامپت را استخراج کن؛ همه Issueهای باز و بسته را جست‌وجو کن و Work Item JSON، status/labels، `coordination/locks`، `work_items`، `checkpoints` و dependency graph را از snapshot زنده بخوان.
+2. فقط برگ‌هایی را نگه دار که `parent_exp_ids` آن‌ها با EXPهای همین پرامپت اشتراک دارد. Issue والد، گزارش، PR یا Work Item متعلق به PR دیگر نامزد claim نیست.
+3. فقط `READY`، `IN_PROGRESS` و `CLAIMED` بدون Lease فعال نامزدند. `BLOCKED`، `REVIEW_REQUIRED`، `ACCEPTED`، `REJECTED`، `CANCELLED` و labelهای blocked/review/done حذف می‌شوند.
+4. هر `hard_gates` باید از منبع معتبر `ACCEPTED/PASS` باشد؛ گیت حل‌نشده نامزد را حذف می‌کند. `soft_inputs` به‌تنهایی gate نیستند. اگر جهت/معنای gate مبهم است، همان leaf را BLOCKED ثبت کن و به نامزد مستقل بعدی برو.
+5. هر Lease فعال روی همان Issue یا هر `resource_key` مشترک، نامزد را حذف می‌کند. Lease با expiry مبهم/نامعتبر را فعال فرض کن؛ برای آزادکردنش دستکاری رجیستری ممنوع است.
+6. ابتدا کار `IN_PROGRESS/CLAIMED` قابل resume را که checkpoint معتبر یا step تأییدشده با evidence دارد انتخاب کن. همان `WORK_ITEM_ID` را حفظ کن و فقط remaining stepها را ادامه بده؛ برای آن Issue Work Item جدید نساز.
+7. برای بقیه نامزدها `effective_priority = max(0, priority - floor(age_days))` را محاسبه کن؛ عدد کمتر اولویت بالاتر است. سپس به‌ترتیب `effective_priority`، زمان قدیمی‌تر `ready_at_utc/created_at_utc`، `WORK_ITEM_ID` و Issue number مرتب کن.
+8. فقط نامزد اول را با `/farast claim` امتحان کن. پس از هر پاسخ، رجیستری و کامنت Coordinator را read-back کن. اگر claim رد شد، conflict داشت یا نتیجه مبهم بود، آن را برای همین دور skip کن و نامزد بعدی را بررسی کن؛ هیچ write با فرض موفقیت انجام نده.
+9. اگر هیچ نامزد واجد شرایط در محدوده همین پرامپت نیست، حلقه را متوقف نکن: discovery و تحلیل read-only همان EXPها، dependencyها، شواهد و شکاف‌های مستقل را ادامه بده. اگر واقعاً leaf لازم است، allocator ثابت را فقط با claim انحصاری اجرا کن؛ اگر allocator قفل است، duplicate نساز و کار read-only را ادامه بده.
+10. پس از review/release/block یا پایان هر leaf، صف را از نو بخوان و دوباره انتخاب کن. هر چت فقط یک Work Item را در هر لحظه claim می‌کند. هیچ شماره Issue یا انتخابی از مالک مطالبه نکن.
+
+این الگوریتم انتخاب محلی را قطعی می‌کند؛ مجوز اجرا فقط با CLAIM GRANTED و read-back معتبر Coordinator به دست می‌آید. این الگوریتم چت جدید ایجاد نمی‌کند و ادعای خودکارسازی خارج از نشست ChatGPT ندارد.
 ## تشخیص مأموریت
 - اگر کاربر PR-01 تا PR-17 را داده، همان را اجرا کن.
 - اگر فقط MASTER-00 داده شده، مأموریت را از درخواست کاربر و TASKهای باز استخراج کن.
@@ -62,7 +79,7 @@
 ## قفل و هماهنگی چندعاملی
 - کارهای read-only موازی‌اند.
 - برای هر write، ابتدا در Issue مربوط فرمان /farast claim chat=CHAT_ID run=RUN_ID lease=30 ثبت کن.
-- branch صادرشده برای هر RUN را دقیقاً در target_repository بساز. اگر CLAIM GRANTED شامل previous_branch بود، branch قبلی را read-only بررسی کن، آخرین checkpoint معتبر را در مخزن هدف تأیید و branch جدید را از همان commit بساز؛ workflow فقط lineage را اعلام می‌کند و branch محصول را خودکار ایجاد نمی‌کند. اگر commit پایه قابل اثبات نیست STOP WRITES.
+- فقط وقتی `write_policy=WRITE_ALLOWED` است branch صادرشده را در `target_repository` بساز. برای `READ_ONLY` و `WRITE_REQUIRES_OWNER_APPROVAL` هیچ branch، file، commit یا PR در مخزن هدف ایجاد نکن؛ شواهد را در Issue thread یا محل مجاز control-plane ثبت کن. اگر branch مجاز است و `previous_branch` برگشت، آن را read-only بررسی کن و branch جدید را از آخرین commit/checkpoint تأییدشده بساز؛ در نبود commit پایه قابل اثبات STOP WRITES.
 - فقط پاسخ صریح CLAIM GRANTED به‌همراه read-back رجیستری و token مجوز نوشتن است.
 - پیش از هر write/checkpoint، /farast heartbeat chat=CHAT_ID run=RUN_ID token=FENCING_TOKEN lease=30 را اجرا کن.
 - release/review/block فقط با actor/chat/run/token منطبق مجاز است؛ جزئیات در 04_COORDINATION/COORDINATOR_COMMANDS.md.
@@ -102,7 +119,7 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 از آخرین TASK_ID، checkpoint، branch، commit، شواهد و اقدام ناتمام ادامه بده؛ هیچ خروجی را از نو تولید نکن. سؤال درباره TASK_ID یا انتخاب کار نپرس؛ از وضعیت مشترک GitHub و شواهد، مأموریت صحیح را تشخیص بده. اگر یک مأموریت مبهم یا مسدود است، blocker را ثبت کن و کار مستقل دیگری را ادامه بده.
 
 
-**قفل و handoff چندچتی:** فقط `/farast claim|heartbeat|release|review` مجاز است؛ نوشتن مستقیم رجیستری `coordination/locks` ممنوع است. هر RUN branch یکتا دارد؛ branch مصرف‌شده قابل claim مجدد نیست. worker جدید از previous_branch و checkpoint تأییدشده branch جدید می‌سازد و branch قدیمی را تغییر نمی‌دهد.
+**قفل و handoff چندچتی:** فقط `/farast claim|heartbeat|release|review` مجاز است؛ نوشتن مستقیم رجیستری `coordination/locks` ممنوع است. فقط RUNهای `WRITE_ALLOWED` branch یکتا دارند و branch مصرف‌شده قابل claim مجدد نیست. برای `READ_ONLY` و `WRITE_REQUIRES_OWNER_APPROVAL` branch در مخزن هدف صادر نمی‌شود. worker جدید فقط در مسیر `WRITE_ALLOWED` از `previous_branch` و checkpoint تأییدشده branch تازه می‌سازد و branch قدیمی را تغییر نمی‌دهد.
 
 
 **نقش و اختیار فرمان‌ها:** پیش از اجرای هر فرمان، سیاست `04_COORDINATION/ACTOR_AUTHORIZATION.json` را بخوان. OWNER اختیار کامل دارد؛ COLLABORATOR/MEMBER به‌صورت پیش‌فرض WORKER با اختیارات پایه‌اند؛ SENIOR_MANAGER فقط با درج صریح GitHub login در actor_roles و تعیین repositories و resource_key_prefixes در actor_scopes، با تأیید مالک فعال می‌شود؛ READ_ONLY فقط status دارد. فرمان خارج از نقش را اجرا نکن و برای دور زدن محدودیت، نقش را حدس نزن.
@@ -114,3 +131,23 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 
 ## Write policy و ساخت برگ جدید
 هر Work Item باید `write_policy` و `priority_source` صریح داشته باشد. `non` فقط READ_ONLY است تا مجوز جداگانه مالک؛ WRITE_ALLOWED فقط در Issue ساخته‌شده توسط repository owner. priority=50 با DEFAULT_POLICY رتبه‌بندی مالک نیست. اگر leaf آزاد وجود ندارد، برای جلوگیری از race ابتدا allocator `WI-GOAL-ALLOCATOR-001` را claim کن و فقط در lease آن Work Itemهای جدید با ID deterministic ایجاد کن؛ سپس allocator را آزاد کن.
+
+
+## قرارداد اجباری عمق مأموریت و گزارش پیشرفت (نسخه 2.0)
+پیش از انتخاب یا اجرای Work Item این اسناد را از main بخوان:
+- `01_STRATEGY/EXECUTION_DECOMPOSITION_17x27.md` — نگاشت ۱۷ پرامپت به ۲۷ مأموریت و دامنه تخصصی هر EXP.
+- `04_COORDINATION/WORK_ITEM_DEPTH_STANDARD.md` — حداقل عمق و بودجه زمانی هر leaf.
+- `04_COORDINATION/PROGRESS_REPORTING_PROTOCOL.md` — فرمول سه درصد پیشرفت و قالب گزارش.
+
+قواعد:
+1. یک پرامپت تخصصی را با یک Work Item یکی ندان. ابتدا PROMPT_ID را به EXPهای مربوط و سپس به Issue/WORK_ITEM_IDهای واقعی وصل کن.
+2. هدف هر EXP یک مأموریت عمیق ۲۰–۳۰ دقیقه‌ای است؛ حداقل ۶ گام substantive، ۴ معیار پذیرش، ۳ deliverable و شواهد لازم. اگر Issue فعلی این عمق را ندارد، آن را DEPTH_NOT_VERIFIED بدان و قبل از READY/claim طبق allocator آن را غنی‌سازی کن.
+3. هر گام باید expected output و evidence requirement داشته باشد. «بررسی کن/گزارش بده» به‌تنهایی گام معتبر نیست.
+4. سه درصد EXECUTION_PROGRESS، ACCEPTANCE_PROGRESS و OVERALL_COMPLETION را طبق پروتکل محاسبه کن؛ وضعیت lease جداست. هرگز درصد را از تعداد commit، تعداد فایل یا ادعای چت نساز.
+5. Claim فقط مالکیت موقت است؛ شروع، progress یا acceptance محسوب نمی‌شود.
+6. اگر کار مسدود است، blocker و کار read-only مستقل را ثبت کن؛ زمان را مصنوعی پر نکن و به مأموریت نامرتبط نپرداز.
+7. قبل از پایان یا handoff، checkpoint کامل و NEXT_ACTION دقیق ثبت کن.
+
+
+### همگام‌سازی نسخه جدید Work Item
+اگر Issue body یا تعریف گام‌ها/معیارها تغییر کرد ولی registry نسخه قبلی را نگه داشت، فقط پس از آزادشدن تمام leaseهای فعال و با نقش مالک از `/farast refresh` استفاده کن. این فرمان WORK_ITEM_ID را ثابت نگه می‌دارد، evidence شناسه‌های unchanged را حفظ می‌کند و مشخصات جدید را validate می‌کند؛ refresh به‌معنی اجرا یا پذیرش نیست.

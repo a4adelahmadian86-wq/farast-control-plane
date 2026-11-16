@@ -72,6 +72,27 @@ body:
       description: Include in-scope, out-of-scope, preservation requirements, and stop conditions.
     validations:
       required: true
+  - type: input
+    id: effort_estimate_minutes
+    attributes:
+      label: Target focused effort (minutes)
+      description: Target 20-30 minutes of substantive work; do not force artificial waiting.
+      placeholder: "25"
+    validations:
+      required: true
+  - type: textarea
+    id: depth_profile
+    attributes:
+      label: Depth profile
+      description: Minimum 6 substantive steps, 4 acceptance criteria and 3 deliverables; include profile version and rationale.
+      placeholder: |
+        profile_version: 2.0.0
+        min_substantive_steps: 6
+        min_acceptance_criteria: 4
+        min_deliverables: 3
+        target_effort_minutes: 25
+    validations:
+      required: true
   - type: textarea
     id: acceptance
     attributes:
@@ -140,7 +161,7 @@ body:
     id: work_item_specification_json
     attributes:
       label: Work item specification JSON
-      description: Valid JSON conforming to 04_COORDINATION/WORK_ITEM_SCHEMA.json. Include steps, evidence requirements, dependencies and acceptance criteria. Do not mark anything PASS at creation.
+      description: Valid JSON conforming to 04_COORDINATION/WORK_ITEM_SCHEMA.json. Include 6+ substantive steps, expected_output/evidence_requirement for each, 4+ criteria, 3+ deliverables, depth_profile and effort_estimate_minutes. Do not mark anything PASS at creation.
       placeholder: |
         {
           "schema_version": "1.0",
@@ -154,8 +175,29 @@ body:
           "target_repository": "a4adelahmadian86-wq/farast-control-plane",
           "resource_keys": ["module:capability-catalog"],
           "dependencies": [],
-          "steps": [{"step_id": "S1", "title": "Inspect evidence"}],
-          "acceptance_criteria": [{"criterion_id": "AC1", "title": "Evidence is traceable"}],
+          "effort_estimate_minutes": 25,
+          "effort_rationale": "Focused discovery, cross-check, analysis and read-back.",
+          "depth_profile": {"profile_version":"2.0.0","min_substantive_steps":6,"min_acceptance_criteria":4,"min_deliverables":3,"target_effort_minutes":25},
+          "steps": [
+            {"step_id":"S1_DISCOVER","title":"Inspect the primary evidence","expected_output":"Evidence inventory","evidence_requirement":"Exact GitHub URL or UNKNOWN","estimate_minutes":4},
+            {"step_id":"S2_MAP","title":"Map related components","expected_output":"Component map","evidence_requirement":"Source references","estimate_minutes":4},
+            {"step_id":"S3_ANALYZE","title":"Analyze behavior and constraints","expected_output":"Analysis notes","evidence_requirement":"Evidence-backed findings","estimate_minutes":4},
+            {"step_id":"S4_CROSSCHECK","title":"Cross-check claims against independent sources","expected_output":"Cross-check matrix","evidence_requirement":"Two source types where possible","estimate_minutes":4},
+            {"step_id":"S5_ASSESS","title":"Assess risks and unknowns","expected_output":"Risk/unknown register","evidence_requirement":"Source-backed risk entries","estimate_minutes":3},
+            {"step_id":"S6_REPORT","title":"Produce the deliverables","expected_output":"Task artifacts","evidence_requirement":"Artifact URLs","estimate_minutes":3},
+            {"step_id":"S7_VERIFY","title":"Read back and verify the outputs","expected_output":"Verification record","evidence_requirement":"Read-back URLs","estimate_minutes":3}
+          ],
+          "acceptance_criteria": [
+            {"criterion_id":"AC_SCOPE","title":"All required steps completed or blocked with evidence"},
+            {"criterion_id":"AC_EVIDENCE","title":"Every factual conclusion has a traceable evidence reference"},
+            {"criterion_id":"AC_OUTPUT","title":"All required deliverables exist and were read back"},
+            {"criterion_id":"AC_POLICY","title":"Write policy, dependencies and safety boundaries were respected"}
+          ],
+          "deliverables": [
+            {"deliverable_id":"D1","description":"Primary task artifact","evidence_requirement":"GitHub URL"},
+            {"deliverable_id":"D2","description":"Evidence and unknowns register","evidence_requirement":"GitHub URL"},
+            {"deliverable_id":"D3","description":"Final report and next action","evidence_requirement":"GitHub URL"}
+          ],
           "priority": 50,
           "created_at_utc": "2026-11-14T00:00:00Z"
         }

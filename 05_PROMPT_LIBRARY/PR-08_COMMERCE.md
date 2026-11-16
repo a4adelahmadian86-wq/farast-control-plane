@@ -6,10 +6,11 @@
 پیش از هر اقدام، `START_HERE.md`، `04_COORDINATION/INTERRUPTION_RECOVERY_PROTOCOL.md`، `05_PROMPT_LIBRARY/MASTER-00.md` و `04_COORDINATION/WORK_ITEM_EXECUTION_PROTOCOL.md` را از main بخوان. سپس Issueها، PRها، checkpointها، feedback و branch `coordination/locks` را read-only بررسی کن. حافظه چت و خلاصه خودکار مرجع وضعیت نیستند.
 
 ## انتخاب هدف خرد
-- هدف‌های مرتبط را از GOAL_TREE و EXP-01 تا EXP-27 استخراج کن؛ شماره‌ها شناسه‌اند، نه ترتیب اجباری.
+- محدوده تخصصی را فقط از EXP IDهای سربرگ همین پرامپت استخراج کن؛ فقط Issueهایی که parent_exp_ids با این مجموعه اشتراک دارد نامزدند. MASTER-00 عمومی می‌تواند همه هدف‌های باز را بررسی کند.
+- با دریافت همین پرامپت، بدون درخواست شماره Issue یا تخصیص دستی از مالک، صف زنده را طبق الگوریتم MASTER-00 و WORK_ITEM_EXECUTION_PROTOCOL بخوان و خودکار برگ بعدی را انتخاب کن.
 - هر برگ اجرایی یک Issue مستقل با WORK_ITEM_ID پایدار است. پیش از ساخت Issue، Issueهای باز و بسته، WORK_ITEM_IDها، dependencyها و resource keys را جست‌وجو کن؛ کار موجود را دوباره نساز.
 - ابتدا work item نیمه‌تمام با checkpoint معتبر و lease منقضی/آزاد را برای resume انتخاب کن؛ اگر lease معتبر دارد آن را کنار بگذار. سپس READYهای بدون dependency یا resource conflict را طبق priority مالک، aging روزانه، قدیمی‌ترین ready/created time و WORK_ITEM_ID مرتب کن.
-- انتخاب محلی مجوز write نیست؛ فقط پس از claim موفق CAS از طریق /farast روی Issue همان برگ اقدام کن. اگر هیچ برگ آزاد و واجد شرایط نیست، متوقف شو و وضعیت را گزارش کن.
+- انتخاب محلی مجوز write نیست؛ فقط پس از CLAIM GRANTED و read-back رجیستری از طریق /farast روی Issue همان برگ اقدام کن. اگر claim رد شد، conflict داشت یا timeout شد، اثر را read-back کن و نامزد بعدی را امتحان کن. اگر هیچ برگ واجد شرایطی در محدوده همین پرامپت نیست، discovery و تحلیل dependency/evidence همان EXPها را read-only ادامه بده؛ allocator فقط با Lease انحصاری، و بدون duplicate.
 - Issue والد صرفاً گروه‌بندی و تجمیع است و هرگز claim اجرایی نمی‌گیرد.
 - هر Work Item باید `write_policy` داشته باشد: `READ_ONLY`, `WRITE_REQUIRES_OWNER_APPROVAL` یا `WRITE_ALLOWED`. مخزن محصول `a4adelahmadian86-wq/non` فقط `READ_ONLY` است تا مجوز جداگانه مالک ثبت شود. WRITE_ALLOWED فقط برای Issue ساخته‌شده توسط repository owner پذیرفته می‌شود.
 - `priority_source=DEFAULT_POLICY` و priority=50 یعنی اولویت برابر و FIFO/aging، نه رتبه‌بندی مالک؛ `OWNER_ASSIGNED` فقط با تصمیم صریح مالک.
@@ -24,12 +25,12 @@
 
 ## دروازه اجباری هماهنگی چندچتی
 - رجیستری `coordination/locks` فقط توسط workflow مرکزی نوشته می‌شود؛ هرگز direct-CAS یا نوشتن مستقیم انجام نده.
-- هرگز branch قبلی را دوباره استفاده نکن؛ هر RUN جدید branch اختصاصی دارد و branch قبلی فقط read-only بررسی می‌شود.
+- هرگز branch قبلی را دوباره استفاده نکن؛ هر RUN جدید شناسه یکتا دارد؛ branch اختصاصی فقط برای `WRITE_ALLOWED` صادر می‌شود و branch قبلی فقط read-only بررسی می‌شود.
 - پیش از فرمان‌ها سیاست `ACTOR_AUTHORIZATION.json` را بخوان؛ SENIOR_MANAGER فقط با `actor_roles` و `resource_key_prefixes` صریح مجاز است.
 - timeout، خطا یا lease نامعلوم = STOP WRITES؛ claim موفق و read-back رجیستری شرط هر write است.
 - قرارداد قفل را در `LOCK_MANAGER_PROTOCOL.md` بخوان؛ TASK_ID پایدار را حفظ کن و برای هر عملیات OPERATION_ID یکتا داشته باش. نتیجه نامعلوم را AMBIGUOUS ثبت کن و از GitHub read-back بگیر؛ خلاصه چت مرجع حقیقت نیست.
 - لینک مستقیم دروازه ورود: https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/START_HERE.md .
-- branch قبلی را read-only نگه دار؛ target_repository و branch اختصاصی همان RUN باید دقیقاً با پاسخ claim منطبق باشند.
+- اگر `write_policy=WRITE_ALLOWED` است، target_repository و branch اختصاصی همان RUN باید دقیقاً با پاسخ claim منطبق باشند؛ در `READ_ONLY` و `WRITE_REQUIRES_OWNER_APPROVAL` branch در مخزن هدف نساز؛ branch قبلی را read-only نگه دار.
 # PR-08_COMMERCE — چرخه تجارت دیجیتال و پرداخت
 
 - EXP: EXP-08
@@ -61,7 +62,7 @@
 
 ## دروازه اجباری هماهنگی چندچتی
 - پیش از هر write، در Issue وظیفه فرمان /farast claim chat=CHAT_ID run=RUN_ID lease=30 را ثبت کن.
-- فقط پس از پاسخ صریح CLAIM GRANTED و read-back رجیستری زنده مجاز به نوشتن هستی؛ target_repository و branch اختصاصی همان RUN را عیناً از پاسخ بردار. عدم پاسخ/timeout/خطا = STOP WRITES.
+- فقط پس از پاسخ صریح CLAIM GRANTED و read-back رجیستری زنده مجاز به اقدام هستی؛ target_repository و branch اختصاصی همان RUN را فقط برای `WRITE_ALLOWED` از پاسخ بردار. در READ_ONLY/WRITE_REQUIRES_OWNER_APPROVAL مقدار branch=none است و هیچ write در مخزن هدف مجاز نیست. عدم پاسخ/timeout/خطا = STOP WRITES.
 - رجیستری ACTIVE_LOCKS.json فقط توسط workflow مرکزی نوشته می‌شود؛ نوشتن مستقیم یا direct-CAS توسط worker ممنوع است.
 - پیش از هر write/checkpoint، /farast heartbeat chat=CHAT_ID run=RUN_ID token=FENCING_TOKEN lease=30 را اجرا کن.
 - در پایان از /farast review یا /farast release با token صحیح استفاده کن؛ release به معنی پذیرش نیست.
@@ -74,3 +75,19 @@
 
 
 **نقش و اختیار فرمان‌ها:** پیش از اجرای هر فرمان، سیاست `04_COORDINATION/ACTOR_AUTHORIZATION.json` را بخوان. OWNER اختیار کامل دارد؛ COLLABORATOR/MEMBER به‌صورت پیش‌فرض WORKER با اختیارات پایه‌اند؛ SENIOR_MANAGER فقط با درج صریح GitHub login در actor_roles و تعیین repositories و resource_key_prefixes در actor_scopes، با تأیید مالک فعال می‌شود؛ READ_ONLY فقط status دارد. فرمان خارج از نقش را اجرا نکن و برای دور زدن محدودیت، نقش را حدس نزن.
+
+
+## قرارداد اجباری عمق مأموریت و گزارش پیشرفت (نسخه 2.0)
+پیش از انتخاب یا اجرای Work Item این اسناد را از main بخوان:
+- `01_STRATEGY/EXECUTION_DECOMPOSITION_17x27.md` — نگاشت ۱۷ پرامپت به ۲۷ مأموریت و دامنه تخصصی هر EXP.
+- `04_COORDINATION/WORK_ITEM_DEPTH_STANDARD.md` — حداقل عمق و بودجه زمانی هر leaf.
+- `04_COORDINATION/PROGRESS_REPORTING_PROTOCOL.md` — فرمول سه درصد پیشرفت و قالب گزارش.
+
+قواعد:
+1. یک پرامپت تخصصی را با یک Work Item یکی ندان. ابتدا PROMPT_ID را به EXPهای مربوط و سپس به Issue/WORK_ITEM_IDهای واقعی وصل کن.
+2. هدف هر EXP یک مأموریت عمیق ۲۰–۳۰ دقیقه‌ای است؛ حداقل ۶ گام substantive، ۴ معیار پذیرش، ۳ deliverable و شواهد لازم. اگر Issue فعلی این عمق را ندارد، آن را DEPTH_NOT_VERIFIED بدان و قبل از READY/claim طبق allocator آن را غنی‌سازی کن.
+3. هر گام باید expected output و evidence requirement داشته باشد. «بررسی کن/گزارش بده» به‌تنهایی گام معتبر نیست.
+4. سه درصد EXECUTION_PROGRESS، ACCEPTANCE_PROGRESS و OVERALL_COMPLETION را طبق پروتکل محاسبه کن؛ وضعیت lease جداست. هرگز درصد را از تعداد commit، تعداد فایل یا ادعای چت نساز.
+5. Claim فقط مالکیت موقت است؛ شروع، progress یا acceptance محسوب نمی‌شود.
+6. اگر کار مسدود است، blocker و کار read-only مستقل را ثبت کن؛ زمان را مصنوعی پر نکن و به مأموریت نامرتبط نپرداز.
+7. قبل از پایان یا handoff، checkpoint کامل و NEXT_ACTION دقیق ثبت کن.

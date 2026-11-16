@@ -63,7 +63,7 @@ GitHub هویت واقعی ChatGPT chat را تأیید نمی‌کند. CHAT_ID
 
 
 ## Branch وظیفه
-Coordinator مقدار branch را به‌صورت work/GH-ISSUE_NUMBER-RUN_ID در رجیستری ثبت می‌کند و در claim بعدی previous_run/previous_branch/previous_target_repository را از history بازمی‌گرداند. خود workflow در مخزن هدف branch نمی‌سازد؛ worker دارنده lease باید target repository و branch را دقیقاً مطابق پاسخ claim بسازد. اگر previous_branch وجود داشت، worker ابتدا آن branch را read-only بررسی کند، آخرین commit تأییدشده/checkpoint را از سابقه کار استخراج و صحت آن را در target repository تأیید کند، سپس branch جدید را از همان commit بسازد؛ branch قبلی را هرگز تغییر ندهد. اگر checkpoint معتبر قابل تعیین نیست، قبل از هر write متوقف و گزارش دهد. branch استفاده‌شده قبلی برای همان Issue دوباره قابل claim نیست؛ RUN_ID جدید الزامی است. پذیرش PR فقط از branch آخرین رویداد REVIEW همان lease ممکن است.
+Coordinator فقط برای `write_policy=WRITE_ALLOWED` مقدار branch را به‌صورت `work/GH-ISSUE_NUMBER-RUN_ID` ثبت می‌کند. برای `READ_ONLY` و `WRITE_REQUIRES_OWNER_APPROVAL` مقدار branch باید null/none باشد و هیچ branch یا PR در target repository ساخته نشود؛ evidence در Issue thread یا محل مجاز control-plane ثبت می‌شود. خود workflow در مخزن هدف branch نمی‌سازد. worker فقط برای `WRITE_ALLOWED` باید branch را در target repository بسازد. اگر `previous_branch` وجود داشت، آن را read-only بررسی و آخرین commit/checkpoint معتبر را تأیید کند؛ سپس branch جدید را از همان commit بسازد. branch قبلی را هرگز تغییر ندهد. اگر checkpoint معتبر قابل تعیین نیست، پیش از هر write متوقف شود. branch استفاده‌شده قبلی برای همان Issue دوباره قابل claim نیست؛ RUN_ID جدید الزامی است. پذیرش PR فقط از branch آخرین رویداد REVIEW همان lease ممکن است.
 
 
 ## تفویض اختیار فرمان‌های چندچتی
@@ -86,3 +86,17 @@ Coordinator مقدار branch را به‌صورت work/GH-ISSUE_NUMBER-RUN_ID �
 - priority=50 با `DEFAULT_POLICY` اولویت خنثی است؛ FIFO و aging tie-break می‌کنند. رتبه‌بندی اختصاصی فقط با `OWNER_ASSIGNED` ثبت شود.
 
 ساخت Work Item جدید فقط زیر قفل allocator با شناسه ثابت `WI-GOAL-ALLOCATOR-001` مجاز است. ابتدا Issueهای موجود و WORK_ITEM_IDها را جست‌وجو کن؛ سپس allocator را claim کن، leafهای جدید را با شناسه deterministic بساز و پس از read-back قفل را release کن. هیچ دو چتی نباید هم‌زمان pool را گسترش دهند.
+
+
+## Refresh کردن مشخصات Work Item (فقط مالک)
+اگر body یک Issue تغییر کرد و نسخه قبلی همان WORK_ITEM_ID در registry ذخیره شده است، به‌روزرسانی Issue body به‌تنهایی registry را جایگزین نمی‌کند. پس از اطمینان از نبود lease فعال، مالک می‌تواند در همان Issue فرمان زیر را ثبت کند:
+
+`/farast refresh`
+
+- فقط نقش OWNER مجاز است؛ worker/manager این فرمان را ندارند.
+- هر lease فعال، refresh را رد می‌کند.
+- WORK_ITEM_ID باید ثابت بماند.
+- شواهد گام‌ها و معیارهایی که شناسه‌شان بدون تغییر مانده حفظ می‌شوند؛ شواهد گام‌های حذف‌شده به گام جدید منتقل نمی‌شوند.
+- مشخصات جدید با schema/core validation بررسی می‌شود؛ اگر عمق یا evidence requirement ناقص باشد refresh رد می‌شود.
+- پس از refresh، progress سه‌گانه از ساختار جدید محاسبه و وضعیت READY/IN_PROGRESS/REVIEW_REQUIRED تعیین می‌شود.
+- refresh پذیرش یا اجرای کار نیست؛ فقط همگام‌سازی تعریف Work Item بین Issue و registry است.

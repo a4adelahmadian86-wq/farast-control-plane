@@ -67,7 +67,7 @@
 4. duplicate و dependency را بررسی کن.
 5. TASK موجود را بازیابی یا Issue جدید بساز.
 6. Target repository و RESOURCE_KEYهای دقیق را در Issue ثبت و با فرمان coordinator به‌صورت all-or-none claim کن؛ branch و fencing token صادرشده را در checkpoint نگه دار.
-7. branch صادرشده در پاسخ CLAIM GRANTED را دقیقاً در target_repository ثبت‌شده ایجاد کن. اگر previous_branch برگشت، checkpoint/commit معتبر را read-only تأیید و branch جدید را از همان commit بساز؛ اگر checkpoint مبهم است STOP WRITES.
+7. فقط اگر `write_policy=WRITE_ALLOWED` است branch صادرشده در `target_repository` بساز؛ در `READ_ONLY` و `WRITE_REQUIRES_OWNER_APPROVAL` هیچ branch/file/commit/PR در مخزن هدف نساز و شواهد را در Issue یا محل مجاز control-plane ثبت کن. در مسیر مجاز، `previous_branch` و checkpoint را read-only تأیید و branch تازه را از commit معتبر بساز؛ اگر commit پایه مبهم است STOP WRITES.
 8. checkpoint اولیه و مرحله‌ای ثبت کن.
 9. PR و handoff بساز؛ ادغام نکن.
 
@@ -102,3 +102,14 @@
 - registry revision 113، بدون lease فعال.
 
 این شواهد اجرای زنده single-account را تأیید می‌کنند، نه E2E دو حساب مستقل. branch protection شاخه main فعال نیست؛ تا ثبت آزمون دوحسابی و اعمال/read-back حفاظت لازم، MASTER-00 برای شروع کارهای مجاز READ_ONLY قابل استفاده است، اما چندحسابی را VERIFIED تلقی نکنید. مخزن محصول `non` همچنان READ_ONLY است.
+
+
+## ساختار مأموریت‌ها و عمق اجرای هر پرامپت (نسخه 2.0)
+ساختار مرجع FARAST یک هدف کلان، ۱۷ پرامپت تخصصی و ۲۷ مأموریت اجرایی EXP-01 تا EXP-27 است. MASTER-00 هماهنگ‌کننده است و جزو ۱۷ پرامپت تخصصی شمرده نمی‌شود.
+
+پیش از اجرا این مراجع را بخوان:
+- [تفکیک ۱۷ پرامپت به ۲۷ مأموریت عمیق](01_STRATEGY/EXECUTION_DECOMPOSITION_17x27.md)
+- [استاندارد عمق Work Item و effort هدف ۲۰–۳۰ دقیقه](04_COORDINATION/WORK_ITEM_DEPTH_STANDARD.md)
+- [پروتکل سه شاخص پیشرفت](04_COORDINATION/PROGRESS_REPORTING_PROTOCOL.md)
+
+وجود ۲۷ Issue فعلی به‌تنهایی عمق آن‌ها را ثابت نمی‌کند. هر leaf که حداقل ۶ گام substantive، ۴ معیار پذیرش، ۳ خروجی و evidence requirement نداشته باشد `DEPTH_NOT_VERIFIED` است و باید با allocator غنی‌سازی شود. زمان ۲۰–۳۰ دقیقه effort هدف است، نه الزام به اتلاف زمان.

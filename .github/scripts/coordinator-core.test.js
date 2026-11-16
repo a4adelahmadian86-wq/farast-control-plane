@@ -161,7 +161,7 @@ test('chat and run identifiers are bounded and branch-safe', () => {
 test('command authorization enforces owner-delegated bounded roles', () => {
   const policy = {
     roles: {
-      OWNER: ['claim','heartbeat','release','status','block','unblock','review','reopen','accept'],
+      OWNER: ['claim','heartbeat','release','status','block','unblock','review','reopen','accept','refresh'],
       SENIOR_MANAGER: ['claim','heartbeat','release','status','block','unblock','review','reopen','accept'],
       WORKER: ['claim','heartbeat','release','status','block','review'],
       READ_ONLY: ['status']
@@ -173,6 +173,8 @@ test('command authorization enforces owner-delegated bounded roles', () => {
   assert.equal(core.roleForActor(policy, 'owner', 'OWNER'), 'OWNER');
   assert.equal(core.isCommandAllowed(policy, 'worker', 'COLLABORATOR', 'claim'), true);
   assert.equal(core.isCommandAllowed(policy, 'worker', 'COLLABORATOR', 'accept'), false);
+  assert.equal(core.isCommandAllowed(policy, 'owner', 'OWNER', 'refresh'), true);
+  assert.equal(core.isCommandAllowed(policy, 'worker', 'COLLABORATOR', 'refresh'), false);
   assert.equal(core.isCommandAllowed(policy, 'manager', 'COLLABORATOR', 'accept'), false);
   assert.equal(core.isCommandAllowed(policy, 'manager', 'COLLABORATOR', 'accept', { targetRepository: 'owner/product', resourceKeys: ['module:commerce', 'file:src/commerce/checkout.js'] }), true);
   assert.equal(core.isCommandAllowed(policy, 'manager', 'COLLABORATOR', 'accept', { targetRepository: 'owner/other', resourceKeys: ['module:commerce'] }), false);
@@ -180,4 +182,71 @@ test('command authorization enforces owner-delegated bounded roles', () => {
   assert.equal(core.isCommandAllowed(policy, 'auditor', 'MEMBER', 'status'), true);
   assert.equal(core.isCommandAllowed(policy, 'auditor', 'MEMBER', 'release'), false);
   assert.equal(core.isCommandAllowed(policy, 'outsider', 'NONE', 'claim'), false);
+});
+
+ 
+test('branch allocation is disabled for READ_ONLY and approval-pending Work Items', () => {
+  assert.equal(core.branchForWritePolicy(13, 'run-read-only', 'READ_ONLY'), null);
+  assert.equal(core.branchForWritePolicy(14, 'run-proposal', 'WRITE_REQUIRES_OWNER_APPROVAL'), null);
+  assert.equal(core.branchForWritePolicy(15, 'run-write', 'WRITE_ALLOWED'), 'work/GH-15-run-write');
+  assert.throws(() => core.branchForWritePolicy(15, 'run-unknown', 'UNKNOWN'), /Unknown write_policy/);
+  assert.throws(() => core.branchForWritePolicy(15, '../main', 'WRITE_ALLOWED'), /Invalid RUN_ID/);
+});
+
+test('branchless READ_ONLY claim does not inherit or expose a prior target-repository branch', () => {
+  const s = registry();
+  const first = core.claimResources(s, {
+    issueNumber: 13, taskId: 'GH-13', actor: 'alice', chatId: 'chat-a', runId: 'run-write',
+    targetRepository: 'owner/product', branch: 'work/GH-13-run-write',
+    resourceKeys: ['analysis:exp-01'], leaseMinutes: 30, nowMs: 1000
+  });
+  assert.equal(first.ok, true);
+  s.locks = [];
+  s.history.push({
+    event: 'RELEASE', issue_number: 13, actor: 'alice', run_id: 'run-write',
+    branch: 'work/GH-13-run-write', target_repository: 'owner/product', at_utc: new Date(2000).toISOString()
+  });
+  const next = core.claimResources(s, {
+    issueNumber: 13, taskId: 'GH-13', actor: 'bob', chatId: 'chat-b', runId: 'run-read-only',
+    targetRepository: 'owner/product', branch: null,
+    resourceKeys: ['analysis:exp-01'], leaseMinutes: 30, nowMs: 3000
+  });
+  assert.equal(next.ok, true);
+  assert.equal(next.previousRun, null);
+  assert.equal(s.locks.at(-1).branch, null);
+  assert.equal(s.history.filter(x => x.event === 'ACQUIRED').at(-1).branch, null);
+});
+
+ 
+test('write policy resolution defaults legacy tasks to READ_ONLY and rejects stale registry authorization', () => {
+  assert.equal(core.resolveWritePolicy(null, null), 'READ_ONLY');
+  assert.equal(core.resolveWritePolicy({ write_policy: 'READ_ONLY' }, { write_policy: undefined }), 'READ_ONLY');
+  assert.equal(core.resolveWritePolicy(
+    { write_policy: 'WRITE_ALLOWED', target_repository: 'owner/control', resource_keys: ['module:ci'] },
+    { write_policy: 'WRITE_ALLOWED', target_repository: 'owner/control', resource_keys: ['module:ci'] }
+  ), 'WRITE_ALLOWED');
+  assert.equal(core.resolveWritePolicy(
+    { write_policy: 'WRITE_REQUIRES_OWNER_APPROVAL', target_repository: 'owner/control', resource_keys: ['module:proposal'] },
+    { write_policy: 'WRITE_REQUIRES_OWNER_APPROVAL', target_repository: 'owner/control', resource_keys: ['module:proposal'] }
+  ), 'WRITE_REQUIRES_OWNER_APPROVAL');
+  assert.throws(() => core.resolveWritePolicy(
+    { write_policy: 'READ_ONLY', target_repository: 'owner/product', resource_keys: ['analysis:exp-01'] },
+    { write_policy: 'WRITE_ALLOWED', target_repository: 'owner/product', resource_keys: ['analysis:exp-01'] }
+  ), /write_policy differs/);
+  assert.throws(() => core.resolveWritePolicy(
+    { write_policy: 'READ_ONLY', target_repository: 'owner/product', resource_keys: ['analysis:exp-01'] },
+    { write_policy: 'READ_ONLY', target_repository: 'owner/control', resource_keys: ['analysis:exp-01'] }
+  ), /target_repository differs/);
+  assert.throws(() => core.resolveWritePolicy(
+    { write_policy: 'READ_ONLY', target_repository: 'owner/product', resource_keys: ['analysis:exp-01'] },
+    { write_policy: 'READ_ONLY', target_repository: 'owner/product', resource_keys: ['analysis:other'] }
+  ), /resource_keys differ/);
+  assert.throws(() => core.resolveWritePolicy(
+    { write_policy: 'INVALID', target_repository: 'owner/product', resource_keys: ['analysis:exp-01'] },
+    null
+  ), /Unknown live write_policy/);
+  assert.throws(() => core.resolveWritePolicy(
+    null,
+    { write_policy: 'WRITE_ALLOWED', target_repository: 'owner/control', resource_keys: ['module:ci'] }
+  ), /write_policy differs/);
 });
