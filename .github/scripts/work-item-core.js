@@ -56,6 +56,35 @@ function validateWorkItem(item) {
     assert(typeof item.weighting.version === 'string' && item.weighting.version.trim(), 'weighting version is required');
     assert(item.steps.filter(s => s.required !== false).every(s => Number.isFinite(s.weight) && s.weight > 0), 'all required steps need positive weights when weighting is enabled');
   }
+  if (item.acceptance_weighting) {
+    assert(typeof item.acceptance_weighting.version === 'string' && item.acceptance_weighting.version.trim(), 'acceptance weighting version is required');
+    assert(item.acceptance_criteria.filter(c => c.required !== false).every(c => Number.isFinite(c.weight) && c.weight > 0), 'all required criteria need positive weights when acceptance weighting is enabled');
+  }
+  if (item.depth_profile) {
+    const depth = item.depth_profile;
+    assert(Number.isInteger(item.effort_estimate_minutes) && item.effort_estimate_minutes >= 20 && item.effort_estimate_minutes <= 30, 'deep Work Items need 20-30 minute effort_estimate_minutes');
+    assert(typeof item.effort_rationale === 'string' && item.effort_rationale.trim(), 'deep Work Items need effort_rationale');
+    assert(typeof depth.profile_version === 'string' && depth.profile_version.trim(), 'depth profile version is required');
+    assert(Number.isInteger(depth.min_substantive_steps) && depth.min_substantive_steps >= 6, 'deep Work Items require at least six substantive steps');
+    assert(Number.isInteger(depth.min_acceptance_criteria) && depth.min_acceptance_criteria >= 4, 'deep Work Items require at least four acceptance criteria');
+    assert(Number.isInteger(depth.min_deliverables) && depth.min_deliverables >= 3, 'deep Work Items require at least three deliverables');
+    assert(Number.isInteger(depth.target_effort_minutes) && depth.target_effort_minutes >= 20 && depth.target_effort_minutes <= 30, 'depth target effort must be 20-30 minutes');
+    assert(item.steps.filter(s => s.required !== false).length >= depth.min_substantive_steps, 'deep Work Item has too few required steps');
+    assert(item.acceptance_criteria.filter(c => c.required !== false).length >= depth.min_acceptance_criteria, 'deep Work Item has too few required acceptance criteria');
+    assert(Array.isArray(item.deliverables) && item.deliverables.length >= depth.min_deliverables, 'deep Work Item has too few deliverables');
+    for (const step of item.steps.filter(s => s.required !== false)) {
+      assert(typeof step.expected_output === 'string' && step.expected_output.trim(), 'deep Work Item steps need expected_output');
+      assert(typeof step.evidence_requirement === 'string' && step.evidence_requirement.trim(), 'deep Work Item steps need evidence_requirement');
+    }
+    for (const criterion of item.acceptance_criteria.filter(c => c.required !== false)) {
+      assert(typeof criterion.evidence_requirement === 'string' && criterion.evidence_requirement.trim(), 'deep Work Item criteria need evidence_requirement');
+    }
+    for (const deliverable of item.deliverables) {
+      assert(typeof deliverable.deliverable_id === 'string' && deliverable.deliverable_id.trim(), 'deliverable_id is required');
+      assert(typeof deliverable.description === 'string' && deliverable.description.trim(), 'deliverable description is required');
+      assert(typeof deliverable.evidence_requirement === 'string' && deliverable.evidence_requirement.trim(), 'deliverable evidence_requirement is required');
+    }
+  }
   return true;
 }
 
@@ -71,15 +100,37 @@ function calculateProgress(item) {
   const weighted = !!item.weighting;
   const total = steps.reduce((sum, s) => sum + (weighted ? s.weight : 1), 0);
   const verified = steps.reduce((sum, s) => sum + (evidenceVerified(s) ? (weighted ? s.weight : 1) : 0), 0);
-  const percentage = total === 0 ? 0 : Math.floor((verified / total) * 10000) / 100;
+  const executionPercentage = total === 0 ? 0 : Math.floor((verified / total) * 10000) / 100;
+
   const requiredCriteria = item.acceptance_criteria.filter(c => c.required !== false);
+  const acceptanceWeighted = !!item.acceptance_weighting;
+  const criteriaTotal = requiredCriteria.reduce((sum, c) => sum + (acceptanceWeighted ? c.weight : 1), 0);
+  const criteriaVerified = requiredCriteria.reduce((sum, c) => sum + (evidenceVerified(c) ? (acceptanceWeighted ? c.weight : 1) : 0), 0);
+  const acceptancePercentage = criteriaTotal === 0 ? null : Math.floor((criteriaVerified / criteriaTotal) * 10000) / 100;
   const criteriaPassed = requiredCriteria.length > 0 && requiredCriteria.every(evidenceVerified);
   const allStepsVerified = steps.every(evidenceVerified);
   const dependenciesAccepted = (item.dependencies || []).every(d => d.status === 'ACCEPTED');
+  const overallCompletion = acceptancePercentage === null ? null : Math.min(executionPercentage, acceptancePercentage);
+  const countStates = records => Object.fromEntries(['PASS','FAIL','BLOCKED','UNKNOWN','NOT_RUN'].map(status => [
+    status.toLowerCase(), records.filter(x => (x.validation_status || 'NOT_RUN') === status && (status !== 'PASS' || evidenceVerified(x))).length
+  ]));
   return {
-    percentage, verified_steps: steps.filter(evidenceVerified).length,
-    total_steps: steps.length, verified_weight: verified, total_weight: total,
+    percentage: executionPercentage,
+    execution_percentage: executionPercentage,
+    acceptance_percentage: acceptancePercentage,
+    overall_completion_percentage: overallCompletion,
+    verified_steps: steps.filter(evidenceVerified).length,
+    total_steps: steps.length,
+    verified_criteria: requiredCriteria.filter(evidenceVerified).length,
+    total_criteria: requiredCriteria.length,
+    verified_weight: verified,
+    total_weight: total,
+    verified_criteria_weight: criteriaVerified,
+    total_criteria_weight: criteriaTotal,
     weighting_version: weighted ? item.weighting.version : 'EQUAL_STEPS_V1',
+    acceptance_weighting_version: acceptanceWeighted ? item.acceptance_weighting.version : 'EQUAL_CRITERIA_V1',
+    required_step_counts: countStates(steps),
+    acceptance_criteria_counts: countStates(requiredCriteria),
     all_steps_verified: allStepsVerified,
     all_required_criteria_passed: criteriaPassed,
     dependencies_accepted: dependenciesAccepted,
@@ -167,6 +218,11 @@ function resumePlan(item) {
     completed_step_ids: item.steps.filter(evidenceVerified).map(s => s.step_id),
     remaining_step_ids: item.steps.filter(s => s.required !== false && !evidenceVerified(s)).map(s => s.step_id),
     percentage: progress.percentage,
+    execution_progress_percentage: progress.execution_percentage,
+    acceptance_progress_percentage: progress.acceptance_percentage,
+    overall_completion_percentage: progress.overall_completion_percentage,
+    required_step_counts: progress.required_step_counts,
+    acceptance_criteria_counts: progress.acceptance_criteria_counts,
     next_action: item.steps.find(s => s.required !== false && !evidenceVerified(s))?.step_id || 'verify_acceptance_criteria'
   };
 }
@@ -185,6 +241,12 @@ function createCheckpoint(item, input) {
     completed_step_ids: plan.completed_step_ids,
     remaining_step_ids: plan.remaining_step_ids,
     progress_percentage: plan.percentage,
+    execution_progress_percentage: plan.execution_progress_percentage,
+    acceptance_progress_percentage: plan.acceptance_progress_percentage,
+    overall_completion_percentage: plan.overall_completion_percentage,
+    progress_calculation_version: 'PROGRESS_V2',
+    required_step_counts: plan.required_step_counts,
+    acceptance_criteria_counts: plan.acceptance_criteria_counts,
     evidence_refs: unique(input.evidence_refs || []),
     blockers: input.blockers || [],
     owner: { actor: input.actor, chat_id: input.chat_id, fencing_token: input.fencing_token, lease_expires_at_utc: input.lease.lease_expires_at_utc },

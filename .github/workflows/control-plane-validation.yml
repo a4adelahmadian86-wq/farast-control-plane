@@ -28,6 +28,7 @@ jobs:
             01_STRATEGY/GOAL_TREE.md
             01_STRATEGY/ROADMAP.md
             01_STRATEGY/DEPENDENCY_GRAPH.json
+            01_STRATEGY/EXECUTION_DECOMPOSITION_17x27.md
             02_GOVERNANCE/DECISION_REGISTER.md
             02_GOVERNANCE/USER_FEEDBACK_REGISTER.md
             03_PROJECT_STATE/MASTER_STATUS.md
@@ -58,6 +59,8 @@ jobs:
             04_COORDINATION/WORK_ITEM_SCHEMA.json
             04_COORDINATION/WORK_ITEM_CHECKPOINT_SCHEMA.json
             04_COORDINATION/WORK_ITEM_EXECUTION_PROTOCOL.md
+            04_COORDINATION/WORK_ITEM_DEPTH_STANDARD.md
+            04_COORDINATION/PROGRESS_REPORTING_PROTOCOL.md
             04_COORDINATION/SINGLE_PROMPT_MULTI_CHAT_DISPATCH.md
             .github/ISSUE_TEMPLATE/farast-task.yml
             .github/PULL_REQUEST_TEMPLATE.md
@@ -86,6 +89,7 @@ jobs:
           from pathlib import Path
           source = Path('.github/workflows/farast-coordinator.yml').read_text(encoding='utf-8')
           yaml.safe_load(source)
+          yaml.safe_load(Path('.github/ISSUE_TEMPLATE/farast-task.yml').read_text(encoding='utf-8'))
           lines = source.splitlines()
           start = next(i for i, line in enumerate(lines) if line.strip() == 'script: |')
           block = []
@@ -112,6 +116,7 @@ jobs:
           auth_policy = json.loads(Path("04_COORDINATION/ACTOR_AUTHORIZATION.json").read_text(encoding="utf-8"))
           assert set(auth_policy["roles"]) >= {"OWNER", "SENIOR_MANAGER", "WORKER", "READ_ONLY"}
           assert isinstance(auth_policy["actor_scopes"], dict)
+          assert "refresh" in auth_policy["roles"]["OWNER"] and "refresh" not in auth_policy["roles"]["WORKER"]
           assert {"progress", "step", "criterion", "checkpoint"}.issubset(set(auth_policy["roles"]["WORKER"]))
           assert "accept" not in auth_policy["roles"]["WORKER"] and "status" in auth_policy["roles"]["READ_ONLY"]
           work_schema = json.loads(Path("04_COORDINATION/WORK_ORDER_SCHEMA.json").read_text(encoding="utf-8"))
@@ -121,18 +126,57 @@ jobs:
           work_item_sample = {"schema_version":"1.0","write_policy":"READ_ONLY","priority_source":"DEFAULT_POLICY","work_item_id":"WI-CI-001","title":"CI work item","parent_goal_ids":["G-09"],"parent_exp_ids":["EXP-01"],"status":"READY","target_repository":"owner/repo","resource_keys":["module:ci"],"dependencies":[],"steps":[{"step_id":"S1","title":"Inspect"}],"acceptance_criteria":[{"criterion_id":"AC1","title":"Evidence exists"}],"priority":50,"created_at_utc":"2026-11-14T00:00:00Z"}
           work_item_checkpoint_sample = {"work_item_id":"WI-CI-001","run_id":"RUN-CI-001","checkpoint_version":1,"created_at_utc":"2026-11-14T00:00:00Z","last_verified_step_id":None,"current_step_id":"S1","completed_step_ids":[],"remaining_step_ids":["S1"],"progress_percentage":0,"evidence_refs":[],"blockers":[],"owner":{"actor":"ci","chat_id":"ci-chat","fencing_token":1,"lease_expires_at_utc":"2026-11-14T01:00:00Z"},"next_action":"inspect"}
           Draft202012Validator(work_item_schema, format_checker=FormatChecker()).validate(work_item_sample)
+          deep_sample = {**work_item_sample,
+            "effort_estimate_minutes":25,
+            "effort_rationale":"Focused 25-minute discovery and verification task.",
+            "depth_profile":{"profile_version":"2.0.0","min_substantive_steps":6,"min_acceptance_criteria":4,"min_deliverables":3,"target_effort_minutes":25},
+            "steps":[{"step_id":f"S{i+1}","title":f"Step {i+1}","expected_output":"Output","evidence_requirement":"GitHub evidence","estimate_minutes":4} for i in range(6)],
+            "acceptance_criteria":[{"criterion_id":f"AC{i+1}","title":f"Criterion {i+1}","evidence_requirement":"Evidence ref"} for i in range(4)],
+            "deliverables":[{"deliverable_id":f"D{i+1}","description":f"Deliverable {i+1}","evidence_requirement":"GitHub URL"} for i in range(3)]
+          }
+          Draft202012Validator(work_item_schema, format_checker=FormatChecker()).validate(deep_sample)
           Draft202012Validator(work_item_checkpoint_schema, format_checker=FormatChecker()).validate(work_item_checkpoint_sample)
+          checkpoint_v2 = {**work_item_checkpoint_sample,
+            "execution_progress_percentage":0,
+            "acceptance_progress_percentage":0,
+            "overall_completion_percentage":0,
+            "progress_calculation_version":"PROGRESS_V2",
+            "required_step_counts":{"not_run":1},
+            "acceptance_criteria_counts":{"not_run":1}
+          }
+          Draft202012Validator(work_item_checkpoint_schema, format_checker=FormatChecker()).validate(checkpoint_v2)
           Draft202012Validator.check_schema(work_item_schema)
           Draft202012Validator.check_schema(work_item_checkpoint_schema)
           work_sample = {"TASK_ID":"FCP-EXP03-001","PROMPT_ID":"PR-03","EXP_IDS":["EXP-03"],"GOAL_IDS":["G-01"],"TITLE":"Sample","PURPOSE":"Schema validation fixture","STATUS":"READY","RESOURCE_KEYS":["module:sample"],"SCOPE_IN":["read-only inventory"],"SCOPE_OUT":["production changes"],"ACCEPTANCE_CRITERIA":["evidence linked"],"NEXT_ACTION":"inspect evidence"}
           checkpoint_sample = {"TASK_ID":"FCP-EXP03-001","PROMPT_ID":"PR-03","RUN_ID":"RUN-SAMPLE-001","OPERATION_ID_LAST_CONFIRMED":None,"RECOVERY_STATE":"CONFIRMED","AGENT_ALIAS":"ci-fixture","TIMESTAMP_UTC":"2026-11-14T00:00:00Z","TASK_STATUS":"READY","BRANCH":"work/FCP-EXP03-001","COMMIT_SHA":None,"LAST_COMPLETED_STEP":"none","CURRENT_STEP":"fixture","NEXT_ACTION":"resume","EXACT_RESUME_INSTRUCTION":"read task and continue","LAST_GITHUB_READBACK_UTC":None,"PENDING_OPERATION_AND_ID":None,"FILES_CHANGED":[],"COMMANDS_EXECUTED":[],"TESTS_AND_RESULTS":[],"EVIDENCE_LINKS":[],"FACTS_CONFIRMED":[],"ASSUMPTIONS":[],"UNKNOWN":[],"BLOCKERS":[],"RESOURCE_LEASES":[],"HUMAN_APPROVAL":None,"HANDOFF_NOTES":""}
           Draft202012Validator(work_schema, format_checker=FormatChecker()).validate(work_sample)
           Draft202012Validator(checkpoint_schema, format_checker=FormatChecker()).validate(checkpoint_sample)
+          import re
+          decomposition = Path("01_STRATEGY/EXECUTION_DECOMPOSITION_17x27.md").read_text(encoding="utf-8")
+          exp_ids = set(re.findall(r"^### EXP-(\d{2}) —", decomposition, re.M))
+          prompt_ids = set(re.findall(r"^\| PR-(\d{2}) \|", decomposition, re.M))
+          assert len(exp_ids) == 27, ("Expected 27 deep EXP plans", len(exp_ids))
+          assert len(prompt_ids) == 17, ("Expected 17 prompt mappings", len(prompt_ids))
+          assert "هدف برنامه‌ریزی هر EXP" in decomposition
+          depth_standard = Path("04_COORDINATION/WORK_ITEM_DEPTH_STANDARD.md").read_text(encoding="utf-8")
+          progress_protocol = Path("04_COORDINATION/PROGRESS_REPORTING_PROTOCOL.md").read_text(encoding="utf-8")
+          assert "حداقل ۶ گام substantive" in depth_standard
+          for metric in ("EXECUTION_PROGRESS", "ACCEPTANCE_PROGRESS", "OVERALL_COMPLETION"):
+              assert metric in progress_protocol, metric
+          assert "effort_estimate_minutes" in work_item_schema["properties"]
+          assert "depth_profile" in work_item_schema["properties"]
+          assert "deliverables" in work_item_schema["properties"]
+          assert "execution_progress_percentage" in work_item_checkpoint_schema["properties"]
+          assert "acceptance_progress_percentage" in work_item_checkpoint_schema["properties"]
+          assert "overall_completion_percentage" in work_item_checkpoint_schema["properties"]
+          prompt_bundle = Path("05_PROMPT_LIBRARY/FARAST_EXECUTABLE_PROMPTS_COMPLETE.md").read_text(encoding="utf-8")
+          assert "نسخه: 1.9.0" in prompt_bundle
+          assert "قرارداد اجباری عمق مأموریت و گزارش پیشرفت (نسخه 2.0)" in prompt_bundle
           for n in range(1, 18):
               matches = list(Path("05_PROMPT_LIBRARY").glob(f"PR-{n:02d}_*.md"))
               assert len(matches) == 1, (n, matches)
               body = matches[0].read_text(encoding="utf-8")
-              for required in ("START_HERE.md", "LOCK_MANAGER_PROTOCOL.md", "INTERRUPTION_RECOVERY_PROTOCOL.md", "MASTER-00.md", "OPERATION_ID", "AMBIGUOUS", "TASK_ID", "GitHub", "WORK_ITEM_EXECUTION_PROTOCOL.md", "WORK_ITEM_SCHEMA.json", "WI-GOAL-ALLOCATOR-001", "write_policy", "WRITE_REQUIRES_OWNER_APPROVAL", "/farast step", "/farast criterion", "/farast progress", "/farast checkpoint"):
+              for required in ("قرارداد اجباری عمق مأموریت و گزارش پیشرفت (نسخه 2.0)", "EXECUTION_DECOMPOSITION_17x27.md", "WORK_ITEM_DEPTH_STANDARD.md", "PROGRESS_REPORTING_PROTOCOL.md", "START_HERE.md", "LOCK_MANAGER_PROTOCOL.md", "INTERRUPTION_RECOVERY_PROTOCOL.md", "MASTER-00.md", "OPERATION_ID", "AMBIGUOUS", "TASK_ID", "GitHub", "WORK_ITEM_EXECUTION_PROTOCOL.md", "WORK_ITEM_SCHEMA.json", "WI-GOAL-ALLOCATOR-001", "write_policy", "WRITE_REQUIRES_OWNER_APPROVAL", "/farast step", "/farast criterion", "/farast progress", "/farast checkpoint"):
                   assert required in body, (matches[0], required)
               assert "قفل این نسخه اتمیک نیست" not in body, matches[0]
               assert "رجیستری `coordination/locks` فقط توسط workflow مرکزی نوشته می‌شود" in body, matches[0]
@@ -211,7 +255,7 @@ jobs:
           checkpoint = Path("04_COORDINATION/CHECKPOINT_TEMPLATE.md").read_text(encoding="utf-8")
           assert "OPERATION_ID_LAST_CONFIRMED" in checkpoint
           bundle = Path("05_PROMPT_LIBRARY/FARAST_EXECUTABLE_PROMPTS_COMPLETE.md").read_text(encoding="utf-8")
-          assert "نسخه: 1.8.0" in bundle
+          assert "نسخه: 1.9.0" in bundle
           source_paths = [Path("05_PROMPT_LIBRARY/MASTER-00.md"), *sorted(Path("05_PROMPT_LIBRARY").glob("PR-*.md"))]
           assert len(source_paths) == 18
           for source_path in source_paths:
@@ -227,5 +271,12 @@ jobs:
           assert "/farast step" in bundle and "/farast checkpoint" in bundle
           assert "- EXP: EXP-02, EXP-17" not in bundle
           assert "این مخزن فعلاً فاقد سرویس قفل مستقل است" not in Path("00_PROJECT_FOUNDATION/KNOWN_UNKNOWN.md").read_text(encoding="utf-8")
+          for metric in ("EXECUTION_PROGRESS=", "ACCEPTANCE_PROGRESS=", "OVERALL_COMPLETION="):
+              assert metric in coordinator, metric
+          assert "formEffortRaw = scalar('Target focused effort (minutes)');" in coordinator
+          assert "formEffort !== item.effort_estimate_minutes" in coordinator
+          for required in ("refresh", "WORK_ITEM_REFRESHED"):
+              assert required in coordinator, required
+
           print("Control-plane documents, JSON, and prompt bootstrap contracts passed.")
           PY

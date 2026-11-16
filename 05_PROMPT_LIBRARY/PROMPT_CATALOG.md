@@ -50,3 +50,11 @@
 
 ## محدودیت
 این کتابخانه ابزار اجرا را تعریف می‌کند، اما وجود دسترسی GitHub، Work، shell، مرورگر، runtime یا حساب‌های بیرونی را تضمین نمی‌کند. هر اجرا باید قابلیت واقعی ابزارها را بررسی کند.
+
+
+## نسخه 2.0 — تفکیک و عمق اجرایی
+- مدل سلسله‌مراتبی: ۱ هدف کلان → ۱۷ پرامپت تخصصی → ۲۷ مأموریت عمیق EXP-01..EXP-27 → گام‌ها/معیارهای پذیرش.
+- نگاشت دقیق هر پرامپت به EXPها و دامنه ۲۷ مأموریت: [EXECUTION_DECOMPOSITION_17x27.md](../01_STRATEGY/EXECUTION_DECOMPOSITION_17x27.md).
+- استاندارد عمق هر leaf (۶+ گام، ۴+ معیار، ۳+ خروجی، effort هدف ۲۰–۳۰ دقیقه): [WORK_ITEM_DEPTH_STANDARD.md](../04_COORDINATION/WORK_ITEM_DEPTH_STANDARD.md).
+- محاسبه EXECUTION_PROGRESS، ACCEPTANCE_PROGRESS و OVERALL_COMPLETION: [PROGRESS_REPORTING_PROTOCOL.md](../04_COORDINATION/PROGRESS_REPORTING_PROTOCOL.md).
+- ۱۷ فایل مستقل و MASTER-00 باید همواره با bundle تجمیعی همگام باشند.

@@ -62,3 +62,14 @@ BACKLOG, READY, CLAIMED, IN_PROGRESS, BLOCKED, REVIEW_REQUIRED, PARTIALLY_ACCEPT
 ## حلقه پیوسته برای یک پرامپت مشترک
 
 هر چت که MASTER-00 یکسان دریافت می‌کند، پس از پایان یا مسدودشدن هر Work Item باید صف مشترک را دوباره از GitHub بخواند و نامزد بعدی را claim کند. چت‌ها نباید منتظر تخصیص دستی از سوی مالک بمانند. claim بازنده پس از read-back به نامزد بعدی منتقل می‌شود. هدف مسدودشده کنار گذاشته می‌شود، اما تحلیل و اجرای کارهای مستقل مجاز ادامه می‌یابد. در نبود leaf آزاد، allocator ثابت را claim کن؛ اگر allocator در اختیار چت دیگر است، فقط عملیات تخصیص را به تعویق بینداز و read-only discovery را ادامه بده. هیچ سؤال یا درخواست انتخابی از مالک مجاز نیست. پیش از محدودیت نشست/زمینه، checkpoint و next_action دقیق ثبت شود تا همان پرامپت در نوبت بعدی از همان نقطه ادامه دهد.
+
+
+## استاندارد عمق ۱۷×۲۷ و سه‌گانه پیشرفت (نسخه 2.0)
+پیش از READY کردن یا claim هر leaf، `04_COORDINATION/WORK_ITEM_DEPTH_STANDARD.md` و `01_STRATEGY/EXECUTION_DECOMPOSITION_17x27.md` را اجرا کن. هر EXP باید حداقل ۶ گام substantive، ۴ معیار پذیرش، ۳ deliverable، شواهد لازم و effort هدف ۲۰–۳۰ دقیقه داشته باشد. Work Itemهای فعلی که فقط چهار گام عمومی دارند تا زمان غنی‌سازی و read-back، `DEPTH_NOT_VERIFIED` هستند؛ آن‌ها را صرفاً به دلیل وجود Issue، leaf عمیق یا READY معتبر اعلام نکن.
+
+برای هر گزارش/checkpoint سه شاخص جداگانه را طبق `04_COORDINATION/PROGRESS_REPORTING_PROTOCOL.md` محاسبه کن:
+- EXECUTION_PROGRESS
+- ACCEPTANCE_PROGRESS
+- OVERALL_COMPLETION
+
+اگر criteria تعریف نشده یا وزن معتبر نیست، N/A را صریح ثبت کن. claim/lease/owner و blocker مستقل از این درصدها هستند. claim موفق یا branch creation به‌تنهایی progress نیست.

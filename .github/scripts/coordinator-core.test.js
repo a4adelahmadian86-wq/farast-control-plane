@@ -161,7 +161,7 @@ test('chat and run identifiers are bounded and branch-safe', () => {
 test('command authorization enforces owner-delegated bounded roles', () => {
   const policy = {
     roles: {
-      OWNER: ['claim','heartbeat','release','status','block','unblock','review','reopen','accept'],
+      OWNER: ['claim','heartbeat','release','status','block','unblock','review','reopen','accept','refresh'],
       SENIOR_MANAGER: ['claim','heartbeat','release','status','block','unblock','review','reopen','accept'],
       WORKER: ['claim','heartbeat','release','status','block','review'],
       READ_ONLY: ['status']
@@ -173,6 +173,8 @@ test('command authorization enforces owner-delegated bounded roles', () => {
   assert.equal(core.roleForActor(policy, 'owner', 'OWNER'), 'OWNER');
   assert.equal(core.isCommandAllowed(policy, 'worker', 'COLLABORATOR', 'claim'), true);
   assert.equal(core.isCommandAllowed(policy, 'worker', 'COLLABORATOR', 'accept'), false);
+  assert.equal(core.isCommandAllowed(policy, 'owner', 'OWNER', 'refresh'), true);
+  assert.equal(core.isCommandAllowed(policy, 'worker', 'COLLABORATOR', 'refresh'), false);
   assert.equal(core.isCommandAllowed(policy, 'manager', 'COLLABORATOR', 'accept'), false);
   assert.equal(core.isCommandAllowed(policy, 'manager', 'COLLABORATOR', 'accept', { targetRepository: 'owner/product', resourceKeys: ['module:commerce', 'file:src/commerce/checkout.js'] }), true);
   assert.equal(core.isCommandAllowed(policy, 'manager', 'COLLABORATOR', 'accept', { targetRepository: 'owner/other', resourceKeys: ['module:commerce'] }), false);

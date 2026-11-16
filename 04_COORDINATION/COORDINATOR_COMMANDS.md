@@ -86,3 +86,17 @@ Coordinator فقط برای `write_policy=WRITE_ALLOWED` مقدار branch را 
 - priority=50 با `DEFAULT_POLICY` اولویت خنثی است؛ FIFO و aging tie-break می‌کنند. رتبه‌بندی اختصاصی فقط با `OWNER_ASSIGNED` ثبت شود.
 
 ساخت Work Item جدید فقط زیر قفل allocator با شناسه ثابت `WI-GOAL-ALLOCATOR-001` مجاز است. ابتدا Issueهای موجود و WORK_ITEM_IDها را جست‌وجو کن؛ سپس allocator را claim کن، leafهای جدید را با شناسه deterministic بساز و پس از read-back قفل را release کن. هیچ دو چتی نباید هم‌زمان pool را گسترش دهند.
+
+
+## Refresh کردن مشخصات Work Item (فقط مالک)
+اگر body یک Issue تغییر کرد و نسخه قبلی همان WORK_ITEM_ID در registry ذخیره شده است، به‌روزرسانی Issue body به‌تنهایی registry را جایگزین نمی‌کند. پس از اطمینان از نبود lease فعال، مالک می‌تواند در همان Issue فرمان زیر را ثبت کند:
+
+`/farast refresh`
+
+- فقط نقش OWNER مجاز است؛ worker/manager این فرمان را ندارند.
+- هر lease فعال، refresh را رد می‌کند.
+- WORK_ITEM_ID باید ثابت بماند.
+- شواهد گام‌ها و معیارهایی که شناسه‌شان بدون تغییر مانده حفظ می‌شوند؛ شواهد گام‌های حذف‌شده به گام جدید منتقل نمی‌شوند.
+- مشخصات جدید با schema/core validation بررسی می‌شود؛ اگر عمق یا evidence requirement ناقص باشد refresh رد می‌شود.
+- پس از refresh، progress سه‌گانه از ساختار جدید محاسبه و وضعیت READY/IN_PROGRESS/REVIEW_REQUIRED تعیین می‌شود.
+- refresh پذیرش یا اجرای کار نیست؛ فقط همگام‌سازی تعریف Work Item بین Issue و registry است.
