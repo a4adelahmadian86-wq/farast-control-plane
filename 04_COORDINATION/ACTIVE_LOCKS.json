@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 444,
+  "revision": 445,
   "next_fencing_token": 72,
   "locks": [
     {
@@ -3993,6 +3993,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-16T17:12:16.974Z"
+    },
+    "6923499156": {
+      "response": "STEP ثبت شد: S5_ASSESS; EXECUTION_PROGRESS=57.14%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=4/7.",
+      "response_posted": false,
+      "issue_number": 34,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-16T17:12:37.826Z"
     }
   },
   "work_items": {
@@ -4407,7 +4416,14 @@
           "weight": 1,
           "expected_output": "خروجی قابل بازبینی برای مرحله: بررسی test coverage و قابلیت بازگشت قبل از هر write.",
           "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/non/blob/2312acffe9110b6c56d6e51869e6f29688b69ddd/tests/Feature/SupportTicketAtomicWorkflowTest.php"
+          ],
+          "validated_at_utc": "2026-11-16T17:12:37.788Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S6_REPORT",
