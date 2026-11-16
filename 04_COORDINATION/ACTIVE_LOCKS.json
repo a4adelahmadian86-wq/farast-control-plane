@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 408,
+  "revision": 409,
   "next_fencing_token": 71,
   "locks": [
     {
@@ -3883,6 +3883,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-16T12:39:38.779Z"
+    },
+    "6916646009": {
+      "response": "معیار پذیرش ثبت شد: AC_READONLY_PRESERVED; can_accept=false; progress=85.71%.",
+      "response_posted": false,
+      "issue_number": 52,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-16T12:39:45.678Z"
     }
   },
   "work_items": {
@@ -4890,7 +4899,14 @@
         },
         {
           "criterion_id": "AC_READONLY_PRESERVED",
-          "title": "All existing READ_ONLY Work Items remain READ_ONLY; no blanket authorization is introduced and PR #45 branchless routing remains intact"
+          "title": "All existing READ_ONLY Work Items remain READ_ONLY; no blanket authorization is introduced and PR #45 branchless routing remains intact",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/43868045242"
+          ],
+          "validated_at_utc": "2026-11-16T12:39:45.678Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_TESTS_CI",
