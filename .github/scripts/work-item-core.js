@@ -6,6 +6,7 @@ const STATUSES = Object.freeze([
 ]);
 const TERMINAL = new Set(['ACCEPTED','REJECTED','CANCELLED']);
 const VALIDATION = new Set(['NOT_RUN','PASS','FAIL','BLOCKED','UNKNOWN']);
+const PRODUCT_REPOSITORY = 'a4adelahmadian86-wq/non';
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -26,7 +27,7 @@ function validateWorkItem(item) {
   assert(typeof item.target_repository === 'string' && /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(item.target_repository), 'invalid target_repository');
   assert(['READ_ONLY','WRITE_REQUIRES_OWNER_APPROVAL','WRITE_ALLOWED'].includes(item.write_policy), 'invalid write_policy');
   assert(['OWNER_ASSIGNED','DEFAULT_POLICY'].includes(item.priority_source), 'invalid priority_source');
-  if (item.target_repository === 'a4adelahmadian86-wq/non') assert(item.write_policy === 'READ_ONLY', 'NON product repository is READ_ONLY until explicit owner authorization');
+  if (item.target_repository === PRODUCT_REPOSITORY && item.write_policy === 'WRITE_ALLOWED') assert(typeof item.owner_approval_ref === 'string' && item.owner_approval_ref.trim(), 'owner_approval_ref is required for NON WRITE_ALLOWED');
   if (item.write_policy === 'WRITE_REQUIRES_OWNER_APPROVAL') assert(typeof item.owner_approval_ref === 'string' && item.owner_approval_ref.trim(), 'owner_approval_ref is required for approval-gated writes');
   assert(Array.isArray(item.resource_keys) && item.resource_keys.length > 0, 'resource_keys are required');
   assert(Array.isArray(item.dependencies || []), 'dependencies must be an array');
@@ -85,6 +86,21 @@ function validateWorkItem(item) {
       assert(typeof deliverable.evidence_requirement === 'string' && deliverable.evidence_requirement.trim(), 'deliverable evidence_requirement is required');
     }
   }
+  return true;
+}
+
+function validateProductWriteAuthorization(item, context = {}) {
+  validateWorkItem(item);
+  if (item.target_repository !== PRODUCT_REPOSITORY || item.write_policy !== 'WRITE_ALLOWED') return false;
+  assert(typeof context.repository_owner === 'string' && context.repository_owner.trim(), 'repository_owner is required');
+  assert(context.issue_author === context.repository_owner, 'NON WRITE_ALLOWED requires an owner-authored Issue');
+  assert(typeof context.issue_url === 'string' && context.issue_url.trim() && item.owner_approval_ref === context.issue_url,
+    'owner_approval_ref must exactly reference the owner-created Issue');
+  const approvalText = String(context.issue_body || '').replace(/[`*_]/g, '').toLowerCase();
+  assert(approvalText.includes('owner decision') &&
+    approvalText.includes('explicitly approved write_allowed') &&
+    approvalText.includes(PRODUCT_REPOSITORY),
+    'explicit owner approval statement is missing');
   return true;
 }
 
@@ -255,7 +271,7 @@ function createCheckpoint(item, input) {
 }
 
 module.exports = {
-  STATUSES, validateWorkItem, evidenceVerified, calculateProgress, validateLease,
+  STATUSES, validateWorkItem, validateProductWriteAuthorization, evidenceVerified, calculateProgress, validateLease,
   recordStepEvidence, recordCriterionEvidence, dependencyReady, selectNextWorkItem,
   resumePlan, createCheckpoint
 };

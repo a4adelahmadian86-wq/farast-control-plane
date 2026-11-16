@@ -267,7 +267,7 @@
     "owner_approval_ref": {
       "type": "string",
       "minLength": 1,
-      "description": "Required when write_policy is WRITE_REQUIRES_OWNER_APPROVAL; owner approval evidence reference."
+      "description": "Required for WRITE_REQUIRES_OWNER_APPROVAL. For WRITE_ALLOWED on a4adelahmadian86-wq/non, it must exactly equal the canonical URL of the owner-created Issue whose body records the explicit owner decision."
     },
     "effort_estimate_minutes": {
       "type": "integer",
@@ -356,5 +356,28 @@
       "additionalProperties": false
     }
   },
-  "additionalProperties": false
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "target_repository": {
+            "const": "a4adelahmadian86-wq/non"
+          },
+          "write_policy": {
+            "const": "WRITE_ALLOWED"
+          }
+        },
+        "required": [
+          "target_repository",
+          "write_policy"
+        ]
+      },
+      "then": {
+        "required": [
+          "owner_approval_ref"
+        ]
+      }
+    }
+  ]
 }

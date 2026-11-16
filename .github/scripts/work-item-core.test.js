@@ -121,9 +121,43 @@ test('rejects missing write policy instead of assuming write permission',()=>{
  const x=item(); delete x.write_policy; assert.throws(()=>wi.calculateProgress(x),/invalid write_policy/);
 });
 
-test('product repository Work Items cannot declare write access without a new owner policy',()=>{
- const x=item({target_repository:'a4adelahmadian86-wq/non',write_policy:'WRITE_ALLOWED'});
- assert.throws(()=>wi.calculateProgress(x),/NON product repository is READ_ONLY/);
+const productRepository='a4adelahmadian86-wq/non';
+const ownerIssueUrl='https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/51';
+const ownerApprovalBody='## Owner authorization and scope\\nThe repository owner explicitly approved WRITE_ALLOWED development and strengthening of `a4adelahmadian86-wq/non` in the current ChatGPT conversation.';
+const ownerApprovalContext={
+ repository_owner:'a4adelahmadian86-wq',
+ issue_author:'a4adelahmadian86-wq',
+ issue_url:ownerIssueUrl,
+ issue_body:ownerApprovalBody
+};
+
+test('NON WRITE_ALLOWED requires an owner approval reference',()=>{
+ const x=item({target_repository:productRepository,write_policy:'WRITE_ALLOWED'});
+ assert.throws(()=>wi.calculateProgress(x),/owner_approval_ref is required for NON WRITE_ALLOWED/);
+ x.owner_approval_ref=ownerIssueUrl;
+ assert.doesNotThrow(()=>wi.calculateProgress(x));
+});
+
+test('NON WRITE_ALLOWED is accepted only for an owner-authored self-referencing Issue with explicit approval text',()=>{
+ const x=item({target_repository:productRepository,write_policy:'WRITE_ALLOWED',owner_approval_ref:ownerIssueUrl});
+ assert.equal(wi.validateProductWriteAuthorization(x,ownerApprovalContext),true);
+ assert.throws(()=>wi.validateProductWriteAuthorization(x,{...ownerApprovalContext,issue_author:'collaborator'}),/owner-authored Issue/);
+ assert.throws(()=>wi.validateProductWriteAuthorization(x,{...ownerApprovalContext,issue_url:'https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/52'}),/exactly reference/);
+ assert.throws(()=>wi.validateProductWriteAuthorization(x,{...ownerApprovalContext,issue_body:'Owner decision: no WRITE_ALLOWED permission'}),/explicit owner approval statement/);
+});
+
+test('NON READ_ONLY and approval-pending Work Items do not authorize product writes',()=>{
+ const readOnly=item({target_repository:productRepository,write_policy:'READ_ONLY'});
+ assert.doesNotThrow(()=>wi.calculateProgress(readOnly));
+ assert.equal(wi.validateProductWriteAuthorization(readOnly,ownerApprovalContext),false);
+ const pending=item({target_repository:productRepository,write_policy:'WRITE_REQUIRES_OWNER_APPROVAL',owner_approval_ref:ownerIssueUrl});
+ assert.doesNotThrow(()=>wi.calculateProgress(pending));
+ assert.equal(wi.validateProductWriteAuthorization(pending,ownerApprovalContext),false);
+});
+
+test('WRITE_ALLOWED for unrelated repositories keeps the existing generic validation path',()=>{
+ const x=item({target_repository:'owner/repo',write_policy:'WRITE_ALLOWED'});
+ assert.doesNotThrow(()=>wi.calculateProgress(x));
 });
 test('approval-gated writes require an owner approval evidence reference',()=>{
  const x=item({write_policy:'WRITE_REQUIRES_OWNER_APPROVAL'});
