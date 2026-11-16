@@ -26,7 +26,7 @@
 - `READ_ONLY`: فقط مشاهده/تحلیل/گزارش؛ هیچ تغییر فایل یا PR در target repository مجاز نیست.
 - `WRITE_REQUIRES_OWNER_APPROVAL`: فقط پیشنهاد تغییر؛ تا ثبت تأیید صریح مالک هیچ write انجام نشود.
 - `WRITE_ALLOWED`: فقط در محدوده مخزن و resourceهای مجاز و پس از claim معتبر.
-- برای مخزن محصول `a4adelahmadian86-wq/non`، coordinator فقط `READ_ONLY` را می‌پذیرد تا زمانی که مالک مجوز جداگانه و صریح صادر کند.
+- مخزن محصول `a4adelahmadian86-wq/non` به‌صورت پیش‌فرض `READ_ONLY` است. تنها استثنا یک Work Item با `WRITE_ALLOWED` است که Issue آن را repository owner ساخته، `owner_approval_ref` دقیقاً URL همان Issue است و بدنه Issue تصمیم صریح مالک را ثبت می‌کند. این استثنا فقط همان Issue را پوشش می‌دهد؛ هیچ Work Item قدیمی به‌صورت خودکار ارتقا نمی‌یابد.
 - `priority_source=DEFAULT_POLICY` با priority=50 یعنی اولویت برابر و انتخاب FIFO/aging؛ این مقدار رتبه‌بندی مالک نیست. فقط وقتی مالک صریحاً رتبه تعیین کرد `OWNER_ASSIGNED` ثبت شود. `OWNER_ASSIGNED` فقط با تصمیم صریح مالک ثبت شود.
 
 ## تخصیص branch بر اساس write_policy

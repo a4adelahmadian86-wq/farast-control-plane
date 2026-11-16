@@ -130,7 +130,7 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 
 
 ## Write policy و ساخت برگ جدید
-هر Work Item باید `write_policy` و `priority_source` صریح داشته باشد. `non` فقط READ_ONLY است تا مجوز جداگانه مالک؛ WRITE_ALLOWED فقط در Issue ساخته‌شده توسط repository owner. priority=50 با DEFAULT_POLICY رتبه‌بندی مالک نیست. اگر leaf آزاد وجود ندارد، برای جلوگیری از race ابتدا allocator `WI-GOAL-ALLOCATOR-001` را claim کن و فقط در lease آن Work Itemهای جدید با ID deterministic ایجاد کن؛ سپس allocator را آزاد کن.
+هر Work Item باید `write_policy` و `priority_source` صریح داشته باشد. مخزن محصول `non` به‌صورت پیش‌فرض READ_ONLY است؛ تنها استثنای WRITE_ALLOWED، Issue ساخته‌شده توسط repository owner با `owner_approval_ref` دقیقاً برابر URL همان Issue و متن صریح تصمیم مالک در بدنه است. این استثنا فقط همان Issue را پوشش می‌دهد و وظایف قدیمی READ_ONLY را ارتقا نمی‌دهد. priority=50 با DEFAULT_POLICY رتبه‌بندی مالک نیست. اگر leaf آزاد وجود ندارد، برای جلوگیری از race ابتدا allocator `WI-GOAL-ALLOCATOR-001` را claim کن و فقط در lease آن Work Itemهای جدید با ID deterministic ایجاد کن؛ سپس allocator را آزاد کن.
 
 
 ## قرارداد اجباری عمق مأموریت و گزارش پیشرفت (نسخه 2.0)
