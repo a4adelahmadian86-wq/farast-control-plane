@@ -1,6 +1,6 @@
 # کتابخانه کامل پرامپت‌های اجرایی FARAST
 
-نسخه: 1.9.0 | زبان: فارسی | مرجع وضعیت: farast-control-plane
+نسخه: 1.9.1 | زبان: فارسی | مرجع وضعیت: farast-control-plane
 
 > این فایل تجمیعی شامل MASTER-00 خودگردان و ۱۷ پرامپت تخصصی مستقل است. نگاشت آن‌ها به ۲۷ مأموریت عمیق EXP-01 تا EXP-27، استاندارد عمق ۲۰–۳۰ دقیقه‌ای و قواعد پیشرفت در اسناد مرجع ثبت شده است؛ هر چت باید مرجع زنده GitHub و آخرین checkpoint را بخواند؛ این bundle جایگزین read-back زنده نیست.
 
@@ -140,7 +140,7 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 
 
 ## Write policy و ساخت برگ جدید
-هر Work Item باید `write_policy` و `priority_source` صریح داشته باشد. `non` فقط READ_ONLY است تا مجوز جداگانه مالک؛ WRITE_ALLOWED فقط در Issue ساخته‌شده توسط repository owner. priority=50 با DEFAULT_POLICY رتبه‌بندی مالک نیست. اگر leaf آزاد وجود ندارد، برای جلوگیری از race ابتدا allocator `WI-GOAL-ALLOCATOR-001` را claim کن و فقط در lease آن Work Itemهای جدید با ID deterministic ایجاد کن؛ سپس allocator را آزاد کن.
+هر Work Item باید `write_policy` و `priority_source` صریح داشته باشد. مخزن محصول `non` به‌صورت پیش‌فرض READ_ONLY است؛ تنها استثنای WRITE_ALLOWED، Issue ساخته‌شده توسط repository owner با `owner_approval_ref` دقیقاً برابر URL همان Issue و متن صریح تصمیم مالک در بدنه است. این استثنا فقط همان Issue را پوشش می‌دهد و وظایف قدیمی READ_ONLY را ارتقا نمی‌دهد. priority=50 با DEFAULT_POLICY رتبه‌بندی مالک نیست. اگر leaf آزاد وجود ندارد، برای جلوگیری از race ابتدا allocator `WI-GOAL-ALLOCATOR-001` را claim کن و فقط در lease آن Work Itemهای جدید با ID deterministic ایجاد کن؛ سپس allocator را آزاد کن.
 
 
 ## قرارداد اجباری عمق مأموریت و گزارش پیشرفت (نسخه 2.0)
@@ -1621,7 +1621,7 @@ prioritized backlog، dependency graph، release slices و task definitions. م�
 - ابتدا work item نیمه‌تمام با checkpoint معتبر و lease منقضی/آزاد را برای resume انتخاب کن؛ اگر lease معتبر دارد آن را کنار بگذار. سپس READYهای بدون dependency یا resource conflict را طبق priority مالک، aging روزانه، قدیمی‌ترین ready/created time و WORK_ITEM_ID مرتب کن.
 - انتخاب محلی مجوز write نیست؛ فقط پس از CLAIM GRANTED و read-back رجیستری از طریق /farast روی Issue همان برگ اقدام کن. اگر claim رد شد، conflict داشت یا timeout شد، اثر را read-back کن و نامزد بعدی را امتحان کن. اگر هیچ برگ واجد شرایطی در محدوده همین پرامپت نیست، discovery و تحلیل dependency/evidence همان EXPها را read-only ادامه بده؛ allocator فقط با Lease انحصاری، و بدون duplicate.
 - Issue والد صرفاً گروه‌بندی و تجمیع است و هرگز claim اجرایی نمی‌گیرد.
-- هر Work Item باید `write_policy` داشته باشد: `READ_ONLY`, `WRITE_REQUIRES_OWNER_APPROVAL` یا `WRITE_ALLOWED`. مخزن محصول `a4adelahmadian86-wq/non` فقط `READ_ONLY` است تا مجوز جداگانه مالک ثبت شود. WRITE_ALLOWED فقط برای Issue ساخته‌شده توسط repository owner پذیرفته می‌شود.
+- هر Work Item باید `write_policy` داشته باشد: `READ_ONLY`, `WRITE_REQUIRES_OWNER_APPROVAL` یا `WRITE_ALLOWED`. مخزن محصول `a4adelahmadian86-wq/non` به‌صورت پیش‌فرض `READ_ONLY` است؛ `WRITE_ALLOWED` فقط برای Issue ساخته‌شده توسط repository owner، با `owner_approval_ref` دقیقاً برابر URL همان Issue و متن صریح تصمیم مالک در بدنه Issue پذیرفته می‌شود. این مجوز به هیچ Issue دیگری سرایت نمی‌کند.
 - `priority_source=DEFAULT_POLICY` و priority=50 یعنی اولویت برابر و FIFO/aging، نه رتبه‌بندی مالک؛ `OWNER_ASSIGNED` فقط با تصمیم صریح مالک.
 - اگر هیچ برگ واجد شرایط نبود، EXPهای ناقص و Issueهای موجود را تطبیق بده؛ برای ساخت برگ تازه ابتدا allocator با WORK_ITEM_ID ثابت `WI-GOAL-ALLOCATOR-001` را claim کن. فقط در اختیار lease آن، برگ‌های جدید با شناسه deterministic بساز؛ اگر allocator آزاد نیست، duplicate نساز.
 
@@ -1806,3 +1806,4 @@ acceptance matrix، security/resilience report، release checklist، release not
 5. Claim فقط مالکیت موقت است؛ شروع، progress یا acceptance محسوب نمی‌شود.
 6. اگر کار مسدود است، blocker و کار read-only مستقل را ثبت کن؛ زمان را مصنوعی پر نکن و به مأموریت نامرتبط نپرداز.
 7. قبل از پایان یا handoff، checkpoint کامل و NEXT_ACTION دقیق ثبت کن.
+
