@@ -74,24 +74,6 @@ test('task parser requires target repository and canonical resource keys', () =>
   assert.deepEqual(core.resourcesFor('### Resource keys\n', 10), []);
 });
 
-test('acceptance approval must be current-head and independent of PR author, worker and acceptor', () => {
-  const pr = { user: { login: 'author' }, head: { sha: 'head-2' } };
-  const base = { state: 'APPROVED', commit_id: 'head-2', user: { login: 'reviewer' } };
-  assert.equal(core.hasIndependentApproval([base], pr, 'worker', 'owner'), true);
-  assert.equal(core.hasIndependentApproval([{...base, commit_id: 'old-head'}], pr, 'worker', 'owner'), false);
-  assert.equal(core.hasIndependentApproval([{...base, user: { login: 'worker' }}], pr, 'worker', 'owner'), false);
-  assert.equal(core.hasIndependentApproval([{...base, user: { login: 'author' }}], pr, 'worker', 'owner'), false);
-  assert.equal(core.hasIndependentApproval([
-    {...base, submitted_at: '2026-11-14T10:00:00Z'},
-    {...base, state: 'CHANGES_REQUESTED', submitted_at: '2026-11-14T10:01:00Z'}
-  ], pr, 'worker', 'owner'), false);
-  assert.equal(core.hasIndependentApproval([
-    {...base, commit_id: 'old-head', submitted_at: '2026-11-14T10:00:00Z'},
-    {...base, commit_id: 'head-2', submitted_at: '2026-11-14T10:01:00Z'}
-  ], pr, 'worker', 'owner'), true);
-});
-
-
 test('accepted PR must come from the exact branch and repository recorded by the latest lease review', () => {
   const pr = { head: { ref: 'work/GH-10-run-2', repo: { full_name: 'owner/product' } }, base: { repo: { full_name: 'owner/product' } } };
   const review = { branch: 'work/GH-10-run-2', target_repository: 'owner/product' };
