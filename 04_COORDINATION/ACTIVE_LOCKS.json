@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 319,
+  "revision": 320,
   "next_fencing_token": 66,
   "locks": [
     {
@@ -2962,7 +2962,7 @@
     },
     "6914818509": {
       "response": "STEP ثبت شد: S4_AUTO_SELECTION; progress=71.42%; verified=5/7.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 47,
       "actor": "a4adelahmadian86-wq",
       "command": "step",
