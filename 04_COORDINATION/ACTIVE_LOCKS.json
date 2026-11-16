@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 559,
+  "revision": 560,
   "next_fencing_token": 75,
   "locks": [
     {
@@ -4984,7 +4984,7 @@
     },
     "6925137043": {
       "response": "STEP ثبت شد: S4_SMOKE_52; EXECUTION_PROGRESS=71.42%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=5/7.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 58,
       "actor": "a4adelahmadian86-wq",
       "command": "step",
