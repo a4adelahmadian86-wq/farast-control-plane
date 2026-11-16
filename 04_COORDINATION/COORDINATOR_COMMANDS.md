@@ -46,13 +46,14 @@ api-contract:payment-callback
 4. heartbeat/release/block/review فقط با actor، chat، run و token منطبق مجاز است.
 5. پایان lease در reconciliation ثبت و قفل منقضی حذف می‌شود.
 6. release به معنی اتمام کار نیست؛ review به معنی پذیرش نیست.
-7. accept فقط وقتی مجاز است که Issue در وضعیت review و بدون lease باشد، لینک PR در بدنه Issue ثبت شده باشد، PR merged شده باشد و تمام Check Runها و Commit Statusهای SHA دقیق head با موفقیت کامل شده باشند. Review انسانی، self-review و تأیید مالک شرط پذیرش نیستند.
-8. بستن دستی Issue یا افزودن دستی label agent:done بدون transition موفق accept در operation ledger رد و Issue دوباره باز می‌شود؛ label به‌تنهایی منبع پذیرش نیست.
-9. عملیات با شناسه comment یکتا deduplicate می‌شود؛ پاسخ نیمه‌تمام پس از وقفه بازیابی می‌شود.
-10. عدم پاسخ، timeout یا خطای workflow هرگز grant محسوب نمی‌شود؛ وضعیت را از رجیستری و Actions run دوباره بخوانید.
-11. هر برگ اجرایی یک Issue مستقل با WORK_ITEM_ID پایدار است؛ هنگام claim، coordinator همان WORK_ITEM_ID و فهرست گام‌های تأییدشده/باقی‌مانده را در پاسخ می‌دهد.
-12. `/farast step` و `/farast criterion` فقط با lease فعال و evidence reference ثبت می‌شوند؛ `/farast progress` درصد محاسبه‌شده را نشان می‌دهد و `/farast checkpoint` فقط با fencing token معتبر ذخیره می‌شود.
-13. `/farast accept` برای Work Item علاوه بر PR ادغام‌شده و approval مستقل، همه گام‌ها و معیارهای اجباری و dependencyهای ACCEPTED را لازم دارد؛ ۸۰٪ یا release به‌تنهایی پذیرش نیست.
+7. `/farast accept` فرمان اجرای پذیرش خودکار است: پس از آزاد شدن lease و تحویل Work Item به وضعیت review، Coordinator شاخه و مخزن PR را اعتبارسنجی می‌کند، همه Check Runها و Commit Statusهای SHA دقیق head را می‌سنجد، در صورت موفقیت PR را با SHA مورد انتظار ادغام می‌کند و سپس معیارهای Work Item را بررسی می‌کند. این فرمان به معنی درخواست Review یا تأیید انسانی نیست.
+8. accept فقط وقتی مجاز است که Issue در وضعیت review و بدون lease باشد، لینک PR در بدنه Issue ثبت شده باشد، PR merged شده باشد و تمام Check Runها و Commit Statusهای SHA دقیق head با موفقیت کامل شده باشند. Review انسانی، self-review و تأیید مالک شرط پذیرش نیستند.
+9. بستن دستی Issue یا افزودن دستی label agent:done بدون transition موفق accept در operation ledger رد و Issue دوباره باز می‌شود؛ label به‌تنهایی منبع پذیرش نیست.
+10. عملیات با شناسه comment یکتا deduplicate می‌شود؛ پاسخ نیمه‌تمام پس از وقفه بازیابی می‌شود.
+11. عدم پاسخ، timeout یا خطای workflow هرگز grant محسوب نمی‌شود؛ وضعیت را از رجیستری و Actions run دوباره بخوانید.
+12. هر برگ اجرایی یک Issue مستقل با WORK_ITEM_ID پایدار است؛ هنگام claim، coordinator همان WORK_ITEM_ID و فهرست گام‌های تأییدشده/باقی‌مانده را در پاسخ می‌دهد.
+13. `/farast step` و `/farast criterion` فقط با lease فعال و evidence reference ثبت می‌شوند؛ `/farast progress` درصد محاسبه‌شده را نشان می‌دهد و `/farast checkpoint` فقط با fencing token معتبر ذخیره می‌شود.
+14. `/farast accept` برای Work Item علاوه بر PR ادغام‌شده و گیت‌های ماشینی موفق، همه گام‌ها و معیارهای اجباری و dependencyهای ACCEPTED را لازم دارد؛ ۸۰٪ یا release به‌تنهایی پذیرش نیست.
 
 ## محدودیت هویت چندچتی
 GitHub هویت واقعی ChatGPT chat را تأیید نمی‌کند. CHAT_ID و RUN_ID خوداظهاری‌اند و فقط برای تشخیص نشست/اجرای worker استفاده می‌شوند. کنترل امنیتی واقعی بر حساب GitHub مجاز، مالکیت lease و fencing token متکی است.
