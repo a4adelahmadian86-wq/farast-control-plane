@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 508,
+  "revision": 509,
   "next_fencing_token": 74,
   "locks": [
     {
@@ -4570,6 +4570,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-16T18:06:38.984Z"
+    },
+    "6924807897": {
+      "response": "STEP ثبت شد: S2_REPAIR; EXECUTION_PROGRESS=42.85%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=3/7.",
+      "response_posted": false,
+      "issue_number": 58,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-16T18:07:02.813Z"
     }
   },
   "work_items": {
@@ -5924,7 +5933,14 @@
           "weight": 1,
           "expected_output": "Both issue bodies updated without changing protected policy or scope fields",
           "evidence_requirement": "Issue update/read-back URLs and before/after field comparison",
-          "estimate_minutes": 5
+          "estimate_minutes": 5,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/58#issuecomment-6924794844"
+          ],
+          "validated_at_utc": "2026-11-16T18:07:02.653Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S3_SMOKE_51",
