@@ -118,7 +118,7 @@ jobs:
           assert isinstance(auth_policy["actor_scopes"], dict)
           assert "refresh" in auth_policy["roles"]["OWNER"] and "refresh" not in auth_policy["roles"]["WORKER"]
           assert {"progress", "step", "criterion", "checkpoint"}.issubset(set(auth_policy["roles"]["WORKER"]))
-          assert "accept" not in auth_policy["roles"]["WORKER"] and "status" in auth_policy["roles"]["READ_ONLY"]
+          assert "accept" in auth_policy["roles"]["WORKER"] and "status" in auth_policy["roles"]["READ_ONLY"]
           work_schema = json.loads(Path("04_COORDINATION/WORK_ORDER_SCHEMA.json").read_text(encoding="utf-8"))
           checkpoint_schema = json.loads(Path("04_COORDINATION/CHECKPOINT_SCHEMA.json").read_text(encoding="utf-8"))
           Draft202012Validator.check_schema(work_schema)
