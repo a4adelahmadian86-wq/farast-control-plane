@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 562,
+  "revision": 563,
   "next_fencing_token": 75,
   "locks": [
     {
@@ -5011,6 +5011,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-16T18:21:34.294Z"
+    },
+    "6925152551": {
+      "response": "STEP ثبت شد: S1_DISCOVER; EXECUTION_PROGRESS=14.28%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=1/7.",
+      "response_posted": false,
+      "issue_number": 35,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-16T18:21:42.725Z"
     }
   },
   "work_items": {
@@ -5560,7 +5569,7 @@
       "parent_exp_ids": [
         "EXP-23"
       ],
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/non",
       "resource_keys": [
         "analysis:exp-23"
@@ -5574,7 +5583,14 @@
           "weight": 1,
           "expected_output": "خروجی قابل بازبینی برای مرحله: شناسایی رفتارها و contractهای موجودی که باید حفظ شوند.",
           "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/35#issuecomment-6925145425"
+          ],
+          "validated_at_utc": "2026-11-16T18:21:42.724Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S2_MAP",
