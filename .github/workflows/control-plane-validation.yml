@@ -170,7 +170,7 @@ jobs:
           assert "acceptance_progress_percentage" in work_item_checkpoint_schema["properties"]
           assert "overall_completion_percentage" in work_item_checkpoint_schema["properties"]
           prompt_bundle = Path("05_PROMPT_LIBRARY/FARAST_EXECUTABLE_PROMPTS_COMPLETE.md").read_text(encoding="utf-8")
-          assert "نسخه: 1.9.0" in prompt_bundle
+          assert "نسخه: 1.9.1" in prompt_bundle
           assert "قرارداد اجباری عمق مأموریت و گزارش پیشرفت (نسخه 2.0)" in prompt_bundle
           for n in range(1, 18):
               matches = list(Path("05_PROMPT_LIBRARY").glob(f"PR-{n:02d}_*.md"))
