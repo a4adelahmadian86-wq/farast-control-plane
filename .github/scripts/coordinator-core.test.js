@@ -3,6 +3,7 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const core = require('./coordinator-core');
+const dispatch = require('./work-item-dispatch-core');
 
 function registry() {
   return { next_fencing_token: 1, locks: [], history: [] };
@@ -380,4 +381,121 @@ test('write policy resolution defaults legacy tasks to READ_ONLY and rejects sta
     null,
     { write_policy: 'WRITE_ALLOWED', target_repository: 'owner/control', resource_keys: ['module:ci'] }
   ), /write_policy differs/);
+});
+
+
+test('durable inbox replays interrupted and replaced runs exactly once and recovers unposted responses', () => {
+  const comments = Array.from({ length:25 }, (_, index) => ({
+    id:5000 + index,
+    body:'/farast claim chat=chat-' + index + ' run=run-' + index
+  }));
+  const processed = {};
+
+  // First run is interrupted after committing eight commands but before posting their responses.
+  const firstRun = core.pendingCommandComments([...comments.slice(0,12), comments[0]], processed);
+  assert.equal(firstRun.length, 12);
+  for (const comment of firstRun.slice(0,8)) {
+    processed[String(comment.id)] = { issue_number:77, response:'CLAIM RESULT', response_posted:false };
+  }
+  const recoverable = core.pendingResponseOperations(processed, 77);
+  assert.equal(recoverable.length, 8);
+  assert.equal(new Set(recoverable.map(([id]) => core.responseMarker(id))).size, 8);
+  for (const [id] of recoverable) processed[id].response_posted = true;
+
+  // A replacement/scheduled run sees the complete durable inbox and processes only the 17 uncommitted IDs.
+  const replacementRun = core.pendingCommandComments([...comments, ...comments.slice(0,5)], processed);
+  assert.equal(replacementRun.length, 17);
+  for (const comment of replacementRun) {
+    processed[String(comment.id)] = { issue_number:77, response:'CLAIM RESULT', response_posted:false };
+  }
+  const secondRecovery = core.pendingResponseOperations(processed, 77);
+  assert.equal(secondRecovery.length, 17);
+  for (const [id] of secondRecovery) processed[id].response_posted = true;
+
+  // Replaying the same comments again (including duplicate IDs) is a no-op.
+  assert.deepEqual(core.pendingCommandComments([...comments, ...comments], processed), []);
+  assert.equal(core.pendingResponseOperations(processed, 77).length, 0);
+  assert.equal(Object.keys(processed).length, 25);
+  assert.equal(new Set(Object.keys(processed).map(core.responseMarker)).size, 25);
+  assert.ok(Object.values(processed).every(operation => operation.response_posted === true));
+});
+
+test('response recovery is scoped to the requested Issue and markers are deterministic', () => {
+  const operations = {
+    '100': { issue_number:77, response:'one', response_posted:false },
+    '101': { issue_number:78, response:'two', response_posted:false },
+    '102': { issue_number:77, response:'three', response_posted:true }
+  };
+  assert.deepEqual(core.pendingResponseOperations(operations, 77).map(([id]) => id), ['100']);
+  assert.deepEqual(core.pendingResponseOperations(operations, 78).map(([id]) => id), ['101']);
+  assert.equal(core.responseMarker(100), core.responseMarker('100'));
+});
+
+test('N=2,5,10,25 workers contend for one G-09 global leaf then safely fall back to unique local EXP leaves', () => {
+  const makeItem = (issueNumber, workItemId, goalIds, expIds, resourceKey, priority) => ({
+    issue_number:issueNumber,
+    work_item_id:workItemId,
+    status:'READY',
+    labels:[],
+    parent_goal_ids:goalIds,
+    parent_exp_ids:expIds,
+    resource_keys:[resourceKey],
+    hard_gates:[],
+    priority,
+    created_at_utc:'2026-11-17T00:00:00Z',
+    steps:[]
+  });
+
+  for (const workerCount of [2,5,10,25]) {
+    const state = registry();
+    const global = makeItem(100, 'WI-GLOBAL-G09', ['G-09'], ['EXP-01'], 'module:global-g09', 0);
+    const locals = Array.from({ length:workerCount - 1 }, (_, index) =>
+      makeItem(101 + index, 'WI-LOCAL-' + String(index + 1).padStart(2,'0'), ['G-01'], ['EXP-02'], 'analysis:local-' + index, 10)
+    );
+    const items = [global, ...locals];
+    // All workers can read the same initial snapshot and nominate the same shared global leaf.
+    const initialSelections = Array.from({ length:workerCount }, () =>
+      dispatch.selectNextWorkItem(items, { scopeExpIds:['EXP-02'], activeLocks:state.locks, nowMs:1000 })
+    );
+    assert.ok(initialSelections.every(candidate => candidate?.work_item_id === global.work_item_id));
+
+    const claimed = [];
+    for (let index = 0; index < workerCount; index++) {
+      let candidate = initialSelections[index];
+      let result = core.claimResources(state, {
+        issueNumber:candidate.issue_number,
+        taskId:'GH-' + candidate.issue_number,
+        actor:'owner',
+        chatId:'chat-' + index,
+        runId:'run-' + workerCount + '-' + index,
+        targetRepository:'owner/repo',
+        branch:'work/GH-' + candidate.issue_number + '-run-' + workerCount + '-' + index,
+        resourceKeys:candidate.resource_keys,
+        leaseMinutes:30,
+        nowMs:1000
+      });
+      if (!result.ok) {
+        candidate = dispatch.selectNextWorkItem(items, { scopeExpIds:['EXP-02'], activeLocks:state.locks, nowMs:1000 });
+        assert.ok(candidate, 'worker must continue to an eligible local leaf after global conflict');
+        result = core.claimResources(state, {
+          issueNumber:candidate.issue_number,
+          taskId:'GH-' + candidate.issue_number,
+          actor:'owner',
+          chatId:'chat-' + index,
+          runId:'run-' + workerCount + '-' + index + '-fallback',
+          targetRepository:'owner/repo',
+          branch:'work/GH-' + candidate.issue_number + '-run-' + workerCount + '-' + index + '-fallback',
+          resourceKeys:candidate.resource_keys,
+          leaseMinutes:30,
+          nowMs:1000
+        });
+      }
+      assert.equal(result.ok, true);
+      claimed.push(candidate.work_item_id);
+    }
+    assert.equal(claimed.length, workerCount);
+    assert.equal(new Set(claimed).size, workerCount);
+    assert.equal(claimed.filter(id => id === global.work_item_id).length, 1);
+    assert.equal(state.locks.length, workerCount);
+  }
 });
