@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 836,
+  "revision": 837,
   "next_fencing_token": 87,
   "locks": [
     {
@@ -7134,6 +7134,15 @@
       "command": "claim",
       "next_status": "locked",
       "at_utc": "2026-11-17T10:15:29.349Z"
+    },
+    "6945123521": {
+      "response": "Claim رد شد: این TASK هم‌اکنون در اختیار @a4adelahmadian86-wq با run=RUN-20261117-OPERATION-GATE-MODEL-001 است؛ برای جلوگیری از دو نویسنده روی یک branch، ابتدا handoff یا انقضای lease لازم است.",
+      "response_posted": false,
+      "issue_number": 64,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": null,
+      "at_utc": "2026-11-17T10:15:38.664Z"
     }
   },
   "work_items": {
