@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 986,
+  "revision": 987,
   "next_fencing_token": 93,
   "locks": [
     {
@@ -110,8 +110,8 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "branch": "work/GH-11-RUN-20261117-LEASE-HARDEN-ALLOC-001",
       "acquired_at_utc": "2026-11-17T11:14:11.075Z",
-      "heartbeat_at_utc": "2026-11-17T11:15:07.943Z",
-      "lease_expires_at_utc": "2026-11-17T11:45:07.943Z",
+      "heartbeat_at_utc": "2026-11-17T11:16:29.985Z",
+      "lease_expires_at_utc": "2026-11-17T11:46:29.985Z",
       "fencing_token": 92,
       "status": "ACTIVE"
     }
@@ -4235,6 +4235,18 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "lease_expires_at_utc": "2026-11-17T11:45:07.943Z",
       "at_utc": "2026-11-17T11:15:07.943Z"
+    },
+    {
+      "event": "HEARTBEAT",
+      "issue_number": 11,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-AUTONOMY-READINESS-20261117",
+      "run_id": "RUN-20261117-LEASE-HARDEN-ALLOC-001",
+      "fencing_token": 92,
+      "branch": "work/GH-11-RUN-20261117-LEASE-HARDEN-ALLOC-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "lease_expires_at_utc": "2026-11-17T11:46:29.985Z",
+      "at_utc": "2026-11-17T11:16:29.985Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -8549,6 +8561,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-17T11:15:07.948Z"
+    },
+    "6946478357": {
+      "response": "Lease تمدید شد تا 2026-11-17T11:46:29.985Z UTC؛ fencing_token=92.",
+      "response_posted": false,
+      "issue_number": 11,
+      "actor": "a4adelahmadian86-wq",
+      "command": "heartbeat",
+      "next_status": null,
+      "at_utc": "2026-11-17T11:16:29.990Z"
     }
   },
   "work_items": {
