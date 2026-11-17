@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 750,
+  "revision": 751,
   "next_fencing_token": 82,
   "locks": [
     {
@@ -6432,6 +6432,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-17T09:44:57.464Z"
+    },
+    "6944482811": {
+      "response": "WORK_ITEM=WI-EXP01-BASELINE-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; verified_steps=7/7; verified_criteria=5/5; step_weighting=EQUAL_STEPS_V1; criteria_weighting=EQUAL_CRITERIA_V1; dependencies=PASS; can_accept=true. claim/lease مستقل از درصد است.",
+      "response_posted": false,
+      "issue_number": 13,
+      "actor": "a4adelahmadian86-wq",
+      "command": "progress",
+      "next_status": null,
+      "at_utc": "2026-11-17T09:46:45.067Z"
     }
   },
   "work_items": {
