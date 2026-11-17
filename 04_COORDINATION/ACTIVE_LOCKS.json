@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1324,
+  "revision": 1325,
   "next_fencing_token": 105,
   "locks": [
     {
@@ -11388,6 +11388,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-17T17:25:16.014Z"
+    },
+    "6955593168": {
+      "response": "STEP ثبت شد: S5_REPLAY; EXECUTION_PROGRESS=75%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=6/8.",
+      "response_posted": false,
+      "issue_number": 77,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-17T17:25:23.774Z"
     }
   },
   "work_items": {
@@ -14837,7 +14846,14 @@
           "weight": 1,
           "expected_output": "Previously processed command comments are skipped before repeated Issue API reads while response recovery remains intact",
           "evidence_requirement": "Coordinator loop diff and ordering/recovery regression test",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/79"
+          ],
+          "validated_at_utc": "2026-11-17T17:25:23.774Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S6_CI",
