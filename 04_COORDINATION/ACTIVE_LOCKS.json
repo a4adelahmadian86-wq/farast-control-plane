@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1010,
+  "revision": 1011,
   "next_fencing_token": 94,
   "locks": [
     {
@@ -8827,6 +8827,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-17T11:27:09.534Z"
+    },
+    "6946737099": {
+      "response": "STEP ثبت شد: S0_REPRODUCE; EXECUTION_PROGRESS=14.28%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=1/7.",
+      "response_posted": false,
+      "issue_number": 69,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-17T11:28:23.629Z"
     }
   },
   "work_items": {
@@ -11564,7 +11573,7 @@
         "EXP-01",
         "EXP-26"
       ],
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "module:coordinator-lease-safety",
@@ -11589,7 +11598,15 @@
           "weight": 1,
           "expected_output": "Deterministic failing fixtures",
           "evidence_requirement": "Current main SHA, exact source lines and focused test output",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/.github/scripts/coordinator-core.js#L43-L57",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/27fbc34236e07167cce780fe55be05dfcbacc0cf"
+          ],
+          "validated_at_utc": "2026-11-17T11:28:23.624Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Reproduced NaN expiry path in expireLocks, activeForIssue and claimResources; regression fixtures now cover missing and malformed expiry."
         },
         {
           "step_id": "S1_POLICY",
