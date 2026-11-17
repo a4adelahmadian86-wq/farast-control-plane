@@ -1,8 +1,89 @@
 {
   "schema_version": "1.0",
-  "revision": 1190,
-  "next_fencing_token": 99,
-  "locks": [],
+  "revision": 1191,
+  "next_fencing_token": 100,
+  "locks": [
+    {
+      "resource_key": "file:.github/scripts/work-item-core.js",
+      "issue_number": 77,
+      "task_id": "GH-77",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-LEGACY-SCOPE-20261117-01",
+      "chat_id": "CHAT-LEGACY-SCOPE-20261117-01",
+      "run_id": "RUN-20261117-LEGACY-SCOPE-1650Z-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-77-RUN-20261117-LEGACY-SCOPE-1650Z-001",
+      "acquired_at_utc": "2026-11-17T16:51:06.062Z",
+      "heartbeat_at_utc": "2026-11-17T16:51:06.062Z",
+      "lease_expires_at_utc": "2026-11-17T17:21:06.062Z",
+      "fencing_token": 99,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "file:.github/scripts/work-item-core.test.js",
+      "issue_number": 77,
+      "task_id": "GH-77",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-LEGACY-SCOPE-20261117-01",
+      "chat_id": "CHAT-LEGACY-SCOPE-20261117-01",
+      "run_id": "RUN-20261117-LEGACY-SCOPE-1650Z-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-77-RUN-20261117-LEGACY-SCOPE-1650Z-001",
+      "acquired_at_utc": "2026-11-17T16:51:06.062Z",
+      "heartbeat_at_utc": "2026-11-17T16:51:06.062Z",
+      "lease_expires_at_utc": "2026-11-17T17:21:06.062Z",
+      "fencing_token": 99,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "file:.github/workflows/farast-coordinator.yml",
+      "issue_number": 77,
+      "task_id": "GH-77",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-LEGACY-SCOPE-20261117-01",
+      "chat_id": "CHAT-LEGACY-SCOPE-20261117-01",
+      "run_id": "RUN-20261117-LEGACY-SCOPE-1650Z-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-77-RUN-20261117-LEGACY-SCOPE-1650Z-001",
+      "acquired_at_utc": "2026-11-17T16:51:06.062Z",
+      "heartbeat_at_utc": "2026-11-17T16:51:06.062Z",
+      "lease_expires_at_utc": "2026-11-17T17:21:06.062Z",
+      "fencing_token": 99,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "file:04_coordination/work_item_schema.json",
+      "issue_number": 77,
+      "task_id": "GH-77",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-LEGACY-SCOPE-20261117-01",
+      "chat_id": "CHAT-LEGACY-SCOPE-20261117-01",
+      "run_id": "RUN-20261117-LEGACY-SCOPE-1650Z-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-77-RUN-20261117-LEGACY-SCOPE-1650Z-001",
+      "acquired_at_utc": "2026-11-17T16:51:06.062Z",
+      "heartbeat_at_utc": "2026-11-17T16:51:06.062Z",
+      "lease_expires_at_utc": "2026-11-17T17:21:06.062Z",
+      "fencing_token": 99,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "module:legacy-write-scope-compatibility",
+      "issue_number": 77,
+      "task_id": "GH-77",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-LEGACY-SCOPE-20261117-01",
+      "chat_id": "CHAT-LEGACY-SCOPE-20261117-01",
+      "run_id": "RUN-20261117-LEGACY-SCOPE-1650Z-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-77-RUN-20261117-LEGACY-SCOPE-1650Z-001",
+      "acquired_at_utc": "2026-11-17T16:51:06.062Z",
+      "heartbeat_at_utc": "2026-11-17T16:51:06.062Z",
+      "lease_expires_at_utc": "2026-11-17T17:21:06.062Z",
+      "fencing_token": 99,
+      "status": "ACTIVE"
+    }
+  ],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -4966,6 +5047,27 @@
       "branch": "work/GH-64-RUN-20261117-MASTER00-COMPAT-1643Z-001",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "at_utc": "2026-11-17T16:47:46.947Z"
+    },
+    {
+      "event": "ACQUIRED",
+      "issue_number": 77,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-LEGACY-SCOPE-20261117-01",
+      "run_id": "RUN-20261117-LEGACY-SCOPE-1650Z-001",
+      "resource_keys": [
+        "file:.github/scripts/work-item-core.js",
+        "file:.github/scripts/work-item-core.test.js",
+        "file:.github/workflows/farast-coordinator.yml",
+        "file:04_coordination/work_item_schema.json",
+        "module:legacy-write-scope-compatibility"
+      ],
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-77-RUN-20261117-LEGACY-SCOPE-1650Z-001",
+      "previous_branch": null,
+      "previous_target_repository": null,
+      "previous_run_id": null,
+      "fencing_token": 99,
+      "at_utc": "2026-11-17T16:51:06.062Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -10189,6 +10291,15 @@
       "command": "release",
       "next_status": null,
       "at_utc": "2026-11-17T16:50:44.278Z"
+    },
+    "6954713607": {
+      "response": "CLAIM GRANTED. TASK=GH-77; WORK_ITEM_ID=WI-LEGACY-WRITE-SCOPE-COMPAT-001; verified_steps=; remaining_steps=S0_REPRODUCE,S1_POLICY,S2_CORE,S3_SCHEMA,S4_REGRESSION,S5_REPLAY,S6_CI,S7_HANDOFF; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; actor=@a4adelahmadian86-wq; chat=CHAT-LEGACY-SCOPE-20261117-01; run=RUN-20261117-LEGACY-SCOPE-1650Z-001; resource_keys=file:.github/scripts/work-item-core.js,file:.github/scripts/work-item-core.test.js,file:.github/workflows/farast-coordinator.yml,file:04_coordination/work_item_schema.json,module:legacy-write-scope-compatibility; target_repository=a4adelahmadian86-wq/farast-control-plane; write_policy=WRITE_ALLOWED; branch=work/GH-77-RUN-20261117-LEGACY-SCOPE-1650Z-001; previous_run=none; fencing_token=99; lease_expires=2026-11-17T17:21:06.062Z. این Work Item با سیاست WRITE_ALLOWED است؛ branch را فقط در target_repository ثبت‌شده بساز و قبل از هر write heartbeat/token را دوباره تأیید کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز و branch قبلی را تغییر نده.",
+      "response_posted": false,
+      "issue_number": 77,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "locked",
+      "at_utc": "2026-11-17T16:51:06.067Z"
     }
   },
   "work_items": {
@@ -13274,6 +13385,168 @@
       ],
       "priority": 5,
       "created_at_utc": "2026-11-17T11:17:00Z"
+    },
+    "77": {
+      "schema_version": "1.0",
+      "write_policy": "WRITE_ALLOWED",
+      "priority_source": "OWNER_ASSIGNED",
+      "operation_scope_version": "1.0",
+      "requested_operations": [
+        "control_plane_write"
+      ],
+      "work_item_id": "WI-LEGACY-WRITE-SCOPE-COMPAT-001",
+      "title": "Preserve accepted legacy Work Item operation scope and bounded coordinator replay",
+      "parent_goal_ids": [
+        "G-00",
+        "G-09"
+      ],
+      "parent_exp_ids": [
+        "EXP-01"
+      ],
+      "status": "CLAIMED",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "resource_keys": [
+        "file:.github/scripts/work-item-core.js",
+        "file:.github/scripts/work-item-core.test.js",
+        "file:04_COORDINATION/WORK_ITEM_SCHEMA.json",
+        "file:.github/workflows/farast-coordinator.yml",
+        "module:legacy-write-scope-compatibility"
+      ],
+      "dependencies": [],
+      "effort_estimate_minutes": 30,
+      "effort_rationale": "Narrow compatibility migration, fail-closed regression coverage and coordinator inbox replay optimization; exact-head CI and machine acceptance.",
+      "depth_profile": {
+        "profile_version": "2.0.0",
+        "min_substantive_steps": 7,
+        "min_acceptance_criteria": 5,
+        "min_deliverables": 4,
+        "target_effort_minutes": 30
+      },
+      "steps": [
+        {
+          "step_id": "S0_REPRODUCE",
+          "title": "Reproduce accepted dependency becoming INVALID",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Source-backed reproduction showing Issue #62 is ACCEPTED in registry but invalid under current write-scope validation",
+          "evidence_requirement": "Issue #62 read-back, current main schema/core and Issue #64 failed acceptance response",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S1_POLICY",
+          "title": "Define exact-ID compatibility without broadening write access",
+          "required": true,
+          "weight": 1,
+          "expected_output": "A narrowly enumerated compatibility policy for the already accepted control-plane Work Item",
+          "evidence_requirement": "Exact Work Item ID, target repository and operation mapping; negative case for unlisted IDs",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S2_CORE",
+          "title": "Restore the accepted legacy Work Item operation mapping",
+          "required": true,
+          "weight": 1,
+          "expected_output": "WI-READONLY-EVIDENCE-ACCEPTANCE-001 resolves only to control_plane_write in the control-plane repository",
+          "evidence_requirement": "Core diff and direct operation-scope validation",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S3_SCHEMA",
+          "title": "Synchronize schema legacy allowlist",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Schema and runtime allowlists agree on the exact legacy Work Item ID",
+          "evidence_requirement": "JSON schema read-back and allowlist equality test",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S4_REGRESSION",
+          "title": "Prove accepted dependency and fail-closed compatibility",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Regression tests prove Issue #62 remains a valid ACCEPTED dependency and unlisted legacy writes remain blocked",
+          "evidence_requirement": "Named positive/negative tests and passing focused test output",
+          "estimate_minutes": 5
+        },
+        {
+          "step_id": "S5_REPLAY",
+          "title": "Bound durable coordinator command replay",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Previously processed command comments are skipped before repeated Issue API reads while response recovery remains intact",
+          "evidence_requirement": "Coordinator loop diff and ordering/recovery regression test",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S6_CI",
+          "title": "Run exact-head full control-plane validation",
+          "required": true,
+          "weight": 1,
+          "expected_output": "All required checks pass on the exact PR head",
+          "evidence_requirement": "Actions run, exact SHA and PR read-back",
+          "estimate_minutes": 5
+        },
+        {
+          "step_id": "S7_HANDOFF",
+          "title": "Publish machine-acceptance handoff and merge evidence",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Merged compatibility repair and verified machine-only Work Item acceptance",
+          "evidence_requirement": "PR URL, merge SHA, CI and coordinator acceptance response",
+          "estimate_minutes": 2
+        }
+      ],
+      "acceptance_criteria": [
+        {
+          "criterion_id": "AC_LEGACY_VALID",
+          "title": "Previously accepted Issue #62 is revalidated as ACCEPTED, not INVALID",
+          "evidence_requirement": "Live coordinator dependency evaluation after merge"
+        },
+        {
+          "criterion_id": "AC_EXACT_ALLOWLIST",
+          "title": "Only the exact legacy ID receives the compatibility mapping for the exact control-plane repository",
+          "evidence_requirement": "Core/schema allowlists and negative tests for unlisted IDs"
+        },
+        {
+          "criterion_id": "AC_SCOPE_FAIL_CLOSED",
+          "title": "New WRITE_ALLOWED Work Items still require versioned explicit operation scope",
+          "evidence_requirement": "Schema and runtime negative tests"
+        },
+        {
+          "criterion_id": "AC_REPLAY",
+          "title": "Durable inbox replay skips already processed comments before re-fetching the Issue and preserves pending-response recovery",
+          "evidence_requirement": "Coordinator workflow and regression test"
+        },
+        {
+          "criterion_id": "AC_CI",
+          "title": "Focused tests and full validation pass on the exact final PR head",
+          "evidence_requirement": "Successful Actions run and exact head SHA"
+        }
+      ],
+      "deliverables": [
+        {
+          "deliverable_id": "D1",
+          "description": "Source-backed reproduction and exact-ID compatibility decision",
+          "evidence_requirement": "Issue #62 and Issue #64 read-backs plus policy mapping"
+        },
+        {
+          "deliverable_id": "D2",
+          "description": "Core/schema legacy compatibility mapping",
+          "evidence_requirement": "Changed files and schema validation"
+        },
+        {
+          "deliverable_id": "D3",
+          "description": "Fail-closed tests and bounded inbox replay",
+          "evidence_requirement": "Named regression tests and full CI"
+        },
+        {
+          "deliverable_id": "D4",
+          "description": "Merged PR and machine acceptance proof",
+          "evidence_requirement": "Merge SHA, exact-head Actions and coordinator acceptance response"
+        }
+      ],
+      "priority": 4,
+      "created_at_utc": "2026-11-17T16:50:00Z"
     }
   },
   "checkpoints": {
