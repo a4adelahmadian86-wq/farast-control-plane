@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1369,
+  "revision": 1370,
   "next_fencing_token": 107,
   "locks": [
     {
@@ -12211,6 +12211,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-17T17:36:03.946Z"
+    },
+    "6955920335": {
+      "response": "STEP ثبت شد: S0_LIVE_AUDIT; EXECUTION_PROGRESS=14.28%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=1/7.",
+      "response_posted": false,
+      "issue_number": 67,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-17T17:37:43.819Z"
     }
   },
   "work_items": {
@@ -15292,7 +15301,7 @@
         "EXP-23",
         "EXP-26"
       ],
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "module:prompt-library",
@@ -15355,7 +15364,14 @@
           "weight": 1,
           "expected_output": "Current-state matrix with exact SHAs and gaps",
           "evidence_requirement": "GitHub read-back links and source blob SHAs",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/67#issuecomment-6955917228"
+          ],
+          "validated_at_utc": "2026-11-17T17:37:43.819Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S1_CONTRACT_MAPPING",
