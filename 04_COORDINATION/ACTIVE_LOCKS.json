@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 744,
+  "revision": 745,
   "next_fencing_token": 82,
   "locks": [
     {
@@ -6405,6 +6405,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-17T09:43:27.472Z"
+    },
+    "6944418998": {
+      "response": "معیار پذیرش ثبت شد: AC_OUTPUT; ACCEPTANCE_PROGRESS=60%; OVERALL_COMPLETION=60%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 13,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-17T09:43:56.650Z"
     }
   },
   "work_items": {
@@ -6882,7 +6891,14 @@
         {
           "criterion_id": "AC_OUTPUT",
           "title": "All four baseline deliverables exist and have been read back",
-          "evidence_requirement": "Direct links to report, facts JSON, environment/release map and unknown/risk register"
+          "evidence_requirement": "Direct links to report, facts JSON, environment/release map and unknown/risk register",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/13#issuecomment-6944359408"
+          ],
+          "validated_at_utc": "2026-11-17T09:43:56.645Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_UNKNOWN",
