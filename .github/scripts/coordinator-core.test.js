@@ -67,18 +67,21 @@ test('malformed and missing active lease expiries fail closed and are audited on
   const s = registry();
   s.locks.push(
     { resource_key:'module:payments', issue_number:10, task_id:'GH-10', actor:'alice', chat_id:'chat-a', run_id:'run-a', target_repository:'owner/repo', branch:'work/GH-10', fencing_token:7, status:'ACTIVE', lease_expires_at_utc:'not-a-date' },
-    { resource_key:'module:identity', issue_number:12, task_id:'GH-12', actor:'carol', chat_id:'chat-c', run_id:'run-c', target_repository:'owner/repo', branch:'work/GH-12', fencing_token:8, status:'ACTIVE' }
+    { resource_key:'module:identity', issue_number:12, task_id:'GH-12', actor:'carol', chat_id:'chat-c', run_id:'run-c', target_repository:'owner/repo', branch:'work/GH-12', fencing_token:8, status:'ACTIVE' },
+    { resource_key:'module:cache', issue_number:14, task_id:'GH-14', actor:'erin', chat_id:'chat-e', run_id:'run-e', target_repository:'owner/repo', branch:'work/GH-14', fencing_token:9, status:'ACTIVE', lease_expires_at_utc:'0' },
+    { resource_key:'module:search', issue_number:15, task_id:'GH-15', actor:'frank', chat_id:'chat-f', run_id:'run-f', target_repository:'owner/repo', branch:'work/GH-15', fencing_token:10, status:'ACTIVE', lease_expires_at_utc:'2026-02-30T00:00:00Z' }
   );
 
   assert.deepEqual(core.expireLocks(s, 1000), []);
-  assert.equal(s.locks.length, 2);
-  assert.equal(core.activeForIssue(s, 10, 1000).length, 1);
-  assert.equal(core.activeForIssue(s, 12, 1000).length, 1);
-  assert.equal(s.history.filter(x => x.event === 'LEASE_INVALID').length, 2);
+  assert.equal(s.locks.length, 4);
+  for (const issueNumber of [10, 12, 14, 15]) {
+    assert.equal(core.activeForIssue(s, issueNumber, 1000).length, 1);
+  }
+  assert.equal(s.history.filter(x => x.event === 'LEASE_INVALID').length, 4);
 
   core.expireLocks(s, 2000);
-  assert.equal(s.locks.length, 2);
-  assert.equal(s.history.filter(x => x.event === 'LEASE_INVALID').length, 2);
+  assert.equal(s.locks.length, 4);
+  assert.equal(s.history.filter(x => x.event === 'LEASE_INVALID').length, 4);
 
   const sameIssue = core.claimResources(s, {
     issueNumber:10, taskId:'GH-10', actor:'bob', chatId:'chat-b', runId:'run-b',
@@ -103,6 +106,16 @@ test('malformed and missing active lease expiries fail closed and are audited on
   });
   assert.equal(missingResource.ok, false);
   assert.equal(missingResource.reason, 'resource_conflict');
+
+  for (const [issueNumber, resourceKey] of [[16, 'module:cache'], [17, 'module:search']]) {
+    const competing = core.claimResources(s, {
+      issueNumber, taskId:'GH-' + issueNumber, actor:'bob', chatId:'chat-b', runId:'run-b',
+      targetRepository:'owner/repo', branch:'work/GH-' + issueNumber,
+      resourceKeys:[resourceKey], leaseMinutes:30, nowMs:2000
+    });
+    assert.equal(competing.ok, false);
+    assert.equal(competing.reason, 'resource_conflict');
+  }
 });
 
 test('rightful owner can renew an invalid active lease but stale fencing tokens do not own it', () => {
