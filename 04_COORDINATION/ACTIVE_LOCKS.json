@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1160,
+  "revision": 1161,
   "next_fencing_token": 97,
   "locks": [
     {
@@ -10074,6 +10074,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-17T16:27:46.929Z"
+    },
+    "6954014024": {
+      "response": "معیار پذیرش ثبت شد: AC_AUTOMATED; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=85.71%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 64,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-17T16:27:54.734Z"
     }
   },
   "work_items": {
@@ -12851,7 +12860,15 @@
         {
           "criterion_id": "AC_AUTOMATED",
           "title": "Focused tests and full validation pass on exact PR head and no second human review is required",
-          "evidence_requirement": "Exact-head Actions checks and machine-controlled acceptance response"
+          "evidence_requirement": "Exact-head Actions checks and machine-controlled acceptance response",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44125092422",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/74"
+          ],
+          "validated_at_utc": "2026-11-17T16:27:54.734Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Full exact-head CI passed; no second human reviewer is required by the machine-only acceptance flow."
         }
       ],
       "deliverables": [
