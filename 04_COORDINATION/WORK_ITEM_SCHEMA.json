@@ -462,7 +462,8 @@
                 "WI-NON-WRITE-POLICY-COORDINATOR-001",
                 "WI-PR16-SPEC-REPAIR-001",
                 "WI-OPERATION-GATE-MODEL-001",
-                "WI-CI-001"
+                "WI-CI-001",
+                "WI-READONLY-EVIDENCE-ACCEPTANCE-001"
               ]
             }
           },
