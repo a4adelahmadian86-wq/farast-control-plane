@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 997,
+  "revision": 998,
   "next_fencing_token": 94,
   "locks": [
     {
@@ -8695,7 +8695,7 @@
     },
     "6946598759": {
       "response": "CLAIM GRANTED. TASK=GH-69; WORK_ITEM_ID=WI-COORDINATOR-LEASE-EXPIRY-FAIL-CLOSED-001; verified_steps=; remaining_steps=S0_REPRODUCE,S1_POLICY,S2_CORE_FIX,S3_AUDIT_RECOVERY,S4_REGRESSION,S5_CONCURRENCY,S6_VERIFY_HANDOFF; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; actor=@a4adelahmadian86-wq; chat=CHAT-AUTONOMY-READINESS-20261117; run=RUN-20261117-LEASE-EXPIRY-FIX-001; resource_keys=file:.github/scripts/coordinator-core.js,file:.github/scripts/coordinator-core.test.js,module:coordinator-lease-safety; target_repository=a4adelahmadian86-wq/farast-control-plane; write_policy=WRITE_ALLOWED; branch=work/GH-69-RUN-20261117-LEASE-EXPIRY-FIX-001; previous_run=none; fencing_token=93; lease_expires=2026-11-17T11:51:42.931Z. این Work Item با سیاست WRITE_ALLOWED است؛ branch را فقط در target_repository ثبت‌شده بساز و قبل از هر write heartbeat/token را دوباره تأیید کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز و branch قبلی را تغییر نده.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 69,
       "actor": "a4adelahmadian86-wq",
       "command": "claim",
