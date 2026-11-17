@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1332,
+  "revision": 1333,
   "next_fencing_token": 105,
   "locks": [
     {
@@ -11424,6 +11424,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-17T17:25:48.874Z"
+    },
+    "6955596868": {
+      "response": "معیار پذیرش ثبت شد: AC_SCOPE_FAIL_CLOSED; ACCEPTANCE_PROGRESS=40%; OVERALL_COMPLETION=40%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 77,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-17T17:26:22.715Z"
     }
   },
   "work_items": {
@@ -14936,7 +14945,14 @@
         {
           "criterion_id": "AC_SCOPE_FAIL_CLOSED",
           "title": "New WRITE_ALLOWED Work Items still require versioned explicit operation scope",
-          "evidence_requirement": "Schema and runtime negative tests"
+          "evidence_requirement": "Schema and runtime negative tests",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/79"
+          ],
+          "validated_at_utc": "2026-11-17T17:26:22.714Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_REPLAY",
