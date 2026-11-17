@@ -33,12 +33,15 @@ function validateWorkItem(item) {
   assert(typeof item.title === 'string' && item.title.trim(), 'title is required');
   assert(Array.isArray(item.parent_goal_ids) && item.parent_goal_ids.length > 0, 'parent_goal_ids are required');
   assert(Array.isArray(item.parent_exp_ids) && item.parent_exp_ids.length > 0, 'parent_exp_ids are required');
+  if (item.parent_work_item_id !== undefined && item.parent_work_item_id !== null) assert(typeof item.parent_work_item_id === 'string' && /^[A-Z0-9][A-Z0-9._-]{2,63}$/.test(item.parent_work_item_id) && item.parent_work_item_id !== item.work_item_id, 'invalid parent_work_item_id');
   assert(Number.isInteger(item.priority) && item.priority >= 0 && item.priority <= 100, 'priority must be an integer from 0 to 100');
   assert(isIso(item.created_at_utc), 'created_at_utc must be an ISO timestamp');
   assert(STATUSES.includes(item.status), 'invalid work item status');
   assert(typeof item.target_repository === 'string' && /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(item.target_repository), 'invalid target_repository');
   assert(['READ_ONLY','WRITE_REQUIRES_OWNER_APPROVAL','WRITE_ALLOWED'].includes(item.write_policy), 'invalid write_policy');
   assert(['OWNER_ASSIGNED','DEFAULT_POLICY'].includes(item.priority_source), 'invalid priority_source');
+  if (item.target_repository === PRODUCT_REPOSITORY && item.write_policy === 'WRITE_ALLOWED') assert(typeof item.owner_approval_ref === 'string' && item.owner_approval_ref.trim(), 'owner_approval_ref is required for NON WRITE_ALLOWED');
+  if (item.write_policy === 'WRITE_REQUIRES_OWNER_APPROVAL') assert(typeof item.owner_approval_ref === 'string' && item.owner_approval_ref.trim(), 'owner_approval_ref is required for approval-gated writes');
   const hasOperationScopeVersion = item.operation_scope_version !== undefined;
   const hasRequestedOperations = item.requested_operations !== undefined;
   assert(hasOperationScopeVersion === hasRequestedOperations, 'operation_scope_version and requested_operations must be supplied together');
@@ -65,8 +68,6 @@ function validateWorkItem(item) {
       else assert(item.requested_operations.includes('repository_write'), 'other repository Work Items must include repository_write as their base write scope');
     }
   }
-  if (item.target_repository === PRODUCT_REPOSITORY && item.write_policy === 'WRITE_ALLOWED') assert(typeof item.owner_approval_ref === 'string' && item.owner_approval_ref.trim(), 'owner_approval_ref is required for NON WRITE_ALLOWED');
-  if (item.write_policy === 'WRITE_REQUIRES_OWNER_APPROVAL') assert(typeof item.owner_approval_ref === 'string' && item.owner_approval_ref.trim(), 'owner_approval_ref is required for approval-gated writes');
   assert(Array.isArray(item.resource_keys) && item.resource_keys.length > 0, 'resource_keys are required');
   assert(Array.isArray(item.dependencies || []), 'dependencies must be an array');
   assert(Array.isArray(item.steps) && item.steps.length > 0, 'at least one atomic step is required');
@@ -240,6 +241,28 @@ function primaryExpId(item) {
   return parentExpIds[0] || null;
 }
 
+function evaluateChildCompletion(parent, workItems = []) {
+  const blockers = [], seen = new Set([parent.work_item_id]);
+  const queue = workItems.filter(x => x.parent_work_item_id === parent.work_item_id);
+  for (let index = 0; index < queue.length; index++) {
+    const child = queue[index], id = String(child.work_item_id || '');
+    if (!id || seen.has(id)) { blockers.push('child_work_item_cycle_or_duplicate:' + id); continue; }
+    seen.add(id);
+    if (child.status !== 'ACCEPTED') blockers.push('child_work_item_not_accepted:' + id + ':' + String(child.status || 'UNKNOWN'));
+    for (const nested of workItems) if (nested.parent_work_item_id === id) queue.push(nested);
+  }
+  return { ready: blockers.length === 0, blockers, descendant_count: seen.size - 1 };
+}
+function findDuplicateWorkItemIdIssues(currentIssueNumber, item, issueRecords = [], registryRecords = []) {
+  const conflicts = new Set(), current = Number(currentIssueNumber);
+  for (const record of [...issueRecords, ...registryRecords]) {
+    if (!record || record.work_item_id !== item?.work_item_id) continue;
+    const issueNumber = Number(record.issue_number ?? record.number);
+    if (Number.isInteger(issueNumber) && issueNumber > 0 && issueNumber !== current) conflicts.add(issueNumber);
+  }
+  return [...conflicts].sort((a,b)=>a-b);
+}
+
 function defaultRequestedOperations(item) {
   if (Array.isArray(item?.requested_operations)) return item.requested_operations;
   if (item?.write_policy === 'READ_ONLY') return ['analysis'];
@@ -339,9 +362,20 @@ function evaluateHardGates(item, graph, workItems = [], options = {}) {
     else if (matches[0].status!=='ACCEPTED') dependencyBlockers.push('explicit_dependency_not_accepted:'+id+':'+matches[0].status);
   }
   for (const gate of unique(nodes.flatMap(node=>node.hard_gates))) {
-    const matches = workItems.filter(x=>x.work_item_id!==item.work_item_id && unique([...(x.parent_exp_ids||[]).map(String),primaryExpId(x)].filter(Boolean)).includes(gate));
+    // EXP completion is represented by its unique top-level Work Item. Child tasks roll up to that parent; secondary EXP tags do not complete another EXP.
+    const matches = workItems.filter(x=>x.work_item_id!==item.work_item_id && !x.parent_work_item_id && primaryExpId(x)===gate);
     if (matches.length!==1) dependencyBlockers.push((matches.length?'ambiguous':'unresolved')+'_hard_gate:'+gate);
     else if (matches[0].status!=='ACCEPTED') dependencyBlockers.push('hard_gate_not_accepted:'+gate+':'+matches[0].status);
+  }
+  for (const gate of unique(nodes.flatMap(node=>node.hard_gates))) {
+    const matches = workItems.filter(x=>x.work_item_id!==item.work_item_id && !x.parent_work_item_id && primaryExpId(x)===gate);
+    if (matches.length !== 1) continue;
+    const children = evaluateChildCompletion(matches[0], workItems);
+    if (!children.ready) dependencyBlockers.push(...children.blockers.map(x=>'hard_gate_'+x));
+  }
+  if (options.requireChildrenAccepted === true) {
+    const children = evaluateChildCompletion(item, workItems);
+    if (!children.ready) dependencyBlockers.push(...children.blockers);
   }
   const operations=evaluateOperationGates(item,graph,workItems,options);
   const blockers=[...dependencyBlockers,...operations.blockers];
@@ -407,7 +441,8 @@ function dependencyReady(item, byId, dependencyGraph) {
   });
   if (!explicitDependenciesReady) return false;
   const allItems = [...byId.values()].flatMap(value => Array.isArray(value) ? value : value ? [value] : []);
-  return dependencyGraph ? evaluateHardGates(item, dependencyGraph, allItems).ready : true;
+  if (!dependencyGraph) return false;
+  return evaluateHardGates(item, dependencyGraph, allItems).ready;
 }
 
 function selectNextWorkItem(items, options = {}) {
@@ -493,5 +528,5 @@ function createCheckpoint(item, input) {
 module.exports = {
   STATUSES, validateWorkItem, validateProductWriteAuthorization, evidenceVerified, calculateProgress, validateLease,
   recordStepEvidence, recordCriterionEvidence, primaryExpId, defaultRequestedOperations, validateDependencyGraph, evaluateOperationGates, evaluateHardGates, evaluateReadOnlyAcceptance, evaluateBranchlessMetadataAcceptance, isBranchlessControlPlaneWorkItem, dependencyReady, selectNextWorkItem,
-  resumePlan, createCheckpoint
+  resumePlan, createCheckpoint, evaluateChildCompletion, findDuplicateWorkItemIdIssues
 };

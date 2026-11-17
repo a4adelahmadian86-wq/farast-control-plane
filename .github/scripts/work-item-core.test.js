@@ -30,7 +30,13 @@ function graphWith(nodes,overrides={}) { return {nodes,operation_gates:operation
 
 const lease={status:'ACTIVE',actor:'alice',chat_id:'chat-a',run_id:'run-a',fencing_token:7,lease_expires_at_utc:'2026-01-01T01:00:00Z'};
 const input=(step_id, nowMs=Date.parse('2026-01-01T00:30:00Z'))=>({lease,actor:'alice',chat_id:'chat-a',run_id:'run-a',fencing_token:7,step_id,validation_status:'PASS',evidence_refs:['https://github.com/owner/repo/commit/abc'],nowMs});
+const readOnlyGraph=graphWith([{id:'EXP-03',hard_gates:[]}]);
 
+test('parent_work_item_id must be a valid non-self stable ID',()=>{
+ assert.throws(()=>wi.validateWorkItem(item({parent_work_item_id:'bad id'})),/invalid parent_work_item_id/);
+ assert.throws(()=>wi.validateWorkItem(item({parent_work_item_id:'WI-EXP03-001'})),/invalid parent_work_item_id/);
+ assert.equal(wi.validateWorkItem(item({parent_work_item_id:'WI-EXP22-PARENT-001'})),true);
+});
 test('progress is zero until each step has PASS plus evidence',()=>{
  const x=item(); assert.equal(wi.calculateProgress(x).percentage,0);
  x.steps[0].validation_status='PASS'; assert.equal(wi.calculateProgress(x).percentage,0);
@@ -63,18 +69,18 @@ test('80 percent never implies acceptance; all required criteria and dependencie
 test('dependencies block selection until every parent is accepted',()=>{
  const parent=item({work_item_id:'WI-PARENT',status:'IN_PROGRESS'});
  const child=item({work_item_id:'WI-CHILD',dependencies:[{work_item_id:'WI-PARENT'}]});
- assert.equal(wi.selectNextWorkItem([parent,child],{nowMs:Date.parse('2026-01-01T00:00:00Z')}).work_item_id,'WI-PARENT');
+ assert.equal(wi.selectNextWorkItem([parent,child],{nowMs:Date.parse('2026-01-01T00:00:00Z'),dependencyGraph:readOnlyGraph}).work_item_id,'WI-PARENT');
  parent.status='ACCEPTED';
- assert.equal(wi.selectNextWorkItem([parent,child],{nowMs:Date.parse('2026-01-01T00:00:00Z')}).work_item_id,'WI-CHILD');
+ assert.equal(wi.selectNextWorkItem([parent,child],{nowMs:Date.parse('2026-01-01T00:00:00Z'),dependencyGraph:readOnlyGraph}).work_item_id,'WI-CHILD');
 });
 test('active lease and resource conflicts exclude a candidate',()=>{
  const x=item(); const now=Date.parse('2026-01-01T00:30:00Z');
- assert.equal(wi.selectNextWorkItem([x],{nowMs:now,leasesByWorkItem:{[x.work_item_id]:lease}}),null);
- assert.equal(wi.selectNextWorkItem([x],{nowMs:now,activeLocks:[{resource_key:'module:catalog',lease_expires_at_utc:'2026-01-01T01:00:00Z'}]}),null);
+ assert.equal(wi.selectNextWorkItem([x],{nowMs:now,dependencyGraph:readOnlyGraph,leasesByWorkItem:{[x.work_item_id]:lease}}),null);
+ assert.equal(wi.selectNextWorkItem([x],{nowMs:now,dependencyGraph:readOnlyGraph,activeLocks:[{resource_key:'module:catalog',lease_expires_at_utc:'2026-01-01T01:00:00Z'}]}),null);
 });
 test('expired lease makes same stable work item resumable',()=>{
  const x=item({status:'IN_PROGRESS'}); const expired={...lease,lease_expires_at_utc:'2025-12-31T23:00:00Z'};
- assert.equal(wi.selectNextWorkItem([x],{nowMs:Date.parse('2026-01-01T00:00:00Z'),leasesByWorkItem:{[x.work_item_id]:expired}}).work_item_id,x.work_item_id);
+ assert.equal(wi.selectNextWorkItem([x],{nowMs:Date.parse('2026-01-01T00:00:00Z'),dependencyGraph:readOnlyGraph,leasesByWorkItem:{[x.work_item_id]:expired}}).work_item_id,x.work_item_id);
 });
 test('resume preserves verified steps and returns only remaining steps',()=>{
  const x=item(); wi.recordStepEvidence(x,input('S1'));wi.recordStepEvidence(x,input('S2'));
@@ -88,7 +94,7 @@ test('checkpoint is bound to a live owner lease',()=>{
 test('fairness aging improves old work without changing owner priority',()=>{
  const old=item({work_item_id:'WI-OLD',priority:50,created_at_utc:'2026-01-01T00:00:00Z'});
  const fresh=item({work_item_id:'WI-NEW',priority:49,created_at_utc:'2026-01-02T00:00:00Z'});
- const chosen=wi.selectNextWorkItem([fresh,old],{nowMs:Date.parse('2026-01-04T00:00:00Z')});
+ const chosen=wi.selectNextWorkItem([fresh,old],{nowMs:Date.parse('2026-01-04T00:00:00Z'),dependencyGraph:readOnlyGraph});
  assert.equal(chosen.work_item_id,'WI-OLD');
  assert.equal(old.priority,50);
 });
@@ -140,14 +146,14 @@ const ownerApprovalContext={
 };
 
 test('NON WRITE_ALLOWED requires an owner approval reference',()=>{
- const x=item({target_repository:productRepository,write_policy:'WRITE_ALLOWED'});
+ const x=item({target_repository:productRepository,write_policy:'WRITE_ALLOWED',requested_operations:['product_implementation']});
  assert.throws(()=>wi.calculateProgress(x),/owner_approval_ref is required for NON WRITE_ALLOWED/);
  x.owner_approval_ref=ownerIssueUrl;
  assert.doesNotThrow(()=>wi.calculateProgress(x));
 });
 
 test('NON WRITE_ALLOWED is accepted only for an owner-authored self-referencing Issue with explicit approval text',()=>{
- const x=item({target_repository:productRepository,write_policy:'WRITE_ALLOWED',owner_approval_ref:ownerIssueUrl});
+ const x=item({target_repository:productRepository,write_policy:'WRITE_ALLOWED',owner_approval_ref:ownerIssueUrl,requested_operations:['product_implementation']});
  assert.equal(wi.validateProductWriteAuthorization(x,ownerApprovalContext),true);
  assert.throws(()=>wi.validateProductWriteAuthorization(x,{...ownerApprovalContext,issue_author:'collaborator'}),/owner-authored Issue/);
  assert.throws(()=>wi.validateProductWriteAuthorization(x,{...ownerApprovalContext,issue_url:'https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/52'}),/exactly reference/);
@@ -164,7 +170,7 @@ test('NON READ_ONLY and approval-pending Work Items do not authorize product wri
 });
 
 test('WRITE_ALLOWED for unrelated repositories keeps the existing generic validation path',()=>{
- const x=item({target_repository:'owner/repo',write_policy:'WRITE_ALLOWED'});
+ const x=item({target_repository:'owner/repo',write_policy:'WRITE_ALLOWED',requested_operations:['repository_write']});
  assert.doesNotThrow(()=>wi.calculateProgress(x));
 });
 test('approval-gated writes require an owner approval evidence reference',()=>{
@@ -283,7 +289,7 @@ test('NON product implementation requires an explicit operation and accepted exa
   item({work_item_id:'WI-EXP22-CONTROLLED-IMPLEMENTATION-001',parent_exp_ids:['EXP-22'],status:'ACCEPTED'}),
   item({work_item_id:'WI-EXP23-REGRESSION-001',parent_exp_ids:['EXP-23'],status:'ACCEPTED'})
  ];
- const graph=graphWith([{id:'EXP-22',hard_gates:[]}],{
+ const graph=graphWith([{id:'EXP-22',hard_gates:[]},{id:'EXP-23',hard_gates:[]}],{
   product_implementation:{applies_to_exp_ids:['EXP-22'],applies_to_target_repositories:['a4adelahmadian86-wq/non'],required_work_item_ids:prereqs.map(x=>x.work_item_id),owner_authorization_required:true}
  });
  assert.equal(wi.evaluateHardGates(target,graph,[target,...prereqs]).ready,true);
@@ -498,6 +504,15 @@ test('explicit dependencies are enforced by coordinator hard-gate evaluator',()=
  parent.status='ACCEPTED';
  assert.equal(wi.evaluateHardGates(child,graph,[child,parent]).ready,true);
 });
+test('stable Work Item IDs are globally unique across Issues and registry even without dependencies',()=>{
+ const x=item({work_item_id:'WI-DUPLICATE-GLOBAL-001',dependencies:[]});
+ const issues=[{number:101,work_item_id:x.work_item_id},{number:102,work_item_id:x.work_item_id}];
+ assert.deepEqual(wi.findDuplicateWorkItemIdIssues(101,x,issues,[]),[102]);
+ assert.deepEqual(wi.findDuplicateWorkItemIdIssues(102,x,issues,[]),[101]);
+ const registry=[{issue_number:103,work_item_id:x.work_item_id}];
+ assert.deepEqual(wi.findDuplicateWorkItemIdIssues(101,x,issues,registry),[102,103]);
+ assert.deepEqual(wi.findDuplicateWorkItemIdIssues(104,x,[{number:104,work_item_id:x.work_item_id}],[]),[]);
+});
 test('duplicate canonical Work Item IDs block explicit dependencies in either order',()=>{
  const child=item({dependencies:[{work_item_id:'WI-PARENT'}]});
  const accepted=item({work_item_id:'WI-PARENT',status:'ACCEPTED'}), ready=item({work_item_id:'WI-PARENT',status:'READY'});
@@ -506,11 +521,11 @@ test('duplicate canonical Work Item IDs block explicit dependencies in either or
 test('selection fails closed on missing or malformed ACTIVE lease and lock expiries',()=>{
  const x=item(), now=Date.parse('2026-01-01T00:30:00Z');
  for(const expiry of [undefined,'not-a-date']) {
-  assert.equal(wi.selectNextWorkItem([x],{nowMs:now,leasesByWorkItem:{[x.work_item_id]:{...lease,lease_expires_at_utc:expiry}}}),null);
-  assert.equal(wi.selectNextWorkItem([x],{nowMs:now,activeLocks:[{resource_key:'module:catalog',lease_expires_at_utc:expiry}]}),null);
+  assert.equal(wi.selectNextWorkItem([x],{nowMs:now,dependencyGraph:readOnlyGraph,leasesByWorkItem:{[x.work_item_id]:{...lease,lease_expires_at_utc:expiry}}}),null);
+  assert.equal(wi.selectNextWorkItem([x],{nowMs:now,dependencyGraph:readOnlyGraph,activeLocks:[{resource_key:'module:catalog',lease_expires_at_utc:expiry}]}),null);
  }
- assert.equal(wi.selectNextWorkItem([x],{nowMs:now,leasesByWorkItem:{[x.work_item_id]:{...lease,lease_expires_at_utc:'2025-12-31T23:00:00Z'}}}).work_item_id,x.work_item_id);
- assert.equal(wi.selectNextWorkItem([x],{nowMs:now,leasesByWorkItem:{[x.work_item_id]:{...lease,lease_expires_at_utc:'2026-01-01T01:00:00Z'}}}),null);
+ assert.equal(wi.selectNextWorkItem([x],{nowMs:now,dependencyGraph:readOnlyGraph,leasesByWorkItem:{[x.work_item_id]:{...lease,lease_expires_at_utc:'2025-12-31T23:00:00Z'}}}).work_item_id,x.work_item_id);
+ assert.equal(wi.selectNextWorkItem([x],{nowMs:now,dependencyGraph:readOnlyGraph,leasesByWorkItem:{[x.work_item_id]:{...lease,lease_expires_at_utc:'2026-01-01T01:00:00Z'}}}),null);
 });
 test('operation scope version and requested operations are a symmetric pair',()=>{
  const noVersion=item({requested_operations:['analysis']}); delete noVersion.operation_scope_version;
@@ -547,6 +562,11 @@ test('coordinator registry persistence verifies exact commit read-back and guard
  assert.match(workflow,/registry_readback_commit_mismatch/);
  assert.match(workflow,/DEPENDENCY_AUTO_UNBLOCKED/);
  assert.match(workflow,/isBranchlessControlPlaneWorkItem/);
+ assert.match(workflow,/findDuplicateWorkItemIdIssues/);
+ assert.match(workflow,/state:\s*'all'/);
+ assert.match(workflow,/duplicate_work_item_id/);
+ assert.match(workflow,/requireChildrenAccepted:\s*true/);
+ assert.match(workflow,/allWorkItemsFor/);
 });
 
 test('multi-EXP Work Items evaluate hard gates on every declared parent EXP',()=>{
@@ -586,11 +606,33 @@ test('exact legacy WRITE_ALLOWED bootstrap items remain compatible; unlisted leg
  assert.throws(()=>wi.validateWorkItem(item({work_item_id:'WI-UNLISTED-WRITE-001',target_repository:'a4adelahmadian86-wq/farast-control-plane',write_policy:'WRITE_ALLOWED'})),/require operation_scope_version/);
 });
 
-test('a multi-parent accepted Work Item can satisfy a hard gate for any declared parent EXP',()=>{
+test('secondary EXP tags on a cross-cutting Work Item do not satisfy another EXP hard gate',()=>{
  const target=item({work_item_id:'WI-CROSS-EXP-CHILD-001',parent_exp_ids:['EXP-03']});
  const graph=graphWith([{id:'EXP-03',hard_gates:['EXP-22']},{id:'EXP-22',hard_gates:[]}]);
- const dependency=item({work_item_id:'WI-CROSS-EXP-PARENT-001',parent_exp_ids:['EXP-01','EXP-22'],status:'ACCEPTED'});
- assert.equal(wi.evaluateHardGates(target,graph,[target,dependency]).ready,true);
+ const secondaryOnly=item({work_item_id:'WI-CROSS-EXP-PARENT-001',parent_exp_ids:['EXP-01','EXP-22'],status:'ACCEPTED'});
+ assert.ok(wi.evaluateHardGates(target,graph,[target,secondaryOnly]).blockers.includes('unresolved_hard_gate:EXP-22'));
+ const canonical=item({work_item_id:'WI-EXP22-CANONICAL-001',parent_exp_ids:['EXP-22'],status:'ACCEPTED'});
+ assert.equal(wi.evaluateHardGates(target,graph,[target,secondaryOnly,canonical]).ready,true);
+});
+test('canonical EXP completion waits for every child Work Item and nested descendant',()=>{
+ const target=item({work_item_id:'WI-EXP03-DEPENDENT-001',parent_exp_ids:['EXP-03']});
+ const graph=graphWith([{id:'EXP-03',hard_gates:['EXP-22']},{id:'EXP-22',hard_gates:[]}]);
+ const canonical=item({work_item_id:'WI-EXP22-CANONICAL-001',parent_exp_ids:['EXP-22'],status:'ACCEPTED'});
+ const child=item({work_item_id:'WI-EXP22-CHILD-001',parent_exp_ids:['EXP-22'],parent_work_item_id:canonical.work_item_id,status:'ACCEPTED'});
+ const grandchild=item({work_item_id:'WI-EXP22-GRANDCHILD-001',parent_exp_ids:['EXP-22'],parent_work_item_id:child.work_item_id,status:'IN_PROGRESS'});
+ const blocked=wi.evaluateHardGates(target,graph,[target,canonical,child,grandchild]);
+ assert.ok(blocked.blockers.includes('hard_gate_child_work_item_not_accepted:WI-EXP22-GRANDCHILD-001:IN_PROGRESS'));
+ grandchild.status='ACCEPTED';
+ assert.equal(wi.evaluateHardGates(target,graph,[target,canonical,child,grandchild]).ready,true);
+});
+test('a parent Work Item cannot be accepted while any child remains unaccepted',()=>{
+ const parent=item({work_item_id:'WI-EXP22-CANONICAL-001',parent_exp_ids:['EXP-22'],status:'REVIEW_REQUIRED'});
+ const child=item({work_item_id:'WI-EXP22-CHILD-001',parent_exp_ids:['EXP-22'],parent_work_item_id:parent.work_item_id,status:'READY'});
+ const graph=graphWith([{id:'EXP-22',hard_gates:[]}]);
+ const blocked=wi.evaluateHardGates(parent,graph,[parent,child],{requireChildrenAccepted:true});
+ assert.ok(blocked.blockers.includes('child_work_item_not_accepted:WI-EXP22-CHILD-001:READY'));
+ child.status='ACCEPTED';
+ assert.equal(wi.evaluateHardGates(parent,graph,[parent,child],{requireChildrenAccepted:true}).ready,true);
 });
 test('a Work Item cannot satisfy its own EXP hard gate through a secondary parent',()=>{
  const target=item({work_item_id:'WI-CROSS-EXP-SELF-001',parent_exp_ids:['EXP-03','EXP-22'],status:'ACCEPTED'});
@@ -613,7 +655,7 @@ test('operation scope rejects unsupported version and one-sided field declaratio
 });
 test('legacy READ_ONLY and proposal-only Work Items remain schema-compatible without operation scope',()=>{
  const schema=require('../../04_COORDINATION/WORK_ITEM_SCHEMA.json');
- const legacyIds=["WI-GOAL-ALLOCATOR-001","WI-NON-IMPLEMENTATION-VERTICAL-SLICE-001","WI-NON-WRITE-POLICY-COORDINATOR-001","WI-PR16-SPEC-REPAIR-001","WI-OPERATION-GATE-MODEL-001","WI-PROMPT-OPERATION-SCOPE-001"];
+ const legacyIds=["WI-GOAL-ALLOCATOR-001","WI-NON-IMPLEMENTATION-VERTICAL-SLICE-001","WI-NON-WRITE-POLICY-COORDINATOR-001","WI-PR16-SPEC-REPAIR-001","WI-OPERATION-GATE-MODEL-001","WI-PROMPT-OPERATION-SCOPE-001","WI-CI-001"];
  const writeScopeRule=schema.allOf.find(rule=>rule.if?.properties?.write_policy?.const==='WRITE_ALLOWED' && rule.then?.required?.includes('operation_scope_version'));
  assert.ok(writeScopeRule);
  assert.equal(schema.required.includes('operation_scope_version'),false);
@@ -622,4 +664,5 @@ test('legacy READ_ONLY and proposal-only Work Items remain schema-compatible wit
  assert.equal(wi.validateWorkItem(item()),true);
  assert.equal(wi.validateWorkItem(item({write_policy:'WRITE_REQUIRES_OWNER_APPROVAL',owner_approval_ref:'https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/52'})),true);
  assert.throws(()=>wi.validateWorkItem(item({write_policy:'WRITE_ALLOWED'})),/require operation_scope_version/);
+ assert.throws(()=>wi.validateWorkItem(item({work_item_id:'WI-CI-001',target_repository:productRepository,write_policy:'WRITE_ALLOWED',owner_approval_ref:ownerIssueUrl})),/require operation_scope_version/);
 });

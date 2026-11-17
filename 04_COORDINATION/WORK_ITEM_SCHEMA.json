@@ -50,7 +50,8 @@
       "type": [
         "string",
         "null"
-      ]
+      ],
+      "pattern": "^[A-Z0-9][A-Z0-9._-]{2,63}$"
     },
     "status": {
       "enum": [
@@ -461,7 +462,8 @@
                 "WI-NON-WRITE-POLICY-COORDINATOR-001",
                 "WI-PR16-SPEC-REPAIR-001",
                 "WI-OPERATION-GATE-MODEL-001",
-                "WI-PROMPT-OPERATION-SCOPE-001"
+                "WI-PROMPT-OPERATION-SCOPE-001",
+                "WI-CI-001"
               ]
             }
           },
@@ -475,7 +477,8 @@
           "operation_scope_version",
           "requested_operations"
         ]
-      }
+      },
+      "description": "WI-CI-001 is a schema-only validation fixture; runtime work-item-core rejects it as an unlisted legacy WRITE_ALLOWED Work Item."
     }
   ]
 }
