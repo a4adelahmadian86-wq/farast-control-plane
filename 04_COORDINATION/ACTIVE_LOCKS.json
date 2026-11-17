@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 661,
+  "revision": 662,
   "next_fencing_token": 79,
   "locks": [
     {
@@ -5999,7 +5999,7 @@
     },
     "6943876047": {
       "response": "CLAIM GRANTED. TASK=GH-52; WORK_ITEM_ID=WI-NON-WRITE-POLICY-COORDINATOR-001; verified_steps=S0_REPRODUCE,S1_DESIGN,S2_CORE,S3_REGRESSION,S4_FIX_TASK,S6_HANDOFF; remaining_steps=S5_VALIDATE; EXECUTION_PROGRESS=85.71%; ACCEPTANCE_PROGRESS=80%; OVERALL_COMPLETION=80%; actor=@a4adelahmadian86-wq; chat=CHAT-PR16-20261117-01; run=RUN-20261117-PR16-EXP22-POLICY-SMOKE-003; resource_keys=file:.github/scripts/work-item-core.js,file:.github/scripts/work-item-core.test.js,file:.github/workflows/control-plane-validation.yml,file:.github/workflows/farast-coordinator.yml,file:04_coordination/coordinator_commands.md,file:04_coordination/work_item_execution_protocol.md,file:04_coordination/work_item_schema.json,file:05_prompt_library/farast_executable_prompts_complete.md,file:05_prompt_library/master-00.md,file:05_prompt_library/pr-16_implementation.md,file:start_here.md,module:work-item-policy; target_repository=a4adelahmadian86-wq/farast-control-plane; write_policy=WRITE_ALLOWED; branch=work/GH-52-RUN-20261117-PR16-EXP22-POLICY-SMOKE-003; previous_run=RUN-20261116-NON-WRITE-POLICY-IMPLEMENTATION-001; previous_target_repository=a4adelahmadian86-wq/farast-control-plane; previous_branch=work/GH-52-RUN-20261116-NON-WRITE-POLICY-IMPLEMENTATION-001; fencing_token=78; lease_expires=2026-11-17T09:48:41.640Z. این Work Item با سیاست WRITE_ALLOWED است؛ branch را فقط در target_repository ثبت‌شده بساز و قبل از هر write heartbeat/token را دوباره تأیید کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز و branch قبلی را تغییر نده.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 52,
       "actor": "a4adelahmadian86-wq",
       "command": "claim",
