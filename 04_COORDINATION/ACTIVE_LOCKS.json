@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1083,
+  "revision": 1084,
   "next_fencing_token": 96,
   "locks": [
     {
@@ -9452,6 +9452,15 @@
       "command": "accept",
       "next_status": "done",
       "at_utc": "2026-11-17T12:32:32.694Z"
+    },
+    "6948120558": {
+      "response": "وضعیت: بدون lease فعال.",
+      "response_posted": false,
+      "issue_number": 69,
+      "actor": "a4adelahmadian86-wq",
+      "command": "status",
+      "next_status": null,
+      "at_utc": "2026-11-17T12:32:44.410Z"
     }
   },
   "work_items": {
