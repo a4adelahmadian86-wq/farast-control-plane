@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "revision": 996,
-  "next_fencing_token": 93,
+  "revision": 997,
+  "next_fencing_token": 94,
   "locks": [
     {
       "resource_key": "file:.github/scripts/work-item-core.js",
@@ -97,6 +97,54 @@
       "heartbeat_at_utc": "2026-11-17T11:06:47.361Z",
       "lease_expires_at_utc": "2026-11-17T11:36:47.361Z",
       "fencing_token": 90,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "file:.github/scripts/coordinator-core.js",
+      "issue_number": 69,
+      "task_id": "GH-69",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-AUTONOMY-READINESS-20261117",
+      "chat_id": "CHAT-AUTONOMY-READINESS-20261117",
+      "run_id": "RUN-20261117-LEASE-EXPIRY-FIX-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-69-RUN-20261117-LEASE-EXPIRY-FIX-001",
+      "acquired_at_utc": "2026-11-17T11:21:42.931Z",
+      "heartbeat_at_utc": "2026-11-17T11:21:42.931Z",
+      "lease_expires_at_utc": "2026-11-17T11:51:42.931Z",
+      "fencing_token": 93,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "file:.github/scripts/coordinator-core.test.js",
+      "issue_number": 69,
+      "task_id": "GH-69",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-AUTONOMY-READINESS-20261117",
+      "chat_id": "CHAT-AUTONOMY-READINESS-20261117",
+      "run_id": "RUN-20261117-LEASE-EXPIRY-FIX-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-69-RUN-20261117-LEASE-EXPIRY-FIX-001",
+      "acquired_at_utc": "2026-11-17T11:21:42.931Z",
+      "heartbeat_at_utc": "2026-11-17T11:21:42.931Z",
+      "lease_expires_at_utc": "2026-11-17T11:51:42.931Z",
+      "fencing_token": 93,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "module:coordinator-lease-safety",
+      "issue_number": 69,
+      "task_id": "GH-69",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-AUTONOMY-READINESS-20261117",
+      "chat_id": "CHAT-AUTONOMY-READINESS-20261117",
+      "run_id": "RUN-20261117-LEASE-EXPIRY-FIX-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-69-RUN-20261117-LEASE-EXPIRY-FIX-001",
+      "acquired_at_utc": "2026-11-17T11:21:42.931Z",
+      "heartbeat_at_utc": "2026-11-17T11:21:42.931Z",
+      "lease_expires_at_utc": "2026-11-17T11:51:42.931Z",
+      "fencing_token": 93,
       "status": "ACTIVE"
     }
   ],
@@ -4266,6 +4314,25 @@
       "branch": "work/GH-11-RUN-20261117-LEASE-HARDEN-ALLOC-001",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "at_utc": "2026-11-17T11:20:53.288Z"
+    },
+    {
+      "event": "ACQUIRED",
+      "issue_number": 69,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-AUTONOMY-READINESS-20261117",
+      "run_id": "RUN-20261117-LEASE-EXPIRY-FIX-001",
+      "resource_keys": [
+        "file:.github/scripts/coordinator-core.js",
+        "file:.github/scripts/coordinator-core.test.js",
+        "module:coordinator-lease-safety"
+      ],
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-69-RUN-20261117-LEASE-EXPIRY-FIX-001",
+      "previous_branch": null,
+      "previous_target_repository": null,
+      "previous_run_id": null,
+      "fencing_token": 93,
+      "at_utc": "2026-11-17T11:21:42.931Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -8625,6 +8692,15 @@
       "command": "release",
       "next_status": "ready",
       "at_utc": "2026-11-17T11:20:53.492Z"
+    },
+    "6946598759": {
+      "response": "CLAIM GRANTED. TASK=GH-69; WORK_ITEM_ID=WI-COORDINATOR-LEASE-EXPIRY-FAIL-CLOSED-001; verified_steps=; remaining_steps=S0_REPRODUCE,S1_POLICY,S2_CORE_FIX,S3_AUDIT_RECOVERY,S4_REGRESSION,S5_CONCURRENCY,S6_VERIFY_HANDOFF; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; actor=@a4adelahmadian86-wq; chat=CHAT-AUTONOMY-READINESS-20261117; run=RUN-20261117-LEASE-EXPIRY-FIX-001; resource_keys=file:.github/scripts/coordinator-core.js,file:.github/scripts/coordinator-core.test.js,module:coordinator-lease-safety; target_repository=a4adelahmadian86-wq/farast-control-plane; write_policy=WRITE_ALLOWED; branch=work/GH-69-RUN-20261117-LEASE-EXPIRY-FIX-001; previous_run=none; fencing_token=93; lease_expires=2026-11-17T11:51:42.931Z. این Work Item با سیاست WRITE_ALLOWED است؛ branch را فقط در target_repository ثبت‌شده بساز و قبل از هر write heartbeat/token را دوباره تأیید کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز و branch قبلی را تغییر نده.",
+      "response_posted": false,
+      "issue_number": 69,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "locked",
+      "at_utc": "2026-11-17T11:21:43.127Z"
     }
   },
   "work_items": {
@@ -11344,6 +11420,167 @@
       ],
       "priority": 25,
       "created_at_utc": "2026-11-17T10:00:00Z"
+    },
+    "69": {
+      "schema_version": "1.0",
+      "operation_scope_version": "1.0",
+      "requested_operations": [
+        "control_plane_write"
+      ],
+      "write_policy": "WRITE_ALLOWED",
+      "priority_source": "OWNER_ASSIGNED",
+      "work_item_id": "WI-COORDINATOR-LEASE-EXPIRY-FAIL-CLOSED-001",
+      "title": "Make malformed or missing active lease expiries fail closed in the central coordinator",
+      "parent_goal_ids": [
+        "G-09"
+      ],
+      "parent_exp_ids": [
+        "EXP-01",
+        "EXP-26"
+      ],
+      "status": "CLAIMED",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "resource_keys": [
+        "module:coordinator-lease-safety",
+        "file:.github/scripts/coordinator-core.js",
+        "file:.github/scripts/coordinator-core.test.js"
+      ],
+      "dependencies": [],
+      "effort_estimate_minutes": 25,
+      "effort_rationale": "Focused central lease invariant, recovery semantics, deterministic regression tests and exact-head CI.",
+      "depth_profile": {
+        "profile_version": "2.0.0",
+        "min_substantive_steps": 7,
+        "min_acceptance_criteria": 5,
+        "min_deliverables": 4,
+        "target_effort_minutes": 25
+      },
+      "steps": [
+        {
+          "step_id": "S0_REPRODUCE",
+          "title": "Reproduce malformed expiry behavior in all central lock paths",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Deterministic failing fixtures",
+          "evidence_requirement": "Current main SHA, exact source lines and focused test output",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S1_POLICY",
+          "title": "Define finite active/expired/invalid lease semantics",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Canonical fail-closed lease validity contract",
+          "evidence_requirement": "Protocol/source policy matrix and helper contract",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S2_CORE_FIX",
+          "title": "Fix expireLocks, activeForIssue and claim conflict paths",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Malformed ACTIVE locks remain blocking",
+          "evidence_requirement": "Exact diff and source-level behavior tests",
+          "estimate_minutes": 5
+        },
+        {
+          "step_id": "S3_AUDIT_RECOVERY",
+          "title": "Add idempotent invalid-lock audit and token-authorized recovery",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Auditable recovery behavior",
+          "evidence_requirement": "History fixtures and owner/token recovery tests",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S4_REGRESSION",
+          "title": "Cover missing, malformed, expired and future expiry cases across coordinator functions",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Complete lease expiry regression suite",
+          "evidence_requirement": "Named tests for every central path",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S5_CONCURRENCY",
+          "title": "Verify N-worker same-resource and disjoint-resource claim invariants",
+          "required": true,
+          "weight": 1,
+          "expected_output": "No double ownership under races",
+          "evidence_requirement": "Concurrency fixtures and invariant assertions",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S6_VERIFY_HANDOFF",
+          "title": "Run focused/full CI and publish exact-head evidence",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Review-ready PR and handoff",
+          "evidence_requirement": "PR head SHA, Actions run, file read-back and scope confirmation",
+          "estimate_minutes": 3
+        }
+      ],
+      "acceptance_criteria": [
+        {
+          "criterion_id": "AC_INVALID_FAIL_CLOSED",
+          "title": "Missing/malformed expiry on ACTIVE locks remains blocking and is never silently dropped",
+          "evidence_requirement": "expireLocks/activeForIssue/claimResources tests"
+        },
+        {
+          "criterion_id": "AC_EXPIRED_VALID",
+          "title": "Valid finite expired and future leases are distinguished correctly",
+          "evidence_requirement": "Boundary tests at expiry and after expiry"
+        },
+        {
+          "criterion_id": "AC_CLAIM_ATOMIC",
+          "title": "Same-Issue and same-resource claims reject all active/invalid locks",
+          "evidence_requirement": "Claim conflict tests for task and resource keys"
+        },
+        {
+          "criterion_id": "AC_RECOVERY_AUTH",
+          "title": "Only matching current actor/chat/run/token can renew or release; stale tokens fail",
+          "evidence_requirement": "Heartbeat/release positive and stale-token negative tests"
+        },
+        {
+          "criterion_id": "AC_AUDIT_IDEMPOTENT",
+          "title": "Invalid lock history is durable and idempotent without duplicate event growth",
+          "evidence_requirement": "Repeated reconciliation fixture and history assertions"
+        },
+        {
+          "criterion_id": "AC_N_WORKER",
+          "title": "N-worker races prove one owner per shared resource and overlap only on disjoint resources",
+          "evidence_requirement": "Concurrent claim simulation with invariant checks"
+        },
+        {
+          "criterion_id": "AC_CI",
+          "title": "Focused tests and full validation pass on the exact final PR head",
+          "evidence_requirement": "Exact-head Actions run and changed-file read-back"
+        }
+      ],
+      "deliverables": [
+        {
+          "deliverable_id": "D1",
+          "description": "Lease expiry reproduction and canonical policy",
+          "evidence_requirement": "Source lines and deterministic failing fixture"
+        },
+        {
+          "deliverable_id": "D2",
+          "description": "Central coordinator lease fail-closed implementation",
+          "evidence_requirement": "PR diff and exact file SHAs"
+        },
+        {
+          "deliverable_id": "D3",
+          "description": "Unit and multi-worker concurrency regression suite",
+          "evidence_requirement": "Named passing tests"
+        },
+        {
+          "deliverable_id": "D4",
+          "description": "CI evidence and recovery limitations report",
+          "evidence_requirement": "Exact-head Actions run and handoff"
+        }
+      ],
+      "priority": 5,
+      "created_at_utc": "2026-11-17T11:17:00Z"
     }
   },
   "checkpoints": {
