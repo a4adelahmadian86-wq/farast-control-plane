@@ -320,7 +320,7 @@ jobs:
                       });
                       const p = workItemCore.calculateProgress(fresh);
                       const hardGate = workItemCore.evaluateHardGates(fresh, dependencyGraph, [...Object.values(state.work_items || {}).filter(x => x.work_item_id !== fresh.work_item_id), fresh]);
-                      fresh.status = !hardGate.ready ? 'BLOCKED' : p.can_accept ? 'REVIEW_REQUIRED' : p.verified_steps > 0 ? 'IN_PROGRESS' : 'READY';
+                      fresh.status = workItemCore.refreshedStatus(previous?.status, p, hardGate.ready);
                       state.work_items ||= {};
                       state.work_items[issue.number] = fresh;
                       state.history ||= [];
