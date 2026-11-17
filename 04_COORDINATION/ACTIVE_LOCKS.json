@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 748,
+  "revision": 749,
   "next_fencing_token": 82,
   "locks": [
     {
@@ -6423,6 +6423,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-17T09:44:25.286Z"
+    },
+    "6944441311": {
+      "response": "معیار پذیرش ثبت شد: AC_READONLY; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; can_accept=true.",
+      "response_posted": false,
+      "issue_number": 13,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-17T09:44:57.464Z"
     }
   },
   "work_items": {
@@ -6706,7 +6715,7 @@
       "parent_exp_ids": [
         "EXP-01"
       ],
-      "status": "IN_PROGRESS",
+      "status": "REVIEW_REQUIRED",
       "target_repository": "a4adelahmadian86-wq/non",
       "resource_keys": [
         "analysis:exp-01"
@@ -6924,7 +6933,18 @@
         {
           "criterion_id": "AC_READONLY",
           "title": "Product repository remains unchanged throughout the task",
-          "evidence_requirement": "Before/after branch and HEAD SHA comparison; no product file, branch, PR, CI setting or data mutation"
+          "evidence_requirement": "Before/after branch and HEAD SHA comparison; no product file, branch, PR, CI setting or data mutation",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/13#issuecomment-6944359408",
+            "https://github.com/a4adelahmadian86-wq/non/commit/2aec2db41b330036a2f4e0c33cfe2d2f7396a91a",
+            "https://github.com/a4adelahmadian86-wq/non/commit/0b671bde57cadee21361e1e141ac2ef989c21fb2",
+            "https://github.com/a4adelahmadian86-wq/non/pull/670",
+            "https://github.com/a4adelahmadian86-wq/non/branches"
+          ],
+          "validated_at_utc": "2026-11-17T09:44:57.458Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "deliverables": [
