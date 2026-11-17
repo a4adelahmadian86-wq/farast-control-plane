@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 760,
+  "revision": 761,
   "next_fencing_token": 83,
   "locks": [
     {
@@ -6568,6 +6568,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-17T09:50:00.599Z"
+    },
+    "6944609613": {
+      "response": "Claim رد شد: این TASK هم‌اکنون در اختیار @a4adelahmadian86-wq با run=RUN-20261117-READONLY-ACCEPTANCE-001 است؛ برای جلوگیری از دو نویسنده روی یک branch، ابتدا handoff یا انقضای lease لازم است.",
+      "response_posted": false,
+      "issue_number": 62,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": null,
+      "at_utc": "2026-11-17T09:52:22.276Z"
     }
   },
   "work_items": {
