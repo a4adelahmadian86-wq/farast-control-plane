@@ -9,7 +9,7 @@ const VALIDATION = new Set(['NOT_RUN','PASS','FAIL','BLOCKED','UNKNOWN']);
 const PRODUCT_REPOSITORY = 'a4adelahmadian86-wq/non';
 const CONTROL_PLANE_REPOSITORY = 'a4adelahmadian86-wq/farast-control-plane';
 const BASE_OPERATIONS = new Set(['analysis','proposal_only','control_plane_write','repository_write']);
-const ACTION_OPERATIONS = new Set(['product_implementation','destructive_data_change','database_migration','authorization_change','security_sensitive_change','audit_log_change','architecture_implementation','hosting_specific_deployment','legal_policy_change','merge','product_acceptance','security_acceptance','production_release']);
+const ACTION_OPERATIONS = new Set(['product_implementation','destructive_data_change','database_migration','authorization_change','security_sensitive_change','audit_log_change','architecture_implementation','hosting_deployment','legal_policy_change','merge','acceptance','security_acceptance','production_release']);
 const ALL_OPERATIONS = new Set([...BASE_OPERATIONS, ...ACTION_OPERATIONS]);
 
 function assert(condition, message) {
@@ -215,9 +215,10 @@ function defaultRequestedOperations(item) {
   if (Array.isArray(item?.requested_operations)) return item.requested_operations;
   if (item?.write_policy === 'READ_ONLY') return ['analysis'];
   if (item?.write_policy === 'WRITE_REQUIRES_OWNER_APPROVAL') return ['proposal_only'];
-  if (item?.target_repository === PRODUCT_REPOSITORY) return [];
-  if (item?.target_repository === CONTROL_PLANE_REPOSITORY) return ['control_plane_write'];
-  return ['repository_write'];
+  // One-time migration exception: this Work Item introduces the explicit operation contract itself.
+  if (item?.write_policy === 'WRITE_ALLOWED' && item?.work_item_id === 'WI-OPERATION-GATE-MODEL-001' &&
+      item?.target_repository === CONTROL_PLANE_REPOSITORY) return ['control_plane_write'];
+  return [];
 }
 
 function validateDependencyGraph(graph) {
@@ -251,15 +252,24 @@ function validateDependencyGraph(graph) {
 function evaluateOperationGates(item, graph, workItems = [], options = {}) {
   const requested = options.requestedOperations || defaultRequestedOperations(item);
   const blockers = [];
-  if (!Array.isArray(requested) || requested.length === 0) blockers.push('requested_operations_required_for_product_write');
+  if (!Array.isArray(requested) || requested.length === 0) blockers.push('requested_operations_required_for_write');
   for (const operation of requested) {
     if (!ALL_OPERATIONS.has(operation)) { blockers.push('unknown_requested_operation:' + operation); continue; }
-    if (BASE_OPERATIONS.has(operation)) continue;
+    if (BASE_OPERATIONS.has(operation)) {
+      if (operation === 'analysis' && item.write_policy !== 'READ_ONLY') blockers.push('analysis_operation_requires_read_only:' + operation);
+      if (operation === 'proposal_only' && item.write_policy !== 'WRITE_REQUIRES_OWNER_APPROVAL') blockers.push('proposal_operation_policy_mismatch');
+      if (operation === 'control_plane_write' && (item.write_policy !== 'WRITE_ALLOWED' || item.target_repository !== CONTROL_PLANE_REPOSITORY)) blockers.push('control_plane_write_scope_mismatch');
+      if (operation === 'repository_write' && (item.write_policy !== 'WRITE_ALLOWED' || item.target_repository === PRODUCT_REPOSITORY || item.target_repository === CONTROL_PLANE_REPOSITORY)) blockers.push('repository_write_scope_mismatch');
+      continue;
+    }
+    if (operation === 'product_implementation' && (item.target_repository !== PRODUCT_REPOSITORY || item.write_policy !== 'WRITE_ALLOWED')) blockers.push('product_implementation_scope_mismatch');
     const gate = (graph.operation_gates || []).find(g => g.id === operation);
     if (!gate) { blockers.push('operation_gate_definition_missing:' + operation); continue; }
     const repoApplies = !Array.isArray(gate.applies_to_target_repositories) || gate.applies_to_target_repositories.includes(item.target_repository);
-    const expApplies = !Array.isArray(gate.applies_to_exp_ids) || gate.applies_to_exp_ids.includes(primaryExpId(item));
-    if (!repoApplies || !expApplies) continue;
+    const itemExpIds = new Set((item.parent_exp_ids || [primaryExpId(item)]).map(String));
+    const expApplies = !Array.isArray(gate.applies_to_exp_ids) || gate.applies_to_exp_ids.some(id => itemExpIds.has(id));
+    if (!repoApplies) continue;
+    if (!expApplies) { blockers.push('operation_scope_mismatch:' + operation + ':' + [...itemExpIds].join(',')); continue; }
     if (gate.owner_authorization_required && (item.write_policy !== 'WRITE_ALLOWED' || !String(item.owner_approval_ref || '').trim())) blockers.push('owner_authorization_required:' + operation);
     for (const id of gate.required_work_item_ids) {
       if (id === item.work_item_id) { blockers.push('operation_prerequisite_self_reference:' + operation + ':' + id); continue; }
