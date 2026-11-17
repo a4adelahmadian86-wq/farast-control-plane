@@ -41,8 +41,18 @@ function targetRepositoryFor(body) {
 }
 
 function leaseExpiryState(lock, nowMs = Date.now()) {
-  const expiryMs = Date.parse(lock?.lease_expires_at_utc);
+  const rawExpiry = lock?.lease_expires_at_utc;
+  if (typeof rawExpiry !== 'string') return 'INVALID';
+  const match = rawExpiry.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.(\d{1,3}))?Z$/);
+  if (!match) return 'INVALID';
+  const expiryMs = Date.parse(rawExpiry);
   if (!Number.isFinite(expiryMs)) return 'INVALID';
+  const fraction = (match[7] || '').padEnd(3, '0');
+  const canonical = match[1] + '-' + match[2] + '-' + match[3] + 'T' +
+    match[4] + ':' + match[5] + ':' + match[6] + '.' + fraction + 'Z';
+  // Date.parse normalizes some invalid calendar dates (for example Feb 30);
+  // require the parsed value to round-trip to the exact UTC timestamp.
+  if (new Date(expiryMs).toISOString() !== canonical) return 'INVALID';
   return expiryMs <= nowMs ? 'EXPIRED' : 'ACTIVE';
 }
 
