@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1322,
+  "revision": 1323,
   "next_fencing_token": 105,
   "locks": [
     {
@@ -11379,6 +11379,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-17T17:25:07.798Z"
+    },
+    "6955592336": {
+      "response": "STEP ثبت شد: S4_REGRESSION; EXECUTION_PROGRESS=62.5%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=5/8.",
+      "response_posted": false,
+      "issue_number": 77,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-17T17:25:16.014Z"
     }
   },
   "work_items": {
@@ -14812,7 +14821,14 @@
           "weight": 1,
           "expected_output": "Regression tests prove Issue #62 remains a valid ACCEPTED dependency and unlisted legacy writes remain blocked",
           "evidence_requirement": "Named positive/negative tests and passing focused test output",
-          "estimate_minutes": 5
+          "estimate_minutes": 5,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/79"
+          ],
+          "validated_at_utc": "2026-11-17T17:25:16.014Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S5_REPLAY",
