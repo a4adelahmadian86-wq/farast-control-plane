@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1146,
+  "revision": 1147,
   "next_fencing_token": 97,
   "locks": [
     {
@@ -10011,6 +10011,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-17T16:26:50.689Z"
+    },
+    "6954006851": {
+      "response": "STEP ثبت شد: S3_EVALUATOR; EXECUTION_PROGRESS=57.14%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=4/7.",
+      "response_posted": false,
+      "issue_number": 64,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-17T16:26:58.244Z"
     }
   },
   "work_items": {
@@ -12675,7 +12684,15 @@
           "weight": 1,
           "expected_output": "Discovery tasks remain eligible while requested protected operations remain fail-closed",
           "evidence_requirement": "Core/coordinator diff and positive/negative tests for all gate categories",
-          "estimate_minutes": 5
+          "estimate_minutes": 5,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-64-RUN-20261117-MASTER00-RESUME-1948Z-001/.github/scripts/work-item-core.js",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-64-RUN-20261117-MASTER00-RESUME-1948Z-001/.github/workflows/farast-coordinator.yml"
+          ],
+          "validated_at_utc": "2026-11-17T16:26:58.244Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Evaluator validates every parent EXP, explicit dependencies, requested operations, authorization and fail-closed gate behavior."
         },
         {
           "step_id": "S4_REGRESSION",
