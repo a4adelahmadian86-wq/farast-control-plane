@@ -314,3 +314,19 @@ test('READ_ONLY evidence-only acceptance requires all step and criterion evidenc
  assert.equal(result.ready,false);
  assert.ok(result.blockers.includes('required_evidence_incomplete'));
 });
+
+
+test('READ_ONLY evidence-only acceptance rejects malformed Work Item schema',()=>{
+ const x=fullyVerified(item({schema_version:'9'}));
+ const result=wi.evaluateReadOnlyAcceptance(x,{issueNumber:13,hasActiveLease:false,hardGatesReady:true,reviewEvent:readonlyReview});
+ assert.equal(result.ready,false);
+ assert.ok(result.blockers.some(blocker=>blocker.startsWith('invalid_work_item:')));
+});
+
+test('READ_ONLY evidence-only acceptance rejects a missing or non-REVIEW handoff',()=>{
+ const x=fullyVerified(item());
+ const missing=wi.evaluateReadOnlyAcceptance(x,{issueNumber:13,hasActiveLease:false,hardGatesReady:true});
+ const wrongEvent=wi.evaluateReadOnlyAcceptance(x,{issueNumber:13,hasActiveLease:false,hardGatesReady:true,reviewEvent:{...readonlyReview,event:'RELEASE'}});
+ assert.ok(missing.blockers.includes('missing_review_handoff'));
+ assert.ok(wrongEvent.blockers.includes('missing_review_handoff'));
+});
