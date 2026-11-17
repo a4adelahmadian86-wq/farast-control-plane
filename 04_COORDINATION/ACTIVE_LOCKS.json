@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 798,
+  "revision": 799,
   "next_fencing_token": 84,
   "locks": [],
   "history": [
@@ -6737,6 +6737,15 @@
       "command": "accept",
       "next_status": null,
       "at_utc": "2026-11-17T10:02:54.703Z"
+    },
+    "6944856566": {
+      "response": "وظیفه به ready بازگشت؛ گیت‌های سخت پاس شده‌اند و برای شروع دوباره claim لازم است.",
+      "response_posted": false,
+      "issue_number": 62,
+      "actor": "a4adelahmadian86-wq",
+      "command": "reopen",
+      "next_status": "ready",
+      "at_utc": "2026-11-17T10:03:40.470Z"
     }
   },
   "work_items": {
@@ -9046,7 +9055,7 @@
         "EXP-24",
         "EXP-27"
       ],
-      "status": "REVIEW_REQUIRED",
+      "status": "READY",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "file:.github/workflows/farast-coordinator.yml",
