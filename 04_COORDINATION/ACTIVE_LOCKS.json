@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1295,
+  "revision": 1296,
   "next_fencing_token": 103,
   "locks": [
     {
@@ -11120,7 +11120,7 @@
     },
     "6955384065": {
       "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-EXP23-REGRESSION-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=After evidence-only acceptance of EXP-23, re-read the live dependency graph and exact NON main/open PR scopes. If product_implementation gate passes with EXP-21/22/23 ACCEPTED and owner Issue #51 remains valid, claim Issue #51 with a fresh run, implement only the approved Trust Center global-search slice, run exact-head CI, and hand off an open/unmerged PR.; remaining_steps=.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 35,
       "actor": "a4adelahmadian86-wq",
       "command": "checkpoint",
