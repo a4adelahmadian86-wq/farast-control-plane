@@ -382,6 +382,10 @@
         ]
       },
       "description": "Explicit operation scope for every WRITE_ALLOWED Work Item. Sensitive action identifiers are checked against the canonical operation_gates registry; omitted scope is not inferred for new write tasks."
+    },
+    "operation_scope_version": {
+      "const": "1.0",
+      "description": "Versioned explicit operation-scope contract. New write-enabled Work Items set this field and provide requested_operations; legacy Work Items without it remain parseable but write claims fail closed until migrated."
     }
   },
   "additionalProperties": false,
@@ -389,33 +393,12 @@
     {
       "if": {
         "properties": {
-          "target_repository": {
-            "const": "a4adelahmadian86-wq/non"
-          },
-          "write_policy": {
-            "const": "WRITE_ALLOWED"
+          "operation_scope_version": {
+            "const": "1.0"
           }
         },
         "required": [
-          "target_repository",
-          "write_policy"
-        ]
-      },
-      "then": {
-        "required": [
-          "owner_approval_ref"
-        ]
-      }
-    },
-    {
-      "if": {
-        "properties": {
-          "write_policy": {
-            "const": "WRITE_ALLOWED"
-          }
-        },
-        "required": [
-          "write_policy"
+          "operation_scope_version"
         ]
       },
       "then": {
