@@ -1,73 +1,8 @@
 {
   "schema_version": "1.0",
-  "revision": 826,
+  "revision": 827,
   "next_fencing_token": 86,
-  "locks": [
-    {
-      "resource_key": "file:.github/scripts/work-item-core.js",
-      "issue_number": 62,
-      "task_id": "GH-62",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "CHAT-READONLY-HANDOFF-20261117",
-      "chat_id": "CHAT-READONLY-HANDOFF-20261117",
-      "run_id": "RUN-20261117-READONLY-ACCEPTANCE-HANDOFF-001",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": "work/GH-62-RUN-20261117-READONLY-ACCEPTANCE-HANDOFF-001",
-      "acquired_at_utc": "2026-11-17T10:04:13.220Z",
-      "heartbeat_at_utc": "2026-11-17T10:11:36.290Z",
-      "lease_expires_at_utc": "2026-11-17T10:41:36.290Z",
-      "fencing_token": 84,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "file:.github/scripts/work-item-core.test.js",
-      "issue_number": 62,
-      "task_id": "GH-62",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "CHAT-READONLY-HANDOFF-20261117",
-      "chat_id": "CHAT-READONLY-HANDOFF-20261117",
-      "run_id": "RUN-20261117-READONLY-ACCEPTANCE-HANDOFF-001",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": "work/GH-62-RUN-20261117-READONLY-ACCEPTANCE-HANDOFF-001",
-      "acquired_at_utc": "2026-11-17T10:04:13.220Z",
-      "heartbeat_at_utc": "2026-11-17T10:11:36.290Z",
-      "lease_expires_at_utc": "2026-11-17T10:41:36.290Z",
-      "fencing_token": 84,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "file:.github/workflows/farast-coordinator.yml",
-      "issue_number": 62,
-      "task_id": "GH-62",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "CHAT-READONLY-HANDOFF-20261117",
-      "chat_id": "CHAT-READONLY-HANDOFF-20261117",
-      "run_id": "RUN-20261117-READONLY-ACCEPTANCE-HANDOFF-001",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": "work/GH-62-RUN-20261117-READONLY-ACCEPTANCE-HANDOFF-001",
-      "acquired_at_utc": "2026-11-17T10:04:13.220Z",
-      "heartbeat_at_utc": "2026-11-17T10:11:36.290Z",
-      "lease_expires_at_utc": "2026-11-17T10:41:36.290Z",
-      "fencing_token": 84,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "module:readonly-evidence-acceptance",
-      "issue_number": 62,
-      "task_id": "GH-62",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "CHAT-READONLY-HANDOFF-20261117",
-      "chat_id": "CHAT-READONLY-HANDOFF-20261117",
-      "run_id": "RUN-20261117-READONLY-ACCEPTANCE-HANDOFF-001",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": "work/GH-62-RUN-20261117-READONLY-ACCEPTANCE-HANDOFF-001",
-      "acquired_at_utc": "2026-11-17T10:04:13.220Z",
-      "heartbeat_at_utc": "2026-11-17T10:11:36.290Z",
-      "lease_expires_at_utc": "2026-11-17T10:41:36.290Z",
-      "fencing_token": 84,
-      "status": "ACTIVE"
-    }
-  ],
+  "locks": [],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -3430,6 +3365,17 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "lease_expires_at_utc": "2026-11-17T10:41:36.290Z",
       "at_utc": "2026-11-17T10:11:36.290Z"
+    },
+    {
+      "event": "REVIEW",
+      "issue_number": 62,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-READONLY-HANDOFF-20261117",
+      "run_id": "RUN-20261117-READONLY-ACCEPTANCE-HANDOFF-001",
+      "fencing_token": 84,
+      "branch": "work/GH-62-RUN-20261117-READONLY-ACCEPTANCE-HANDOFF-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "at_utc": "2026-11-17T10:14:07.419Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -7024,6 +6970,15 @@
       "command": "checkpoint",
       "next_status": null,
       "at_utc": "2026-11-17T10:13:34.822Z"
+    },
+    "6945090670": {
+      "response": "پیاده‌سازی برای اجرای گیت‌های ماشینی و پذیرش خودکار تحویل شد؛ این فرمان به‌تنهایی پذیرش نیست.",
+      "response_posted": false,
+      "issue_number": 62,
+      "actor": "a4adelahmadian86-wq",
+      "command": "review",
+      "next_status": "review",
+      "at_utc": "2026-11-17T10:14:07.423Z"
     }
   },
   "work_items": {
@@ -9333,7 +9288,7 @@
         "EXP-24",
         "EXP-27"
       ],
-      "status": "IN_PROGRESS",
+      "status": "REVIEW_REQUIRED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "file:.github/workflows/farast-coordinator.yml",
