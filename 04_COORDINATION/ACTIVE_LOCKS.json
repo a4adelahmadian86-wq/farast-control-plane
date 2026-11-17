@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1143,
+  "revision": 1144,
   "next_fencing_token": 97,
   "locks": [
     {
@@ -9996,7 +9996,7 @@
     },
     "6954004691": {
       "response": "STEP ثبت شد: S1_POLICY; EXECUTION_PROGRESS=28.57%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=2/7.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 64,
       "actor": "a4adelahmadian86-wq",
       "command": "step",
