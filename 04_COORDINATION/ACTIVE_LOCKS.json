@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1484,
+  "revision": 1485,
   "next_fencing_token": 108,
   "locks": [
     {
@@ -13330,6 +13330,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-17T18:11:11.105Z"
+    },
+    "6956736951": {
+      "response": "STEP ثبت شد: S5_QUALITY_ROLLBACK; EXECUTION_PROGRESS=85.71%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=6/7.",
+      "response_posted": false,
+      "issue_number": 51,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-17T18:11:35.040Z"
     }
   },
   "work_items": {
@@ -15159,7 +15168,14 @@
           "required": true,
           "weight": 1,
           "expected_output": "Focused review checklist, risk assessment and concrete revert/rollback instructions",
-          "evidence_requirement": "Exact diff/read-back, test results and rollback instructions"
+          "evidence_requirement": "Exact diff/read-back, test results and rollback instructions",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/non/pull/689"
+          ],
+          "validated_at_utc": "2026-11-17T18:11:35.040Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S6_PR_HANDOFF",
