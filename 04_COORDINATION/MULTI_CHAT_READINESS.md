@@ -185,14 +185,13 @@ MASTER-00 یک فرمان ثابت برای تمام چت‌هاست؛ هر چت
 ## وضعیت تکمیلی آزمون استقلال پرامپت‌ها (Issue #67)
 
 - Implementation PR: https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/80
-- Exact tested head: `78bc67a061d5127bf5ac5d879f58ba4e014180ae`
-- Exact-head CI: PASS — https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44141844065
+- CI exact-head: الزامی است و وضعیت authoritative همیشه از checkهای head جاری PR #80 خوانده می‌شود؛ SHA و run جاری در Issue #67 ثبت می‌شود، نه در این سند ثابت.
 - MASTER-00 و هر ۱۷ پرامپت specialist دارای قرارداد مشترک v2 هستند: اجرای مستقل در هر ترتیب، صف محلی EXP به‌علاوه مسیر جهانی G-09، operation_scope_version=1.0 و requested_operations صریح.
-- تست‌های dispatch، hard-gate، lease/fencing، resume/checkpoint، semantic duplicate و bundle parity در exact-head CI موفق‌اند.
-- رقابت N=2،5،10،25 در مدل هماهنگ‌کننده آزموده شد؛ یک G-09 مشترک فقط یک برنده می‌گیرد و سایر workerها به برگ‌های محلی مستقل برمی‌گردند.
+- تست‌های dispatch، hard-gate، lease/fencing، resume/checkpoint، semantic duplicate و bundle parity در CI موفق بوده‌اند؛ تغییر هر commit جدید، نیازمند CI موفق روی همان head جدید است.
+- رقابت N=2،5،10،25 در مدل هماهنگ‌کننده آزموده شد؛ یک G-09 مشترک فقط یک برنده می‌گیرد و سایر workerها به برگ‌های محلی مستقل برمی‌گردند. پوشش cross-scope شامل EXP-02، EXP-22/23 و EXP-26 است.
 - تست durable inbox شامل ۲۵ فرمان در پنج Issue، interruption پس از commit و پیش از response، replacement/scheduled replay، exactly-once response marker و replay بدون اثر تکراری است.
 - Read-back رجیستری زنده نشان داد ۱۸۳ فرمان /farast در Issueهای #64، #67 و #77 پردازش شده و هر ۱۸۳ پاسخ ثبت/ارسال شده‌اند؛ فرمان pending بدون پاسخ باقی نمانده است.
-- Issue #66 / WI-EXP02-BACKUP-RECOVERY-001 به‌عنوان canonical انتخاب می‌شود و Issue #14 / WI-EXP02-BACKUP-RESTORE-001 در selector و coordinator duplicate gate به‌عنوان alias superseded رد می‌شود؛ تاریخچه Issue #14 حفظ شده است.
+- Issue #66 / WI-EXP02-BACKUP-RECOVERY-001 canonical است؛ detector برای Issue #14 / WI-EXP02-BACKUP-RESTORE-001 نتیجه SUPERSEDED می‌دهد و coordinator claim gate آن را به‌عنوان duplicate رد می‌کند. تاریخچه Issue #14 حذف نمی‌شود.
 - **محدودیت اثبات:** N=25 آزمون مدل/شبیه‌سازی با CHAT_IDهای مستقل است، نه E2E با ۲۵ حساب مستقل ChatGPT. اجرای واقعی چند حساب مستقل هنوز انجام نشده؛ هیچ ادعایی درباره auto-spawn یا اجرای پس‌زمینه وجود ندارد.
 - محدودیت throughput تابع quota/rate limit سرویس GitHub Actions/API است؛ پروتکل سقف ثابت N ندارد اما throughput نامحدود تضمین نمی‌کند.
-- وضعیت Issue #67 هنگام ثبت این snapshot: CI موفق، PR باز و در انتظار review/accept ماشینی coordinator؛ این سند به‌تنهایی به معنی پذیرش Issue #67 نیست.
+- وضعیت Issue #67 تا زمان تکمیل review/accept ماشینی coordinator: implementation PR باز، exact-head CI باید سبز بماند، و هیچ merge/accept پیش از ثبت تمام شواهد مجاز نیست.
