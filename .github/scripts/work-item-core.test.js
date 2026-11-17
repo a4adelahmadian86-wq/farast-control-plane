@@ -574,8 +574,10 @@ test('coordinator registry persistence verifies exact commit read-back and guard
  assert.match(workflow,/DEPENDENCY_AUTO_UNBLOCKED/);
  assert.match(workflow,/isBranchlessControlPlaneWorkItem/);
  assert.match(workflow,/findDuplicateWorkItemIdIssues/);
+ assert.match(workflow,/duplicateWorkItemIds\.length/);
+ assert.match(workflow,/findDuplicateWorkItemIdIssues/);
  assert.match(workflow,/state:\s*'all'/);
- assert.match(workflow,/duplicateWorkItemIdIssues/);
+
  assert.match(workflow,/requireChildrenAccepted:\s*true/);
  assert.match(workflow,/allWorkItemsFor/);
  assert.match(workflow,/findDuplicateWorkItemIdIssues/);
@@ -613,7 +615,7 @@ test('multi-EXP hard gate on secondary parent blocks missing, unaccepted and amb
  assert.equal(wi.evaluateHardGates(target,graph,[target,accepted]).ready,true);
 });
 test('exact legacy WRITE_ALLOWED bootstrap items remain compatible; unlisted legacy writes fail closed',()=>{
- const ids=['WI-GOAL-ALLOCATOR-001','WI-NON-IMPLEMENTATION-VERTICAL-SLICE-001','WI-NON-WRITE-POLICY-COORDINATOR-001','WI-PR16-SPEC-REPAIR-001','WI-OPERATION-GATE-MODEL-001','WI-PROMPT-OPERATION-SCOPE-001'];
+ const ids=['WI-GOAL-ALLOCATOR-001','WI-NON-IMPLEMENTATION-VERTICAL-SLICE-001','WI-NON-WRITE-POLICY-COORDINATOR-001','WI-PR16-SPEC-REPAIR-001','WI-OPERATION-GATE-MODEL-001'];
  for(const id of ids) {
   const product=id==='WI-NON-IMPLEMENTATION-VERTICAL-SLICE-001';
   const x=item({work_item_id:id,target_repository:product?'a4adelahmadian86-wq/non':'a4adelahmadian86-wq/farast-control-plane',write_policy:'WRITE_ALLOWED',...(product?{owner_approval_ref:ownerIssueUrl}:{})});
@@ -670,12 +672,18 @@ test('operation scope rejects unsupported version and one-sided field declaratio
  assert.throws(()=>wi.validateWorkItem(missingOperations),/must be supplied together/);
 });
 test('versioned prompt-scope Work Item has no legacy implicit operation fallback',()=>{
- const unversioned=item({work_item_id:'WI-PROMPT-OPERATION-SCOPE-001',target_repository:controlPlane,write_policy:'WRITE_ALLOWED'});
+ const unversioned=item({work_item_id:'WI-PROMPT-OPERATION-SCOPE-001',target_repository:'a4adelahmadian86-wq/farast-control-plane',write_policy:'WRITE_ALLOWED'});
  assert.deepEqual(wi.defaultRequestedOperations(unversioned),[]);
  assert.throws(()=>wi.validateWorkItem(unversioned),/require operation_scope_version/);
  const versioned=item({work_item_id:'WI-PROMPT-OPERATION-SCOPE-001',target_repository:controlPlane,write_policy:'WRITE_ALLOWED',requested_operations:['control_plane_write']});
  assert.deepEqual(wi.defaultRequestedOperations(versioned),['control_plane_write']);
  assert.doesNotThrow(()=>wi.validateWorkItem(versioned));
+});
+test('EXP-02 backup recovery does not block the control-plane operation-gate task itself',()=>{
+ const graph=require('../../01_STRATEGY/DEPENDENCY_GRAPH.json');
+ const gate=graph.operation_gates.find(x=>x.id==='control_plane_write');
+ assert.ok(gate);
+ assert.ok(!gate.required_work_item_ids.includes('WI-EXP02-BACKUP-RECOVERY-001'));
 });
 test('high-risk EXP-02 operation gates reference the canonical backup-recovery Work Item',()=>{
  const graph=require('../../01_STRATEGY/DEPENDENCY_GRAPH.json');
