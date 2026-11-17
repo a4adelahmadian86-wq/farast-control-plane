@@ -677,6 +677,14 @@ test('versioned prompt-scope Work Item has no legacy implicit operation fallback
  assert.deepEqual(wi.defaultRequestedOperations(versioned),['control_plane_write']);
  assert.doesNotThrow(()=>wi.validateWorkItem(versioned));
 });
+test('generic repository_write gate supports an explicitly scoped non-product repository',()=>{
+ const x=item({work_item_id:'WI-OTHER-REPO-WRITE-001',target_repository:'owner/other-repo',write_policy:'WRITE_ALLOWED',owner_approval_ref:'https://github.com/owner/control-plane/issues/1',requested_operations:['repository_write']});
+ const graph=require('../../01_STRATEGY/DEPENDENCY_GRAPH.json');
+ const result=wi.evaluateHardGates(x,graph,[x]);
+ assert.equal(result.ready,true);
+ assert.deepEqual(result.blockers,[]);
+});
+
 test('EXP-02 backup recovery does not block the control-plane operation-gate task itself',()=>{
  const graph=require('../../01_STRATEGY/DEPENDENCY_GRAPH.json');
  const gate=graph.operation_gates.find(x=>x.id==='control_plane_write');
