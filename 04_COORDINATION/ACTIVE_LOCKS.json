@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1153,
+  "revision": 1154,
   "next_fencing_token": 97,
   "locks": [
     {
@@ -10041,7 +10041,7 @@
     },
     "6954009686": {
       "response": "معیار پذیرش ثبت شد: AC_TYPED_GATES; ACCEPTANCE_PROGRESS=20%; OVERALL_COMPLETION=20%; can_accept=false.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 64,
       "actor": "a4adelahmadian86-wq",
       "command": "criterion",
