@@ -73,15 +73,3 @@ BACKLOG, READY, CLAIMED, IN_PROGRESS, BLOCKED, REVIEW_REQUIRED, PARTIALLY_ACCEPT
 - OVERALL_COMPLETION
 
 اگر criteria تعریف نشده یا وزن معتبر نیست، N/A را صریح ثبت کن. claim/lease/owner و blocker مستقل از این درصدها هستند. claim موفق یا branch creation به‌تنهایی progress نیست.
-
-
-## دامنه عملیات و گیت‌های عملیاتی نوع‌دار
-
-- گراف canonical در `01_STRATEGY/DEPENDENCY_GRAPH.json` باید با `DEPENDENCY_GRAPH.schema.json` اعتبارسنجی شود. فیلد `hard_gates` فقط شناسه‌های معتبر `EXP-NN` می‌پذیرد؛ `soft_inputs` صرفاً زمینه‌اند و هرگز Claim را مسدود نمی‌کنند.
-- گیت‌های عملیاتی در `operation_gates` نگهداری می‌شوند و به‌جای کل EXP، فقط عملیات صریح درخواست‌شده را محدود می‌کنند. هر گیت می‌تواند دامنه EXP، مخزن مقصد، شناسه‌های دقیق Work Item پیش‌نیاز، الزام مجوز مالک و شواهد مورد انتظار داشته باشد.
-- همه Work Itemهای جدید باید `operation_scope_version: "1.0"` و آرایه غیرخالی `requested_operations` داشته باشند. شناسه‌های مجاز در `WORK_ITEM_SCHEMA.json` تعریف شده‌اند. شناسه ناشناخته یا گیت/پیش‌نیاز حل‌نشده fail-closed است.
-- عملیات پایه برای `WRITE_ALLOWED` اجباری است: مخزن NON برابر `product_implementation`، مخزن کنترل‌پلین برابر `control_plane_write` و مخزن مجاز دیگر برابر `repository_write`. عملیات حساس مانند `database_migration`، `authorization_change`، `security_sensitive_change`، `audit_log_change`، `destructive_data_change`، `merge` و `production_release` باید علاوه بر عملیات پایه جداگانه اعلام شوند.
-- `READ_ONLY` فقط `analysis` و `WRITE_REQUIRES_OWNER_APPROVAL` فقط `proposal_only` را درخواست می‌کند. هیچ پیش‌فرضی، Work Item دارای WRITE_ALLOWED را به عملیات عمومی قابل‌نوشتن تبدیل نمی‌کند؛ legacy write item فاقد `requested_operations` تا مهاجرت صریح مسدود می‌ماند.
-- پیش‌نیازهای عملیاتی با `required_work_item_ids` دقیق سنجیده می‌شوند، نه با تطبیق مبهم EXP. دامنه چند-EXP با تمام `parent_exp_ids` بررسی می‌شود؛ self-reference یا پیش‌نیاز مبهم/مفقود مانع عملیات است.
-- هنگام پذیرش PR، Coordinator گیت ادغام را نیز با توجه به مخزن مقصد اجرا می‌کند: `merge` برای PR محصول و `control_plane_merge` برای PR کنترل‌پلین. بررسی SHA دقیق، Check Runs، Commit Status، branch lineage و نبود Lease فعال همچنان الزامی است؛ Review انسانی دوم اضافه نمی‌شود.
-- Work Itemهای legacy بدون operation scope همچنان برای مشاهده/گزارش قابل‌خواندن‌اند؛ اما عملیات نوشتن/ادغام آن‌ها تا ثبت scope صریح مجاز نیست. استثنای موقت Issue #64 فقط برای تکمیل مهاجرت همین مدل است و نباید برای Work Item دیگری کپی شود.

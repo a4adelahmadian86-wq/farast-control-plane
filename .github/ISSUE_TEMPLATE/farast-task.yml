@@ -161,13 +161,11 @@ body:
     id: work_item_specification_json
     attributes:
       label: Work item specification JSON
-      description: Valid JSON conforming to 04_COORDINATION/WORK_ITEM_SCHEMA.json. Include 6+ substantive steps, expected_output/evidence_requirement for each, 4+ criteria, 3+ deliverables, depth_profile and effort_estimate_minutes. New Work Items must set operation_scope_version=1.0 and explicit requested_operations. READ_ONLY uses analysis; WRITE_REQUIRES_OWNER_APPROVAL uses proposal_only; WRITE_ALLOWED must include its target base operation (NON: product_implementation; control-plane: control_plane_write; other authorized repository: repository_write) plus every additional action gate required by the actual scope. Missing/unknown operations fail closed. Do not mark anything PASS at creation.
+      description: Valid JSON conforming to 04_COORDINATION/WORK_ITEM_SCHEMA.json. Include 6+ substantive steps, expected_output/evidence_requirement for each, 4+ criteria, 3+ deliverables, depth_profile and effort_estimate_minutes. Do not mark anything PASS at creation.
       placeholder: |
         {
           "schema_version": "1.0",
           "write_policy": "READ_ONLY",
-          "operation_scope_version": "1.0",
-          "requested_operations": ["analysis"],
           "priority_source": "DEFAULT_POLICY",
           "work_item_id": "WI-EXP03-001",
           "title": "Example leaf task",

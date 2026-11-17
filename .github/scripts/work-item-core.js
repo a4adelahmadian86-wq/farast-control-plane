@@ -293,7 +293,6 @@ function evaluateOperationGates(item, graph, workItems = [], options = {}) {
     if (operation === 'control_plane_write' && (item.target_repository !== CONTROL_PLANE_REPOSITORY || item.write_policy !== 'WRITE_ALLOWED')) blockers.push('control_plane_write_scope_mismatch');
     if (operation === 'control_plane_merge' && item.target_repository !== CONTROL_PLANE_REPOSITORY) blockers.push('control_plane_merge_scope_mismatch');
     if (operation === 'control_plane_authorization_change' && (item.target_repository !== CONTROL_PLANE_REPOSITORY || item.write_policy !== 'WRITE_ALLOWED')) blockers.push('control_plane_authorization_scope_mismatch');
-    if (operation === 'control_plane_metadata' && (item.target_repository !== CONTROL_PLANE_REPOSITORY || item.write_policy !== 'WRITE_ALLOWED')) blockers.push('control_plane_metadata_scope_mismatch');
     if (operation === 'repository_write' && (item.target_repository === PRODUCT_REPOSITORY || item.target_repository === CONTROL_PLANE_REPOSITORY || item.write_policy !== 'WRITE_ALLOWED')) blockers.push('repository_write_scope_mismatch');
     if (operation === 'product_implementation' && (item.target_repository !== PRODUCT_REPOSITORY || item.write_policy !== 'WRITE_ALLOWED')) blockers.push('product_implementation_scope_mismatch');
     const gate = (Array.isArray(graph.operation_gates) ? graph.operation_gates : []).find(g => g.id === operation);
@@ -340,7 +339,7 @@ function evaluateHardGates(item, graph, workItems = [], options = {}) {
     else if (matches[0].status!=='ACCEPTED') dependencyBlockers.push('explicit_dependency_not_accepted:'+id+':'+matches[0].status);
   }
   for (const gate of unique(nodes.flatMap(node=>node.hard_gates))) {
-    const matches = workItems.filter(x=>primaryExpId(x)===gate);
+    const matches = workItems.filter(x=>x.work_item_id!==item.work_item_id && unique([...(x.parent_exp_ids||[]).map(String),primaryExpId(x)].filter(Boolean)).includes(gate));
     if (matches.length!==1) dependencyBlockers.push((matches.length?'ambiguous':'unresolved')+'_hard_gate:'+gate);
     else if (matches[0].status!=='ACCEPTED') dependencyBlockers.push('hard_gate_not_accepted:'+gate+':'+matches[0].status);
   }

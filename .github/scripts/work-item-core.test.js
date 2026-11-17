@@ -270,8 +270,8 @@ test('Work Item selection applies canonical EXP-only hard gates',()=>{
 
 test('READ_ONLY analysis is not blocked by a later product implementation gate',()=>{
  const target=item({work_item_id:'WI-EXP22-READINESS-001',parent_exp_ids:['EXP-22'],target_repository:'a4adelahmadian86-wq/non'});
- const graph=graphWith([{id:'EXP-22',hard_gates:[]}],{
-  product_implementation:{applies_to_exp_ids:['EXP-22'],applies_to_target_repositories:['a4adelahmadian86-wq/non'],required_work_item_ids:['WI-EXP21-CHANGE-PACKAGE-001'],owner_authorization_required:true}
+ const graph=graphWith([{id:'EXP-22',hard_gates:[]},{id:'EXP-23',hard_gates:[]}],{
+   product_implementation:{applies_to_exp_ids:['EXP-22'],applies_to_target_repositories:['a4adelahmadian86-wq/non'],required_work_item_ids:['WI-EXP21-CHANGE-PACKAGE-001'],owner_authorization_required:true}
  });
  assert.equal(wi.evaluateHardGates(target,graph,[target]).ready,true);
 });
@@ -307,17 +307,17 @@ test('unknown requested operation fails closed',()=>{
 test('WRITE_ALLOWED cannot declare analysis-only scope and versioned scope must be explicit',()=>{
  const x=item({write_policy:'WRITE_ALLOWED',requested_operations:['analysis']});
  assert.throws(()=>wi.validateWorkItem(x),/cannot request analysis/);
- assert.throws(()=>wi.validateWorkItem(item({operation_scope_version:'1.0'})),/requires requested_operations/);
+ assert.throws(()=>wi.validateWorkItem(item({operation_scope_version:'1.0'})),/must be supplied together/);
 });
 
 test('multi-EXP merge gate matches any declared parent EXP and does not self-gate',()=>{
  const target=item({work_item_id:'WI-NON-IMPLEMENTATION-VERTICAL-SLICE-001',parent_exp_ids:['EXP-22','EXP-23'],target_repository:'a4adelahmadian86-wq/non',write_policy:'WRITE_ALLOWED',owner_approval_ref:'https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/51',requested_operations:['product_implementation']});
  const regression=item({work_item_id:'WI-EXP23-REGRESSION-001',parent_exp_ids:['EXP-23'],status:'ACCEPTED'});
- const graph=graphWith([{id:'EXP-22',hard_gates:[]}],{
-  merge:{applies_to_exp_ids:['EXP-23'],applies_to_target_repositories:['a4adelahmadian86-wq/non'],required_work_item_ids:['WI-EXP23-REGRESSION-001'],owner_authorization_required:true}
+ const graph=graphWith([{id:'EXP-22',hard_gates:[]},{id:'EXP-23',hard_gates:[]}],{
+   merge:{applies_to_exp_ids:['EXP-23'],applies_to_target_repositories:['a4adelahmadian86-wq/non'],required_work_item_ids:['WI-EXP23-REGRESSION-001'],owner_authorization_required:true}
  });
  assert.equal(wi.evaluateHardGates(target,graph,[target,regression],{requestedOperations:['merge']}).ready,true);
- const selfGate=graphWith([{id:'EXP-23',hard_gates:[]}],{
+ const selfGate=graphWith([{id:'EXP-22',hard_gates:[]},{id:'EXP-23',hard_gates:[]}],{
   merge:{applies_to_exp_ids:['EXP-23'],applies_to_target_repositories:['a4adelahmadian86-wq/non'],required_work_item_ids:[target.work_item_id],owner_authorization_required:true}
  });
  assert.ok(wi.evaluateHardGates(target,selfGate,[target],{requestedOperations:['merge']}).blockers.some(x=>x.startsWith('operation_prerequisite_self_reference:')));
@@ -325,7 +325,7 @@ test('multi-EXP merge gate matches any declared parent EXP and does not self-gat
 
 test('control-plane PR merge uses its own scoped operation gate',()=>{
  const target=item({work_item_id:'WI-OPERATION-GATE-MODEL-001',parent_exp_ids:['EXP-01','EXP-22','EXP-23'],target_repository:'a4adelahmadian86-wq/farast-control-plane',write_policy:'WRITE_ALLOWED',operation_scope_version:'1.0',requested_operations:['control_plane_write']});
- const graph=graphWith([{id:'EXP-01',hard_gates:[]}],{
+ const graph=graphWith([{id:'EXP-01',hard_gates:[]},{id:'EXP-22',hard_gates:[]},{id:'EXP-23',hard_gates:[]}],{
   control_plane_write:{applies_to_target_repositories:['a4adelahmadian86-wq/farast-control-plane'],required_work_item_ids:[],owner_authorization_required:false},
   control_plane_merge:{applies_to_target_repositories:['a4adelahmadian86-wq/farast-control-plane'],required_work_item_ids:[],owner_authorization_required:false}
  });
@@ -342,7 +342,7 @@ test('control-plane action and generic repository writes cannot be inferred for 
 
 test('every registered action operation is fail-closed until its exact prerequisites are ACCEPTED',()=>{
  for(const operation of operationIds){
-  const targetRepo=['control_plane_write','control_plane_merge','control_plane_authorization_change','control_plane_metadata'].includes(operation)
+  const targetRepo=['control_plane_write','control_plane_merge','control_plane_authorization_change'].includes(operation)
     ? 'a4adelahmadian86-wq/farast-control-plane'
     : operation==='repository_write' ? 'other/authorized-repo' : 'a4adelahmadian86-wq/non';
   const requiredId='WI-REQUIRED-'+operation.toUpperCase().replace(/[^A-Z0-9]+/g,'-');
@@ -363,7 +363,7 @@ test('every registered action operation is fail-closed until its exact prerequis
     owner_authorization_required:true
    }
   });
-  const graph={nodes:[{id:'EXP-22',hard_gates:[]}],operation_gates:gate};
+  const graph={nodes:[{id:'EXP-22',hard_gates:[]},{id:'EXP-23',hard_gates:[]}],operation_gates:gate};
   const blocked=wi.evaluateHardGates(target,graph,[target]);
   assert.equal(blocked.ready,false,operation+' must fail closed without its prerequisite');
   assert.ok(blocked.blockers.some(x=>x.includes(requiredId)),operation+' must name the missing exact Work Item');
@@ -392,7 +392,7 @@ test('missing operation registry and missing action definition fail closed',()=>
 test('action gate scope applies to every parent EXP and mismatched target is not silently authorized',()=>{
  const target=item({work_item_id:'WI-NON-IMPLEMENTATION-001',parent_exp_ids:['EXP-22','EXP-23'],target_repository:'a4adelahmadian86-wq/non',write_policy:'WRITE_ALLOWED',owner_approval_ref:'https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/51',requested_operations:['product_implementation','merge']});
  const gate={merge:{applies_to_exp_ids:['EXP-23'],applies_to_target_repositories:['a4adelahmadian86-wq/non'],required_work_item_ids:[],owner_authorization_required:true}};
- const graph=graphWith([{id:'EXP-22',hard_gates:[]}],gate);
+ const graph=graphWith([{id:'EXP-22',hard_gates:[]},{id:'EXP-23',hard_gates:[]}],gate);
  assert.equal(wi.evaluateHardGates(target,graph,[target],{requestedOperations:['merge']}).ready,true);
  const wrongTarget=item({...target,target_repository:'a4adelahmadian86-wq/farast-control-plane'});
  const wrong=wi.evaluateHardGates(wrongTarget,graph,[wrongTarget],{requestedOperations:['merge']});
@@ -443,7 +443,7 @@ test('READ_ONLY evidence-only acceptance fails closed while a lease is active',(
 });
 
 test('READ_ONLY evidence-only acceptance rejects write-capable Work Items',()=>{
- const x=fullyVerified(item({write_policy:'WRITE_ALLOWED'}));
+ const x=fullyVerified(item({write_policy:'WRITE_ALLOWED',target_repository:'a4adelahmadian86-wq/non',owner_approval_ref:'https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/51',requested_operations:['product_implementation']}));
  const result=wi.evaluateReadOnlyAcceptance(x,{issueNumber:13,hasActiveLease:false,hardGatesReady:true,reviewEvent:readonlyReview});
  assert.equal(result.ready,false);
  assert.ok(result.blockers.includes('write_policy_not_read_only'));
@@ -584,4 +584,42 @@ test('exact legacy WRITE_ALLOWED bootstrap items remain compatible; unlisted leg
   assert.doesNotThrow(()=>wi.validateWorkItem(x),id);
  }
  assert.throws(()=>wi.validateWorkItem(item({work_item_id:'WI-UNLISTED-WRITE-001',target_repository:'a4adelahmadian86-wq/farast-control-plane',write_policy:'WRITE_ALLOWED'})),/require operation_scope_version/);
+});
+
+test('a multi-parent accepted Work Item can satisfy a hard gate for any declared parent EXP',()=>{
+ const target=item({work_item_id:'WI-CROSS-EXP-CHILD-001',parent_exp_ids:['EXP-03']});
+ const graph=graphWith([{id:'EXP-03',hard_gates:['EXP-22']},{id:'EXP-22',hard_gates:[]}]);
+ const dependency=item({work_item_id:'WI-CROSS-EXP-PARENT-001',parent_exp_ids:['EXP-01','EXP-22'],status:'ACCEPTED'});
+ assert.equal(wi.evaluateHardGates(target,graph,[target,dependency]).ready,true);
+});
+test('a Work Item cannot satisfy its own EXP hard gate through a secondary parent',()=>{
+ const target=item({work_item_id:'WI-CROSS-EXP-SELF-001',parent_exp_ids:['EXP-03','EXP-22'],status:'ACCEPTED'});
+ const graph=graphWith([{id:'EXP-03',hard_gates:['EXP-22']},{id:'EXP-22',hard_gates:[]}]);
+ assert.ok(wi.evaluateHardGates(target,graph,[target]).blockers.includes('unresolved_hard_gate:EXP-22'));
+});
+test('multi-parent Work Items require every declared EXP node to exist in the graph',()=>{
+ const target=item({work_item_id:'WI-CROSS-EXP-MISSING-NODE-001',parent_exp_ids:['EXP-03','EXP-22']});
+ const graph=graphWith([{id:'EXP-03',hard_gates:[]}]);
+ assert.ok(wi.evaluateHardGates(target,graph,[target]).blockers.includes('missing_or_invalid_graph_node:EXP-22'));
+});
+test('operation scope rejects unsupported version and one-sided field declarations',()=>{
+ const unsupported=item({operation_scope_version:'2.0',requested_operations:['analysis']});
+ assert.throws(()=>wi.validateWorkItem(unsupported),/unsupported operation_scope_version/);
+ const missingVersion=item({requested_operations:['analysis']});
+ delete missingVersion.operation_scope_version;
+ assert.throws(()=>wi.validateWorkItem(missingVersion),/must be supplied together/);
+ const missingOperations=item({operation_scope_version:'1.0'});
+ assert.throws(()=>wi.validateWorkItem(missingOperations),/must be supplied together/);
+});
+test('legacy READ_ONLY and proposal-only Work Items remain schema-compatible without operation scope',()=>{
+ const schema=require('../../04_COORDINATION/WORK_ITEM_SCHEMA.json');
+ const legacyIds=["WI-GOAL-ALLOCATOR-001","WI-NON-IMPLEMENTATION-VERTICAL-SLICE-001","WI-NON-WRITE-POLICY-COORDINATOR-001","WI-PR16-SPEC-REPAIR-001","WI-OPERATION-GATE-MODEL-001","WI-PROMPT-OPERATION-SCOPE-001"];
+ const writeScopeRule=schema.allOf.find(rule=>rule.if?.properties?.write_policy?.const==='WRITE_ALLOWED' && rule.then?.required?.includes('operation_scope_version'));
+ assert.ok(writeScopeRule);
+ assert.equal(schema.required.includes('operation_scope_version'),false);
+ assert.equal(schema.required.includes('requested_operations'),false);
+ assert.deepEqual(writeScopeRule.if.not.properties.work_item_id.enum,legacyIds);
+ assert.equal(wi.validateWorkItem(item()),true);
+ assert.equal(wi.validateWorkItem(item({write_policy:'WRITE_REQUIRES_OWNER_APPROVAL',owner_approval_ref:'https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/52'})),true);
+ assert.throws(()=>wi.validateWorkItem(item({write_policy:'WRITE_ALLOWED'})),/require operation_scope_version/);
 });

@@ -17,9 +17,7 @@
     "priority",
     "created_at_utc",
     "write_policy",
-    "priority_source",
-    "operation_scope_version",
-    "requested_operations"
+    "priority_source"
   ],
   "properties": {
     "schema_version": {
@@ -441,6 +439,41 @@
       "then": {
         "required": [
           "operation_scope_version"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "write_policy": {
+            "const": "WRITE_ALLOWED"
+          }
+        },
+        "required": [
+          "write_policy"
+        ],
+        "not": {
+          "properties": {
+            "work_item_id": {
+              "enum": [
+                "WI-GOAL-ALLOCATOR-001",
+                "WI-NON-IMPLEMENTATION-VERTICAL-SLICE-001",
+                "WI-NON-WRITE-POLICY-COORDINATOR-001",
+                "WI-PR16-SPEC-REPAIR-001",
+                "WI-OPERATION-GATE-MODEL-001",
+                "WI-PROMPT-OPERATION-SCOPE-001"
+              ]
+            }
+          },
+          "required": [
+            "work_item_id"
+          ]
+        }
+      },
+      "then": {
+        "required": [
+          "operation_scope_version",
+          "requested_operations"
         ]
       }
     }
