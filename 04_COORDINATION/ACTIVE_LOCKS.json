@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1528,
+  "revision": 1529,
   "next_fencing_token": 108,
   "locks": [],
   "history": [
@@ -6862,6 +6862,13 @@
       "work_item_id": "WI-NON-WRITE-POLICY-COORDINATOR-001",
       "preserved_steps": 7,
       "at_utc": "2026-11-17T21:18:05.893Z"
+    },
+    {
+      "event": "DEPENDENCY_AUTO_UNBLOCKED",
+      "issue_number": 5,
+      "work_item_id": "WI-CP-SMOKE-001",
+      "preserved_steps": 1,
+      "at_utc": "2026-11-17T21:19:06.545Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -13574,7 +13581,7 @@
       "parent_exp_ids": [
         "EXP-01"
       ],
-      "status": "BLOCKED",
+      "status": "READY",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "module:coordinator-smoke-test"
@@ -13609,7 +13616,9 @@
         }
       ],
       "priority": 50,
-      "created_at_utc": "2026-11-14T17:07:00Z"
+      "created_at_utc": "2026-11-14T17:07:00Z",
+      "write_policy": "READ_ONLY",
+      "priority_source": "DEFAULT_POLICY"
     },
     "7": {
       "schema_version": "1.0",
