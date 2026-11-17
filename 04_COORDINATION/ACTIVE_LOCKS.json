@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1140,
+  "revision": 1141,
   "next_fencing_token": 97,
   "locks": [
     {
@@ -9984,6 +9984,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-17T16:25:48.079Z"
+    },
+    "6954003705": {
+      "response": "STEP ثبت شد: S0_AUDIT; EXECUTION_PROGRESS=14.28%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=1/7.",
+      "response_posted": false,
+      "issue_number": 64,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-17T16:25:56.267Z"
     }
   },
   "work_items": {
@@ -12562,7 +12571,7 @@
         "EXP-25",
         "EXP-26"
       ],
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "file:01_STRATEGY/DEPENDENCY_GRAPH.json",
@@ -12595,7 +12604,16 @@
           "weight": 1,
           "expected_output": "Evidence-backed taxonomy matrix separating cross-EXP dependencies from operational gates",
           "evidence_requirement": "Current main SHA, graph/schema/core URLs, exact issue and source references for every gate",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/64",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/73",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/01_STRATEGY/DEPENDENCY_GRAPH.json"
+          ],
+          "validated_at_utc": "2026-11-17T16:25:56.266Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Audited live EXP/action gate taxonomy and source evidence; genuine dependencies are separated from operation-specific prerequisites."
         },
         {
           "step_id": "S1_POLICY",
