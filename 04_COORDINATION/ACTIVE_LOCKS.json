@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1144,
+  "revision": 1145,
   "next_fencing_token": 97,
   "locks": [
     {
@@ -10002,6 +10002,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-17T16:26:43.264Z"
+    },
+    "6954005567": {
+      "response": "STEP ثبت شد: S2_GRAPH_SCHEMA; EXECUTION_PROGRESS=42.85%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=3/7.",
+      "response_posted": false,
+      "issue_number": 64,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-17T16:26:50.689Z"
     }
   },
   "work_items": {
@@ -12648,7 +12657,16 @@
           "weight": 1,
           "expected_output": "Validated graph/schema with only EXP IDs in hard_gates and explicit operation gate definitions",
           "evidence_requirement": "JSON/schema validation, before-after gate matrix and source-backed direction decisions",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-64-RUN-20261117-MASTER00-RESUME-1948Z-001/01_STRATEGY/DEPENDENCY_GRAPH.json",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-64-RUN-20261117-MASTER00-RESUME-1948Z-001/04_COORDINATION/WORK_ITEM_SCHEMA.json",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/74"
+          ],
+          "validated_at_utc": "2026-11-17T16:26:50.689Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Graph and schema separate EXP dependencies from explicit operation gates; generic repository_write no longer contains invalid null scope."
         },
         {
           "step_id": "S3_EVALUATOR",
