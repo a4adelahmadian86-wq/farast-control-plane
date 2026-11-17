@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 676,
+  "revision": 677,
   "next_fencing_token": 80,
   "locks": [
     {
@@ -6216,6 +6216,15 @@
       "command": "refresh",
       "next_status": "ready",
       "at_utc": "2026-11-17T09:24:28.358Z"
+    },
+    "6944021851": {
+      "response": "STEP ثبت شد: S4_SCHEMA_REGISTRY_SYNC; EXECUTION_PROGRESS=85.71%; ACCEPTANCE_PROGRESS=80%; OVERALL_COMPLETION=80%; verified_steps=6/7.",
+      "response_posted": false,
+      "issue_number": 59,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-17T09:25:25.544Z"
     }
   },
   "work_items": {
@@ -8138,7 +8147,7 @@
         "EXP-22",
         "EXP-23"
       ],
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "module:dependency-graph",
@@ -8238,7 +8247,16 @@
           "weight": 1,
           "expected_output": "Same stable Work Item ID and matching 7-step/5-criterion/4-deliverable definition",
           "evidence_requirement": "Issue body read-back, refresh response and registry revision/read-back",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/13#issuecomment-6944008621",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/coordination/locks/04_COORDINATION/ACTIVE_LOCKS.json",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/13"
+          ],
+          "validated_at_utc": "2026-11-17T09:25:25.540Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S5_TEST_AND_BUNDLE",
