@@ -1,8 +1,73 @@
 {
   "schema_version": "1.0",
-  "revision": 756,
-  "next_fencing_token": 82,
-  "locks": [],
+  "revision": 757,
+  "next_fencing_token": 83,
+  "locks": [
+    {
+      "resource_key": "file:.github/scripts/work-item-core.js",
+      "issue_number": 62,
+      "task_id": "GH-62",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-READONLY-ACCEPT-20261117",
+      "chat_id": "CHAT-READONLY-ACCEPT-20261117",
+      "run_id": "RUN-20261117-READONLY-ACCEPTANCE-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-62-RUN-20261117-READONLY-ACCEPTANCE-001",
+      "acquired_at_utc": "2026-11-17T09:48:28.830Z",
+      "heartbeat_at_utc": "2026-11-17T09:48:28.830Z",
+      "lease_expires_at_utc": "2026-11-17T10:18:28.830Z",
+      "fencing_token": 82,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "file:.github/scripts/work-item-core.test.js",
+      "issue_number": 62,
+      "task_id": "GH-62",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-READONLY-ACCEPT-20261117",
+      "chat_id": "CHAT-READONLY-ACCEPT-20261117",
+      "run_id": "RUN-20261117-READONLY-ACCEPTANCE-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-62-RUN-20261117-READONLY-ACCEPTANCE-001",
+      "acquired_at_utc": "2026-11-17T09:48:28.830Z",
+      "heartbeat_at_utc": "2026-11-17T09:48:28.830Z",
+      "lease_expires_at_utc": "2026-11-17T10:18:28.830Z",
+      "fencing_token": 82,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "file:.github/workflows/farast-coordinator.yml",
+      "issue_number": 62,
+      "task_id": "GH-62",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-READONLY-ACCEPT-20261117",
+      "chat_id": "CHAT-READONLY-ACCEPT-20261117",
+      "run_id": "RUN-20261117-READONLY-ACCEPTANCE-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-62-RUN-20261117-READONLY-ACCEPTANCE-001",
+      "acquired_at_utc": "2026-11-17T09:48:28.830Z",
+      "heartbeat_at_utc": "2026-11-17T09:48:28.830Z",
+      "lease_expires_at_utc": "2026-11-17T10:18:28.830Z",
+      "fencing_token": 82,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "module:readonly-evidence-acceptance",
+      "issue_number": 62,
+      "task_id": "GH-62",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-READONLY-ACCEPT-20261117",
+      "chat_id": "CHAT-READONLY-ACCEPT-20261117",
+      "run_id": "RUN-20261117-READONLY-ACCEPTANCE-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-62-RUN-20261117-READONLY-ACCEPTANCE-001",
+      "acquired_at_utc": "2026-11-17T09:48:28.830Z",
+      "heartbeat_at_utc": "2026-11-17T09:48:28.830Z",
+      "lease_expires_at_utc": "2026-11-17T10:18:28.830Z",
+      "fencing_token": 82,
+      "status": "ACTIVE"
+    }
+  ],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -3174,6 +3239,26 @@
       "branch": null,
       "target_repository": "a4adelahmadian86-wq/non",
       "at_utc": "2026-11-17T09:47:53.804Z"
+    },
+    {
+      "event": "ACQUIRED",
+      "issue_number": 62,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-READONLY-ACCEPT-20261117",
+      "run_id": "RUN-20261117-READONLY-ACCEPTANCE-001",
+      "resource_keys": [
+        "file:.github/scripts/work-item-core.js",
+        "file:.github/scripts/work-item-core.test.js",
+        "file:.github/workflows/farast-coordinator.yml",
+        "module:readonly-evidence-acceptance"
+      ],
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-62-RUN-20261117-READONLY-ACCEPTANCE-001",
+      "previous_branch": null,
+      "previous_target_repository": null,
+      "previous_run_id": null,
+      "fencing_token": 82,
+      "at_utc": "2026-11-17T09:48:28.830Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -6453,6 +6538,15 @@
       "command": "review",
       "next_status": "review",
       "at_utc": "2026-11-17T09:47:53.901Z"
+    },
+    "6944525401": {
+      "response": "CLAIM GRANTED. TASK=GH-62; WORK_ITEM_ID=WI-READONLY-EVIDENCE-ACCEPTANCE-001; verified_steps=; remaining_steps=S0_REPRODUCE,S1_POLICY,S2_IMPLEMENT,S3_REGRESSION,S4_COMPATIBILITY,S5_CI,S6_HANDOFF; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; actor=@a4adelahmadian86-wq; chat=CHAT-READONLY-ACCEPT-20261117; run=RUN-20261117-READONLY-ACCEPTANCE-001; resource_keys=file:.github/scripts/work-item-core.js,file:.github/scripts/work-item-core.test.js,file:.github/workflows/farast-coordinator.yml,module:readonly-evidence-acceptance; target_repository=a4adelahmadian86-wq/farast-control-plane; write_policy=WRITE_ALLOWED; branch=work/GH-62-RUN-20261117-READONLY-ACCEPTANCE-001; previous_run=none; fencing_token=82; lease_expires=2026-11-17T10:18:28.830Z. این Work Item با سیاست WRITE_ALLOWED است؛ branch را فقط در target_repository ثبت‌شده بساز و قبل از هر write heartbeat/token را دوباره تأیید کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز و branch قبلی را تغییر نده.",
+      "response_posted": false,
+      "issue_number": 62,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "locked",
+      "at_utc": "2026-11-17T09:48:28.837Z"
     }
   },
   "work_items": {
@@ -8746,6 +8840,156 @@
       ],
       "priority": 35,
       "created_at_utc": "2026-11-16T18:33:00Z"
+    },
+    "62": {
+      "schema_version": "1.0",
+      "write_policy": "WRITE_ALLOWED",
+      "priority_source": "OWNER_ASSIGNED",
+      "work_item_id": "WI-READONLY-EVIDENCE-ACCEPTANCE-001",
+      "title": "Enable evidence-only machine acceptance for READ_ONLY Work Items",
+      "parent_goal_ids": [
+        "G-00",
+        "G-09"
+      ],
+      "parent_exp_ids": [
+        "EXP-01",
+        "EXP-24",
+        "EXP-27"
+      ],
+      "status": "CLAIMED",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "resource_keys": [
+        "file:.github/workflows/farast-coordinator.yml",
+        "file:.github/scripts/work-item-core.js",
+        "file:.github/scripts/work-item-core.test.js",
+        "module:readonly-evidence-acceptance"
+      ],
+      "dependencies": [],
+      "effort_estimate_minutes": 25,
+      "effort_rationale": "Focused coordinator policy change, regression tests and exact-head CI; no forced waiting.",
+      "depth_profile": {
+        "profile_version": "2.0.0",
+        "min_substantive_steps": 7,
+        "min_acceptance_criteria": 5,
+        "min_deliverables": 4,
+        "target_effort_minutes": 25
+      },
+      "steps": [
+        {
+          "step_id": "S0_REPRODUCE",
+          "title": "Reproduce PR-less READ_ONLY acceptance failure",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Evidence-backed reproduction from Issue #13",
+          "evidence_requirement": "Issue #13 progress, criteria and current coordinator accept logic",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S1_POLICY",
+          "title": "Define fail-closed write-policy-specific acceptance rules",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Documented acceptance matrix for all write policies",
+          "evidence_requirement": "Policy decision and positive/negative cases",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S2_IMPLEMENT",
+          "title": "Implement READ_ONLY evidence-only acceptance path",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Coordinator accepts valid READ_ONLY work without PR while preserving write paths",
+          "evidence_requirement": "Code diff and focused test result",
+          "estimate_minutes": 5
+        },
+        {
+          "step_id": "S3_REGRESSION",
+          "title": "Add fail-closed and policy-isolation regression tests",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Automated coverage for positive and negative acceptance cases",
+          "evidence_requirement": "Named tests and passing test output",
+          "estimate_minutes": 5
+        },
+        {
+          "step_id": "S4_COMPATIBILITY",
+          "title": "Verify write-capable acceptance and fencing/authorization compatibility",
+          "required": true,
+          "weight": 1,
+          "expected_output": "No regression to PR, branch, exact-head CI or owner authorization gates",
+          "evidence_requirement": "Focused compatibility test results and policy-path inspection",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S5_CI",
+          "title": "Run exact-head focused and full control-plane CI",
+          "required": true,
+          "weight": 1,
+          "expected_output": "All required automated checks pass on exact PR head",
+          "evidence_requirement": "Actions URL and exact SHA",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S6_HANDOFF",
+          "title": "Publish merge, acceptance and checkpoint evidence",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Merged implementation with machine-verified acceptance",
+          "evidence_requirement": "PR URL, merge SHA, CI and acceptance response",
+          "estimate_minutes": 2
+        }
+      ],
+      "acceptance_criteria": [
+        {
+          "criterion_id": "AC_READONLY_ACCEPT",
+          "title": "Valid READ_ONLY Work Items are accepted without PR, branch or human review",
+          "evidence_requirement": "Issue #13 or equivalent automated end-to-end acceptance test"
+        },
+        {
+          "criterion_id": "AC_FAIL_CLOSED",
+          "title": "Missing evidence, failed criteria/steps, unresolved hard gates or active lease prevent acceptance",
+          "evidence_requirement": "Negative regression tests for every blocker"
+        },
+        {
+          "criterion_id": "AC_WRITE_GUARD",
+          "title": "Write-capable tasks retain PR, branch lineage, exact-head CI and owner-authorization requirements",
+          "evidence_requirement": "Compatibility regression tests and coordinator path inspection"
+        },
+        {
+          "criterion_id": "AC_NO_HUMAN_REVIEW",
+          "title": "No second human reviewer/signoff is required; machine gates remain fail-closed",
+          "evidence_requirement": "Automated acceptance test without review event plus policy tests"
+        },
+        {
+          "criterion_id": "AC_REGRESSION",
+          "title": "Focused tests and full CI pass on the exact final PR head",
+          "evidence_requirement": "Actions checks and exact head SHA"
+        }
+      ],
+      "deliverables": [
+        {
+          "deliverable_id": "D1",
+          "description": "Reproduction and acceptance policy report",
+          "evidence_requirement": "Issue comment and policy matrix"
+        },
+        {
+          "deliverable_id": "D2",
+          "description": "Coordinator code and regression tests",
+          "evidence_requirement": "PR file list and test evidence"
+        },
+        {
+          "deliverable_id": "D3",
+          "description": "Write-policy compatibility and safety validation",
+          "evidence_requirement": "Passing compatibility test output"
+        },
+        {
+          "deliverable_id": "D4",
+          "description": "Merged PR and automated acceptance proof",
+          "evidence_requirement": "Merge commit, exact-head CI and coordinator acceptance response"
+        }
+      ],
+      "priority": 20,
+      "created_at_utc": "2026-11-17T09:45:00Z"
     }
   },
   "checkpoints": {
