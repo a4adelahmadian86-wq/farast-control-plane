@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 761,
+  "revision": 762,
   "next_fencing_token": 83,
   "locks": [
     {
@@ -6571,7 +6571,7 @@
     },
     "6944609613": {
       "response": "Claim رد شد: این TASK هم‌اکنون در اختیار @a4adelahmadian86-wq با run=RUN-20261117-READONLY-ACCEPTANCE-001 است؛ برای جلوگیری از دو نویسنده روی یک branch، ابتدا handoff یا انقضای lease لازم است.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 62,
       "actor": "a4adelahmadian86-wq",
       "command": "claim",
