@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 642,
+  "revision": 643,
   "next_fencing_token": 78,
   "locks": [
     {
@@ -5764,6 +5764,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-17T09:11:35.894Z"
+    },
+    "6943732134": {
+      "response": "STEP ثبت شد: S1_PRIORITY_CONTRACT; EXECUTION_PROGRESS=28.57%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=2/7.",
+      "response_posted": false,
+      "issue_number": 59,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-17T09:12:02.930Z"
     }
   },
   "work_items": {
@@ -7733,7 +7742,15 @@
           "weight": 1,
           "expected_output": "Canonical priority-order document and catalog reference",
           "evidence_requirement": "Read-back URLs for canonical order and catalog; explicit advisory/non-gating semantics",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-59-RUN-20261117-ORDER-DEPENDENCY-REPAIR-002/05_PROMPT_LIBRARY/OWNER_APPROVED_PROMPT_PRIORITY_ORDER.md",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-59-RUN-20261117-ORDER-DEPENDENCY-REPAIR-002/05_PROMPT_LIBRARY/PROMPT_CATALOG.md"
+          ],
+          "validated_at_utc": "2026-11-17T09:12:02.924Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S2_GRAPH_AND_BASELINE",
