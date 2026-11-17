@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1274,
+  "revision": 1275,
   "next_fencing_token": 102,
   "locks": [
     {
@@ -10959,7 +10959,7 @@
     },
     "6955252974": {
       "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-EXP22-CONTROLLED-IMPLEMENTATION-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=After evidence-only acceptance of EXP-22, resume EXP-23 and add the Trust Center global-search regression matrix; accept EXP-23 only with gaps explicitly scoped. Then revalidate the product_implementation gate and claim Issue #51 only after EXP-21/22/23 are ACCEPTED; keep the NON PR open and unmerged.; remaining_steps=.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 34,
       "actor": "a4adelahmadian86-wq",
       "command": "checkpoint",
