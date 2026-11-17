@@ -268,6 +268,8 @@ jobs:
           assert bundle.count("INTERRUPTION_RECOVERY_PROTOCOL.md") >= 1
           assert bundle.count("blob/main/START_HERE.md") >= 17
           assert "WORK_ITEM_EXECUTION_PROTOCOL.md" in bundle
+          assert "coordinatorCore.hasSuccessfulChecks(checkRuns, combinedStatus.data)" in coordinator
+          assert "checkRuns.data.check_runs" not in coordinator
           assert "/farast step" in bundle and "/farast checkpoint" in bundle
           assert "- EXP: EXP-02, EXP-17" not in bundle
           assert "این مخزن فعلاً فاقد سرویس قفل مستقل است" not in Path("00_PROJECT_FOUNDATION/KNOWN_UNKNOWN.md").read_text(encoding="utf-8")

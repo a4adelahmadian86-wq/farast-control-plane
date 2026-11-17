@@ -398,7 +398,7 @@ jobs:
                     const branchBound = coordinatorCore.matchesReviewLease(pr, reviewEvent);
                     const checkRuns = await prClient.paginate(prClient.rest.checks.listForRef, { owner: prOwner, repo: prRepo, ref: pr.head.sha, per_page: 100 });
                     const combinedStatus = await prClient.rest.repos.getCombinedStatusForRef({ owner: prOwner, repo: prRepo, ref: pr.head.sha });
-                    const automatedChecksPassed = coordinatorCore.hasSuccessfulChecks(checkRuns.data.check_runs, combinedStatus.data);
+                    const automatedChecksPassed = coordinatorCore.hasSuccessfulChecks(checkRuns, combinedStatus.data);
                     const acceptanceItem = savedWorkItemFor(state, issue);
                     const hardGate = acceptanceItem ? workItemCore.evaluateHardGates(acceptanceItem, dependencyGraph, Object.values(state.work_items || {})) : { ready: false, blockers: ['work_item_spec_missing'] };
                     if (!labelsOf(issue).includes('agent:review') || current.length) response = 'پذیرش رد شد: وظیفه باید در وضعیت review و بدون lease فعال باشد.';
