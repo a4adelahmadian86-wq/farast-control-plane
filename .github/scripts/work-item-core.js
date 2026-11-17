@@ -7,6 +7,10 @@ const STATUSES = Object.freeze([
 const TERMINAL = new Set(['ACCEPTED','REJECTED','CANCELLED']);
 const VALIDATION = new Set(['NOT_RUN','PASS','FAIL','BLOCKED','UNKNOWN']);
 const PRODUCT_REPOSITORY = 'a4adelahmadian86-wq/non';
+const CONTROL_PLANE_REPOSITORY = 'a4adelahmadian86-wq/farast-control-plane';
+const BASE_OPERATIONS = new Set(['analysis','proposal_only','control_plane_write','repository_write']);
+const ACTION_OPERATIONS = new Set(['product_implementation','destructive_data_change','database_migration','authorization_change','security_sensitive_change','audit_log_change','architecture_implementation','hosting_specific_deployment','legal_policy_change','merge','product_acceptance','security_acceptance','production_release']);
+const ALL_OPERATIONS = new Set([...BASE_OPERATIONS, ...ACTION_OPERATIONS]);
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -27,6 +31,11 @@ function validateWorkItem(item) {
   assert(typeof item.target_repository === 'string' && /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(item.target_repository), 'invalid target_repository');
   assert(['READ_ONLY','WRITE_REQUIRES_OWNER_APPROVAL','WRITE_ALLOWED'].includes(item.write_policy), 'invalid write_policy');
   assert(['OWNER_ASSIGNED','DEFAULT_POLICY'].includes(item.priority_source), 'invalid priority_source');
+  if (item.requested_operations !== undefined) {
+    assert(Array.isArray(item.requested_operations) && item.requested_operations.length > 0, 'requested_operations must be a non-empty array');
+    assert(item.requested_operations.every(x => typeof x === 'string' && x.trim()), 'requested_operations must contain non-empty strings');
+    assert(new Set(item.requested_operations).size === item.requested_operations.length, 'requested_operations must be unique');
+  }
   if (item.target_repository === PRODUCT_REPOSITORY && item.write_policy === 'WRITE_ALLOWED') assert(typeof item.owner_approval_ref === 'string' && item.owner_approval_ref.trim(), 'owner_approval_ref is required for NON WRITE_ALLOWED');
   if (item.write_policy === 'WRITE_REQUIRES_OWNER_APPROVAL') assert(typeof item.owner_approval_ref === 'string' && item.owner_approval_ref.trim(), 'owner_approval_ref is required for approval-gated writes');
   assert(Array.isArray(item.resource_keys) && item.resource_keys.length > 0, 'resource_keys are required');
@@ -202,24 +211,80 @@ function primaryExpId(item) {
   return parentExpIds[0] || null;
 }
 
-function evaluateHardGates(item, graph, workItems = []) {
-  if (!Array.isArray(graph?.nodes)) return { ready: false, exp_id: null, blockers: ['dependency_graph_unavailable'] };
-  const expId = primaryExpId(item);
-  if (!expId) return { ready: false, exp_id: null, blockers: ['primary_exp_unresolved'] };
-  const node = graph.nodes.find(candidate => candidate.id === expId);
-  if (!node || !Array.isArray(node.hard_gates)) return { ready: false, exp_id: expId, blockers: ['missing_or_invalid_graph_node:' + expId] };
+function defaultRequestedOperations(item) {
+  if (Array.isArray(item?.requested_operations)) return item.requested_operations;
+  if (item?.write_policy === 'READ_ONLY') return ['analysis'];
+  if (item?.write_policy === 'WRITE_REQUIRES_OWNER_APPROVAL') return ['proposal_only'];
+  if (item?.target_repository === PRODUCT_REPOSITORY) return ['product_implementation'];
+  if (item?.target_repository === CONTROL_PLANE_REPOSITORY) return ['control_plane_write'];
+  return ['repository_write'];
+}
+
+function validateDependencyGraph(graph) {
+  const errors = [];
+  if (!graph || typeof graph !== 'object' || !Array.isArray(graph.nodes)) return {valid:false,errors:['dependency_graph_nodes_required']};
+  const nodeIds = new Set();
+  for (const node of graph.nodes) {
+    if (!node || typeof node !== 'object' || !/^EXP-[0-9]{2}$/.test(String(node.id || ''))) { errors.push('invalid_exp_node_id'); continue; }
+    if (nodeIds.has(node.id)) errors.push('duplicate_exp_node:' + node.id);
+    nodeIds.add(node.id);
+    if (!Array.isArray(node.hard_gates)) errors.push('hard_gates_must_be_array:' + node.id);
+    else for (const gate of node.hard_gates) if (typeof gate !== 'string' || !/^EXP-[0-9]{2}$/.test(gate)) errors.push('non_exp_hard_gate:' + node.id + ':' + String(gate));
+    if (node.soft_inputs !== undefined && (!Array.isArray(node.soft_inputs) || !node.soft_inputs.every(x => typeof x === 'string' && /^EXP-[0-9]{2}$/.test(x))) ) errors.push('invalid_soft_inputs:' + node.id);
+  }
+  if (graph.operation_gates !== undefined && !Array.isArray(graph.operation_gates)) errors.push('operation_gates_must_be_array');
+  const gateIds = new Set();
+  for (const gate of graph.operation_gates || []) {
+    if (!gate || !ACTION_OPERATIONS.has(gate.id)) { errors.push('unknown_operation_gate:' + String(gate?.id)); continue; }
+    if (gateIds.has(gate.id)) errors.push('duplicate_operation_gate:' + gate.id);
+    gateIds.add(gate.id);
+    if (!Array.isArray(gate.required_work_item_ids) || !gate.required_work_item_ids.length || !gate.required_work_item_ids.every(x => typeof x === 'string' && /^[A-Z0-9][A-Z0-9._-]{2,63}$/.test(x))) errors.push('invalid_required_work_item_ids:' + gate.id);
+    if (gate.applies_to_exp_ids !== undefined && (!Array.isArray(gate.applies_to_exp_ids) || !gate.applies_to_exp_ids.every(x => typeof x === 'string' && /^EXP-[0-9]{2}$/.test(x)))) errors.push('invalid_operation_exp_scope:' + gate.id);
+    if (gate.applies_to_target_repositories !== undefined && (!Array.isArray(gate.applies_to_target_repositories) || !gate.applies_to_target_repositories.every(x => typeof x === 'string' && x.includes('/')))) errors.push('invalid_operation_repository_scope:' + gate.id);
+    if (typeof gate.owner_authorization_required !== 'boolean') errors.push('owner_authorization_required_missing:' + gate.id);
+    if (!Array.isArray(gate.evidence_requirements) || !gate.evidence_requirements.length || !gate.evidence_requirements.every(x => typeof x === 'string' && x.trim())) errors.push('evidence_requirements_missing:' + gate.id);
+  }
+  for (const operation of ACTION_OPERATIONS) if (!(graph.operation_gates || []).some(g => g?.id === operation)) errors.push('operation_gate_definition_missing:' + operation);
+  return {valid:errors.length===0,errors};
+}
+
+function evaluateOperationGates(item, graph, workItems = [], options = {}) {
+  const requested = options.requestedOperations || defaultRequestedOperations(item);
   const blockers = [];
-  for (const gate of node.hard_gates) {
-    if (/^EXP-[0-9]{2}$/.test(gate)) {
-      const matches = workItems.filter(candidate => primaryExpId(candidate) === gate);
-      if (matches.length !== 1) blockers.push(matches.length ? 'ambiguous_hard_gate:' + gate : 'unresolved_hard_gate:' + gate);
-      else if (matches[0].status !== 'ACCEPTED') blockers.push('hard_gate_not_accepted:' + gate + ':' + matches[0].status);
-    } else {
-      // Operational gates need their own authoritative evidence model; never guess their meaning.
-      blockers.push('unsupported_hard_gate:' + gate);
+  for (const operation of requested) {
+    if (!ALL_OPERATIONS.has(operation)) { blockers.push('unknown_requested_operation:' + operation); continue; }
+    if (BASE_OPERATIONS.has(operation)) continue;
+    const gate = (graph.operation_gates || []).find(g => g.id === operation);
+    if (!gate) { blockers.push('operation_gate_definition_missing:' + operation); continue; }
+    const repoApplies = !Array.isArray(gate.applies_to_target_repositories) || gate.applies_to_target_repositories.includes(item.target_repository);
+    const expApplies = !Array.isArray(gate.applies_to_exp_ids) || gate.applies_to_exp_ids.includes(primaryExpId(item));
+    if (!repoApplies || !expApplies) continue;
+    if (gate.owner_authorization_required && (item.write_policy !== 'WRITE_ALLOWED' || !String(item.owner_approval_ref || '').trim())) blockers.push('owner_authorization_required:' + operation);
+    for (const id of gate.required_work_item_ids) {
+      const matches = workItems.filter(x => x.work_item_id === id);
+      if (matches.length !== 1) blockers.push((matches.length ? 'ambiguous' : 'missing') + '_operation_prerequisite:' + operation + ':' + id);
+      else if (matches[0].status !== 'ACCEPTED') blockers.push('operation_prerequisite_not_accepted:' + operation + ':' + id + ':' + matches[0].status);
     }
   }
-  return { ready: blockers.length === 0, exp_id: expId, blockers, soft_inputs_ignored: node.soft_inputs || [] };
+  return {ready:blockers.length===0,blockers,requested_operations:requested};
+}
+
+function evaluateHardGates(item, graph, workItems = [], options = {}) {
+  const checked = validateDependencyGraph(graph);
+  if (!checked.valid) return {ready:false,exp_id:primaryExpId(item),blockers:checked.errors.map(x=>'invalid_dependency_graph:'+x),dependency_blockers:checked.errors,operation_blockers:[]};
+  const expId = primaryExpId(item);
+  if (!expId) return {ready:false,exp_id:null,blockers:['primary_exp_unresolved'],dependency_blockers:['primary_exp_unresolved'],operation_blockers:[]};
+  const node = graph.nodes.find(x=>x.id===expId);
+  if (!node || !Array.isArray(node.hard_gates)) return {ready:false,exp_id:expId,blockers:['missing_or_invalid_graph_node:'+expId],dependency_blockers:['missing_or_invalid_graph_node:'+expId],operation_blockers:[]};
+  const dependencyBlockers = [];
+  for (const gate of node.hard_gates) {
+    const matches = workItems.filter(x=>primaryExpId(x)===gate);
+    if (matches.length!==1) dependencyBlockers.push((matches.length?'ambiguous':'unresolved')+'_hard_gate:'+gate);
+    else if (matches[0].status!=='ACCEPTED') dependencyBlockers.push('hard_gate_not_accepted:'+gate+':'+matches[0].status);
+  }
+  const operations = evaluateOperationGates(item,graph,workItems,options);
+  const blockers = [...dependencyBlockers,...operations.blockers];
+  return {ready:blockers.length===0,exp_id:expId,blockers,dependency_blockers:dependencyBlockers,operation_blockers:operations.blockers,requested_operations:operations.requested_operations,soft_inputs_ignored:node.soft_inputs||[]};
 }
 
 function evaluateReadOnlyAcceptance(item, options = {}) {
@@ -323,6 +388,6 @@ function createCheckpoint(item, input) {
 
 module.exports = {
   STATUSES, validateWorkItem, validateProductWriteAuthorization, evidenceVerified, calculateProgress, validateLease,
-  recordStepEvidence, recordCriterionEvidence, primaryExpId, evaluateHardGates, evaluateReadOnlyAcceptance, dependencyReady, selectNextWorkItem,
+  recordStepEvidence, recordCriterionEvidence, primaryExpId, defaultRequestedOperations, validateDependencyGraph, evaluateOperationGates, evaluateHardGates, evaluateReadOnlyAcceptance, dependencyReady, selectNextWorkItem,
   resumePlan, createCheckpoint
 };
