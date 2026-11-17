@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 703,
+  "revision": 704,
   "next_fencing_token": 81,
   "locks": [
     {
@@ -6331,7 +6331,7 @@
     },
     "6944163989": {
       "response": "معیار پذیرش ثبت شد: AC_LIVE_SMOKE; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; can_accept=true.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 52,
       "actor": "a4adelahmadian86-wq",
       "command": "criterion",
