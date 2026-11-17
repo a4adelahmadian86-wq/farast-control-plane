@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1061,
+  "revision": 1062,
   "next_fencing_token": 96,
   "locks": [
     {
@@ -9390,6 +9390,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-17T12:28:58.709Z"
+    },
+    "6948047219": {
+      "response": "STEP ثبت شد: S5_CONCURRENCY; EXECUTION_PROGRESS=85.71%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=6/7.",
+      "response_posted": false,
+      "issue_number": 69,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-17T12:29:24.565Z"
     }
   },
   "work_items": {
@@ -12236,7 +12245,14 @@
           "weight": 1,
           "expected_output": "No double ownership under races",
           "evidence_requirement": "Concurrency fixtures and invariant assertions",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44083389499"
+          ],
+          "validated_at_utc": "2026-11-17T12:29:24.560Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S6_VERIFY_HANDOFF",
