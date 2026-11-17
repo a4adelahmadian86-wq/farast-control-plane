@@ -1,8 +1,105 @@
 {
   "schema_version": "1.0",
-  "revision": 1045,
-  "next_fencing_token": 94,
-  "locks": [],
+  "revision": 1046,
+  "next_fencing_token": 95,
+  "locks": [
+    {
+      "resource_key": "file:.github/scripts/work-item-core.js",
+      "issue_number": 64,
+      "task_id": "GH-64",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-PR16-OPGATE-RESUME-02",
+      "chat_id": "CHAT-PR16-OPGATE-RESUME-02",
+      "run_id": "RUN-20261117-OPGATE-RESUME-1200Z-002",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-64-RUN-20261117-OPGATE-RESUME-1200Z-002",
+      "acquired_at_utc": "2026-11-17T12:25:44.011Z",
+      "heartbeat_at_utc": "2026-11-17T12:25:44.011Z",
+      "lease_expires_at_utc": "2026-11-17T12:55:44.011Z",
+      "fencing_token": 94,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "file:.github/scripts/work-item-core.test.js",
+      "issue_number": 64,
+      "task_id": "GH-64",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-PR16-OPGATE-RESUME-02",
+      "chat_id": "CHAT-PR16-OPGATE-RESUME-02",
+      "run_id": "RUN-20261117-OPGATE-RESUME-1200Z-002",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-64-RUN-20261117-OPGATE-RESUME-1200Z-002",
+      "acquired_at_utc": "2026-11-17T12:25:44.011Z",
+      "heartbeat_at_utc": "2026-11-17T12:25:44.011Z",
+      "lease_expires_at_utc": "2026-11-17T12:55:44.011Z",
+      "fencing_token": 94,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "file:.github/workflows/farast-coordinator.yml",
+      "issue_number": 64,
+      "task_id": "GH-64",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-PR16-OPGATE-RESUME-02",
+      "chat_id": "CHAT-PR16-OPGATE-RESUME-02",
+      "run_id": "RUN-20261117-OPGATE-RESUME-1200Z-002",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-64-RUN-20261117-OPGATE-RESUME-1200Z-002",
+      "acquired_at_utc": "2026-11-17T12:25:44.011Z",
+      "heartbeat_at_utc": "2026-11-17T12:25:44.011Z",
+      "lease_expires_at_utc": "2026-11-17T12:55:44.011Z",
+      "fencing_token": 94,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "file:01_strategy/dependency_graph.json",
+      "issue_number": 64,
+      "task_id": "GH-64",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-PR16-OPGATE-RESUME-02",
+      "chat_id": "CHAT-PR16-OPGATE-RESUME-02",
+      "run_id": "RUN-20261117-OPGATE-RESUME-1200Z-002",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-64-RUN-20261117-OPGATE-RESUME-1200Z-002",
+      "acquired_at_utc": "2026-11-17T12:25:44.011Z",
+      "heartbeat_at_utc": "2026-11-17T12:25:44.011Z",
+      "lease_expires_at_utc": "2026-11-17T12:55:44.011Z",
+      "fencing_token": 94,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "file:04_coordination/work_item_schema.json",
+      "issue_number": 64,
+      "task_id": "GH-64",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-PR16-OPGATE-RESUME-02",
+      "chat_id": "CHAT-PR16-OPGATE-RESUME-02",
+      "run_id": "RUN-20261117-OPGATE-RESUME-1200Z-002",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-64-RUN-20261117-OPGATE-RESUME-1200Z-002",
+      "acquired_at_utc": "2026-11-17T12:25:44.011Z",
+      "heartbeat_at_utc": "2026-11-17T12:25:44.011Z",
+      "lease_expires_at_utc": "2026-11-17T12:55:44.011Z",
+      "fencing_token": 94,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "module:operation-gate-model",
+      "issue_number": 64,
+      "task_id": "GH-64",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-PR16-OPGATE-RESUME-02",
+      "chat_id": "CHAT-PR16-OPGATE-RESUME-02",
+      "run_id": "RUN-20261117-OPGATE-RESUME-1200Z-002",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-64-RUN-20261117-OPGATE-RESUME-1200Z-002",
+      "acquired_at_utc": "2026-11-17T12:25:44.011Z",
+      "heartbeat_at_utc": "2026-11-17T12:25:44.011Z",
+      "lease_expires_at_utc": "2026-11-17T12:55:44.011Z",
+      "fencing_token": 94,
+      "status": "ACTIVE"
+    }
+  ],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -4509,6 +4606,28 @@
       "branch": "work/GH-69-RUN-20261117-LEASE-EXPIRY-FIX-001",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "at_utc": "2026-11-17T12:24:34.719Z"
+    },
+    {
+      "event": "ACQUIRED",
+      "issue_number": 64,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-PR16-OPGATE-RESUME-02",
+      "run_id": "RUN-20261117-OPGATE-RESUME-1200Z-002",
+      "resource_keys": [
+        "file:.github/scripts/work-item-core.js",
+        "file:.github/scripts/work-item-core.test.js",
+        "file:.github/workflows/farast-coordinator.yml",
+        "file:01_strategy/dependency_graph.json",
+        "file:04_coordination/work_item_schema.json",
+        "module:operation-gate-model"
+      ],
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-64-RUN-20261117-OPGATE-RESUME-1200Z-002",
+      "previous_branch": "work/GH-64-RUN-20261117-OPGATE-FINAL-002",
+      "previous_target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "previous_run_id": "RUN-20261117-OPGATE-FINAL-002",
+      "fencing_token": 94,
+      "at_utc": "2026-11-17T12:25:44.011Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -9084,6 +9203,15 @@
       "command": "status",
       "next_status": null,
       "at_utc": "2026-11-17T12:25:34.489Z"
+    },
+    "6947968025": {
+      "response": "CLAIM GRANTED. TASK=GH-64; WORK_ITEM_ID=WI-OPERATION-GATE-MODEL-001; verified_steps=; remaining_steps=S0_AUDIT,S1_POLICY,S2_GRAPH_SCHEMA,S3_EVALUATOR,S4_REGRESSION,S5_COMPATIBILITY_CI,S6_HANDOFF; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; actor=@a4adelahmadian86-wq; chat=CHAT-PR16-OPGATE-RESUME-02; run=RUN-20261117-OPGATE-RESUME-1200Z-002; resource_keys=file:.github/scripts/work-item-core.js,file:.github/scripts/work-item-core.test.js,file:.github/workflows/farast-coordinator.yml,file:01_strategy/dependency_graph.json,file:04_coordination/work_item_schema.json,module:operation-gate-model; target_repository=a4adelahmadian86-wq/farast-control-plane; write_policy=WRITE_ALLOWED; branch=work/GH-64-RUN-20261117-OPGATE-RESUME-1200Z-002; previous_run=RUN-20261117-OPGATE-FINAL-002; previous_target_repository=a4adelahmadian86-wq/farast-control-plane; previous_branch=work/GH-64-RUN-20261117-OPGATE-FINAL-002; fencing_token=94; lease_expires=2026-11-17T12:55:44.011Z. این Work Item با سیاست WRITE_ALLOWED است؛ branch را فقط در target_repository ثبت‌شده بساز و قبل از هر write heartbeat/token را دوباره تأیید کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز و branch قبلی را تغییر نده.",
+      "response_posted": false,
+      "issue_number": 64,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "locked",
+      "at_utc": "2026-11-17T12:25:44.012Z"
     }
   },
   "work_items": {
