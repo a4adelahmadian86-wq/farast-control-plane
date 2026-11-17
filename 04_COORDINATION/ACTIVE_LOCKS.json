@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1063,
+  "revision": 1064,
   "next_fencing_token": 96,
   "locks": [
     {
@@ -9399,6 +9399,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-17T12:29:24.565Z"
+    },
+    "6948048418": {
+      "response": "معیار پذیرش ثبت شد: AC_INVALID_FAIL_CLOSED; ACCEPTANCE_PROGRESS=14.28%; OVERALL_COMPLETION=14.28%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 69,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-17T12:29:32.730Z"
     }
   },
   "work_items": {
@@ -12268,7 +12277,14 @@
         {
           "criterion_id": "AC_INVALID_FAIL_CLOSED",
           "title": "Missing/malformed expiry on ACTIVE locks remains blocking and is never silently dropped",
-          "evidence_requirement": "expireLocks/activeForIssue/claimResources tests"
+          "evidence_requirement": "expireLocks/activeForIssue/claimResources tests",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/569bfc16d8721a0a6247063312467aad19d5870d"
+          ],
+          "validated_at_utc": "2026-11-17T12:29:32.729Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_EXPIRED_VALID",
