@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1328,
+  "revision": 1329,
   "next_fencing_token": 105,
   "locks": [
     {
@@ -11406,6 +11406,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-17T17:25:31.677Z"
+    },
+    "6955594925": {
+      "response": "STEP ثبت شد: S7_HANDOFF; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=8/8.",
+      "response_posted": false,
+      "issue_number": 77,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-17T17:25:40.188Z"
     }
   },
   "work_items": {
@@ -14887,7 +14896,14 @@
           "weight": 1,
           "expected_output": "Merged compatibility repair and verified machine-only Work Item acceptance",
           "evidence_requirement": "PR URL, merge SHA, CI and coordinator acceptance response",
-          "estimate_minutes": 2
+          "estimate_minutes": 2,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/79"
+          ],
+          "validated_at_utc": "2026-11-17T17:25:40.188Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "acceptance_criteria": [
