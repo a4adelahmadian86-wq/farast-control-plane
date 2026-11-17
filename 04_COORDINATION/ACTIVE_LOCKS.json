@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "revision": 1282,
-  "next_fencing_token": 102,
+  "revision": 1283,
+  "next_fencing_token": 103,
   "locks": [
     {
       "resource_key": "file:.github/scripts/work-item-core.js",
@@ -81,6 +81,22 @@
       "heartbeat_at_utc": "2026-11-17T16:51:58.360Z",
       "lease_expires_at_utc": "2026-11-17T17:21:58.360Z",
       "fencing_token": 99,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "analysis:exp-23",
+      "issue_number": 35,
+      "task_id": "GH-35",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-PR16-EXP23-RESUME-20261117",
+      "chat_id": "CHAT-PR16-EXP23-RESUME-20261117",
+      "run_id": "RUN-20261117-PR16-EXP23-RESUME-1714Z-001",
+      "target_repository": "a4adelahmadian86-wq/non",
+      "branch": null,
+      "acquired_at_utc": "2026-11-17T17:14:11.594Z",
+      "heartbeat_at_utc": "2026-11-17T17:14:11.594Z",
+      "lease_expires_at_utc": "2026-11-17T17:44:11.594Z",
+      "fencing_token": 102,
       "status": "ACTIVE"
     }
   ],
@@ -5366,6 +5382,23 @@
       "work_item_id": "WI-EXP23-REGRESSION-001",
       "preserved_steps": 7,
       "at_utc": "2026-11-17T17:13:28.281Z"
+    },
+    {
+      "event": "ACQUIRED",
+      "issue_number": 35,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-PR16-EXP23-RESUME-20261117",
+      "run_id": "RUN-20261117-PR16-EXP23-RESUME-1714Z-001",
+      "resource_keys": [
+        "analysis:exp-23"
+      ],
+      "target_repository": "a4adelahmadian86-wq/non",
+      "branch": null,
+      "previous_branch": null,
+      "previous_target_repository": null,
+      "previous_run_id": null,
+      "fencing_token": 102,
+      "at_utc": "2026-11-17T17:14:11.594Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -10994,6 +11027,15 @@
       "command": "unblock",
       "next_status": null,
       "at_utc": "2026-11-17T17:13:44.040Z"
+    },
+    "6955312417": {
+      "response": "CLAIM GRANTED. TASK=GH-35; WORK_ITEM_ID=WI-EXP23-REGRESSION-001; verified_steps=S1_DISCOVER,S2_MAP,S3_ANALYZE,S4_CROSSCHECK,S5_ASSESS,S6_REPORT,S7_VERIFY; remaining_steps=; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=75%; OVERALL_COMPLETION=75%; actor=@a4adelahmadian86-wq; chat=CHAT-PR16-EXP23-RESUME-20261117; run=RUN-20261117-PR16-EXP23-RESUME-1714Z-001; resource_keys=analysis:exp-23; target_repository=a4adelahmadian86-wq/non; write_policy=READ_ONLY; branch=none; previous_run=none; fencing_token=102; lease_expires=2026-11-17T17:44:11.594Z. این Work Item با سیاست READ_ONLY است؛ در target_repository هیچ branch، file، commit یا PR ایجاد/تغییر نده. شواهد را فقط در Issue thread یا محل مجاز control-plane ثبت کن؛ برای WRITE_REQUIRES_OWNER_APPROVAL فقط proposal ارائه بده.",
+      "response_posted": false,
+      "issue_number": 35,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "locked",
+      "at_utc": "2026-11-17T17:14:11.595Z"
     }
   },
   "work_items": {
@@ -11996,7 +12038,7 @@
       "parent_exp_ids": [
         "EXP-23"
       ],
-      "status": "READY",
+      "status": "CLAIMED",
       "target_repository": "a4adelahmadian86-wq/non",
       "resource_keys": [
         "analysis:exp-23"
