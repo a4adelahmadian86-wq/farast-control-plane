@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1515,
+  "revision": 1516,
   "next_fencing_token": 108,
   "locks": [
     {
@@ -13477,6 +13477,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-17T18:28:22.975Z"
+    },
+    "6957146109": {
+      "response": "معیار پذیرش ثبت شد: AC_REVIEW_READY_HANDOFF; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; can_accept=true.",
+      "response_posted": false,
+      "issue_number": 51,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-17T18:28:49.435Z"
     }
   },
   "work_items": {
@@ -15218,7 +15227,7 @@
         "EXP-22",
         "EXP-23"
       ],
-      "status": "IN_PROGRESS",
+      "status": "REVIEW_REQUIRED",
       "target_repository": "a4adelahmadian86-wq/non",
       "resource_keys": [
         "repo:non:controlled-implementation"
@@ -15383,7 +15392,14 @@
         {
           "criterion_id": "AC_REVIEW_READY_HANDOFF",
           "title": "A review-ready PR, exact head SHA, evidence links, risks and rollback instructions are recorded; no merge, deployment or release is performed",
-          "evidence_requirement": "Evidence: review-ready PR URL and exact head SHA, successful required checks, linked Issue, risk/rollback note and durable checkpoint; no merge or deployment is authorized."
+          "evidence_requirement": "Evidence: review-ready PR URL and exact head SHA, successful required checks, linked Issue, risk/rollback note and durable checkpoint; no merge or deployment is authorized.",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/non/pull/689"
+          ],
+          "validated_at_utc": "2026-11-17T18:28:49.434Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "priority": 50,
