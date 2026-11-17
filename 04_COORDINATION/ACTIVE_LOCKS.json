@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1525,
+  "revision": 1526,
   "next_fencing_token": 108,
   "locks": [],
   "history": [
@@ -6841,6 +6841,13 @@
       "branch": "work/GH-51-RUN-20261117-READER-DEMO-2124Z-001",
       "target_repository": "a4adelahmadian86-wq/non",
       "at_utc": "2026-11-17T18:32:14.273Z"
+    },
+    {
+      "event": "DEPENDENCY_AUTO_UNBLOCKED",
+      "issue_number": 68,
+      "work_item_id": "WI-LEGACY-WRITE-SCOPE-MIGRATION-001",
+      "preserved_steps": 0,
+      "at_utc": "2026-11-17T21:17:37.453Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -16903,6 +16910,179 @@
       ],
       "priority": 10,
       "created_at_utc": "2026-11-17T11:08:00Z"
+    },
+    "68": {
+      "schema_version": "1.0",
+      "operation_scope_version": "1.0",
+      "requested_operations": [
+        "control_plane_write"
+      ],
+      "write_policy": "WRITE_ALLOWED",
+      "priority_source": "OWNER_ASSIGNED",
+      "work_item_id": "WI-LEGACY-WRITE-SCOPE-MIGRATION-001",
+      "title": "Migrate all active legacy WRITE_ALLOWED Work Items to explicit versioned operation scope without breaking allocator bootstrap",
+      "parent_goal_ids": [
+        "G-09"
+      ],
+      "parent_exp_ids": [
+        "EXP-01",
+        "EXP-22",
+        "EXP-23"
+      ],
+      "status": "READY",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "resource_keys": [
+        "module:legacy-operation-scope-migration",
+        "issue:11",
+        "issue:43",
+        "issue:44",
+        "issue:47",
+        "issue:50",
+        "issue:51",
+        "issue:52",
+        "issue:58"
+      ],
+      "dependencies": [
+        {
+          "work_item_id": "WI-OPERATION-GATE-MODEL-001",
+          "status": "ACCEPTED"
+        }
+      ],
+      "effort_estimate_minutes": 25,
+      "effort_rationale": "Bounded inventory and metadata-only migration of existing active write-enabled Work Items with registry reconciliation and allocator bootstrap verification.",
+      "depth_profile": {
+        "profile_version": "2.0.0",
+        "min_substantive_steps": 7,
+        "min_acceptance_criteria": 5,
+        "min_deliverables": 4,
+        "target_effort_minutes": 25
+      },
+      "steps": [
+        {
+          "step_id": "S0_INVENTORY",
+          "title": "Inventory all open/closed Work Items and identify every active legacy WRITE_ALLOWED record",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Complete migration candidate matrix",
+          "evidence_requirement": "Issue URLs, current main SHA, schema/core/graph and lock registry read-back",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S1_CLASSIFY",
+          "title": "Classify target repository, owner authorization, intended operations and current task status for each candidate",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Policy-correct operation mapping",
+          "evidence_requirement": "Per-Issue policy and operation decision with source evidence",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S2_MIGRATE",
+          "title": "Add versioned operation fields to eligible Issues without changing unrelated task state",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Minimal metadata-only migration",
+          "evidence_requirement": "Before/after body diffs and read-back for every Issue",
+          "estimate_minutes": 5
+        },
+        {
+          "step_id": "S3_REGISTRY_SYNC",
+          "title": "Refresh coordinator registry from changed Issue JSON while preserving progress and checkpoints",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Registry and Issue state synchronized",
+          "evidence_requirement": "Refresh command responses and registry revision/read-back",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S4_BOOTSTRAP_CHECK",
+          "title": "Verify the canonical allocator remains claimable after operation-scope enforcement",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Allocator claimability and narrow legacy migration proof",
+          "evidence_requirement": "Claim/read-back evidence and regression test for unrelated legacy write denial",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S5_REGRESSION",
+          "title": "Run policy compatibility and migration regression tests",
+          "required": true,
+          "weight": 1,
+          "expected_output": "All operation-scope migration invariants pass",
+          "evidence_requirement": "Named tests, exact-head CI and no-bypass assertions",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S6_VERIFY_HANDOFF",
+          "title": "Read back all migrated records and publish the complete evidence matrix",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Auditable migration report and next actions",
+          "evidence_requirement": "Per-Issue SHAs/URLs, registry revision, CI and final status",
+          "estimate_minutes": 3
+        }
+      ],
+      "acceptance_criteria": [
+        {
+          "criterion_id": "AC_COMPLETE_INVENTORY",
+          "title": "Every open WRITE_ALLOWED Work Item is accounted for and no active task is silently made unclaimable",
+          "evidence_requirement": "Complete open-issue inventory with policy and operation-scope status"
+        },
+        {
+          "criterion_id": "AC_MINIMAL_MIGRATION",
+          "title": "Eligible Issues receive only the version and correct requested operations while all other fields/evidence remain unchanged",
+          "evidence_requirement": "Machine-readable before/after JSON diff for every migrated Issue"
+        },
+        {
+          "criterion_id": "AC_POLICY_CORRECT",
+          "title": "NON product, control-plane and other repository tasks have correct base operations and no unrequested sensitive actions",
+          "evidence_requirement": "Operation mapping table and schema/core validation"
+        },
+        {
+          "criterion_id": "AC_ALLOCATOR_BOOTSTRAP",
+          "title": "The canonical allocator remains claimable and can create future leaves under the accepted contract",
+          "evidence_requirement": "Live claim/read-back plus allocator-specific regression test"
+        },
+        {
+          "criterion_id": "AC_REGISTRY_SYNC",
+          "title": "Registry refresh preserves progress, checkpoints, locks and branch/PR lineage",
+          "evidence_requirement": "Issue/registry read-back and preserved evidence comparison"
+        },
+        {
+          "criterion_id": "AC_FAIL_CLOSED",
+          "title": "Unknown or ambiguous operations fail closed and READ_ONLY/proposal-only behavior is unchanged",
+          "evidence_requirement": "Negative and positive policy regression tests"
+        },
+        {
+          "criterion_id": "AC_EVIDENCE",
+          "title": "Every migration is traceable to exact Issue URLs, SHAs, refresh responses and CI",
+          "evidence_requirement": "Final evidence matrix"
+        }
+      ],
+      "deliverables": [
+        {
+          "deliverable_id": "D1",
+          "description": "Complete legacy WRITE_ALLOWED inventory and operation mapping",
+          "evidence_requirement": "Issue-by-Issue before-state matrix"
+        },
+        {
+          "deliverable_id": "D2",
+          "description": "Minimal versioned metadata migration",
+          "evidence_requirement": "Before/after JSON diffs and live Issue read-backs"
+        },
+        {
+          "deliverable_id": "D3",
+          "description": "Allocator and registry compatibility proof",
+          "evidence_requirement": "Claim, refresh and registry revision evidence"
+        },
+        {
+          "deliverable_id": "D4",
+          "description": "Regression/CI report and unresolved exception list",
+          "evidence_requirement": "Exact-head CI and all policy tests"
+        }
+      ],
+      "priority": 5,
+      "created_at_utc": "2026-11-17T11:16:00Z"
     },
     "69": {
       "schema_version": "1.0",
