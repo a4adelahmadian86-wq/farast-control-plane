@@ -337,6 +337,72 @@ test('control-plane action and generic repository writes cannot be inferred for 
  assert.ok(result.blockers.includes('requested_operations_required_for_write'));
 });
 
+test('every registered action operation is fail-closed until its exact prerequisites are ACCEPTED',()=>{
+ for(const operation of operationIds){
+  const targetRepo=['control_plane_write','control_plane_merge','control_plane_authorization_change'].includes(operation)
+    ? 'a4adelahmadian86-wq/farast-control-plane'
+    : operation==='repository_write' ? 'other/authorized-repo' : 'a4adelahmadian86-wq/non';
+  const requiredId='WI-REQUIRED-'+operation.toUpperCase().replace(/[^A-Z0-9]+/g,'-');
+  const target=item({
+   work_item_id:'WI-ACTION-'+operation.toUpperCase().replace(/[^A-Z0-9]+/g,'-'),
+   parent_exp_ids:['EXP-22','EXP-23'],
+   target_repository:targetRepo,
+   write_policy:'WRITE_ALLOWED',
+   owner_approval_ref:'https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/999',
+   requested_operations:[operation]
+  });
+  const gate=operationGates({
+   [operation]:{
+    applies_to_exp_ids:['EXP-23'],
+    applies_to_target_repositories:[targetRepo],
+    required_work_item_ids:[requiredId],
+    owner_authorization_required:true
+   }
+  });
+  const graph={nodes:[{id:'EXP-22',hard_gates:[]}],operation_gates:gate};
+  const blocked=wi.evaluateHardGates(target,graph,[target]);
+  assert.equal(blocked.ready,false,operation+' must fail closed without its prerequisite');
+  assert.ok(blocked.blockers.some(x=>x.includes(requiredId)),operation+' must name the missing exact Work Item');
+  const accepted=item({work_item_id:requiredId,parent_exp_ids:['EXP-23'],status:'ACCEPTED'});
+  const ready=wi.evaluateHardGates(target,graph,[target,accepted]);
+  assert.equal(ready.ready,true,operation+' must pass when exact prerequisites and owner authorization are present');
+ }
+});
+
+test('empty operation prerequisites are valid only with explicit evidence and authorization policy',()=>{
+ const target=item({work_item_id:'WI-OPERATION-GATE-MODEL-001',parent_exp_ids:['EXP-01'],target_repository:'a4adelahmadian86-wq/farast-control-plane',write_policy:'WRITE_ALLOWED'});
+ const graph=graphWith([{id:'EXP-01',hard_gates:[]}]);
+ assert.equal(wi.validateDependencyGraph(graph).valid,true);
+ assert.equal(wi.evaluateHardGates(target,graph,[target]).ready,true);
+ const malformed=graphWith([{id:'EXP-01',hard_gates:[]}],{control_plane_write:{evidence_requirements:[]}});
+ assert.equal(wi.validateDependencyGraph(malformed).valid,false);
+});
+
+test('missing operation registry and missing action definition fail closed',()=>{
+ const target=item({work_item_id:'WI-NON-IMPLEMENTATION-001',parent_exp_ids:['EXP-22'],target_repository:'a4adelahmadian86-wq/non',write_policy:'WRITE_ALLOWED',owner_approval_ref:'https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/51',requested_operations:['product_implementation']});
+ assert.equal(wi.evaluateHardGates(target,{nodes:[{id:'EXP-22',hard_gates:[]}]},[target]).ready,false);
+ const incomplete=graphWith([{id:'EXP-22',hard_gates:[]}]).operation_gates.filter(g=>g.id!=='product_implementation');
+ assert.equal(wi.evaluateHardGates(target,{nodes:[{id:'EXP-22',hard_gates:[]}],operation_gates:incomplete},[target]).ready,false);
+});
+
+test('action gate scope applies to every parent EXP and mismatched target is not silently authorized',()=>{
+ const target=item({work_item_id:'WI-NON-IMPLEMENTATION-001',parent_exp_ids:['EXP-22','EXP-23'],target_repository:'a4adelahmadian86-wq/non',write_policy:'WRITE_ALLOWED',owner_approval_ref:'https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/51',requested_operations:['merge']});
+ const gate={merge:{applies_to_exp_ids:['EXP-23'],applies_to_target_repositories:['a4adelahmadian86-wq/non'],required_work_item_ids:[],owner_authorization_required:true}};
+ const graph=graphWith([{id:'EXP-22',hard_gates:[]}],gate);
+ assert.equal(wi.evaluateHardGates(target,graph,[target],{requestedOperations:['merge']}).ready,true);
+ const wrongTarget=item({...target,target_repository:'a4adelahmadian86-wq/farast-control-plane'});
+ const wrong=wi.evaluateHardGates(wrongTarget,graph,[wrongTarget],{requestedOperations:['merge']});
+ assert.ok(wrong.blockers.includes('operation_scope_mismatch:merge:EXP-22,EXP-23'));
+});
+
+test('versioned operation scopes require requested_operations while legacy read-only items remain valid',()=>{
+ const legacy=item();
+ assert.equal(wi.validateWorkItem(legacy),true);
+ assert.throws(()=>wi.validateWorkItem(item({operation_scope_version:'1.0'})),/versioned operation scope requires requested_operations/);
+ const current=item({operation_scope_version:'1.0',requested_operations:['analysis']});
+ assert.equal(wi.validateWorkItem(current),true);
+});
+
 test('primary EXP scope uses the first explicitly ordered parent EXP for cross-cutting Work Items',()=>{
  const x=item({work_item_id:'WI-CROSS-CUTTING-001',parent_exp_ids:['EXP-01','EXP-22','EXP-23']});
  assert.equal(wi.primaryExpId(x),'EXP-01');
