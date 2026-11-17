@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1300,
+  "revision": 1301,
   "next_fencing_token": 103,
   "locks": [
     {
@@ -5430,6 +5430,13 @@
       "branch": null,
       "target_repository": "a4adelahmadian86-wq/non",
       "at_utc": "2026-11-17T17:17:17.364Z"
+    },
+    {
+      "event": "DEPENDENCY_AUTO_UNBLOCKED",
+      "issue_number": 51,
+      "work_item_id": "WI-NON-IMPLEMENTATION-VERTICAL-SLICE-001",
+      "preserved_steps": 0,
+      "at_utc": "2026-11-17T17:19:36.306Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
