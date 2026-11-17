@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1464,
+  "revision": 1465,
   "next_fencing_token": 108,
   "locks": [
     {
@@ -13168,6 +13168,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-17T18:04:10.735Z"
+    },
+    "6956579486": {
+      "response": "STEP ثبت شد: S1_PRODUCT_BASELINE; EXECUTION_PROGRESS=28.57%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=2/7.",
+      "response_posted": false,
+      "issue_number": 51,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-17T18:05:17.215Z"
     }
   },
   "work_items": {
@@ -14937,7 +14946,14 @@
           "required": true,
           "weight": 1,
           "expected_output": "Reproducible product snapshot and relevant test baseline, including explicit overlap check against live PRs",
-          "evidence_requirement": "Exact SHA, source URLs, test command/output and current PR/Issue links"
+          "evidence_requirement": "Exact SHA, source URLs, test command/output and current PR/Issue links",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/non/actions/runs/44087173992"
+          ],
+          "validated_at_utc": "2026-11-17T18:05:17.214Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S2_SELECT_SLICE",
