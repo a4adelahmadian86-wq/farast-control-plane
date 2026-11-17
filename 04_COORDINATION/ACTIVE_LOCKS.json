@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 650,
+  "revision": 651,
   "next_fencing_token": 78,
   "locks": [
     {
@@ -5800,6 +5800,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-17T09:12:48.631Z"
+    },
+    "6943753087": {
+      "response": "معیار پذیرش ثبت شد: AC_PRIORITY; ACCEPTANCE_PROGRESS=20%; OVERALL_COMPLETION=20%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 59,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-17T09:13:07.845Z"
     }
   },
   "work_items": {
@@ -7856,7 +7865,15 @@
         {
           "criterion_id": "AC_PRIORITY",
           "title": "The owner-approved PR-01..PR-17 order is recorded as advisory priority only and never creates chronological execution gates",
-          "evidence_requirement": "Canonical priority document and catalog read-back plus tests/wording confirming prompt IDs are stable identifiers"
+          "evidence_requirement": "Canonical priority document and catalog read-back plus tests/wording confirming prompt IDs are stable identifiers",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-59-RUN-20261117-ORDER-DEPENDENCY-REPAIR-002/05_PROMPT_LIBRARY/OWNER_APPROVED_PROMPT_PRIORITY_ORDER.md",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-59-RUN-20261117-ORDER-DEPENDENCY-REPAIR-002/05_PROMPT_LIBRARY/PROMPT_CATALOG.md"
+          ],
+          "validated_at_utc": "2026-11-17T09:13:07.840Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_EXP01_INDEPENDENCE",
