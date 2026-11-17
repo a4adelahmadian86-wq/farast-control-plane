@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1498,
+  "revision": 1499,
   "next_fencing_token": 108,
   "locks": [
     {
@@ -13453,6 +13453,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-17T18:24:44.115Z"
+    },
+    "6957059883": {
+      "response": "معیار پذیرش ثبت شد: AC_OWNER_AUTHORIZED_WRITE; ACCEPTANCE_PROGRESS=20%; OVERALL_COMPLETION=20%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 51,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-17T18:25:09.925Z"
     }
   },
   "work_items": {
@@ -15311,7 +15320,14 @@
         {
           "criterion_id": "AC_OWNER_AUTHORIZED_WRITE",
           "title": "The Work Item is owner-created, explicitly WRITE_ALLOWED for NON, and all product writes were performed only after CLAIM GRANTED, registry read-back and valid heartbeat/fencing token",
-          "evidence_requirement": "Evidence: owner-authored Issue #51 body, exact owner_approval_ref, successful /farast claim response, ACTIVE_LOCKS registry read-back and current fencing token."
+          "evidence_requirement": "Evidence: owner-authored Issue #51 body, exact owner_approval_ref, successful /farast claim response, ACTIVE_LOCKS registry read-back and current fencing token.",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/51"
+          ],
+          "validated_at_utc": "2026-11-17T18:25:09.924Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_REAL_PRODUCT_CHANGE",
