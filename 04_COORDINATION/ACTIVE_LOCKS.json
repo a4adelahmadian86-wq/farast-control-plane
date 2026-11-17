@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 686,
+  "revision": 687,
   "next_fencing_token": 80,
   "locks": [
     {
@@ -6273,6 +6273,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-17T09:27:37.864Z"
+    },
+    "6944065652": {
+      "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-PROMPT-ORDER-DEPENDENCY-REPAIR-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=Release; remaining_steps=.",
+      "response_posted": false,
+      "issue_number": 59,
+      "actor": "a4adelahmadian86-wq",
+      "command": "checkpoint",
+      "next_status": null,
+      "at_utc": "2026-11-17T09:28:15.696Z"
     }
   },
   "work_items": {
@@ -8653,6 +8662,56 @@
         "lease_expires_at_utc": "2026-11-16T13:10:55.149Z"
       },
       "next_action": "After PR #48 and #49 are independently reviewed and merged, retarget PR #53 to main, rerun CI, obtain independent review and merge; then /farast unblock Issue #51 and verify /farast progress before any product write."
+    },
+    "59": {
+      "work_item_id": "WI-PROMPT-ORDER-DEPENDENCY-REPAIR-001",
+      "run_id": "RUN-20261117-ORDER-DEPENDENCY-REPAIR-003",
+      "checkpoint_version": 1,
+      "created_at_utc": "2026-11-17T09:28:15.689Z",
+      "last_verified_step_id": "S6_STACK_AND_HANDOFF",
+      "current_step_id": "S6_STACK_AND_HANDOFF",
+      "completed_step_ids": [
+        "S0_AUDIT",
+        "S1_PRIORITY_CONTRACT",
+        "S2_GRAPH_AND_BASELINE",
+        "S3_REFRESH_GATE_ENFORCEMENT",
+        "S4_SCHEMA_REGISTRY_SYNC",
+        "S5_TEST_AND_BUNDLE",
+        "S6_STACK_AND_HANDOFF"
+      ],
+      "remaining_step_ids": [],
+      "progress_percentage": 100,
+      "execution_progress_percentage": 100,
+      "acceptance_progress_percentage": 100,
+      "overall_completion_percentage": 100,
+      "progress_calculation_version": "PROGRESS_V2",
+      "required_step_counts": {
+        "pass": 7,
+        "fail": 0,
+        "blocked": 0,
+        "unknown": 0,
+        "not_run": 0
+      },
+      "acceptance_criteria_counts": {
+        "pass": 5,
+        "fail": 0,
+        "blocked": 0,
+        "unknown": 0,
+        "not_run": 0
+      },
+      "evidence_refs": [
+        "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/f040479ca4219ff9e203c79253d27315e68d5131",
+        "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44054960206",
+        "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/13#issuecomment-6944008621"
+      ],
+      "blockers": [],
+      "owner": {
+        "actor": "a4adelahmadian86-wq",
+        "chat_id": "CHAT-FARAST-ORDER-20261117",
+        "fencing_token": 79,
+        "lease_expires_at_utc": "2026-11-17T09:50:47.266Z"
+      },
+      "next_action": "Release"
     }
   }
 }
