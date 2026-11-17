@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1238,
+  "revision": 1239,
   "next_fencing_token": 101,
   "locks": [
     {
@@ -10696,6 +10696,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-17T17:03:24.182Z"
+    },
+    "6955035223": {
+      "response": "معیار پذیرش ثبت شد: AC_OUTPUT; ACCEPTANCE_PROGRESS=75%; OVERALL_COMPLETION=75%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 33,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-17T17:03:30.884Z"
     }
   },
   "work_items": {
@@ -11411,7 +11420,14 @@
         {
           "criterion_id": "AC_OUTPUT",
           "title": "خروجی‌های تخصصی EXP-21 تولید و read-back شده‌اند: change proposal، acceptance spec، test/rollback plan، work breakdown.",
-          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion."
+          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion.",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/33#issuecomment-6954850072"
+          ],
+          "validated_at_utc": "2026-11-17T17:03:30.884Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_ACCEPTANCE",
