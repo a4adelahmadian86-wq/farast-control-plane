@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 724,
+  "revision": 725,
   "next_fencing_token": 82,
   "locks": [
     {
@@ -6315,6 +6315,15 @@
       "command": "block",
       "next_status": "blocked",
       "at_utc": "2026-11-17T09:38:15.320Z"
+    },
+    "6944299938": {
+      "response": "STEP ثبت شد: S4_RISK_REGISTER; EXECUTION_PROGRESS=71.42%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=5/7.",
+      "response_posted": false,
+      "issue_number": 13,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-17T09:38:41.387Z"
     }
   },
   "work_items": {
@@ -6705,7 +6714,21 @@
           "weight": 1,
           "expected_output": "Known-unknown and risk register with confidence and next evidence needed",
           "evidence_requirement": "Every finding linked to a source or explicitly marked as unavailable/UNKNOWN",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/non/branches",
+            "https://github.com/a4adelahmadian86-wq/non/pulls?state=open",
+            "https://github.com/a4adelahmadian86-wq/non/actions",
+            "https://github.com/a4adelahmadian86-wq/non/blob/main/.env.example",
+            "https://github.com/a4adelahmadian86-wq/non/blob/main/README.md",
+            "https://github.com/a4adelahmadian86-wq/non/blob/main/DEPLOY.md",
+            "https://github.com/a4adelahmadian86-wq/non/blob/main/render.yaml",
+            "https://github.com/a4adelahmadian86-wq/non/blob/main/.github/workflows/release.yml"
+          ],
+          "validated_at_utc": "2026-11-17T09:38:41.381Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S5_REPORT",
