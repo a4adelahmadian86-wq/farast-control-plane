@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "revision": 1257,
-  "next_fencing_token": 101,
+  "revision": 1258,
+  "next_fencing_token": 102,
   "locks": [
     {
       "resource_key": "file:.github/scripts/work-item-core.js",
@@ -81,6 +81,22 @@
       "heartbeat_at_utc": "2026-11-17T16:51:58.360Z",
       "lease_expires_at_utc": "2026-11-17T17:21:58.360Z",
       "fencing_token": 99,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "analysis:exp-22",
+      "issue_number": 34,
+      "task_id": "GH-34",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-PR16-EXP22-RESUME-20261117",
+      "chat_id": "CHAT-PR16-EXP22-RESUME-20261117",
+      "run_id": "RUN-20261117-PR16-EXP22-RESUME-1707Z-001",
+      "target_repository": "a4adelahmadian86-wq/non",
+      "branch": null,
+      "acquired_at_utc": "2026-11-17T17:07:58.601Z",
+      "heartbeat_at_utc": "2026-11-17T17:07:58.601Z",
+      "lease_expires_at_utc": "2026-11-17T17:37:58.601Z",
+      "fencing_token": 101,
       "status": "ACTIVE"
     }
   ],
@@ -5283,6 +5299,23 @@
       "work_item_id": "WI-EXP22-CONTROLLED-IMPLEMENTATION-001",
       "preserved_steps": 6,
       "at_utc": "2026-11-17T17:07:12.542Z"
+    },
+    {
+      "event": "ACQUIRED",
+      "issue_number": 34,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-PR16-EXP22-RESUME-20261117",
+      "run_id": "RUN-20261117-PR16-EXP22-RESUME-1707Z-001",
+      "resource_keys": [
+        "analysis:exp-22"
+      ],
+      "target_repository": "a4adelahmadian86-wq/non",
+      "branch": null,
+      "previous_branch": null,
+      "previous_target_repository": null,
+      "previous_run_id": null,
+      "fencing_token": 101,
+      "at_utc": "2026-11-17T17:07:58.601Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -10803,6 +10836,15 @@
       "command": "unblock",
       "next_status": null,
       "at_utc": "2026-11-17T17:07:26.275Z"
+    },
+    "6955151519": {
+      "response": "CLAIM GRANTED. TASK=GH-34; WORK_ITEM_ID=WI-EXP22-CONTROLLED-IMPLEMENTATION-001; verified_steps=S1_DISCOVER,S3_ANALYZE,S4_CROSSCHECK,S5_ASSESS,S6_REPORT,S7_VERIFY; remaining_steps=S2_MAP; EXECUTION_PROGRESS=85.71%; ACCEPTANCE_PROGRESS=75%; OVERALL_COMPLETION=75%; actor=@a4adelahmadian86-wq; chat=CHAT-PR16-EXP22-RESUME-20261117; run=RUN-20261117-PR16-EXP22-RESUME-1707Z-001; resource_keys=analysis:exp-22; target_repository=a4adelahmadian86-wq/non; write_policy=READ_ONLY; branch=none; previous_run=none; fencing_token=101; lease_expires=2026-11-17T17:37:58.601Z. این Work Item با سیاست READ_ONLY است؛ در target_repository هیچ branch، file، commit یا PR ایجاد/تغییر نده. شواهد را فقط در Issue thread یا محل مجاز control-plane ثبت کن؛ برای WRITE_REQUIRES_OWNER_APPROVAL فقط proposal ارائه بده.",
+      "response_posted": false,
+      "issue_number": 34,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "locked",
+      "at_utc": "2026-11-17T17:07:58.602Z"
     }
   },
   "work_items": {
@@ -11587,7 +11629,7 @@
       "parent_exp_ids": [
         "EXP-22"
       ],
-      "status": "READY",
+      "status": "CLAIMED",
       "target_repository": "a4adelahmadian86-wq/non",
       "resource_keys": [
         "analysis:exp-22"
