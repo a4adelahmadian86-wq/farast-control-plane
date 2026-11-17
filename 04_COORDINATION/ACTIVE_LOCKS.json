@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1320,
+  "revision": 1321,
   "next_fencing_token": 105,
   "locks": [
     {
@@ -11370,6 +11370,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-17T17:24:58.978Z"
+    },
+    "6955591410": {
+      "response": "STEP ثبت شد: S3_SCHEMA; EXECUTION_PROGRESS=50%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=4/8.",
+      "response_posted": false,
+      "issue_number": 77,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-17T17:25:07.798Z"
     }
   },
   "work_items": {
@@ -14787,7 +14796,14 @@
           "weight": 1,
           "expected_output": "Schema and runtime allowlists agree on the exact legacy Work Item ID",
           "evidence_requirement": "JSON schema read-back and allowlist equality test",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/79"
+          ],
+          "validated_at_utc": "2026-11-17T17:25:07.798Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S4_REGRESSION",
