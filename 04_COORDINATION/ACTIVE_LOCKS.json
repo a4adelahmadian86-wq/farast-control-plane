@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 663,
+  "revision": 664,
   "next_fencing_token": 79,
   "locks": [
     {
@@ -6008,7 +6008,7 @@
     },
     "6943877357": {
       "response": "وظیفه به ready بازگشت؛ برای شروع دوباره claim لازم است.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 59,
       "actor": "a4adelahmadian86-wq",
       "command": "reopen",
