@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1460,
+  "revision": 1461,
   "next_fencing_token": 108,
   "locks": [
     {
@@ -13138,6 +13138,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-17T18:02:55.873Z"
+    },
+    "6956538091": {
+      "response": "STEP ثبت شد: S0_AUTH_GATE; EXECUTION_PROGRESS=14.28%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=1/7.",
+      "response_posted": false,
+      "issue_number": 51,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-17T18:03:46.086Z"
     }
   },
   "work_items": {
@@ -14879,7 +14888,7 @@
         "EXP-22",
         "EXP-23"
       ],
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/non",
       "resource_keys": [
         "repo:non:controlled-implementation"
@@ -14892,7 +14901,14 @@
           "required": true,
           "weight": 1,
           "expected_output": "Recorded owner authorization, exact GitHub actor, RUN_ID, fencing token, lease, resource key, product target and run-specific branch",
-          "evidence_requirement": "Issue URL, claim command/response, live registry read-back and branch ref"
+          "evidence_requirement": "Issue URL, claim command/response, live registry read-back and branch ref",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/non/pull/689"
+          ],
+          "validated_at_utc": "2026-11-17T18:03:46.085Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S1_PRODUCT_BASELINE",
