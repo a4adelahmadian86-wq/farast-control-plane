@@ -1,89 +1,8 @@
 {
   "schema_version": "1.0",
-  "revision": 658,
+  "revision": 659,
   "next_fencing_token": 78,
-  "locks": [
-    {
-      "resource_key": "issue:13",
-      "issue_number": 59,
-      "task_id": "GH-59",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "CHAT-FARAST-ORDER-20261117",
-      "chat_id": "CHAT-FARAST-ORDER-20261117",
-      "run_id": "RUN-20261117-ORDER-DEPENDENCY-REPAIR-002",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": "work/GH-59-RUN-20261117-ORDER-DEPENDENCY-REPAIR-002",
-      "acquired_at_utc": "2026-11-17T09:01:09.003Z",
-      "heartbeat_at_utc": "2026-11-17T09:01:39.577Z",
-      "lease_expires_at_utc": "2026-11-17T09:31:39.577Z",
-      "fencing_token": 77,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "module:coordinator-refresh",
-      "issue_number": 59,
-      "task_id": "GH-59",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "CHAT-FARAST-ORDER-20261117",
-      "chat_id": "CHAT-FARAST-ORDER-20261117",
-      "run_id": "RUN-20261117-ORDER-DEPENDENCY-REPAIR-002",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": "work/GH-59-RUN-20261117-ORDER-DEPENDENCY-REPAIR-002",
-      "acquired_at_utc": "2026-11-17T09:01:09.003Z",
-      "heartbeat_at_utc": "2026-11-17T09:01:39.577Z",
-      "lease_expires_at_utc": "2026-11-17T09:31:39.577Z",
-      "fencing_token": 77,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "module:dependency-graph",
-      "issue_number": 59,
-      "task_id": "GH-59",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "CHAT-FARAST-ORDER-20261117",
-      "chat_id": "CHAT-FARAST-ORDER-20261117",
-      "run_id": "RUN-20261117-ORDER-DEPENDENCY-REPAIR-002",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": "work/GH-59-RUN-20261117-ORDER-DEPENDENCY-REPAIR-002",
-      "acquired_at_utc": "2026-11-17T09:01:09.003Z",
-      "heartbeat_at_utc": "2026-11-17T09:01:39.577Z",
-      "lease_expires_at_utc": "2026-11-17T09:31:39.577Z",
-      "fencing_token": 77,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "module:prompt-bundle",
-      "issue_number": 59,
-      "task_id": "GH-59",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "CHAT-FARAST-ORDER-20261117",
-      "chat_id": "CHAT-FARAST-ORDER-20261117",
-      "run_id": "RUN-20261117-ORDER-DEPENDENCY-REPAIR-002",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": "work/GH-59-RUN-20261117-ORDER-DEPENDENCY-REPAIR-002",
-      "acquired_at_utc": "2026-11-17T09:01:09.003Z",
-      "heartbeat_at_utc": "2026-11-17T09:01:39.577Z",
-      "lease_expires_at_utc": "2026-11-17T09:31:39.577Z",
-      "fencing_token": 77,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "module:prompt-library",
-      "issue_number": 59,
-      "task_id": "GH-59",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "CHAT-FARAST-ORDER-20261117",
-      "chat_id": "CHAT-FARAST-ORDER-20261117",
-      "run_id": "RUN-20261117-ORDER-DEPENDENCY-REPAIR-002",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": "work/GH-59-RUN-20261117-ORDER-DEPENDENCY-REPAIR-002",
-      "acquired_at_utc": "2026-11-17T09:01:09.003Z",
-      "heartbeat_at_utc": "2026-11-17T09:01:39.577Z",
-      "lease_expires_at_utc": "2026-11-17T09:31:39.577Z",
-      "fencing_token": 77,
-      "status": "ACTIVE"
-    }
-  ],
+  "locks": [],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -2998,6 +2917,17 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "lease_expires_at_utc": "2026-11-17T09:31:39.577Z",
       "at_utc": "2026-11-17T09:01:39.577Z"
+    },
+    {
+      "event": "REVIEW",
+      "issue_number": 59,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-FARAST-ORDER-20261117",
+      "run_id": "RUN-20261117-ORDER-DEPENDENCY-REPAIR-002",
+      "fencing_token": 77,
+      "branch": "work/GH-59-RUN-20261117-ORDER-DEPENDENCY-REPAIR-002",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "at_utc": "2026-11-17T09:16:47.636Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -5836,6 +5766,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-17T09:13:42.055Z"
+    },
+    "6943837117": {
+      "response": "پیاده‌سازی برای اجرای گیت‌های ماشینی و پذیرش خودکار تحویل شد؛ این فرمان به‌تنهایی پذیرش نیست.",
+      "response_posted": false,
+      "issue_number": 59,
+      "actor": "a4adelahmadian86-wq",
+      "command": "review",
+      "next_status": "review",
+      "at_utc": "2026-11-17T09:16:47.698Z"
     }
   },
   "work_items": {
@@ -7758,7 +7697,7 @@
         "EXP-22",
         "EXP-23"
       ],
-      "status": "IN_PROGRESS",
+      "status": "REVIEW_REQUIRED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "module:dependency-graph",
