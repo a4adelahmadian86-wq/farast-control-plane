@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 820,
+  "revision": 821,
   "next_fencing_token": 86,
   "locks": [
     {
@@ -6997,6 +6997,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-17T10:11:36.344Z"
+    },
+    "6945045825": {
+      "response": "STEP ثبت شد: S6_HANDOFF; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; verified_steps=7/7.",
+      "response_posted": false,
+      "issue_number": 62,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-17T10:12:04.839Z"
     }
   },
   "work_items": {
@@ -9306,7 +9315,7 @@
         "EXP-24",
         "EXP-27"
       ],
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "file:.github/workflows/farast-coordinator.yml",
@@ -9437,7 +9446,18 @@
           "weight": 1,
           "expected_output": "Merged implementation with machine-verified acceptance",
           "evidence_requirement": "PR URL, merge SHA, CI and acceptance response",
-          "estimate_minutes": 2
+          "estimate_minutes": 2,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/65",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44061778145",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-62-RUN-20261117-READONLY-ACCEPTANCE-HANDOFF-001/08_REPORTS/READ_ONLY_EVIDENCE_ACCEPTANCE.md",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/13#issuecomment-6945025049",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/13"
+          ],
+          "validated_at_utc": "2026-11-17T10:12:04.833Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "acceptance_criteria": [
