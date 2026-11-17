@@ -589,9 +589,9 @@ test('durable coordinator inbox uses shared idempotent command and response-reco
   const handle=loop.indexOf('snapshot = await handleCommand(issue, comment, snapshot);');
   const refetch=loop.indexOf('issue = (await github.rest.issues.get');
   assert.ok(handle>=0 && handle<refetch);
-  assert.match(workflow,/coordinatorCore\\.pendingResponseOperations/);
-  assert.match(workflow,/coordinatorCore\\.responseMarker/);
-  assert.doesNotMatch(loop,/processed_operations\\?\\.\\[operationId\\]/);
+  assert.match(workflow,/coordinatorCore\.pendingResponseOperations/);
+  assert.match(workflow,/coordinatorCore\.responseMarker/);
+  assert.doesNotMatch(loop,/processed_operations\?\.\[operationId\]/);
 });
 
 test('coordinator registry persistence verifies exact commit read-back and guards missing operation records',()=>{
