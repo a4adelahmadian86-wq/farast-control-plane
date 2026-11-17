@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1047,
+  "revision": 1048,
   "next_fencing_token": 95,
   "locks": [
     {
@@ -9212,6 +9212,15 @@
       "command": "claim",
       "next_status": "locked",
       "at_utc": "2026-11-17T12:25:44.012Z"
+    },
+    "6947969771": {
+      "response": "Claim رد شد: این TASK هم‌اکنون در اختیار @a4adelahmadian86-wq با run=RUN-20261117-OPGATE-RESUME-1200Z-002 است؛ برای جلوگیری از دو نویسنده روی یک branch، ابتدا handoff یا انقضای lease لازم است.",
+      "response_posted": false,
+      "issue_number": 64,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": null,
+      "at_utc": "2026-11-17T12:25:55.502Z"
     }
   },
   "work_items": {
