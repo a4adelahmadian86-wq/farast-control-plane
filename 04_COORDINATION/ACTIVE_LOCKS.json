@@ -1,25 +1,8 @@
 {
   "schema_version": "1.0",
-  "revision": 754,
+  "revision": 755,
   "next_fencing_token": 82,
-  "locks": [
-    {
-      "resource_key": "analysis:exp-01",
-      "issue_number": 13,
-      "task_id": "GH-13",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "CHAT-PR01-BASELINE-20261117",
-      "chat_id": "CHAT-PR01-BASELINE-20261117",
-      "run_id": "RUN-20261117-PR01-BASELINE-001",
-      "target_repository": "a4adelahmadian86-wq/non",
-      "branch": null,
-      "acquired_at_utc": "2026-11-17T09:33:33.852Z",
-      "heartbeat_at_utc": "2026-11-17T09:33:33.852Z",
-      "lease_expires_at_utc": "2026-11-17T10:03:33.852Z",
-      "fencing_token": 81,
-      "status": "ACTIVE"
-    }
-  ],
+  "locks": [],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -3180,6 +3163,17 @@
       "branch": "work/GH-52-RUN-20261117-PR16-EXP22-POLICY-SMOKE-003",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "at_utc": "2026-11-17T09:38:15.314Z"
+    },
+    {
+      "event": "REVIEW",
+      "issue_number": 13,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-PR01-BASELINE-20261117",
+      "run_id": "RUN-20261117-PR01-BASELINE-001",
+      "fencing_token": 81,
+      "branch": null,
+      "target_repository": "a4adelahmadian86-wq/non",
+      "at_utc": "2026-11-17T09:47:53.804Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -6450,6 +6444,15 @@
       "command": "checkpoint",
       "next_status": null,
       "at_utc": "2026-11-17T09:47:17.977Z"
+    },
+    "6944509455": {
+      "response": "پیاده‌سازی برای اجرای گیت‌های ماشینی و پذیرش خودکار تحویل شد؛ این فرمان به‌تنهایی پذیرش نیست.",
+      "response_posted": false,
+      "issue_number": 13,
+      "actor": "a4adelahmadian86-wq",
+      "command": "review",
+      "next_status": "review",
+      "at_utc": "2026-11-17T09:47:53.901Z"
     }
   },
   "work_items": {
