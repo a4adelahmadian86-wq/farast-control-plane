@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1175,
+  "revision": 1176,
   "next_fencing_token": 98,
   "locks": [
     {
@@ -10173,7 +10173,7 @@
     },
     "6954363843": {
       "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-OPERATION-GATE-MODEL-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=Review PR #75 on exact head e92aef55e0a931c1668837e64f461b4a8717e6ab; machine-accept and verify merge/Work Item acceptance; close superseded PR #73; record final evidence.; remaining_steps=.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 64,
       "actor": "a4adelahmadian86-wq",
       "command": "checkpoint",
