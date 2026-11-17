@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 753,
+  "revision": 754,
   "next_fencing_token": 82,
   "locks": [
     {
@@ -6444,7 +6444,7 @@
     },
     "6944494521": {
       "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-EXP01-BASELINE-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=READ_ONLY baseline is fully evidenced (7/7 steps, 5/5 criteria, JSON valid). Coordinator currently moves it to REVIEW_REQUIRED but accept path demands a merged PR and branch-bound REVIEW event, impossible under this READ_ONLY claim (branch=none). After WI-READONLY-EVIDENCE-ACCEPTANCE-001 in Issue #62 is implemented, merged and tested, start a fresh RUN_ID, claim Issue #13, re-read the evidence and complete machine-only acceptance without any NON write.; remaining_steps=.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 13,
       "actor": "a4adelahmadian86-wq",
       "command": "checkpoint",
