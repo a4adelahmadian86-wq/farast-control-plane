@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1242,
+  "revision": 1243,
   "next_fencing_token": 101,
   "locks": [
     {
@@ -10726,6 +10726,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-17T17:04:03.374Z"
+    },
+    "6955052974": {
+      "response": "معیار پذیرش ثبت شد: AC_ACCEPTANCE; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; can_accept=true.",
+      "response_posted": false,
+      "issue_number": 33,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-17T17:04:11.335Z"
     }
   },
   "work_items": {
@@ -11278,7 +11287,7 @@
       "parent_exp_ids": [
         "EXP-21"
       ],
-      "status": "IN_PROGRESS",
+      "status": "REVIEW_REQUIRED",
       "target_repository": "a4adelahmadian86-wq/non",
       "resource_keys": [
         "analysis:exp-21"
@@ -11453,7 +11462,15 @@
         {
           "criterion_id": "AC_ACCEPTANCE",
           "title": "بسته کوچک و قابل review؛ criteria قابل اندازه‌گیری؛ مجوزها صریح؛ هیچ تغییر اجرا نشده.",
-          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion."
+          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion.",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/33#issuecomment-6954850072",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/51"
+          ],
+          "validated_at_utc": "2026-11-17T17:04:11.334Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "priority": 50,
