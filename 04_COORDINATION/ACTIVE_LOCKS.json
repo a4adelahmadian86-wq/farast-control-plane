@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1065,
+  "revision": 1066,
   "next_fencing_token": 96,
   "locks": [
     {
@@ -9408,6 +9408,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-17T12:29:32.730Z"
+    },
+    "6948049778": {
+      "response": "معیار پذیرش ثبت شد: AC_EXPIRED_VALID; ACCEPTANCE_PROGRESS=28.57%; OVERALL_COMPLETION=28.57%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 69,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-17T12:29:40.966Z"
     }
   },
   "work_items": {
@@ -12289,7 +12298,14 @@
         {
           "criterion_id": "AC_EXPIRED_VALID",
           "title": "Valid finite expired and future leases are distinguished correctly",
-          "evidence_requirement": "Boundary tests at expiry and after expiry"
+          "evidence_requirement": "Boundary tests at expiry and after expiry",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/569bfc16d8721a0a6247063312467aad19d5870d"
+          ],
+          "validated_at_utc": "2026-11-17T12:29:40.966Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_CLAIM_ATOMIC",
