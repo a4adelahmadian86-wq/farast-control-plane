@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1502,
+  "revision": 1503,
   "next_fencing_token": 108,
   "locks": [
     {
@@ -13483,6 +13483,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-17T18:25:37.840Z"
+    },
+    "6957081925": {
+      "response": "معیار پذیرش ثبت شد: AC_REAL_PRODUCT_CHANGE; ACCEPTANCE_PROGRESS=40%; OVERALL_COMPLETION=40%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 51,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-17T18:26:03.840Z"
     }
   },
   "work_items": {
@@ -15353,7 +15362,14 @@
         {
           "criterion_id": "AC_REAL_PRODUCT_CHANGE",
           "title": "At least one substantive application runtime source file is changed to implement a concrete behavior improvement; report-only, inventory-only, plan-only, docs-only or tests-only output fails",
-          "evidence_requirement": "Evidence: substantive application runtime source diff on the dedicated product branch, exact commit SHA and PR diff; report-only, documentation-only or tests-only output does not satisfy this criterion."
+          "evidence_requirement": "Evidence: substantive application runtime source diff on the dedicated product branch, exact commit SHA and PR diff; report-only, documentation-only or tests-only output does not satisfy this criterion.",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/non/blob/567cb32438a8417f29863b251c2d8ec9a23aa6a8/app/Services/StorePdfPreviewPreparer.php"
+          ],
+          "validated_at_utc": "2026-11-17T18:26:03.839Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_BOUNDED_SAFE_SCOPE",
