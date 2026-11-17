@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1042,
+  "revision": 1043,
   "next_fencing_token": 94,
   "locks": [],
   "history": [
@@ -9069,7 +9069,7 @@
     },
     "6947952859": {
       "response": "Claim رد شد: این RUN/branch قبلاً استفاده شده است؛ برای هر handoff یک RUN_ID جدید و یکتا انتخاب کن.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 64,
       "actor": "a4adelahmadian86-wq",
       "command": "claim",
