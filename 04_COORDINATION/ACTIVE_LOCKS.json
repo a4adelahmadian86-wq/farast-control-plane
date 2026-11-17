@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1234,
+  "revision": 1235,
   "next_fencing_token": 101,
   "locks": [
     {
@@ -10666,6 +10666,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-17T17:02:32.214Z"
+    },
+    "6955012572": {
+      "response": "معیار پذیرش ثبت شد: AC_EVIDENCE; ACCEPTANCE_PROGRESS=50%; OVERALL_COMPLETION=50%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 33,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-17T17:02:43.245Z"
     }
   },
   "work_items": {
@@ -11367,7 +11376,16 @@
         {
           "criterion_id": "AC_EVIDENCE",
           "title": "تمام ادعاهای factual دارای evidence ref مستقیم و قابل بازبینی هستند",
-          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion."
+          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion.",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/33#issuecomment-6954850072",
+            "https://github.com/a4adelahmadian86-wq/non/blob/663534ddedfa4864bc576b6c283418b1e3e1d049/app/Http/Controllers/SearchController.php",
+            "https://github.com/a4adelahmadian86-wq/non/blob/663534ddedfa4864bc576b6c283418b1e3e1d049/tests/Feature/TrustCenterTest.php"
+          ],
+          "validated_at_utc": "2026-11-17T17:02:43.244Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_OUTPUT",
