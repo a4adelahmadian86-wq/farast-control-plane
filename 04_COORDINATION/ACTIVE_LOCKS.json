@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1071,
+  "revision": 1072,
   "next_fencing_token": 96,
   "locks": [
     {
@@ -9435,6 +9435,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-17T12:29:56.745Z"
+    },
+    "6948053660": {
+      "response": "معیار پذیرش ثبت شد: AC_AUDIT_IDEMPOTENT; ACCEPTANCE_PROGRESS=71.42%; OVERALL_COMPLETION=71.42%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 69,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-17T12:30:04.705Z"
     }
   },
   "work_items": {
@@ -12352,7 +12361,14 @@
         {
           "criterion_id": "AC_AUDIT_IDEMPOTENT",
           "title": "Invalid lock history is durable and idempotent without duplicate event growth",
-          "evidence_requirement": "Repeated reconciliation fixture and history assertions"
+          "evidence_requirement": "Repeated reconciliation fixture and history assertions",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/569bfc16d8721a0a6247063312467aad19d5870d"
+          ],
+          "validated_at_utc": "2026-11-17T12:30:04.705Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_N_WORKER",
