@@ -86,11 +86,18 @@ jobs:
               const commit = await github.rest.git.createCommit({
                 owner, repo, message, tree: tree.data.sha, parents: [snapshot.refSha]
               });
-              // If the ref moved unexpectedly, fail closed. Never retry blindly.
+              // A successful ref update is durable; GitHub reads may briefly lag.
+              // Accept only a read-back that confirms this exact commit SHA.
               await github.rest.git.updateRef({
                 owner, repo, ref: 'heads/' + registryBranch, sha: commit.data.sha, force: false
               });
-              return await getRegistry();
+              for (let attempt = 0; attempt < 4; attempt++) {
+                const readBack = await getRegistry();
+                if (readBack.refSha === commit.data.sha) return readBack;
+                if (attempt < 3) await new Promise(resolve => setTimeout(resolve, 250 * (attempt + 1)));
+              }
+              throw new Error('registry_readback_commit_mismatch: committed=' + commit.data.sha + '; durable operation remains in the inbox for reconciliation');
+
             };
 
             const labelsOf = issue => (issue.labels || []).map(x => typeof x === 'string' ? x : x.name);
@@ -275,7 +282,9 @@ jobs:
                     const hardGate = liveWorkItem
                       ? workItemCore.evaluateHardGates(liveWorkItem, dependencyGraph, [...Object.values(state.work_items || {}).filter(x => x.work_item_id !== liveWorkItem.work_item_id), liveWorkItem])
                       : { ready: false, blockers: ['work_item_spec_missing'] };
-                    const taskBranch = policyError ? null : coordinatorCore.branchForWritePolicy(issue.number, run, writePolicy);
+                    const branchlessMetadata = !!liveWorkItem && workItemCore.defaultRequestedOperations(liveWorkItem).length === 1 &&
+                      workItemCore.defaultRequestedOperations(liveWorkItem)[0] === 'control_plane_metadata';
+                    const taskBranch = policyError || branchlessMetadata ? null : coordinatorCore.branchForWritePolicy(issue.number, run, writePolicy);
                     if (policyError) {
                       response = 'Claim رد شد: اختلاف یا نقص در Work Item زنده/رجیستری؛ هیچ branch تخصیص داده نشد. ' + policyError;
                     } else if (!targetRepository) {
@@ -311,9 +320,11 @@ jobs:
                           const plan = workItemCore.resumePlan(state.work_items[issue.number]);
                           resumeText = '; WORK_ITEM_ID=' + plan.work_item_id + '; verified_steps=' + plan.completed_step_ids.join(',') + '; remaining_steps=' + plan.remaining_step_ids.join(',') + '; EXECUTION_PROGRESS=' + plan.execution_progress_percentage + '%; ACCEPTANCE_PROGRESS=' + (plan.acceptance_progress_percentage === null ? 'N/A' : plan.acceptance_progress_percentage + '%') + '; OVERALL_COMPLETION=' + (plan.overall_completion_percentage === null ? 'N/A' : plan.overall_completion_percentage + '%');
                         }
-                        const branchInstruction = taskBranch
-                          ? '. این Work Item با سیاست WRITE_ALLOWED است؛ branch را فقط در target_repository ثبت‌شده بساز و قبل از هر write heartbeat/token را دوباره تأیید کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز و branch قبلی را تغییر نده.'
-                          : '. این Work Item با سیاست ' + writePolicy + ' است؛ در target_repository هیچ branch، file، commit یا PR ایجاد/تغییر نده. شواهد را فقط در Issue thread یا محل مجاز control-plane ثبت کن؛ برای WRITE_REQUIRES_OWNER_APPROVAL فقط proposal ارائه بده.';
+                        const branchInstruction = branchlessMetadata
+                          ? '. این Work Item فقط مجاز به اصلاح metadata همان Issueهای صریحاً فهرست‌شده است؛ branch، file، commit یا PR ایجاد نکن و هیچ کد یا رجیستری را تغییر نده.'
+                          : taskBranch
+                            ? '. این Work Item با سیاست WRITE_ALLOWED است؛ branch را فقط در target_repository ثبت‌شده بساز و قبل از هر write heartbeat/token را دوباره تأیید کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز و branch قبلی را تغییر نده.'
+                            : '. این Work Item با سیاست ' + writePolicy + ' است؛ در target_repository هیچ branch، file، commit یا PR ایجاد/تغییر نده. شواهد را فقط در Issue thread یا محل مجاز control-plane ثبت کن؛ برای WRITE_REQUIRES_OWNER_APPROVAL فقط proposal ارائه بده.';
                         response = 'CLAIM GRANTED. TASK=GH-' + issue.number + resumeText + '; actor=@' + actor + '; chat=' + chat + '; run=' + run + '; resource_keys=' + claim.resourceKeys.join(',') + '; target_repository=' + targetRepository + '; write_policy=' + writePolicy + '; branch=' + (taskBranch || 'none') + handoff + '; fencing_token=' + claim.fencingToken + '; lease_expires=' + claim.expiresAt + branchInstruction;
                         nextStatus = 'locked';
                       }
@@ -385,26 +396,36 @@ jobs:
                   }
                 } else if (command === 'accept') {
                   const acceptanceItem = savedWorkItemFor(state, issue);
-                  const hardGate = acceptanceItem ? workItemCore.evaluateHardGates(acceptanceItem, dependencyGraph, Object.values(state.work_items || {})) : { ready: false, blockers: ['work_item_spec_missing'] };
+                  const acceptanceWorkItems = acceptanceItem
+                    ? [...Object.values(state.work_items || {}).filter(x => x.work_item_id !== acceptanceItem.work_item_id), acceptanceItem]
+                    : Object.values(state.work_items || {});
+                  const hardGate = acceptanceItem ? workItemCore.evaluateHardGates(acceptanceItem, dependencyGraph, acceptanceWorkItems) : { ready: false, blockers: ['work_item_spec_missing'] };
                   const prUrl = args.pr || (issue.body || '').match(/https:\/\/github\.com\/[^\s)]+\/pull\/\d+/)?.[0];
+                  const requestedOperations = acceptanceItem ? workItemCore.defaultRequestedOperations(acceptanceItem) : [];
+                  const branchlessMetadata = !!acceptanceItem && requestedOperations.length === 1 && requestedOperations[0] === 'control_plane_metadata';
                   const latestIssueEvent = [...state.history].reverse().find(x => x.issue_number === issue.number);
                   if (!labelsOf(issue).includes('agent:review') || current.length) {
                     response = 'پذیرش رد شد: وظیفه باید در وضعیت review و بدون lease فعال باشد.';
-                  } else if (acceptanceItem?.write_policy === 'READ_ONLY' && !prUrl) {
-                    const readOnlyGate = workItemCore.evaluateReadOnlyAcceptance(acceptanceItem, {
-                      issueNumber: issue.number,
-                      hasActiveLease: current.length > 0,
-                      hardGatesReady: hardGate.ready,
-                      reviewEvent: latestIssueEvent
-                    });
-                    if (!readOnlyGate.ready) {
-                      response = 'پذیرش READ_ONLY رد شد: گیت‌های ماشینی کامل نیستند: ' + readOnlyGate.blockers.join(',') + '.';
+                  } else if ((acceptanceItem?.write_policy === 'READ_ONLY' || branchlessMetadata) && !prUrl) {
+                    const evidenceGate = branchlessMetadata
+                      ? workItemCore.evaluateBranchlessMetadataAcceptance(acceptanceItem, {
+                          issueNumber: issue.number, hasActiveLease: current.length > 0,
+                          hardGatesReady: hardGate.ready, reviewEvent: latestIssueEvent
+                        })
+                      : workItemCore.evaluateReadOnlyAcceptance(acceptanceItem, {
+                          issueNumber: issue.number, hasActiveLease: current.length > 0,
+                          hardGatesReady: hardGate.ready, reviewEvent: latestIssueEvent
+                        });
+                    if (!evidenceGate.ready) {
+                      response = 'پذیرش evidence-only رد شد: گیت‌های ماشینی کامل نیستند: ' + evidenceGate.blockers.join(',') + '.';
                     } else {
                       state.work_items ||= {};
                       state.work_items[issue.number] ||= acceptanceItem;
                       state.work_items[issue.number].status = 'ACCEPTED';
                       nextStatus = 'done';
-                      response = 'Work Item ACCEPTED: همه گام‌ها، معیارها، شواهد و hard gateها با موفقیت احراز شدند؛ سیاست READ_ONLY است، بنابراین PR/branch محصول لازم نیست؛ هیچ Review انسانی دوم شرط پذیرش نیست.';
+                      response = branchlessMetadata
+                        ? 'Work Item ACCEPTED: فقط metadata مجاز Issueها اصلاح شده؛ همه گام‌ها، معیارها، شواهد، وابستگی‌ها و handoff بدون branch/PR احراز شدند.'
+                        : 'Work Item ACCEPTED: همه گام‌ها، معیارها، شواهد و hard gateها با موفقیت احراز شدند؛ سیاست READ_ONLY است، بنابراین PR/branch محصول لازم نیست؛ هیچ Review انسانی دوم شرط پذیرش نیست.';
                     }
                   } else {
                     const prMatch = prUrl?.match(/github\.com\/([^/]+)\/([^/]+)\/pull\/(\d+)/);
@@ -474,8 +495,10 @@ jobs:
               const marker = '<!-- FARAST_OP_RESPONSE:' + id + ' -->';
               const comments = await github.paginate(github.rest.issues.listComments, { owner, repo, issue_number: issue.number, per_page: 100 });
               if (!comments.some(c => c.body.includes(marker))) await publish(issue.number, response + '\n\n' + marker);
-              const latest = updated.state;
-              latest.processed_operations[id].response_posted = true;
+              const latest = updated?.state;
+              const durableOperation = latest?.processed_operations?.[id];
+              if (!durableOperation) throw new Error('durable_processed_operation_missing:' + id + '; scheduled reconciliation must retry');
+              durableOperation.response_posted = true;
               return await saveRegistry(latest, updated, 'FARAST coordinator: record response for operation ' + id);
             };
 

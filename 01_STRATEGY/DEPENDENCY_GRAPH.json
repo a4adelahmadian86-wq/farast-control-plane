@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "policy": "Cross-EXP hard_gates contain only EXP IDs. Action gates are evaluated only for explicitly requested operations, scoped to the target repository and every declared parent EXP. READ_ONLY discovery and proposal work do not inherit later write/release gates. Unknown operations and missing prerequisites fail closed.",
+  "policy": "Cross-EXP hard_gates contain only EXP IDs. Action gates are evaluated only for explicitly requested operations, scoped to the target repository and every declared parent EXP. READ_ONLY discovery and proposal work do not inherit later write/release gates. Unknown operations and missing prerequisites fail closed. Legacy cross-EXP links EXP-02<-EXP-26, EXP-06<-EXP-22 and EXP-10<-EXP-22 are not blanket hard prerequisites: backup/restore is required by the production_release operation; general test evidence and current-architecture discovery can proceed independently. implementation and merge are action gates, not EXP hard dependencies. No cross-EXP dependency is retained as a blanket gate without evidence that every operation in that EXP must wait.",
   "nodes": [
     {
       "id": "EXP-01",
@@ -225,40 +225,129 @@
   ],
   "operation_gates": [
     {
-      "id": "product_implementation",
+      "id": "acceptance",
       "source_gate_ids": [
-        "implementation"
+        "acceptance"
       ],
       "applies_to_exp_ids": [
-        "EXP-22"
+        "EXP-24"
       ],
       "applies_to_target_repositories": [
         "a4adelahmadian86-wq/non"
       ],
       "required_work_item_ids": [
-        "WI-EXP21-CHANGE-PACKAGE-001",
-        "WI-EXP22-CONTROLLED-IMPLEMENTATION-001",
         "WI-EXP23-REGRESSION-001"
       ],
       "owner_authorization_required": true,
       "evidence_requirements": [
-        "Owner-created exact WRITE_ALLOWED Issue; accepted change package, controlled implementation readiness and regression evidence; bounded reversible code-only scope."
+        "Accepted regression evidence and product acceptance criteria; environment and test evidence; acceptance is distinct from Work Item machine acceptance."
       ]
     },
     {
-      "id": "destructive_data_change",
+      "id": "architecture_implementation",
       "source_gate_ids": [
-        "destructive-data-change"
+        "architecture-implementation"
       ],
       "applies_to_target_repositories": [
         "a4adelahmadian86-wq/non"
       ],
       "required_work_item_ids": [
-        "WI-EXP02-BACKUP-RESTORE-001"
+        "WI-EXP15-TARGET-ARCHITECTURE-001"
       ],
       "owner_authorization_required": true,
       "evidence_requirements": [
-        "Accepted backup integrity and restore readiness evidence, verified rollback, exact destructive scope and owner authorization."
+        "Accepted target-architecture options and owner decision/authorization; migration and rollback path."
+      ]
+    },
+    {
+      "id": "audit_log_change",
+      "source_gate_ids": [
+        "audit-log-change"
+      ],
+      "applies_to_target_repositories": [
+        "a4adelahmadian86-wq/non"
+      ],
+      "required_work_item_ids": [
+        "WI-EXP14-AUDIT-EVIDENCE-001"
+      ],
+      "owner_authorization_required": true,
+      "evidence_requirements": [
+        "Accepted audit event coverage and evidence-integrity assessment; append-only/tamper controls and owner authorization."
+      ]
+    },
+    {
+      "id": "authorization_change",
+      "source_gate_ids": [
+        "authorization-change"
+      ],
+      "applies_to_target_repositories": [
+        "a4adelahmadian86-wq/non"
+      ],
+      "required_work_item_ids": [
+        "WI-EXP12-IDENTITY-PERMISSION-001"
+      ],
+      "owner_authorization_required": true,
+      "evidence_requirements": [
+        "Accepted identity/permission and server-side authorization assessment; negative tests and owner authorization."
+      ]
+    },
+    {
+      "id": "control_plane_authorization_change",
+      "source_gate_ids": [
+        "actor-authorization-policy"
+      ],
+      "applies_to_target_repositories": [
+        "a4adelahmadian86-wq/farast-control-plane"
+      ],
+      "required_work_item_ids": [],
+      "owner_authorization_required": true,
+      "evidence_requirements": [
+        "Exact owner-authored approval reference, explicit operation scope, actor authorization policy regression tests and audit evidence."
+      ]
+    },
+    {
+      "id": "control_plane_merge",
+      "source_gate_ids": [
+        "coordinator-acceptance"
+      ],
+      "applies_to_target_repositories": [
+        "a4adelahmadian86-wq/farast-control-plane"
+      ],
+      "required_work_item_ids": [],
+      "owner_authorization_required": false,
+      "evidence_requirements": [
+        "No active lease, last-review branch lineage match, exact-head Check Runs and Commit Statuses success; coordinator performs the merge without a second human reviewer."
+      ]
+    },
+    {
+      "id": "control_plane_metadata",
+      "source_gate_ids": [
+        "issue-metadata-only-repair"
+      ],
+      "applies_to_target_repositories": [
+        "a4adelahmadian86-wq/farast-control-plane"
+      ],
+      "applies_to_work_item_ids": [
+        "WI-PR16-SPEC-REPAIR-001"
+      ],
+      "required_work_item_ids": [],
+      "owner_authorization_required": false,
+      "evidence_requirements": [
+        "Only repair metadata in Issues #51 and #52; preserve policies, IDs, scopes and evidence; no branch, code/file write, PR, merge or product repository write."
+      ]
+    },
+    {
+      "id": "control_plane_write",
+      "source_gate_ids": [
+        "explicit-control-plane-write-scope"
+      ],
+      "applies_to_target_repositories": [
+        "a4adelahmadian86-wq/farast-control-plane"
+      ],
+      "required_work_item_ids": [],
+      "owner_authorization_required": false,
+      "evidence_requirements": [
+        "Explicit requested_operations declaration, owner-created Work Item, non-empty exact resource_keys, exclusive claim/lease/fencing and branch confined to the declared control-plane scope."
       ]
     },
     {
@@ -279,68 +368,19 @@
       ]
     },
     {
-      "id": "authorization_change",
+      "id": "destructive_data_change",
       "source_gate_ids": [
-        "authorization-change"
+        "destructive-data-change"
       ],
       "applies_to_target_repositories": [
         "a4adelahmadian86-wq/non"
       ],
       "required_work_item_ids": [
-        "WI-EXP12-IDENTITY-PERMISSION-001"
+        "WI-EXP02-BACKUP-RESTORE-001"
       ],
       "owner_authorization_required": true,
       "evidence_requirements": [
-        "Accepted identity/permission and server-side authorization assessment; negative tests and owner authorization."
-      ]
-    },
-    {
-      "id": "security_sensitive_change",
-      "source_gate_ids": [
-        "security-sensitive-change"
-      ],
-      "applies_to_target_repositories": [
-        "a4adelahmadian86-wq/non"
-      ],
-      "required_work_item_ids": [
-        "WI-EXP13-SECURITY-PRIVACY-001",
-        "WI-EXP14-AUDIT-EVIDENCE-001"
-      ],
-      "owner_authorization_required": true,
-      "evidence_requirements": [
-        "Accepted security/privacy threat assessment and audit-integrity evidence; scoped retest plan and owner authorization."
-      ]
-    },
-    {
-      "id": "audit_log_change",
-      "source_gate_ids": [
-        "audit-log-change"
-      ],
-      "applies_to_target_repositories": [
-        "a4adelahmadian86-wq/non"
-      ],
-      "required_work_item_ids": [
-        "WI-EXP14-AUDIT-EVIDENCE-001"
-      ],
-      "owner_authorization_required": true,
-      "evidence_requirements": [
-        "Accepted audit event coverage and evidence-integrity assessment; append-only/tamper controls and owner authorization."
-      ]
-    },
-    {
-      "id": "architecture_implementation",
-      "source_gate_ids": [
-        "architecture-implementation"
-      ],
-      "applies_to_target_repositories": [
-        "a4adelahmadian86-wq/non"
-      ],
-      "required_work_item_ids": [
-        "WI-EXP15-TARGET-ARCHITECTURE-001"
-      ],
-      "owner_authorization_required": true,
-      "evidence_requirements": [
-        "Accepted target-architecture options and owner decision/authorization; migration and rollback path."
+        "Accepted backup integrity and restore readiness evidence, verified rollback, exact destructive scope and owner authorization."
       ]
     },
     {
@@ -399,22 +439,60 @@
       ]
     },
     {
-      "id": "acceptance",
+      "id": "product_implementation",
       "source_gate_ids": [
-        "acceptance"
+        "implementation"
       ],
       "applies_to_exp_ids": [
-        "EXP-24"
+        "EXP-22"
       ],
       "applies_to_target_repositories": [
         "a4adelahmadian86-wq/non"
       ],
       "required_work_item_ids": [
+        "WI-EXP21-CHANGE-PACKAGE-001",
+        "WI-EXP22-CONTROLLED-IMPLEMENTATION-001",
         "WI-EXP23-REGRESSION-001"
       ],
       "owner_authorization_required": true,
       "evidence_requirements": [
-        "Accepted regression evidence and product acceptance criteria; environment and test evidence; acceptance is distinct from Work Item machine acceptance."
+        "Owner-created exact WRITE_ALLOWED Issue; accepted change package, controlled implementation readiness and regression evidence; bounded reversible code-only scope."
+      ]
+    },
+    {
+      "id": "production_release",
+      "source_gate_ids": [
+        "production-release"
+      ],
+      "applies_to_exp_ids": [
+        "EXP-26"
+      ],
+      "applies_to_target_repositories": [
+        "a4adelahmadian86-wq/non"
+      ],
+      "required_work_item_ids": [
+        "WI-EXP02-BACKUP-RESTORE-001",
+        "WI-EXP17-OPERATIONS-DR-001",
+        "WI-EXP18-LOW-DISRUPTION-RELEASE-001",
+        "WI-EXP23-REGRESSION-001",
+        "WI-EXP24-PRODUCT-ACCEPTANCE-001",
+        "WI-EXP25-SECURITY-RESILIENCE-001"
+      ],
+      "owner_authorization_required": true,
+      "evidence_requirements": [
+        "Accepted backup/DR, release/rollback, regression, product acceptance, security acceptance and release-readiness evidence; explicit owner go/no-go."
+      ]
+    },
+    {
+      "id": "repository_write",
+      "source_gate_ids": [
+        "explicit-repository-write-scope"
+      ],
+      "applies_to_target_repositories": null,
+      "required_work_item_ids": [],
+      "owner_authorization_required": true,
+      "evidence_requirements": [
+        "Explicit requested_operations declaration, owner authorization reference, exact repository/resource scope, exclusive claim/lease/fencing and rollback/regression evidence."
       ]
     },
     {
@@ -439,82 +517,20 @@
       ]
     },
     {
-      "id": "production_release",
+      "id": "security_sensitive_change",
       "source_gate_ids": [
-        "production-release"
-      ],
-      "applies_to_exp_ids": [
-        "EXP-26"
+        "security-sensitive-change"
       ],
       "applies_to_target_repositories": [
         "a4adelahmadian86-wq/non"
       ],
       "required_work_item_ids": [
-        "WI-EXP02-BACKUP-RESTORE-001",
-        "WI-EXP17-OPERATIONS-DR-001",
-        "WI-EXP18-LOW-DISRUPTION-RELEASE-001",
-        "WI-EXP23-REGRESSION-001",
-        "WI-EXP24-PRODUCT-ACCEPTANCE-001",
-        "WI-EXP25-SECURITY-RESILIENCE-001",
-        "WI-EXP26-CONTROLLED-RELEASE-001"
+        "WI-EXP13-SECURITY-PRIVACY-001",
+        "WI-EXP14-AUDIT-EVIDENCE-001"
       ],
       "owner_authorization_required": true,
       "evidence_requirements": [
-        "Accepted backup/DR, release/rollback, regression, product acceptance, security acceptance and release-readiness evidence; explicit owner go/no-go."
-      ]
-    },
-    {
-      "id": "control_plane_write",
-      "source_gate_ids": [
-        "explicit-control-plane-write-scope"
-      ],
-      "applies_to_target_repositories": [
-        "a4adelahmadian86-wq/farast-control-plane"
-      ],
-      "required_work_item_ids": [],
-      "owner_authorization_required": false,
-      "evidence_requirements": [
-        "Explicit requested_operations declaration, owner-created Work Item, non-empty exact resource_keys, exclusive claim/lease/fencing and branch confined to the declared control-plane scope."
-      ]
-    },
-    {
-      "id": "control_plane_merge",
-      "source_gate_ids": [
-        "coordinator-acceptance"
-      ],
-      "applies_to_target_repositories": [
-        "a4adelahmadian86-wq/farast-control-plane"
-      ],
-      "required_work_item_ids": [],
-      "owner_authorization_required": false,
-      "evidence_requirements": [
-        "No active lease, last-review branch lineage match, exact-head Check Runs and Commit Statuses success; coordinator performs the merge without a second human reviewer."
-      ]
-    },
-    {
-      "id": "control_plane_authorization_change",
-      "source_gate_ids": [
-        "actor-authorization-policy"
-      ],
-      "applies_to_target_repositories": [
-        "a4adelahmadian86-wq/farast-control-plane"
-      ],
-      "required_work_item_ids": [],
-      "owner_authorization_required": true,
-      "evidence_requirements": [
-        "Exact owner-authored approval reference, explicit operation scope, actor authorization policy regression tests and audit evidence."
-      ]
-    },
-    {
-      "id": "repository_write",
-      "source_gate_ids": [
-        "explicit-repository-write-scope"
-      ],
-      "applies_to_target_repositories": null,
-      "required_work_item_ids": [],
-      "owner_authorization_required": true,
-      "evidence_requirements": [
-        "Explicit requested_operations declaration, owner authorization reference, exact repository/resource scope, exclusive claim/lease/fencing and rollback/regression evidence."
+        "Accepted security/privacy threat assessment and audit-integrity evidence; scoped retest plan and owner authorization."
       ]
     }
   ]

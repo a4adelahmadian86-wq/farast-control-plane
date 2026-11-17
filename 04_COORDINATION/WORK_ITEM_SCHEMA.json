@@ -380,7 +380,8 @@
           "merge",
           "acceptance",
           "security_acceptance",
-          "production_release"
+          "production_release",
+          "control_plane_metadata"
         ]
       },
       "description": "Explicit operation scope for every WRITE_ALLOWED Work Item. Sensitive action identifiers are checked against the canonical operation_gates registry; omitted scope is not inferred for new write tasks."
@@ -427,6 +428,18 @@
       "then": {
         "required": [
           "requested_operations"
+        ]
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "requested_operations"
+        ]
+      },
+      "then": {
+        "required": [
+          "operation_scope_version"
         ]
       }
     }

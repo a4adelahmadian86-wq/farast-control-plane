@@ -4,7 +4,7 @@ const assert = require('node:assert/strict');
 const wi = require('./work-item-core');
 
 function item(overrides = {}) {
-  return {
+  const value = {
     schema_version:'1.0', write_policy:'READ_ONLY', priority_source:'DEFAULT_POLICY', work_item_id:'WI-EXP03-001', title:'Catalog one capability', status:'READY', parent_goal_ids:['G-01'], parent_exp_ids:['EXP-03'], priority:50, created_at_utc:'2026-01-01T00:00:00Z',
     target_repository:'owner/repo',
     resource_keys:['module:catalog'], dependencies:[],
@@ -19,8 +19,10 @@ function item(overrides = {}) {
     ],
     ...overrides
   };
+  if (Object.prototype.hasOwnProperty.call(overrides,'requested_operations') && overrides.operation_scope_version === undefined) value.operation_scope_version='1.0';
+  return value;
 }
-const operationIds=['control_plane_write','control_plane_merge','control_plane_authorization_change','repository_write','product_implementation','destructive_data_change','database_migration','authorization_change','security_sensitive_change','audit_log_change','architecture_implementation','hosting_deployment','legal_policy_change','merge','acceptance','security_acceptance','production_release'];
+const operationIds=['control_plane_write','control_plane_merge','control_plane_authorization_change','control_plane_metadata','repository_write','product_implementation','destructive_data_change','database_migration','authorization_change','security_sensitive_change','audit_log_change','architecture_implementation','hosting_deployment','legal_policy_change','merge','acceptance','security_acceptance','production_release'];
 function operationGates(overrides={}) {
  return operationIds.map(id=>({id,source_gate_ids:['test-source'],required_work_item_ids:[],owner_authorization_required:false,evidence_requirements:['test evidence'],...(overrides[id]||{})}));
 }
@@ -229,7 +231,7 @@ test('checkpoint stores all three progress dimensions and state counts',()=>{
 test('EXP-01 is eligible without EXP-22 ACCEPTED when EXP-22 is only a soft input',()=>{
  const baseline=item({work_item_id:'WI-EXP01-BASELINE-001',parent_exp_ids:['EXP-01']});
  const implementation=item({work_item_id:'WI-EXP22-IMPLEMENTATION-001',parent_exp_ids:['EXP-22'],status:'READY'});
- const graph=graphWith([{id:'EXP-01',hard_gates:[],soft_inputs:['EXP-22']}]);
+ const graph=graphWith([{id:'EXP-01',hard_gates:[],soft_inputs:['EXP-22']},{id:'EXP-22',hard_gates:[]}]);
  const evaluated=wi.evaluateHardGates(baseline,graph,[baseline,implementation]);
  assert.equal(evaluated.ready,true);
  assert.deepEqual(evaluated.blockers,[]);
@@ -239,7 +241,7 @@ test('EXP-01 is eligible without EXP-22 ACCEPTED when EXP-22 is only a soft inpu
 test('unaccepted EXP hard gate blocks eligibility until the matching Work Item is ACCEPTED',()=>{
  const target=item({work_item_id:'WI-EXP06-TESTING-001',parent_exp_ids:['EXP-06']});
  const dependency=item({work_item_id:'WI-EXP22-IMPLEMENTATION-001',parent_exp_ids:['EXP-22'],status:'IN_PROGRESS'});
- const graph=graphWith([{id:'EXP-06',hard_gates:['EXP-22'],soft_inputs:[]}]);
+ const graph=graphWith([{id:'EXP-06',hard_gates:['EXP-22'],soft_inputs:[]},{id:'EXP-22',hard_gates:[]}]);
  assert.equal(wi.evaluateHardGates(target,graph,[target,dependency]).ready,false);
  dependency.status='ACCEPTED';
  assert.equal(wi.evaluateHardGates(target,graph,[target,dependency]).ready,true);
@@ -249,7 +251,7 @@ test('non-EXP strings in hard_gates invalidate the graph while soft inputs never
  const target=item({work_item_id:'WI-EXP01-BASELINE-001',parent_exp_ids:['EXP-01']});
  const unknown=graphWith([{id:'EXP-01',hard_gates:['implementation'],soft_inputs:[]}]);
  assert.equal(wi.evaluateHardGates(target,unknown,[target]).ready,false);
- const softOnly=graphWith([{id:'EXP-01',hard_gates:[],soft_inputs:['EXP-22','EXP-99']}]);
+ const softOnly=graphWith([{id:'EXP-01',hard_gates:[],soft_inputs:['EXP-22']},{id:'EXP-22',hard_gates:[]}]);
  assert.equal(wi.evaluateHardGates(target,softOnly,[target]).ready,true);
  assert.equal(wi.evaluateHardGates(target,graphWith([]),[target]).ready,false);
 });
@@ -259,7 +261,8 @@ test('Work Item selection applies canonical EXP-only hard gates',()=>{
  const later=item({work_item_id:'WI-EXP22-IMPLEMENTATION-001',parent_exp_ids:['EXP-22'],status:'READY'});
  const graph=graphWith([
   {id:'EXP-01',hard_gates:[],soft_inputs:['EXP-22']},
-  {id:'EXP-22',hard_gates:['EXP-21'],soft_inputs:[]}
+  {id:'EXP-22',hard_gates:['EXP-21'],soft_inputs:[]},
+  {id:'EXP-21',hard_gates:[]}
  ]);
  const selected=wi.selectNextWorkItem([baseline,later],{nowMs:Date.parse('2026-01-01T01:00:00Z'),dependencyGraph:graph});
  assert.equal(selected.work_item_id,baseline.work_item_id);
@@ -339,7 +342,7 @@ test('control-plane action and generic repository writes cannot be inferred for 
 
 test('every registered action operation is fail-closed until its exact prerequisites are ACCEPTED',()=>{
  for(const operation of operationIds){
-  const targetRepo=['control_plane_write','control_plane_merge','control_plane_authorization_change'].includes(operation)
+  const targetRepo=['control_plane_write','control_plane_merge','control_plane_authorization_change','control_plane_metadata'].includes(operation)
     ? 'a4adelahmadian86-wq/farast-control-plane'
     : operation==='repository_write' ? 'other/authorized-repo' : 'a4adelahmadian86-wq/non';
   const requiredId='WI-REQUIRED-'+operation.toUpperCase().replace(/[^A-Z0-9]+/g,'-');
@@ -399,7 +402,7 @@ test('action gate scope applies to every parent EXP and mismatched target is not
 test('versioned operation scopes require requested_operations while legacy read-only items remain valid',()=>{
  const legacy=item();
  assert.equal(wi.validateWorkItem(legacy),true);
- assert.throws(()=>wi.validateWorkItem(item({operation_scope_version:'1.0'})),/versioned operation scope requires requested_operations/);
+ assert.throws(()=>wi.validateWorkItem(item({operation_scope_version:'1.0'})),/must be supplied together/);
  const current=item({operation_scope_version:'1.0',requested_operations:['analysis']});
  assert.equal(wi.validateWorkItem(current),true);
 });
@@ -484,4 +487,58 @@ test('READ_ONLY evidence-only acceptance rejects a missing or non-REVIEW handoff
  const wrongEvent=wi.evaluateReadOnlyAcceptance(x,{issueNumber:13,hasActiveLease:false,hardGatesReady:true,reviewEvent:{...readonlyReview,event:'RELEASE'}});
  assert.ok(missing.blockers.includes('missing_review_handoff'));
  assert.ok(wrongEvent.blockers.includes('missing_review_handoff'));
+});
+
+test('explicit dependencies are enforced by coordinator hard-gate evaluator',()=>{
+ const child=item({dependencies:[{work_item_id:'WI-PARENT'}]});
+ const graph=graphWith([{id:'EXP-03',hard_gates:[]}]);
+ assert.ok(wi.evaluateHardGates(child,graph,[child]).blockers.includes('unresolved_explicit_dependency:WI-PARENT'));
+ const parent=item({work_item_id:'WI-PARENT',status:'READY'});
+ assert.ok(wi.evaluateHardGates(child,graph,[child,parent]).blockers.includes('explicit_dependency_not_accepted:WI-PARENT:READY'));
+ parent.status='ACCEPTED';
+ assert.equal(wi.evaluateHardGates(child,graph,[child,parent]).ready,true);
+});
+test('duplicate canonical Work Item IDs block explicit dependencies in either order',()=>{
+ const child=item({dependencies:[{work_item_id:'WI-PARENT'}]});
+ const accepted=item({work_item_id:'WI-PARENT',status:'ACCEPTED'}), ready=item({work_item_id:'WI-PARENT',status:'READY'});
+ for(const parents of [[accepted,ready],[ready,accepted]]) assert.ok(wi.evaluateHardGates(child,graphWith([{id:'EXP-03',hard_gates:[]}]),[child,...parents]).blockers.includes('ambiguous_explicit_dependency:WI-PARENT'));
+});
+test('selection fails closed on missing or malformed ACTIVE lease and lock expiries',()=>{
+ const x=item(), now=Date.parse('2026-01-01T00:30:00Z');
+ for(const expiry of [undefined,'not-a-date']) {
+  assert.equal(wi.selectNextWorkItem([x],{nowMs:now,leasesByWorkItem:{[x.work_item_id]:{...lease,lease_expires_at_utc:expiry}}}),null);
+  assert.equal(wi.selectNextWorkItem([x],{nowMs:now,activeLocks:[{resource_key:'module:catalog',lease_expires_at_utc:expiry}]}),null);
+ }
+ assert.equal(wi.selectNextWorkItem([x],{nowMs:now,leasesByWorkItem:{[x.work_item_id]:{...lease,lease_expires_at_utc:'2025-12-31T23:00:00Z'}}}).work_item_id,x.work_item_id);
+ assert.equal(wi.selectNextWorkItem([x],{nowMs:now,leasesByWorkItem:{[x.work_item_id]:{...lease,lease_expires_at_utc:'2026-01-01T01:00:00Z'}}}),null);
+});
+test('operation scope version and requested operations are a symmetric pair',()=>{
+ const noVersion=item({requested_operations:['analysis']}); delete noVersion.operation_scope_version;
+ assert.throws(()=>wi.validateWorkItem(noVersion),/must be supplied together/);
+ assert.throws(()=>wi.validateWorkItem(item({operation_scope_version:'1.0'})),/must be supplied together/);
+ assert.equal(wi.validateWorkItem(item({operation_scope_version:'1.0',requested_operations:['analysis']})),true);
+});
+test('Issue #58 receives only its exact branchless control-plane metadata operation',()=>{
+ const x=item({work_item_id:'WI-PR16-SPEC-REPAIR-001',target_repository:'a4adelahmadian86-wq/farast-control-plane',write_policy:'WRITE_ALLOWED'});
+ assert.deepEqual(wi.defaultRequestedOperations(x),['control_plane_metadata']);
+ const graph=graphWith([{id:'EXP-22',hard_gates:[]}],{control_plane_metadata:{applies_to_target_repositories:['a4adelahmadian86-wq/farast-control-plane'],applies_to_work_item_ids:['WI-PR16-SPEC-REPAIR-001']}});
+ assert.equal(wi.evaluateHardGates(x,graph,[x]).ready,true);
+ const other=item({...x,work_item_id:'WI-OTHER-METADATA-001'});
+ assert.ok(wi.evaluateHardGates(other,graph,[other]).blockers.includes('operation_work_item_scope_mismatch:control_plane_metadata:WI-OTHER-METADATA-001'));
+});
+test('branchless metadata acceptance requires evidence, no active lease and matching null-branch review',()=>{
+ const x=item({work_item_id:'WI-PR16-SPEC-REPAIR-001',target_repository:'a4adelahmadian86-wq/farast-control-plane',write_policy:'WRITE_ALLOWED'});
+ x.steps.forEach((step,i)=>{step.validation_status='PASS';step.evidence_refs=['https://example.test/s'+i];});
+ x.acceptance_criteria.forEach((criterion,i)=>{criterion.validation_status='PASS';criterion.evidence_refs=['https://example.test/c'+i];});
+ const review={event:'REVIEW',issue_number:58,target_repository:x.target_repository,branch:null};
+ assert.equal(wi.evaluateBranchlessMetadataAcceptance(x,{issueNumber:58,hasActiveLease:false,hardGatesReady:true,reviewEvent:review}).ready,true);
+ assert.ok(wi.evaluateBranchlessMetadataAcceptance(x,{issueNumber:58,hasActiveLease:true,hardGatesReady:true,reviewEvent:review}).blockers.includes('active_lease'));
+ assert.ok(wi.evaluateBranchlessMetadataAcceptance(x,{issueNumber:58,hasActiveLease:false,hardGatesReady:true,reviewEvent:{...review,branch:'work/not-allowed'}}).blockers.includes('branchless_metadata_handoff_must_not_have_branch'));
+});
+test('coordinator registry persistence verifies exact commit read-back and guards missing operation records',()=>{
+ const fs=require('node:fs'), path=require('node:path');
+ const workflow=fs.readFileSync(path.join(__dirname,'../workflows/farast-coordinator.yml'),'utf8');
+ assert.match(workflow,/readBack\.refSha\s*===\s*commit\.data\.sha/);
+ assert.match(workflow,/latest\?\.processed_operations\?\.\[id\]/);
+ assert.match(workflow,/registry_readback_commit_mismatch/);
 });

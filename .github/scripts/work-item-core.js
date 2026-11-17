@@ -9,7 +9,7 @@ const VALIDATION = new Set(['NOT_RUN','PASS','FAIL','BLOCKED','UNKNOWN']);
 const PRODUCT_REPOSITORY = 'a4adelahmadian86-wq/non';
 const CONTROL_PLANE_REPOSITORY = 'a4adelahmadian86-wq/farast-control-plane';
 const BASE_OPERATIONS = new Set(['analysis','proposal_only']);
-const ACTION_OPERATIONS = new Set(['control_plane_write','control_plane_merge','control_plane_authorization_change','repository_write','product_implementation','destructive_data_change','database_migration','authorization_change','security_sensitive_change','audit_log_change','architecture_implementation','hosting_deployment','legal_policy_change','merge','acceptance','security_acceptance','production_release']);
+const ACTION_OPERATIONS = new Set(['control_plane_write','control_plane_merge','control_plane_authorization_change','control_plane_metadata','repository_write','product_implementation','destructive_data_change','database_migration','authorization_change','security_sensitive_change','audit_log_change','architecture_implementation','hosting_deployment','legal_policy_change','merge','acceptance','security_acceptance','production_release']);
 const ALL_OPERATIONS = new Set([...BASE_OPERATIONS, ...ACTION_OPERATIONS]);
 
 function assert(condition, message) {
@@ -31,7 +31,10 @@ function validateWorkItem(item) {
   assert(typeof item.target_repository === 'string' && /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(item.target_repository), 'invalid target_repository');
   assert(['READ_ONLY','WRITE_REQUIRES_OWNER_APPROVAL','WRITE_ALLOWED'].includes(item.write_policy), 'invalid write_policy');
   assert(['OWNER_ASSIGNED','DEFAULT_POLICY'].includes(item.priority_source), 'invalid priority_source');
-  if (item.operation_scope_version !== undefined) {
+  const hasOperationScopeVersion = item.operation_scope_version !== undefined;
+  const hasRequestedOperations = item.requested_operations !== undefined;
+  assert(hasOperationScopeVersion === hasRequestedOperations, 'operation_scope_version and requested_operations must be supplied together');
+  if (hasOperationScopeVersion) {
     assert(item.operation_scope_version === '1.0', 'unsupported operation_scope_version');
     assert(Array.isArray(item.requested_operations) && item.requested_operations.length > 0, 'versioned operation scope requires requested_operations');
   }
@@ -231,6 +234,8 @@ function defaultRequestedOperations(item) {
   // One-time migration exception: this Work Item introduces the explicit operation contract itself.
   if (item?.write_policy === 'WRITE_ALLOWED' && item?.work_item_id === 'WI-OPERATION-GATE-MODEL-001' &&
       item?.target_repository === CONTROL_PLANE_REPOSITORY) return ['control_plane_write'];
+  if (item?.write_policy === 'WRITE_ALLOWED' && item?.work_item_id === 'WI-PR16-SPEC-REPAIR-001' &&
+      item?.target_repository === CONTROL_PLANE_REPOSITORY) return ['control_plane_metadata'];
   return [];
 }
 
@@ -246,7 +251,12 @@ function validateDependencyGraph(graph) {
     else for (const gate of node.hard_gates) if (typeof gate !== 'string' || !/^EXP-[0-9]{2}$/.test(gate)) errors.push('non_exp_hard_gate:' + node.id + ':' + String(gate));
     if (node.soft_inputs !== undefined && (!Array.isArray(node.soft_inputs) || !node.soft_inputs.every(x => typeof x === 'string' && /^EXP-[0-9]{2}$/.test(x))) ) errors.push('invalid_soft_inputs:' + node.id);
   }
-  if (graph.operation_gates !== undefined && !Array.isArray(graph.operation_gates)) errors.push('operation_gates_must_be_array');
+  for (const node of graph.nodes) {
+    for (const reference of [...(Array.isArray(node.hard_gates) ? node.hard_gates : []), ...(Array.isArray(node.soft_inputs) ? node.soft_inputs : [])]) {
+      if (!nodeIds.has(reference)) errors.push('unknown_exp_reference:' + node.id + ':' + reference);
+    }
+  }
+  if (!Array.isArray(graph.operation_gates)) errors.push('operation_gates_must_be_array');
   const gateIds = new Set();
   for (const gate of graph.operation_gates || []) {
     if (!gate || !ACTION_OPERATIONS.has(gate.id)) { errors.push('unknown_operation_gate:' + String(gate?.id)); continue; }
@@ -255,6 +265,7 @@ function validateDependencyGraph(graph) {
     if (!Array.isArray(gate.required_work_item_ids) || !gate.required_work_item_ids.every(x => typeof x === 'string' && /^[A-Z0-9][A-Z0-9._-]{2,63}$/.test(x))) errors.push('invalid_required_work_item_ids:' + gate.id);
     if (gate.applies_to_exp_ids !== undefined && (!Array.isArray(gate.applies_to_exp_ids) || !gate.applies_to_exp_ids.every(x => typeof x === 'string' && /^EXP-[0-9]{2}$/.test(x)))) errors.push('invalid_operation_exp_scope:' + gate.id);
     if (gate.applies_to_target_repositories !== undefined && (!Array.isArray(gate.applies_to_target_repositories) || !gate.applies_to_target_repositories.every(x => typeof x === 'string' && x.includes('/')))) errors.push('invalid_operation_repository_scope:' + gate.id);
+    if (gate.applies_to_work_item_ids !== undefined && (!Array.isArray(gate.applies_to_work_item_ids) || !gate.applies_to_work_item_ids.length || !gate.applies_to_work_item_ids.every(x => typeof x === 'string' && /^[A-Z0-9][A-Z0-9._-]{2,63}$/.test(x)))) errors.push('invalid_operation_work_item_scope:' + gate.id);
     if (typeof gate.owner_authorization_required !== 'boolean') errors.push('owner_authorization_required_missing:' + gate.id);
     if (!Array.isArray(gate.evidence_requirements) || !gate.evidence_requirements.length || !gate.evidence_requirements.every(x => typeof x === 'string' && x.trim())) errors.push('evidence_requirements_missing:' + gate.id);
   }
@@ -276,6 +287,7 @@ function evaluateOperationGates(item, graph, workItems = [], options = {}) {
     if (operation === 'control_plane_write' && (item.target_repository !== CONTROL_PLANE_REPOSITORY || item.write_policy !== 'WRITE_ALLOWED')) blockers.push('control_plane_write_scope_mismatch');
     if (operation === 'control_plane_merge' && item.target_repository !== CONTROL_PLANE_REPOSITORY) blockers.push('control_plane_merge_scope_mismatch');
     if (operation === 'control_plane_authorization_change' && (item.target_repository !== CONTROL_PLANE_REPOSITORY || item.write_policy !== 'WRITE_ALLOWED')) blockers.push('control_plane_authorization_scope_mismatch');
+    if (operation === 'control_plane_metadata' && (item.target_repository !== CONTROL_PLANE_REPOSITORY || item.write_policy !== 'WRITE_ALLOWED')) blockers.push('control_plane_metadata_scope_mismatch');
     if (operation === 'repository_write' && (item.target_repository === PRODUCT_REPOSITORY || item.target_repository === CONTROL_PLANE_REPOSITORY || item.write_policy !== 'WRITE_ALLOWED')) blockers.push('repository_write_scope_mismatch');
     if (operation === 'product_implementation' && (item.target_repository !== PRODUCT_REPOSITORY || item.write_policy !== 'WRITE_ALLOWED')) blockers.push('product_implementation_scope_mismatch');
     const gate = (graph.operation_gates || []).find(g => g.id === operation);
@@ -285,6 +297,9 @@ function evaluateOperationGates(item, graph, workItems = [], options = {}) {
     const expApplies = !Array.isArray(gate.applies_to_exp_ids) || gate.applies_to_exp_ids.some(id => itemExpIds.has(id));
     if (!repoApplies) { blockers.push('operation_target_scope_mismatch:' + operation + ':' + item.target_repository); continue; }
     if (!expApplies) { blockers.push('operation_scope_mismatch:' + operation + ':' + [...itemExpIds].join(',')); continue; }
+    if (Array.isArray(gate.applies_to_work_item_ids) && !gate.applies_to_work_item_ids.includes(item.work_item_id)) {
+      blockers.push('operation_work_item_scope_mismatch:' + operation + ':' + item.work_item_id); continue;
+    }
     if (gate.owner_authorization_required && (item.write_policy !== 'WRITE_ALLOWED' || !String(item.owner_approval_ref || '').trim())) blockers.push('owner_authorization_required:' + operation);
     for (const id of gate.required_work_item_ids) {
       if (id === item.work_item_id) { blockers.push('operation_prerequisite_self_reference:' + operation + ':' + id); continue; }
@@ -304,6 +319,12 @@ function evaluateHardGates(item, graph, workItems = [], options = {}) {
   const node = graph.nodes.find(x=>x.id===expId);
   if (!node || !Array.isArray(node.hard_gates)) return {ready:false,exp_id:expId,blockers:['missing_or_invalid_graph_node:'+expId],dependency_blockers:['missing_or_invalid_graph_node:'+expId],operation_blockers:[]};
   const dependencyBlockers = [];
+  for (const dependency of item.dependencies || []) {
+    const id = dependency.work_item_id;
+    const matches = workItems.filter(candidate => candidate.work_item_id === id);
+    if (matches.length !== 1) dependencyBlockers.push((matches.length ? 'ambiguous' : 'unresolved') + '_explicit_dependency:' + id);
+    else if (matches[0].status !== 'ACCEPTED') dependencyBlockers.push('explicit_dependency_not_accepted:' + id + ':' + matches[0].status);
+  }
   for (const gate of node.hard_gates) {
     const matches = workItems.filter(x=>primaryExpId(x)===gate);
     if (matches.length!==1) dependencyBlockers.push((matches.length?'ambiguous':'unresolved')+'_hard_gate:'+gate);
@@ -312,6 +333,29 @@ function evaluateHardGates(item, graph, workItems = [], options = {}) {
   const operations = evaluateOperationGates(item,graph,workItems,options);
   const blockers = [...dependencyBlockers,...operations.blockers];
   return {ready:blockers.length===0,exp_id:expId,blockers,dependency_blockers:dependencyBlockers,operation_blockers:operations.blockers,requested_operations:operations.requested_operations,soft_inputs_ignored:node.soft_inputs||[]};
+}
+
+function evaluateBranchlessMetadataAcceptance(item, options = {}) {
+  const blockers = [];
+  try { validateWorkItem(item); }
+  catch (error) { return {ready:false,blockers:['invalid_work_item:' + String(error.message || error)],progress:null}; }
+  const requested = defaultRequestedOperations(item);
+  if (item.write_policy !== 'WRITE_ALLOWED' || item.target_repository !== CONTROL_PLANE_REPOSITORY ||
+      item.work_item_id !== 'WI-PR16-SPEC-REPAIR-001' || requested.length !== 1 || requested[0] !== 'control_plane_metadata') {
+    blockers.push('not_authorized_for_branchless_metadata_acceptance');
+  }
+  if (options.hasActiveLease === true) blockers.push('active_lease');
+  if (options.hardGatesReady !== true) blockers.push('hard_gates_not_satisfied');
+  const handoff = options.reviewEvent;
+  if (!handoff || handoff.event !== 'REVIEW') blockers.push('missing_review_handoff');
+  else {
+    if (Number(handoff.issue_number) !== Number(options.issueNumber)) blockers.push('review_handoff_issue_mismatch');
+    if (handoff.target_repository !== item.target_repository) blockers.push('review_handoff_target_mismatch');
+    if (handoff.branch !== null && handoff.branch !== undefined) blockers.push('branchless_metadata_handoff_must_not_have_branch');
+  }
+  const progress = calculateProgress(item);
+  if (!progress.can_accept) blockers.push('required_evidence_incomplete');
+  return {ready:blockers.length===0,blockers,progress};
 }
 
 function evaluateReadOnlyAcceptance(item, options = {}) {
@@ -338,25 +382,39 @@ function evaluateReadOnlyAcceptance(item, options = {}) {
 
 function dependencyReady(item, byId, dependencyGraph) {
   const explicitDependenciesReady = (item.dependencies || []).every(dep => {
-    const parent = byId.get(dep.work_item_id);
-    return !!parent && parent.status === 'ACCEPTED';
+    const value = byId.get(dep.work_item_id);
+    const matches = Array.isArray(value) ? value : value ? [value] : [];
+    return matches.length === 1 && matches[0].status === 'ACCEPTED';
   });
   if (!explicitDependenciesReady) return false;
-  return dependencyGraph ? evaluateHardGates(item, dependencyGraph, [...byId.values()]).ready : true;
+  const allItems = [...byId.values()].flatMap(value => Array.isArray(value) ? value : value ? [value] : []);
+  return dependencyGraph ? evaluateHardGates(item, dependencyGraph, allItems).ready : true;
 }
 
 function selectNextWorkItem(items, options = {}) {
   const nowMs = options.nowMs ?? Date.now();
   const locks = options.activeLocks || [];
-  const byId = new Map(items.map(x => [x.work_item_id, x]));
+  const byId = new Map();
+  for (const candidate of items) {
+    const matches = byId.get(candidate.work_item_id) || [];
+    matches.push(candidate);
+    byId.set(candidate.work_item_id, matches);
+  }
   const eligible = items.filter(item => {
     validateWorkItem(item);
     if (TERMINAL.has(item.status) || item.status === 'BLOCKED' || item.status === 'REVIEW_REQUIRED') return false;
     if (!dependencyReady(item, byId, options.dependencyGraph)) return false;
     const lease = options.leasesByWorkItem?.[item.work_item_id];
-    if (lease && lease.status === 'ACTIVE' && Date.parse(lease.lease_expires_at_utc) > nowMs) return false;
+    if (lease && lease.status === 'ACTIVE') {
+      const expiry = Date.parse(lease.lease_expires_at_utc);
+      if (!Number.isFinite(expiry) || expiry > nowMs) return false;
+    }
     const keys = new Set(item.resource_keys);
-    if (locks.some(lock => keys.has(lock.resource_key) && Date.parse(lock.lease_expires_at_utc) > nowMs)) return false;
+    if (locks.some(lock => {
+      if (!keys.has(lock.resource_key)) return false;
+      const expiry = Date.parse(lock.lease_expires_at_utc);
+      return !Number.isFinite(expiry) || expiry > nowMs;
+    })) return false;
     return item.status === 'READY' || item.status === 'BACKLOG' || item.status === 'CLAIMED' || item.status === 'IN_PROGRESS' || item.status === 'PARTIALLY_ACCEPTED';
   });
   const ageHours = item => Math.max(0, (nowMs - Date.parse(item.ready_at_utc || item.created_at_utc || new Date(nowMs).toISOString())) / 3600000);
@@ -415,6 +473,6 @@ function createCheckpoint(item, input) {
 
 module.exports = {
   STATUSES, validateWorkItem, validateProductWriteAuthorization, evidenceVerified, calculateProgress, validateLease,
-  recordStepEvidence, recordCriterionEvidence, primaryExpId, defaultRequestedOperations, validateDependencyGraph, evaluateOperationGates, evaluateHardGates, evaluateReadOnlyAcceptance, dependencyReady, selectNextWorkItem,
+  recordStepEvidence, recordCriterionEvidence, primaryExpId, defaultRequestedOperations, validateDependencyGraph, evaluateOperationGates, evaluateHardGates, evaluateReadOnlyAcceptance, evaluateBranchlessMetadataAcceptance, dependencyReady, selectNextWorkItem,
   resumePlan, createCheckpoint
 };
