@@ -17,7 +17,6 @@ const LEGACY_WRITE_OPERATION_SCOPES = Object.freeze({
  'WI-NON-WRITE-POLICY-COORDINATOR-001':{target_repository:CONTROL_PLANE_REPOSITORY,operations:['control_plane_write']},
  'WI-PR16-SPEC-REPAIR-001':{target_repository:CONTROL_PLANE_REPOSITORY,operations:['control_plane_write'],branchless:true},
  'WI-OPERATION-GATE-MODEL-001':{target_repository:CONTROL_PLANE_REPOSITORY,operations:['control_plane_write']},
- 'WI-PROMPT-OPERATION-SCOPE-001':{target_repository:CONTROL_PLANE_REPOSITORY,operations:['control_plane_write']}
 });
 
 function assert(condition, message) {

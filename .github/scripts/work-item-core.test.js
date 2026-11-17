@@ -669,9 +669,25 @@ test('operation scope rejects unsupported version and one-sided field declaratio
  const missingOperations=item({operation_scope_version:'1.0'});
  assert.throws(()=>wi.validateWorkItem(missingOperations),/must be supplied together/);
 });
+test('versioned prompt-scope Work Item has no legacy implicit operation fallback',()=>{
+ const unversioned=item({work_item_id:'WI-PROMPT-OPERATION-SCOPE-001',target_repository:controlPlane,write_policy:'WRITE_ALLOWED'});
+ assert.deepEqual(wi.defaultRequestedOperations(unversioned),[]);
+ assert.throws(()=>wi.validateWorkItem(unversioned),/require operation_scope_version/);
+ const versioned=item({work_item_id:'WI-PROMPT-OPERATION-SCOPE-001',target_repository:controlPlane,write_policy:'WRITE_ALLOWED',requested_operations:['control_plane_write']});
+ assert.deepEqual(wi.defaultRequestedOperations(versioned),['control_plane_write']);
+ assert.doesNotThrow(()=>wi.validateWorkItem(versioned));
+});
+test('high-risk EXP-02 operation gates reference the canonical backup-recovery Work Item',()=>{
+ const graph=require('../../01_STRATEGY/DEPENDENCY_GRAPH.json');
+ for (const id of ['destructive_data_change','database_migration','production_release']) {
+  const gate=graph.operation_gates.find(x=>x.id===id);
+  assert.ok(gate.required_work_item_ids.includes('WI-EXP02-BACKUP-RECOVERY-001'),id);
+  assert.ok(!gate.required_work_item_ids.includes('WI-EXP02-BACKUP-RESTORE-001'),id);
+ }
+});
 test('legacy READ_ONLY and proposal-only Work Items remain schema-compatible without operation scope',()=>{
  const schema=require('../../04_COORDINATION/WORK_ITEM_SCHEMA.json');
- const legacyIds=["WI-GOAL-ALLOCATOR-001","WI-NON-IMPLEMENTATION-VERTICAL-SLICE-001","WI-NON-WRITE-POLICY-COORDINATOR-001","WI-PR16-SPEC-REPAIR-001","WI-OPERATION-GATE-MODEL-001","WI-PROMPT-OPERATION-SCOPE-001","WI-CI-001"];
+ const legacyIds=["WI-GOAL-ALLOCATOR-001","WI-NON-IMPLEMENTATION-VERTICAL-SLICE-001","WI-NON-WRITE-POLICY-COORDINATOR-001","WI-PR16-SPEC-REPAIR-001","WI-OPERATION-GATE-MODEL-001","WI-CI-001"];
  const writeScopeRule=schema.allOf.find(rule=>rule.if?.properties?.write_policy?.const==='WRITE_ALLOWED' && rule.then?.required?.includes('operation_scope_version'));
  assert.ok(writeScopeRule);
  assert.equal(schema.required.includes('operation_scope_version'),false);

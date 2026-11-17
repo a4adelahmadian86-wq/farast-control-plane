@@ -343,7 +343,7 @@
       ],
       "required_work_item_ids": [
         "WI-EXP11-DATA-MIGRATION-001",
-        "WI-EXP02-BACKUP-RESTORE-001"
+        "WI-EXP02-BACKUP-RECOVERY-001"
       ],
       "owner_authorization_required": true,
       "evidence_requirements": [
@@ -359,7 +359,7 @@
         "a4adelahmadian86-wq/non"
       ],
       "required_work_item_ids": [
-        "WI-EXP02-BACKUP-RESTORE-001"
+        "WI-EXP02-BACKUP-RECOVERY-001"
       ],
       "owner_authorization_required": true,
       "evidence_requirements": [
@@ -454,7 +454,7 @@
         "a4adelahmadian86-wq/non"
       ],
       "required_work_item_ids": [
-        "WI-EXP02-BACKUP-RESTORE-001",
+        "WI-EXP02-BACKUP-RECOVERY-001",
         "WI-EXP17-OPERATIONS-DR-001",
         "WI-EXP18-LOW-DISRUPTION-RELEASE-001",
         "WI-EXP23-REGRESSION-001",
