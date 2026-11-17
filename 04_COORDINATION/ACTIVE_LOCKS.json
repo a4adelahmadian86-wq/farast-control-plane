@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 766,
+  "revision": 767,
   "next_fencing_token": 83,
   "locks": [
     {
@@ -6595,6 +6595,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-17T09:53:29.901Z"
+    },
+    "6944649755": {
+      "response": "STEP ثبت شد: S2_IMPLEMENT; EXECUTION_PROGRESS=42.85%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=3/7.",
+      "response_posted": false,
+      "issue_number": 62,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-17T09:54:12.929Z"
     }
   },
   "work_items": {
@@ -8964,7 +8973,16 @@
           "weight": 1,
           "expected_output": "Coordinator accepts valid READ_ONLY work without PR while preserving write paths",
           "evidence_requirement": "Code diff and focused test result",
-          "estimate_minutes": 5
+          "estimate_minutes": 5,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-62-RUN-20261117-READONLY-ACCEPTANCE-001/.github/scripts/work-item-core.js",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-62-RUN-20261117-READONLY-ACCEPTANCE-001/.github/workflows/farast-coordinator.yml",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/46d783353aa7b9dcda522ef0dd6d5ad1aeb3281f"
+          ],
+          "validated_at_utc": "2026-11-17T09:54:12.780Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S3_REGRESSION",
