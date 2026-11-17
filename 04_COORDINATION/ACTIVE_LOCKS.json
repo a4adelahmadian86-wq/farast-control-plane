@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "revision": 810,
-  "next_fencing_token": 85,
+  "revision": 811,
+  "next_fencing_token": 86,
   "locks": [
     {
       "resource_key": "file:.github/scripts/work-item-core.js",
@@ -65,6 +65,22 @@
       "heartbeat_at_utc": "2026-11-17T10:07:26.020Z",
       "lease_expires_at_utc": "2026-11-17T10:37:26.020Z",
       "fencing_token": 84,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "analysis:exp-01",
+      "issue_number": 13,
+      "task_id": "GH-13",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-PR01-BASELINE-ACCEPT-20261117",
+      "chat_id": "CHAT-PR01-BASELINE-ACCEPT-20261117",
+      "run_id": "RUN-20261117-PR01-BASELINE-ACCEPT-001",
+      "target_repository": "a4adelahmadian86-wq/non",
+      "branch": null,
+      "acquired_at_utc": "2026-11-17T10:09:13.876Z",
+      "heartbeat_at_utc": "2026-11-17T10:09:13.876Z",
+      "lease_expires_at_utc": "2026-11-17T10:39:13.876Z",
+      "fencing_token": 85,
       "status": "ACTIVE"
     }
   ],
@@ -3390,6 +3406,23 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "lease_expires_at_utc": "2026-11-17T10:37:26.020Z",
       "at_utc": "2026-11-17T10:07:26.020Z"
+    },
+    {
+      "event": "ACQUIRED",
+      "issue_number": 13,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-PR01-BASELINE-ACCEPT-20261117",
+      "run_id": "RUN-20261117-PR01-BASELINE-ACCEPT-001",
+      "resource_keys": [
+        "analysis:exp-01"
+      ],
+      "target_repository": "a4adelahmadian86-wq/non",
+      "branch": null,
+      "previous_branch": null,
+      "previous_target_repository": null,
+      "previous_run_id": null,
+      "fencing_token": 85,
+      "at_utc": "2026-11-17T10:09:13.876Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -6912,6 +6945,15 @@
       "command": "reopen",
       "next_status": "ready",
       "at_utc": "2026-11-17T10:08:36.847Z"
+    },
+    "6944980721": {
+      "response": "CLAIM GRANTED. TASK=GH-13; WORK_ITEM_ID=WI-EXP01-BASELINE-001; verified_steps=S0_SCOPE,S1_DISCOVER,S2_ENVIRONMENT,S3_VALIDATE,S4_RISK_REGISTER,S5_REPORT,S6_VERIFY; remaining_steps=; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; actor=@a4adelahmadian86-wq; chat=CHAT-PR01-BASELINE-ACCEPT-20261117; run=RUN-20261117-PR01-BASELINE-ACCEPT-001; resource_keys=analysis:exp-01; target_repository=a4adelahmadian86-wq/non; write_policy=READ_ONLY; branch=none; previous_run=none; fencing_token=85; lease_expires=2026-11-17T10:39:13.876Z. این Work Item با سیاست READ_ONLY است؛ در target_repository هیچ branch، file، commit یا PR ایجاد/تغییر نده. شواهد را فقط در Issue thread یا محل مجاز control-plane ثبت کن؛ برای WRITE_REQUIRES_OWNER_APPROVAL فقط proposal ارائه بده.",
+      "response_posted": false,
+      "issue_number": 13,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "locked",
+      "at_utc": "2026-11-17T10:09:13.883Z"
     }
   },
   "work_items": {
@@ -7195,7 +7237,7 @@
       "parent_exp_ids": [
         "EXP-01"
       ],
-      "status": "READY",
+      "status": "CLAIMED",
       "target_repository": "a4adelahmadian86-wq/non",
       "resource_keys": [
         "analysis:exp-01"
