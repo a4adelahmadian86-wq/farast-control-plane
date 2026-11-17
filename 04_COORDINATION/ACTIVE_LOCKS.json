@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1527,
+  "revision": 1528,
   "next_fencing_token": 108,
   "locks": [],
   "history": [
@@ -6855,6 +6855,13 @@
       "work_item_id": "WI-PR16-SPEC-REPAIR-001",
       "preserved_steps": 5,
       "at_utc": "2026-11-17T21:17:57.531Z"
+    },
+    {
+      "event": "DEPENDENCY_AUTO_UNBLOCKED",
+      "issue_number": 52,
+      "work_item_id": "WI-NON-WRITE-POLICY-COORDINATOR-001",
+      "preserved_steps": 7,
+      "at_utc": "2026-11-17T21:18:05.893Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -15517,7 +15524,7 @@
       "parent_exp_ids": [
         "EXP-22"
       ],
-      "status": "BLOCKED",
+      "status": "READY",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "module:work-item-policy",
