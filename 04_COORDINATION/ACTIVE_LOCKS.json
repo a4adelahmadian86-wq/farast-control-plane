@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 640,
+  "revision": 641,
   "next_fencing_token": 78,
   "locks": [
     {
@@ -5755,6 +5755,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-17T09:01:39.582Z"
+    },
+    "6943721227": {
+      "response": "STEP ثبت شد: S0_AUDIT; EXECUTION_PROGRESS=14.28%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=1/7.",
+      "response_posted": false,
+      "issue_number": 59,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-17T09:11:35.894Z"
     }
   },
   "work_items": {
@@ -7677,7 +7686,7 @@
         "EXP-22",
         "EXP-23"
       ],
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "module:dependency-graph",
@@ -7704,7 +7713,18 @@
           "weight": 1,
           "expected_output": "Source-backed change map with overlap and lineage analysis",
           "evidence_requirement": "Exact main SHA, file URLs/SHAs, Issue #13, registry revision and PR/check URLs",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/3ce6eaca6babe7d663a2f9340bd7fa3159eeb6a3",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/13",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/42",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/45",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/46"
+          ],
+          "validated_at_utc": "2026-11-17T09:11:35.889Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S1_PRIORITY_CONTRACT",
