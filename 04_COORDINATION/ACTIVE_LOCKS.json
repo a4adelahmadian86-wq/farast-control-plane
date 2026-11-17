@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1156,
+  "revision": 1157,
   "next_fencing_token": 97,
   "locks": [
     {
@@ -10056,6 +10056,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-17T16:27:28.934Z"
+    },
+    "6954011657": {
+      "response": "معیار پذیرش ثبت شد: AC_FAIL_CLOSED; ACCEPTANCE_PROGRESS=60%; OVERALL_COMPLETION=60%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 64,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-17T16:27:38.227Z"
     }
   },
   "work_items": {
@@ -12805,7 +12814,15 @@
         {
           "criterion_id": "AC_FAIL_CLOSED",
           "title": "Unknown operation gates, missing evidence and unresolved genuine EXP dependencies fail closed",
-          "evidence_requirement": "Negative tests proving each unresolved case blocks the exact operation/task"
+          "evidence_requirement": "Negative tests proving each unresolved case blocks the exact operation/task",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-64-RUN-20261117-MASTER00-RESUME-1948Z-001/.github/scripts/work-item-core.test.js",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-64-RUN-20261117-MASTER00-RESUME-1948Z-001/.github/scripts/work-item-core.js"
+          ],
+          "validated_at_utc": "2026-11-17T16:27:38.227Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Unknown gates, missing prerequisites, unresolved/ambiguous EXP dependencies, duplicate IDs and missing evidence fail closed."
         },
         {
           "criterion_id": "AC_COMPATIBILITY",
