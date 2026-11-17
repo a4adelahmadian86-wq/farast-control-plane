@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1343,
+  "revision": 1344,
   "next_fencing_token": 105,
   "locks": [
     {
@@ -11484,7 +11484,7 @@
     },
     "6955690033": {
       "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-LEGACY-WRITE-SCOPE-COMPAT-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=Run /farast review with this lease, then /farast accept pr=https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/79; after merge, verify Issue #64's live dependency gate and continue #68 then #67.; remaining_steps=.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 77,
       "actor": "a4adelahmadian86-wq",
       "command": "checkpoint",
