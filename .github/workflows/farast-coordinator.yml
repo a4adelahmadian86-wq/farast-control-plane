@@ -419,11 +419,16 @@ jobs:
                         const pr = (await prClient.rest.pulls.get({ owner: prOwner, repo: prRepo, pull_number: Number(prNumber) })).data;
                         const reviewEvent = [...state.history].reverse().find(x => x.issue_number === issue.number && x.event === 'REVIEW');
                         const branchBound = coordinatorCore.matchesReviewLease(pr, reviewEvent);
+                        const mergeOperation = acceptanceItem?.target_repository === 'a4adelahmadian86-wq/farast-control-plane' ? 'control_plane_merge' : 'merge';
+                        const mergeGate = acceptanceItem
+                          ? workItemCore.evaluateHardGates(acceptanceItem, dependencyGraph, Object.values(state.work_items || {}), { requestedOperations: [mergeOperation] })
+                          : { ready: false, blockers: ['work_item_spec_missing'] };
                         const checkRuns = await prClient.paginate(prClient.rest.checks.listForRef, { owner: prOwner, repo: prRepo, ref: pr.head.sha, per_page: 100 });
                         const combinedStatus = await prClient.rest.repos.getCombinedStatusForRef({ owner: prOwner, repo: prRepo, ref: pr.head.sha });
                         const automatedChecksPassed = coordinatorCore.hasSuccessfulChecks(checkRuns, combinedStatus.data);
                         if (!branchBound) response = 'پذیرش رد شد: PR باید از branch و target repository ثبت‌شده در آخرین handoff همان lease ساخته شده باشد.';
-                        else if (!hardGate.ready) response = 'پذیرش خودکار رد شد: گیت سخت حل‌نشده/پاس‌نشده است: ' + hardGate.blockers.join(',') + '.';
+                        else if (!hardGate.ready) response = 'پذیرش خودکار رد شد: گیت سخت/عملیات درخواست‌شده حل‌نشده یا پاس‌نشده است: ' + hardGate.blockers.join(',') + '.';
+                        else if (!mergeGate.ready) response = 'ادغام رد شد: گیت عملیات merge پاس نشده است: ' + mergeGate.blockers.join(',') + '.';
                         else if (!automatedChecksPassed) response = 'پذیرش خودکار رد شد: تمام Check Runها و Commit Statusهای SHA دقیق head باید با conclusion/state برابر success تکمیل شده باشند؛ بازبین انسانی دوم لازم نیست.';
                         else {
                           let mergeConfirmed = pr.merged;
