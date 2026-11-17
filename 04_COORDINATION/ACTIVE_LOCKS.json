@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 784,
+  "revision": 785,
   "next_fencing_token": 84,
   "locks": [
     {
@@ -6733,6 +6733,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-17T09:59:53.537Z"
+    },
+    "6944770757": {
+      "response": "معیار پذیرش ثبت شد: AC_NO_HUMAN_REVIEW; ACCEPTANCE_PROGRESS=60%; OVERALL_COMPLETION=60%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 62,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-17T10:00:17.293Z"
     }
   },
   "work_items": {
@@ -9212,7 +9221,16 @@
         {
           "criterion_id": "AC_NO_HUMAN_REVIEW",
           "title": "No second human reviewer/signoff is required; machine gates remain fail-closed",
-          "evidence_requirement": "Automated acceptance test without review event plus policy tests"
+          "evidence_requirement": "Automated acceptance test without review event plus policy tests",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-62-RUN-20261117-READONLY-ACCEPTANCE-001/.github/workflows/farast-coordinator.yml",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-62-RUN-20261117-READONLY-ACCEPTANCE-001/.github/scripts/work-item-core.test.js",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/63"
+          ],
+          "validated_at_utc": "2026-11-17T10:00:17.288Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_REGRESSION",
