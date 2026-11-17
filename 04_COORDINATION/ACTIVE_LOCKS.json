@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1069,
+  "revision": 1070,
   "next_fencing_token": 96,
   "locks": [
     {
@@ -9426,6 +9426,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-17T12:29:48.687Z"
+    },
+    "6948052424": {
+      "response": "معیار پذیرش ثبت شد: AC_RECOVERY_AUTH; ACCEPTANCE_PROGRESS=57.14%; OVERALL_COMPLETION=57.14%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 69,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-17T12:29:56.745Z"
     }
   },
   "work_items": {
@@ -12331,7 +12340,14 @@
         {
           "criterion_id": "AC_RECOVERY_AUTH",
           "title": "Only matching current actor/chat/run/token can renew or release; stale tokens fail",
-          "evidence_requirement": "Heartbeat/release positive and stale-token negative tests"
+          "evidence_requirement": "Heartbeat/release positive and stale-token negative tests",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/569bfc16d8721a0a6247063312467aad19d5870d"
+          ],
+          "validated_at_utc": "2026-11-17T12:29:56.745Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_AUDIT_IDEMPOTENT",
