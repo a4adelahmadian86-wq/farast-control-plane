@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 672,
+  "revision": 673,
   "next_fencing_token": 80,
   "locks": [
     {
@@ -6187,6 +6187,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-17T09:23:10.966Z"
+    },
+    "6943984735": {
+      "response": "STEP ثبت شد: S5_VALIDATE; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=80%; OVERALL_COMPLETION=80%; verified_steps=7/7.",
+      "response_posted": false,
+      "issue_number": 52,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-17T09:23:56.972Z"
     }
   },
   "work_items": {
@@ -7702,7 +7711,7 @@
       "parent_exp_ids": [
         "EXP-22"
       ],
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "module:work-item-policy",
@@ -7802,11 +7811,11 @@
           "weight": 1,
           "expected_output": "Green focused tests and full CI; live /farast progress succeeds without product writes",
           "evidence_requirement": "Exact-head CI run and successful coordinator response comment",
-          "validation_status": "BLOCKED",
+          "validation_status": "PASS",
           "evidence_refs": [
-            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/53"
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/52#issuecomment-6943967625"
           ],
-          "validated_at_utc": "2026-11-16T12:39:16.761Z",
+          "validated_at_utc": "2026-11-17T09:23:56.965Z",
           "validated_by": "a4adelahmadian86-wq",
           "validation_note": ""
         },
