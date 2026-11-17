@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 726,
+  "revision": 727,
   "next_fencing_token": 82,
   "locks": [
     {
@@ -6324,6 +6324,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-17T09:38:41.387Z"
+    },
+    "6944289732": {
+      "response": "Claim رد شد: گیت سخت وابستگی پاس نشده یا حل‌نشده است؛ unsupported_hard_gate:implementation. soft_inputs مانع اجرا نیستند.",
+      "response_posted": false,
+      "issue_number": 58,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "blocked",
+      "at_utc": "2026-11-17T09:39:41.560Z"
     }
   },
   "work_items": {
