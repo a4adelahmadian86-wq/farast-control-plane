@@ -462,6 +462,60 @@
       "evidence_requirements": [
         "Accepted backup/DR, release/rollback, regression, product acceptance, security acceptance and release-readiness evidence; explicit owner go/no-go."
       ]
+    },
+    {
+      "id": "control_plane_write",
+      "source_gate_ids": [
+        "explicit-control-plane-write-scope"
+      ],
+      "applies_to_target_repositories": [
+        "a4adelahmadian86-wq/farast-control-plane"
+      ],
+      "required_work_item_ids": [],
+      "owner_authorization_required": false,
+      "evidence_requirements": [
+        "Explicit requested_operations declaration, owner-created Work Item, non-empty exact resource_keys, exclusive claim/lease/fencing and branch confined to the declared control-plane scope."
+      ]
+    },
+    {
+      "id": "control_plane_merge",
+      "source_gate_ids": [
+        "coordinator-acceptance"
+      ],
+      "applies_to_target_repositories": [
+        "a4adelahmadian86-wq/farast-control-plane"
+      ],
+      "required_work_item_ids": [],
+      "owner_authorization_required": false,
+      "evidence_requirements": [
+        "No active lease, last-review branch lineage match, exact-head Check Runs and Commit Statuses success; coordinator performs the merge without a second human reviewer."
+      ]
+    },
+    {
+      "id": "control_plane_authorization_change",
+      "source_gate_ids": [
+        "actor-authorization-policy"
+      ],
+      "applies_to_target_repositories": [
+        "a4adelahmadian86-wq/farast-control-plane"
+      ],
+      "required_work_item_ids": [],
+      "owner_authorization_required": true,
+      "evidence_requirements": [
+        "Exact owner-authored approval reference, explicit operation scope, actor authorization policy regression tests and audit evidence."
+      ]
+    },
+    {
+      "id": "repository_write",
+      "source_gate_ids": [
+        "explicit-repository-write-scope"
+      ],
+      "applies_to_target_repositories": null,
+      "required_work_item_ids": [],
+      "owner_authorization_required": true,
+      "evidence_requirements": [
+        "Explicit requested_operations declaration, owner authorization reference, exact repository/resource scope, exclusive claim/lease/fencing and rollback/regression evidence."
+      ]
     }
   ]
 }
