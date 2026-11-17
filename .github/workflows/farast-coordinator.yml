@@ -41,6 +41,7 @@ jobs:
             const repo = context.repo.repo;
             const coordinatorCore = require(process.env.GITHUB_WORKSPACE + '/.github/scripts/coordinator-core.js');
             const workItemCore = require(process.env.GITHUB_WORKSPACE + '/.github/scripts/work-item-core.js');
+            const dependencyGraph = JSON.parse(require('fs').readFileSync(process.env.GITHUB_WORKSPACE + '/01_STRATEGY/DEPENDENCY_GRAPH.json', 'utf8'));
             const authorizationPolicy = require(process.env.GITHUB_WORKSPACE + '/04_COORDINATION/ACTOR_AUTHORIZATION.json');
             const registryBranch = 'coordination/locks';
             const crossRepoGithub = process.env.FARAST_GITHUB_TOKEN ? new github.constructor({ auth: process.env.FARAST_GITHUB_TOKEN }) : null;
@@ -241,13 +242,14 @@ jobs:
                         return old ? { ...criterion, validation_status: old.validation_status, evidence_refs: old.evidence_refs, validated_at_utc: old.validated_at_utc, validated_by: old.validated_by, validation_note: old.validation_note } : criterion;
                       });
                       const p = workItemCore.calculateProgress(fresh);
-                      fresh.status = p.can_accept ? 'REVIEW_REQUIRED' : p.verified_steps > 0 ? 'IN_PROGRESS' : 'READY';
+                      const hardGate = workItemCore.evaluateHardGates(fresh, dependencyGraph, [...Object.values(state.work_items || {}).filter(x => x.work_item_id !== fresh.work_item_id), fresh]);
+                      fresh.status = !hardGate.ready ? 'BLOCKED' : p.can_accept ? 'REVIEW_REQUIRED' : p.verified_steps > 0 ? 'IN_PROGRESS' : 'READY';
                       state.work_items ||= {};
                       state.work_items[issue.number] = fresh;
                       state.history ||= [];
-                      state.history.push({ event: 'WORK_ITEM_REFRESHED', issue_number: issue.number, work_item_id: fresh.work_item_id, actor, preserved_steps: p.verified_steps, preserved_criteria: p.verified_criteria, at_utc: new Date().toISOString() });
-                      nextStatus = fresh.status === 'REVIEW_REQUIRED' ? 'review' : 'ready';
-                      response = 'Work Item specification refreshed from Issue body; preserved_steps=' + p.verified_steps + '; preserved_criteria=' + p.verified_criteria + '; EXECUTION_PROGRESS=' + p.execution_percentage + '%; ACCEPTANCE_PROGRESS=' + p.acceptance_percentage + '%; OVERALL_COMPLETION=' + p.overall_completion_percentage + '%.';
+                      state.history.push({ event: 'WORK_ITEM_REFRESHED', issue_number: issue.number, work_item_id: fresh.work_item_id, actor, preserved_steps: p.verified_steps, preserved_criteria: p.verified_criteria, hard_gate_ready: hardGate.ready, hard_gate_blockers: hardGate.blockers, at_utc: new Date().toISOString() });
+                      nextStatus = !hardGate.ready ? 'blocked' : fresh.status === 'REVIEW_REQUIRED' ? 'review' : 'ready';
+                      response = 'Work Item specification refreshed from Issue body; preserved_steps=' + p.verified_steps + '; preserved_criteria=' + p.verified_criteria + '; hard_gates=' + (hardGate.ready ? 'PASS' : 'BLOCKED:' + hardGate.blockers.join(',')) + '; EXECUTION_PROGRESS=' + p.execution_percentage + '%; ACCEPTANCE_PROGRESS=' + p.acceptance_percentage + '%; OVERALL_COMPLETION=' + p.overall_completion_percentage + '%.';
                     }
                   }
                 } else if (command === 'claim') {
@@ -262,18 +264,25 @@ jobs:
                     // Any policy/target/resource disagreement fails closed until an owner refresh reconciles it.
                     let writePolicy = 'READ_ONLY';
                     let policyError = '';
+                    let liveWorkItem = null;
                     try {
-                      const liveWorkItem = workItemSpecFor(issue);
+                      liveWorkItem = workItemSpecFor(issue);
                       const storedWorkItem = state.work_items?.[issue.number];
                       writePolicy = coordinatorCore.resolveWritePolicy(liveWorkItem, storedWorkItem);
                     } catch (error) {
                       policyError = error.message;
                     }
+                    const hardGate = liveWorkItem
+                      ? workItemCore.evaluateHardGates(liveWorkItem, dependencyGraph, [...Object.values(state.work_items || {}).filter(x => x.work_item_id !== liveWorkItem.work_item_id), liveWorkItem])
+                      : { ready: false, blockers: ['work_item_spec_missing'] };
                     const taskBranch = policyError ? null : coordinatorCore.branchForWritePolicy(issue.number, run, writePolicy);
                     if (policyError) {
                       response = 'Claim رد شد: اختلاف یا نقص در Work Item زنده/رجیستری؛ هیچ branch تخصیص داده نشد. ' + policyError;
                     } else if (!targetRepository) {
                       response = 'Claim رد شد: Target repository باید به‌صورت owner/name در Issue مشخص شود.';
+                    } else if (!hardGate.ready) {
+                      nextStatus = 'blocked';
+                      response = 'Claim رد شد: گیت سخت وابستگی پاس نشده یا حل‌نشده است؛ ' + hardGate.blockers.join(',') + '. soft_inputs مانع اجرا نیستند.';
                     } else {
                       const claim = coordinatorCore.claimResources(state, {
                         issueNumber: issue.number, taskId: 'GH-' + issue.number, actor,
@@ -368,7 +377,12 @@ jobs:
                   if (current.length) response = 'فرمان رد شد: ابتدا lease فعال باید با مالکیت معتبر آزاد شود.';
                   else if (command === 'unblock' && !labelsOf(issue).includes('agent:blocked')) response = 'وظیفه blocked نیست.';
                   else if (command === 'reopen' && !['agent:review','agent:done'].some(x => labelsOf(issue).includes(x))) response = 'فقط وظیفه review/done قابل بازگشایی است.';
-                  else { const workItem = savedWorkItemFor(state, issue); if (workItem) { state.work_items ||= {}; state.work_items[issue.number] ||= workItem; state.work_items[issue.number].status = 'READY'; } nextStatus = 'ready'; response = 'وظیفه به ready بازگشت؛ برای شروع دوباره claim لازم است.'; }
+                  else {
+                    const workItem = savedWorkItemFor(state, issue);
+                    const hardGate = workItem ? workItemCore.evaluateHardGates(workItem, dependencyGraph, Object.values(state.work_items || {})) : { ready: false, blockers: ['work_item_spec_missing'] };
+                    if (!hardGate.ready) response = 'بازگشایی/رفع انسداد رد شد؛ گیت سخت پاس نشده یا حل‌نشده است: ' + hardGate.blockers.join(',');
+                    else { if (workItem) { state.work_items ||= {}; state.work_items[issue.number] ||= workItem; state.work_items[issue.number].status = 'READY'; } nextStatus = 'ready'; response = 'وظیفه به ready بازگشت؛ گیت‌های سخت پاس شده‌اند و برای شروع دوباره claim لازم است.'; }
+                  }
                 } else if (command === 'accept') {
                   const prUrl = args.pr || (issue.body || '').match(/https:\/\/github\.com\/[^\s)]+\/pull\/\d+/)?.[0];
                   const prMatch = prUrl?.match(/github\.com\/([^/]+)\/([^/]+)\/pull\/(\d+)/);
@@ -385,9 +399,12 @@ jobs:
                     const checkRuns = await prClient.paginate(prClient.rest.checks.listForRef, { owner: prOwner, repo: prRepo, ref: pr.head.sha, per_page: 100 });
                     const combinedStatus = await prClient.rest.repos.getCombinedStatusForRef({ owner: prOwner, repo: prRepo, ref: pr.head.sha });
                     const automatedChecksPassed = coordinatorCore.hasSuccessfulChecks(checkRuns.data.check_runs, combinedStatus.data);
+                    const acceptanceItem = savedWorkItemFor(state, issue);
+                    const hardGate = acceptanceItem ? workItemCore.evaluateHardGates(acceptanceItem, dependencyGraph, Object.values(state.work_items || {})) : { ready: false, blockers: ['work_item_spec_missing'] };
                     if (!labelsOf(issue).includes('agent:review') || current.length) response = 'پذیرش رد شد: وظیفه باید در وضعیت review و بدون lease فعال باشد.';
                     else if (!branchBound) response = 'پذیرش رد شد: PR باید از branch و target repository ثبت‌شده در آخرین handoff همان lease ساخته شده باشد.';
-                    else if (!automatedChecksPassed) response = 'پذیرش خودکار رد شد: تمام Check Runها و Commit Statusهای SHA دقیق head باید با conclusion/state برابر success تکمیل شده باشند؛ تأیید انسانی مطالبه نمی‌شود.';
+                    else if (!hardGate.ready) response = 'پذیرش خودکار رد شد: گیت سخت حل‌نشده/پاس‌نشده است: ' + hardGate.blockers.join(',') + '.';
+                    else if (!automatedChecksPassed) response = 'پذیرش خودکار رد شد: تمام Check Runها و Commit Statusهای SHA دقیق head باید با conclusion/state برابر success تکمیل شده باشند؛ بازبین انسانی دوم لازم نیست.';
                     else {
                       let mergeConfirmed = pr.merged;
                       if (!mergeConfirmed) {

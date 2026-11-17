@@ -195,11 +195,40 @@ function recordCriterionEvidence(item, input) {
   return { progress };
 }
 
-function dependencyReady(item, byId) {
-  return (item.dependencies || []).every(dep => {
+function primaryExpId(item) {
+  const match = /^WI-EXP([0-9]{2})-/i.exec(String(item?.work_item_id || ''));
+  if (match) return 'EXP-' + match[1];
+  const parentExpIds = [...new Set((item?.parent_exp_ids || []).map(String))];
+  return parentExpIds.length === 1 ? parentExpIds[0] : null;
+}
+
+function evaluateHardGates(item, graph, workItems = []) {
+  if (!Array.isArray(graph?.nodes)) return { ready: false, exp_id: null, blockers: ['dependency_graph_unavailable'] };
+  const expId = primaryExpId(item);
+  if (!expId) return { ready: false, exp_id: null, blockers: ['primary_exp_unresolved'] };
+  const node = graph.nodes.find(candidate => candidate.id === expId);
+  if (!node || !Array.isArray(node.hard_gates)) return { ready: false, exp_id: expId, blockers: ['missing_or_invalid_graph_node:' + expId] };
+  const blockers = [];
+  for (const gate of node.hard_gates) {
+    if (/^EXP-[0-9]{2}$/.test(gate)) {
+      const matches = workItems.filter(candidate => primaryExpId(candidate) === gate);
+      if (matches.length !== 1) blockers.push(matches.length ? 'ambiguous_hard_gate:' + gate : 'unresolved_hard_gate:' + gate);
+      else if (matches[0].status !== 'ACCEPTED') blockers.push('hard_gate_not_accepted:' + gate + ':' + matches[0].status);
+    } else {
+      // Operational gates need their own authoritative evidence model; never guess their meaning.
+      blockers.push('unsupported_hard_gate:' + gate);
+    }
+  }
+  return { ready: blockers.length === 0, exp_id: expId, blockers, soft_inputs_ignored: node.soft_inputs || [] };
+}
+
+function dependencyReady(item, byId, dependencyGraph) {
+  const explicitDependenciesReady = (item.dependencies || []).every(dep => {
     const parent = byId.get(dep.work_item_id);
     return !!parent && parent.status === 'ACCEPTED';
   });
+  if (!explicitDependenciesReady) return false;
+  return dependencyGraph ? evaluateHardGates(item, dependencyGraph, [...byId.values()]).ready : true;
 }
 
 function selectNextWorkItem(items, options = {}) {
@@ -209,7 +238,7 @@ function selectNextWorkItem(items, options = {}) {
   const eligible = items.filter(item => {
     validateWorkItem(item);
     if (TERMINAL.has(item.status) || item.status === 'BLOCKED' || item.status === 'REVIEW_REQUIRED') return false;
-    if (!dependencyReady(item, byId)) return false;
+    if (!dependencyReady(item, byId, options.dependencyGraph)) return false;
     const lease = options.leasesByWorkItem?.[item.work_item_id];
     if (lease && lease.status === 'ACTIVE' && Date.parse(lease.lease_expires_at_utc) > nowMs) return false;
     const keys = new Set(item.resource_keys);
@@ -272,6 +301,6 @@ function createCheckpoint(item, input) {
 
 module.exports = {
   STATUSES, validateWorkItem, validateProductWriteAuthorization, evidenceVerified, calculateProgress, validateLease,
-  recordStepEvidence, recordCriterionEvidence, dependencyReady, selectNextWorkItem,
+  recordStepEvidence, recordCriterionEvidence, primaryExpId, evaluateHardGates, dependencyReady, selectNextWorkItem,
   resumePlan, createCheckpoint
 };

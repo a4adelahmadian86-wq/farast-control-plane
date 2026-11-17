@@ -2,32 +2,260 @@
   "version": "1.0",
   "policy": "EXP and PR identifiers are stable identifiers, not a mandatory chronological execution order. Dependencies below are gates only where explicitly listed.",
   "nodes": [
-    {"id":"EXP-01","hard_gates":["EXP-22"],"soft_inputs":["EXP-03","EXP-10"]},
-    {"id":"EXP-02","hard_gates":["destructive-data-change","EXP-26"],"soft_inputs":["EXP-17"]},
-    {"id":"EXP-03","hard_gates":[],"soft_inputs":["EXP-04","EXP-07"]},
-    {"id":"EXP-04","hard_gates":[],"soft_inputs":["EXP-05","EXP-20"]},
-    {"id":"EXP-05","hard_gates":[],"soft_inputs":["EXP-06","EXP-24"]},
-    {"id":"EXP-06","hard_gates":["EXP-22"],"soft_inputs":["EXP-07"]},
-    {"id":"EXP-07","hard_gates":[],"soft_inputs":["EXP-20"]},
-    {"id":"EXP-08","hard_gates":[],"soft_inputs":["EXP-15","EXP-23"]},
-    {"id":"EXP-09","hard_gates":[],"soft_inputs":["EXP-15","EXP-23"]},
-    {"id":"EXP-10","hard_gates":["EXP-22"],"soft_inputs":["EXP-11","EXP-15"]},
-    {"id":"EXP-11","hard_gates":["database-migration"],"soft_inputs":["EXP-10"]},
-    {"id":"EXP-12","hard_gates":["authorization-change"],"soft_inputs":["EXP-13"]},
-    {"id":"EXP-13","hard_gates":["security-sensitive-change"],"soft_inputs":["EXP-14"]},
-    {"id":"EXP-14","hard_gates":["audit-log-change"],"soft_inputs":["EXP-13"]},
-    {"id":"EXP-15","hard_gates":["architecture-implementation"],"soft_inputs":["EXP-08","EXP-09","EXP-10","EXP-11","EXP-12","EXP-13","EXP-16"]},
-    {"id":"EXP-16","hard_gates":["hosting-specific-deployment"],"soft_inputs":["EXP-17","EXP-18"]},
-    {"id":"EXP-17","hard_gates":["destructive-data-change","production-release"],"soft_inputs":["EXP-02"]},
-    {"id":"EXP-18","hard_gates":["production-release"],"soft_inputs":["EXP-16","EXP-17"]},
-    {"id":"EXP-19","hard_gates":["legal-policy-change"],"soft_inputs":["EXP-13","EXP-14"]},
-    {"id":"EXP-20","hard_gates":[],"soft_inputs":["EXP-07","EXP-15"]},
-    {"id":"EXP-21","hard_gates":["implementation"],"soft_inputs":["EXP-20"]},
-    {"id":"EXP-22","hard_gates":["implementation"],"soft_inputs":["EXP-01","EXP-02","EXP-21"]},
-    {"id":"EXP-23","hard_gates":["merge"],"soft_inputs":["EXP-22"]},
-    {"id":"EXP-24","hard_gates":["acceptance"],"soft_inputs":["EXP-05","EXP-06","EXP-23"]},
-    {"id":"EXP-25","hard_gates":["security-acceptance"],"soft_inputs":["EXP-13","EXP-14","EXP-23"]},
-    {"id":"EXP-26","hard_gates":["production-release"],"soft_inputs":["EXP-17","EXP-18","EXP-23","EXP-24","EXP-25"]},
-    {"id":"EXP-27","hard_gates":[],"soft_inputs":["EXP-26"]}
+    {
+      "id": "EXP-01",
+      "hard_gates": [],
+      "soft_inputs": [
+        "EXP-03",
+        "EXP-10",
+        "EXP-22"
+      ]
+    },
+    {
+      "id": "EXP-02",
+      "hard_gates": [
+        "destructive-data-change",
+        "EXP-26"
+      ],
+      "soft_inputs": [
+        "EXP-17"
+      ]
+    },
+    {
+      "id": "EXP-03",
+      "hard_gates": [],
+      "soft_inputs": [
+        "EXP-04",
+        "EXP-07"
+      ]
+    },
+    {
+      "id": "EXP-04",
+      "hard_gates": [],
+      "soft_inputs": [
+        "EXP-05",
+        "EXP-20"
+      ]
+    },
+    {
+      "id": "EXP-05",
+      "hard_gates": [],
+      "soft_inputs": [
+        "EXP-06",
+        "EXP-24"
+      ]
+    },
+    {
+      "id": "EXP-06",
+      "hard_gates": [
+        "EXP-22"
+      ],
+      "soft_inputs": [
+        "EXP-07"
+      ]
+    },
+    {
+      "id": "EXP-07",
+      "hard_gates": [],
+      "soft_inputs": [
+        "EXP-20"
+      ]
+    },
+    {
+      "id": "EXP-08",
+      "hard_gates": [],
+      "soft_inputs": [
+        "EXP-15",
+        "EXP-23"
+      ]
+    },
+    {
+      "id": "EXP-09",
+      "hard_gates": [],
+      "soft_inputs": [
+        "EXP-15",
+        "EXP-23"
+      ]
+    },
+    {
+      "id": "EXP-10",
+      "hard_gates": [
+        "EXP-22"
+      ],
+      "soft_inputs": [
+        "EXP-11",
+        "EXP-15"
+      ]
+    },
+    {
+      "id": "EXP-11",
+      "hard_gates": [
+        "database-migration"
+      ],
+      "soft_inputs": [
+        "EXP-10"
+      ]
+    },
+    {
+      "id": "EXP-12",
+      "hard_gates": [
+        "authorization-change"
+      ],
+      "soft_inputs": [
+        "EXP-13"
+      ]
+    },
+    {
+      "id": "EXP-13",
+      "hard_gates": [
+        "security-sensitive-change"
+      ],
+      "soft_inputs": [
+        "EXP-14"
+      ]
+    },
+    {
+      "id": "EXP-14",
+      "hard_gates": [
+        "audit-log-change"
+      ],
+      "soft_inputs": [
+        "EXP-13"
+      ]
+    },
+    {
+      "id": "EXP-15",
+      "hard_gates": [
+        "architecture-implementation"
+      ],
+      "soft_inputs": [
+        "EXP-08",
+        "EXP-09",
+        "EXP-10",
+        "EXP-11",
+        "EXP-12",
+        "EXP-13",
+        "EXP-16"
+      ]
+    },
+    {
+      "id": "EXP-16",
+      "hard_gates": [
+        "hosting-specific-deployment"
+      ],
+      "soft_inputs": [
+        "EXP-17",
+        "EXP-18"
+      ]
+    },
+    {
+      "id": "EXP-17",
+      "hard_gates": [
+        "destructive-data-change",
+        "production-release"
+      ],
+      "soft_inputs": [
+        "EXP-02"
+      ]
+    },
+    {
+      "id": "EXP-18",
+      "hard_gates": [
+        "production-release"
+      ],
+      "soft_inputs": [
+        "EXP-16",
+        "EXP-17"
+      ]
+    },
+    {
+      "id": "EXP-19",
+      "hard_gates": [
+        "legal-policy-change"
+      ],
+      "soft_inputs": [
+        "EXP-13",
+        "EXP-14"
+      ]
+    },
+    {
+      "id": "EXP-20",
+      "hard_gates": [],
+      "soft_inputs": [
+        "EXP-07",
+        "EXP-15"
+      ]
+    },
+    {
+      "id": "EXP-21",
+      "hard_gates": [
+        "implementation"
+      ],
+      "soft_inputs": [
+        "EXP-20"
+      ]
+    },
+    {
+      "id": "EXP-22",
+      "hard_gates": [
+        "implementation"
+      ],
+      "soft_inputs": [
+        "EXP-01",
+        "EXP-02",
+        "EXP-21"
+      ]
+    },
+    {
+      "id": "EXP-23",
+      "hard_gates": [
+        "merge"
+      ],
+      "soft_inputs": [
+        "EXP-22"
+      ]
+    },
+    {
+      "id": "EXP-24",
+      "hard_gates": [
+        "acceptance"
+      ],
+      "soft_inputs": [
+        "EXP-05",
+        "EXP-06",
+        "EXP-23"
+      ]
+    },
+    {
+      "id": "EXP-25",
+      "hard_gates": [
+        "security-acceptance"
+      ],
+      "soft_inputs": [
+        "EXP-13",
+        "EXP-14",
+        "EXP-23"
+      ]
+    },
+    {
+      "id": "EXP-26",
+      "hard_gates": [
+        "production-release"
+      ],
+      "soft_inputs": [
+        "EXP-17",
+        "EXP-18",
+        "EXP-23",
+        "EXP-24",
+        "EXP-25"
+      ]
+    },
+    {
+      "id": "EXP-27",
+      "hard_gates": [],
+      "soft_inputs": [
+        "EXP-26"
+      ]
+    }
   ]
 }
