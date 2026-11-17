@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1334,
+  "revision": 1335,
   "next_fencing_token": 105,
   "locks": [
     {
@@ -11433,6 +11433,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-17T17:26:22.715Z"
+    },
+    "6955597669": {
+      "response": "معیار پذیرش ثبت شد: AC_REPLAY; ACCEPTANCE_PROGRESS=60%; OVERALL_COMPLETION=60%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 77,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-17T17:26:31.221Z"
     }
   },
   "work_items": {
@@ -14957,7 +14966,14 @@
         {
           "criterion_id": "AC_REPLAY",
           "title": "Durable inbox replay skips already processed comments before re-fetching the Issue and preserves pending-response recovery",
-          "evidence_requirement": "Coordinator workflow and regression test"
+          "evidence_requirement": "Coordinator workflow and regression test",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/79"
+          ],
+          "validated_at_utc": "2026-11-17T17:26:31.221Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_CI",
