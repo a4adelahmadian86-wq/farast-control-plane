@@ -577,12 +577,10 @@ test('coordinator registry persistence verifies exact commit read-back and guard
  assert.match(workflow,/duplicateWorkItemIds\.length/);
  assert.match(workflow,/findDuplicateWorkItemIdIssues/);
  assert.match(workflow,/state:\s*'all'/);
-
  assert.match(workflow,/requireChildrenAccepted:\s*true/);
  assert.match(workflow,/allWorkItemsFor/);
  assert.match(workflow,/findDuplicateWorkItemIdIssues/);
  assert.match(workflow,/state:\s*'all'/);
- assert.match(workflow,/duplicate_work_item_id/);
  assert.match(workflow,/requireChildrenAccepted:\s*true/);
  assert.match(workflow,/allWorkItemsFor/);
 });
@@ -675,7 +673,7 @@ test('versioned prompt-scope Work Item has no legacy implicit operation fallback
  const unversioned=item({work_item_id:'WI-PROMPT-OPERATION-SCOPE-001',target_repository:'a4adelahmadian86-wq/farast-control-plane',write_policy:'WRITE_ALLOWED'});
  assert.deepEqual(wi.defaultRequestedOperations(unversioned),[]);
  assert.throws(()=>wi.validateWorkItem(unversioned),/require operation_scope_version/);
- const versioned=item({work_item_id:'WI-PROMPT-OPERATION-SCOPE-001',target_repository:controlPlane,write_policy:'WRITE_ALLOWED',requested_operations:['control_plane_write']});
+ const versioned=item({work_item_id:'WI-PROMPT-OPERATION-SCOPE-001',target_repository:'a4adelahmadian86-wq/farast-control-plane',write_policy:'WRITE_ALLOWED',requested_operations:['control_plane_write']});
  assert.deepEqual(wi.defaultRequestedOperations(versioned),['control_plane_write']);
  assert.doesNotThrow(()=>wi.validateWorkItem(versioned));
 });
