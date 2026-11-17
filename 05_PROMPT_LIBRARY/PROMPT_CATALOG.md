@@ -82,3 +82,11 @@
 - استاندارد عمق هر leaf (۶+ گام، ۴+ معیار، ۳+ خروجی، effort هدف ۲۰–۳۰ دقیقه): [WORK_ITEM_DEPTH_STANDARD.md](../04_COORDINATION/WORK_ITEM_DEPTH_STANDARD.md).
 - محاسبه EXECUTION_PROGRESS، ACCEPTANCE_PROGRESS و OVERALL_COMPLETION: [PROGRESS_REPORTING_PROTOCOL.md](../04_COORDINATION/PROGRESS_REPORTING_PROTOCOL.md).
 - ۱۷ فایل مستقل و MASTER-00 باید همواره با bundle تجمیعی همگام باشند.
+
+
+## استقلال ترتیب و مسیر جهانی
+
+- PR-01 تا PR-17 دسته‌های تخصصی‌اند، نه مراحل زنجیره‌ای؛ اجرای هرکدام با هر ترتیب مجاز است و فقط hard_gates واقعی Work Item ترتیب محلی ایجاد می‌کند.
+- تمام پرامپت‌های تخصصی علاوه بر EXP محلی، مسیر جهانی parent_goal_ids شامل G-09 را می‌بینند. conflict در G-09 باید به انتخاب برگ مستقل بعدی منجر شود، نه توقف چت.
+- همه پرامپت‌ها قرارداد operation_scope_version=1.0 و requested_operations را برای WRITE_ALLOWED اعمال می‌کنند؛ bundle باید دقیقاً از MASTER-00 و ۱۷ منبع canonical ساخته شود.
+- canonical backup/recovery در EXP-02، Issue #66 / WI-EXP02-BACKUP-RECOVERY-001 است؛ Issue #14 سابقه superseded و غیرقابل تکثیر است.
