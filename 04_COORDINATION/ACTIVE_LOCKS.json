@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1263,
+  "revision": 1264,
   "next_fencing_token": 102,
   "locks": [
     {
@@ -10887,6 +10887,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-17T17:09:18.991Z"
+    },
+    "6955182476": {
+      "response": "STEP ثبت شد: S2_MAP; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=75%; OVERALL_COMPLETION=75%; verified_steps=7/7.",
+      "response_posted": false,
+      "issue_number": 34,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-17T17:09:27.639Z"
     }
   },
   "work_items": {
@@ -11671,7 +11680,7 @@
       "parent_exp_ids": [
         "EXP-22"
       ],
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/non",
       "resource_keys": [
         "analysis:exp-22"
@@ -11702,11 +11711,13 @@
           "expected_output": "خروجی قابل بازبینی برای مرحله: بررسی hard/soft dependencies و اثبات رفع gateها از منبع زنده.",
           "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
           "estimate_minutes": 3,
-          "validation_status": "BLOCKED",
+          "validation_status": "PASS",
           "evidence_refs": [
-            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/52"
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/34#issuecomment-6955179200",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/9246dbe0895ab6f3b459b1d0142a2775307752d8/01_STRATEGY/DEPENDENCY_GRAPH.json#L425-L440",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/52#issuecomment-6925084491"
           ],
-          "validated_at_utc": "2026-11-16T17:09:59.698Z",
+          "validated_at_utc": "2026-11-17T17:09:27.638Z",
           "validated_by": "a4adelahmadian86-wq",
           "validation_note": ""
         },
