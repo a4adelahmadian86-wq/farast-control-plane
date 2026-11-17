@@ -638,7 +638,13 @@ jobs:
                 snapshot = await saveRegistry(snapshot.state, snapshot, 'FARAST coordinator: recover response ' + id);
               }
               for (const comment of comments) {
-                if (!/^\s*\/farast\s+/i.test(comment.body || '')) continue;
+                if (!/^\s*\/farast\s+(claim|heartbeat|release|status|progress|step|criterion|checkpoint|block|unblock|review|reopen|accept|refresh)\b/i.test(comment.body || '')) continue;
+                const operationId = String(comment.id);
+                // The durable inbox is replayed on every event. Once an operation's
+                // response is durably recorded (and recovered above if needed), do not
+                // re-fetch the Issue for historical commands. This keeps multi-chat
+                // inbox processing bounded as command history grows.
+                if (snapshot.state.processed_operations?.[operationId]) continue;
                 snapshot = await handleCommand(issue, comment, snapshot);
                 issue = (await github.rest.issues.get({ owner, repo, issue_number: issue.number })).data;
               }
