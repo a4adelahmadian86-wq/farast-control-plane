@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1480,
+  "revision": 1481,
   "next_fencing_token": 108,
   "locks": [
     {
@@ -13300,6 +13300,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-17T18:10:20.291Z"
+    },
+    "6956717382": {
+      "response": "STEP ثبت شد: S4_REGRESSION_TEST; EXECUTION_PROGRESS=71.42%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=5/7.",
+      "response_posted": false,
+      "issue_number": 51,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-17T18:10:47.665Z"
     }
   },
   "work_items": {
@@ -15114,7 +15123,14 @@
           "required": true,
           "weight": 1,
           "expected_output": "Regression test(s) and reproducible test results demonstrating the intended behavior and preservation of adjacent behavior",
-          "evidence_requirement": "Test source diff, commands, exit codes and CI run URL for the exact PR head"
+          "evidence_requirement": "Test source diff, commands, exit codes and CI run URL for the exact PR head",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/non/actions/runs/44143456195"
+          ],
+          "validated_at_utc": "2026-11-17T18:10:47.664Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S5_QUALITY_ROLLBACK",
