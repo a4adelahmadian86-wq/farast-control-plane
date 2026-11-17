@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1180,
+  "revision": 1181,
   "next_fencing_token": 98,
   "locks": [],
   "history": [
@@ -10111,6 +10111,15 @@
       "command": "accept",
       "next_status": null,
       "at_utc": "2026-11-17T16:40:15.955Z"
+    },
+    "6954468210": {
+      "response": "وظیفه به ready بازگشت؛ گیت‌های سخت پاس شده‌اند و برای شروع دوباره claim لازم است.",
+      "response_posted": false,
+      "issue_number": 64,
+      "actor": "a4adelahmadian86-wq",
+      "command": "reopen",
+      "next_status": "ready",
+      "at_utc": "2026-11-17T16:42:19.121Z"
     }
   },
   "work_items": {
@@ -12689,7 +12698,7 @@
         "EXP-25",
         "EXP-26"
       ],
-      "status": "REVIEW_REQUIRED",
+      "status": "READY",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "file:01_STRATEGY/DEPENDENCY_GRAPH.json",
