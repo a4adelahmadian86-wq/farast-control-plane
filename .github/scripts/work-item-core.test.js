@@ -260,3 +260,57 @@ test('primary EXP scope uses the first explicitly ordered parent EXP for cross-c
  const x=item({work_item_id:'WI-CROSS-CUTTING-001',parent_exp_ids:['EXP-01','EXP-22','EXP-23']});
  assert.equal(wi.primaryExpId(x),'EXP-01');
 });
+
+
+function fullyVerified(item) {
+ item.steps.forEach((step,index)=>{step.validation_status='PASS';step.evidence_refs=['https://example.test/step-'+index];});
+ item.acceptance_criteria.forEach((criterion,index)=>{criterion.validation_status='PASS';criterion.evidence_refs=['https://example.test/criterion-'+index];});
+ return item;
+}
+const readonlyReview = {event:'REVIEW',issue_number:13,target_repository:'owner/repo',branch:null};
+
+test('READ_ONLY evidence-only acceptance passes after a valid review handoff without a PR or branch',()=>{
+ const x=fullyVerified(item());
+ const result=wi.evaluateReadOnlyAcceptance(x,{issueNumber:13,hasActiveLease:false,hardGatesReady:true,reviewEvent:readonlyReview});
+ assert.equal(result.ready,true);
+ assert.deepEqual(result.blockers,[]);
+ assert.equal(result.progress.can_accept,true);
+});
+
+test('READ_ONLY evidence-only acceptance fails closed while a lease is active',()=>{
+ const x=fullyVerified(item());
+ const result=wi.evaluateReadOnlyAcceptance(x,{issueNumber:13,hasActiveLease:true,hardGatesReady:true,reviewEvent:readonlyReview});
+ assert.equal(result.ready,false);
+ assert.ok(result.blockers.includes('active_lease'));
+});
+
+test('READ_ONLY evidence-only acceptance rejects write-capable Work Items',()=>{
+ const x=fullyVerified(item({write_policy:'WRITE_ALLOWED'}));
+ const result=wi.evaluateReadOnlyAcceptance(x,{issueNumber:13,hasActiveLease:false,hardGatesReady:true,reviewEvent:readonlyReview});
+ assert.equal(result.ready,false);
+ assert.ok(result.blockers.includes('write_policy_not_read_only'));
+});
+
+test('READ_ONLY evidence-only acceptance requires the latest handoff to be REVIEW for the same Issue and target with no branch',()=>{
+ const x=fullyVerified(item());
+ const wrongIssue=wi.evaluateReadOnlyAcceptance(x,{issueNumber:13,hasActiveLease:false,hardGatesReady:true,reviewEvent:{...readonlyReview,issue_number:14}});
+ const wrongTarget=wi.evaluateReadOnlyAcceptance(x,{issueNumber:13,hasActiveLease:false,hardGatesReady:true,reviewEvent:{...readonlyReview,target_repository:'other/repo'}});
+ const allocatedBranch=wi.evaluateReadOnlyAcceptance(x,{issueNumber:13,hasActiveLease:false,hardGatesReady:true,reviewEvent:{...readonlyReview,branch:'work/should-not-exist'}});
+ assert.ok(wrongIssue.blockers.includes('review_handoff_issue_mismatch'));
+ assert.ok(wrongTarget.blockers.includes('review_handoff_target_mismatch'));
+ assert.ok(allocatedBranch.blockers.includes('read_only_handoff_must_not_have_branch'));
+});
+
+test('READ_ONLY evidence-only acceptance requires satisfied canonical hard gates',()=>{
+ const x=fullyVerified(item());
+ const result=wi.evaluateReadOnlyAcceptance(x,{issueNumber:13,hasActiveLease:false,hardGatesReady:false,reviewEvent:readonlyReview});
+ assert.equal(result.ready,false);
+ assert.ok(result.blockers.includes('hard_gates_not_satisfied'));
+});
+
+test('READ_ONLY evidence-only acceptance requires all step and criterion evidence',()=>{
+ const x=item();
+ const result=wi.evaluateReadOnlyAcceptance(x,{issueNumber:13,hasActiveLease:false,hardGatesReady:true,reviewEvent:readonlyReview});
+ assert.equal(result.ready,false);
+ assert.ok(result.blockers.includes('required_evidence_incomplete'));
+});
