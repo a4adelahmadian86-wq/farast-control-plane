@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1130,
+  "revision": 1131,
   "next_fencing_token": 97,
   "locks": [
     {
@@ -9939,6 +9939,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-17T16:25:06.148Z"
+    },
+    "6953990822": {
+      "response": "فرمان رد شد: lease معتبر نیست.",
+      "response_posted": false,
+      "issue_number": 64,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-17T16:25:14.997Z"
     }
   },
   "work_items": {
