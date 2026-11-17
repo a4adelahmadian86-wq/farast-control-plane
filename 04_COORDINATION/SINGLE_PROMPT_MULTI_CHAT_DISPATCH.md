@@ -88,3 +88,14 @@
 ## وضعیت فعلی
 
 پیاده‌سازی مرکزی CAS/lease/fencing، Issue-per-leaf، انتخاب Work Item، checkpoint و resume در main وجود دارد؛ این سند الگوریتم پخش یکسان را صریح می‌کند. آزمون E2E دو حساب مستقل و سناریوی یک‌پرامپت/چندچت هنوز باید اجرا و ثبت شود. تا آن زمان وضعیت NOT VERIFIED باقی می‌ماند.
+
+
+## قرارداد اجرایی نهایی: هر ترتیب، مسیر G-09 و N چت
+
+- هر یک از PR-01 تا PR-17 می‌تواند نقطه شروع مستقل باشد؛ شماره PR ترتیب اجرا یا dependency ایجاد نمی‌کند. فقط hard_gates صریح Work Item معتبرند.
+- دامنه نامزد برای هر پرامپت تخصصی = EXPهای سربرگ **OR** parent_goal_ids شامل G-09. مسیر G-09 برای همه ۱۷ پرامپت جهانی است. اگر G-09 قفل/blocked/review باشد، آن نامزد را skip کن و به برگ محلی بعدی برو.
+- operation scope برای WRITE_ALLOWED نسخه 1.0 و requested_operations صریح لازم دارد. control-plane write=control_plane_write؛ NON product write=product_implementation با owner_approval_ref دقیق؛ سایر مخازن=repository_write. READ_ONLY=analysis؛ پیش از owner approval، WRITE_REQUIRES_OWNER_APPROVAL=proposal_only. Merge/release/auth/destructive/migration مجوزهای جداگانه‌اند.
+- comment ID صندوق ورودی پایدار و idempotency key است. اجرای مجدد یا scheduled reconciliation فقط commandهای پردازش‌نشده را اجرا می‌کند؛ response ثبت‌شده ولی ارسال‌نشده را بازیابی می‌کند؛ comment تکراری نباید lease یا پاسخ تکراری بسازد.
+- N سقف ثابت در قرارداد ندارد؛ آزمون‌های اجباری N=2,5,10,25 هستند. یک resource مشترک فقط یک برنده دارد؛ منابع مستقل می‌توانند هم‌زمان claim شوند؛ بازنده باید read-back کند و نامزد بعدی را انتخاب کند.
+- مورد canonical شناخته‌شده: Issue #66 / WI-EXP02-BACKUP-RECOVERY-001؛ Issue #14 / WI-EXP02-BACKUP-RESTORE-001 فقط سابقه superseded است.
+- سقف عملی throughput تابع GitHub Actions/API quota است. اجرای مستقل از چت یعنی وضعیت و checkpoint در GitHub ذخیره شود، نه اینکه عامل بدون دسترسی به GitHub یا خارج از quota بتواند پیش برود.
