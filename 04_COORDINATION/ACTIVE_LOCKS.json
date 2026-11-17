@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1253,
+  "revision": 1254,
   "next_fencing_token": 101,
   "locks": [
     {
@@ -10781,7 +10781,7 @@
     },
     "6955114625": {
       "response": "Work Item ACCEPTED: همه گام‌ها، معیارها، شواهد و hard gateها با موفقیت احراز شدند؛ سیاست READ_ONLY است، بنابراین PR/branch محصول لازم نیست؛ هیچ Review انسانی دوم شرط پذیرش نیست.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 33,
       "actor": "a4adelahmadian86-wq",
       "command": "accept",
