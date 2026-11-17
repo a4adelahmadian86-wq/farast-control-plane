@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1226,
+  "revision": 1227,
   "next_fencing_token": 101,
   "locks": [
     {
@@ -10606,6 +10606,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-17T17:00:57.909Z"
+    },
+    "6954971710": {
+      "response": "STEP ثبت شد: S7_VERIFY; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=7/7.",
+      "response_posted": false,
+      "issue_number": 33,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-17T17:01:05.430Z"
     }
   },
   "work_items": {
@@ -11279,7 +11288,16 @@
           "weight": 1,
           "expected_output": "خروجی قابل بازبینی برای مرحله: تولید change package قابل review و تقسیم به Work Itemهای مستقل.",
           "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/33#issuecomment-6954850072",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/9246dbe0895ab6f3b459b1d0142a2775307752d8/01_STRATEGY/DEPENDENCY_GRAPH.json#L425-L440",
+            "https://github.com/a4adelahmadian86-wq/non/commit/663534ddedfa4864bc576b6c283418b1e3e1d049"
+          ],
+          "validated_at_utc": "2026-11-17T17:01:05.430Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "acceptance_criteria": [
