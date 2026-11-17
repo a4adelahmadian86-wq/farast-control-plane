@@ -149,6 +149,13 @@ function evidenceVerified(record) {
     record.evidence_refs.every(x => typeof x === 'string' && x.trim());
 }
 
+function refreshedStatus(previousStatus, progress, hardGatesReady) {
+  if (TERMINAL.has(previousStatus)) return previousStatus;
+  if (!hardGatesReady) return 'BLOCKED';
+  if (progress.can_accept) return 'REVIEW_REQUIRED';
+  return progress.verified_steps > 0 ? 'IN_PROGRESS' : 'READY';
+}
+
 function calculateProgress(item) {
   validateWorkItem(item);
   const steps = item.steps.filter(s => s.required !== false);
@@ -528,5 +535,5 @@ function createCheckpoint(item, input) {
 module.exports = {
   STATUSES, validateWorkItem, validateProductWriteAuthorization, evidenceVerified, calculateProgress, validateLease,
   recordStepEvidence, recordCriterionEvidence, primaryExpId, defaultRequestedOperations, validateDependencyGraph, evaluateOperationGates, evaluateHardGates, evaluateReadOnlyAcceptance, evaluateBranchlessMetadataAcceptance, isBranchlessControlPlaneWorkItem, dependencyReady, selectNextWorkItem,
-  resumePlan, createCheckpoint, evaluateChildCompletion, findDuplicateWorkItemIdIssues
+  resumePlan, createCheckpoint, refreshedStatus, evaluateChildCompletion, findDuplicateWorkItemIdIssues
 };
