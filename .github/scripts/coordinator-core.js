@@ -67,10 +67,10 @@ function expireLocks(state, nowMs = Date.now()) {
   }
   state.locks = retained;
   state.history ||= [];
-  for (const lock of expired) state.history.push({
-    event: 'LEASE_EXPIRED', issue_number: lock.issue_number, resource_key: lock.resource_key,
-    task_id: lock.task_id, run_id: lock.run_id, fencing_token: lock.fencing_token,
-    actor: lock.actor, chat_id: lock.chat_id, branch: lock.branch, target_repository: lock.target_repository,
+  for (const x of expired) state.history.push({
+    event: 'LEASE_EXPIRED', issue_number: x.issue_number, resource_key: x.resource_key,
+    task_id: x.task_id, run_id: x.run_id, fencing_token: x.fencing_token,
+    actor: x.actor, chat_id: x.chat_id, branch: x.branch, target_repository: x.target_repository,
     at_utc: new Date(nowMs).toISOString()
   });
   for (const lock of invalid) {
