@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 991,
+  "revision": 992,
   "next_fencing_token": 93,
   "locks": [
     {
@@ -8594,7 +8594,7 @@
     },
     "6946535415": {
       "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-GOAL-ALLOCATOR-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=Created and read back Issues #67 (prompt operation-scope and N-chat dispatch), #68 (legacy WRITE_ALLOWED operation-scope migration), and #69 (central malformed-lease fail-closed fix). #67/#68 depend on Issue #64; #69 is independent and ready. Release allocator lease after checkpoint read-back.; remaining_steps=.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 11,
       "actor": "a4adelahmadian86-wq",
       "command": "checkpoint",
