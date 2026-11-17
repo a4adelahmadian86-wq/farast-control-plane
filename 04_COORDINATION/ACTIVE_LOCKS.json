@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 776,
+  "revision": 777,
   "next_fencing_token": 84,
   "locks": [
     {
@@ -6673,6 +6673,15 @@
       "command": "claim",
       "next_status": "locked",
       "at_utc": "2026-11-17T09:57:44.718Z"
+    },
+    "6944744655": {
+      "response": "معیار پذیرش ثبت شد: AC_FAIL_CLOSED; ACCEPTANCE_PROGRESS=20%; OVERALL_COMPLETION=20%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 62,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-17T09:58:28.435Z"
     }
   },
   "work_items": {
@@ -9125,7 +9134,15 @@
         {
           "criterion_id": "AC_FAIL_CLOSED",
           "title": "Missing evidence, failed criteria/steps, unresolved hard gates or active lease prevent acceptance",
-          "evidence_requirement": "Negative regression tests for every blocker"
+          "evidence_requirement": "Negative regression tests for every blocker",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-62-RUN-20261117-READONLY-ACCEPTANCE-001/.github/scripts/work-item-core.test.js",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/63"
+          ],
+          "validated_at_utc": "2026-11-17T09:58:28.429Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_WRITE_GUARD",
