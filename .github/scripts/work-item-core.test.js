@@ -548,9 +548,12 @@ test('legacy bootstrap Work Items receive only exact enumerated operation scopes
  const x=item({work_item_id:'WI-PR16-SPEC-REPAIR-001',target_repository:'a4adelahmadian86-wq/farast-control-plane',write_policy:'WRITE_ALLOWED'});
  const allocator=item({work_item_id:'WI-GOAL-ALLOCATOR-001',target_repository:'a4adelahmadian86-wq/farast-control-plane',write_policy:'WRITE_ALLOWED'});
  const product=item({work_item_id:'WI-NON-IMPLEMENTATION-VERTICAL-SLICE-001',target_repository:'a4adelahmadian86-wq/non',write_policy:'WRITE_ALLOWED',owner_approval_ref:ownerIssueUrl});
+ const readonlyAcceptance=item({work_item_id:'WI-READONLY-EVIDENCE-ACCEPTANCE-001',target_repository:'a4adelahmadian86-wq/farast-control-plane',write_policy:'WRITE_ALLOWED'});
  assert.deepEqual(wi.defaultRequestedOperations(x),['control_plane_write']);
  assert.deepEqual(wi.defaultRequestedOperations(allocator),['control_plane_write']);
  assert.deepEqual(wi.defaultRequestedOperations(product),['product_implementation']);
+ assert.deepEqual(wi.defaultRequestedOperations(readonlyAcceptance),['control_plane_write']);
+ assert.doesNotThrow(()=>wi.validateWorkItem(readonlyAcceptance));
  assert.equal(wi.isBranchlessControlPlaneWorkItem(x),true);
  assert.equal(wi.isBranchlessControlPlaneWorkItem(allocator),true);
  assert.equal(wi.isBranchlessControlPlaneWorkItem(item({...x,work_item_id:'WI-OTHER-METADATA-001'})),false);
@@ -627,13 +630,22 @@ test('multi-EXP hard gate on secondary parent blocks missing, unaccepted and amb
  assert.equal(wi.evaluateHardGates(target,graph,[target,accepted]).ready,true);
 });
 test('exact legacy WRITE_ALLOWED bootstrap items remain compatible; unlisted legacy writes fail closed',()=>{
- const ids=['WI-GOAL-ALLOCATOR-001','WI-NON-IMPLEMENTATION-VERTICAL-SLICE-001','WI-NON-WRITE-POLICY-COORDINATOR-001','WI-PR16-SPEC-REPAIR-001','WI-OPERATION-GATE-MODEL-001'];
+ const ids=['WI-GOAL-ALLOCATOR-001','WI-NON-IMPLEMENTATION-VERTICAL-SLICE-001','WI-NON-WRITE-POLICY-COORDINATOR-001','WI-PR16-SPEC-REPAIR-001','WI-OPERATION-GATE-MODEL-001','WI-READONLY-EVIDENCE-ACCEPTANCE-001'];
  for(const id of ids) {
   const product=id==='WI-NON-IMPLEMENTATION-VERTICAL-SLICE-001';
   const x=item({work_item_id:id,target_repository:product?'a4adelahmadian86-wq/non':'a4adelahmadian86-wq/farast-control-plane',write_policy:'WRITE_ALLOWED',...(product?{owner_approval_ref:ownerIssueUrl}:{})});
   assert.doesNotThrow(()=>wi.validateWorkItem(x),id);
  }
  assert.throws(()=>wi.validateWorkItem(item({work_item_id:'WI-UNLISTED-WRITE-001',target_repository:'a4adelahmadian86-wq/farast-control-plane',write_policy:'WRITE_ALLOWED'})),/require operation_scope_version/);
+});
+
+test('accepted READ_ONLY acceptance Work Item remains a valid legacy control-plane dependency',()=>{
+ const accepted=item({work_item_id:'WI-READONLY-EVIDENCE-ACCEPTANCE-001',target_repository:'a4adelahmadian86-wq/farast-control-plane',write_policy:'WRITE_ALLOWED',status:'ACCEPTED'});
+ const dependent=item({work_item_id:'WI-OPERATION-GATE-MODEL-001',target_repository:'a4adelahmadian86-wq/farast-control-plane',write_policy:'WRITE_ALLOWED',dependencies:[{work_item_id:accepted.work_item_id}]});
+ const graph=require('../../01_STRATEGY/DEPENDENCY_GRAPH.json');
+ assert.equal(wi.validateWorkItem(accepted),true);
+ assert.deepEqual(wi.defaultRequestedOperations(accepted),['control_plane_write']);
+ assert.equal(wi.evaluateHardGates(dependent,graph,[accepted,dependent]).ready,true);
 });
 
 test('secondary EXP tags on a cross-cutting Work Item do not satisfy another EXP hard gate',()=>{
@@ -715,7 +727,7 @@ test('high-risk EXP-02 operation gates reference the canonical backup-recovery W
 });
 test('legacy READ_ONLY and proposal-only Work Items remain schema-compatible without operation scope',()=>{
  const schema=require('../../04_COORDINATION/WORK_ITEM_SCHEMA.json');
- const legacyIds=["WI-GOAL-ALLOCATOR-001","WI-NON-IMPLEMENTATION-VERTICAL-SLICE-001","WI-NON-WRITE-POLICY-COORDINATOR-001","WI-PR16-SPEC-REPAIR-001","WI-OPERATION-GATE-MODEL-001","WI-CI-001"];
+ const legacyIds=["WI-GOAL-ALLOCATOR-001","WI-NON-IMPLEMENTATION-VERTICAL-SLICE-001","WI-NON-WRITE-POLICY-COORDINATOR-001","WI-PR16-SPEC-REPAIR-001","WI-OPERATION-GATE-MODEL-001","WI-READONLY-EVIDENCE-ACCEPTANCE-001","WI-CI-001"];
  const writeScopeRule=schema.allOf.find(rule=>rule.if?.properties?.write_policy?.const==='WRITE_ALLOWED' && rule.then?.required?.includes('operation_scope_version'));
  assert.ok(writeScopeRule);
  assert.equal(schema.required.includes('operation_scope_version'),false);
