@@ -323,6 +323,6 @@ function createCheckpoint(item, input) {
 
 module.exports = {
   STATUSES, validateWorkItem, validateProductWriteAuthorization, evidenceVerified, calculateProgress, validateLease,
-  recordStepEvidence, recordCriterionEvidence, primaryExpId, evaluateHardGates, dependencyReady, selectNextWorkItem,
+  recordStepEvidence, recordCriterionEvidence, primaryExpId, evaluateHardGates, evaluateReadOnlyAcceptance, dependencyReady, selectNextWorkItem,
   resumePlan, createCheckpoint
 };
