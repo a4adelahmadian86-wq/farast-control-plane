@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 736,
+  "revision": 737,
   "next_fencing_token": 82,
   "locks": [
     {
@@ -6369,6 +6369,15 @@
       "command": "status",
       "next_status": null,
       "at_utc": "2026-11-17T09:40:59.736Z"
+    },
+    "6944361857": {
+      "response": "STEP ثبت شد: S5_REPORT; EXECUTION_PROGRESS=85.71%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=6/7.",
+      "response_posted": false,
+      "issue_number": 13,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-17T09:41:23.265Z"
     }
   },
   "work_items": {
@@ -6782,7 +6791,16 @@
           "weight": 1,
           "expected_output": "Four deliverables D1-D4 recorded in the Issue thread or authorized control-plane artifact location",
           "evidence_requirement": "Direct URLs to all artifacts; no writes to the product repository",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/13#issuecomment-6944359408",
+            "https://github.com/a4adelahmadian86-wq/non/commit/2aec2db41b330036a2f4e0c33cfe2d2f7396a91a",
+            "https://github.com/a4adelahmadian86-wq/non/commit/0b671bde57cadee21361e1e141ac2ef989c21fb2"
+          ],
+          "validated_at_utc": "2026-11-17T09:41:23.261Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S6_VERIFY",
