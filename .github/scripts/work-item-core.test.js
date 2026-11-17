@@ -20,6 +20,12 @@ function item(overrides = {}) {
     ...overrides
   };
 }
+const operationIds=['control_plane_write','control_plane_merge','control_plane_authorization_change','repository_write','product_implementation','destructive_data_change','database_migration','authorization_change','security_sensitive_change','audit_log_change','architecture_implementation','hosting_deployment','legal_policy_change','merge','acceptance','security_acceptance','production_release'];
+function operationGates(overrides={}) {
+ return operationIds.map(id=>({id,source_gate_ids:['test-source'],required_work_item_ids:[],owner_authorization_required:false,evidence_requirements:['test evidence'],...(overrides[id]||{})}));
+}
+function graphWith(nodes,overrides={}) { return {nodes,operation_gates:operationGates(overrides)}; }
+
 const lease={status:'ACTIVE',actor:'alice',chat_id:'chat-a',run_id:'run-a',fencing_token:7,lease_expires_at_utc:'2026-01-01T01:00:00Z'};
 const input=(step_id, nowMs=Date.parse('2026-01-01T00:30:00Z'))=>({lease,actor:'alice',chat_id:'chat-a',run_id:'run-a',fencing_token:7,step_id,validation_status:'PASS',evidence_refs:['https://github.com/owner/repo/commit/abc'],nowMs});
 
@@ -223,7 +229,7 @@ test('checkpoint stores all three progress dimensions and state counts',()=>{
 test('EXP-01 is eligible without EXP-22 ACCEPTED when EXP-22 is only a soft input',()=>{
  const baseline=item({work_item_id:'WI-EXP01-BASELINE-001',parent_exp_ids:['EXP-01']});
  const implementation=item({work_item_id:'WI-EXP22-IMPLEMENTATION-001',parent_exp_ids:['EXP-22'],status:'READY'});
- const graph={nodes:[{id:'EXP-01',hard_gates:[],soft_inputs:['EXP-22']}]};
+ const graph=graphWith([{id:'EXP-01',hard_gates:[],soft_inputs:['EXP-22']}]);
  const evaluated=wi.evaluateHardGates(baseline,graph,[baseline,implementation]);
  assert.equal(evaluated.ready,true);
  assert.deepEqual(evaluated.blockers,[]);
@@ -233,27 +239,102 @@ test('EXP-01 is eligible without EXP-22 ACCEPTED when EXP-22 is only a soft inpu
 test('unaccepted EXP hard gate blocks eligibility until the matching Work Item is ACCEPTED',()=>{
  const target=item({work_item_id:'WI-EXP06-TESTING-001',parent_exp_ids:['EXP-06']});
  const dependency=item({work_item_id:'WI-EXP22-IMPLEMENTATION-001',parent_exp_ids:['EXP-22'],status:'IN_PROGRESS'});
- const graph={nodes:[{id:'EXP-06',hard_gates:['EXP-22'],soft_inputs:[]}]};
+ const graph=graphWith([{id:'EXP-06',hard_gates:['EXP-22'],soft_inputs:[]}]);
  assert.equal(wi.evaluateHardGates(target,graph,[target,dependency]).ready,false);
  dependency.status='ACCEPTED';
  assert.equal(wi.evaluateHardGates(target,graph,[target,dependency]).ready,true);
 });
 
-test('unknown or unsupported hard gates fail closed and soft inputs never gate',()=>{
+test('non-EXP strings in hard_gates invalidate the graph while soft inputs never gate',()=>{
  const target=item({work_item_id:'WI-EXP01-BASELINE-001',parent_exp_ids:['EXP-01']});
- const unknown={nodes:[{id:'EXP-01',hard_gates:['implementation'],soft_inputs:[]}]};
+ const unknown=graphWith([{id:'EXP-01',hard_gates:['implementation'],soft_inputs:[]}]);
  assert.equal(wi.evaluateHardGates(target,unknown,[target]).ready,false);
- const softOnly={nodes:[{id:'EXP-01',hard_gates:[],soft_inputs:['EXP-22','EXP-99']}]};
+ const softOnly=graphWith([{id:'EXP-01',hard_gates:[],soft_inputs:['EXP-22','EXP-99']}]);
  assert.equal(wi.evaluateHardGates(target,softOnly,[target]).ready,true);
- assert.equal(wi.evaluateHardGates(target,{nodes:[]},[target]).ready,false);
+ assert.equal(wi.evaluateHardGates(target,graphWith([]),[target]).ready,false);
 });
 
-test('Work Item selection applies canonical hard gates when a dependency graph is supplied',()=>{
+test('Work Item selection applies canonical EXP-only hard gates',()=>{
  const baseline=item({work_item_id:'WI-EXP01-BASELINE-001',parent_exp_ids:['EXP-01']});
  const later=item({work_item_id:'WI-EXP22-IMPLEMENTATION-001',parent_exp_ids:['EXP-22'],status:'READY'});
- const graph={nodes:[{id:'EXP-01',hard_gates:[],soft_inputs:['EXP-22']},{id:'EXP-22',hard_gates:['implementation'],soft_inputs:[]}]};
+ const graph=graphWith([
+  {id:'EXP-01',hard_gates:[],soft_inputs:['EXP-22']},
+  {id:'EXP-22',hard_gates:['EXP-21'],soft_inputs:[]}
+ ]);
  const selected=wi.selectNextWorkItem([baseline,later],{nowMs:Date.parse('2026-01-01T01:00:00Z'),dependencyGraph:graph});
  assert.equal(selected.work_item_id,baseline.work_item_id);
+});
+
+test('READ_ONLY analysis is not blocked by a later product implementation gate',()=>{
+ const target=item({work_item_id:'WI-EXP22-READINESS-001',parent_exp_ids:['EXP-22'],target_repository:'a4adelahmadian86-wq/non'});
+ const graph=graphWith([{id:'EXP-22',hard_gates:[]}],{
+  product_implementation:{applies_to_exp_ids:['EXP-22'],applies_to_target_repositories:['a4adelahmadian86-wq/non'],required_work_item_ids:['WI-EXP21-CHANGE-PACKAGE-001'],owner_authorization_required:true}
+ });
+ assert.equal(wi.evaluateHardGates(target,graph,[target]).ready,true);
+});
+
+test('NON product implementation requires an explicit operation and accepted exact Work Items',()=>{
+ const target=item({work_item_id:'WI-NON-IMPLEMENTATION-VERTICAL-SLICE-001',parent_exp_ids:['EXP-22','EXP-23'],target_repository:'a4adelahmadian86-wq/non',write_policy:'WRITE_ALLOWED',owner_approval_ref:'https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/51',requested_operations:['product_implementation']});
+ const prereqs=[
+  item({work_item_id:'WI-EXP21-CHANGE-PACKAGE-001',parent_exp_ids:['EXP-21'],status:'ACCEPTED'}),
+  item({work_item_id:'WI-EXP22-CONTROLLED-IMPLEMENTATION-001',parent_exp_ids:['EXP-22'],status:'ACCEPTED'}),
+  item({work_item_id:'WI-EXP23-REGRESSION-001',parent_exp_ids:['EXP-23'],status:'ACCEPTED'})
+ ];
+ const graph=graphWith([{id:'EXP-22',hard_gates:[]}],{
+  product_implementation:{applies_to_exp_ids:['EXP-22'],applies_to_target_repositories:['a4adelahmadian86-wq/non'],required_work_item_ids:prereqs.map(x=>x.work_item_id),owner_authorization_required:true}
+ });
+ assert.equal(wi.evaluateHardGates(target,graph,[target,...prereqs]).ready,true);
+ assert.equal(wi.evaluateHardGates(target,graph,[target,...prereqs.slice(0,2)]).ready,false);
+});
+
+test('legacy NON WRITE_ALLOWED Work Items without requested_operations fail closed',()=>{
+ const target=item({work_item_id:'WI-NON-LEGACY-001',parent_exp_ids:['EXP-22'],target_repository:'a4adelahmadian86-wq/non',write_policy:'WRITE_ALLOWED',owner_approval_ref:'https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/51'});
+ const result=wi.evaluateHardGates(target,graphWith([{id:'EXP-22',hard_gates:[]}]),[target]);
+ assert.equal(result.ready,false);
+ assert.ok(result.blockers.includes('requested_operations_required_for_write'));
+});
+
+test('unknown requested operation fails closed',()=>{
+ const target=item({requested_operations:['run_untrusted_action']});
+ const result=wi.evaluateHardGates(target,graphWith([{id:'EXP-03',hard_gates:[]}]),[target]);
+ assert.equal(result.ready,false);
+ assert.ok(result.blockers.includes('unknown_requested_operation:run_untrusted_action'));
+});
+
+test('WRITE_ALLOWED cannot declare analysis-only scope and versioned scope must be explicit',()=>{
+ const x=item({write_policy:'WRITE_ALLOWED',requested_operations:['analysis']});
+ assert.throws(()=>wi.validateWorkItem(x),/cannot request analysis/);
+ assert.throws(()=>wi.validateWorkItem(item({operation_scope_version:'1.0'})),/requires requested_operations/);
+});
+
+test('multi-EXP merge gate matches any declared parent EXP and does not self-gate',()=>{
+ const target=item({work_item_id:'WI-NON-IMPLEMENTATION-VERTICAL-SLICE-001',parent_exp_ids:['EXP-22','EXP-23'],target_repository:'a4adelahmadian86-wq/non',write_policy:'WRITE_ALLOWED',owner_approval_ref:'https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/51',requested_operations:['product_implementation']});
+ const regression=item({work_item_id:'WI-EXP23-REGRESSION-001',parent_exp_ids:['EXP-23'],status:'ACCEPTED'});
+ const graph=graphWith([{id:'EXP-22',hard_gates:[]}],{
+  merge:{applies_to_exp_ids:['EXP-23'],applies_to_target_repositories:['a4adelahmadian86-wq/non'],required_work_item_ids:['WI-EXP23-REGRESSION-001'],owner_authorization_required:true}
+ });
+ assert.equal(wi.evaluateHardGates(target,graph,[target,regression],{requestedOperations:['merge']}).ready,true);
+ const selfGate=graphWith([{id:'EXP-23',hard_gates:[]}],{
+  merge:{applies_to_exp_ids:['EXP-23'],applies_to_target_repositories:['a4adelahmadian86-wq/non'],required_work_item_ids:[target.work_item_id],owner_authorization_required:true}
+ });
+ assert.ok(wi.evaluateHardGates(target,selfGate,[target],{requestedOperations:['merge']}).blockers.some(x=>x.startsWith('operation_prerequisite_self_reference:')));
+});
+
+test('control-plane PR merge uses its own scoped operation gate',()=>{
+ const target=item({work_item_id:'WI-OPERATION-GATE-MODEL-001',parent_exp_ids:['EXP-01','EXP-22','EXP-23'],target_repository:'a4adelahmadian86-wq/farast-control-plane',write_policy:'WRITE_ALLOWED'});
+ const graph=graphWith([{id:'EXP-01',hard_gates:[]}],{
+  control_plane_write:{applies_to_target_repositories:['a4adelahmadian86-wq/farast-control-plane'],required_work_item_ids:[],owner_authorization_required:false},
+  control_plane_merge:{applies_to_target_repositories:['a4adelahmadian86-wq/farast-control-plane'],required_work_item_ids:[],owner_authorization_required:false}
+ });
+ assert.equal(wi.evaluateHardGates(target,graph,[target]).ready,true);
+ assert.equal(wi.evaluateHardGates(target,graph,[target],{requestedOperations:['control_plane_merge']}).ready,true);
+});
+
+test('control-plane action and generic repository writes cannot be inferred for unknown targets',()=>{
+ const unknown=item({work_item_id:'WI-UNKNOWN-WRITE-001',write_policy:'WRITE_ALLOWED',target_repository:'unknown/repo'});
+ const result=wi.evaluateHardGates(unknown,graphWith([{id:'EXP-03',hard_gates:[]}]),[unknown]);
+ assert.equal(result.ready,false);
+ assert.ok(result.blockers.includes('requested_operations_required_for_write'));
 });
 
 test('primary EXP scope uses the first explicitly ordered parent EXP for cross-cutting Work Items',()=>{
