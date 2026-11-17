@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 716,
+  "revision": 717,
   "next_fencing_token": 82,
   "locks": [
     {
@@ -6448,6 +6448,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-17T09:36:23.837Z"
+    },
+    "6944263334": {
+      "response": "STEP ثبت شد: S2_ENVIRONMENT; EXECUTION_PROGRESS=42.85%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=3/7.",
+      "response_posted": false,
+      "issue_number": 13,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-17T09:36:49.441Z"
     }
   },
   "work_items": {
@@ -6792,7 +6801,21 @@
           "weight": 1,
           "expected_output": "Runtime/dependency inventory and environment evidence matrix",
           "evidence_requirement": "Exact manifest, lockfile, workflow or deployment evidence; unsupported values marked UNKNOWN",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/non/blob/main/README.md",
+            "https://github.com/a4adelahmadian86-wq/non/blob/main/composer.json",
+            "https://github.com/a4adelahmadian86-wq/non/blob/main/composer.lock",
+            "https://github.com/a4adelahmadian86-wq/non/blob/main/.github/workflows/farast-ci.yml",
+            "https://github.com/a4adelahmadian86-wq/non/blob/main/.env.example",
+            "https://github.com/a4adelahmadian86-wq/non/blob/main/DEPLOY.md",
+            "https://github.com/a4adelahmadian86-wq/non/blob/main/render.yaml",
+            "https://github.com/a4adelahmadian86-wq/non/blob/main/voice-stream/package.json"
+          ],
+          "validated_at_utc": "2026-11-17T09:36:49.435Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S3_VALIDATE",
