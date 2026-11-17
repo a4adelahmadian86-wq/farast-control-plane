@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1191,
+  "revision": 1192,
   "next_fencing_token": 100,
   "locks": [
     {
@@ -10294,7 +10294,7 @@
     },
     "6954713607": {
       "response": "CLAIM GRANTED. TASK=GH-77; WORK_ITEM_ID=WI-LEGACY-WRITE-SCOPE-COMPAT-001; verified_steps=; remaining_steps=S0_REPRODUCE,S1_POLICY,S2_CORE,S3_SCHEMA,S4_REGRESSION,S5_REPLAY,S6_CI,S7_HANDOFF; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; actor=@a4adelahmadian86-wq; chat=CHAT-LEGACY-SCOPE-20261117-01; run=RUN-20261117-LEGACY-SCOPE-1650Z-001; resource_keys=file:.github/scripts/work-item-core.js,file:.github/scripts/work-item-core.test.js,file:.github/workflows/farast-coordinator.yml,file:04_coordination/work_item_schema.json,module:legacy-write-scope-compatibility; target_repository=a4adelahmadian86-wq/farast-control-plane; write_policy=WRITE_ALLOWED; branch=work/GH-77-RUN-20261117-LEGACY-SCOPE-1650Z-001; previous_run=none; fencing_token=99; lease_expires=2026-11-17T17:21:06.062Z. این Work Item با سیاست WRITE_ALLOWED است؛ branch را فقط در target_repository ثبت‌شده بساز و قبل از هر write heartbeat/token را دوباره تأیید کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز و branch قبلی را تغییر نده.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 77,
       "actor": "a4adelahmadian86-wq",
       "command": "claim",
