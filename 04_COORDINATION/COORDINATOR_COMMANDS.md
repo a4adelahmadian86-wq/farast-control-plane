@@ -101,3 +101,10 @@ Coordinator فقط برای `write_policy=WRITE_ALLOWED` مقدار branch را 
 - مشخصات جدید با schema/core validation بررسی می‌شود؛ اگر عمق یا evidence requirement ناقص باشد refresh رد می‌شود.
 - پس از refresh، progress سه‌گانه از ساختار جدید محاسبه و وضعیت READY/IN_PROGRESS/REVIEW_REQUIRED تعیین می‌شود.
 - refresh پذیرش یا اجرای کار نیست؛ فقط همگام‌سازی تعریف Work Item بین Issue و registry است.
+
+
+## دامنه عملیات و گیت ادغام
+
+برای هر Work Item جدید با WRITE_ALLOWED، در JSON مقدار operation_scope_version برابر 1.0 و requested_operations صریح ثبت شود. عملیات پایه باید با مخزن مقصد منطبق باشد: product_implementation برای NON، control_plane_write برای کنترل‌پلین و repository_write برای مخزن مجاز دیگر. عملیات حساس باید جداگانه در همان آرایه اعلام شوند؛ نبود scope یا شناسه ناشناخته مجوز نوشتن ایجاد نمی‌کند.
+
+hard_gates فقط EXP ID می‌پذیرد. عملیات در رجیستری operation_gates و با required_work_item_ids دقیق، scope مخزن/EXP و مجوز مالک ارزیابی می‌شود. Claim، refresh، unblock/reopen و پذیرش عملیات را بررسی می‌کنند. هنگام /farast accept، علاوه بر گیت عمومی، عملیات ادغام متناسب با target نیز اجرا می‌شود: merge برای NON و control_plane_merge برای farast-control-plane. این تفکیک مانع آن است که PR محصول پیش از شواهد implementation/regression ادغام شود یا PR کنترل‌پلین به‌اشتباه منتظر پذیرش EXPهای محصول بماند.
