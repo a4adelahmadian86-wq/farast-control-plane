@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 678,
+  "revision": 679,
   "next_fencing_token": 80,
   "locks": [
     {
@@ -6225,6 +6225,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-17T09:25:25.544Z"
+    },
+    "6944024642": {
+      "response": "معیار پذیرش ثبت شد: AC_SYNC; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=85.71%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 59,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-17T09:25:32.708Z"
     }
   },
   "work_items": {
@@ -8331,7 +8340,16 @@
         {
           "criterion_id": "AC_SYNC",
           "title": "Issue #13, registry, all independent prompt sources and aggregate bundle agree without changing WI-EXP01-BASELINE-001",
-          "evidence_requirement": "Issue/registry read-back, bundle parity test and exact file SHAs"
+          "evidence_requirement": "Issue/registry read-back, bundle parity test and exact file SHAs",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/13#issuecomment-6944008621",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/coordination/locks/04_COORDINATION/ACTIVE_LOCKS.json",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/01_STRATEGY/DEPENDENCY_GRAPH.json"
+          ],
+          "validated_at_utc": "2026-11-17T09:25:32.708Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_AUTOMATION",
