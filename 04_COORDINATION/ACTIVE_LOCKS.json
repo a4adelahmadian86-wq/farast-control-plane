@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1248,
+  "revision": 1249,
   "next_fencing_token": 101,
   "locks": [
     {
@@ -10765,6 +10765,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-17T17:05:10.494Z"
+    },
+    "6955083514": {
+      "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-EXP21-CHANGE-PACKAGE-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=After evidence-only acceptance of EXP-21, unblock and complete EXP-22 and EXP-23 read-only Work Items; then revalidate product_implementation gate and claim Issue #51 only after all three required EXP Work Items are ACCEPTED. Preserve no-merge scope for NON PR handoff.; remaining_steps=.",
+      "response_posted": false,
+      "issue_number": 33,
+      "actor": "a4adelahmadian86-wq",
+      "command": "checkpoint",
+      "next_status": null,
+      "at_utc": "2026-11-17T17:05:20.991Z"
     }
   },
   "work_items": {
@@ -14362,6 +14371,52 @@
         "lease_expires_at_utc": "2026-11-17T10:03:33.852Z"
       },
       "next_action": "READ_ONLY baseline is fully evidenced (7/7 steps, 5/5 criteria, JSON valid). Coordinator currently moves it to REVIEW_REQUIRED but accept path demands a merged PR and branch-bound REVIEW event, impossible under this READ_ONLY claim (branch=none). After WI-READONLY-EVIDENCE-ACCEPTANCE-001 in Issue #62 is implemented, merged and tested, start a fresh RUN_ID, claim Issue #13, re-read the evidence and complete machine-only acceptance without any NON write."
+    },
+    "33": {
+      "work_item_id": "WI-EXP21-CHANGE-PACKAGE-001",
+      "run_id": "RUN-20261117-PR16-EXP21-2022Z-001",
+      "checkpoint_version": 1,
+      "created_at_utc": "2026-11-17T17:05:20.991Z",
+      "last_verified_step_id": "S7_VERIFY",
+      "current_step_id": "S7_VERIFY",
+      "completed_step_ids": [
+        "S1_DISCOVER",
+        "S2_MAP",
+        "S3_ANALYZE",
+        "S4_CROSSCHECK",
+        "S5_ASSESS",
+        "S6_REPORT",
+        "S7_VERIFY"
+      ],
+      "remaining_step_ids": [],
+      "progress_percentage": 100,
+      "execution_progress_percentage": 100,
+      "acceptance_progress_percentage": 100,
+      "overall_completion_percentage": 100,
+      "progress_calculation_version": "PROGRESS_V2",
+      "required_step_counts": {
+        "pass": 7,
+        "fail": 0,
+        "blocked": 0,
+        "unknown": 0,
+        "not_run": 0
+      },
+      "acceptance_criteria_counts": {
+        "pass": 4,
+        "fail": 0,
+        "blocked": 0,
+        "unknown": 0,
+        "not_run": 0
+      },
+      "evidence_refs": [],
+      "blockers": [],
+      "owner": {
+        "actor": "a4adelahmadian86-wq",
+        "chat_id": "CHAT-PR16-EXP21-RESUME-20261117",
+        "fencing_token": 100,
+        "lease_expires_at_utc": "2026-11-17T17:35:10.494Z"
+      },
+      "next_action": "After evidence-only acceptance of EXP-21, unblock and complete EXP-22 and EXP-23 read-only Work Items; then revalidate product_implementation gate and claim Issue #51 only after all three required EXP Work Items are ACCEPTED. Preserve no-merge scope for NON PR handoff."
     },
     "34": {
       "work_item_id": "WI-EXP22-CONTROLLED-IMPLEMENTATION-001",
