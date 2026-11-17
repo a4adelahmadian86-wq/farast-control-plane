@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1288,
+  "revision": 1289,
   "next_fencing_token": 103,
   "locks": [
     {
@@ -11078,6 +11078,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-17T17:15:38.396Z"
+    },
+    "6955346071": {
+      "response": "معیار پذیرش ثبت شد: AC_ACCEPTANCE; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; can_accept=true.",
+      "response_posted": false,
+      "issue_number": 35,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-17T17:15:45.566Z"
     }
   },
   "work_items": {
@@ -12080,7 +12089,7 @@
       "parent_exp_ids": [
         "EXP-23"
       ],
-      "status": "CLAIMED",
+      "status": "REVIEW_REQUIRED",
       "target_repository": "a4adelahmadian86-wq/non",
       "resource_keys": [
         "analysis:exp-23"
@@ -12241,11 +12250,13 @@
           "criterion_id": "AC_ACCEPTANCE",
           "title": "قابلیت‌های موجود پوشش دارند؛ تست اجرا نشده PASS نیست؛ breaking change مشخص و approval-gated است.",
           "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion.",
-          "validation_status": "BLOCKED",
+          "validation_status": "PASS",
           "evidence_refs": [
-            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/35#issuecomment-6925145425"
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/35#issuecomment-6955335706",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/35#issuecomment-6955340900",
+            "https://github.com/a4adelahmadian86-wq/non/blob/663534ddedfa4864bc576b6c283418b1e3e1d049/tests/Feature/TrustCenterTest.php#L9-L21"
           ],
-          "validated_at_utc": "2026-11-16T18:29:50.696Z",
+          "validated_at_utc": "2026-11-17T17:15:45.565Z",
           "validated_by": "a4adelahmadian86-wq",
           "validation_note": ""
         }
