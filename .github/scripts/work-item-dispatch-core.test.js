@@ -112,3 +112,35 @@ test('canonical EXP-02 backup recovery suppresses the superseded Issue 14 semant
   const blockedCanonical = selectNextWorkItem([legacy, { ...canonical, status:'BLOCKED' }], { scopeExpIds:['EXP-02'], nowMs:now });
   assert.equal(blockedCanonical, null);
 });
+
+
+test('G-09 global coordination is visible to PR-02, PR-16 and PR-17 scopes with safe local fallback', () => {
+  const cases = [
+    { scopeExpIds:['EXP-02'], localExp:'EXP-02', lockKey:'module:g09-exp02' },
+    { scopeExpIds:['EXP-22','EXP-23'], localExp:'EXP-22', lockKey:'module:g09-exp22' },
+    { scopeExpIds:['EXP-26'], localExp:'EXP-26', lockKey:'module:g09-exp26' }
+  ];
+  for (const [index, scenario] of cases.entries()) {
+    const global = item({
+      issue_number:70 + index * 2,
+      work_item_id:'WI-GLOBAL-G09-' + index,
+      parent_goal_ids:['G-09'],
+      parent_exp_ids:['EXP-01'],
+      resource_keys:[scenario.lockKey],
+      priority:1
+    });
+    const local = item({
+      issue_number:71 + index * 2,
+      work_item_id:'WI-LOCAL-' + scenario.localExp,
+      parent_goal_ids:['G-01'],
+      parent_exp_ids:[scenario.localExp],
+      resource_keys:['analysis:' + scenario.localExp.toLowerCase()],
+      priority:10
+    });
+    const visible = selectNextWorkItem([local, global], { scopeExpIds:scenario.scopeExpIds, nowMs:now });
+    assert.equal(visible.work_item_id, global.work_item_id);
+    const activeLocks = [{ issue_number:999, resource_key:scenario.lockKey, status:'ACTIVE', lease_expires_at_utc:'2026-11-15T12:30:00Z' }];
+    const fallback = selectNextWorkItem([global, local], { scopeExpIds:scenario.scopeExpIds, activeLocks, nowMs:now });
+    assert.equal(fallback.work_item_id, local.work_item_id);
+  }
+});
