@@ -749,3 +749,81 @@ test('legacy READ_ONLY and proposal-only Work Items remain schema-compatible wit
  assert.throws(()=>wi.validateWorkItem(item({write_policy:'WRITE_ALLOWED'})),/require operation_scope_version/);
  assert.throws(()=>wi.validateWorkItem(item({work_item_id:'WI-CI-001',target_repository:productRepository,write_policy:'WRITE_ALLOWED',owner_approval_ref:ownerIssueUrl})),/require operation_scope_version/);
 });
+
+
+test('known EXP-02 backup alias resolves Issue 14 to canonical Issue 66 without reversing the relationship', () => {
+  const legacy = item({
+    work_item_id:'WI-EXP02-BACKUP-RESTORE-001',
+    title:'EXP-02 Backup integrity and restore readiness',
+    parent_goal_ids:['G-01'],
+    parent_exp_ids:['EXP-02'],
+    resource_keys:['analysis:exp-02']
+  });
+  const canonical = item({
+    work_item_id:'WI-EXP02-BACKUP-RECOVERY-001',
+    title:'EXP-02 backup, data durability and disaster-recovery assessment',
+    parent_goal_ids:['G-01','G-07'],
+    parent_exp_ids:['EXP-02'],
+    resource_keys:['analysis:exp-02-backup-recovery'],
+    status:'BLOCKED'
+  });
+  assert.deepEqual(wi.findSemanticDuplicateWorkItems(legacy, [{ ...canonical, issue_number:66 }]), [{
+    issue_number:66,
+    work_item_id:'WI-EXP02-BACKUP-RECOVERY-001',
+    canonical_work_item_id:'WI-EXP02-BACKUP-RECOVERY-001',
+    reason:'explicit_canonical_alias'
+  }]);
+  assert.deepEqual(wi.findDuplicateWorkItemIdIssues(14, legacy, [{ ...canonical, number:66 }], []), [66]);
+  assert.deepEqual(wi.findDuplicateWorkItemIdIssues(66, canonical, [{ ...legacy, number:14 }], []), []);
+});
+
+test('semantic overlap requires shared parent scope plus material resource/title or deliverable overlap', () => {
+  const canonical = item({
+    work_item_id:'WI-BACKUP-CANONICAL-001',
+    title:'Database backup integrity verification',
+    parent_goal_ids:['G-01'],
+    parent_exp_ids:['EXP-02'],
+    resource_keys:['analysis:backup-integrity'],
+    created_at_utc:'2026-01-01T00:00:00Z'
+  });
+  const duplicate = item({
+    work_item_id:'WI-BACKUP-DUPLICATE-001',
+    title:'Database backup integrity audit',
+    parent_goal_ids:['G-01'],
+    parent_exp_ids:['EXP-02'],
+    resource_keys:['analysis:backup-integrity'],
+    created_at_utc:'2026-01-02T00:00:00Z'
+  });
+  const unrelated = item({
+    work_item_id:'WI-RESTORE-UNRELATED-001',
+    title:'Authentication log retention review',
+    parent_goal_ids:['G-01'],
+    parent_exp_ids:['EXP-02'],
+    resource_keys:['analysis:auth-retention'],
+    created_at_utc:'2026-01-03T00:00:00Z'
+  });
+  assert.equal(wi.findSemanticDuplicateWorkItems(duplicate, [{ ...canonical, issue_number:201 }])[0].canonical_work_item_id, canonical.work_item_id);
+  assert.deepEqual(wi.findSemanticDuplicateWorkItems(unrelated, [{ ...canonical, issue_number:201 }]), []);
+});
+
+test('an accepted semantic duplicate is always preferred as the canonical Work Item', () => {
+  const candidate = item({
+    work_item_id:'WI-CANDIDATE-001',
+    title:'Database backup integrity verification',
+    parent_goal_ids:['G-01'],
+    parent_exp_ids:['EXP-02'],
+    resource_keys:['analysis:backup-integrity'],
+    created_at_utc:'2025-01-01T00:00:00Z'
+  });
+  const accepted = item({
+    work_item_id:'WI-ACCEPTED-001',
+    title:'Database backup integrity audit',
+    parent_goal_ids:['G-01'],
+    parent_exp_ids:['EXP-02'],
+    resource_keys:['analysis:backup-integrity'],
+    status:'ACCEPTED',
+    created_at_utc:'2026-01-01T00:00:00Z'
+  });
+  const duplicates = wi.findSemanticDuplicateWorkItems(candidate, [{ ...accepted, issue_number:202 }]);
+  assert.equal(duplicates[0].canonical_work_item_id, accepted.work_item_id);
+});
