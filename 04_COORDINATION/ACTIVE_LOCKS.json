@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 702,
+  "revision": 703,
   "next_fencing_token": 81,
   "locks": [
     {
@@ -6328,6 +6328,15 @@
       "command": "release",
       "next_status": "ready",
       "at_utc": "2026-11-17T09:32:31.802Z"
+    },
+    "6944163989": {
+      "response": "معیار پذیرش ثبت شد: AC_LIVE_SMOKE; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; can_accept=true.",
+      "response_posted": false,
+      "issue_number": 52,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-17T09:33:01.096Z"
     }
   },
   "work_items": {
@@ -7843,7 +7852,7 @@
       "parent_exp_ids": [
         "EXP-22"
       ],
-      "status": "IN_PROGRESS",
+      "status": "REVIEW_REQUIRED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "module:work-item-policy",
@@ -8020,11 +8029,11 @@
           "criterion_id": "AC_LIVE_SMOKE",
           "title": "After the patched coordinator is merged/live, /farast progress on Issue #51 returns a valid Work Item response and registry state remains consistent",
           "evidence_requirement": "Evidence: successful /farast progress response on Issue #51, exact coordinator Actions run and ACTIVE_LOCKS registry read-back after the patched coordinator is live.",
-          "validation_status": "BLOCKED",
+          "validation_status": "PASS",
           "evidence_refs": [
-            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/53"
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/52#issuecomment-6944141360"
           ],
-          "validated_at_utc": "2026-11-16T12:40:00.163Z",
+          "validated_at_utc": "2026-11-17T09:33:01.090Z",
           "validated_by": "a4adelahmadian86-wq",
           "validation_note": ""
         }
