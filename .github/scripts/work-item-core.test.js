@@ -218,3 +218,45 @@ test('checkpoint stores all three progress dimensions and state counts',()=>{
  assert.equal(cp.required_step_counts.not_run,3);
  assert.equal(cp.acceptance_criteria_counts.not_run,2);
 });
+
+
+test('EXP-01 is eligible without EXP-22 ACCEPTED when EXP-22 is only a soft input',()=>{
+ const baseline=item({work_item_id:'WI-EXP01-BASELINE-001',parent_exp_ids:['EXP-01']});
+ const implementation=item({work_item_id:'WI-EXP22-IMPLEMENTATION-001',parent_exp_ids:['EXP-22'],status:'READY'});
+ const graph={nodes:[{id:'EXP-01',hard_gates:[],soft_inputs:['EXP-22']}]};
+ const evaluated=wi.evaluateHardGates(baseline,graph,[baseline,implementation]);
+ assert.equal(evaluated.ready,true);
+ assert.deepEqual(evaluated.blockers,[]);
+ assert.equal(wi.dependencyReady(baseline,new Map([[baseline.work_item_id,baseline],[implementation.work_item_id,implementation]]),graph),true);
+});
+
+test('unaccepted EXP hard gate blocks eligibility until the matching Work Item is ACCEPTED',()=>{
+ const target=item({work_item_id:'WI-EXP06-TESTING-001',parent_exp_ids:['EXP-06']});
+ const dependency=item({work_item_id:'WI-EXP22-IMPLEMENTATION-001',parent_exp_ids:['EXP-22'],status:'IN_PROGRESS'});
+ const graph={nodes:[{id:'EXP-06',hard_gates:['EXP-22'],soft_inputs:[]}]};
+ assert.equal(wi.evaluateHardGates(target,graph,[target,dependency]).ready,false);
+ dependency.status='ACCEPTED';
+ assert.equal(wi.evaluateHardGates(target,graph,[target,dependency]).ready,true);
+});
+
+test('unknown or unsupported hard gates fail closed and soft inputs never gate',()=>{
+ const target=item({work_item_id:'WI-EXP01-BASELINE-001',parent_exp_ids:['EXP-01']});
+ const unknown={nodes:[{id:'EXP-01',hard_gates:['implementation'],soft_inputs:[]}]};
+ assert.equal(wi.evaluateHardGates(target,unknown,[target]).ready,false);
+ const softOnly={nodes:[{id:'EXP-01',hard_gates:[],soft_inputs:['EXP-22','EXP-99']}]};
+ assert.equal(wi.evaluateHardGates(target,softOnly,[target]).ready,true);
+ assert.equal(wi.evaluateHardGates(target,{nodes:[]},[target]).ready,false);
+});
+
+test('Work Item selection applies canonical hard gates when a dependency graph is supplied',()=>{
+ const baseline=item({work_item_id:'WI-EXP01-BASELINE-001',parent_exp_ids:['EXP-01']});
+ const later=item({work_item_id:'WI-EXP22-IMPLEMENTATION-001',parent_exp_ids:['EXP-22'],status:'READY'});
+ const graph={nodes:[{id:'EXP-01',hard_gates:[],soft_inputs:['EXP-22']},{id:'EXP-22',hard_gates:['implementation'],soft_inputs:[]}]};
+ const selected=wi.selectNextWorkItem([baseline,later],{nowMs:Date.parse('2026-01-01T01:00:00Z'),dependencyGraph:graph});
+ assert.equal(selected.work_item_id,baseline.work_item_id);
+});
+
+test('primary EXP scope uses the first explicitly ordered parent EXP for cross-cutting Work Items',()=>{
+ const x=item({work_item_id:'WI-CROSS-CUTTING-001',parent_exp_ids:['EXP-01','EXP-22','EXP-23']});
+ assert.equal(wi.primaryExpId(x),'EXP-01');
+});
