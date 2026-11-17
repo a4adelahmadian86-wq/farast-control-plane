@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1075,
+  "revision": 1076,
   "next_fencing_token": 96,
   "locks": [
     {
@@ -9453,6 +9453,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-17T12:30:12.920Z"
+    },
+    "6948066600": {
+      "response": "معیار پذیرش ثبت شد: AC_CI; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=85.71%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 69,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-17T12:30:40.415Z"
     }
   },
   "work_items": {
@@ -12394,7 +12403,14 @@
         {
           "criterion_id": "AC_CI",
           "title": "Focused tests and full validation pass on the exact final PR head",
-          "evidence_requirement": "Exact-head Actions run and changed-file read-back"
+          "evidence_requirement": "Exact-head Actions run and changed-file read-back",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44083389499"
+          ],
+          "validated_at_utc": "2026-11-17T12:30:40.411Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "deliverables": [
