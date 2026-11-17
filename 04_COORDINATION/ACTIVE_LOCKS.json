@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1048,
+  "revision": 1049,
   "next_fencing_token": 95,
   "locks": [
     {
@@ -9215,7 +9215,7 @@
     },
     "6947969771": {
       "response": "Claim رد شد: این TASK هم‌اکنون در اختیار @a4adelahmadian86-wq با run=RUN-20261117-OPGATE-RESUME-1200Z-002 است؛ برای جلوگیری از دو نویسنده روی یک branch، ابتدا handoff یا انقضای lease لازم است.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 64,
       "actor": "a4adelahmadian86-wq",
       "command": "claim",
