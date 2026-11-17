@@ -44,6 +44,9 @@ function validateWorkItem(item) {
     if (item.write_policy === 'WRITE_ALLOWED') {
       assert(!item.requested_operations.some(x => x === 'analysis' || x === 'proposal_only'), 'WRITE_ALLOWED Work Items cannot request analysis/proposal-only as their write scope');
       assert(item.requested_operations.some(operation => ACTION_OPERATIONS.has(operation)), 'WRITE_ALLOWED Work Items must declare at least one write/action operation');
+      if (item.target_repository === PRODUCT_REPOSITORY) assert(item.requested_operations.includes('product_implementation'), 'NON WRITE_ALLOWED Work Items must include product_implementation as their base write scope');
+      else if (item.target_repository === CONTROL_PLANE_REPOSITORY) assert(item.requested_operations.includes('control_plane_write'), 'control-plane Work Items must include control_plane_write as their base write scope');
+      else assert(item.requested_operations.includes('repository_write'), 'other repository Work Items must include repository_write as their base write scope');
     }
   }
   if (item.target_repository === PRODUCT_REPOSITORY && item.write_policy === 'WRITE_ALLOWED') assert(typeof item.owner_approval_ref === 'string' && item.owner_approval_ref.trim(), 'owner_approval_ref is required for NON WRITE_ALLOWED');
@@ -280,7 +283,7 @@ function evaluateOperationGates(item, graph, workItems = [], options = {}) {
     const repoApplies = !Array.isArray(gate.applies_to_target_repositories) || gate.applies_to_target_repositories.includes(item.target_repository);
     const itemExpIds = new Set((item.parent_exp_ids || [primaryExpId(item)]).map(String));
     const expApplies = !Array.isArray(gate.applies_to_exp_ids) || gate.applies_to_exp_ids.some(id => itemExpIds.has(id));
-    if (!repoApplies) continue;
+    if (!repoApplies) { blockers.push('operation_target_scope_mismatch:' + operation + ':' + item.target_repository); continue; }
     if (!expApplies) { blockers.push('operation_scope_mismatch:' + operation + ':' + [...itemExpIds].join(',')); continue; }
     if (gate.owner_authorization_required && (item.write_policy !== 'WRITE_ALLOWED' || !String(item.owner_approval_ref || '').trim())) blockers.push('owner_authorization_required:' + operation);
     for (const id of gate.required_work_item_ids) {
