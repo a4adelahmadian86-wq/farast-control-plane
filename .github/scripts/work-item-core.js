@@ -31,6 +31,10 @@ function validateWorkItem(item) {
   assert(typeof item.target_repository === 'string' && /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(item.target_repository), 'invalid target_repository');
   assert(['READ_ONLY','WRITE_REQUIRES_OWNER_APPROVAL','WRITE_ALLOWED'].includes(item.write_policy), 'invalid write_policy');
   assert(['OWNER_ASSIGNED','DEFAULT_POLICY'].includes(item.priority_source), 'invalid priority_source');
+  if (item.operation_scope_version !== undefined) {
+    assert(item.operation_scope_version === '1.0', 'unsupported operation_scope_version');
+    assert(Array.isArray(item.requested_operations) && item.requested_operations.length > 0, 'versioned operation scope requires requested_operations');
+  }
   if (item.requested_operations !== undefined) {
     assert(Array.isArray(item.requested_operations) && item.requested_operations.length > 0, 'requested_operations must be a non-empty array');
     assert(item.requested_operations.every(x => typeof x === 'string' && x.trim()), 'requested_operations must contain non-empty strings');
