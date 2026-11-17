@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1178,
+  "revision": 1179,
   "next_fencing_token": 98,
   "locks": [],
   "history": [
@@ -10102,6 +10102,15 @@
       "command": "review",
       "next_status": "review",
       "at_utc": "2026-11-17T16:39:01.052Z"
+    },
+    "6954415350": {
+      "response": "پذیرش خودکار رد شد: گیت سخت/عملیات درخواست‌شده حل‌نشده یا پاس‌نشده است: explicit_dependency_not_accepted:WI-READONLY-EVIDENCE-ACCEPTANCE-001:INVALID.",
+      "response_posted": false,
+      "issue_number": 64,
+      "actor": "a4adelahmadian86-wq",
+      "command": "accept",
+      "next_status": null,
+      "at_utc": "2026-11-17T16:40:15.955Z"
     }
   },
   "work_items": {
