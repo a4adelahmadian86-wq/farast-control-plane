@@ -313,7 +313,9 @@ function findSemanticDuplicateWorkItems(candidate, records = []) {
         issue_number: Number(record.issue_number ?? record.number),
         work_item_id: recordId,
         canonical_work_item_id: explicitCanonical,
-        reason: 'explicit_canonical_alias'
+        reason: 'explicit_canonical_alias',
+        status: 'SUPERSEDED',
+        superseded: true
       });
       continue;
     }
