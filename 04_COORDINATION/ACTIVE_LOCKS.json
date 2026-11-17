@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 667,
+  "revision": 668,
   "next_fencing_token": 80,
   "locks": [
     {
@@ -6139,7 +6139,7 @@
     },
     "6943897322": {
       "response": "CLAIM GRANTED. TASK=GH-59; WORK_ITEM_ID=WI-PROMPT-ORDER-DEPENDENCY-REPAIR-001; verified_steps=S0_AUDIT,S1_PRIORITY_CONTRACT,S2_GRAPH_AND_BASELINE,S3_REFRESH_GATE_ENFORCEMENT,S5_TEST_AND_BUNDLE; remaining_steps=S4_SCHEMA_REGISTRY_SYNC,S6_STACK_AND_HANDOFF; EXECUTION_PROGRESS=71.42%; ACCEPTANCE_PROGRESS=80%; OVERALL_COMPLETION=71.42%; actor=@a4adelahmadian86-wq; chat=CHAT-FARAST-ORDER-20261117; run=RUN-20261117-ORDER-DEPENDENCY-REPAIR-003; resource_keys=issue:13,module:coordinator-refresh,module:dependency-graph,module:prompt-bundle,module:prompt-library; target_repository=a4adelahmadian86-wq/farast-control-plane; write_policy=WRITE_ALLOWED; branch=work/GH-59-RUN-20261117-ORDER-DEPENDENCY-REPAIR-003; previous_run=RUN-20261117-ORDER-DEPENDENCY-REPAIR-002; previous_target_repository=a4adelahmadian86-wq/farast-control-plane; previous_branch=work/GH-59-RUN-20261117-ORDER-DEPENDENCY-REPAIR-002; fencing_token=79; lease_expires=2026-11-17T09:50:47.266Z. این Work Item با سیاست WRITE_ALLOWED است؛ branch را فقط در target_repository ثبت‌شده بساز و قبل از هر write heartbeat/token را دوباره تأیید کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز و branch قبلی را تغییر نده.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 59,
       "actor": "a4adelahmadian86-wq",
       "command": "claim",
