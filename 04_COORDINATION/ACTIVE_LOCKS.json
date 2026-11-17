@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 833,
+  "revision": 834,
   "next_fencing_token": 86,
   "locks": [],
   "history": [
@@ -7000,7 +7000,7 @@
     },
     "6945102693": {
       "response": "پذیرش رد شد: وظیفه باید در وضعیت review و بدون lease فعال باشد.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 62,
       "actor": "a4adelahmadian86-wq",
       "command": "accept",
