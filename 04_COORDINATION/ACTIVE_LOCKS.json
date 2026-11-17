@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 788,
+  "revision": 789,
   "next_fencing_token": 84,
   "locks": [
     {
@@ -6751,6 +6751,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-17T10:00:48.360Z"
+    },
+    "6944801043": {
+      "response": "معیار پذیرش ثبت شد: AC_READONLY_ACCEPT; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=85.71%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 62,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-17T10:01:07.199Z"
     }
   },
   "work_items": {
@@ -9198,7 +9207,16 @@
         {
           "criterion_id": "AC_READONLY_ACCEPT",
           "title": "Valid READ_ONLY Work Items are accepted without PR, branch or human review",
-          "evidence_requirement": "Issue #13 or equivalent automated end-to-end acceptance test"
+          "evidence_requirement": "Issue #13 or equivalent automated end-to-end acceptance test",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-62-RUN-20261117-READONLY-ACCEPTANCE-001/.github/workflows/farast-coordinator.yml",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-62-RUN-20261117-READONLY-ACCEPTANCE-001/.github/scripts/work-item-core.test.js",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/63"
+          ],
+          "validated_at_utc": "2026-11-17T10:01:07.194Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_FAIL_CLOSED",
