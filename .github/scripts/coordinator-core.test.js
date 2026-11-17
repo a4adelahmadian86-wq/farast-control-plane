@@ -384,40 +384,50 @@ test('write policy resolution defaults legacy tasks to READ_ONLY and rejects sta
 });
 
 
-test('durable inbox replays interrupted and replaced runs exactly once and recovers unposted responses', () => {
-  const comments = Array.from({ length:25 }, (_, index) => ({
-    id:5000 + index,
-    body:'/farast claim chat=chat-' + index + ' run=run-' + index
+test('durable inbox replays 25 commands across five Issues exactly once and recovers unposted responses', () => {
+  const inboxes = Array.from({ length:5 }, (_, issueIndex) => ({
+    issue_number:77 + issueIndex,
+    comments:Array.from({ length:5 }, (_, commentIndex) => ({
+      id:5000 + issueIndex * 5 + commentIndex,
+      body:'/farast claim chat=chat-' + issueIndex + '-' + commentIndex + ' run=run-' + issueIndex + '-' + commentIndex
+    }))
   }));
   const processed = {};
+  const pendingAcrossIssues = () => inboxes.flatMap(inbox =>
+    core.pendingCommandComments([...inbox.comments, inbox.comments[0]], processed)
+      .map(comment => ({ ...comment, issue_number:inbox.issue_number }))
+  );
 
-  // First run is interrupted after committing eight commands but before posting their responses.
-  const firstRun = core.pendingCommandComments([...comments.slice(0,12), comments[0]], processed);
-  assert.equal(firstRun.length, 12);
-  for (const comment of firstRun.slice(0,8)) {
-    processed[String(comment.id)] = { issue_number:77, response:'CLAIM RESULT', response_posted:false };
+  // First issue_comment run is replaced after eight commits and before their responses are posted.
+  const firstRun = pendingAcrossIssues().slice(0,8);
+  assert.equal(firstRun.length, 8);
+  for (const comment of firstRun) {
+    processed[String(comment.id)] = { issue_number:comment.issue_number, response:'CLAIM RESULT', response_posted:false };
   }
-  const recoverable = core.pendingResponseOperations(processed, 77);
+  const recoverable = core.pendingResponseOperations(processed);
   assert.equal(recoverable.length, 8);
   assert.equal(new Set(recoverable.map(([id]) => core.responseMarker(id))).size, 8);
   for (const [id] of recoverable) processed[id].response_posted = true;
 
-  // A replacement/scheduled run sees the complete durable inbox and processes only the 17 uncommitted IDs.
-  const replacementRun = core.pendingCommandComments([...comments, ...comments.slice(0,5)], processed);
+  // Replacement/scheduled reconciliation scans all five Issue inboxes and processes only 17 uncommitted IDs.
+  const replacementRun = pendingAcrossIssues();
   assert.equal(replacementRun.length, 17);
   for (const comment of replacementRun) {
-    processed[String(comment.id)] = { issue_number:77, response:'CLAIM RESULT', response_posted:false };
+    processed[String(comment.id)] = { issue_number:comment.issue_number, response:'CLAIM RESULT', response_posted:false };
   }
-  const secondRecovery = core.pendingResponseOperations(processed, 77);
+  const secondRecovery = core.pendingResponseOperations(processed);
   assert.equal(secondRecovery.length, 17);
   for (const [id] of secondRecovery) processed[id].response_posted = true;
 
-  // Replaying the same comments again (including duplicate IDs) is a no-op.
-  assert.deepEqual(core.pendingCommandComments([...comments, ...comments], processed), []);
-  assert.equal(core.pendingResponseOperations(processed, 77).length, 0);
+  // A later scheduled replay sees all durable comments (including duplicate IDs) and performs no work.
+  assert.deepEqual(pendingAcrossIssues(), []);
+  assert.equal(core.pendingResponseOperations(processed).length, 0);
   assert.equal(Object.keys(processed).length, 25);
   assert.equal(new Set(Object.keys(processed).map(core.responseMarker)).size, 25);
   assert.ok(Object.values(processed).every(operation => operation.response_posted === true));
+  for (const inbox of inboxes) {
+    assert.equal(core.pendingResponseOperations(processed, inbox.issue_number).length, 0);
+  }
 });
 
 test('response recovery is scoped to the requested Issue and markers are deterministic', () => {
