@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1488,
+  "revision": 1489,
   "next_fencing_token": 108,
   "locks": [
     {
@@ -13360,6 +13360,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-17T18:11:57.170Z"
+    },
+    "6956754968": {
+      "response": "STEP ثبت شد: S6_PR_HANDOFF; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=7/7.",
+      "response_posted": false,
+      "issue_number": 51,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-17T18:12:19.844Z"
     }
   },
   "work_items": {
@@ -15204,7 +15213,14 @@
           "required": true,
           "weight": 1,
           "expected_output": "Review-ready PR, complete test/risk summary and durable next action",
-          "evidence_requirement": "PR URL/head SHA, CI links, Issue read-back and checkpoint URL"
+          "evidence_requirement": "PR URL/head SHA, CI links, Issue read-back and checkpoint URL",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/non/pull/689"
+          ],
+          "validated_at_utc": "2026-11-17T18:12:19.843Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "acceptance_criteria": [
