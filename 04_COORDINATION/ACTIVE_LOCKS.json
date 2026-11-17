@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1316,
+  "revision": 1317,
   "next_fencing_token": 105,
   "locks": [
     {
@@ -11352,6 +11352,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-17T17:24:41.871Z"
+    },
+    "6955589608": {
+      "response": "STEP ثبت شد: S1_POLICY; EXECUTION_PROGRESS=25%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=2/8.",
+      "response_posted": false,
+      "issue_number": 77,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-17T17:24:50.747Z"
     }
   },
   "work_items": {
@@ -14737,7 +14746,14 @@
           "weight": 1,
           "expected_output": "A narrowly enumerated compatibility policy for the already accepted control-plane Work Item",
           "evidence_requirement": "Exact Work Item ID, target repository and operation mapping; negative case for unlisted IDs",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/79"
+          ],
+          "validated_at_utc": "2026-11-17T17:24:50.747Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S2_CORE",
