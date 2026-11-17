@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1073,
+  "revision": 1074,
   "next_fencing_token": 96,
   "locks": [
     {
@@ -9444,6 +9444,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-17T12:30:04.705Z"
+    },
+    "6948054857": {
+      "response": "معیار پذیرش ثبت شد: AC_N_WORKER; ACCEPTANCE_PROGRESS=85.71%; OVERALL_COMPLETION=85.71%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 69,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-17T12:30:12.920Z"
     }
   },
   "work_items": {
@@ -12373,7 +12382,14 @@
         {
           "criterion_id": "AC_N_WORKER",
           "title": "N-worker races prove one owner per shared resource and overlap only on disjoint resources",
-          "evidence_requirement": "Concurrent claim simulation with invariant checks"
+          "evidence_requirement": "Concurrent claim simulation with invariant checks",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44083389499"
+          ],
+          "validated_at_utc": "2026-11-17T12:30:12.920Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_CI",
