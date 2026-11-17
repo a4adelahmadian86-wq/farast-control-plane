@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1142,
+  "revision": 1143,
   "next_fencing_token": 97,
   "locks": [
     {
@@ -9993,6 +9993,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-17T16:25:56.267Z"
+    },
+    "6954004691": {
+      "response": "STEP ثبت شد: S1_POLICY; EXECUTION_PROGRESS=28.57%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=2/7.",
+      "response_posted": false,
+      "issue_number": 64,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-17T16:26:43.264Z"
     }
   },
   "work_items": {
@@ -12622,7 +12631,15 @@
           "weight": 1,
           "expected_output": "Canonical policy defining applicability, evidence and fail-closed behavior",
           "evidence_requirement": "Versioned policy/registry with an explicit entry and source for every current gate type",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/74",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-64-RUN-20261117-MASTER00-RESUME-1948Z-001/01_STRATEGY/DEPENDENCY_GRAPH.json"
+          ],
+          "validated_at_utc": "2026-11-17T16:26:43.264Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Typed policy separates EXP hard_gates from requested_operations and operation_gates; unknown operations and missing applicable evidence fail closed."
         },
         {
           "step_id": "S2_GRAPH_SCHEMA",
