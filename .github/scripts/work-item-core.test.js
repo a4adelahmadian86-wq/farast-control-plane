@@ -321,7 +321,7 @@ test('multi-EXP merge gate matches any declared parent EXP and does not self-gat
 });
 
 test('control-plane PR merge uses its own scoped operation gate',()=>{
- const target=item({work_item_id:'WI-OPERATION-GATE-MODEL-001',parent_exp_ids:['EXP-01','EXP-22','EXP-23'],target_repository:'a4adelahmadian86-wq/farast-control-plane',write_policy:'WRITE_ALLOWED'});
+ const target=item({work_item_id:'WI-OPERATION-GATE-MODEL-001',parent_exp_ids:['EXP-01','EXP-22','EXP-23'],target_repository:'a4adelahmadian86-wq/farast-control-plane',write_policy:'WRITE_ALLOWED',operation_scope_version:'1.0',requested_operations:['control_plane_write']});
  const graph=graphWith([{id:'EXP-01',hard_gates:[]}],{
   control_plane_write:{applies_to_target_repositories:['a4adelahmadian86-wq/farast-control-plane'],required_work_item_ids:[],owner_authorization_required:false},
   control_plane_merge:{applies_to_target_repositories:['a4adelahmadian86-wq/farast-control-plane'],required_work_item_ids:[],owner_authorization_required:false}
