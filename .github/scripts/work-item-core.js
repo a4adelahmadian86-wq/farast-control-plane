@@ -8,8 +8,8 @@ const TERMINAL = new Set(['ACCEPTED','REJECTED','CANCELLED']);
 const VALIDATION = new Set(['NOT_RUN','PASS','FAIL','BLOCKED','UNKNOWN']);
 const PRODUCT_REPOSITORY = 'a4adelahmadian86-wq/non';
 const CONTROL_PLANE_REPOSITORY = 'a4adelahmadian86-wq/farast-control-plane';
-const BASE_OPERATIONS = new Set(['analysis','proposal_only','control_plane_write','repository_write']);
-const ACTION_OPERATIONS = new Set(['product_implementation','destructive_data_change','database_migration','authorization_change','security_sensitive_change','audit_log_change','architecture_implementation','hosting_deployment','legal_policy_change','merge','acceptance','security_acceptance','production_release']);
+const BASE_OPERATIONS = new Set(['analysis','proposal_only']);
+const ACTION_OPERATIONS = new Set(['control_plane_write','control_plane_merge','control_plane_authorization_change','repository_write','product_implementation','destructive_data_change','database_migration','authorization_change','security_sensitive_change','audit_log_change','architecture_implementation','hosting_deployment','legal_policy_change','merge','acceptance','security_acceptance','production_release']);
 const ALL_OPERATIONS = new Set([...BASE_OPERATIONS, ...ACTION_OPERATIONS]);
 
 function assert(condition, message) {
@@ -266,12 +266,13 @@ function evaluateOperationGates(item, graph, workItems = [], options = {}) {
     if (BASE_OPERATIONS.has(operation)) {
       if (operation === 'analysis' && item.write_policy !== 'READ_ONLY') blockers.push('analysis_operation_requires_read_only:' + operation);
       if (operation === 'proposal_only' && item.write_policy !== 'WRITE_REQUIRES_OWNER_APPROVAL') blockers.push('proposal_operation_policy_mismatch');
-      if (operation === 'control_plane_write' && (item.write_policy !== 'WRITE_ALLOWED' || item.target_repository !== CONTROL_PLANE_REPOSITORY)) blockers.push('control_plane_write_scope_mismatch');
-      if (operation === 'repository_write' && (item.write_policy !== 'WRITE_ALLOWED' || item.target_repository === PRODUCT_REPOSITORY || item.target_repository === CONTROL_PLANE_REPOSITORY)) blockers.push('repository_write_scope_mismatch');
       continue;
     }
-    if (ACTION_OPERATIONS.has(operation) && item.target_repository !== PRODUCT_REPOSITORY) blockers.push('product_action_requires_NON_target:' + operation);
-    if (operation === 'product_implementation' && item.write_policy !== 'WRITE_ALLOWED') blockers.push('product_implementation_scope_mismatch');
+    if (operation === 'control_plane_write' && (item.target_repository !== CONTROL_PLANE_REPOSITORY || item.write_policy !== 'WRITE_ALLOWED')) blockers.push('control_plane_write_scope_mismatch');
+    if (operation === 'control_plane_merge' && item.target_repository !== CONTROL_PLANE_REPOSITORY) blockers.push('control_plane_merge_scope_mismatch');
+    if (operation === 'control_plane_authorization_change' && (item.target_repository !== CONTROL_PLANE_REPOSITORY || item.write_policy !== 'WRITE_ALLOWED')) blockers.push('control_plane_authorization_scope_mismatch');
+    if (operation === 'repository_write' && (item.target_repository === PRODUCT_REPOSITORY || item.target_repository === CONTROL_PLANE_REPOSITORY || item.write_policy !== 'WRITE_ALLOWED')) blockers.push('repository_write_scope_mismatch');
+    if (operation === 'product_implementation' && (item.target_repository !== PRODUCT_REPOSITORY || item.write_policy !== 'WRITE_ALLOWED')) blockers.push('product_implementation_scope_mismatch');
     const gate = (graph.operation_gates || []).find(g => g.id === operation);
     if (!gate) { blockers.push('operation_gate_definition_missing:' + operation); continue; }
     const repoApplies = !Array.isArray(gate.applies_to_target_repositories) || gate.applies_to_target_repositories.includes(item.target_repository);
