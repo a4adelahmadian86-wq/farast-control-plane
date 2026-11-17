@@ -1,8 +1,89 @@
 {
   "schema_version": "1.0",
-  "revision": 636,
-  "next_fencing_token": 77,
-  "locks": [],
+  "revision": 637,
+  "next_fencing_token": 78,
+  "locks": [
+    {
+      "resource_key": "issue:13",
+      "issue_number": 59,
+      "task_id": "GH-59",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-FARAST-ORDER-20261117",
+      "chat_id": "CHAT-FARAST-ORDER-20261117",
+      "run_id": "RUN-20261117-ORDER-DEPENDENCY-REPAIR-002",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-59-RUN-20261117-ORDER-DEPENDENCY-REPAIR-002",
+      "acquired_at_utc": "2026-11-17T09:01:09.003Z",
+      "heartbeat_at_utc": "2026-11-17T09:01:09.003Z",
+      "lease_expires_at_utc": "2026-11-17T09:31:09.003Z",
+      "fencing_token": 77,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "module:coordinator-refresh",
+      "issue_number": 59,
+      "task_id": "GH-59",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-FARAST-ORDER-20261117",
+      "chat_id": "CHAT-FARAST-ORDER-20261117",
+      "run_id": "RUN-20261117-ORDER-DEPENDENCY-REPAIR-002",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-59-RUN-20261117-ORDER-DEPENDENCY-REPAIR-002",
+      "acquired_at_utc": "2026-11-17T09:01:09.003Z",
+      "heartbeat_at_utc": "2026-11-17T09:01:09.003Z",
+      "lease_expires_at_utc": "2026-11-17T09:31:09.003Z",
+      "fencing_token": 77,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "module:dependency-graph",
+      "issue_number": 59,
+      "task_id": "GH-59",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-FARAST-ORDER-20261117",
+      "chat_id": "CHAT-FARAST-ORDER-20261117",
+      "run_id": "RUN-20261117-ORDER-DEPENDENCY-REPAIR-002",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-59-RUN-20261117-ORDER-DEPENDENCY-REPAIR-002",
+      "acquired_at_utc": "2026-11-17T09:01:09.003Z",
+      "heartbeat_at_utc": "2026-11-17T09:01:09.003Z",
+      "lease_expires_at_utc": "2026-11-17T09:31:09.003Z",
+      "fencing_token": 77,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "module:prompt-bundle",
+      "issue_number": 59,
+      "task_id": "GH-59",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-FARAST-ORDER-20261117",
+      "chat_id": "CHAT-FARAST-ORDER-20261117",
+      "run_id": "RUN-20261117-ORDER-DEPENDENCY-REPAIR-002",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-59-RUN-20261117-ORDER-DEPENDENCY-REPAIR-002",
+      "acquired_at_utc": "2026-11-17T09:01:09.003Z",
+      "heartbeat_at_utc": "2026-11-17T09:01:09.003Z",
+      "lease_expires_at_utc": "2026-11-17T09:31:09.003Z",
+      "fencing_token": 77,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "module:prompt-library",
+      "issue_number": 59,
+      "task_id": "GH-59",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-FARAST-ORDER-20261117",
+      "chat_id": "CHAT-FARAST-ORDER-20261117",
+      "run_id": "RUN-20261117-ORDER-DEPENDENCY-REPAIR-002",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-59-RUN-20261117-ORDER-DEPENDENCY-REPAIR-002",
+      "acquired_at_utc": "2026-11-17T09:01:09.003Z",
+      "heartbeat_at_utc": "2026-11-17T09:01:09.003Z",
+      "lease_expires_at_utc": "2026-11-17T09:31:09.003Z",
+      "fencing_token": 77,
+      "status": "ACTIVE"
+    }
+  ],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -2884,6 +2965,27 @@
       "branch": "work/GH-59-RUN-20261116-ORDER-DEPENDENCY-REPAIR-001",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "at_utc": "2026-11-17T03:52:49.384Z"
+    },
+    {
+      "event": "ACQUIRED",
+      "issue_number": 59,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-FARAST-ORDER-20261117",
+      "run_id": "RUN-20261117-ORDER-DEPENDENCY-REPAIR-002",
+      "resource_keys": [
+        "issue:13",
+        "module:coordinator-refresh",
+        "module:dependency-graph",
+        "module:prompt-bundle",
+        "module:prompt-library"
+      ],
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-59-RUN-20261117-ORDER-DEPENDENCY-REPAIR-002",
+      "previous_branch": "work/GH-59-RUN-20261116-ORDER-DEPENDENCY-REPAIR-001",
+      "previous_target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "previous_run_id": "RUN-20261116-ORDER-DEPENDENCY-REPAIR-001",
+      "fencing_token": 77,
+      "at_utc": "2026-11-17T09:01:09.003Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -5623,6 +5725,15 @@
       "command": "refresh",
       "next_status": "ready",
       "at_utc": "2026-11-16T21:14:30.037Z"
+    },
+    "6943496442": {
+      "response": "CLAIM GRANTED. TASK=GH-59; WORK_ITEM_ID=WI-PROMPT-ORDER-DEPENDENCY-REPAIR-001; verified_steps=; remaining_steps=S0_AUDIT,S1_PRIORITY_CONTRACT,S2_GRAPH_AND_BASELINE,S3_REFRESH_GATE_ENFORCEMENT,S4_SCHEMA_REGISTRY_SYNC,S5_TEST_AND_BUNDLE,S6_STACK_AND_HANDOFF; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; actor=@a4adelahmadian86-wq; chat=CHAT-FARAST-ORDER-20261117; run=RUN-20261117-ORDER-DEPENDENCY-REPAIR-002; resource_keys=issue:13,module:coordinator-refresh,module:dependency-graph,module:prompt-bundle,module:prompt-library; target_repository=a4adelahmadian86-wq/farast-control-plane; write_policy=WRITE_ALLOWED; branch=work/GH-59-RUN-20261117-ORDER-DEPENDENCY-REPAIR-002; previous_run=RUN-20261116-ORDER-DEPENDENCY-REPAIR-001; previous_target_repository=a4adelahmadian86-wq/farast-control-plane; previous_branch=work/GH-59-RUN-20261116-ORDER-DEPENDENCY-REPAIR-001; fencing_token=77; lease_expires=2026-11-17T09:31:09.003Z. این Work Item با سیاست WRITE_ALLOWED است؛ branch را فقط در target_repository ثبت‌شده بساز و قبل از هر write heartbeat/token را دوباره تأیید کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز و branch قبلی را تغییر نده.",
+      "response_posted": false,
+      "issue_number": 59,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "locked",
+      "at_utc": "2026-11-17T09:01:09.082Z"
     }
   },
   "work_items": {
