@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1510,
+  "revision": 1511,
   "next_fencing_token": 108,
   "locks": [
     {
@@ -13543,6 +13543,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-17T18:27:28.676Z"
+    },
+    "6957125302": {
+      "response": "معیار پذیرش ثبت شد: AC_REGRESSION_EVIDENCE; ACCEPTANCE_PROGRESS=80%; OVERALL_COMPLETION=80%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 51,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-17T18:27:55.553Z"
     }
   },
   "work_items": {
@@ -15437,7 +15446,14 @@
         {
           "criterion_id": "AC_REGRESSION_EVIDENCE",
           "title": "Relevant automated regression coverage is added or strengthened and test/CI results are read back on the exact PR head; unrun or failed checks are not marked PASS",
-          "evidence_requirement": "Evidence: regression test source, exact test command and exit code, and CI result for the exact PR head SHA; NOT_RUN or failed checks are not PASS."
+          "evidence_requirement": "Evidence: regression test source, exact test command and exit code, and CI result for the exact PR head SHA; NOT_RUN or failed checks are not PASS.",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/non/actions/runs/44146194028"
+          ],
+          "validated_at_utc": "2026-11-17T18:27:55.553Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_REVIEW_READY_HANDOFF",
