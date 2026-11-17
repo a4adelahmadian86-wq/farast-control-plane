@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 945,
+  "revision": 946,
   "next_fencing_token": 90,
   "locks": [
     {
@@ -8173,7 +8173,7 @@
     },
     "6945691172": {
       "response": "CLAIM GRANTED. TASK=GH-64; WORK_ITEM_ID=WI-OPERATION-GATE-MODEL-001; verified_steps=; remaining_steps=S0_AUDIT,S1_POLICY,S2_GRAPH_SCHEMA,S3_EVALUATOR,S4_REGRESSION,S5_COMPATIBILITY_CI,S6_HANDOFF; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; actor=@a4adelahmadian86-wq; chat=CHAT-PR16-OPGATE-RESUME; run=RUN-20261117-OPGATE-RESUME-002; resource_keys=file:.github/scripts/work-item-core.js,file:.github/scripts/work-item-core.test.js,file:.github/workflows/farast-coordinator.yml,file:01_strategy/dependency_graph.json,file:04_coordination/work_item_schema.json,module:operation-gate-model; target_repository=a4adelahmadian86-wq/farast-control-plane; write_policy=WRITE_ALLOWED; branch=work/GH-64-RUN-20261117-OPGATE-RESUME-002; previous_run=RUN-20261117-OPGATE-RESUME-001; previous_target_repository=a4adelahmadian86-wq/farast-control-plane; previous_branch=work/GH-64-RUN-20261117-OPGATE-RESUME-001; fencing_token=89; lease_expires=2026-11-17T11:10:19.102Z. این Work Item با سیاست WRITE_ALLOWED است؛ branch را فقط در target_repository ثبت‌شده بساز و قبل از هر write heartbeat/token را دوباره تأیید کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز و branch قبلی را تغییر نده.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 64,
       "actor": "a4adelahmadian86-wq",
       "command": "claim",
