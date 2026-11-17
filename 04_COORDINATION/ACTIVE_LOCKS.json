@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 656,
+  "revision": 657,
   "next_fencing_token": 78,
   "locks": [
     {
@@ -5827,6 +5827,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-17T09:13:22.548Z"
+    },
+    "6943760319": {
+      "response": "معیار پذیرش ثبت شد: AC_AUTOMATION; ACCEPTANCE_PROGRESS=80%; OVERALL_COMPLETION=71.42%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 59,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-17T09:13:42.055Z"
     }
   },
   "work_items": {
@@ -7929,7 +7938,16 @@
         {
           "criterion_id": "AC_AUTOMATION",
           "title": "All required checks pass on exact PR head and acceptance requires no second human reviewer or signoff",
-          "evidence_requirement": "Exact-head CI, automated acceptance response and test evidence for no-human-signoff policy"
+          "evidence_requirement": "Exact-head CI, automated acceptance response and test evidence for no-human-signoff policy",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44053069096",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/60",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-59-RUN-20261117-ORDER-DEPENDENCY-REPAIR-002/05_PROMPT_LIBRARY/OWNER_APPROVED_PROMPT_PRIORITY_ORDER.md"
+          ],
+          "validated_at_utc": "2026-11-17T09:13:42.051Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "deliverables": [
