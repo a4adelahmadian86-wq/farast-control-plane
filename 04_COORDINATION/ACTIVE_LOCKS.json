@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1154,
+  "revision": 1155,
   "next_fencing_token": 97,
   "locks": [
     {
@@ -10047,6 +10047,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-17T16:27:20.602Z"
+    },
+    "6954010530": {
+      "response": "معیار پذیرش ثبت شد: AC_SCOPE; ACCEPTANCE_PROGRESS=40%; OVERALL_COMPLETION=40%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 64,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-17T16:27:28.934Z"
     }
   },
   "work_items": {
@@ -12783,7 +12792,15 @@
         {
           "criterion_id": "AC_SCOPE",
           "title": "Action gates block only the operation requiring them and do not block unrelated discovery/analysis/proposal work",
-          "evidence_requirement": "Positive/negative eligibility tests for READ_ONLY discovery and protected operation scopes"
+          "evidence_requirement": "Positive/negative eligibility tests for READ_ONLY discovery and protected operation scopes",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-64-RUN-20261117-MASTER00-RESUME-1948Z-001/.github/scripts/work-item-core.test.js",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-64-RUN-20261117-MASTER00-RESUME-1948Z-001/.github/scripts/work-item-core.js"
+          ],
+          "validated_at_utc": "2026-11-17T16:27:28.934Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Tests prove unrelated READ_ONLY analysis proceeds while protected operations remain gated."
         },
         {
           "criterion_id": "AC_FAIL_CLOSED",
