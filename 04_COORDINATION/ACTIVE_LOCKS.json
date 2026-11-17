@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 712,
+  "revision": 713,
   "next_fencing_token": 82,
   "locks": [
     {
@@ -6430,6 +6430,15 @@
       "command": "checkpoint",
       "next_status": null,
       "at_utc": "2026-11-17T09:35:51.463Z"
+    },
+    "6944245073": {
+      "response": "STEP ثبت شد: S0_SCOPE; EXECUTION_PROGRESS=14.28%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=1/7.",
+      "response_posted": false,
+      "issue_number": 13,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-17T09:36:16.674Z"
     }
   },
   "work_items": {
@@ -6713,7 +6722,7 @@
       "parent_exp_ids": [
         "EXP-01"
       ],
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/non",
       "resource_keys": [
         "analysis:exp-01"
@@ -6736,7 +6745,16 @@
           "weight": 1,
           "expected_output": "Evidence-backed confirmation that EXP-01 is independently executable, or explicit BLOCKED verdict if the canonical graph is unavailable/invalid",
           "evidence_requirement": "Exact dependency graph URL/SHA and relevant Issue/decision URLs; EXP-22 must not be a hard gate for EXP-01",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/01_STRATEGY/DEPENDENCY_GRAPH.json",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/59",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/13"
+          ],
+          "validated_at_utc": "2026-11-17T09:36:16.669Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S1_DISCOVER",
