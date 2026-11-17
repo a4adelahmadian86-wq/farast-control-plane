@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 751,
+  "revision": 752,
   "next_fencing_token": 82,
   "locks": [
     {
@@ -6435,7 +6435,7 @@
     },
     "6944482811": {
       "response": "WORK_ITEM=WI-EXP01-BASELINE-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; verified_steps=7/7; verified_criteria=5/5; step_weighting=EQUAL_STEPS_V1; criteria_weighting=EQUAL_CRITERIA_V1; dependencies=PASS; can_accept=true. claim/lease مستقل از درصد است.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 13,
       "actor": "a4adelahmadian86-wq",
       "command": "progress",
