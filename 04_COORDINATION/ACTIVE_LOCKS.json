@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1363,
+  "revision": 1364,
   "next_fencing_token": 106,
   "locks": [
     {
@@ -5622,6 +5622,17 @@
       "hard_gate_ready": true,
       "hard_gate_blockers": [],
       "at_utc": "2026-11-17T17:34:59.745Z"
+    },
+    {
+      "event": "WORK_ITEM_REFRESHED",
+      "issue_number": 67,
+      "work_item_id": "WI-PROMPT-OPERATION-SCOPE-001",
+      "actor": "a4adelahmadian86-wq",
+      "preserved_steps": 0,
+      "preserved_criteria": 0,
+      "hard_gate_ready": true,
+      "hard_gate_blockers": [],
+      "at_utc": "2026-11-17T17:35:11.765Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -11601,6 +11612,15 @@
       "command": "refresh",
       "next_status": "ready",
       "at_utc": "2026-11-17T17:34:59.745Z"
+    },
+    "6955851616": {
+      "response": "Work Item specification refreshed from Issue body; preserved_steps=0; preserved_criteria=0; hard_gates=PASS; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%.",
+      "response_posted": false,
+      "issue_number": 67,
+      "actor": "a4adelahmadian86-wq",
+      "command": "refresh",
+      "next_status": "ready",
+      "at_utc": "2026-11-17T17:35:11.765Z"
     }
   },
   "work_items": {
