@@ -222,6 +222,28 @@ function evaluateHardGates(item, graph, workItems = []) {
   return { ready: blockers.length === 0, exp_id: expId, blockers, soft_inputs_ignored: node.soft_inputs || [] };
 }
 
+function evaluateReadOnlyAcceptance(item, options = {}) {
+  const blockers = [];
+  try {
+    validateWorkItem(item);
+  } catch (error) {
+    return { ready: false, blockers: ['invalid_work_item:' + String(error.message || error)], progress: null };
+  }
+  if (item.write_policy !== 'READ_ONLY') blockers.push('write_policy_not_read_only');
+  if (options.hasActiveLease === true) blockers.push('active_lease');
+  if (options.hardGatesReady !== true) blockers.push('hard_gates_not_satisfied');
+  const handoff = options.reviewEvent;
+  if (!handoff || handoff.event !== 'REVIEW') blockers.push('missing_review_handoff');
+  else {
+    if (Number(handoff.issue_number) !== Number(options.issueNumber)) blockers.push('review_handoff_issue_mismatch');
+    if (handoff.target_repository !== item.target_repository) blockers.push('review_handoff_target_mismatch');
+    if (handoff.branch !== null && handoff.branch !== undefined) blockers.push('read_only_handoff_must_not_have_branch');
+  }
+  const progress = calculateProgress(item);
+  if (!progress.can_accept) blockers.push('required_evidence_incomplete');
+  return { ready: blockers.length === 0, blockers, progress };
+}
+
 function dependencyReady(item, byId, dependencyGraph) {
   const explicitDependenciesReady = (item.dependencies || []).every(dep => {
     const parent = byId.get(dep.work_item_id);
@@ -301,6 +323,6 @@ function createCheckpoint(item, input) {
 
 module.exports = {
   STATUSES, validateWorkItem, validateProductWriteAuthorization, evidenceVerified, calculateProgress, validateLease,
-  recordStepEvidence, recordCriterionEvidence, primaryExpId, evaluateHardGates, dependencyReady, selectNextWorkItem,
+  recordStepEvidence, recordCriterionEvidence, primaryExpId, evaluateHardGates, evaluateReadOnlyAcceptance, dependencyReady, selectNextWorkItem,
   resumePlan, createCheckpoint
 };
