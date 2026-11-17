@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1468,
+  "revision": 1469,
   "next_fencing_token": 108,
   "locks": [
     {
@@ -13198,6 +13198,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-17T18:06:21.202Z"
+    },
+    "6956621253": {
+      "response": "STEP ثبت شد: S2_SELECT_SLICE; EXECUTION_PROGRESS=42.85%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=3/7.",
+      "response_posted": false,
+      "issue_number": 51,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-17T18:06:59.767Z"
     }
   },
   "work_items": {
@@ -14982,7 +14991,14 @@
           "required": true,
           "weight": 1,
           "expected_output": "One selected implementation slice with before/after behavior, affected files, rationale, risk and rollback path",
-          "evidence_requirement": "Direct code/test/requirement evidence and read-back of relevant active PR scopes"
+          "evidence_requirement": "Direct code/test/requirement evidence and read-back of relevant active PR scopes",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/non/pull/689"
+          ],
+          "validated_at_utc": "2026-11-17T18:06:59.767Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S3_IMPLEMENT_CODE",
