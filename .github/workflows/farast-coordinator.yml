@@ -185,8 +185,11 @@ jobs:
             };
             const allTaskIssues = async () => github.paginate(github.rest.issues.listForRepo, { owner, repo, state: 'all', per_page: 100 });
             const findDuplicateWorkItemIdIssuesForIssue = async (issue, item, state, issues) => {
-              const records = issues.filter(isTask).map(other => ({ number: other.number, work_item_id: (rawWorkItemForIssue(other) || {}).work_item_id || null }));
-              const registryRecords = Object.entries(state.work_items || {}).map(([number, saved]) => ({ issue_number: Number(number), work_item_id: saved.work_item_id }));
+              const records = issues.filter(isTask).map(other => {
+                const raw = rawWorkItemForIssue(other) || {};
+                return { ...raw, number: other.number, issue_number: other.number, work_item_id: raw.work_item_id || null };
+              });
+              const registryRecords = Object.entries(state.work_items || {}).map(([number, saved]) => ({ ...saved, issue_number: Number(number) }));
               return workItemCore.findDuplicateWorkItemIdIssues(issue.number, item, records, registryRecords);
             };
             const allWorkItemsFor = async (state, issues) => {
