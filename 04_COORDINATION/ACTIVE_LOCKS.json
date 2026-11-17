@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1352,
+  "revision": 1353,
   "next_fencing_token": 105,
   "locks": [
     {
@@ -11458,7 +11458,7 @@
     },
     "6955756714": {
       "response": "وظیفه blocked نیست.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 67,
       "actor": "a4adelahmadian86-wq",
       "command": "unblock",
