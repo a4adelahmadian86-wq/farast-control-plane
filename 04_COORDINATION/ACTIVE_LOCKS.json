@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 740,
+  "revision": 741,
   "next_fencing_token": 82,
   "locks": [
     {
@@ -6387,6 +6387,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-17T09:42:17.412Z"
+    },
+    "6944396639": {
+      "response": "معیار پذیرش ثبت شد: AC_INDEPENDENCE; ACCEPTANCE_PROGRESS=20%; OVERALL_COMPLETION=20%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 13,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-17T09:42:53.395Z"
     }
   },
   "work_items": {
@@ -6835,7 +6844,16 @@
         {
           "criterion_id": "AC_INDEPENDENCE",
           "title": "EXP-01 baseline discovery is not hard-gated by EXP-22; soft inputs are informational only",
-          "evidence_requirement": "Canonical dependency graph read-back proving EXP-01 hard_gates is empty and EXP-22 is only a soft input"
+          "evidence_requirement": "Canonical dependency graph read-back proving EXP-01 hard_gates is empty and EXP-22 is only a soft input",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/01_STRATEGY/DEPENDENCY_GRAPH.json",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/59",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/13#issuecomment-6944359408"
+          ],
+          "validated_at_utc": "2026-11-17T09:42:53.391Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_EVIDENCE",
