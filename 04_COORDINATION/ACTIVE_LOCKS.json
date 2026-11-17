@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1152,
+  "revision": 1153,
   "next_fencing_token": 97,
   "locks": [
     {
@@ -10038,6 +10038,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-17T16:27:12.902Z"
+    },
+    "6954009686": {
+      "response": "معیار پذیرش ثبت شد: AC_TYPED_GATES; ACCEPTANCE_PROGRESS=20%; OVERALL_COMPLETION=20%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 64,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-17T16:27:20.602Z"
     }
   },
   "work_items": {
@@ -12761,7 +12770,15 @@
         {
           "criterion_id": "AC_TYPED_GATES",
           "title": "Graph hard_gates contain only EXP IDs and operation gates are represented separately",
-          "evidence_requirement": "Validated graph/schema plus migration matrix for every existing gate"
+          "evidence_requirement": "Validated graph/schema plus migration matrix for every existing gate",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-64-RUN-20261117-MASTER00-RESUME-1948Z-001/01_STRATEGY/DEPENDENCY_GRAPH.json",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-64-RUN-20261117-MASTER00-RESUME-1948Z-001/04_COORDINATION/WORK_ITEM_SCHEMA.json"
+          ],
+          "validated_at_utc": "2026-11-17T16:27:20.602Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "hard_gates contain only EXP IDs; operation gates are typed and separate."
         },
         {
           "criterion_id": "AC_SCOPE",
