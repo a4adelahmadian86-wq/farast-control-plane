@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1024,
+  "revision": 1025,
   "next_fencing_token": 94,
   "locks": [
     {
@@ -8938,6 +8938,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-17T11:32:54.484Z"
+    },
+    "6946849855": {
+      "response": "STEP ثبت شد: S3_AUDIT_RECOVERY; EXECUTION_PROGRESS=57.14%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=4/7.",
+      "response_posted": false,
+      "issue_number": 69,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-17T11:33:32.669Z"
     }
   },
   "work_items": {
@@ -11751,7 +11760,15 @@
           "weight": 1,
           "expected_output": "Auditable recovery behavior",
           "evidence_requirement": "History fixtures and owner/token recovery tests",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/27fbc34236e07167cce780fe55be05dfcbacc0cf",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/182ec78c2eb984811463a653d3a6a23aafd7440a"
+          ],
+          "validated_at_utc": "2026-11-17T11:33:32.663Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Invalid lock history is recorded once per issue/resource/run/token; the exact current owner can renew the lock, while stale actor/chat/run/token combinations do not own it."
         },
         {
           "step_id": "S4_REGRESSION",
