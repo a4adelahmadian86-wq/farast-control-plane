@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 652,
+  "revision": 653,
   "next_fencing_token": 78,
   "locks": [
     {
@@ -5809,6 +5809,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-17T09:13:07.845Z"
+    },
+    "6943755256": {
+      "response": "معیار پذیرش ثبت شد: AC_EXP01_INDEPENDENCE; ACCEPTANCE_PROGRESS=40%; OVERALL_COMPLETION=40%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 59,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-17T09:13:15.242Z"
     }
   },
   "work_items": {
@@ -7878,7 +7887,16 @@
         {
           "criterion_id": "AC_EXP01_INDEPENDENCE",
           "title": "EXP-01 baseline discovery is not hard-gated by EXP-22; EXP-22 may consume EXP-01 as soft context",
-          "evidence_requirement": "Dependency graph read-back, PR-01 text and a regression test proving EXP-01 eligibility without EXP-22 ACCEPTED"
+          "evidence_requirement": "Dependency graph read-back, PR-01 text and a regression test proving EXP-01 eligibility without EXP-22 ACCEPTED",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-59-RUN-20261117-ORDER-DEPENDENCY-REPAIR-002/01_STRATEGY/DEPENDENCY_GRAPH.json",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-59-RUN-20261117-ORDER-DEPENDENCY-REPAIR-002/05_PROMPT_LIBRARY/PR-01_BASELINE.md",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/13"
+          ],
+          "validated_at_utc": "2026-11-17T09:13:15.242Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_REFRESH_GATES",
