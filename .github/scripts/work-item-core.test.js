@@ -66,6 +66,17 @@ test('80 percent never implies acceptance; all required criteria and dependencie
  for(let i=0;i<4;i++) wi.recordStepEvidence(x,{...input('S'+i),nowMs:Date.parse('2026-01-01T00:30:00Z')});
  assert.equal(wi.calculateProgress(x).percentage,80); assert.equal(wi.calculateProgress(x).can_accept,false);
 });
+test('selection fails closed without a canonical dependency graph and with a structurally invalid graph',()=>{
+ const x=item({work_item_id:'WI-NEW-WRITE-001',write_policy:'WRITE_ALLOWED',target_repository:'owner/repo',requested_operations:['repository_write']});
+ const byId=new Map([[x.work_item_id,x]]);
+ const nowMs=Date.parse('2026-01-01T00:00:00Z');
+ assert.equal(wi.dependencyReady(x,byId,null),false);
+ assert.equal(wi.selectNextWorkItem([x],{nowMs}),null);
+ const invalid=graphWith([{id:'EXP-03',hard_gates:['implementation']}]);
+ assert.equal(wi.selectNextWorkItem([x],{nowMs,dependencyGraph:invalid}),null);
+ const valid=graphWith([{id:'EXP-03',hard_gates:[]}],{repository_write:{applies_to_target_repositories:['owner/repo'],required_work_item_ids:[],owner_authorization_required:false}});
+ assert.equal(wi.selectNextWorkItem([x],{nowMs,dependencyGraph:valid}).work_item_id,x.work_item_id);
+});
 test('dependencies block selection until every parent is accepted',()=>{
  const parent=item({work_item_id:'WI-PARENT',status:'IN_PROGRESS'});
  const child=item({work_item_id:'WI-CHILD',dependencies:[{work_item_id:'WI-PARENT'}]});
@@ -562,6 +573,11 @@ test('coordinator registry persistence verifies exact commit read-back and guard
  assert.match(workflow,/registry_readback_commit_mismatch/);
  assert.match(workflow,/DEPENDENCY_AUTO_UNBLOCKED/);
  assert.match(workflow,/isBranchlessControlPlaneWorkItem/);
+ assert.match(workflow,/findDuplicateWorkItemIdIssues/);
+ assert.match(workflow,/state:\s*'all'/);
+ assert.match(workflow,/duplicateWorkItemIdIssues/);
+ assert.match(workflow,/requireChildrenAccepted:\s*true/);
+ assert.match(workflow,/allWorkItemsFor/);
  assert.match(workflow,/findDuplicateWorkItemIdIssues/);
  assert.match(workflow,/state:\s*'all'/);
  assert.match(workflow,/duplicate_work_item_id/);

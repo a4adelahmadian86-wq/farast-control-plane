@@ -177,6 +177,45 @@ jobs:
                 throw new Error('Invalid Work item specification JSON in Issue #' + issue.number + ': ' + error.message);
               }
             };
+            const rawWorkItemForIssue = issue => {
+              const match = (issue.body || '').match(/(?:^|\n)###\s*Work item specification JSON\s*\n([\s\S]*?)(?=\n###|$)/i);
+              if (!match) return null;
+              const raw = match[1].trim().replace(/^\x60{3}(?:json)?\s*/i, '').replace(/\s*\x60{3}$/, '');
+              try { return JSON.parse(raw); } catch (_) { return null; }
+            };
+            const allTaskIssues = async () => github.paginate(github.rest.issues.listForRepo, { owner, repo, state: 'all', per_page: 100 });
+            const findDuplicateWorkItemIdIssuesForIssue = async (issue, item, state, issues) => {
+              const records = issues.filter(isTask).map(other => ({ number: other.number, work_item_id: (rawWorkItemForIssue(other) || {}).work_item_id || null }));
+              const registryRecords = Object.entries(state.work_items || {}).map(([number, saved]) => ({ issue_number: Number(number), work_item_id: saved.work_item_id }));
+              return workItemCore.findDuplicateWorkItemIdIssues(issue.number, item, records, registryRecords);
+            };
+            const allWorkItemsFor = async (state, issues) => {
+              const records = new Map();
+              for (const liveIssue of issues.filter(isTask)) {
+                const raw = rawWorkItemForIssue(liveIssue);
+                if (!raw || !raw.work_item_id) continue;
+                const stored = state.work_items && state.work_items[liveIssue.number];
+                let resolved = raw;
+                try {
+                  const validated = workItemSpecFor(liveIssue);
+                  if (stored) {
+                    const resources = value => [...new Set((value || []).map(x => String(x).trim().toLowerCase().replace(/\\/g, '/')))].sort();
+                    const same = stored.work_item_id === validated.work_item_id &&
+                      stored.write_policy === validated.write_policy &&
+                      stored.target_repository === validated.target_repository &&
+                      (stored.owner_approval_ref || '') === (validated.owner_approval_ref || '') &&
+                      (stored.parent_work_item_id || null) === (validated.parent_work_item_id || null) &&
+                      JSON.stringify(resources(stored.resource_keys)) === JSON.stringify(resources(validated.resource_keys));
+                    resolved = same ? { ...stored, parent_work_item_id: validated.parent_work_item_id } : { ...raw, status: 'INVALID' };
+                  } else resolved = validated;
+                } catch (_) {
+                  resolved = { ...raw, status: 'INVALID' };
+                }
+                records.set(liveIssue.number, resolved);
+              }
+              for (const number in (state.work_items || {})) if (!records.has(Number(number))) records.set(Number(number), state.work_items[number]);
+              return [...records.values()];
+            };
             const savedWorkItemFor = (state, issue) => {
               // Revalidate the live Issue on every command so owner authorization cannot be
               // silently removed or changed after a Work Item was first saved in the registry.
@@ -199,8 +238,16 @@ jobs:
               )) throw new Error('Saved Work Item identity/policy/resources do not match live Issue');
               item.write_policy ||= 'READ_ONLY';
               item.priority_source ||= 'DEFAULT_POLICY';
-              const byId = new Map(Object.values(state.work_items || {}).map(x => [x.work_item_id, x]));
-              item.dependencies = (item.dependencies || []).map(dep => ({ ...dep, status: (byId.get(dep.work_item_id) && byId.get(dep.work_item_id).status) || dep.status || 'UNKNOWN' }));
+              const byId = new Map();
+              for (const saved of Object.values(state.work_items || {})) {
+                const matches = byId.get(saved.work_item_id) || [];
+                matches.push(saved);
+                byId.set(saved.work_item_id, matches);
+              }
+              item.dependencies = (item.dependencies || []).map(dep => {
+                const matches = byId.get(dep.work_item_id) || [];
+                return { ...dep, status: matches.length === 1 ? matches[0].status : 'UNKNOWN' };
+              });
               return item;
             };
 
@@ -227,7 +274,30 @@ jobs:
                 expireLocks(state);
                 const current = activeForIssue(state, issue.number);
                 const owned = coordinatorCore.ownsLease(current, actor, chat, run, token);
-                if (command === 'refresh') {
+                let taskIssuesSnapshot = null;
+                let duplicateWorkItemIds = [];
+                let duplicateCheckError = '';
+                let candidateWorkItemId = '';
+                if (['claim','refresh','unblock','reopen','accept'].includes(command)) {
+                  let candidate = null;
+                  try { candidate = workItemSpecFor(issue); } catch (_) {}
+                  if (candidate) {
+                    candidateWorkItemId = candidate.work_item_id;
+                    try {
+                      taskIssuesSnapshot = await allTaskIssues();
+                      duplicateWorkItemIds = await findDuplicateWorkItemIdIssuesForIssue(issue, candidate, state, taskIssuesSnapshot);
+                    } catch (error) {
+                      duplicateCheckError = String(error.message || error).slice(0, 240);
+                    }
+                  }
+                }
+                if (duplicateCheckError) {
+                  nextStatus = 'blocked';
+                  response = 'فرمان رد شد: یکتایی WORK_ITEM_ID قابل راستی‌آزمایی نیست؛ برای fail-closed بودن هیچ Claim/refresh/unblock/accept انجام نشد. ' + duplicateCheckError;
+                } else if (duplicateWorkItemIds.length) {
+                  nextStatus = 'blocked';
+                  response = 'فرمان رد شد: WORK_ITEM_ID=' + candidateWorkItemId + ' در Issueهای دیگری نیز ثبت شده است: ' + duplicateWorkItemIds.map(n=>'#'+n).join(',') + '; تا رفع تکرار، هیچ Claim/refresh/unblock/accept مجاز نیست.';
+                } else if (command === 'refresh') {
                   if (current.length) {
                     response = 'Refresh رد شد: ابتدا lease فعال باید با فرمان release معتبر آزاد شود.';
                   } else {
@@ -396,9 +466,9 @@ jobs:
                 } else if (command === 'accept') {
                   const acceptanceItem = savedWorkItemFor(state, issue);
                   const acceptanceWorkItems = acceptanceItem
-                    ? [...Object.values(state.work_items || {}).filter(x => x.work_item_id !== acceptanceItem.work_item_id), acceptanceItem]
+                    ? await allWorkItemsFor(state, taskIssuesSnapshot || await allTaskIssues())
                     : Object.values(state.work_items || {});
-                  const hardGate = acceptanceItem ? workItemCore.evaluateHardGates(acceptanceItem, dependencyGraph, acceptanceWorkItems) : { ready: false, blockers: ['work_item_spec_missing'] };
+                  const hardGate = acceptanceItem ? workItemCore.evaluateHardGates(acceptanceItem, dependencyGraph, acceptanceWorkItems, { requireChildrenAccepted: true }) : { ready: false, blockers: ['work_item_spec_missing'] };
                   const prUrl = args.pr || (issue.body || '').match(/https:\/\/github\.com\/[^\s)]+\/pull\/\d+/)?.[0];
                   const branchlessControlPlane = !!acceptanceItem && workItemCore.isBranchlessControlPlaneWorkItem(acceptanceItem);
                   const latestIssueEvent = [...state.history].reverse().find(x => x.issue_number === issue.number);
@@ -440,7 +510,7 @@ jobs:
                         const branchBound = coordinatorCore.matchesReviewLease(pr, reviewEvent);
                         const mergeOperation = acceptanceItem?.target_repository === 'a4adelahmadian86-wq/farast-control-plane' ? 'control_plane_merge' : 'merge';
                         const mergeGate = acceptanceItem
-                          ? workItemCore.evaluateHardGates(acceptanceItem, dependencyGraph, Object.values(state.work_items || {}), { requestedOperations: [mergeOperation] })
+                          ? workItemCore.evaluateHardGates(acceptanceItem, dependencyGraph, acceptanceWorkItems, { requestedOperations: [mergeOperation], requireChildrenAccepted: true })
                           : { ready: false, blockers: ['work_item_spec_missing'] };
                         const checkRuns = await prClient.paginate(prClient.rest.checks.listForRef, { owner: prOwner, repo: prRepo, ref: pr.head.sha, per_page: 100 });
                         const combinedStatus = await prClient.rest.repos.getCombinedStatusForRef({ owner: prOwner, repo: prRepo, ref: pr.head.sha });
