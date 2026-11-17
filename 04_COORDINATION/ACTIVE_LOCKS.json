@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 714,
+  "revision": 715,
   "next_fencing_token": 82,
   "locks": [
     {
@@ -6439,6 +6439,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-17T09:36:16.674Z"
+    },
+    "6944253388": {
+      "response": "STEP ثبت شد: S1_DISCOVER; EXECUTION_PROGRESS=28.57%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=2/7.",
+      "response_posted": false,
+      "issue_number": 13,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-17T09:36:23.837Z"
     }
   },
   "work_items": {
@@ -6763,7 +6772,18 @@
           "weight": 1,
           "expected_output": "Repository snapshot matrix with default branches, HEAD SHAs, branches, PRs, commits, workflows and CI",
           "evidence_requirement": "Direct GitHub refs/URLs and UTC observation time for both repositories",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/non/commit/2aec2db41b330036a2f4e0c33cfe2d2f7396a91a",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/f040479ca4219ff9e203c79253d27315e68d5131",
+            "https://github.com/a4adelahmadian86-wq/non/branches",
+            "https://github.com/a4adelahmadian86-wq/non/pulls",
+            "https://github.com/a4adelahmadian86-wq/non/actions"
+          ],
+          "validated_at_utc": "2026-11-17T09:36:23.837Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S2_ENVIRONMENT",
