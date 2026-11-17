@@ -458,6 +458,7 @@ jobs:
                     }
                   }
                 }
+              }
 
               state.processed_operations ||= {};
               state.processed_operations[id] = { response, response_posted: false, issue_number: issue.number, actor, command, next_status: nextStatus, at_utc: new Date().toISOString() };
