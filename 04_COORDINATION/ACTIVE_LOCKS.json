@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 961,
+  "revision": 962,
   "next_fencing_token": 91,
   "locks": [
     {
@@ -8302,7 +8302,7 @@
     },
     "6945843997": {
       "response": "وضعیت: LOCKED؛ مالک @a4adelahmadian86-wq؛ chat=CHAT-PR16-OPGATE-FINAL؛ run=RUN-20261117-OPGATE-FINAL-002؛ token=90؛ expiry=2026-11-17T11:15:23.396Z",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 64,
       "actor": "a4adelahmadian86-wq",
       "command": "status",
