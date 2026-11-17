@@ -365,6 +365,8 @@
           "analysis",
           "proposal_only",
           "control_plane_write",
+          "control_plane_merge",
+          "control_plane_authorization_change",
           "repository_write",
           "product_implementation",
           "destructive_data_change",
@@ -390,6 +392,27 @@
   },
   "additionalProperties": false,
   "allOf": [
+    {
+      "if": {
+        "properties": {
+          "target_repository": {
+            "const": "a4adelahmadian86-wq/non"
+          },
+          "write_policy": {
+            "const": "WRITE_ALLOWED"
+          }
+        },
+        "required": [
+          "target_repository",
+          "write_policy"
+        ]
+      },
+      "then": {
+        "required": [
+          "owner_approval_ref"
+        ]
+      }
+    },
     {
       "if": {
         "properties": {
