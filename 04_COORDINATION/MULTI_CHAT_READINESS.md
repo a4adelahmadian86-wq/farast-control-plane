@@ -180,3 +180,12 @@ MASTER-00 یک فرمان ثابت برای تمام چت‌هاست؛ هر چت
 - **PRODUCT REPOSITORY WRITE: NOT AUTHORIZED**
 
 این بخش snapshotهای قدیمی‌تر همین سند را که schedule را NOT_RUN یا workflow زنده را نیازمند تأیید می‌دانند، فقط در مواردی که در بالا با شواهد جدید پوشش داده شده supersede می‌کند. سابقه قدیمی برای audit حفظ شده است.
+
+
+## وضعیت تکمیلی آزمون استقلال پرامپت‌ها (Issue #67)
+
+- هدف قرارداد: هر PR-01 تا PR-17 مستقل از ترتیب، با همان پروتکل مشترک، صف local EXP و مسیر جهانی G-09 را می‌بیند.
+- operation scope نسخه 1.0 برای WRITE_ALLOWED اجباری است؛ READ_ONLY و proposal-only به مجوز write تبدیل نمی‌شوند.
+- تست‌های خودکار لازم: durable inbox replay و exactly-once response recovery؛ رقابت N=2,5,10,25؛ یک منبع مشترک/چند منبع مستقل؛ skip کردن G-09 قفل‌شده و ادامه روی EXP محلی؛ semantic duplicate canonicalization برای Issue #14/#66.
+- محدودیت اثبات: تست N-worker مدل/شبیه‌سازی رفتار هماهنگ‌کننده است؛ به‌تنهایی آزمون E2E با ۲۵ حساب مستقل ChatGPT نیست. محدودیت عملی throughput نیز تابع GitHub Actions/API quota است.
+- وضعیت این بخش تا زمان CI موفق و پذیرش ماشینی PR مربوط، **در حال اعتبارسنجی** است؛ از اعلام «آماده» پیش از شواهد exact-head و acceptance خودداری شود.
