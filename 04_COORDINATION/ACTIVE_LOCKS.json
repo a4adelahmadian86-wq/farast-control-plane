@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1148,
+  "revision": 1149,
   "next_fencing_token": 97,
   "locks": [
     {
@@ -10020,6 +10020,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-17T16:26:58.244Z"
+    },
+    "6954007756": {
+      "response": "STEP ثبت شد: S4_REGRESSION; EXECUTION_PROGRESS=71.42%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=5/7.",
+      "response_posted": false,
+      "issue_number": 64,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-17T16:27:05.658Z"
     }
   },
   "work_items": {
@@ -12701,7 +12710,15 @@
           "weight": 1,
           "expected_output": "Automated test suite covering all gate paths and no-bypass controls",
           "evidence_requirement": "Named test cases and successful focused test output",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-64-RUN-20261117-MASTER00-RESUME-1948Z-001/.github/scripts/work-item-core.test.js",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/74/commits/aef41cf36e9a9754a26319a24b6d13bfe0db190d"
+          ],
+          "validated_at_utc": "2026-11-17T16:27:05.658Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Regression tests cover READ_ONLY independence, operation gates, dependency resolution, duplicate IDs, rollups, authorization, fencing and generic repository writes."
         },
         {
           "step_id": "S5_COMPATIBILITY_CI",
