@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 720,
+  "revision": 721,
   "next_fencing_token": 82,
   "locks": [
     {
@@ -6478,6 +6478,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-17T09:37:22.647Z"
+    },
+    "6944278584": {
+      "response": "STEP ثبت شد: S3_VALIDATE; EXECUTION_PROGRESS=57.14%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=4/7.",
+      "response_posted": false,
+      "issue_number": 13,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-17T09:37:46.886Z"
     }
   },
   "work_items": {
@@ -6845,7 +6854,21 @@
           "weight": 1,
           "expected_output": "Discrepancy and version-drift matrix",
           "evidence_requirement": "At least two relevant source types where available, with exact refs/SHAs",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/non/blob/main/README.md",
+            "https://github.com/a4adelahmadian86-wq/non/blob/main/.env.example",
+            "https://github.com/a4adelahmadian86-wq/non/blob/main/DEPLOY.md",
+            "https://github.com/a4adelahmadian86-wq/non/blob/main/render.yaml",
+            "https://github.com/a4adelahmadian86-wq/non/blob/main/.github/workflows/farast-ci.yml",
+            "https://github.com/a4adelahmadian86-wq/non/actions/runs/44055839419",
+            "https://github.com/a4adelahmadian86-wq/non/actions/runs/44055839403",
+            "https://github.com/a4adelahmadian86-wq/non/actions/runs/44055839431"
+          ],
+          "validated_at_utc": "2026-11-17T09:37:46.881Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S4_RISK_REGISTER",
