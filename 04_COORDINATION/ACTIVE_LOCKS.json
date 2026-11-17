@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 644,
+  "revision": 645,
   "next_fencing_token": 78,
   "locks": [
     {
@@ -5773,6 +5773,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-17T09:12:02.930Z"
+    },
+    "6943740616": {
+      "response": "STEP ثبت شد: S2_GRAPH_AND_BASELINE; EXECUTION_PROGRESS=42.85%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=3/7.",
+      "response_posted": false,
+      "issue_number": 59,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-17T09:12:25.410Z"
     }
   },
   "work_items": {
@@ -7759,7 +7768,16 @@
           "weight": 1,
           "expected_output": "Baseline is independently executable while real safety gates remain",
           "evidence_requirement": "Dependency graph diff, PR-01 source diff and bundle parity validation",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-59-RUN-20261117-ORDER-DEPENDENCY-REPAIR-002/01_STRATEGY/DEPENDENCY_GRAPH.json",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-59-RUN-20261117-ORDER-DEPENDENCY-REPAIR-002/05_PROMPT_LIBRARY/PR-01_BASELINE.md",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/13"
+          ],
+          "validated_at_utc": "2026-11-17T09:12:25.403Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S3_REFRESH_GATE_ENFORCEMENT",
