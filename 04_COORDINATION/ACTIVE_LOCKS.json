@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1249,
+  "revision": 1250,
   "next_fencing_token": 101,
   "locks": [
     {
@@ -10768,7 +10768,7 @@
     },
     "6955083514": {
       "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-EXP21-CHANGE-PACKAGE-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=After evidence-only acceptance of EXP-21, unblock and complete EXP-22 and EXP-23 read-only Work Items; then revalidate product_implementation gate and claim Issue #51 only after all three required EXP Work Items are ACCEPTED. Preserve no-merge scope for NON PR handoff.; remaining_steps=.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 33,
       "actor": "a4adelahmadian86-wq",
       "command": "checkpoint",
