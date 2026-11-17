@@ -471,7 +471,6 @@
       "source_gate_ids": [
         "explicit-repository-write-scope"
       ],
-      "applies_to_target_repositories": null,
       "required_work_item_ids": [],
       "owner_authorization_required": true,
       "evidence_requirements": [
