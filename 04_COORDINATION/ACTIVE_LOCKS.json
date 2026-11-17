@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 772,
+  "revision": 773,
   "next_fencing_token": 83,
   "locks": [
     {
@@ -6622,6 +6622,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-17T09:56:21.523Z"
+    },
+    "6944707924": {
+      "response": "STEP ثبت شد: S5_CI; EXECUTION_PROGRESS=85.71%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=6/7.",
+      "response_posted": false,
+      "issue_number": 62,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-17T09:56:40.999Z"
     }
   },
   "work_items": {
@@ -9045,7 +9054,15 @@
           "weight": 1,
           "expected_output": "All required automated checks pass on exact PR head",
           "evidence_requirement": "Actions URL and exact SHA",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44059972839",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/63"
+          ],
+          "validated_at_utc": "2026-11-17T09:56:40.994Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S6_HANDOFF",
