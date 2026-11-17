@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 762,
+  "revision": 763,
   "next_fencing_token": 83,
   "locks": [
     {
@@ -6577,6 +6577,15 @@
       "command": "claim",
       "next_status": null,
       "at_utc": "2026-11-17T09:52:22.276Z"
+    },
+    "6944621685": {
+      "response": "STEP ثبت شد: S0_REPRODUCE; EXECUTION_PROGRESS=14.28%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=1/7.",
+      "response_posted": false,
+      "issue_number": 62,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-17T09:52:58.331Z"
     }
   },
   "work_items": {
@@ -8886,7 +8895,7 @@
         "EXP-24",
         "EXP-27"
       ],
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "file:.github/workflows/farast-coordinator.yml",
@@ -8912,7 +8921,15 @@
           "weight": 1,
           "expected_output": "Evidence-backed reproduction from Issue #13",
           "evidence_requirement": "Issue #13 progress, criteria and current coordinator accept logic",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/13#issuecomment-6944359408",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/.github/workflows/farast-coordinator.yml"
+          ],
+          "validated_at_utc": "2026-11-17T09:52:58.162Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S1_POLICY",
