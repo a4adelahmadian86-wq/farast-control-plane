@@ -40,20 +40,71 @@ function targetRepositoryFor(body) {
   return /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(value) ? value : '';
 }
 
+function leaseExpiryState(lock, nowMs = Date.now()) {
+  const rawExpiry = lock?.lease_expires_at_utc;
+  if (typeof rawExpiry !== 'string') return 'INVALID';
+  const match = rawExpiry.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.(\d{1,3}))?Z$/);
+  if (!match) return 'INVALID';
+  const expiryMs = Date.parse(rawExpiry);
+  if (!Number.isFinite(expiryMs)) return 'INVALID';
+  const fraction = (match[7] || '').padEnd(3, '0');
+  const canonical = match[1] + '-' + match[2] + '-' + match[3] + 'T' +
+    match[4] + ':' + match[5] + ':' + match[6] + '.' + fraction + 'Z';
+  // Date.parse normalizes some invalid calendar dates (for example Feb 30);
+  // require the parsed value to round-trip to the exact UTC timestamp.
+  if (new Date(expiryMs).toISOString() !== canonical) return 'INVALID';
+  return expiryMs <= nowMs ? 'EXPIRED' : 'ACTIVE';
+}
+
+function leaseBlocksClaim(lock, nowMs = Date.now()) {
+  // Invalid/missing expiry on a lock in the active registry is never evidence
+  // that the lease ended. Keep it blocking until its owner renews/releases it
+  // with the matching actor/chat/run/fencing token or it is audited manually.
+  return leaseExpiryState(lock, nowMs) !== 'EXPIRED';
+}
+
 function expireLocks(state, nowMs = Date.now()) {
-  const expired = state.locks.filter(x => Date.parse(x.lease_expires_at_utc) <= nowMs);
-  state.locks = state.locks.filter(x => Date.parse(x.lease_expires_at_utc) > nowMs);
+  const expired = [];
+  const retained = [];
+  const invalid = [];
+  for (const lock of Array.isArray(state.locks) ? state.locks : []) {
+    const leaseState = leaseExpiryState(lock, nowMs);
+    if (leaseState === 'EXPIRED') expired.push(lock);
+    else {
+      retained.push(lock);
+      if (leaseState === 'INVALID') invalid.push(lock);
+    }
+  }
+  state.locks = retained;
+  state.history ||= [];
   for (const x of expired) state.history.push({
     event: 'LEASE_EXPIRED', issue_number: x.issue_number, resource_key: x.resource_key,
     task_id: x.task_id, run_id: x.run_id, fencing_token: x.fencing_token,
     actor: x.actor, chat_id: x.chat_id, branch: x.branch, target_repository: x.target_repository,
     at_utc: new Date(nowMs).toISOString()
   });
+  for (const lock of invalid) {
+    const alreadyRecorded = state.history.some(event =>
+      event.event === 'LEASE_INVALID' &&
+      Number(event.issue_number) === Number(lock.issue_number) &&
+      event.resource_key === lock.resource_key &&
+      String(event.run_id ?? '') === String(lock.run_id ?? '') &&
+      String(event.fencing_token ?? '') === String(lock.fencing_token ?? '')
+    );
+    if (!alreadyRecorded) state.history.push({
+      event: 'LEASE_INVALID', issue_number: lock.issue_number, resource_key: lock.resource_key,
+      task_id: lock.task_id, run_id: lock.run_id, fencing_token: lock.fencing_token,
+      actor: lock.actor, chat_id: lock.chat_id, branch: lock.branch,
+      target_repository: lock.target_repository,
+      lease_expires_at_utc: lock.lease_expires_at_utc ?? null,
+      at_utc: new Date(nowMs).toISOString()
+    });
+  }
   return expired;
 }
 
 function activeForIssue(state, issueNumber, nowMs = Date.now()) {
-  return state.locks.filter(x => x.issue_number === issueNumber && Date.parse(x.lease_expires_at_utc) > nowMs);
+  return state.locks.filter(x => x.issue_number === issueNumber && leaseBlocksClaim(x, nowMs));
 }
 
 function branchForWritePolicy(issueNumber, runId, writePolicy) {
@@ -88,13 +139,13 @@ function claimResources(state, args) {
   const nowMs = args.nowMs ?? Date.now();
   const keys = [...new Set(args.resourceKeys || [])].sort();
   if (!keys.length) return { ok: false, reason: 'missing_resources' };
-  const taskConflict = state.locks.find(x => x.issue_number === args.issueNumber && Date.parse(x.lease_expires_at_utc) > nowMs);
+  const taskConflict = state.locks.find(x => x.issue_number === args.issueNumber && leaseBlocksClaim(x, nowMs));
   if (taskConflict) return { ok: false, reason: 'task_already_claimed', conflict: taskConflict };
   const branchUsed = !!args.branch && (state.history || []).some(x => x.event === 'ACQUIRED' && x.issue_number === args.issueNumber && x.branch === args.branch);
   if (branchUsed) return { ok: false, reason: 'branch_reuse' };
   // A branchless claim is READ_ONLY or approval-pending: never inherit an old target-repository branch.
   const previousRun = args.branch ? [...(state.history || [])].reverse().find(x => x.issue_number === args.issueNumber && ['RELEASE','REVIEW','BLOCK','LEASE_EXPIRED'].includes(x.event) && x.branch) : null;
-  const conflict = state.locks.find(x => keys.includes(x.resource_key) && Date.parse(x.lease_expires_at_utc) > nowMs);
+  const conflict = state.locks.find(x => keys.includes(x.resource_key) && leaseBlocksClaim(x, nowMs));
   if (conflict) return { ok: false, reason: 'resource_conflict', conflict };
   const fencingToken = state.next_fencing_token++;
   const acquiredAt = new Date(nowMs).toISOString();

@@ -63,6 +63,140 @@ test('expired lease can be replaced with a strictly newer fencing token', () => 
   assert.equal(expired.branch, 'work/GH-10');
 });
 
+test('malformed and missing active lease expiries fail closed and are audited once', () => {
+  const s = registry();
+  s.locks.push(
+    { resource_key:'module:payments', issue_number:10, task_id:'GH-10', actor:'alice', chat_id:'chat-a', run_id:'run-a', target_repository:'owner/repo', branch:'work/GH-10', fencing_token:7, status:'ACTIVE', lease_expires_at_utc:'not-a-date' },
+    { resource_key:'module:identity', issue_number:12, task_id:'GH-12', actor:'carol', chat_id:'chat-c', run_id:'run-c', target_repository:'owner/repo', branch:'work/GH-12', fencing_token:8, status:'ACTIVE' },
+    { resource_key:'module:cache', issue_number:14, task_id:'GH-14', actor:'erin', chat_id:'chat-e', run_id:'run-e', target_repository:'owner/repo', branch:'work/GH-14', fencing_token:9, status:'ACTIVE', lease_expires_at_utc:'0' },
+    { resource_key:'module:search', issue_number:15, task_id:'GH-15', actor:'frank', chat_id:'chat-f', run_id:'run-f', target_repository:'owner/repo', branch:'work/GH-15', fencing_token:10, status:'ACTIVE', lease_expires_at_utc:'2026-02-30T00:00:00Z' }
+  );
+
+  assert.deepEqual(core.expireLocks(s, 1000), []);
+  assert.equal(s.locks.length, 4);
+  for (const issueNumber of [10, 12, 14, 15]) {
+    assert.equal(core.activeForIssue(s, issueNumber, 1000).length, 1);
+  }
+  assert.equal(s.history.filter(x => x.event === 'LEASE_INVALID').length, 4);
+
+  core.expireLocks(s, 2000);
+  assert.equal(s.locks.length, 4);
+  assert.equal(s.history.filter(x => x.event === 'LEASE_INVALID').length, 4);
+
+  const sameIssue = core.claimResources(s, {
+    issueNumber:10, taskId:'GH-10', actor:'bob', chatId:'chat-b', runId:'run-b',
+    targetRepository:'owner/repo', branch:'work/GH-10-run-b',
+    resourceKeys:['module:unrelated'], leaseMinutes:30, nowMs:2000
+  });
+  assert.equal(sameIssue.ok, false);
+  assert.equal(sameIssue.reason, 'task_already_claimed');
+
+  const malformedResource = core.claimResources(s, {
+    issueNumber:11, taskId:'GH-11', actor:'bob', chatId:'chat-b', runId:'run-b',
+    targetRepository:'owner/repo', branch:'work/GH-11',
+    resourceKeys:['module:payments'], leaseMinutes:30, nowMs:2000
+  });
+  assert.equal(malformedResource.ok, false);
+  assert.equal(malformedResource.reason, 'resource_conflict');
+
+  const missingResource = core.claimResources(s, {
+    issueNumber:13, taskId:'GH-13', actor:'dave', chatId:'chat-d', runId:'run-d',
+    targetRepository:'owner/repo', branch:'work/GH-13',
+    resourceKeys:['module:identity'], leaseMinutes:30, nowMs:2000
+  });
+  assert.equal(missingResource.ok, false);
+  assert.equal(missingResource.reason, 'resource_conflict');
+
+  for (const [issueNumber, resourceKey] of [[16, 'module:cache'], [17, 'module:search']]) {
+    const competing = core.claimResources(s, {
+      issueNumber, taskId:'GH-' + issueNumber, actor:'bob', chatId:'chat-b', runId:'run-b',
+      targetRepository:'owner/repo', branch:'work/GH-' + issueNumber,
+      resourceKeys:[resourceKey], leaseMinutes:30, nowMs:2000
+    });
+    assert.equal(competing.ok, false);
+    assert.equal(competing.reason, 'resource_conflict');
+  }
+});
+
+test('rightful owner can renew an invalid active lease but stale fencing tokens do not own it', () => {
+  const s = registry();
+  s.locks.push({
+    resource_key:'module:payments', issue_number:10, task_id:'GH-10',
+    actor:'alice', chat_id:'chat-a', run_id:'run-a', target_repository:'owner/repo',
+    branch:'work/GH-10', fencing_token:7, status:'ACTIVE', lease_expires_at_utc:'invalid'
+  });
+
+  const current = core.activeForIssue(s, 10, 1000);
+  assert.equal(current.length, 1);
+  assert.equal(core.ownsLease(current, 'alice', 'chat-a', 'run-a', 7), true);
+  assert.equal(core.ownsLease(current, 'alice', 'chat-a', 'run-a', 6), false);
+  assert.equal(core.ownsLease(current, 'bob', 'chat-b', 'run-b', 7), false);
+
+  const renewed = core.renewLease(current, 5, 2000);
+  assert.equal(renewed.ok, true);
+  assert.equal(current[0].lease_expires_at_utc, renewed.expiresAt);
+  assert.equal(core.activeForIssue(s, 10, 2001).length, 1);
+});
+
+test('valid future expiry remains active and blocks a competing resource claim', () => {
+  const s = registry();
+  s.locks.push({
+    resource_key:'module:payments', issue_number:10, task_id:'GH-10',
+    actor:'alice', chat_id:'chat-a', run_id:'run-a', target_repository:'owner/repo',
+    branch:'work/GH-10', fencing_token:7, status:'ACTIVE',
+    lease_expires_at_utc:new Date(5000).toISOString()
+  });
+
+  assert.deepEqual(core.expireLocks(s, 1000), []);
+  assert.equal(core.activeForIssue(s, 10, 1000).length, 1);
+  const competing = core.claimResources(s, {
+    issueNumber:11, taskId:'GH-11', actor:'bob', chatId:'chat-b', runId:'run-b',
+    targetRepository:'owner/repo', branch:'work/GH-11',
+    resourceKeys:['module:payments'], leaseMinutes:30, nowMs:2000
+  });
+  assert.equal(competing.ok, false);
+  assert.equal(competing.reason, 'resource_conflict');
+});
+
+test('25 workers cannot steal invalid leases and only one can claim a shared resource', () => {
+  const invalidState = registry();
+  invalidState.locks.push({
+    resource_key:'module:shared', issue_number:1, task_id:'GH-1',
+    actor:'owner', chat_id:'owner-chat', run_id:'owner-run',
+    target_repository:'owner/repo', branch:'work/GH-1', fencing_token:99,
+    status:'ACTIVE', lease_expires_at_utc:'malformed'
+  });
+  const blocked = Array.from({ length:25 }, (_, index) => core.claimResources(invalidState, {
+    issueNumber:100 + index, taskId:'GH-' + (100 + index),
+    actor:'worker-' + index, chatId:'chat-' + index, runId:'run-' + index,
+    targetRepository:'owner/repo', branch:'work/GH-' + (100 + index),
+    resourceKeys:['module:shared'], leaseMinutes:30, nowMs:1000
+  }));
+  assert.equal(blocked.filter(result => result.ok).length, 0);
+  assert.equal(invalidState.locks.length, 1);
+
+  const sharedState = registry();
+  const shared = Array.from({ length:25 }, (_, index) => core.claimResources(sharedState, {
+    issueNumber:200 + index, taskId:'GH-' + (200 + index),
+    actor:'worker-' + index, chatId:'chat-' + index, runId:'run-' + index,
+    targetRepository:'owner/repo', branch:'work/GH-' + (200 + index),
+    resourceKeys:['module:shared'], leaseMinutes:30, nowMs:1000
+  }));
+  assert.equal(shared.filter(result => result.ok).length, 1);
+  assert.equal(shared.filter(result => result.reason === 'resource_conflict').length, 24);
+  assert.equal(sharedState.locks.length, 1);
+
+  const disjointState = registry();
+  const disjoint = Array.from({ length:25 }, (_, index) => core.claimResources(disjointState, {
+    issueNumber:300 + index, taskId:'GH-' + (300 + index),
+    actor:'worker-' + index, chatId:'chat-' + index, runId:'run-' + index,
+    targetRepository:'owner/repo', branch:'work/GH-' + (300 + index),
+    resourceKeys:['module:worker-' + index], leaseMinutes:30, nowMs:1000
+  }));
+  assert.equal(disjoint.filter(result => result.ok).length, 25);
+  assert.equal(disjointState.locks.length, 25);
+});
+
 test('stale or mismatched worker cannot renew/release a lease', () => {
   const s = registry();
   const claim = core.claimResources(s, { issueNumber: 10, taskId: 'GH-10', actor: 'alice', chatId: 'chat-a', runId: 'run-a', targetRepository: 'owner/repo', branch: 'work/GH-10', resourceKeys: ['module:payments','file:src/payments.js'], leaseMinutes: 30, nowMs: 1000 });
