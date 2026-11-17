@@ -354,6 +354,34 @@
         }
       },
       "additionalProperties": false
+    },
+    "requested_operations": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "analysis",
+          "proposal_only",
+          "control_plane_write",
+          "repository_write",
+          "product_implementation",
+          "destructive_data_change",
+          "database_migration",
+          "authorization_change",
+          "security_sensitive_change",
+          "audit_log_change",
+          "architecture_implementation",
+          "hosting_deployment",
+          "legal_policy_change",
+          "merge",
+          "acceptance",
+          "security_acceptance",
+          "production_release"
+        ]
+      },
+      "description": "Explicit operation scope for every WRITE_ALLOWED Work Item. Sensitive action identifiers are checked against the canonical operation_gates registry; omitted scope is not inferred for new write tasks."
     }
   },
   "additionalProperties": false,
@@ -376,6 +404,23 @@
       "then": {
         "required": [
           "owner_approval_ref"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "write_policy": {
+            "const": "WRITE_ALLOWED"
+          }
+        },
+        "required": [
+          "write_policy"
+        ]
+      },
+      "then": {
+        "required": [
+          "requested_operations"
         ]
       }
     }
