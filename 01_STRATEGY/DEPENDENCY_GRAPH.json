@@ -320,23 +320,6 @@
       ]
     },
     {
-      "id": "control_plane_metadata",
-      "source_gate_ids": [
-        "issue-metadata-only-repair"
-      ],
-      "applies_to_target_repositories": [
-        "a4adelahmadian86-wq/farast-control-plane"
-      ],
-      "applies_to_work_item_ids": [
-        "WI-PR16-SPEC-REPAIR-001"
-      ],
-      "required_work_item_ids": [],
-      "owner_authorization_required": false,
-      "evidence_requirements": [
-        "Only repair metadata in Issues #51 and #52; preserve policies, IDs, scopes and evidence; no branch, code/file write, PR, merge or product repository write."
-      ]
-    },
-    {
       "id": "control_plane_write",
       "source_gate_ids": [
         "explicit-control-plane-write-scope"

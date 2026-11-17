@@ -17,7 +17,9 @@
     "priority",
     "created_at_utc",
     "write_policy",
-    "priority_source"
+    "priority_source",
+    "operation_scope_version",
+    "requested_operations"
   ],
   "properties": {
     "schema_version": {
@@ -380,8 +382,7 @@
           "merge",
           "acceptance",
           "security_acceptance",
-          "production_release",
-          "control_plane_metadata"
+          "production_release"
         ]
       },
       "description": "Explicit operation scope for every WRITE_ALLOWED Work Item. Sensitive action identifiers are checked against the canonical operation_gates registry; omitted scope is not inferred for new write tasks."

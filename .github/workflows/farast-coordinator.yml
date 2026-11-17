@@ -282,9 +282,8 @@ jobs:
                     const hardGate = liveWorkItem
                       ? workItemCore.evaluateHardGates(liveWorkItem, dependencyGraph, [...Object.values(state.work_items || {}).filter(x => x.work_item_id !== liveWorkItem.work_item_id), liveWorkItem])
                       : { ready: false, blockers: ['work_item_spec_missing'] };
-                    const branchlessMetadata = !!liveWorkItem && workItemCore.defaultRequestedOperations(liveWorkItem).length === 1 &&
-                      workItemCore.defaultRequestedOperations(liveWorkItem)[0] === 'control_plane_metadata';
-                    const taskBranch = policyError || branchlessMetadata ? null : coordinatorCore.branchForWritePolicy(issue.number, run, writePolicy);
+                    const branchlessControlPlane = !!liveWorkItem && workItemCore.isBranchlessControlPlaneWorkItem(liveWorkItem);
+                    const taskBranch = policyError || branchlessControlPlane ? null : coordinatorCore.branchForWritePolicy(issue.number, run, writePolicy);
                     if (policyError) {
                       response = 'Claim رد شد: اختلاف یا نقص در Work Item زنده/رجیستری؛ هیچ branch تخصیص داده نشد. ' + policyError;
                     } else if (!targetRepository) {
@@ -320,8 +319,8 @@ jobs:
                           const plan = workItemCore.resumePlan(state.work_items[issue.number]);
                           resumeText = '; WORK_ITEM_ID=' + plan.work_item_id + '; verified_steps=' + plan.completed_step_ids.join(',') + '; remaining_steps=' + plan.remaining_step_ids.join(',') + '; EXECUTION_PROGRESS=' + plan.execution_progress_percentage + '%; ACCEPTANCE_PROGRESS=' + (plan.acceptance_progress_percentage === null ? 'N/A' : plan.acceptance_progress_percentage + '%') + '; OVERALL_COMPLETION=' + (plan.overall_completion_percentage === null ? 'N/A' : plan.overall_completion_percentage + '%');
                         }
-                        const branchInstruction = branchlessMetadata
-                          ? '. این Work Item فقط مجاز به اصلاح metadata همان Issueهای صریحاً فهرست‌شده است؛ branch، file، commit یا PR ایجاد نکن و هیچ کد یا رجیستری را تغییر نده.'
+                        const branchInstruction = branchlessControlPlane
+                          ? '. این Work Item فقط مجاز به عملیات Issue/metadata صریحاً تعریف‌شده در دامنه خودش است؛ branch، file، commit یا PR ایجاد نکن و هیچ کد یا رجیستری را تغییر نده.'
                           : taskBranch
                             ? '. این Work Item با سیاست WRITE_ALLOWED است؛ branch را فقط در target_repository ثبت‌شده بساز و قبل از هر write heartbeat/token را دوباره تأیید کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز و branch قبلی را تغییر نده.'
                             : '. این Work Item با سیاست ' + writePolicy + ' است؛ در target_repository هیچ branch، file، commit یا PR ایجاد/تغییر نده. شواهد را فقط در Issue thread یا محل مجاز control-plane ثبت کن؛ برای WRITE_REQUIRES_OWNER_APPROVAL فقط proposal ارائه بده.';
@@ -401,13 +400,12 @@ jobs:
                     : Object.values(state.work_items || {});
                   const hardGate = acceptanceItem ? workItemCore.evaluateHardGates(acceptanceItem, dependencyGraph, acceptanceWorkItems) : { ready: false, blockers: ['work_item_spec_missing'] };
                   const prUrl = args.pr || (issue.body || '').match(/https:\/\/github\.com\/[^\s)]+\/pull\/\d+/)?.[0];
-                  const requestedOperations = acceptanceItem ? workItemCore.defaultRequestedOperations(acceptanceItem) : [];
-                  const branchlessMetadata = !!acceptanceItem && requestedOperations.length === 1 && requestedOperations[0] === 'control_plane_metadata';
+                  const branchlessControlPlane = !!acceptanceItem && workItemCore.isBranchlessControlPlaneWorkItem(acceptanceItem);
                   const latestIssueEvent = [...state.history].reverse().find(x => x.issue_number === issue.number);
                   if (!labelsOf(issue).includes('agent:review') || current.length) {
                     response = 'پذیرش رد شد: وظیفه باید در وضعیت review و بدون lease فعال باشد.';
-                  } else if ((acceptanceItem?.write_policy === 'READ_ONLY' || branchlessMetadata) && !prUrl) {
-                    const evidenceGate = branchlessMetadata
+                  } else if ((acceptanceItem?.write_policy === 'READ_ONLY' || branchlessControlPlane) && !prUrl) {
+                    const evidenceGate = branchlessControlPlane
                       ? workItemCore.evaluateBranchlessMetadataAcceptance(acceptanceItem, {
                           issueNumber: issue.number, hasActiveLease: current.length > 0,
                           hardGatesReady: hardGate.ready, reviewEvent: latestIssueEvent
@@ -423,8 +421,8 @@ jobs:
                       state.work_items[issue.number] ||= acceptanceItem;
                       state.work_items[issue.number].status = 'ACCEPTED';
                       nextStatus = 'done';
-                      response = branchlessMetadata
-                        ? 'Work Item ACCEPTED: فقط metadata مجاز Issueها اصلاح شده؛ همه گام‌ها، معیارها، شواهد، وابستگی‌ها و handoff بدون branch/PR احراز شدند.'
+                      response = branchlessControlPlane
+                        ? 'Work Item ACCEPTED: عملیات Issue/metadata مجاز تکمیل شده؛ همه گام‌ها، معیارها، شواهد، وابستگی‌ها و handoff بدون branch/PR احراز شدند.'
                         : 'Work Item ACCEPTED: همه گام‌ها، معیارها، شواهد و hard gateها با موفقیت احراز شدند؛ سیاست READ_ONLY است، بنابراین PR/branch محصول لازم نیست؛ هیچ Review انسانی دوم شرط پذیرش نیست.';
                     }
                   } else {
@@ -525,6 +523,40 @@ jobs:
               const comments = await github.paginate(github.rest.issues.listComments, { owner, repo, issue_number: issue.number, per_page: 100 });
               const expiredLeases = expireLocks(snapshot.state);
               if (expiredLeases.length) snapshot = await saveRegistry(snapshot.state, snapshot, 'FARAST coordinator: expire stale leases');
+              // Reconcile blocked children automatically when their exact dependencies become ACCEPTED.
+              const activeLocksForIssue = snapshot.state.locks.filter(lock => {
+                if (lock.issue_number !== issue.number) return false;
+                const expiry = Date.parse(lock.lease_expires_at_utc);
+                return !Number.isFinite(expiry) || expiry > Date.now();
+              });
+              if (issue.state === 'open' && labelsOf(issue).includes('agent:blocked') && activeLocksForIssue.length === 0) {
+                const fresh = workItemSpecFor(issue), previous = snapshot.state.work_items?.[issue.number];
+                if (fresh && (!previous || previous.work_item_id === fresh.work_item_id)) {
+                  const oldSteps = new Map((previous?.steps || []).map(x => [x.step_id, x]));
+                  const oldCriteria = new Map((previous?.acceptance_criteria || []).map(x => [x.criterion_id, x]));
+                  fresh.steps = fresh.steps.map(step => {
+                    const old = oldSteps.get(step.step_id);
+                    return old ? { ...step, validation_status: old.validation_status, evidence_refs: old.evidence_refs, validated_at_utc: old.validated_at_utc, validated_by: old.validated_by, validation_note: old.validation_note } : step;
+                  });
+                  fresh.acceptance_criteria = fresh.acceptance_criteria.map(criterion => {
+                    const old = oldCriteria.get(criterion.criterion_id);
+                    return old ? { ...criterion, validation_status: old.validation_status, evidence_refs: old.evidence_refs, validated_at_utc: old.validated_at_utc, validated_by: old.validated_by, validation_note: old.validation_note } : criterion;
+                  });
+                  const candidates = [...Object.values(snapshot.state.work_items || {}).filter(x => x.work_item_id !== fresh.work_item_id), fresh];
+                  const gate = workItemCore.evaluateHardGates(fresh, dependencyGraph, candidates);
+                  if (gate.ready) {
+                    const progress = workItemCore.calculateProgress(fresh);
+                    fresh.status = 'READY';
+                    snapshot.state.work_items ||= {};
+                    snapshot.state.work_items[issue.number] = fresh;
+                    snapshot.state.history ||= [];
+                    snapshot.state.history.push({ event: 'DEPENDENCY_AUTO_UNBLOCKED', issue_number: issue.number, work_item_id: fresh.work_item_id, preserved_steps: progress.verified_steps, at_utc: new Date().toISOString() });
+                    snapshot = await saveRegistry(snapshot.state, snapshot, 'FARAST coordinator: auto-unblock Issue #' + issue.number);
+                    await setStatus(issue.number, 'ready');
+                    issue = (await github.rest.issues.get({ owner, repo, issue_number: issue.number })).data;
+                  }
+                }
+              }
               // Recover responses that were committed but not posted before an interruption.
               for (const [id, op] of Object.entries(snapshot.state.processed_operations || {})) {
                 if (op.issue_number !== issue.number || op.response_posted) continue;

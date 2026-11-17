@@ -9,8 +9,16 @@ const VALIDATION = new Set(['NOT_RUN','PASS','FAIL','BLOCKED','UNKNOWN']);
 const PRODUCT_REPOSITORY = 'a4adelahmadian86-wq/non';
 const CONTROL_PLANE_REPOSITORY = 'a4adelahmadian86-wq/farast-control-plane';
 const BASE_OPERATIONS = new Set(['analysis','proposal_only']);
-const ACTION_OPERATIONS = new Set(['control_plane_write','control_plane_merge','control_plane_authorization_change','control_plane_metadata','repository_write','product_implementation','destructive_data_change','database_migration','authorization_change','security_sensitive_change','audit_log_change','architecture_implementation','hosting_deployment','legal_policy_change','merge','acceptance','security_acceptance','production_release']);
+const ACTION_OPERATIONS = new Set(['control_plane_write','control_plane_merge','control_plane_authorization_change','repository_write','product_implementation','destructive_data_change','database_migration','authorization_change','security_sensitive_change','audit_log_change','architecture_implementation','hosting_deployment','legal_policy_change','merge','acceptance','security_acceptance','production_release']);
 const ALL_OPERATIONS = new Set([...BASE_OPERATIONS, ...ACTION_OPERATIONS]);
+const LEGACY_WRITE_OPERATION_SCOPES = Object.freeze({
+ 'WI-GOAL-ALLOCATOR-001':{target_repository:CONTROL_PLANE_REPOSITORY,operations:['control_plane_write'],branchless:true},
+ 'WI-NON-IMPLEMENTATION-VERTICAL-SLICE-001':{target_repository:PRODUCT_REPOSITORY,operations:['product_implementation']},
+ 'WI-NON-WRITE-POLICY-COORDINATOR-001':{target_repository:CONTROL_PLANE_REPOSITORY,operations:['control_plane_write']},
+ 'WI-PR16-SPEC-REPAIR-001':{target_repository:CONTROL_PLANE_REPOSITORY,operations:['control_plane_write'],branchless:true},
+ 'WI-OPERATION-GATE-MODEL-001':{target_repository:CONTROL_PLANE_REPOSITORY,operations:['control_plane_write']},
+ 'WI-PROMPT-OPERATION-SCOPE-001':{target_repository:CONTROL_PLANE_REPOSITORY,operations:['control_plane_write']}
+});
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -37,6 +45,11 @@ function validateWorkItem(item) {
   if (hasOperationScopeVersion) {
     assert(item.operation_scope_version === '1.0', 'unsupported operation_scope_version');
     assert(Array.isArray(item.requested_operations) && item.requested_operations.length > 0, 'versioned operation scope requires requested_operations');
+  }
+  if (item.write_policy === 'WRITE_ALLOWED') {
+    const legacyScope = LEGACY_WRITE_OPERATION_SCOPES[item.work_item_id];
+    if (legacyScope) assert(item.target_repository === legacyScope.target_repository, 'legacy write exception target mismatch');
+    else assert(hasOperationScopeVersion && hasRequestedOperations, 'new WRITE_ALLOWED Work Items require operation_scope_version=1.0 and requested_operations');
   }
   if (item.requested_operations !== undefined) {
     assert(Array.isArray(item.requested_operations) && item.requested_operations.length > 0, 'requested_operations must be a non-empty array');
@@ -231,17 +244,14 @@ function defaultRequestedOperations(item) {
   if (Array.isArray(item?.requested_operations)) return item.requested_operations;
   if (item?.write_policy === 'READ_ONLY') return ['analysis'];
   if (item?.write_policy === 'WRITE_REQUIRES_OWNER_APPROVAL') return ['proposal_only'];
-  // One-time migration exception: this Work Item introduces the explicit operation contract itself.
-  if (item?.write_policy === 'WRITE_ALLOWED' && item?.work_item_id === 'WI-OPERATION-GATE-MODEL-001' &&
-      item?.target_repository === CONTROL_PLANE_REPOSITORY) return ['control_plane_write'];
-  if (item?.write_policy === 'WRITE_ALLOWED' && item?.work_item_id === 'WI-PR16-SPEC-REPAIR-001' &&
-      item?.target_repository === CONTROL_PLANE_REPOSITORY) return ['control_plane_metadata'];
+  const legacyScope = LEGACY_WRITE_OPERATION_SCOPES[item?.work_item_id];
+  if (item?.write_policy === 'WRITE_ALLOWED' && legacyScope && item?.target_repository === legacyScope.target_repository) return [...legacyScope.operations];
   return [];
 }
 
 function validateDependencyGraph(graph) {
-  const errors = [];
-  if (!graph || typeof graph !== 'object' || !Array.isArray(graph.nodes)) return {valid:false,errors:['dependency_graph_nodes_required']};
+  const errors = [], operationErrors = [];
+  if (!graph || typeof graph !== 'object' || !Array.isArray(graph.nodes)) return {valid:false,exp_valid:false,operation_errors:[],errors:['dependency_graph_nodes_required']};
   const nodeIds = new Set();
   for (const node of graph.nodes) {
     if (!node || typeof node !== 'object' || !/^EXP-[0-9]{2}$/.test(String(node.id || ''))) { errors.push('invalid_exp_node_id'); continue; }
@@ -249,34 +259,30 @@ function validateDependencyGraph(graph) {
     nodeIds.add(node.id);
     if (!Array.isArray(node.hard_gates)) errors.push('hard_gates_must_be_array:' + node.id);
     else for (const gate of node.hard_gates) if (typeof gate !== 'string' || !/^EXP-[0-9]{2}$/.test(gate)) errors.push('non_exp_hard_gate:' + node.id + ':' + String(gate));
-    if (node.soft_inputs !== undefined && (!Array.isArray(node.soft_inputs) || !node.soft_inputs.every(x => typeof x === 'string' && /^EXP-[0-9]{2}$/.test(x))) ) errors.push('invalid_soft_inputs:' + node.id);
+    if (node.soft_inputs !== undefined && (!Array.isArray(node.soft_inputs) || !node.soft_inputs.every(x => typeof x === 'string' && /^EXP-[0-9]{2}$/.test(x)))) errors.push('invalid_soft_inputs:' + node.id);
   }
-  for (const node of graph.nodes) {
-    for (const reference of [...(Array.isArray(node.hard_gates) ? node.hard_gates : []), ...(Array.isArray(node.soft_inputs) ? node.soft_inputs : [])]) {
-      if (!nodeIds.has(reference)) errors.push('unknown_exp_reference:' + node.id + ':' + reference);
-    }
-  }
-  if (!Array.isArray(graph.operation_gates)) errors.push('operation_gates_must_be_array');
+  for (const node of graph.nodes) for (const ref of [...(Array.isArray(node.hard_gates)?node.hard_gates:[]),...(Array.isArray(node.soft_inputs)?node.soft_inputs:[])]) if (!nodeIds.has(ref)) errors.push('unknown_exp_reference:'+node.id+':'+ref);
+  if (!Array.isArray(graph.operation_gates)) operationErrors.push('operation_gates_must_be_array');
   const gateIds = new Set();
-  for (const gate of graph.operation_gates || []) {
-    if (!gate || !ACTION_OPERATIONS.has(gate.id)) { errors.push('unknown_operation_gate:' + String(gate?.id)); continue; }
-    if (gateIds.has(gate.id)) errors.push('duplicate_operation_gate:' + gate.id);
+  for (const gate of Array.isArray(graph.operation_gates)?graph.operation_gates:[]) {
+    if (!gate || !ACTION_OPERATIONS.has(gate.id)) { operationErrors.push('unknown_operation_gate:'+String(gate?.id)); continue; }
+    if (gateIds.has(gate.id)) operationErrors.push('duplicate_operation_gate:'+gate.id);
     gateIds.add(gate.id);
-    if (!Array.isArray(gate.required_work_item_ids) || !gate.required_work_item_ids.every(x => typeof x === 'string' && /^[A-Z0-9][A-Z0-9._-]{2,63}$/.test(x))) errors.push('invalid_required_work_item_ids:' + gate.id);
-    if (gate.applies_to_exp_ids !== undefined && (!Array.isArray(gate.applies_to_exp_ids) || !gate.applies_to_exp_ids.every(x => typeof x === 'string' && /^EXP-[0-9]{2}$/.test(x)))) errors.push('invalid_operation_exp_scope:' + gate.id);
-    if (gate.applies_to_target_repositories !== undefined && (!Array.isArray(gate.applies_to_target_repositories) || !gate.applies_to_target_repositories.every(x => typeof x === 'string' && x.includes('/')))) errors.push('invalid_operation_repository_scope:' + gate.id);
-    if (gate.applies_to_work_item_ids !== undefined && (!Array.isArray(gate.applies_to_work_item_ids) || !gate.applies_to_work_item_ids.length || !gate.applies_to_work_item_ids.every(x => typeof x === 'string' && /^[A-Z0-9][A-Z0-9._-]{2,63}$/.test(x)))) errors.push('invalid_operation_work_item_scope:' + gate.id);
-    if (typeof gate.owner_authorization_required !== 'boolean') errors.push('owner_authorization_required_missing:' + gate.id);
-    if (!Array.isArray(gate.evidence_requirements) || !gate.evidence_requirements.length || !gate.evidence_requirements.every(x => typeof x === 'string' && x.trim())) errors.push('evidence_requirements_missing:' + gate.id);
+    if (!Array.isArray(gate.required_work_item_ids) || !gate.required_work_item_ids.every(x=>typeof x==='string'&&/^[A-Z0-9][A-Z0-9._-]{2,63}$/.test(x))) operationErrors.push('invalid_required_work_item_ids:'+gate.id);
+    if (gate.applies_to_exp_ids!==undefined&&(!Array.isArray(gate.applies_to_exp_ids)||!gate.applies_to_exp_ids.every(x=>typeof x==='string'&&/^EXP-[0-9]{2}$/.test(x)))) operationErrors.push('invalid_operation_exp_scope:'+gate.id);
+    if (gate.applies_to_target_repositories!==undefined&&(!Array.isArray(gate.applies_to_target_repositories)||!gate.applies_to_target_repositories.every(x=>typeof x==='string'&&x.includes('/')))) operationErrors.push('invalid_operation_repository_scope:'+gate.id);
+    if (typeof gate.owner_authorization_required!=='boolean') operationErrors.push('owner_authorization_required_missing:'+gate.id);
+    if (!Array.isArray(gate.evidence_requirements)||!gate.evidence_requirements.length||!gate.evidence_requirements.every(x=>typeof x==='string'&&x.trim())) operationErrors.push('evidence_requirements_missing:'+gate.id);
   }
-  for (const operation of ACTION_OPERATIONS) if (!(graph.operation_gates || []).some(g => g?.id === operation)) errors.push('operation_gate_definition_missing:' + operation);
-  return {valid:errors.length===0,errors};
+  for (const op of ACTION_OPERATIONS) if (!(Array.isArray(graph.operation_gates)?graph.operation_gates:[]).some(g=>g?.id===op)) operationErrors.push('operation_gate_definition_missing:'+op);
+  return {valid:errors.length===0&&operationErrors.length===0,exp_valid:errors.length===0,operation_errors:operationErrors,errors:[...errors,...operationErrors]};
 }
 
 function evaluateOperationGates(item, graph, workItems = [], options = {}) {
   const requested = options.requestedOperations || defaultRequestedOperations(item);
   const blockers = [];
   if (!Array.isArray(requested) || requested.length === 0) blockers.push('requested_operations_required_for_write');
+  const graphCheck = validateDependencyGraph(graph);
   for (const operation of requested) {
     if (!ALL_OPERATIONS.has(operation)) { blockers.push('unknown_requested_operation:' + operation); continue; }
     if (BASE_OPERATIONS.has(operation)) {
@@ -290,7 +296,9 @@ function evaluateOperationGates(item, graph, workItems = [], options = {}) {
     if (operation === 'control_plane_metadata' && (item.target_repository !== CONTROL_PLANE_REPOSITORY || item.write_policy !== 'WRITE_ALLOWED')) blockers.push('control_plane_metadata_scope_mismatch');
     if (operation === 'repository_write' && (item.target_repository === PRODUCT_REPOSITORY || item.target_repository === CONTROL_PLANE_REPOSITORY || item.write_policy !== 'WRITE_ALLOWED')) blockers.push('repository_write_scope_mismatch');
     if (operation === 'product_implementation' && (item.target_repository !== PRODUCT_REPOSITORY || item.write_policy !== 'WRITE_ALLOWED')) blockers.push('product_implementation_scope_mismatch');
-    const gate = (graph.operation_gates || []).find(g => g.id === operation);
+    const gate = (Array.isArray(graph.operation_gates) ? graph.operation_gates : []).find(g => g.id === operation);
+    const relevantErrors = (graphCheck.operation_errors || []).filter(error => error === 'operation_gates_must_be_array' || error.endsWith(':' + operation));
+    if (relevantErrors.length) blockers.push(...relevantErrors.map(error => 'invalid_operation_gate_definition:' + operation + ':' + error));
     if (!gate) { blockers.push('operation_gate_definition_missing:' + operation); continue; }
     const repoApplies = !Array.isArray(gate.applies_to_target_repositories) || gate.applies_to_target_repositories.includes(item.target_repository);
     const itemExpIds = new Set((item.parent_exp_ids || [primaryExpId(item)]).map(String));
@@ -313,26 +321,39 @@ function evaluateOperationGates(item, graph, workItems = [], options = {}) {
 
 function evaluateHardGates(item, graph, workItems = [], options = {}) {
   const checked = validateDependencyGraph(graph);
-  if (!checked.valid) return {ready:false,exp_id:primaryExpId(item),blockers:checked.errors.map(x=>'invalid_dependency_graph:'+x),dependency_blockers:checked.errors,operation_blockers:[]};
-  const expId = primaryExpId(item);
-  if (!expId) return {ready:false,exp_id:null,blockers:['primary_exp_unresolved'],dependency_blockers:['primary_exp_unresolved'],operation_blockers:[]};
-  const node = graph.nodes.find(x=>x.id===expId);
-  if (!node || !Array.isArray(node.hard_gates)) return {ready:false,exp_id:expId,blockers:['missing_or_invalid_graph_node:'+expId],dependency_blockers:['missing_or_invalid_graph_node:'+expId],operation_blockers:[]};
-  const dependencyBlockers = [];
-  for (const dependency of item.dependencies || []) {
-    const id = dependency.work_item_id;
-    const matches = workItems.filter(candidate => candidate.work_item_id === id);
-    if (matches.length !== 1) dependencyBlockers.push((matches.length ? 'ambiguous' : 'unresolved') + '_explicit_dependency:' + id);
-    else if (matches[0].status !== 'ACCEPTED') dependencyBlockers.push('explicit_dependency_not_accepted:' + id + ':' + matches[0].status);
+  if (!checked.exp_valid) {
+    const structuralErrors = checked.errors.filter(x => !(checked.operation_errors || []).includes(x));
+    return {ready:false,exp_id:primaryExpId(item),blockers:structuralErrors.map(x=>'invalid_dependency_graph:'+x),dependency_blockers:structuralErrors,operation_blockers:[]};
   }
-  for (const gate of node.hard_gates) {
+  const expId = primaryExpId(item);
+  const expIds = unique([...(item.parent_exp_ids || []).map(String), expId].filter(Boolean));
+  if (!expIds.length) return {ready:false,exp_id:null,blockers:['primary_exp_unresolved'],dependency_blockers:['primary_exp_unresolved'],operation_blockers:[]};
+  const nodes = [], dependencyBlockers = [];
+  for (const id of expIds) {
+    const node = graph.nodes.find(x=>x.id===id);
+    if (!node || !Array.isArray(node.hard_gates)) dependencyBlockers.push('missing_or_invalid_graph_node:' + id);
+    else nodes.push(node);
+  }
+  for (const dependency of item.dependencies || []) {
+    const id = dependency.work_item_id, matches = workItems.filter(candidate=>candidate.work_item_id===id);
+    if (matches.length!==1) dependencyBlockers.push((matches.length?'ambiguous':'unresolved')+'_explicit_dependency:'+id);
+    else if (matches[0].status!=='ACCEPTED') dependencyBlockers.push('explicit_dependency_not_accepted:'+id+':'+matches[0].status);
+  }
+  for (const gate of unique(nodes.flatMap(node=>node.hard_gates))) {
     const matches = workItems.filter(x=>primaryExpId(x)===gate);
     if (matches.length!==1) dependencyBlockers.push((matches.length?'ambiguous':'unresolved')+'_hard_gate:'+gate);
     else if (matches[0].status!=='ACCEPTED') dependencyBlockers.push('hard_gate_not_accepted:'+gate+':'+matches[0].status);
   }
-  const operations = evaluateOperationGates(item,graph,workItems,options);
-  const blockers = [...dependencyBlockers,...operations.blockers];
-  return {ready:blockers.length===0,exp_id:expId,blockers,dependency_blockers:dependencyBlockers,operation_blockers:operations.blockers,requested_operations:operations.requested_operations,soft_inputs_ignored:node.soft_inputs||[]};
+  const operations=evaluateOperationGates(item,graph,workItems,options);
+  const blockers=[...dependencyBlockers,...operations.blockers];
+  return {ready:blockers.length===0,exp_id:expId,exp_ids:expIds,blockers,dependency_blockers:dependencyBlockers,operation_blockers:operations.blockers,requested_operations:operations.requested_operations,soft_inputs_ignored:unique(nodes.flatMap(node=>node.soft_inputs||[]))};
+}
+
+function isBranchlessControlPlaneWorkItem(item) {
+  const legacy = LEGACY_WRITE_OPERATION_SCOPES[item?.work_item_id];
+  return !!legacy?.branchless && item?.write_policy === 'WRITE_ALLOWED' &&
+    item?.target_repository === CONTROL_PLANE_REPOSITORY &&
+    JSON.stringify(defaultRequestedOperations(item)) === JSON.stringify(['control_plane_write']);
 }
 
 function evaluateBranchlessMetadataAcceptance(item, options = {}) {
@@ -340,9 +361,8 @@ function evaluateBranchlessMetadataAcceptance(item, options = {}) {
   try { validateWorkItem(item); }
   catch (error) { return {ready:false,blockers:['invalid_work_item:' + String(error.message || error)],progress:null}; }
   const requested = defaultRequestedOperations(item);
-  if (item.write_policy !== 'WRITE_ALLOWED' || item.target_repository !== CONTROL_PLANE_REPOSITORY ||
-      item.work_item_id !== 'WI-PR16-SPEC-REPAIR-001' || requested.length !== 1 || requested[0] !== 'control_plane_metadata') {
-    blockers.push('not_authorized_for_branchless_metadata_acceptance');
+  if (!isBranchlessControlPlaneWorkItem(item) || requested.length !== 1 || requested[0] !== 'control_plane_write') {
+    blockers.push('not_authorized_for_branchless_control_plane_acceptance');
   }
   if (options.hasActiveLease === true) blockers.push('active_lease');
   if (options.hardGatesReady !== true) blockers.push('hard_gates_not_satisfied');
@@ -473,6 +493,6 @@ function createCheckpoint(item, input) {
 
 module.exports = {
   STATUSES, validateWorkItem, validateProductWriteAuthorization, evidenceVerified, calculateProgress, validateLease,
-  recordStepEvidence, recordCriterionEvidence, primaryExpId, defaultRequestedOperations, validateDependencyGraph, evaluateOperationGates, evaluateHardGates, evaluateReadOnlyAcceptance, evaluateBranchlessMetadataAcceptance, dependencyReady, selectNextWorkItem,
+  recordStepEvidence, recordCriterionEvidence, primaryExpId, defaultRequestedOperations, validateDependencyGraph, evaluateOperationGates, evaluateHardGates, evaluateReadOnlyAcceptance, evaluateBranchlessMetadataAcceptance, isBranchlessControlPlaneWorkItem, dependencyReady, selectNextWorkItem,
   resumePlan, createCheckpoint
 };
