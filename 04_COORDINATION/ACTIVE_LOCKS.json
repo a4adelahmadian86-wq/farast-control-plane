@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1179,
+  "revision": 1180,
   "next_fencing_token": 98,
   "locks": [],
   "history": [
@@ -10105,7 +10105,7 @@
     },
     "6954415350": {
       "response": "پذیرش خودکار رد شد: گیت سخت/عملیات درخواست‌شده حل‌نشده یا پاس‌نشده است: explicit_dependency_not_accepted:WI-READONLY-EVIDENCE-ACCEPTANCE-001:INVALID.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 64,
       "actor": "a4adelahmadian86-wq",
       "command": "accept",
