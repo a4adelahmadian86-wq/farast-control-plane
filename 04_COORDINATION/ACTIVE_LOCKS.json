@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1309,
+  "revision": 1310,
   "next_fencing_token": 105,
   "locks": [
     {
@@ -11295,7 +11295,7 @@
     },
     "6955552686": {
       "response": "وضعیت: LOCKED؛ مالک @a4adelahmadian86-wq؛ chat=CHAT-FARAST-RECOVERY-20261117-01؛ run=RUN-20261117-RECOVERY-2052Z-001؛ token=104؛ expiry=2026-11-17T17:53:00.863Z",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 77,
       "actor": "a4adelahmadian86-wq",
       "command": "status",
