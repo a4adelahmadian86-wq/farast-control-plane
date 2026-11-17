@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1020,
+  "revision": 1021,
   "next_fencing_token": 94,
   "locks": [
     {
@@ -8908,6 +8908,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-17T11:31:28.720Z"
+    },
+    "6946819739": {
+      "response": "STEP ثبت شد: S2_CORE_FIX; EXECUTION_PROGRESS=42.85%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=3/7.",
+      "response_posted": false,
+      "issue_number": 69,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-17T11:32:13.295Z"
     }
   },
   "work_items": {
@@ -11704,7 +11713,15 @@
           "weight": 1,
           "expected_output": "Malformed ACTIVE locks remain blocking",
           "evidence_requirement": "Exact diff and source-level behavior tests",
-          "estimate_minutes": 5
+          "estimate_minutes": 5,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/27fbc34236e07167cce780fe55be05dfcbacc0cf",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/18a5b60f316f79cd5cdb45e5cf93a1630ef2b917"
+          ],
+          "validated_at_utc": "2026-11-17T11:32:13.290Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Central expiry classification and conflict checks now retain INVALID locks as blockers; valid expired leases still expire normally."
         },
         {
           "step_id": "S3_AUDIT_RECOVERY",
