@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 825,
+  "revision": 826,
   "next_fencing_token": 86,
   "locks": [
     {
@@ -7018,7 +7018,7 @@
     },
     "6945076027": {
       "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-READONLY-EVIDENCE-ACCEPTANCE-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=Release this lease with /farast review, then run /farast accept pr=https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/65; after Issue #62 is ACCEPTED, claim Issue #64 WI-OPERATION-GATE-MODEL-001 once its dependency is satisfied.; remaining_steps=.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 62,
       "actor": "a4adelahmadian86-wq",
       "command": "checkpoint",
