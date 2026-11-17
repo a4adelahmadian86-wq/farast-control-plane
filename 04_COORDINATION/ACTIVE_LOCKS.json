@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1202,
+  "revision": 1203,
   "next_fencing_token": 101,
   "locks": [
     {
@@ -10426,6 +10426,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-17T16:56:14.529Z"
+    },
+    "6954855436": {
+      "response": "STEP ثبت شد: S1_DISCOVER; EXECUTION_PROGRESS=14.28%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=1/7.",
+      "response_posted": false,
+      "issue_number": 33,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-17T16:56:21.467Z"
     }
   },
   "work_items": {
@@ -10978,7 +10987,7 @@
       "parent_exp_ids": [
         "EXP-21"
       ],
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/non",
       "resource_keys": [
         "analysis:exp-21"
@@ -10992,7 +11001,15 @@
           "weight": 1,
           "expected_output": "خروجی قابل بازبینی برای مرحله: انتخاب یک تغییر از backlog مصوب و تعریف problem statement.",
           "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/33#issuecomment-6954850072",
+            "https://github.com/a4adelahmadian86-wq/non/blob/663534ddedfa4864bc576b6c283418b1e3e1d049/app/Http/Controllers/SearchController.php#L143-L182"
+          ],
+          "validated_at_utc": "2026-11-17T16:56:21.466Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S2_MAP",
