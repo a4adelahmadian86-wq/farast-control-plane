@@ -28,6 +28,7 @@ jobs:
             01_STRATEGY/GOAL_TREE.md
             01_STRATEGY/ROADMAP.md
             01_STRATEGY/DEPENDENCY_GRAPH.json
+            01_STRATEGY/DEPENDENCY_GRAPH.schema.json
             01_STRATEGY/EXECUTION_DECOMPOSITION_17x27.md
             02_GOVERNANCE/DECISION_REGISTER.md
             02_GOVERNANCE/USER_FEEDBACK_REGISTER.md
@@ -107,7 +108,10 @@ jobs:
           import json
           from jsonschema import Draft202012Validator, FormatChecker
           from pathlib import Path
-          json.loads(Path("01_STRATEGY/DEPENDENCY_GRAPH.json").read_text(encoding="utf-8"))
+          dependency_graph = json.loads(Path("01_STRATEGY/DEPENDENCY_GRAPH.json").read_text(encoding="utf-8"))
+          dependency_graph_schema = json.loads(Path("01_STRATEGY/DEPENDENCY_GRAPH.schema.json").read_text(encoding="utf-8"))
+          Draft202012Validator.check_schema(dependency_graph_schema)
+          Draft202012Validator(dependency_graph_schema).validate(dependency_graph)
           json.loads(Path("04_COORDINATION/ACTIVE_LOCKS.schema.json").read_text(encoding="utf-8"))
           work_item_schema = json.loads(Path("04_COORDINATION/WORK_ITEM_SCHEMA.json").read_text(encoding="utf-8"))
           work_item_checkpoint_schema = json.loads(Path("04_COORDINATION/WORK_ITEM_CHECKPOINT_SCHEMA.json").read_text(encoding="utf-8"))
@@ -166,6 +170,8 @@ jobs:
           assert "effort_estimate_minutes" in work_item_schema["properties"]
           assert "depth_profile" in work_item_schema["properties"]
           assert "deliverables" in work_item_schema["properties"]
+          assert "requested_operations" in work_item_schema["properties"]
+          assert "operation_scope_version" in work_item_schema["properties"]
           assert "execution_progress_percentage" in work_item_checkpoint_schema["properties"]
           assert "acceptance_progress_percentage" in work_item_checkpoint_schema["properties"]
           assert "overall_completion_percentage" in work_item_checkpoint_schema["properties"]
