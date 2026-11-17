@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1158,
+  "revision": 1159,
   "next_fencing_token": 97,
   "locks": [
     {
@@ -10065,6 +10065,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-17T16:27:38.227Z"
+    },
+    "6954012680": {
+      "response": "معیار پذیرش ثبت شد: AC_COMPATIBILITY; ACCEPTANCE_PROGRESS=80%; OVERALL_COMPLETION=80%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 64,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-17T16:27:46.929Z"
     }
   },
   "work_items": {
@@ -12827,7 +12836,17 @@
         {
           "criterion_id": "AC_COMPATIBILITY",
           "title": "Existing Work Item identity, policy, owner authorization, READ_ONLY isolation, soft inputs and fencing behavior remain unchanged",
-          "evidence_requirement": "Before/after field comparison and regression test results"
+          "evidence_requirement": "Before/after field comparison and regression test results",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-64-RUN-20261117-MASTER00-RESUME-1948Z-001/.github/scripts/work-item-core.test.js",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-64-RUN-20261117-MASTER00-RESUME-1948Z-001/.github/workflows/farast-coordinator.yml",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/51",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/62"
+          ],
+          "validated_at_utc": "2026-11-17T16:27:46.928Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Owner-authorized NON scope, READ_ONLY isolation, legacy allowlist, fencing and branchless acceptance are regression-tested; no product files changed."
         },
         {
           "criterion_id": "AC_AUTOMATED",
