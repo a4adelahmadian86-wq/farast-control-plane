@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1254,
+  "revision": 1255,
   "next_fencing_token": 101,
   "locks": [
     {
@@ -5276,6 +5276,13 @@
       "branch": null,
       "target_repository": "a4adelahmadian86-wq/non",
       "at_utc": "2026-11-17T17:05:51.375Z"
+    },
+    {
+      "event": "DEPENDENCY_AUTO_UNBLOCKED",
+      "issue_number": 34,
+      "work_item_id": "WI-EXP22-CONTROLLED-IMPLEMENTATION-001",
+      "preserved_steps": 6,
+      "at_utc": "2026-11-17T17:07:12.542Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -11571,7 +11578,7 @@
       "parent_exp_ids": [
         "EXP-22"
       ],
-      "status": "BLOCKED",
+      "status": "READY",
       "target_repository": "a4adelahmadian86-wq/non",
       "resource_keys": [
         "analysis:exp-22"
