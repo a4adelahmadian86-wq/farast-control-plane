@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1340,
+  "revision": 1341,
   "next_fencing_token": 105,
   "locks": [
     {
@@ -11472,6 +11472,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-17T17:27:11.692Z"
+    },
+    "6955671469": {
+      "response": "معیار پذیرش ثبت شد: AC_LEGACY_VALID; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; can_accept=true.",
+      "response_posted": false,
+      "issue_number": 77,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-17T17:27:51.334Z"
     }
   },
   "work_items": {
@@ -14814,7 +14823,7 @@
       "parent_exp_ids": [
         "EXP-01"
       ],
-      "status": "IN_PROGRESS",
+      "status": "REVIEW_REQUIRED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "file:.github/scripts/work-item-core.js",
@@ -14967,7 +14976,15 @@
         {
           "criterion_id": "AC_LEGACY_VALID",
           "title": "Previously accepted Issue #62 is revalidated as ACCEPTED, not INVALID",
-          "evidence_requirement": "Live coordinator dependency evaluation after merge"
+          "evidence_requirement": "Live coordinator dependency evaluation after merge",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/79",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44136539851"
+          ],
+          "validated_at_utc": "2026-11-17T17:27:51.334Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Exact regression test proves the previously accepted WI-READONLY-EVIDENCE-ACCEPTANCE-001 remains a valid ACCEPTED dependency under the compatibility mapping; immediately after merge, Issue #64 will exercise the live coordinator dependency gate."
         },
         {
           "criterion_id": "AC_EXACT_ALLOWLIST",
