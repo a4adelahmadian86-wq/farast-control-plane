@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 710,
+  "revision": 711,
   "next_fencing_token": 82,
   "locks": [
     {
@@ -6421,6 +6421,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-17T09:35:00.203Z"
+    },
+    "6944240869": {
+      "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-NON-WRITE-POLICY-COORDINATOR-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=All seven steps and all five acceptance criteria are evidence-backed PASS (EXECUTION_PROGRESS=100%, ACCEPTANCE_PROGRESS=100%, OVERALL_COMPLETION=100%, can_accept=true). However automated /farast accept still cannot be invoked safely: Issue body links PR #53, which is closed/unmerged; the replacement implementation PR #55 is merged but its head branch work/GH-55-RUN-20261116-NON-WRITE-POLICY-REBASE-001 does not match this Work Item's latest lease branch work/GH-52-RUN-20261117-PR16-EXP22-POLICY-SMOKE-003, and coordinator requires exact branch lineage to the latest REVIEW event. Do not reuse or mutate the previous branch; create a narrowly scoped owner-authorized lineage-reconciliation Work Item or update coordinator acceptance contract to recognize a merged replacement PR with verified commit ancestry, then resume acceptance. No product repository writes are authorized by this task.; remaining_steps=.",
+      "response_posted": false,
+      "issue_number": 52,
+      "actor": "a4adelahmadian86-wq",
+      "command": "checkpoint",
+      "next_status": null,
+      "at_utc": "2026-11-17T09:35:51.463Z"
     }
   },
   "work_items": {
@@ -8775,32 +8784,49 @@
     },
     "52": {
       "work_item_id": "WI-NON-WRITE-POLICY-COORDINATOR-001",
-      "run_id": "RUN-20261116-NON-WRITE-POLICY-IMPLEMENTATION-001",
+      "run_id": "RUN-20261117-PR16-EXP22-POLICY-SMOKE-003",
       "checkpoint_version": 1,
-      "created_at_utc": "2026-11-16T12:41:27.428Z",
+      "created_at_utc": "2026-11-17T09:35:51.459Z",
       "last_verified_step_id": "S6_HANDOFF",
-      "current_step_id": "S5_VALIDATE",
+      "current_step_id": "S6_HANDOFF",
       "completed_step_ids": [
         "S0_REPRODUCE",
         "S1_DESIGN",
         "S2_CORE",
         "S3_REGRESSION",
         "S4_FIX_TASK",
+        "S5_VALIDATE",
         "S6_HANDOFF"
       ],
-      "remaining_step_ids": [
-        "S5_VALIDATE"
-      ],
-      "progress_percentage": 85.71,
+      "remaining_step_ids": [],
+      "progress_percentage": 100,
+      "execution_progress_percentage": 100,
+      "acceptance_progress_percentage": 100,
+      "overall_completion_percentage": 100,
+      "progress_calculation_version": "PROGRESS_V2",
+      "required_step_counts": {
+        "pass": 7,
+        "fail": 0,
+        "blocked": 0,
+        "unknown": 0,
+        "not_run": 0
+      },
+      "acceptance_criteria_counts": {
+        "pass": 5,
+        "fail": 0,
+        "blocked": 0,
+        "unknown": 0,
+        "not_run": 0
+      },
       "evidence_refs": [],
       "blockers": [],
       "owner": {
         "actor": "a4adelahmadian86-wq",
-        "chat_id": "owner-write-policy-remediation-worker",
-        "fencing_token": 70,
-        "lease_expires_at_utc": "2026-11-16T13:10:55.149Z"
+        "chat_id": "CHAT-PR16-20261117-01",
+        "fencing_token": 78,
+        "lease_expires_at_utc": "2026-11-17T10:05:00.006Z"
       },
-      "next_action": "After PR #48 and #49 are independently reviewed and merged, retarget PR #53 to main, rerun CI, obtain independent review and merge; then /farast unblock Issue #51 and verify /farast progress before any product write."
+      "next_action": "All seven steps and all five acceptance criteria are evidence-backed PASS (EXECUTION_PROGRESS=100%, ACCEPTANCE_PROGRESS=100%, OVERALL_COMPLETION=100%, can_accept=true). However automated /farast accept still cannot be invoked safely: Issue body links PR #53, which is closed/unmerged; the replacement implementation PR #55 is merged but its head branch work/GH-55-RUN-20261116-NON-WRITE-POLICY-REBASE-001 does not match this Work Item's latest lease branch work/GH-52-RUN-20261117-PR16-EXP22-POLICY-SMOKE-003, and coordinator requires exact branch lineage to the latest REVIEW event. Do not reuse or mutate the previous branch; create a narrowly scoped owner-authorized lineage-reconciliation Work Item or update coordinator acceptance contract to recognize a merged replacement PR with verified commit ancestry, then resume acceptance. No product repository writes are authorized by this task."
     },
     "59": {
       "work_item_id": "WI-PROMPT-ORDER-DEPENDENCY-REPAIR-001",
