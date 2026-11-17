@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1162,
+  "revision": 1163,
   "next_fencing_token": 97,
   "locks": [
     {
@@ -10083,6 +10083,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-17T16:27:54.734Z"
+    },
+    "6954118041": {
+      "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-OPERATION-GATE-MODEL-001; EXECUTION_PROGRESS=85.71%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=85.71%; next_action=Review and machine-accept PR #74 on exact head aef41cf36e9a9754a26319a24b6d13bfe0db190d; then verify merge and acceptance, close superseded PR #73, and publish final readiness evidence.; remaining_steps=S6_HANDOFF.",
+      "response_posted": false,
+      "issue_number": 64,
+      "actor": "a4adelahmadian86-wq",
+      "command": "checkpoint",
+      "next_status": null,
+      "at_utc": "2026-11-17T16:29:07.917Z"
     }
   },
   "work_items": {
@@ -13550,6 +13559,57 @@
         "lease_expires_at_utc": "2026-11-17T10:41:36.290Z"
       },
       "next_action": "Release this lease with /farast review, then run /farast accept pr=https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/65; after Issue #62 is ACCEPTED, claim Issue #64 WI-OPERATION-GATE-MODEL-001 once its dependency is satisfied."
+    },
+    "64": {
+      "work_item_id": "WI-OPERATION-GATE-MODEL-001",
+      "run_id": "RUN-20261117-MASTER00-RESUME-1948Z-001",
+      "checkpoint_version": 1,
+      "created_at_utc": "2026-11-17T16:29:07.916Z",
+      "last_verified_step_id": "S5_COMPATIBILITY_CI",
+      "current_step_id": "S6_HANDOFF",
+      "completed_step_ids": [
+        "S0_AUDIT",
+        "S1_POLICY",
+        "S2_GRAPH_SCHEMA",
+        "S3_EVALUATOR",
+        "S4_REGRESSION",
+        "S5_COMPATIBILITY_CI"
+      ],
+      "remaining_step_ids": [
+        "S6_HANDOFF"
+      ],
+      "progress_percentage": 85.71,
+      "execution_progress_percentage": 85.71,
+      "acceptance_progress_percentage": 100,
+      "overall_completion_percentage": 85.71,
+      "progress_calculation_version": "PROGRESS_V2",
+      "required_step_counts": {
+        "pass": 6,
+        "fail": 0,
+        "blocked": 0,
+        "unknown": 0,
+        "not_run": 1
+      },
+      "acceptance_criteria_counts": {
+        "pass": 5,
+        "fail": 0,
+        "blocked": 0,
+        "unknown": 0,
+        "not_run": 0
+      },
+      "evidence_refs": [
+        "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/74",
+        "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44125092422",
+        "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-64-RUN-20261117-MASTER00-RESUME-1948Z-001/01_STRATEGY/DEPENDENCY_GRAPH.json"
+      ],
+      "blockers": [],
+      "owner": {
+        "actor": "a4adelahmadian86-wq",
+        "chat_id": "CHAT-MASTER-00-RESUME-20261117-01",
+        "fencing_token": 96,
+        "lease_expires_at_utc": "2026-11-17T16:52:35.439Z"
+      },
+      "next_action": "Review and machine-accept PR #74 on exact head aef41cf36e9a9754a26319a24b6d13bfe0db190d; then verify merge and acceptance, close superseded PR #73, and publish final readiness evidence."
     }
   }
 }
