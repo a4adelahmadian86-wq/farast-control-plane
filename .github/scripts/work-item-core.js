@@ -35,6 +35,14 @@ function validateWorkItem(item) {
     assert(Array.isArray(item.requested_operations) && item.requested_operations.length > 0, 'requested_operations must be a non-empty array');
     assert(item.requested_operations.every(x => typeof x === 'string' && x.trim()), 'requested_operations must contain non-empty strings');
     assert(new Set(item.requested_operations).size === item.requested_operations.length, 'requested_operations must be unique');
+    if (item.write_policy === 'READ_ONLY') assert(item.requested_operations.every(x => x === 'analysis'), 'READ_ONLY Work Items may request analysis only');
+    if (item.write_policy === 'WRITE_REQUIRES_OWNER_APPROVAL') assert(item.requested_operations.every(x => x === 'proposal_only'), 'approval-pending Work Items may request proposal_only only');
+    if (item.write_policy === 'WRITE_ALLOWED') {
+      assert(!item.requested_operations.some(x => x === 'analysis' || x === 'proposal_only'), 'WRITE_ALLOWED Work Items cannot request analysis/proposal-only as their write scope');
+      if (item.target_repository === PRODUCT_REPOSITORY) assert(item.requested_operations.includes('product_implementation'), 'NON WRITE_ALLOWED Work Items must declare product_implementation');
+      if (item.target_repository === CONTROL_PLANE_REPOSITORY) assert(item.requested_operations.includes('control_plane_write'), 'control-plane writes must declare control_plane_write');
+      if (item.target_repository !== PRODUCT_REPOSITORY && item.target_repository !== CONTROL_PLANE_REPOSITORY) assert(item.requested_operations.includes('repository_write'), 'other repository writes must declare repository_write');
+    }
   }
   if (item.target_repository === PRODUCT_REPOSITORY && item.write_policy === 'WRITE_ALLOWED') assert(typeof item.owner_approval_ref === 'string' && item.owner_approval_ref.trim(), 'owner_approval_ref is required for NON WRITE_ALLOWED');
   if (item.write_policy === 'WRITE_REQUIRES_OWNER_APPROVAL') assert(typeof item.owner_approval_ref === 'string' && item.owner_approval_ref.trim(), 'owner_approval_ref is required for approval-gated writes');
@@ -239,7 +247,7 @@ function validateDependencyGraph(graph) {
     if (!gate || !ACTION_OPERATIONS.has(gate.id)) { errors.push('unknown_operation_gate:' + String(gate?.id)); continue; }
     if (gateIds.has(gate.id)) errors.push('duplicate_operation_gate:' + gate.id);
     gateIds.add(gate.id);
-    if (!Array.isArray(gate.required_work_item_ids) || !gate.required_work_item_ids.length || !gate.required_work_item_ids.every(x => typeof x === 'string' && /^[A-Z0-9][A-Z0-9._-]{2,63}$/.test(x))) errors.push('invalid_required_work_item_ids:' + gate.id);
+    if (!Array.isArray(gate.required_work_item_ids) || !gate.required_work_item_ids.every(x => typeof x === 'string' && /^[A-Z0-9][A-Z0-9._-]{2,63}$/.test(x))) errors.push('invalid_required_work_item_ids:' + gate.id);
     if (gate.applies_to_exp_ids !== undefined && (!Array.isArray(gate.applies_to_exp_ids) || !gate.applies_to_exp_ids.every(x => typeof x === 'string' && /^EXP-[0-9]{2}$/.test(x)))) errors.push('invalid_operation_exp_scope:' + gate.id);
     if (gate.applies_to_target_repositories !== undefined && (!Array.isArray(gate.applies_to_target_repositories) || !gate.applies_to_target_repositories.every(x => typeof x === 'string' && x.includes('/')))) errors.push('invalid_operation_repository_scope:' + gate.id);
     if (typeof gate.owner_authorization_required !== 'boolean') errors.push('owner_authorization_required_missing:' + gate.id);
@@ -262,7 +270,8 @@ function evaluateOperationGates(item, graph, workItems = [], options = {}) {
       if (operation === 'repository_write' && (item.write_policy !== 'WRITE_ALLOWED' || item.target_repository === PRODUCT_REPOSITORY || item.target_repository === CONTROL_PLANE_REPOSITORY)) blockers.push('repository_write_scope_mismatch');
       continue;
     }
-    if (operation === 'product_implementation' && (item.target_repository !== PRODUCT_REPOSITORY || item.write_policy !== 'WRITE_ALLOWED')) blockers.push('product_implementation_scope_mismatch');
+    if (ACTION_OPERATIONS.has(operation) && item.target_repository !== PRODUCT_REPOSITORY) blockers.push('product_action_requires_NON_target:' + operation);
+    if (operation === 'product_implementation' && item.write_policy !== 'WRITE_ALLOWED') blockers.push('product_implementation_scope_mismatch');
     const gate = (graph.operation_gates || []).find(g => g.id === operation);
     if (!gate) { blockers.push('operation_gate_definition_missing:' + operation); continue; }
     const repoApplies = !Array.isArray(gate.applies_to_target_repositories) || gate.applies_to_target_repositories.includes(item.target_repository);
