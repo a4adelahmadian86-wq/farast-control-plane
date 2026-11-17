@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1184,
+  "revision": 1185,
   "next_fencing_token": 99,
   "locks": [
     {
@@ -10248,6 +10248,15 @@
       "command": "claim",
       "next_status": "locked",
       "at_utc": "2026-11-17T16:44:00.060Z"
+    },
+    "6954609144": {
+      "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-OPERATION-GATE-MODEL-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=Review and machine-accept PR #76 on exact head 1bdfbf3d7ca94979f58411c9055c26b49f48873f; verify merge and Issue #64 acceptance; close superseded PRs #73 and #75; record final evidence.; remaining_steps=.",
+      "response_posted": false,
+      "issue_number": 64,
+      "actor": "a4adelahmadian86-wq",
+      "command": "checkpoint",
+      "next_status": null,
+      "at_utc": "2026-11-17T16:47:37.828Z"
     }
   },
   "work_items": {
@@ -13728,9 +13737,9 @@
     },
     "64": {
       "work_item_id": "WI-OPERATION-GATE-MODEL-001",
-      "run_id": "RUN-20261117-MASTER00-HANDOFF-1634Z-001",
+      "run_id": "RUN-20261117-MASTER00-COMPAT-1643Z-001",
       "checkpoint_version": 1,
-      "created_at_utc": "2026-11-17T16:38:14.729Z",
+      "created_at_utc": "2026-11-17T16:47:37.828Z",
       "last_verified_step_id": "S6_HANDOFF",
       "current_step_id": "S6_HANDOFF",
       "completed_step_ids": [
@@ -13763,19 +13772,19 @@
         "not_run": 0
       },
       "evidence_refs": [
-        "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/75",
-        "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44127559177",
-        "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/74",
-        "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/01_STRATEGY/DEPENDENCY_GRAPH.json"
+        "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/76",
+        "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44129513394",
+        "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/62",
+        "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/74"
       ],
       "blockers": [],
       "owner": {
         "actor": "a4adelahmadian86-wq",
-        "chat_id": "CHAT-MASTER-00-RESUME-20261117-02",
-        "fencing_token": 97,
-        "lease_expires_at_utc": "2026-11-17T17:04:28.299Z"
+        "chat_id": "CHAT-MASTER-00-RESUME-20261117-03",
+        "fencing_token": 98,
+        "lease_expires_at_utc": "2026-11-17T17:13:59.883Z"
       },
-      "next_action": "Review PR #75 on exact head e92aef55e0a931c1668837e64f461b4a8717e6ab; machine-accept and verify merge/Work Item acceptance; close superseded PR #73; record final evidence."
+      "next_action": "Review and machine-accept PR #76 on exact head 1bdfbf3d7ca94979f58411c9055c26b49f48873f; verify merge and Issue #64 acceptance; close superseded PRs #73 and #75; record final evidence."
     }
   }
 }
