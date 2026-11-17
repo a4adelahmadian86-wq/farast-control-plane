@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1318,
+  "revision": 1319,
   "next_fencing_token": 105,
   "locks": [
     {
@@ -11361,6 +11361,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-17T17:24:50.747Z"
+    },
+    "6955590515": {
+      "response": "STEP ثبت شد: S2_CORE; EXECUTION_PROGRESS=37.5%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=3/8.",
+      "response_posted": false,
+      "issue_number": 77,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-17T17:24:58.978Z"
     }
   },
   "work_items": {
@@ -14762,7 +14771,14 @@
           "weight": 1,
           "expected_output": "WI-READONLY-EVIDENCE-ACCEPTANCE-001 resolves only to control_plane_write in the control-plane repository",
           "evidence_requirement": "Core diff and direct operation-scope validation",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/79"
+          ],
+          "validated_at_utc": "2026-11-17T17:24:58.978Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S3_SCHEMA",
