@@ -544,13 +544,27 @@ test('operation scope version and requested operations are a symmetric pair',()=
  assert.throws(()=>wi.validateWorkItem(item({operation_scope_version:'1.0'})),/must be supplied together/);
  assert.equal(wi.validateWorkItem(item({operation_scope_version:'1.0',requested_operations:['analysis']})),true);
 });
+test('Work Item refresh preserves accepted terminal status while deriving non-terminal status from progress',()=>{
+ const complete={can_accept:true,verified_steps:8};
+ assert.equal(wi.refreshedStatus('ACCEPTED',complete,true),'ACCEPTED');
+ assert.equal(wi.refreshedStatus('REJECTED',complete,true),'REJECTED');
+ assert.equal(wi.refreshedStatus('CANCELLED',complete,true),'CANCELLED');
+ assert.equal(wi.refreshedStatus('CLAIMED',complete,true),'REVIEW_REQUIRED');
+ assert.equal(wi.refreshedStatus('IN_PROGRESS',{can_accept:false,verified_steps:2},true),'IN_PROGRESS');
+ assert.equal(wi.refreshedStatus('READY',{can_accept:false,verified_steps:0},true),'READY');
+ assert.equal(wi.refreshedStatus('READY',complete,false),'BLOCKED');
+});
+
 test('legacy bootstrap Work Items receive only exact enumerated operation scopes',()=>{
  const x=item({work_item_id:'WI-PR16-SPEC-REPAIR-001',target_repository:'a4adelahmadian86-wq/farast-control-plane',write_policy:'WRITE_ALLOWED'});
  const allocator=item({work_item_id:'WI-GOAL-ALLOCATOR-001',target_repository:'a4adelahmadian86-wq/farast-control-plane',write_policy:'WRITE_ALLOWED'});
  const product=item({work_item_id:'WI-NON-IMPLEMENTATION-VERTICAL-SLICE-001',target_repository:'a4adelahmadian86-wq/non',write_policy:'WRITE_ALLOWED',owner_approval_ref:ownerIssueUrl});
+ const readonlyAcceptance=item({work_item_id:'WI-READONLY-EVIDENCE-ACCEPTANCE-001',target_repository:'a4adelahmadian86-wq/farast-control-plane',write_policy:'WRITE_ALLOWED'});
  assert.deepEqual(wi.defaultRequestedOperations(x),['control_plane_write']);
  assert.deepEqual(wi.defaultRequestedOperations(allocator),['control_plane_write']);
  assert.deepEqual(wi.defaultRequestedOperations(product),['product_implementation']);
+ assert.deepEqual(wi.defaultRequestedOperations(readonlyAcceptance),['control_plane_write']);
+ assert.doesNotThrow(()=>wi.validateWorkItem(readonlyAcceptance));
  assert.equal(wi.isBranchlessControlPlaneWorkItem(x),true);
  assert.equal(wi.isBranchlessControlPlaneWorkItem(allocator),true);
  assert.equal(wi.isBranchlessControlPlaneWorkItem(item({...x,work_item_id:'WI-OTHER-METADATA-001'})),false);
@@ -565,6 +579,20 @@ test('branchless control-plane acceptance requires evidence, no active lease and
  assert.ok(wi.evaluateBranchlessMetadataAcceptance(x,{issueNumber:58,hasActiveLease:true,hardGatesReady:true,reviewEvent:review}).blockers.includes('active_lease'));
  assert.ok(wi.evaluateBranchlessMetadataAcceptance(x,{issueNumber:58,hasActiveLease:false,hardGatesReady:true,reviewEvent:{...review,branch:'work/not-allowed'}}).blockers.includes('branchless_metadata_handoff_must_not_have_branch'));
 });
+test('durable coordinator inbox skips processed commands before re-fetching the Issue',()=>{
+ const fs=require('node:fs'), path=require('node:path');
+ const workflow=fs.readFileSync(path.join(__dirname,'../workflows/farast-coordinator.yml'),'utf8');
+ const start=workflow.indexOf('for (const comment of comments)');
+ const end=workflow.indexOf('const current = snapshot.state.locks.filter',start);
+ assert.ok(start>=0 && end>start);
+ const loop=workflow.slice(start,end);
+ const processed=loop.indexOf('if (snapshot.state.processed_operations?.[operationId]) continue;');
+ const handle=loop.indexOf('snapshot = await handleCommand(issue, comment, snapshot);');
+ const refetch=loop.indexOf('issue = (await github.rest.issues.get');
+ assert.ok(processed>=0 && processed<handle && handle<refetch);
+ assert.match(loop,/claim\\|heartbeat\\|release\\|status/);
+});
+
 test('coordinator registry persistence verifies exact commit read-back and guards missing operation records',()=>{
  const fs=require('node:fs'), path=require('node:path');
  const workflow=fs.readFileSync(path.join(__dirname,'../workflows/farast-coordinator.yml'),'utf8');
@@ -613,13 +641,22 @@ test('multi-EXP hard gate on secondary parent blocks missing, unaccepted and amb
  assert.equal(wi.evaluateHardGates(target,graph,[target,accepted]).ready,true);
 });
 test('exact legacy WRITE_ALLOWED bootstrap items remain compatible; unlisted legacy writes fail closed',()=>{
- const ids=['WI-GOAL-ALLOCATOR-001','WI-NON-IMPLEMENTATION-VERTICAL-SLICE-001','WI-NON-WRITE-POLICY-COORDINATOR-001','WI-PR16-SPEC-REPAIR-001','WI-OPERATION-GATE-MODEL-001'];
+ const ids=['WI-GOAL-ALLOCATOR-001','WI-NON-IMPLEMENTATION-VERTICAL-SLICE-001','WI-NON-WRITE-POLICY-COORDINATOR-001','WI-PR16-SPEC-REPAIR-001','WI-OPERATION-GATE-MODEL-001','WI-READONLY-EVIDENCE-ACCEPTANCE-001'];
  for(const id of ids) {
   const product=id==='WI-NON-IMPLEMENTATION-VERTICAL-SLICE-001';
   const x=item({work_item_id:id,target_repository:product?'a4adelahmadian86-wq/non':'a4adelahmadian86-wq/farast-control-plane',write_policy:'WRITE_ALLOWED',...(product?{owner_approval_ref:ownerIssueUrl}:{})});
   assert.doesNotThrow(()=>wi.validateWorkItem(x),id);
  }
  assert.throws(()=>wi.validateWorkItem(item({work_item_id:'WI-UNLISTED-WRITE-001',target_repository:'a4adelahmadian86-wq/farast-control-plane',write_policy:'WRITE_ALLOWED'})),/require operation_scope_version/);
+});
+
+test('accepted READ_ONLY acceptance Work Item remains a valid legacy control-plane dependency',()=>{
+ const accepted=item({work_item_id:'WI-READONLY-EVIDENCE-ACCEPTANCE-001',target_repository:'a4adelahmadian86-wq/farast-control-plane',write_policy:'WRITE_ALLOWED',status:'ACCEPTED'});
+ const dependent=item({work_item_id:'WI-OPERATION-GATE-MODEL-001',target_repository:'a4adelahmadian86-wq/farast-control-plane',write_policy:'WRITE_ALLOWED',dependencies:[{work_item_id:accepted.work_item_id}]});
+ const graph=require('../../01_STRATEGY/DEPENDENCY_GRAPH.json');
+ assert.equal(wi.validateWorkItem(accepted),true);
+ assert.deepEqual(wi.defaultRequestedOperations(accepted),['control_plane_write']);
+ assert.equal(wi.evaluateHardGates(dependent,graph,[accepted,dependent]).ready,true);
 });
 
 test('secondary EXP tags on a cross-cutting Work Item do not satisfy another EXP hard gate',()=>{
@@ -701,7 +738,7 @@ test('high-risk EXP-02 operation gates reference the canonical backup-recovery W
 });
 test('legacy READ_ONLY and proposal-only Work Items remain schema-compatible without operation scope',()=>{
  const schema=require('../../04_COORDINATION/WORK_ITEM_SCHEMA.json');
- const legacyIds=["WI-GOAL-ALLOCATOR-001","WI-NON-IMPLEMENTATION-VERTICAL-SLICE-001","WI-NON-WRITE-POLICY-COORDINATOR-001","WI-PR16-SPEC-REPAIR-001","WI-OPERATION-GATE-MODEL-001","WI-CI-001"];
+ const legacyIds=["WI-GOAL-ALLOCATOR-001","WI-NON-IMPLEMENTATION-VERTICAL-SLICE-001","WI-NON-WRITE-POLICY-COORDINATOR-001","WI-PR16-SPEC-REPAIR-001","WI-OPERATION-GATE-MODEL-001","WI-CI-001","WI-READONLY-EVIDENCE-ACCEPTANCE-001"];
  const writeScopeRule=schema.allOf.find(rule=>rule.if?.properties?.write_policy?.const==='WRITE_ALLOWED' && rule.then?.required?.includes('operation_scope_version'));
  assert.ok(writeScopeRule);
  assert.equal(schema.required.includes('operation_scope_version'),false);

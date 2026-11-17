@@ -17,6 +17,7 @@ const LEGACY_WRITE_OPERATION_SCOPES = Object.freeze({
  'WI-NON-WRITE-POLICY-COORDINATOR-001':{target_repository:CONTROL_PLANE_REPOSITORY,operations:['control_plane_write']},
  'WI-PR16-SPEC-REPAIR-001':{target_repository:CONTROL_PLANE_REPOSITORY,operations:['control_plane_write'],branchless:true},
  'WI-OPERATION-GATE-MODEL-001':{target_repository:CONTROL_PLANE_REPOSITORY,operations:['control_plane_write']},
+ 'WI-READONLY-EVIDENCE-ACCEPTANCE-001':{target_repository:CONTROL_PLANE_REPOSITORY,operations:['control_plane_write']},
 });
 
 function assert(condition, message) {
@@ -146,6 +147,13 @@ function evidenceVerified(record) {
   return record && record.validation_status === 'PASS' &&
     Array.isArray(record.evidence_refs) && record.evidence_refs.length > 0 &&
     record.evidence_refs.every(x => typeof x === 'string' && x.trim());
+}
+
+function refreshedStatus(previousStatus, progress, hardGatesReady) {
+  if (TERMINAL.has(previousStatus)) return previousStatus;
+  if (!hardGatesReady) return 'BLOCKED';
+  if (progress.can_accept) return 'REVIEW_REQUIRED';
+  return progress.verified_steps > 0 ? 'IN_PROGRESS' : 'READY';
 }
 
 function calculateProgress(item) {
@@ -527,5 +535,5 @@ function createCheckpoint(item, input) {
 module.exports = {
   STATUSES, validateWorkItem, validateProductWriteAuthorization, evidenceVerified, calculateProgress, validateLease,
   recordStepEvidence, recordCriterionEvidence, primaryExpId, defaultRequestedOperations, validateDependencyGraph, evaluateOperationGates, evaluateHardGates, evaluateReadOnlyAcceptance, evaluateBranchlessMetadataAcceptance, isBranchlessControlPlaneWorkItem, dependencyReady, selectNextWorkItem,
-  resumePlan, createCheckpoint, evaluateChildCompletion, findDuplicateWorkItemIdIssues
+  resumePlan, createCheckpoint, refreshedStatus, evaluateChildCompletion, findDuplicateWorkItemIdIssues
 };
