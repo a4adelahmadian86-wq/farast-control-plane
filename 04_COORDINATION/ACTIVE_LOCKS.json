@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 742,
+  "revision": 743,
   "next_fencing_token": 82,
   "locks": [
     {
@@ -6396,6 +6396,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-17T09:42:53.395Z"
+    },
+    "6944408315": {
+      "response": "معیار پذیرش ثبت شد: AC_EVIDENCE; ACCEPTANCE_PROGRESS=40%; OVERALL_COMPLETION=40%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 13,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-17T09:43:27.472Z"
     }
   },
   "work_items": {
@@ -6858,7 +6867,17 @@
         {
           "criterion_id": "AC_EVIDENCE",
           "title": "Every factual conclusion has a direct, reproducible source reference and UTC observation time",
-          "evidence_requirement": "Source URLs, paths, refs/SHAs and observation timestamps"
+          "evidence_requirement": "Source URLs, paths, refs/SHAs and observation timestamps",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/13#issuecomment-6944359408",
+            "https://github.com/a4adelahmadian86-wq/non/blob/main/README.md",
+            "https://github.com/a4adelahmadian86-wq/non/blob/main/composer.lock",
+            "https://github.com/a4adelahmadian86-wq/non/blob/main/.github/workflows/farast-ci.yml"
+          ],
+          "validated_at_utc": "2026-11-17T09:43:27.466Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_OUTPUT",
