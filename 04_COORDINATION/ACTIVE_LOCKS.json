@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1506,
+  "revision": 1507,
   "next_fencing_token": 108,
   "locks": [
     {
@@ -13513,6 +13513,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-17T18:26:33.104Z"
+    },
+    "6957104254": {
+      "response": "معیار پذیرش ثبت شد: AC_BOUNDED_SAFE_SCOPE; ACCEPTANCE_PROGRESS=60%; OVERALL_COMPLETION=60%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 51,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-17T18:27:01.511Z"
     }
   },
   "work_items": {
@@ -15395,7 +15404,14 @@
         {
           "criterion_id": "AC_BOUNDED_SAFE_SCOPE",
           "title": "The change is evidence-based, does not overlap active PRs, preserves existing capabilities, and introduces no prohibited destructive, financial, authorization, privacy-policy, production or external-cost action",
-          "evidence_requirement": "Evidence: baseline and active-PR overlap inventory, selected-slice risk note, exact diff review and confirmation that no prohibited migration, data, security, financial or production action occurred."
+          "evidence_requirement": "Evidence: baseline and active-PR overlap inventory, selected-slice risk note, exact diff review and confirmation that no prohibited migration, data, security, financial or production action occurred.",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/non/pull/689"
+          ],
+          "validated_at_utc": "2026-11-17T18:27:01.510Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_REGRESSION_EVIDENCE",
