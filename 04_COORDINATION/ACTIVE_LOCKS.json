@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 977,
+  "revision": 978,
   "next_fencing_token": 92,
   "locks": [
     {
@@ -8455,7 +8455,7 @@
     },
     "6946360084": {
       "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-GOAL-ALLOCATOR-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=Issue #67 WI-PROMPT-OPERATION-SCOPE-001 created and read back; it is BLOCKED on Issue #64 and has explicit operation_scope_version/requested_operations plus N-worker test requirements. Release allocator lease after checkpoint read-back.; remaining_steps=.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 11,
       "actor": "a4adelahmadian86-wq",
       "command": "checkpoint",
