@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 711,
+  "revision": 712,
   "next_fencing_token": 82,
   "locks": [
     {
@@ -6424,7 +6424,7 @@
     },
     "6944240869": {
       "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-NON-WRITE-POLICY-COORDINATOR-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=All seven steps and all five acceptance criteria are evidence-backed PASS (EXECUTION_PROGRESS=100%, ACCEPTANCE_PROGRESS=100%, OVERALL_COMPLETION=100%, can_accept=true). However automated /farast accept still cannot be invoked safely: Issue body links PR #53, which is closed/unmerged; the replacement implementation PR #55 is merged but its head branch work/GH-55-RUN-20261116-NON-WRITE-POLICY-REBASE-001 does not match this Work Item's latest lease branch work/GH-52-RUN-20261117-PR16-EXP22-POLICY-SMOKE-003, and coordinator requires exact branch lineage to the latest REVIEW event. Do not reuse or mutate the previous branch; create a narrowly scoped owner-authorized lineage-reconciliation Work Item or update coordinator acceptance contract to recognize a merged replacement PR with verified commit ancestry, then resume acceptance. No product repository writes are authorized by this task.; remaining_steps=.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 52,
       "actor": "a4adelahmadian86-wq",
       "command": "checkpoint",
