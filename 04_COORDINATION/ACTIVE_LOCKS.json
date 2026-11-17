@@ -1,8 +1,105 @@
 {
   "schema_version": "1.0",
-  "revision": 834,
-  "next_fencing_token": 86,
-  "locks": [],
+  "revision": 835,
+  "next_fencing_token": 87,
+  "locks": [
+    {
+      "resource_key": "file:.github/scripts/work-item-core.js",
+      "issue_number": 64,
+      "task_id": "GH-64",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-OPERATION-GATE-MODEL-20261117",
+      "chat_id": "CHAT-OPERATION-GATE-MODEL-20261117",
+      "run_id": "RUN-20261117-OPERATION-GATE-MODEL-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-64-RUN-20261117-OPERATION-GATE-MODEL-001",
+      "acquired_at_utc": "2026-11-17T10:15:29.127Z",
+      "heartbeat_at_utc": "2026-11-17T10:15:29.127Z",
+      "lease_expires_at_utc": "2026-11-17T10:45:29.127Z",
+      "fencing_token": 86,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "file:.github/scripts/work-item-core.test.js",
+      "issue_number": 64,
+      "task_id": "GH-64",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-OPERATION-GATE-MODEL-20261117",
+      "chat_id": "CHAT-OPERATION-GATE-MODEL-20261117",
+      "run_id": "RUN-20261117-OPERATION-GATE-MODEL-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-64-RUN-20261117-OPERATION-GATE-MODEL-001",
+      "acquired_at_utc": "2026-11-17T10:15:29.127Z",
+      "heartbeat_at_utc": "2026-11-17T10:15:29.127Z",
+      "lease_expires_at_utc": "2026-11-17T10:45:29.127Z",
+      "fencing_token": 86,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "file:.github/workflows/farast-coordinator.yml",
+      "issue_number": 64,
+      "task_id": "GH-64",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-OPERATION-GATE-MODEL-20261117",
+      "chat_id": "CHAT-OPERATION-GATE-MODEL-20261117",
+      "run_id": "RUN-20261117-OPERATION-GATE-MODEL-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-64-RUN-20261117-OPERATION-GATE-MODEL-001",
+      "acquired_at_utc": "2026-11-17T10:15:29.127Z",
+      "heartbeat_at_utc": "2026-11-17T10:15:29.127Z",
+      "lease_expires_at_utc": "2026-11-17T10:45:29.127Z",
+      "fencing_token": 86,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "file:01_strategy/dependency_graph.json",
+      "issue_number": 64,
+      "task_id": "GH-64",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-OPERATION-GATE-MODEL-20261117",
+      "chat_id": "CHAT-OPERATION-GATE-MODEL-20261117",
+      "run_id": "RUN-20261117-OPERATION-GATE-MODEL-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-64-RUN-20261117-OPERATION-GATE-MODEL-001",
+      "acquired_at_utc": "2026-11-17T10:15:29.127Z",
+      "heartbeat_at_utc": "2026-11-17T10:15:29.127Z",
+      "lease_expires_at_utc": "2026-11-17T10:45:29.127Z",
+      "fencing_token": 86,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "file:04_coordination/work_item_schema.json",
+      "issue_number": 64,
+      "task_id": "GH-64",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-OPERATION-GATE-MODEL-20261117",
+      "chat_id": "CHAT-OPERATION-GATE-MODEL-20261117",
+      "run_id": "RUN-20261117-OPERATION-GATE-MODEL-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-64-RUN-20261117-OPERATION-GATE-MODEL-001",
+      "acquired_at_utc": "2026-11-17T10:15:29.127Z",
+      "heartbeat_at_utc": "2026-11-17T10:15:29.127Z",
+      "lease_expires_at_utc": "2026-11-17T10:45:29.127Z",
+      "fencing_token": 86,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "module:operation-gate-model",
+      "issue_number": 64,
+      "task_id": "GH-64",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-OPERATION-GATE-MODEL-20261117",
+      "chat_id": "CHAT-OPERATION-GATE-MODEL-20261117",
+      "run_id": "RUN-20261117-OPERATION-GATE-MODEL-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-64-RUN-20261117-OPERATION-GATE-MODEL-001",
+      "acquired_at_utc": "2026-11-17T10:15:29.127Z",
+      "heartbeat_at_utc": "2026-11-17T10:15:29.127Z",
+      "lease_expires_at_utc": "2026-11-17T10:45:29.127Z",
+      "fencing_token": 86,
+      "status": "ACTIVE"
+    }
+  ],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -3376,6 +3473,28 @@
       "branch": "work/GH-62-RUN-20261117-READONLY-ACCEPTANCE-HANDOFF-001",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "at_utc": "2026-11-17T10:14:07.419Z"
+    },
+    {
+      "event": "ACQUIRED",
+      "issue_number": 64,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-OPERATION-GATE-MODEL-20261117",
+      "run_id": "RUN-20261117-OPERATION-GATE-MODEL-001",
+      "resource_keys": [
+        "file:.github/scripts/work-item-core.js",
+        "file:.github/scripts/work-item-core.test.js",
+        "file:.github/workflows/farast-coordinator.yml",
+        "file:01_strategy/dependency_graph.json",
+        "file:04_coordination/work_item_schema.json",
+        "module:operation-gate-model"
+      ],
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-64-RUN-20261117-OPERATION-GATE-MODEL-001",
+      "previous_branch": null,
+      "previous_target_repository": null,
+      "previous_run_id": null,
+      "fencing_token": 86,
+      "at_utc": "2026-11-17T10:15:29.127Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -7006,6 +7125,15 @@
       "command": "accept",
       "next_status": null,
       "at_utc": "2026-11-17T10:14:57.102Z"
+    },
+    "6945123081": {
+      "response": "CLAIM GRANTED. TASK=GH-64; WORK_ITEM_ID=WI-OPERATION-GATE-MODEL-001; verified_steps=; remaining_steps=S0_AUDIT,S1_POLICY,S2_GRAPH_SCHEMA,S3_EVALUATOR,S4_REGRESSION,S5_COMPATIBILITY_CI,S6_HANDOFF; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; actor=@a4adelahmadian86-wq; chat=CHAT-OPERATION-GATE-MODEL-20261117; run=RUN-20261117-OPERATION-GATE-MODEL-001; resource_keys=file:.github/scripts/work-item-core.js,file:.github/scripts/work-item-core.test.js,file:.github/workflows/farast-coordinator.yml,file:01_strategy/dependency_graph.json,file:04_coordination/work_item_schema.json,module:operation-gate-model; target_repository=a4adelahmadian86-wq/farast-control-plane; write_policy=WRITE_ALLOWED; branch=work/GH-64-RUN-20261117-OPERATION-GATE-MODEL-001; previous_run=none; fencing_token=86; lease_expires=2026-11-17T10:45:29.127Z. این Work Item با سیاست WRITE_ALLOWED است؛ branch را فقط در target_repository ثبت‌شده بساز و قبل از هر write heartbeat/token را دوباره تأیید کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز و branch قبلی را تغییر نده.",
+      "response_posted": false,
+      "issue_number": 64,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "locked",
+      "at_utc": "2026-11-17T10:15:29.349Z"
     }
   },
   "work_items": {
@@ -9554,6 +9682,177 @@
       ],
       "priority": 20,
       "created_at_utc": "2026-11-17T09:45:00Z"
+    },
+    "64": {
+      "schema_version": "1.0",
+      "write_policy": "WRITE_ALLOWED",
+      "priority_source": "DEFAULT_POLICY",
+      "work_item_id": "WI-OPERATION-GATE-MODEL-001",
+      "title": "Separate EXP dependencies from action-scoped operational gates",
+      "parent_goal_ids": [
+        "G-00",
+        "G-09"
+      ],
+      "parent_exp_ids": [
+        "EXP-01",
+        "EXP-02",
+        "EXP-11",
+        "EXP-12",
+        "EXP-13",
+        "EXP-14",
+        "EXP-15",
+        "EXP-16",
+        "EXP-17",
+        "EXP-18",
+        "EXP-19",
+        "EXP-21",
+        "EXP-22",
+        "EXP-23",
+        "EXP-24",
+        "EXP-25",
+        "EXP-26"
+      ],
+      "status": "CLAIMED",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "resource_keys": [
+        "file:01_STRATEGY/DEPENDENCY_GRAPH.json",
+        "file:04_COORDINATION/WORK_ITEM_SCHEMA.json",
+        "file:.github/scripts/work-item-core.js",
+        "file:.github/scripts/work-item-core.test.js",
+        "file:.github/workflows/farast-coordinator.yml",
+        "module:operation-gate-model"
+      ],
+      "dependencies": [
+        {
+          "work_item_id": "WI-READONLY-EVIDENCE-ACCEPTANCE-001",
+          "status": "ACCEPTED"
+        }
+      ],
+      "effort_estimate_minutes": 25,
+      "effort_rationale": "Focused gate taxonomy audit, schema/graph separation, evaluator and coordinator changes, regression tests and exact-head CI; no forced waiting.",
+      "depth_profile": {
+        "profile_version": "2.0.0",
+        "min_substantive_steps": 7,
+        "min_acceptance_criteria": 5,
+        "min_deliverables": 4,
+        "target_effort_minutes": 25
+      },
+      "steps": [
+        {
+          "step_id": "S0_AUDIT",
+          "title": "Audit every current graph gate against EXP definitions and blocked Work Items",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Evidence-backed taxonomy matrix separating cross-EXP dependencies from operational gates",
+          "evidence_requirement": "Current main SHA, graph/schema/core URLs, exact issue and source references for every gate",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S1_POLICY",
+          "title": "Define typed cross-EXP and action-scoped operational gate semantics",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Canonical policy defining applicability, evidence and fail-closed behavior",
+          "evidence_requirement": "Versioned policy/registry with an explicit entry and source for every current gate type",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S2_GRAPH_SCHEMA",
+          "title": "Update graph and Work Item schema without deleting genuine dependencies",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Validated graph/schema with only EXP IDs in hard_gates and explicit operation gate definitions",
+          "evidence_requirement": "JSON/schema validation, before-after gate matrix and source-backed direction decisions",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S3_EVALUATOR",
+          "title": "Implement action-scoped operation gate evaluation and preserve EXP hard-gate checks",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Discovery tasks remain eligible while requested protected operations remain fail-closed",
+          "evidence_requirement": "Core/coordinator diff and positive/negative tests for all gate categories",
+          "estimate_minutes": 5
+        },
+        {
+          "step_id": "S4_REGRESSION",
+          "title": "Add regression coverage for gate types, scope, unknowns, soft inputs and safety invariants",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Automated test suite covering all gate paths and no-bypass controls",
+          "evidence_requirement": "Named test cases and successful focused test output",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S5_COMPATIBILITY_CI",
+          "title": "Verify existing Work Items and run exact-head full CI",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Compatibility matrix and all required exact-head checks passing",
+          "evidence_requirement": "Issue read-backs, Actions URL and exact head SHA",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S6_HANDOFF",
+          "title": "Publish PR, gate migration matrix, checkpoint and machine-acceptance evidence",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Merged/accepted control-plane repair or explicitly blocked evidence-backed handoff",
+          "evidence_requirement": "PR URL, merge SHA, CI, acceptance response and checkpoint read-back",
+          "estimate_minutes": 2
+        }
+      ],
+      "acceptance_criteria": [
+        {
+          "criterion_id": "AC_TYPED_GATES",
+          "title": "Graph hard_gates contain only EXP IDs and operation gates are represented separately",
+          "evidence_requirement": "Validated graph/schema plus migration matrix for every existing gate"
+        },
+        {
+          "criterion_id": "AC_SCOPE",
+          "title": "Action gates block only the operation requiring them and do not block unrelated discovery/analysis/proposal work",
+          "evidence_requirement": "Positive/negative eligibility tests for READ_ONLY discovery and protected operation scopes"
+        },
+        {
+          "criterion_id": "AC_FAIL_CLOSED",
+          "title": "Unknown operation gates, missing evidence and unresolved genuine EXP dependencies fail closed",
+          "evidence_requirement": "Negative tests proving each unresolved case blocks the exact operation/task"
+        },
+        {
+          "criterion_id": "AC_COMPATIBILITY",
+          "title": "Existing Work Item identity, policy, owner authorization, READ_ONLY isolation, soft inputs and fencing behavior remain unchanged",
+          "evidence_requirement": "Before/after field comparison and regression test results"
+        },
+        {
+          "criterion_id": "AC_AUTOMATED",
+          "title": "Focused tests and full validation pass on exact PR head and no second human review is required",
+          "evidence_requirement": "Exact-head Actions checks and machine-controlled acceptance response"
+        }
+      ],
+      "deliverables": [
+        {
+          "deliverable_id": "D1",
+          "description": "Source-backed gate taxonomy and migration matrix",
+          "evidence_requirement": "Issue/report URL with every current gate classified and sourced"
+        },
+        {
+          "deliverable_id": "D2",
+          "description": "Updated dependency graph and Work Item schema",
+          "evidence_requirement": "GitHub read-back SHAs and JSON/schema validation"
+        },
+        {
+          "deliverable_id": "D3",
+          "description": "Action-scoped evaluator/coordinator and regression tests",
+          "evidence_requirement": "PR file list and focused test/CI evidence"
+        },
+        {
+          "deliverable_id": "D4",
+          "description": "Compatibility report, exact-head CI, machine acceptance and resumable checkpoint",
+          "evidence_requirement": "PR/merge/Actions/acceptance/checkpoint URLs"
+        }
+      ],
+      "priority": 25,
+      "created_at_utc": "2026-11-17T10:00:00Z"
     }
   },
   "checkpoints": {
