@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1273,
+  "revision": 1274,
   "next_fencing_token": 102,
   "locks": [
     {
@@ -10956,6 +10956,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-17T17:11:55.166Z"
+    },
+    "6955252974": {
+      "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-EXP22-CONTROLLED-IMPLEMENTATION-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=After evidence-only acceptance of EXP-22, resume EXP-23 and add the Trust Center global-search regression matrix; accept EXP-23 only with gaps explicitly scoped. Then revalidate the product_implementation gate and claim Issue #51 only after EXP-21/22/23 are ACCEPTED; keep the NON PR open and unmerged.; remaining_steps=.",
+      "response_posted": false,
+      "issue_number": 34,
+      "actor": "a4adelahmadian86-wq",
+      "command": "checkpoint",
+      "next_status": null,
+      "at_utc": "2026-11-17T17:12:02.947Z"
     }
   },
   "work_items": {
@@ -14607,57 +14616,49 @@
     },
     "34": {
       "work_item_id": "WI-EXP22-CONTROLLED-IMPLEMENTATION-001",
-      "run_id": "RUN-20261116-PR16-EXP22-001",
+      "run_id": "RUN-20261117-PR16-EXP22-RESUME-1707Z-001",
       "checkpoint_version": 1,
-      "created_at_utc": "2026-11-16T17:20:52.966Z",
+      "created_at_utc": "2026-11-17T17:12:02.947Z",
       "last_verified_step_id": "S7_VERIFY",
-      "current_step_id": "S7_VERIFY",
+      "current_step_id": "S2_MAP",
       "completed_step_ids": [
         "S1_DISCOVER",
+        "S2_MAP",
         "S3_ANALYZE",
         "S4_CROSSCHECK",
         "S5_ASSESS",
         "S6_REPORT",
         "S7_VERIFY"
       ],
-      "remaining_step_ids": [
-        "S2_MAP"
-      ],
-      "progress_percentage": 85.71,
-      "execution_progress_percentage": 85.71,
-      "acceptance_progress_percentage": 75,
-      "overall_completion_percentage": 75,
+      "remaining_step_ids": [],
+      "progress_percentage": 100,
+      "execution_progress_percentage": 100,
+      "acceptance_progress_percentage": 100,
+      "overall_completion_percentage": 100,
       "progress_calculation_version": "PROGRESS_V2",
       "required_step_counts": {
-        "pass": 6,
+        "pass": 7,
         "fail": 0,
-        "blocked": 1,
+        "blocked": 0,
         "unknown": 0,
         "not_run": 0
       },
       "acceptance_criteria_counts": {
-        "pass": 3,
+        "pass": 4,
         "fail": 0,
-        "blocked": 1,
+        "blocked": 0,
         "unknown": 0,
         "not_run": 0
       },
-      "evidence_refs": [
-        "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/52"
-      ],
-      "blockers": [
-        "issue52-live-smoke",
-        "token-scopes-unverified",
-        "merge-scope-conflict",
-        "transition-policy-undefined"
-      ],
+      "evidence_refs": [],
+      "blockers": [],
       "owner": {
         "actor": "a4adelahmadian86-wq",
-        "chat_id": "CHAT-PR16-20261116-01",
-        "fencing_token": 71,
-        "lease_expires_at_utc": "2026-11-16T17:50:44.691Z"
+        "chat_id": "CHAT-PR16-EXP22-RESUME-20261117",
+        "fencing_token": 101,
+        "lease_expires_at_utc": "2026-11-17T17:41:55.166Z"
       },
-      "next_action": "Complete Issue #52 S5_VALIDATE with a successful live /farast progress response and registry read-back for Issue #51; verify FARAST_GITHUB_TOKEN has checks:read, statuses:read, pull_requests:write on non; reconcile Issue #51 no-merge scope with EXP-23 merge gate; approve an explicit ticket status-transition matrix or select another evidence-backed behavior; then start a fresh RUN and claim the authorized product Work Item."
+      "next_action": "After evidence-only acceptance of EXP-22, resume EXP-23 and add the Trust Center global-search regression matrix; accept EXP-23 only with gaps explicitly scoped. Then revalidate the product_implementation gate and claim Issue #51 only after EXP-21/22/23 are ACCEPTED; keep the NON PR open and unmerged."
     },
     "35": {
       "work_item_id": "WI-EXP23-REGRESSION-001",
