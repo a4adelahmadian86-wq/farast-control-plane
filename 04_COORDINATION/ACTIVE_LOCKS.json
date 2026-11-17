@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 674,
+  "revision": 675,
   "next_fencing_token": 80,
   "locks": [
     {
@@ -3286,6 +3286,17 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "lease_expires_at_utc": "2026-11-17T09:53:10.962Z",
       "at_utc": "2026-11-17T09:23:10.962Z"
+    },
+    {
+      "event": "WORK_ITEM_REFRESHED",
+      "issue_number": 13,
+      "work_item_id": "WI-EXP01-BASELINE-001",
+      "actor": "a4adelahmadian86-wq",
+      "preserved_steps": 0,
+      "preserved_criteria": 0,
+      "hard_gate_ready": true,
+      "hard_gate_blockers": [],
+      "at_utc": "2026-11-17T09:24:28.353Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -6196,6 +6207,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-17T09:23:56.972Z"
+    },
+    "6943995541": {
+      "response": "Work Item specification refreshed from Issue body; preserved_steps=0; preserved_criteria=0; hard_gates=PASS; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%.",
+      "response_posted": false,
+      "issue_number": 13,
+      "actor": "a4adelahmadian86-wq",
+      "command": "refresh",
+      "next_status": "ready",
+      "at_utc": "2026-11-17T09:24:28.358Z"
     }
   },
   "work_items": {
@@ -6496,12 +6516,12 @@
       },
       "steps": [
         {
-          "step_id": "S0_GATE",
+          "step_id": "S0_SCOPE",
           "title": "Resolve hard/soft dependency direction and gate semantics",
           "required": true,
           "weight": 1,
-          "expected_output": "Evidence-backed dependency decision or explicit BLOCKED verdict with next action",
-          "evidence_requirement": "Exact dependency graph and relevant Issue/decision URLs; unresolved contradiction must be recorded as BLOCKED",
+          "expected_output": "Evidence-backed confirmation that EXP-01 is independently executable, or explicit BLOCKED verdict if the canonical graph is unavailable/invalid",
+          "evidence_requirement": "Exact dependency graph URL/SHA and relevant Issue/decision URLs; EXP-22 must not be a hard gate for EXP-01",
           "estimate_minutes": 3
         },
         {
@@ -6561,9 +6581,9 @@
       ],
       "acceptance_criteria": [
         {
-          "criterion_id": "AC_GATE",
-          "title": "Hard/soft dependency semantics are resolved with evidence or the task is explicitly BLOCKED before dependent work",
-          "evidence_requirement": "Dependency graph and authoritative decision/Issue references; no unsupported PASS"
+          "criterion_id": "AC_INDEPENDENCE",
+          "title": "EXP-01 baseline discovery is not hard-gated by EXP-22; soft inputs are informational only",
+          "evidence_requirement": "Canonical dependency graph read-back proving EXP-01 hard_gates is empty and EXP-22 is only a soft input"
         },
         {
           "criterion_id": "AC_EVIDENCE",
