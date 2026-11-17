@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1350,
+  "revision": 1351,
   "next_fencing_token": 105,
   "locks": [
     {
@@ -5523,6 +5523,13 @@
       "branch": "work/GH-77-RUN-20261117-RECOVERY-2052Z-001",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "at_utc": "2026-11-17T17:28:57.025Z"
+    },
+    {
+      "event": "DEPENDENCY_AUTO_UNBLOCKED",
+      "issue_number": 67,
+      "work_item_id": "WI-PROMPT-OPERATION-SCOPE-001",
+      "preserved_steps": 0,
+      "at_utc": "2026-11-17T17:31:04.959Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -14509,6 +14516,215 @@
       ],
       "priority": 25,
       "created_at_utc": "2026-11-17T10:00:00Z"
+    },
+    "67": {
+      "schema_version": "1.0",
+      "operation_scope_version": "1.0",
+      "requested_operations": [
+        "control_plane_write"
+      ],
+      "write_policy": "WRITE_ALLOWED",
+      "priority_source": "OWNER_ASSIGNED",
+      "work_item_id": "WI-PROMPT-OPERATION-SCOPE-001",
+      "title": "Make all specialist prompts independently executable in any order across N chats with versioned operation scope",
+      "parent_goal_ids": [
+        "G-09"
+      ],
+      "parent_exp_ids": [
+        "EXP-01",
+        "EXP-21",
+        "EXP-23",
+        "EXP-26"
+      ],
+      "status": "READY",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "resource_keys": [
+        "module:prompt-library",
+        "module:multi-chat-dispatch-contract",
+        "file:05_PROMPT_LIBRARY/MASTER-00.md",
+        "file:05_PROMPT_LIBRARY/PR-01_BASELINE.md",
+        "file:05_PROMPT_LIBRARY/PR-02_RECOVERY.md",
+        "file:05_PROMPT_LIBRARY/PR-03_CAPABILITY_DISCOVERY.md",
+        "file:05_PROMPT_LIBRARY/PR-04_TRACEABILITY.md",
+        "file:05_PROMPT_LIBRARY/PR-05_USER_SCENARIOS.md",
+        "file:05_PROMPT_LIBRARY/PR-06_EVIDENCE_TESTING.md",
+        "file:05_PROMPT_LIBRARY/PR-07_GAP_ROOT_CAUSE.md",
+        "file:05_PROMPT_LIBRARY/PR-08_COMMERCE.md",
+        "file:05_PROMPT_LIBRARY/PR-09_AI_SERVICES.md",
+        "file:05_PROMPT_LIBRARY/PR-10_ARCH_DATA.md",
+        "file:05_PROMPT_LIBRARY/PR-11_AUTHORIZATION.md",
+        "file:05_PROMPT_LIBRARY/PR-12_SECURITY_PRIVACY_AUDIT.md",
+        "file:05_PROMPT_LIBRARY/PR-13_TARGET_ARCH.md",
+        "file:05_PROMPT_LIBRARY/PR-14_HOSTING_OPERATIONS.md",
+        "file:05_PROMPT_LIBRARY/PR-15_PRIORITIZATION.md",
+        "file:05_PROMPT_LIBRARY/PR-16_IMPLEMENTATION.md",
+        "file:05_PROMPT_LIBRARY/PR-17_ACCEPTANCE_RELEASE.md",
+        "file:05_PROMPT_LIBRARY/FARAST_EXECUTABLE_PROMPTS_COMPLETE.md",
+        "file:05_PROMPT_LIBRARY/PROMPT_CATALOG.md",
+        "file:04_COORDINATION/SINGLE_PROMPT_MULTI_CHAT_DISPATCH.md",
+        "file:04_COORDINATION/MULTI_CHAT_READINESS.md",
+        "file:.github/scripts/work-item-core.test.js",
+        "file:.github/workflows/farast-coordinator.yml",
+        "file:.github/scripts/work-item-core.js",
+        "file:.github/workflows/control-plane-validation.yml",
+        "file:.github/scripts/coordinator-core.js",
+        "file:.github/scripts/coordinator-core.test.js"
+      ],
+      "dependencies": [
+        {
+          "work_item_id": "WI-OPERATION-GATE-MODEL-001",
+          "status": "ACCEPTED"
+        },
+        {
+          "work_item_id": "WI-COORDINATOR-LEASE-EXPIRY-FAIL-CLOSED-001",
+          "status": "ACCEPTED"
+        }
+      ],
+      "effort_estimate_minutes": 25,
+      "effort_rationale": "Focused shared-contract, 17-prompt synchronization, deterministic N-worker simulation, bundle parity and exact-head CI.",
+      "depth_profile": {
+        "profile_version": "2.0.0",
+        "min_substantive_steps": 7,
+        "min_acceptance_criteria": 5,
+        "min_deliverables": 4,
+        "target_effort_minutes": 25
+      },
+      "steps": [
+        {
+          "step_id": "S0_LIVE_AUDIT",
+          "title": "Audit current main, all prompt sources, schema, coordinator, dispatch protocol, backlog and locks",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Current-state matrix with exact SHAs and gaps",
+          "evidence_requirement": "GitHub read-back links and source blob SHAs",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S1_CONTRACT_MAPPING",
+          "title": "Map accepted operation-scope schema and action gate semantics into prompt authoring rules",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Versioned operation-scope decision table",
+          "evidence_requirement": "Accepted Issue #64 merge SHA and schema/core/test references",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S2_SHARED_ENTRYPOINT",
+          "title": "Synchronize MASTER-00 and canonical dispatch entrypoint with independent any-order bootstrap, G-09 global coordination lane and resume",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Canonical prompt entry contract and global G-09 lane",
+          "evidence_requirement": "Read-back of MASTER-00 and dispatch protocol with exact SHAs plus cross-EXP global-lane fixtures",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S3_ALL_SPECIALISTS",
+          "title": "Update all 17 specialist prompts with consistent scope, operation, resume and fallback instructions",
+          "required": true,
+          "weight": 1,
+          "expected_output": "17 consistent but scope-specific standalone prompts",
+          "evidence_requirement": "Per-file diff/read-back matrix and prompt-contract tests",
+          "estimate_minutes": 5
+        },
+        {
+          "step_id": "S4_N_WORKER_SAFETY",
+          "title": "Prove N-worker safety, stable-ID and semantic deduplication, allocator contention, global-lane fallback, interruption and stale-token invariants",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Deterministic N-worker selection/claim simulation, durable inbox replay test and duplicate-detection matrix",
+          "evidence_requirement": "Passing N=2,5,10,25 concurrency tests plus 25+ durable /farast comments across Issues, pending-run replacement, scheduled reconciliation, exactly-once response markers, shared/disjoint resources, same stable ID and semantic-overlap fixtures (including #14 vs #66); delayed/no-response command is not re-submitted while pending, and duplicate comments/replays cannot create duplicate active leases",
+          "estimate_minutes": 5
+        },
+        {
+          "step_id": "S5_BUNDLE_AND_CI",
+          "title": "Regenerate aggregate bundle and enforce prompt parity and operation-scope contracts in CI",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Synchronized bundle and passing CI assertions",
+          "evidence_requirement": "Exact bundle parity test and Actions run",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S6_VERIFY_AND_HANDOFF",
+          "title": "Run exact-head full CI, read back every artifact and document real E2E limitations",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Review-ready PR and evidence matrix",
+          "evidence_requirement": "PR URL, head SHA, Actions run, file read-back and checkpoint",
+          "estimate_minutes": 2
+        }
+      ],
+      "acceptance_criteria": [
+        {
+          "criterion_id": "AC_ANY_ORDER",
+          "title": "Each of the 17 prompts can be used first and independently bootstraps the same state without chronological prerequisite assumptions",
+          "evidence_requirement": "Static prompt contract tests and per-prompt read-back"
+        },
+        {
+          "criterion_id": "AC_ANY_CHAT_COUNT",
+          "title": "The same prompt works across N already-open chats through atomic claims and durable command-inbox replay",
+          "evidence_requirement": "N=2,5,10,25 contention tests plus simulated replaced issue_comment runs and scheduled inbox reconciliation; prove each command is processed once, each response marker appears once, shared-task contention has one winner, disjoint work eventually progresses, and commit-before-response crashes recover idempotently"
+        },
+        {
+          "criterion_id": "AC_GLOBAL_G09",
+          "title": "Every specialist prompt can access global G-09 coordination tasks outside its local EXP scope and fall back safely",
+          "evidence_requirement": "Cross-scope selection tests for PR-02/EXP-02, PR-16/EXP-22-23 and PR-17/EXP-26 against G-09 allocator/coordination Work Items"
+        },
+        {
+          "criterion_id": "AC_OPERATION_SCOPE",
+          "title": "All new Work Items use explicit versioned operations; only exact legacy allowlist exceptions remain safe",
+          "evidence_requirement": "Prompt/schema examples use operation_scope_version 1.0 and requested_operations; exact Issue #64 legacy ID/target allowlist is read back and tested; every non-allowlisted missing/malformed WRITE_ALLOWED scope is rejected"
+        },
+        {
+          "criterion_id": "AC_RESUME_FALLBACK",
+          "title": "Blocked/leased/invalid candidates are skipped safely; interruption resumes the same stable Work Item with fresh run/token",
+          "evidence_requirement": "Interruption resumes the same stable Work Item from verified checkpoint with a fresh RUN_ID/token; blocked/leased/invalid candidates are skipped; delayed/replaced workflow runs are reconciled from the durable inbox without reposting duplicate commands; a duplicate/replayed command cannot create a second active lease or duplicate side effect"
+        },
+        {
+          "criterion_id": "AC_BUNDLE_PARITY",
+          "title": "All 18 canonical prompt sources, catalog, dispatch docs and aggregate bundle are consistent and CI-enforced",
+          "evidence_requirement": "Exact source-to-bundle parity test and full CI"
+        },
+        {
+          "criterion_id": "AC_TRUTHFUL_LIMITS",
+          "title": "No claim of real multi-account E2E, auto-spawning or background execution is made without direct evidence",
+          "evidence_requirement": "Readiness report clearly distinguishes simulation from independent-account E2E"
+        },
+        {
+          "criterion_id": "AC_SEMANTIC_DEDUP",
+          "title": "Allocator prevents semantic duplicate Work Items even when stable IDs differ, preserving the canonical EXP-02 backup task",
+          "evidence_requirement": "Regression fixture compares Issue #14 WI-EXP02-BACKUP-RESTORE-001 with canonical Issue #66 WI-EXP02-BACKUP-RECOVERY-001; proves #66 remains the sole active backup/restore task, #14 is marked superseded while its audit history is preserved, and no duplicate gate/task is created"
+        }
+      ],
+      "deliverables": [
+        {
+          "deliverable_id": "D1",
+          "description": "Shared prompt-entry and operation-scope contract",
+          "evidence_requirement": "Canonical documentation and schema mapping"
+        },
+        {
+          "deliverable_id": "D2",
+          "description": "Updated MASTER-00 and all 17 specialist prompts",
+          "evidence_requirement": "Per-file SHA/read-back matrix"
+        },
+        {
+          "deliverable_id": "D3",
+          "description": "Synchronized bundle/catalog/readiness and CI contract tests",
+          "evidence_requirement": "Bundle parity and CI evidence"
+        },
+        {
+          "deliverable_id": "D4",
+          "description": "N-worker simulation regression suite",
+          "evidence_requirement": "Named passing tests at N=2,5,10,25"
+        },
+        {
+          "deliverable_id": "D5",
+          "description": "Evidence-backed readiness and limitations report",
+          "evidence_requirement": "GitHub report with exact run and account/session evidence boundaries"
+        }
+      ],
+      "priority": 10,
+      "created_at_utc": "2026-11-17T11:08:00Z"
     },
     "69": {
       "schema_version": "1.0",
