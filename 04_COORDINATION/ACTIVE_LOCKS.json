@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1267,
+  "revision": 1268,
   "next_fencing_token": 102,
   "locks": [
     {
@@ -10917,6 +10917,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-17T17:10:21.569Z"
+    },
+    "6955212305": {
+      "response": "معیار پذیرش ثبت شد: AC_ACCEPTANCE; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; can_accept=true.",
+      "response_posted": false,
+      "issue_number": 34,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-17T17:10:27.856Z"
     }
   },
   "work_items": {
@@ -11701,7 +11710,7 @@
       "parent_exp_ids": [
         "EXP-22"
       ],
-      "status": "IN_PROGRESS",
+      "status": "REVIEW_REQUIRED",
       "target_repository": "a4adelahmadian86-wq/non",
       "resource_keys": [
         "analysis:exp-22"
@@ -11864,11 +11873,14 @@
           "criterion_id": "AC_ACCEPTANCE",
           "title": "approval معتبر؛ همه gateها evidence-backed؛ branch/base قابل اثبات؛ هیچ write بدون مجوز.",
           "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion.",
-          "validation_status": "BLOCKED",
+          "validation_status": "PASS",
           "evidence_refs": [
-            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/52"
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/34#issuecomment-6955179200",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/33#issuecomment-6955124843",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/51",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/52#issuecomment-6925084491"
           ],
-          "validated_at_utc": "2026-11-16T17:19:46.029Z",
+          "validated_at_utc": "2026-11-17T17:10:27.855Z",
           "validated_by": "a4adelahmadian86-wq",
           "validation_note": ""
         }
