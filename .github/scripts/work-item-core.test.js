@@ -727,7 +727,7 @@ test('high-risk EXP-02 operation gates reference the canonical backup-recovery W
 });
 test('legacy READ_ONLY and proposal-only Work Items remain schema-compatible without operation scope',()=>{
  const schema=require('../../04_COORDINATION/WORK_ITEM_SCHEMA.json');
- const legacyIds=["WI-GOAL-ALLOCATOR-001","WI-NON-IMPLEMENTATION-VERTICAL-SLICE-001","WI-NON-WRITE-POLICY-COORDINATOR-001","WI-PR16-SPEC-REPAIR-001","WI-OPERATION-GATE-MODEL-001","WI-READONLY-EVIDENCE-ACCEPTANCE-001","WI-CI-001"];
+ const legacyIds=["WI-GOAL-ALLOCATOR-001","WI-NON-IMPLEMENTATION-VERTICAL-SLICE-001","WI-NON-WRITE-POLICY-COORDINATOR-001","WI-PR16-SPEC-REPAIR-001","WI-OPERATION-GATE-MODEL-001","WI-CI-001","WI-READONLY-EVIDENCE-ACCEPTANCE-001"];
  const writeScopeRule=schema.allOf.find(rule=>rule.if?.properties?.write_policy?.const==='WRITE_ALLOWED' && rule.then?.required?.includes('operation_scope_version'));
  assert.ok(writeScopeRule);
  assert.equal(schema.required.includes('operation_scope_version'),false);
