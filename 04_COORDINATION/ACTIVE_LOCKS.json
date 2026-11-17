@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 990,
+  "revision": 991,
   "next_fencing_token": 93,
   "locks": [
     {
@@ -8591,6 +8591,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-17T11:18:16.531Z"
+    },
+    "6946535415": {
+      "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-GOAL-ALLOCATOR-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=Created and read back Issues #67 (prompt operation-scope and N-chat dispatch), #68 (legacy WRITE_ALLOWED operation-scope migration), and #69 (central malformed-lease fail-closed fix). #67/#68 depend on Issue #64; #69 is independent and ready. Release allocator lease after checkpoint read-back.; remaining_steps=.",
+      "response_posted": false,
+      "issue_number": 11,
+      "actor": "a4adelahmadian86-wq",
+      "command": "checkpoint",
+      "next_status": null,
+      "at_utc": "2026-11-17T11:19:07.733Z"
     }
   },
   "work_items": {
@@ -11339,9 +11348,9 @@
     },
     "11": {
       "work_item_id": "WI-GOAL-ALLOCATOR-001",
-      "run_id": "RUN-20261117-READINESS-ALLOC-001",
+      "run_id": "RUN-20261117-LEASE-HARDEN-ALLOC-001",
       "checkpoint_version": 1,
-      "created_at_utc": "2026-11-17T11:11:02.211Z",
+      "created_at_utc": "2026-11-17T11:19:07.729Z",
       "last_verified_step_id": "S5_RELEASE",
       "current_step_id": "S5_RELEASE",
       "completed_step_ids": [
@@ -11376,10 +11385,10 @@
       "owner": {
         "actor": "a4adelahmadian86-wq",
         "chat_id": "CHAT-AUTONOMY-READINESS-20261117",
-        "fencing_token": 91,
-        "lease_expires_at_utc": "2026-11-17T11:39:58.589Z"
+        "fencing_token": 92,
+        "lease_expires_at_utc": "2026-11-17T11:48:16.525Z"
       },
-      "next_action": "Issue #67 WI-PROMPT-OPERATION-SCOPE-001 created and read back; it is BLOCKED on Issue #64 and has explicit operation_scope_version/requested_operations plus N-worker test requirements. Release allocator lease after checkpoint read-back."
+      "next_action": "Created and read back Issues #67 (prompt operation-scope and N-chat dispatch), #68 (legacy WRITE_ALLOWED operation-scope migration), and #69 (central malformed-lease fail-closed fix). #67/#68 depend on Issue #64; #69 is independent and ready. Release allocator lease after checkpoint read-back."
     },
     "13": {
       "work_item_id": "WI-EXP01-BASELINE-001",
