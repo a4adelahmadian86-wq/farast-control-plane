@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1150,
+  "revision": 1151,
   "next_fencing_token": 97,
   "locks": [
     {
@@ -10029,6 +10029,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-17T16:27:05.658Z"
+    },
+    "6954008722": {
+      "response": "STEP ثبت شد: S5_COMPATIBILITY_CI; EXECUTION_PROGRESS=85.71%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=6/7.",
+      "response_posted": false,
+      "issue_number": 64,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-17T16:27:12.902Z"
     }
   },
   "work_items": {
@@ -12727,7 +12736,16 @@
           "weight": 1,
           "expected_output": "Compatibility matrix and all required exact-head checks passing",
           "evidence_requirement": "Issue read-backs, Actions URL and exact head SHA",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44125092422",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/74/commits/aef41cf36e9a9754a26319a24b6d13bfe0db190d",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/62"
+          ],
+          "validated_at_utc": "2026-11-17T16:27:12.902Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Exact PR head passed all Control Plane Validation jobs; READ_ONLY acceptance task #62 is already accepted and compatibility tests pass."
         },
         {
           "step_id": "S6_HANDOFF",
