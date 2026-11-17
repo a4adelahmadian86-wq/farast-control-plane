@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 654,
+  "revision": 655,
   "next_fencing_token": 78,
   "locks": [
     {
@@ -5818,6 +5818,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-17T09:13:15.242Z"
+    },
+    "6943757631": {
+      "response": "معیار پذیرش ثبت شد: AC_REFRESH_GATES; ACCEPTANCE_PROGRESS=60%; OVERALL_COMPLETION=60%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 59,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-17T09:13:22.548Z"
     }
   },
   "work_items": {
@@ -7901,7 +7910,16 @@
         {
           "criterion_id": "AC_REFRESH_GATES",
           "title": "Refresh cannot mark a hard-gate-blocked item READY; unresolved gates fail closed and soft inputs never block READY",
-          "evidence_requirement": "Positive and negative automated tests for accepted, blocked, unresolved and soft-only dependencies"
+          "evidence_requirement": "Positive and negative automated tests for accepted, blocked, unresolved and soft-only dependencies",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-59-RUN-20261117-ORDER-DEPENDENCY-REPAIR-002/.github/workflows/farast-coordinator.yml",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-59-RUN-20261117-ORDER-DEPENDENCY-REPAIR-002/.github/scripts/work-item-core.js",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44053069096"
+          ],
+          "validated_at_utc": "2026-11-17T09:13:22.548Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_SYNC",
