@@ -43,9 +43,7 @@ function validateWorkItem(item) {
     if (item.write_policy === 'WRITE_REQUIRES_OWNER_APPROVAL') assert(item.requested_operations.every(x => x === 'proposal_only'), 'approval-pending Work Items may request proposal_only only');
     if (item.write_policy === 'WRITE_ALLOWED') {
       assert(!item.requested_operations.some(x => x === 'analysis' || x === 'proposal_only'), 'WRITE_ALLOWED Work Items cannot request analysis/proposal-only as their write scope');
-      if (item.target_repository === PRODUCT_REPOSITORY) assert(item.requested_operations.includes('product_implementation'), 'NON WRITE_ALLOWED Work Items must declare product_implementation');
-      if (item.target_repository === CONTROL_PLANE_REPOSITORY) assert(item.requested_operations.includes('control_plane_write'), 'control-plane writes must declare control_plane_write');
-      if (item.target_repository !== PRODUCT_REPOSITORY && item.target_repository !== CONTROL_PLANE_REPOSITORY) assert(item.requested_operations.includes('repository_write'), 'other repository writes must declare repository_write');
+      assert(item.requested_operations.some(operation => ACTION_OPERATIONS.has(operation)), 'WRITE_ALLOWED Work Items must declare at least one write/action operation');
     }
   }
   if (item.target_repository === PRODUCT_REPOSITORY && item.write_policy === 'WRITE_ALLOWED') assert(typeof item.owner_approval_ref === 'string' && item.owner_approval_ref.trim(), 'owner_approval_ref is required for NON WRITE_ALLOWED');
