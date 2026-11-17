@@ -215,7 +215,7 @@ function defaultRequestedOperations(item) {
   if (Array.isArray(item?.requested_operations)) return item.requested_operations;
   if (item?.write_policy === 'READ_ONLY') return ['analysis'];
   if (item?.write_policy === 'WRITE_REQUIRES_OWNER_APPROVAL') return ['proposal_only'];
-  if (item?.target_repository === PRODUCT_REPOSITORY) return ['product_implementation'];
+  if (item?.target_repository === PRODUCT_REPOSITORY) return [];
   if (item?.target_repository === CONTROL_PLANE_REPOSITORY) return ['control_plane_write'];
   return ['repository_write'];
 }
@@ -251,6 +251,7 @@ function validateDependencyGraph(graph) {
 function evaluateOperationGates(item, graph, workItems = [], options = {}) {
   const requested = options.requestedOperations || defaultRequestedOperations(item);
   const blockers = [];
+  if (!Array.isArray(requested) || requested.length === 0) blockers.push('requested_operations_required_for_product_write');
   for (const operation of requested) {
     if (!ALL_OPERATIONS.has(operation)) { blockers.push('unknown_requested_operation:' + operation); continue; }
     if (BASE_OPERATIONS.has(operation)) continue;
@@ -261,6 +262,7 @@ function evaluateOperationGates(item, graph, workItems = [], options = {}) {
     if (!repoApplies || !expApplies) continue;
     if (gate.owner_authorization_required && (item.write_policy !== 'WRITE_ALLOWED' || !String(item.owner_approval_ref || '').trim())) blockers.push('owner_authorization_required:' + operation);
     for (const id of gate.required_work_item_ids) {
+      if (id === item.work_item_id) { blockers.push('operation_prerequisite_self_reference:' + operation + ':' + id); continue; }
       const matches = workItems.filter(x => x.work_item_id === id);
       if (matches.length !== 1) blockers.push((matches.length ? 'ambiguous' : 'missing') + '_operation_prerequisite:' + operation + ':' + id);
       else if (matches[0].status !== 'ACCEPTED') blockers.push('operation_prerequisite_not_accepted:' + operation + ':' + id + ':' + matches[0].status);
