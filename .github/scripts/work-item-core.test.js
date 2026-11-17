@@ -544,6 +544,17 @@ test('operation scope version and requested operations are a symmetric pair',()=
  assert.throws(()=>wi.validateWorkItem(item({operation_scope_version:'1.0'})),/must be supplied together/);
  assert.equal(wi.validateWorkItem(item({operation_scope_version:'1.0',requested_operations:['analysis']})),true);
 });
+test('Work Item refresh preserves accepted terminal status while deriving non-terminal status from progress',()=>{
+ const complete={can_accept:true,verified_steps:8};
+ assert.equal(wi.refreshedStatus('ACCEPTED',complete,true),'ACCEPTED');
+ assert.equal(wi.refreshedStatus('REJECTED',complete,true),'REJECTED');
+ assert.equal(wi.refreshedStatus('CANCELLED',complete,true),'CANCELLED');
+ assert.equal(wi.refreshedStatus('CLAIMED',complete,true),'REVIEW_REQUIRED');
+ assert.equal(wi.refreshedStatus('IN_PROGRESS',{can_accept:false,verified_steps:2},true),'IN_PROGRESS');
+ assert.equal(wi.refreshedStatus('READY',{can_accept:false,verified_steps:0},true),'READY');
+ assert.equal(wi.refreshedStatus('READY',complete,false),'BLOCKED');
+});
+
 test('legacy bootstrap Work Items receive only exact enumerated operation scopes',()=>{
  const x=item({work_item_id:'WI-PR16-SPEC-REPAIR-001',target_repository:'a4adelahmadian86-wq/farast-control-plane',write_policy:'WRITE_ALLOWED'});
  const allocator=item({work_item_id:'WI-GOAL-ALLOCATOR-001',target_repository:'a4adelahmadian86-wq/farast-control-plane',write_policy:'WRITE_ALLOWED'});
