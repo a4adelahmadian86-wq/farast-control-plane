@@ -565,6 +565,20 @@ test('branchless control-plane acceptance requires evidence, no active lease and
  assert.ok(wi.evaluateBranchlessMetadataAcceptance(x,{issueNumber:58,hasActiveLease:true,hardGatesReady:true,reviewEvent:review}).blockers.includes('active_lease'));
  assert.ok(wi.evaluateBranchlessMetadataAcceptance(x,{issueNumber:58,hasActiveLease:false,hardGatesReady:true,reviewEvent:{...review,branch:'work/not-allowed'}}).blockers.includes('branchless_metadata_handoff_must_not_have_branch'));
 });
+test('durable coordinator inbox skips processed commands before re-fetching the Issue',()=>{
+ const fs=require('node:fs'), path=require('node:path');
+ const workflow=fs.readFileSync(path.join(__dirname,'../workflows/farast-coordinator.yml'),'utf8');
+ const start=workflow.indexOf('for (const comment of comments)');
+ const end=workflow.indexOf('const current = snapshot.state.locks.filter',start);
+ assert.ok(start>=0 && end>start);
+ const loop=workflow.slice(start,end);
+ const processed=loop.indexOf('if (snapshot.state.processed_operations?.[operationId]) continue;');
+ const handle=loop.indexOf('snapshot = await handleCommand(issue, comment, snapshot);');
+ const refetch=loop.indexOf('issue = (await github.rest.issues.get');
+ assert.ok(processed>=0 && processed<handle && handle<refetch);
+ assert.match(loop,/claim\\|heartbeat\\|release\\|status/);
+});
+
 test('coordinator registry persistence verifies exact commit read-back and guards missing operation records',()=>{
  const fs=require('node:fs'), path=require('node:path');
  const workflow=fs.readFileSync(path.join(__dirname,'../workflows/farast-coordinator.yml'),'utf8');
