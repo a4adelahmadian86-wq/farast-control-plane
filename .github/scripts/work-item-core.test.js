@@ -772,7 +772,9 @@ test('known EXP-02 backup alias resolves Issue 14 to canonical Issue 66 without 
     issue_number:66,
     work_item_id:'WI-EXP02-BACKUP-RECOVERY-001',
     canonical_work_item_id:'WI-EXP02-BACKUP-RECOVERY-001',
-    reason:'explicit_canonical_alias'
+    reason:'explicit_canonical_alias',
+    status:'SUPERSEDED',
+    superseded:true
   }]);
   assert.deepEqual(wi.findDuplicateWorkItemIdIssues(14, legacy, [{ ...canonical, number:66 }], []), [66]);
   assert.deepEqual(wi.findDuplicateWorkItemIdIssues(66, canonical, [{ ...legacy, number:14 }], []), []);
