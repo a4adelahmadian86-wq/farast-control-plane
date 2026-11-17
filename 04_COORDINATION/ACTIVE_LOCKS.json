@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 752,
+  "revision": 753,
   "next_fencing_token": 82,
   "locks": [
     {
@@ -6441,6 +6441,15 @@
       "command": "progress",
       "next_status": null,
       "at_utc": "2026-11-17T09:46:45.067Z"
+    },
+    "6944494521": {
+      "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-EXP01-BASELINE-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=READ_ONLY baseline is fully evidenced (7/7 steps, 5/5 criteria, JSON valid). Coordinator currently moves it to REVIEW_REQUIRED but accept path demands a merged PR and branch-bound REVIEW event, impossible under this READ_ONLY claim (branch=none). After WI-READONLY-EVIDENCE-ACCEPTANCE-001 in Issue #62 is implemented, merged and tested, start a fresh RUN_ID, claim Issue #13, re-read the evidence and complete machine-only acceptance without any NON write.; remaining_steps=.",
+      "response_posted": false,
+      "issue_number": 13,
+      "actor": "a4adelahmadian86-wq",
+      "command": "checkpoint",
+      "next_status": null,
+      "at_utc": "2026-11-17T09:47:17.977Z"
     }
   },
   "work_items": {
@@ -8789,6 +8798,54 @@
         "lease_expires_at_utc": "2026-11-14T17:54:45.317Z"
       },
       "next_action": "Release allocator lease with /farast release; preserve WORK_ITEM_ID and resume S5_RELEASE on the next allocator run"
+    },
+    "13": {
+      "work_item_id": "WI-EXP01-BASELINE-001",
+      "run_id": "RUN-20261117-PR01-BASELINE-001",
+      "checkpoint_version": 1,
+      "created_at_utc": "2026-11-17T09:47:17.850Z",
+      "last_verified_step_id": "S6_VERIFY",
+      "current_step_id": "S6_VERIFY",
+      "completed_step_ids": [
+        "S0_SCOPE",
+        "S1_DISCOVER",
+        "S2_ENVIRONMENT",
+        "S3_VALIDATE",
+        "S4_RISK_REGISTER",
+        "S5_REPORT",
+        "S6_VERIFY"
+      ],
+      "remaining_step_ids": [],
+      "progress_percentage": 100,
+      "execution_progress_percentage": 100,
+      "acceptance_progress_percentage": 100,
+      "overall_completion_percentage": 100,
+      "progress_calculation_version": "PROGRESS_V2",
+      "required_step_counts": {
+        "pass": 7,
+        "fail": 0,
+        "blocked": 0,
+        "unknown": 0,
+        "not_run": 0
+      },
+      "acceptance_criteria_counts": {
+        "pass": 5,
+        "fail": 0,
+        "blocked": 0,
+        "unknown": 0,
+        "not_run": 0
+      },
+      "evidence_refs": [
+        "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/13#issuecomment-6944359408"
+      ],
+      "blockers": [],
+      "owner": {
+        "actor": "a4adelahmadian86-wq",
+        "chat_id": "CHAT-PR01-BASELINE-20261117",
+        "fencing_token": 81,
+        "lease_expires_at_utc": "2026-11-17T10:03:33.852Z"
+      },
+      "next_action": "READ_ONLY baseline is fully evidenced (7/7 steps, 5/5 criteria, JSON valid). Coordinator currently moves it to REVIEW_REQUIRED but accept path demands a merged PR and branch-bound REVIEW event, impossible under this READ_ONLY claim (branch=none). After WI-READONLY-EVIDENCE-ACCEPTANCE-001 in Issue #62 is implemented, merged and tested, start a fresh RUN_ID, claim Issue #13, re-read the evidence and complete machine-only acceptance without any NON write."
     },
     "34": {
       "work_item_id": "WI-EXP22-CONTROLLED-IMPLEMENTATION-001",
