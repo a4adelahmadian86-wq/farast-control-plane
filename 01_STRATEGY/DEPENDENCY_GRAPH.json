@@ -1,33 +1,467 @@
 {
-  "version": "1.0",
-  "policy": "EXP and PR identifiers are stable identifiers, not a mandatory chronological execution order. Dependencies below are gates only where explicitly listed.",
+  "version": "2.0",
+  "policy": "Cross-EXP hard_gates contain only EXP IDs. Action gates are evaluated only for explicitly requested operations, scoped to the target repository and every declared parent EXP. READ_ONLY discovery and proposal work do not inherit later write/release gates. Unknown operations and missing prerequisites fail closed.",
   "nodes": [
-    {"id":"EXP-01","hard_gates":[],"soft_inputs":["EXP-03","EXP-10","EXP-22"]},
-    {"id":"EXP-02","hard_gates":["destructive-data-change","EXP-26"],"soft_inputs":["EXP-17"]},
-    {"id":"EXP-03","hard_gates":[],"soft_inputs":["EXP-04","EXP-07"]},
-    {"id":"EXP-04","hard_gates":[],"soft_inputs":["EXP-05","EXP-20"]},
-    {"id":"EXP-05","hard_gates":[],"soft_inputs":["EXP-06","EXP-24"]},
-    {"id":"EXP-06","hard_gates":["EXP-22"],"soft_inputs":["EXP-07"]},
-    {"id":"EXP-07","hard_gates":[],"soft_inputs":["EXP-20"]},
-    {"id":"EXP-08","hard_gates":[],"soft_inputs":["EXP-15","EXP-23"]},
-    {"id":"EXP-09","hard_gates":[],"soft_inputs":["EXP-15","EXP-23"]},
-    {"id":"EXP-10","hard_gates":["EXP-22"],"soft_inputs":["EXP-11","EXP-15"]},
-    {"id":"EXP-11","hard_gates":["database-migration"],"soft_inputs":["EXP-10"]},
-    {"id":"EXP-12","hard_gates":["authorization-change"],"soft_inputs":["EXP-13"]},
-    {"id":"EXP-13","hard_gates":["security-sensitive-change"],"soft_inputs":["EXP-14"]},
-    {"id":"EXP-14","hard_gates":["audit-log-change"],"soft_inputs":["EXP-13"]},
-    {"id":"EXP-15","hard_gates":["architecture-implementation"],"soft_inputs":["EXP-08","EXP-09","EXP-10","EXP-11","EXP-12","EXP-13","EXP-16"]},
-    {"id":"EXP-16","hard_gates":["hosting-specific-deployment"],"soft_inputs":["EXP-17","EXP-18"]},
-    {"id":"EXP-17","hard_gates":["destructive-data-change","production-release"],"soft_inputs":["EXP-02"]},
-    {"id":"EXP-18","hard_gates":["production-release"],"soft_inputs":["EXP-16","EXP-17"]},
-    {"id":"EXP-19","hard_gates":["legal-policy-change"],"soft_inputs":["EXP-13","EXP-14"]},
-    {"id":"EXP-20","hard_gates":[],"soft_inputs":["EXP-07","EXP-15"]},
-    {"id":"EXP-21","hard_gates":["implementation"],"soft_inputs":["EXP-20"]},
-    {"id":"EXP-22","hard_gates":["implementation"],"soft_inputs":["EXP-01","EXP-02","EXP-21"]},
-    {"id":"EXP-23","hard_gates":["merge"],"soft_inputs":["EXP-22"]},
-    {"id":"EXP-24","hard_gates":["acceptance"],"soft_inputs":["EXP-05","EXP-06","EXP-23"]},
-    {"id":"EXP-25","hard_gates":["security-acceptance"],"soft_inputs":["EXP-13","EXP-14","EXP-23"]},
-    {"id":"EXP-26","hard_gates":["production-release"],"soft_inputs":["EXP-17","EXP-18","EXP-23","EXP-24","EXP-25"]},
-    {"id":"EXP-27","hard_gates":[],"soft_inputs":["EXP-26"]}
+    {
+      "id": "EXP-01",
+      "hard_gates": [],
+      "soft_inputs": [
+        "EXP-03",
+        "EXP-10",
+        "EXP-22"
+      ]
+    },
+    {
+      "id": "EXP-02",
+      "hard_gates": [],
+      "soft_inputs": [
+        "EXP-17",
+        "EXP-26"
+      ]
+    },
+    {
+      "id": "EXP-03",
+      "hard_gates": [],
+      "soft_inputs": [
+        "EXP-04",
+        "EXP-07"
+      ]
+    },
+    {
+      "id": "EXP-04",
+      "hard_gates": [],
+      "soft_inputs": [
+        "EXP-05",
+        "EXP-20"
+      ]
+    },
+    {
+      "id": "EXP-05",
+      "hard_gates": [],
+      "soft_inputs": [
+        "EXP-06",
+        "EXP-24"
+      ]
+    },
+    {
+      "id": "EXP-06",
+      "hard_gates": [],
+      "soft_inputs": [
+        "EXP-07",
+        "EXP-22"
+      ]
+    },
+    {
+      "id": "EXP-07",
+      "hard_gates": [],
+      "soft_inputs": [
+        "EXP-20"
+      ]
+    },
+    {
+      "id": "EXP-08",
+      "hard_gates": [],
+      "soft_inputs": [
+        "EXP-15",
+        "EXP-23"
+      ]
+    },
+    {
+      "id": "EXP-09",
+      "hard_gates": [],
+      "soft_inputs": [
+        "EXP-15",
+        "EXP-23"
+      ]
+    },
+    {
+      "id": "EXP-10",
+      "hard_gates": [],
+      "soft_inputs": [
+        "EXP-11",
+        "EXP-15",
+        "EXP-22"
+      ]
+    },
+    {
+      "id": "EXP-11",
+      "hard_gates": [],
+      "soft_inputs": [
+        "EXP-10"
+      ]
+    },
+    {
+      "id": "EXP-12",
+      "hard_gates": [],
+      "soft_inputs": [
+        "EXP-13"
+      ]
+    },
+    {
+      "id": "EXP-13",
+      "hard_gates": [],
+      "soft_inputs": [
+        "EXP-14"
+      ]
+    },
+    {
+      "id": "EXP-14",
+      "hard_gates": [],
+      "soft_inputs": [
+        "EXP-13"
+      ]
+    },
+    {
+      "id": "EXP-15",
+      "hard_gates": [],
+      "soft_inputs": [
+        "EXP-08",
+        "EXP-09",
+        "EXP-10",
+        "EXP-11",
+        "EXP-12",
+        "EXP-13",
+        "EXP-16"
+      ]
+    },
+    {
+      "id": "EXP-16",
+      "hard_gates": [],
+      "soft_inputs": [
+        "EXP-17",
+        "EXP-18"
+      ]
+    },
+    {
+      "id": "EXP-17",
+      "hard_gates": [],
+      "soft_inputs": [
+        "EXP-02"
+      ]
+    },
+    {
+      "id": "EXP-18",
+      "hard_gates": [],
+      "soft_inputs": [
+        "EXP-16",
+        "EXP-17"
+      ]
+    },
+    {
+      "id": "EXP-19",
+      "hard_gates": [],
+      "soft_inputs": [
+        "EXP-13",
+        "EXP-14"
+      ]
+    },
+    {
+      "id": "EXP-20",
+      "hard_gates": [],
+      "soft_inputs": [
+        "EXP-07",
+        "EXP-15"
+      ]
+    },
+    {
+      "id": "EXP-21",
+      "hard_gates": [],
+      "soft_inputs": [
+        "EXP-20"
+      ]
+    },
+    {
+      "id": "EXP-22",
+      "hard_gates": [],
+      "soft_inputs": [
+        "EXP-01",
+        "EXP-02",
+        "EXP-21"
+      ]
+    },
+    {
+      "id": "EXP-23",
+      "hard_gates": [],
+      "soft_inputs": [
+        "EXP-22"
+      ]
+    },
+    {
+      "id": "EXP-24",
+      "hard_gates": [],
+      "soft_inputs": [
+        "EXP-05",
+        "EXP-06",
+        "EXP-23"
+      ]
+    },
+    {
+      "id": "EXP-25",
+      "hard_gates": [],
+      "soft_inputs": [
+        "EXP-13",
+        "EXP-14",
+        "EXP-23"
+      ]
+    },
+    {
+      "id": "EXP-26",
+      "hard_gates": [],
+      "soft_inputs": [
+        "EXP-17",
+        "EXP-18",
+        "EXP-23",
+        "EXP-24",
+        "EXP-25"
+      ]
+    },
+    {
+      "id": "EXP-27",
+      "hard_gates": [],
+      "soft_inputs": [
+        "EXP-26"
+      ]
+    }
+  ],
+  "operation_gates": [
+    {
+      "id": "product_implementation",
+      "source_gate_ids": [
+        "implementation"
+      ],
+      "applies_to_exp_ids": [
+        "EXP-22"
+      ],
+      "applies_to_target_repositories": [
+        "a4adelahmadian86-wq/non"
+      ],
+      "required_work_item_ids": [
+        "WI-EXP21-CHANGE-PACKAGE-001",
+        "WI-EXP22-CONTROLLED-IMPLEMENTATION-001",
+        "WI-EXP23-REGRESSION-001"
+      ],
+      "owner_authorization_required": true,
+      "evidence_requirements": [
+        "Owner-created exact WRITE_ALLOWED Issue; accepted change package, controlled implementation readiness and regression evidence; bounded reversible code-only scope."
+      ]
+    },
+    {
+      "id": "destructive_data_change",
+      "source_gate_ids": [
+        "destructive-data-change"
+      ],
+      "applies_to_target_repositories": [
+        "a4adelahmadian86-wq/non"
+      ],
+      "required_work_item_ids": [
+        "WI-EXP02-BACKUP-RESTORE-001"
+      ],
+      "owner_authorization_required": true,
+      "evidence_requirements": [
+        "Accepted backup integrity and restore readiness evidence, verified rollback, exact destructive scope and owner authorization."
+      ]
+    },
+    {
+      "id": "database_migration",
+      "source_gate_ids": [
+        "database-migration"
+      ],
+      "applies_to_target_repositories": [
+        "a4adelahmadian86-wq/non"
+      ],
+      "required_work_item_ids": [
+        "WI-EXP11-DATA-MIGRATION-001",
+        "WI-EXP02-BACKUP-RESTORE-001"
+      ],
+      "owner_authorization_required": true,
+      "evidence_requirements": [
+        "Accepted data model/migration safety and backup/restore evidence; compatibility and rollback plan; owner authorization."
+      ]
+    },
+    {
+      "id": "authorization_change",
+      "source_gate_ids": [
+        "authorization-change"
+      ],
+      "applies_to_target_repositories": [
+        "a4adelahmadian86-wq/non"
+      ],
+      "required_work_item_ids": [
+        "WI-EXP12-IDENTITY-PERMISSION-001"
+      ],
+      "owner_authorization_required": true,
+      "evidence_requirements": [
+        "Accepted identity/permission and server-side authorization assessment; negative tests and owner authorization."
+      ]
+    },
+    {
+      "id": "security_sensitive_change",
+      "source_gate_ids": [
+        "security-sensitive-change"
+      ],
+      "applies_to_target_repositories": [
+        "a4adelahmadian86-wq/non"
+      ],
+      "required_work_item_ids": [
+        "WI-EXP13-SECURITY-PRIVACY-001",
+        "WI-EXP14-AUDIT-EVIDENCE-001"
+      ],
+      "owner_authorization_required": true,
+      "evidence_requirements": [
+        "Accepted security/privacy threat assessment and audit-integrity evidence; scoped retest plan and owner authorization."
+      ]
+    },
+    {
+      "id": "audit_log_change",
+      "source_gate_ids": [
+        "audit-log-change"
+      ],
+      "applies_to_target_repositories": [
+        "a4adelahmadian86-wq/non"
+      ],
+      "required_work_item_ids": [
+        "WI-EXP14-AUDIT-EVIDENCE-001"
+      ],
+      "owner_authorization_required": true,
+      "evidence_requirements": [
+        "Accepted audit event coverage and evidence-integrity assessment; append-only/tamper controls and owner authorization."
+      ]
+    },
+    {
+      "id": "architecture_implementation",
+      "source_gate_ids": [
+        "architecture-implementation"
+      ],
+      "applies_to_target_repositories": [
+        "a4adelahmadian86-wq/non"
+      ],
+      "required_work_item_ids": [
+        "WI-EXP15-TARGET-ARCHITECTURE-001"
+      ],
+      "owner_authorization_required": true,
+      "evidence_requirements": [
+        "Accepted target-architecture options and owner decision/authorization; migration and rollback path."
+      ]
+    },
+    {
+      "id": "hosting_deployment",
+      "source_gate_ids": [
+        "hosting-specific-deployment"
+      ],
+      "applies_to_target_repositories": [
+        "a4adelahmadian86-wq/non"
+      ],
+      "required_work_item_ids": [
+        "WI-EXP16-HOSTING-FEASIBILITY-001",
+        "WI-EXP17-OPERATIONS-DR-001",
+        "WI-EXP18-LOW-DISRUPTION-RELEASE-001"
+      ],
+      "owner_authorization_required": true,
+      "evidence_requirements": [
+        "Accepted hosting feasibility, operations/DR and low-disruption release evidence; explicit target environment and rollback; owner authorization."
+      ]
+    },
+    {
+      "id": "legal_policy_change",
+      "source_gate_ids": [
+        "legal-policy-change"
+      ],
+      "applies_to_target_repositories": [
+        "a4adelahmadian86-wq/non"
+      ],
+      "required_work_item_ids": [
+        "WI-EXP19-GOVERNANCE-LEGAL-001"
+      ],
+      "owner_authorization_required": true,
+      "evidence_requirements": [
+        "Accepted governance/legal issue inventory and explicit owner decision; qualified legal advice remains UNKNOWN until obtained."
+      ]
+    },
+    {
+      "id": "merge",
+      "source_gate_ids": [
+        "merge"
+      ],
+      "applies_to_exp_ids": [
+        "EXP-22",
+        "EXP-23"
+      ],
+      "applies_to_target_repositories": [
+        "a4adelahmadian86-wq/non"
+      ],
+      "required_work_item_ids": [
+        "WI-EXP22-CONTROLLED-IMPLEMENTATION-001",
+        "WI-EXP23-REGRESSION-001"
+      ],
+      "owner_authorization_required": true,
+      "evidence_requirements": [
+        "Accepted implementation readiness and regression evidence; exact-head successful checks and branch-bound handoff; no second human reviewer."
+      ]
+    },
+    {
+      "id": "acceptance",
+      "source_gate_ids": [
+        "acceptance"
+      ],
+      "applies_to_exp_ids": [
+        "EXP-24"
+      ],
+      "applies_to_target_repositories": [
+        "a4adelahmadian86-wq/non"
+      ],
+      "required_work_item_ids": [
+        "WI-EXP23-REGRESSION-001"
+      ],
+      "owner_authorization_required": true,
+      "evidence_requirements": [
+        "Accepted regression evidence and product acceptance criteria; environment and test evidence; acceptance is distinct from Work Item machine acceptance."
+      ]
+    },
+    {
+      "id": "security_acceptance",
+      "source_gate_ids": [
+        "security-acceptance"
+      ],
+      "applies_to_exp_ids": [
+        "EXP-25"
+      ],
+      "applies_to_target_repositories": [
+        "a4adelahmadian86-wq/non"
+      ],
+      "required_work_item_ids": [
+        "WI-EXP13-SECURITY-PRIVACY-001",
+        "WI-EXP14-AUDIT-EVIDENCE-001",
+        "WI-EXP23-REGRESSION-001"
+      ],
+      "owner_authorization_required": true,
+      "evidence_requirements": [
+        "Accepted security/privacy, audit integrity and regression evidence; all critical findings resolved or explicitly owner-accepted."
+      ]
+    },
+    {
+      "id": "production_release",
+      "source_gate_ids": [
+        "production-release"
+      ],
+      "applies_to_exp_ids": [
+        "EXP-26"
+      ],
+      "applies_to_target_repositories": [
+        "a4adelahmadian86-wq/non"
+      ],
+      "required_work_item_ids": [
+        "WI-EXP02-BACKUP-RESTORE-001",
+        "WI-EXP17-OPERATIONS-DR-001",
+        "WI-EXP18-LOW-DISRUPTION-RELEASE-001",
+        "WI-EXP23-REGRESSION-001",
+        "WI-EXP24-PRODUCT-ACCEPTANCE-001",
+        "WI-EXP25-SECURITY-RESILIENCE-001",
+        "WI-EXP26-CONTROLLED-RELEASE-001"
+      ],
+      "owner_authorization_required": true,
+      "evidence_requirements": [
+        "Accepted backup/DR, release/rollback, regression, product acceptance, security acceptance and release-readiness evidence; explicit owner go/no-go."
+      ]
+    }
   ]
 }
