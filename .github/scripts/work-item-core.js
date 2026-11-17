@@ -267,7 +267,7 @@ const SEMANTIC_STOPWORDS = new Set(['a','an','and','or','the','for','to','of','i
 
 function semanticTokens(value) {
   return [...new Set(String(value || '').toLowerCase().normalize('NFKD')
-    .replace(/[^a-z0-9]+/g, ' ').trim().split(/\\s+/)
+    .replace(/[^a-z0-9]+/g, ' ').trim().split(/\s+/)
     .filter(token => token.length > 1 && !SEMANTIC_STOPWORDS.has(token)))];
 }
 
@@ -320,7 +320,7 @@ function findSemanticDuplicateWorkItems(candidate, records = []) {
     if (SEMANTIC_CANONICAL_ALIASES[recordId] === candidateId) continue;
     const sharedExp = intersection(candidate.parent_exp_ids, record.parent_exp_ids);
     const sharedGoals = intersection(candidate.parent_goal_ids, record.parent_goal_ids);
-    const sharedResources = intersection(candidate.resource_keys, record.resource_keys, value => String(value).trim().toLowerCase().replace(/\\\\/g, '/'));
+    const sharedResources = intersection(candidate.resource_keys, record.resource_keys, value => String(value).trim().toLowerCase().replace(/\\/g, '/'));
     const leftDeliverables = (candidate.deliverables || []).map(item => item.deliverable_id || item.description);
     const rightDeliverables = (record.deliverables || []).map(item => item.deliverable_id || item.description);
     const sharedDeliverables = intersection(leftDeliverables, rightDeliverables, value => String(value).trim().toLowerCase());
