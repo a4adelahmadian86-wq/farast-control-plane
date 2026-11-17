@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 682,
+  "revision": 683,
   "next_fencing_token": 80,
   "locks": [
     {
@@ -6243,6 +6243,15 @@
       "command": "progress",
       "next_status": null,
       "at_utc": "2026-11-17T09:25:50.277Z"
+    },
+    "6944027597": {
+      "response": "STEP ثبت شد: S6_STACK_AND_HANDOFF; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; verified_steps=7/7.",
+      "response_posted": false,
+      "issue_number": 59,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-17T09:26:44.961Z"
     }
   },
   "work_items": {
@@ -8301,7 +8310,19 @@
           "weight": 1,
           "expected_output": "Safe non-overlapping PR stack or merged result with exact evidence",
           "evidence_requirement": "PR URLs, branch lineage, exact-head CI, automated acceptance result and checkpoint read-back",
-          "estimate_minutes": 2
+          "estimate_minutes": 2,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/08_REPORTS/PROMPT_ORDER_DEPENDENCY_REPAIR.md",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/61",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/f040479ca4219ff9e203c79253d27315e68d5131",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44054960206",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/42",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/45"
+          ],
+          "validated_at_utc": "2026-11-17T09:26:44.807Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "acceptance_criteria": [
