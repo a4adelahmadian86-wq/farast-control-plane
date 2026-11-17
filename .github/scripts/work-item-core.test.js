@@ -255,3 +255,8 @@ test('Work Item selection applies canonical hard gates when a dependency graph i
  const selected=wi.selectNextWorkItem([baseline,later],{nowMs:Date.parse('2026-01-01T01:00:00Z'),dependencyGraph:graph});
  assert.equal(selected.work_item_id,baseline.work_item_id);
 });
+
+test('primary EXP scope uses the first explicitly ordered parent EXP for cross-cutting Work Items',()=>{
+ const x=item({work_item_id:'WI-CROSS-CUTTING-001',parent_exp_ids:['EXP-01','EXP-22','EXP-23']});
+ assert.equal(wi.primaryExpId(x),'EXP-01');
+});

@@ -199,7 +199,7 @@ function primaryExpId(item) {
   const match = /^WI-EXP([0-9]{2})-/i.exec(String(item?.work_item_id || ''));
   if (match) return 'EXP-' + match[1];
   const parentExpIds = [...new Set((item?.parent_exp_ids || []).map(String))];
-  return parentExpIds.length === 1 ? parentExpIds[0] : null;
+  return parentExpIds[0] || null;
 }
 
 function evaluateHardGates(item, graph, workItems = []) {
