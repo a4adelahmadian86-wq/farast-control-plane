@@ -106,7 +106,7 @@ jobs:
           PY
           python - <<'PY'
           import json
-          from jsonschema import Draft202012Validator, FormatChecker
+          from jsonschema import Draft202012Validator, FormatChecker, ValidationError
           from pathlib import Path
           dependency_graph = json.loads(Path("01_STRATEGY/DEPENDENCY_GRAPH.json").read_text(encoding="utf-8"))
           dependency_graph_schema = json.loads(Path("01_STRATEGY/DEPENDENCY_GRAPH.schema.json").read_text(encoding="utf-8"))
@@ -130,6 +130,21 @@ jobs:
           work_item_sample = {"schema_version":"1.0","write_policy":"READ_ONLY","priority_source":"DEFAULT_POLICY","work_item_id":"WI-CI-001","title":"CI work item","parent_goal_ids":["G-09"],"parent_exp_ids":["EXP-01"],"status":"READY","target_repository":"owner/repo","resource_keys":["module:ci"],"dependencies":[],"steps":[{"step_id":"S1","title":"Inspect"}],"acceptance_criteria":[{"criterion_id":"AC1","title":"Evidence exists"}],"priority":50,"created_at_utc":"2026-11-14T00:00:00Z"}
           work_item_checkpoint_sample = {"work_item_id":"WI-CI-001","run_id":"RUN-CI-001","checkpoint_version":1,"created_at_utc":"2026-11-14T00:00:00Z","last_verified_step_id":None,"current_step_id":"S1","completed_step_ids":[],"remaining_step_ids":["S1"],"progress_percentage":0,"evidence_refs":[],"blockers":[],"owner":{"actor":"ci","chat_id":"ci-chat","fencing_token":1,"lease_expires_at_utc":"2026-11-14T01:00:00Z"},"next_action":"inspect"}
           Draft202012Validator(work_item_schema, format_checker=FormatChecker()).validate(work_item_sample)
+          non_write_missing_approval = {**work_item_sample, "target_repository":"a4adelahmadian86-wq/non", "write_policy":"WRITE_ALLOWED"}
+          try:
+            Draft202012Validator(work_item_schema, format_checker=FormatChecker()).validate(non_write_missing_approval)
+            raise AssertionError("NON WRITE_ALLOWED schema must require owner_approval_ref")
+          except ValidationError:
+            pass
+          non_write_approved = {**non_write_missing_approval, "owner_approval_ref":"https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/51"}
+          Draft202012Validator(work_item_schema, format_checker=FormatChecker()).validate(non_write_approved)
+          versioned_scope = {**work_item_sample, "operation_scope_version":"1.0", "requested_operations":["analysis"]}
+          Draft202012Validator(work_item_schema, format_checker=FormatChecker()).validate(versioned_scope)
+          try:
+            Draft202012Validator(work_item_schema, format_checker=FormatChecker()).validate({**work_item_sample, "operation_scope_version":"1.0"})
+            raise AssertionError("versioned operation scope must require requested_operations")
+          except ValidationError:
+            pass
           deep_sample = {**work_item_sample,
             "effort_estimate_minutes":25,
             "effort_rationale":"Focused 25-minute discovery and verification task.",
