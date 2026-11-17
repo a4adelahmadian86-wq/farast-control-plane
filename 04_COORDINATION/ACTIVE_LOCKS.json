@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1059,
+  "revision": 1060,
   "next_fencing_token": 96,
   "locks": [
     {
@@ -9381,6 +9381,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-17T12:28:50.409Z"
+    },
+    "6948045860": {
+      "response": "STEP ثبت شد: S4_REGRESSION; EXECUTION_PROGRESS=71.42%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=5/7.",
+      "response_posted": false,
+      "issue_number": 69,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-17T12:28:58.709Z"
     }
   },
   "work_items": {
@@ -12118,7 +12127,7 @@
         "EXP-01",
         "EXP-26"
       ],
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "module:coordinator-lease-safety",
@@ -12211,7 +12220,14 @@
           "weight": 1,
           "expected_output": "Complete lease expiry regression suite",
           "evidence_requirement": "Named tests for every central path",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/569bfc16d8721a0a6247063312467aad19d5870d"
+          ],
+          "validated_at_utc": "2026-11-17T12:28:58.708Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S5_CONCURRENCY",
