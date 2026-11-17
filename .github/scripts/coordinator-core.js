@@ -212,7 +212,7 @@ function hasSuccessfulChecks(checkRuns, combinedStatus) {
     statusChecksPassed;
 }
 
-const FARAST_COMMAND_RE = /^\\s*\\/farast\\s+(claim|heartbeat|release|status|progress|step|criterion|checkpoint|block|unblock|review|reopen|accept|refresh)\\b/i;
+const FARAST_COMMAND_RE = /^\s*\/farast\s+(claim|heartbeat|release|status|progress|step|criterion|checkpoint|block|unblock|review|reopen|accept|refresh)\b/i;
 
 function pendingCommandComments(comments, processedOperations = {}) {
   const seen = new Set();
