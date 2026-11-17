@@ -1,8 +1,73 @@
 {
   "schema_version": "1.0",
-  "revision": 800,
-  "next_fencing_token": 84,
-  "locks": [],
+  "revision": 801,
+  "next_fencing_token": 85,
+  "locks": [
+    {
+      "resource_key": "file:.github/scripts/work-item-core.js",
+      "issue_number": 62,
+      "task_id": "GH-62",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-READONLY-HANDOFF-20261117",
+      "chat_id": "CHAT-READONLY-HANDOFF-20261117",
+      "run_id": "RUN-20261117-READONLY-ACCEPTANCE-HANDOFF-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-62-RUN-20261117-READONLY-ACCEPTANCE-HANDOFF-001",
+      "acquired_at_utc": "2026-11-17T10:04:13.220Z",
+      "heartbeat_at_utc": "2026-11-17T10:04:13.220Z",
+      "lease_expires_at_utc": "2026-11-17T10:34:13.220Z",
+      "fencing_token": 84,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "file:.github/scripts/work-item-core.test.js",
+      "issue_number": 62,
+      "task_id": "GH-62",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-READONLY-HANDOFF-20261117",
+      "chat_id": "CHAT-READONLY-HANDOFF-20261117",
+      "run_id": "RUN-20261117-READONLY-ACCEPTANCE-HANDOFF-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-62-RUN-20261117-READONLY-ACCEPTANCE-HANDOFF-001",
+      "acquired_at_utc": "2026-11-17T10:04:13.220Z",
+      "heartbeat_at_utc": "2026-11-17T10:04:13.220Z",
+      "lease_expires_at_utc": "2026-11-17T10:34:13.220Z",
+      "fencing_token": 84,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "file:.github/workflows/farast-coordinator.yml",
+      "issue_number": 62,
+      "task_id": "GH-62",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-READONLY-HANDOFF-20261117",
+      "chat_id": "CHAT-READONLY-HANDOFF-20261117",
+      "run_id": "RUN-20261117-READONLY-ACCEPTANCE-HANDOFF-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-62-RUN-20261117-READONLY-ACCEPTANCE-HANDOFF-001",
+      "acquired_at_utc": "2026-11-17T10:04:13.220Z",
+      "heartbeat_at_utc": "2026-11-17T10:04:13.220Z",
+      "lease_expires_at_utc": "2026-11-17T10:34:13.220Z",
+      "fencing_token": 84,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "module:readonly-evidence-acceptance",
+      "issue_number": 62,
+      "task_id": "GH-62",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-READONLY-HANDOFF-20261117",
+      "chat_id": "CHAT-READONLY-HANDOFF-20261117",
+      "run_id": "RUN-20261117-READONLY-ACCEPTANCE-HANDOFF-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-62-RUN-20261117-READONLY-ACCEPTANCE-HANDOFF-001",
+      "acquired_at_utc": "2026-11-17T10:04:13.220Z",
+      "heartbeat_at_utc": "2026-11-17T10:04:13.220Z",
+      "lease_expires_at_utc": "2026-11-17T10:34:13.220Z",
+      "fencing_token": 84,
+      "status": "ACTIVE"
+    }
+  ],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -3269,6 +3334,26 @@
       "branch": "work/GH-11-RUN-20261117-OPERATION-GATE-ALLOC-001",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "at_utc": "2026-11-17T10:02:19.551Z"
+    },
+    {
+      "event": "ACQUIRED",
+      "issue_number": 62,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-READONLY-HANDOFF-20261117",
+      "run_id": "RUN-20261117-READONLY-ACCEPTANCE-HANDOFF-001",
+      "resource_keys": [
+        "file:.github/scripts/work-item-core.js",
+        "file:.github/scripts/work-item-core.test.js",
+        "file:.github/workflows/farast-coordinator.yml",
+        "module:readonly-evidence-acceptance"
+      ],
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-62-RUN-20261117-READONLY-ACCEPTANCE-HANDOFF-001",
+      "previous_branch": "work/GH-62-RUN-20261117-READONLY-ACCEPTANCE-001",
+      "previous_target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "previous_run_id": "RUN-20261117-READONLY-ACCEPTANCE-001",
+      "fencing_token": 84,
+      "at_utc": "2026-11-17T10:04:13.220Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -6746,6 +6831,15 @@
       "command": "reopen",
       "next_status": "ready",
       "at_utc": "2026-11-17T10:03:40.470Z"
+    },
+    "6944868420": {
+      "response": "CLAIM GRANTED. TASK=GH-62; WORK_ITEM_ID=WI-READONLY-EVIDENCE-ACCEPTANCE-001; verified_steps=S0_REPRODUCE,S1_POLICY,S2_IMPLEMENT,S3_REGRESSION,S4_COMPATIBILITY,S5_CI; remaining_steps=S6_HANDOFF; EXECUTION_PROGRESS=85.71%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=85.71%; actor=@a4adelahmadian86-wq; chat=CHAT-READONLY-HANDOFF-20261117; run=RUN-20261117-READONLY-ACCEPTANCE-HANDOFF-001; resource_keys=file:.github/scripts/work-item-core.js,file:.github/scripts/work-item-core.test.js,file:.github/workflows/farast-coordinator.yml,module:readonly-evidence-acceptance; target_repository=a4adelahmadian86-wq/farast-control-plane; write_policy=WRITE_ALLOWED; branch=work/GH-62-RUN-20261117-READONLY-ACCEPTANCE-HANDOFF-001; previous_run=RUN-20261117-READONLY-ACCEPTANCE-001; previous_target_repository=a4adelahmadian86-wq/farast-control-plane; previous_branch=work/GH-62-RUN-20261117-READONLY-ACCEPTANCE-001; fencing_token=84; lease_expires=2026-11-17T10:34:13.220Z. این Work Item با سیاست WRITE_ALLOWED است؛ branch را فقط در target_repository ثبت‌شده بساز و قبل از هر write heartbeat/token را دوباره تأیید کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز و branch قبلی را تغییر نده.",
+      "response_posted": false,
+      "issue_number": 62,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "locked",
+      "at_utc": "2026-11-17T10:04:13.226Z"
     }
   },
   "work_items": {
@@ -9055,7 +9149,7 @@
         "EXP-24",
         "EXP-27"
       ],
-      "status": "READY",
+      "status": "CLAIMED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "file:.github/workflows/farast-coordinator.yml",
