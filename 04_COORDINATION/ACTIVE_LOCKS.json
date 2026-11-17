@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 824,
+  "revision": 825,
   "next_fencing_token": 86,
   "locks": [
     {
@@ -7015,6 +7015,15 @@
       "command": "progress",
       "next_status": null,
       "at_utc": "2026-11-17T10:12:50.358Z"
+    },
+    "6945076027": {
+      "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-READONLY-EVIDENCE-ACCEPTANCE-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=Release this lease with /farast review, then run /farast accept pr=https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/65; after Issue #62 is ACCEPTED, claim Issue #64 WI-OPERATION-GATE-MODEL-001 once its dependency is satisfied.; remaining_steps=.",
+      "response_posted": false,
+      "issue_number": 62,
+      "actor": "a4adelahmadian86-wq",
+      "command": "checkpoint",
+      "next_status": null,
+      "at_utc": "2026-11-17T10:13:34.822Z"
     }
   },
   "work_items": {
@@ -9890,6 +9899,56 @@
         "lease_expires_at_utc": "2026-11-17T09:50:47.266Z"
       },
       "next_action": "Release"
+    },
+    "62": {
+      "work_item_id": "WI-READONLY-EVIDENCE-ACCEPTANCE-001",
+      "run_id": "RUN-20261117-READONLY-ACCEPTANCE-HANDOFF-001",
+      "checkpoint_version": 1,
+      "created_at_utc": "2026-11-17T10:13:34.568Z",
+      "last_verified_step_id": "S6_HANDOFF",
+      "current_step_id": "S6_HANDOFF",
+      "completed_step_ids": [
+        "S0_REPRODUCE",
+        "S1_POLICY",
+        "S2_IMPLEMENT",
+        "S3_REGRESSION",
+        "S4_COMPATIBILITY",
+        "S5_CI",
+        "S6_HANDOFF"
+      ],
+      "remaining_step_ids": [],
+      "progress_percentage": 100,
+      "execution_progress_percentage": 100,
+      "acceptance_progress_percentage": 100,
+      "overall_completion_percentage": 100,
+      "progress_calculation_version": "PROGRESS_V2",
+      "required_step_counts": {
+        "pass": 7,
+        "fail": 0,
+        "blocked": 0,
+        "unknown": 0,
+        "not_run": 0
+      },
+      "acceptance_criteria_counts": {
+        "pass": 5,
+        "fail": 0,
+        "blocked": 0,
+        "unknown": 0,
+        "not_run": 0
+      },
+      "evidence_refs": [
+        "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/65",
+        "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44061778145",
+        "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/13#issuecomment-6945025049"
+      ],
+      "blockers": [],
+      "owner": {
+        "actor": "a4adelahmadian86-wq",
+        "chat_id": "CHAT-READONLY-HANDOFF-20261117",
+        "fencing_token": 84,
+        "lease_expires_at_utc": "2026-11-17T10:41:36.290Z"
+      },
+      "next_action": "Release this lease with /farast review, then run /farast accept pr=https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/65; after Issue #62 is ACCEPTED, claim Issue #64 WI-OPERATION-GATE-MODEL-001 once its dependency is satisfied."
     }
   }
 }
