@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 916,
+  "revision": 917,
   "next_fencing_token": 89,
   "locks": [
     {
@@ -14,8 +14,8 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "branch": "work/GH-64-RUN-20261117-OPGATE-RESUME-001",
       "acquired_at_utc": "2026-11-17T10:23:16.642Z",
-      "heartbeat_at_utc": "2026-11-17T10:34:31.182Z",
-      "lease_expires_at_utc": "2026-11-17T11:04:31.182Z",
+      "heartbeat_at_utc": "2026-11-17T10:35:02.942Z",
+      "lease_expires_at_utc": "2026-11-17T11:05:02.942Z",
       "fencing_token": 88,
       "status": "ACTIVE"
     },
@@ -30,8 +30,8 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "branch": "work/GH-64-RUN-20261117-OPGATE-RESUME-001",
       "acquired_at_utc": "2026-11-17T10:23:16.642Z",
-      "heartbeat_at_utc": "2026-11-17T10:34:31.182Z",
-      "lease_expires_at_utc": "2026-11-17T11:04:31.182Z",
+      "heartbeat_at_utc": "2026-11-17T10:35:02.942Z",
+      "lease_expires_at_utc": "2026-11-17T11:05:02.942Z",
       "fencing_token": 88,
       "status": "ACTIVE"
     },
@@ -46,8 +46,8 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "branch": "work/GH-64-RUN-20261117-OPGATE-RESUME-001",
       "acquired_at_utc": "2026-11-17T10:23:16.642Z",
-      "heartbeat_at_utc": "2026-11-17T10:34:31.182Z",
-      "lease_expires_at_utc": "2026-11-17T11:04:31.182Z",
+      "heartbeat_at_utc": "2026-11-17T10:35:02.942Z",
+      "lease_expires_at_utc": "2026-11-17T11:05:02.942Z",
       "fencing_token": 88,
       "status": "ACTIVE"
     },
@@ -62,8 +62,8 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "branch": "work/GH-64-RUN-20261117-OPGATE-RESUME-001",
       "acquired_at_utc": "2026-11-17T10:23:16.642Z",
-      "heartbeat_at_utc": "2026-11-17T10:34:31.182Z",
-      "lease_expires_at_utc": "2026-11-17T11:04:31.182Z",
+      "heartbeat_at_utc": "2026-11-17T10:35:02.942Z",
+      "lease_expires_at_utc": "2026-11-17T11:05:02.942Z",
       "fencing_token": 88,
       "status": "ACTIVE"
     },
@@ -78,8 +78,8 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "branch": "work/GH-64-RUN-20261117-OPGATE-RESUME-001",
       "acquired_at_utc": "2026-11-17T10:23:16.642Z",
-      "heartbeat_at_utc": "2026-11-17T10:34:31.182Z",
-      "lease_expires_at_utc": "2026-11-17T11:04:31.182Z",
+      "heartbeat_at_utc": "2026-11-17T10:35:02.942Z",
+      "lease_expires_at_utc": "2026-11-17T11:05:02.942Z",
       "fencing_token": 88,
       "status": "ACTIVE"
     },
@@ -94,8 +94,8 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "branch": "work/GH-64-RUN-20261117-OPGATE-RESUME-001",
       "acquired_at_utc": "2026-11-17T10:23:16.642Z",
-      "heartbeat_at_utc": "2026-11-17T10:34:31.182Z",
-      "lease_expires_at_utc": "2026-11-17T11:04:31.182Z",
+      "heartbeat_at_utc": "2026-11-17T10:35:02.942Z",
+      "lease_expires_at_utc": "2026-11-17T11:05:02.942Z",
       "fencing_token": 88,
       "status": "ACTIVE"
     }
@@ -3880,6 +3880,18 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "lease_expires_at_utc": "2026-11-17T11:04:31.182Z",
       "at_utc": "2026-11-17T10:34:31.182Z"
+    },
+    {
+      "event": "HEARTBEAT",
+      "issue_number": 64,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-PR16-OPGATE-RESUME",
+      "run_id": "RUN-20261117-OPGATE-RESUME-001",
+      "fencing_token": 88,
+      "branch": "work/GH-64-RUN-20261117-OPGATE-RESUME-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "lease_expires_at_utc": "2026-11-17T11:05:02.942Z",
+      "at_utc": "2026-11-17T10:35:02.942Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -7879,6 +7891,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-17T10:34:31.351Z"
+    },
+    "6945568663": {
+      "response": "Lease تمدید شد تا 2026-11-17T11:05:02.942Z UTC؛ fencing_token=88.",
+      "response_posted": false,
+      "issue_number": 64,
+      "actor": "a4adelahmadian86-wq",
+      "command": "heartbeat",
+      "next_status": null,
+      "at_utc": "2026-11-17T10:35:02.957Z"
     }
   },
   "work_items": {
