@@ -563,7 +563,7 @@ jobs:
               if (nextStatus) await setStatus(issue.number, nextStatus);
               if (command === 'reopen' && nextStatus === 'ready') await github.rest.issues.update({ owner, repo, issue_number: issue.number, state: 'open', state_reason: 'reopened' });
               if (nextStatus === 'done') await github.rest.issues.update({ owner, repo, issue_number: issue.number, state: 'closed', state_reason: 'completed' });
-              const marker = '<!-- FARAST_OP_RESPONSE:' + id + ' -->';
+              const marker = coordinatorCore.responseMarker(id);
               const comments = await github.paginate(github.rest.issues.listComments, { owner, repo, issue_number: issue.number, per_page: 100 });
               if (!comments.some(c => c.body.includes(marker))) await publish(issue.number, response + '\n\n' + marker);
               const latest = updated?.state;
@@ -631,23 +631,17 @@ jobs:
                 }
               }
               // Recover responses that were committed but not posted before an interruption.
-              for (const [id, op] of Object.entries(snapshot.state.processed_operations || {})) {
-                if (op.issue_number !== issue.number || op.response_posted) continue;
+              for (const [id, op] of coordinatorCore.pendingResponseOperations(snapshot.state.processed_operations, issue.number)) {
                 if (op.next_status) await setStatus(issue.number, op.next_status);
                 if (op.next_status === 'done' && issue.state !== 'closed') await github.rest.issues.update({ owner, repo, issue_number: issue.number, state: 'closed', state_reason: 'completed' });
-                const marker = '<!-- FARAST_OP_RESPONSE:' + id + ' -->';
+                const marker = coordinatorCore.responseMarker(id);
                 if (!comments.some(c => c.body.includes(marker))) await publish(issue.number, op.response + '\n\n' + marker);
                 snapshot.state.processed_operations[id].response_posted = true;
                 snapshot = await saveRegistry(snapshot.state, snapshot, 'FARAST coordinator: recover response ' + id);
               }
-              for (const comment of comments) {
-                if (!/^\s*\/farast\s+(claim|heartbeat|release|status|progress|step|criterion|checkpoint|block|unblock|review|reopen|accept|refresh)\b/i.test(comment.body || '')) continue;
+              for (const comment of coordinatorCore.pendingCommandComments(comments, snapshot.state.processed_operations)) {
                 const operationId = String(comment.id);
-                // The durable inbox is replayed on every event. Once an operation's
-                // response is durably recorded (and recovered above if needed), do not
-                // re-fetch the Issue for historical commands. This keeps multi-chat
-                // inbox processing bounded as command history grows.
-                if (snapshot.state.processed_operations?.[operationId]) continue;
+                // The durable inbox helper deduplicates comment IDs and excludes committed operations.
                 snapshot = await handleCommand(issue, comment, snapshot);
                 issue = (await github.rest.issues.get({ owner, repo, issue_number: issue.number })).data;
               }
