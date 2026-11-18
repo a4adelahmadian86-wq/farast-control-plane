@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1798,
+  "revision": 1799,
   "next_fencing_token": 119,
   "locks": [
     {
@@ -15912,6 +15912,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-18T06:09:04.139Z"
+    },
+    "6970651089": {
+      "response": "STEP ثبت شد: S3_REGRESSION; EXECUTION_PROGRESS=57.14%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=4/7.",
+      "response_posted": false,
+      "issue_number": 84,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-18T06:09:11.855Z"
     }
   },
   "work_items": {
@@ -20535,7 +20544,15 @@
           "weight": 1,
           "expected_output": "Focused tests for false positives and true duplicates",
           "evidence_requirement": "Named Node test results",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/8bb4d4099a9f859673826f0ba34b869af7f5ab5f",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-84-RUN-20261118-SEMANTIC-DEDUP-002/.github/scripts/work-item-core.test.js"
+          ],
+          "validated_at_utc": "2026-11-18T06:09:11.855Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Added regression coverage for independent Work Items reusing D1-D4, description-only overlap, meaningful description corroboration, and preserved existing shared-resource/title and canonical alias tests."
         },
         {
           "step_id": "S4_VALIDATE",
