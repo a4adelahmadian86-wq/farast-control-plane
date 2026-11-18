@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2016,
+  "revision": 2017,
   "next_fencing_token": 124,
   "locks": [
     {
@@ -17475,6 +17475,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-18T06:36:19.037Z"
+    },
+    "6971128267": {
+      "response": "معیار پذیرش ثبت شد: AC_FORMAT; ACCEPTANCE_PROGRESS=60%; OVERALL_COMPLETION=60%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 81,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-18T06:36:37.865Z"
     }
   },
   "work_items": {
@@ -22107,7 +22116,16 @@
         {
           "criterion_id": "AC_FORMAT",
           "title": "A canonical format contract documents the heading/fence boundary and safe layout",
-          "evidence_requirement": "Committed Markdown contract and CI validation"
+          "evidence_requirement": "Committed Markdown contract and CI validation",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-81-RUN-20261118-ISSUE-SPEC-REPAIR-004/04_COORDINATION/WORK_ITEM_SPEC_FORMAT.md",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/88",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/.github/workflows/farast-coordinator.yml"
+          ],
+          "validated_at_utc": "2026-11-18T06:36:37.865Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_CLAIM",
