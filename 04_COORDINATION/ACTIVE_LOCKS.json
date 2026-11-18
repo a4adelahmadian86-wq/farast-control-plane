@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "revision": 2659,
-  "next_fencing_token": 148,
+  "revision": 2660,
+  "next_fencing_token": 149,
   "locks": [
     {
       "resource_key": "doc:execution_start_guide_fa.md",
@@ -17,6 +17,22 @@
       "heartbeat_at_utc": "2026-11-18T17:18:04.068Z",
       "lease_expires_at_utc": "2026-11-18T17:48:04.068Z",
       "fencing_token": 147,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "repo:non:controlled-implementation",
+      "issue_number": 51,
+      "task_id": "GH-51",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-PR16-FINAL-REVIEW-20261118",
+      "chat_id": "CHAT-PR16-FINAL-REVIEW-20261118",
+      "run_id": "RUN-PR16-FINAL-REVIEW-20261118-001",
+      "target_repository": "a4adelahmadian86-wq/non",
+      "branch": "work/GH-51-RUN-PR16-FINAL-REVIEW-20261118-001",
+      "acquired_at_utc": "2026-11-18T17:23:35.865Z",
+      "heartbeat_at_utc": "2026-11-18T17:23:35.865Z",
+      "lease_expires_at_utc": "2026-11-18T17:53:35.865Z",
+      "fencing_token": 148,
       "status": "ACTIVE"
     }
   ],
@@ -11078,6 +11094,23 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "lease_expires_at_utc": "2026-11-18T17:48:04.068Z",
       "at_utc": "2026-11-18T17:18:04.068Z"
+    },
+    {
+      "event": "ACQUIRED",
+      "issue_number": 51,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-PR16-FINAL-REVIEW-20261118",
+      "run_id": "RUN-PR16-FINAL-REVIEW-20261118-001",
+      "resource_keys": [
+        "repo:non:controlled-implementation"
+      ],
+      "target_repository": "a4adelahmadian86-wq/non",
+      "branch": "work/GH-51-RUN-PR16-FINAL-REVIEW-20261118-001",
+      "previous_branch": "work/GH-51-RUN-PR16-GATE-SYNC-20261118-001",
+      "previous_target_repository": "a4adelahmadian86-wq/non",
+      "previous_run_id": "RUN-PR16-GATE-SYNC-20261118-001",
+      "fencing_token": 148,
+      "at_utc": "2026-11-18T17:23:35.865Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -22281,6 +22314,15 @@
       "command": "refresh",
       "next_status": null,
       "at_utc": "2026-11-18T17:18:48.171Z"
+    },
+    "6985987578": {
+      "response": "CLAIM GRANTED. TASK=GH-51; WORK_ITEM_ID=WI-NON-IMPLEMENTATION-VERTICAL-SLICE-001; verified_steps=S0_AUTH_GATE,S1_PRODUCT_BASELINE,S2_SELECT_SLICE,S3_IMPLEMENT_CODE,S4_REGRESSION_TEST,S5_QUALITY_ROLLBACK,S6_PR_HANDOFF; remaining_steps=; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; actor=@a4adelahmadian86-wq; chat=CHAT-PR16-FINAL-REVIEW-20261118; run=RUN-PR16-FINAL-REVIEW-20261118-001; resource_keys=repo:non:controlled-implementation; target_repository=a4adelahmadian86-wq/non; write_policy=WRITE_ALLOWED; branch=work/GH-51-RUN-PR16-FINAL-REVIEW-20261118-001; previous_run=RUN-PR16-GATE-SYNC-20261118-001; previous_target_repository=a4adelahmadian86-wq/non; previous_branch=work/GH-51-RUN-PR16-GATE-SYNC-20261118-001; fencing_token=148; lease_expires=2026-11-18T17:53:35.865Z. این Work Item با سیاست WRITE_ALLOWED است؛ branch را فقط در target_repository ثبت‌شده بساز و قبل از هر write heartbeat/token را دوباره تأیید کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز و branch قبلی را تغییر نده.",
+      "response_posted": false,
+      "issue_number": 51,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "locked",
+      "at_utc": "2026-11-18T17:23:35.866Z"
     }
   },
   "work_items": {
@@ -24239,7 +24281,7 @@
         "EXP-22",
         "EXP-23"
       ],
-      "status": "READY",
+      "status": "CLAIMED",
       "target_repository": "a4adelahmadian86-wq/non",
       "resource_keys": [
         "repo:non:controlled-implementation"
