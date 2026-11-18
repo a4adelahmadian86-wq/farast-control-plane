@@ -579,6 +579,35 @@ test('branchless control-plane acceptance requires evidence, no active lease and
  assert.ok(wi.evaluateBranchlessMetadataAcceptance(x,{issueNumber:58,hasActiveLease:true,hardGatesReady:true,reviewEvent:review}).blockers.includes('active_lease'));
  assert.ok(wi.evaluateBranchlessMetadataAcceptance(x,{issueNumber:58,hasActiveLease:false,hardGatesReady:true,reviewEvent:{...review,branch:'work/not-allowed'}}).blockers.includes('branchless_metadata_handoff_must_not_have_branch'));
 });
+test('merged replacement PR lineage is accepted only when its merge commit is an ancestor of the target default branch', () => {
+  const mergeSha = 'a'.repeat(40);
+  const pr = {
+    state: 'closed',
+    merged: true,
+    merge_commit_sha: mergeSha,
+    base: { ref: 'main', repo: { full_name: 'owner/repo' } },
+    head: { ref: 'work/old-run', repo: { full_name: 'owner/repo' } }
+  };
+  const comparison = {
+    status: 'ahead',
+    ahead_by: 12,
+    behind_by: 0,
+    base_commit: { sha: mergeSha },
+    merge_base_commit: { sha: mergeSha }
+  };
+  assert.equal(wi.matchesMergedReplacementLineage(pr, 'owner/repo', 'main', comparison), true);
+  assert.equal(wi.matchesMergedReplacementLineage({ ...pr, state: 'open' }, 'owner/repo', 'main', comparison), false);
+  assert.equal(wi.matchesMergedReplacementLineage({ ...pr, merged: false }, 'owner/repo', 'main', comparison), false);
+  assert.equal(wi.matchesMergedReplacementLineage(pr, 'owner/other', 'main', comparison), false);
+  assert.equal(wi.matchesMergedReplacementLineage({ ...pr, base: { ...pr.base, repo: { full_name: 'owner/other' } } }, 'owner/repo', 'main', comparison), false);
+  assert.equal(wi.matchesMergedReplacementLineage({ ...pr, head: { ...pr.head, repo: { full_name: 'owner/fork' } } }, 'owner/repo', 'main', comparison), false);
+  assert.equal(wi.matchesMergedReplacementLineage(pr, 'owner/repo', 'develop', comparison), false);
+  assert.equal(wi.matchesMergedReplacementLineage(pr, 'owner/repo', 'main', { ...comparison, merge_base_commit: { sha: 'b'.repeat(40) } }), false);
+  assert.equal(wi.matchesMergedReplacementLineage(pr, 'owner/repo', 'main', { ...comparison, behind_by: 1 }), false);
+  assert.equal(wi.matchesMergedReplacementLineage(pr, 'owner/repo', 'main', { ...comparison, status: 'diverged' }), false);
+  assert.equal(wi.matchesMergedReplacementLineage({ ...pr, merge_commit_sha: null }, 'owner/repo', 'main', comparison), false);
+});
+
 test('durable coordinator inbox uses shared idempotent command and response-recovery helpers',()=>{
   const fs=require('node:fs'), path=require('node:path');
   const workflow=fs.readFileSync(path.join(__dirname,'../workflows/farast-coordinator.yml'),'utf8');
