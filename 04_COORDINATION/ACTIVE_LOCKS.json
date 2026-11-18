@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2101,
+  "revision": 2102,
   "next_fencing_token": 130,
   "locks": [
     {
@@ -18322,6 +18322,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-18T07:51:50.942Z"
+    },
+    "6972552890": {
+      "response": "STEP ثبت شد: S1_REPRODUCE_STARVATION; EXECUTION_PROGRESS=14.28%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=1/7.",
+      "response_posted": false,
+      "issue_number": 89,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-18T07:54:40.415Z"
     }
   },
   "work_items": {
@@ -23334,7 +23343,7 @@
         "EXP-01"
       ],
       "parent_work_item_id": "WI-GOAL-ALLOCATOR-001",
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "file:.github/workflows/control-plane-validation.yml",
@@ -23356,7 +23365,14 @@
           "weight": 1,
           "expected_output": "A time-ordered reproduction showing an Issue #67 command left pending while repeated Issue #68/#84 events replace queued runs; identify current-issue-only targeting and schedule recovery behavior.",
           "evidence_requirement": "Exact issue/comment IDs, workflow run IDs and conclusions, current workflow source lines, and registry processed_operations read-back.",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44260204860"
+          ],
+          "validated_at_utc": "2026-11-18T07:54:40.415Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S2_DESIGN_FAIR_INBOX",
