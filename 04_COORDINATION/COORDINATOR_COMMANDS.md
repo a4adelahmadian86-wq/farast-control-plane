@@ -10,6 +10,30 @@
 ## ساخت TASK
 Issue باید عنوان `[FARAST-TASK]` داشته باشد. فیلد Target repository باید به شکل owner/name تکمیل شود و بخش Resource keys کلیدهای canonical و جداشده با خط جدید داشته باشد. Claim بدون هرکدام رد می‌شود. اگر خالی باشد، Claim رد می‌شود؛ برای هر کار باید دست‌کم یک کلید دقیق ثبت شود. fallback به قفل Issueمحور مجاز نیست.
 
+### تخصیص Work Item و provenance
+- ساخت هر Work Item جدید فقط زیر lease فعال و انحصاری allocator ثابت Issue #11 / `WI-GOAL-ALLOCATOR-001` مجاز است؛ هیچ استثنای مستقیم برای OWNER وجود ندارد.
+- از این اصلاح به بعد، Issueهای جدید با شماره بزرگ‌تر از #90 باید در JSON دارای `allocation_provenance` باشند. Issueهای #1 تا #90 برای سازگاری legacy grandfathered هستند و retroactive block نمی‌شوند.
+- ساختار اجباری provenance برای Issueهای جدید:
+
+```json
+"allocation_provenance": {
+  "allocator_work_item_id": "WI-GOAL-ALLOCATOR-001",
+  "allocator_issue_number": 11,
+  "actor": "GITHUB_ACTOR",
+  "chat_id": "ACTIVE_ALLOCATOR_CHAT_ID",
+  "run_id": "ACTIVE_ALLOCATOR_RUN_ID",
+  "fencing_token": 123,
+  "branch": null,
+  "allocated_at_utc": "2026-11-18T12:00:00.000Z"
+}
+```
+
+- مقادیر actor/chat_id/run_id/fencing_token/branch باید دقیقاً از lock فعال `coordination:work-item-allocation` در Issue #11 خوانده شوند؛ مقدار حدسی یا کپی از اجرای قبلی پذیرفته نیست. `branch` شاخه allocator است و برای allocator شاخه‌ندار `null` می‌شود.
+- `allocated_at_utc` باید داخل بازه acquired/expiry همان lease و حداکثر با اختلاف پنج دقیقه از `issue.created_at` باشد.
+- برای کارهای جدید G-09 در مخزن کنترل‌پلین، `parent_cp_ids` باید جدا از `parent_exp_ids` در JSON و بخش متناظر Issue ثبت شود. این فیلد برای Work Itemهای legacy اختیاری می‌ماند.
+- Coordinator فقط پس از تطبیق provenance با lock زنده، رویداد ممیزی `WORK_ITEM_ALLOCATED` را در history ثبت و Issue را `agent:ready` می‌کند. provenance مفقود/منقضی/نامنطبق یعنی `agent:blocked` و claim ممنوع.
+- lease allocator را تا وقتی Issue جدید واقعاً پس از اعتبارسنجی به `agent:ready` تبدیل نشده آزاد نکن. اگر blocked شد، همان Issue را اصلاح و در lease معتبر دوباره اعتبارسنجی کن؛ Issue تکراری نساز.
+
 نمونه:
 ```text
 ### Resource keys
@@ -40,7 +64,7 @@ api-contract:payment-callback
 پاسخ موفق claim باید دقیقاً شامل عبارت **CLAIM GRANTED**، کلیدهای منبع، زمان پایان lease و fencing token باشد. بدون این پاسخ، claim موفق نیست.
 
 ## قواعد
-1. Claim همه RESOURCE_KEYهای Issue را یکجا می‌گیرد یا هیچ‌کدام را؛ هر Issue در هر لحظه فقط یک owner فعال دارد، حتی اگر دو worker منابع disjoint درخواست کنند. branch قبلی یک Issue نیز قابل استفاده مجدد نیست؛ برای هر RUN شناسه یکتا لازم است.
+1. Claim همه RESOURCE_KEYهای Issue را اتمیک می‌گیرد یا هیچ‌کدام را. هر `chat_id` در کل مخزن و میان همه Issueها فقط یک lease فعال می‌تواند داشته باشد؛ claim دوم همان chat حتی روی منابع disjoint رد می‌شود. چت‌های متفاوت می‌توانند منابع disjoint را هم‌زمان claim کنند؛ تعارض روی یک resource همچنان رد می‌شود. قفل فعال legacy فاقد `chat_id` نیز fail-closed است و تا پایان/رفع آن مانع claim جدید می‌شود. branch قبلی یک Issue قابل استفاده مجدد نیست؛ برای هر RUN شناسه یکتا لازم است.
 2. یک fencing token برای کل مجموعه منابع یک claim صادر می‌شود.
 3. lease پیش‌فرض ۳۰ دقیقه و بازه مجاز ۵ تا ۱۲۰ دقیقه است.
 4. heartbeat/release/block/review فقط با actor، chat، run و token منطبق مجاز است؛ accept پس از handoff و بدون Lease فعال اجرا می‌شود و گیت‌های ماشینی/branch lineage را بررسی می‌کند.
@@ -86,7 +110,7 @@ Coordinator فقط برای `write_policy=WRITE_ALLOWED` مقدار branch را 
 - `a4adelahmadian86-wq/non` به‌صورت پیش‌فرض READ_ONLY است. تنها `WRITE_ALLOWED` برای Issue ساخته‌شده توسط repository owner با `owner_approval_ref` دقیقاً برابر URL همان Issue و متن صریح تصمیم مالک پذیرفته می‌شود؛ این مجوز فقط همان Issue را پوشش می‌دهد.
 - priority=50 با `DEFAULT_POLICY` اولویت خنثی است؛ FIFO و aging tie-break می‌کنند. رتبه‌بندی اختصاصی فقط با `OWNER_ASSIGNED` ثبت شود.
 
-ساخت Work Item جدید فقط زیر قفل allocator با شناسه ثابت `WI-GOAL-ALLOCATOR-001` مجاز است. ابتدا Issueهای موجود و WORK_ITEM_IDها را جست‌وجو کن؛ سپس allocator را claim کن، leafهای جدید را با شناسه deterministic بساز و پس از read-back قفل را release کن. هیچ دو چتی نباید هم‌زمان pool را گسترش دهند.
+ساخت Work Item جدید فقط زیر قفل allocator با شناسه ثابت `WI-GOAL-ALLOCATOR-001` مجاز است. ابتدا Issueهای موجود و WORK_ITEM_IDها را جست‌وجو کن؛ سپس allocator را claim کن، leafهای جدید را با شناسه deterministic و allocation_provenance دقیق بساز، منتظر اعتبارسنجی زنده و label `agent:ready` بمان و فقط بعد از read-back آن قفل را release کن. هیچ دو چتی نباید هم‌زمان pool را گسترش دهند؛ OWNER نیز bypass ندارد.
 
 
 ## Refresh کردن مشخصات Work Item (فقط مالک)
