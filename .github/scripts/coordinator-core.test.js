@@ -700,3 +700,16 @@ test('Work Item acceptance progress is checked before any PR merge', () => {
   assert.ok(progress > start && progress < merge);
   assert.ok(rejection > progress && rejection < merge);
 });
+
+
+test('comment events process their Issue without sweeping the global inbox', () => {
+  const workflow = fs.readFileSync('.github/workflows/farast-coordinator.yml', 'utf8');
+  const sweepGuard = workflow.indexOf("const shouldSweepInbox = ['schedule','workflow_dispatch'].includes(context.eventName);");
+  const eventOnly = workflow.indexOf('if (eventIssue && !shouldSweepInbox)', sweepGuard);
+  const scheduledSweep = workflow.indexOf('else if (shouldSweepInbox)', sweepGuard);
+  const listIssues = workflow.indexOf('github.rest.issues.listForRepo', scheduledSweep);
+  assert.ok(sweepGuard >= 0);
+  assert.ok(eventOnly > sweepGuard && eventOnly < scheduledSweep);
+  assert.ok(scheduledSweep > eventOnly && listIssues > scheduledSweep);
+  assert.ok(workflow.includes('Leave the command in the durable inbox; the next scheduled sweep will retry it.'));
+});
