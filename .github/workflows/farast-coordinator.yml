@@ -781,23 +781,27 @@ jobs:
             if (eventIssue && !shouldSweepInbox) {
               await safelyProcessIssue(eventIssue);
             } else if (shouldSweepInbox) {
-              const cursorSnapshot = await getRegistry();
-              const inboxPage = inboxScheduler.getCursorPage(cursorSnapshot.state);
-              const pageResponse = await github.rest.issues.listForRepo({
-                owner, repo, state: 'open', per_page: inboxScheduler.PAGE_SIZE,
-                page: inboxPage, sort: 'created', direction: 'asc'
-              });
-              const targets = inboxScheduler.selectIssueBatch({
-                eventIssue: null,
-                pageIssues: pageResponse.data,
-                maxIssues: inboxScheduler.MAX_ISSUES_PER_BATCH
-              });
-              for (const issue of targets) await safelyProcessIssue(issue);
+              try {
+                const cursorSnapshot = await getRegistry();
+                const inboxPage = inboxScheduler.getCursorPage(cursorSnapshot.state);
+                const pageResponse = await github.rest.issues.listForRepo({
+                  owner, repo, state: 'open', per_page: inboxScheduler.PAGE_SIZE,
+                  page: inboxPage, sort: 'created', direction: 'asc'
+                });
+                const targets = inboxScheduler.selectIssueBatch({
+                  eventIssue: null,
+                  pageIssues: pageResponse.data,
+                  maxIssues: inboxScheduler.MAX_ISSUES_PER_BATCH
+                });
+                for (const issue of targets) await safelyProcessIssue(issue);
 
-              const afterBatch = await getRegistry();
-              const nextPage = inboxScheduler.nextCursorPage(inboxPage, pageResponse.data.length, inboxScheduler.PAGE_SIZE);
-              if (nextPage !== inboxPage) {
-                inboxScheduler.advanceCursor(afterBatch.state, inboxPage, pageResponse.data.length);
-                await saveRegistry(afterBatch.state, afterBatch, 'FARAST coordinator: advance durable inbox cursor to page ' + nextPage);
+                const afterBatch = await getRegistry();
+                const nextPage = inboxScheduler.nextCursorPage(inboxPage, pageResponse.data.length, inboxScheduler.PAGE_SIZE);
+                if (nextPage !== inboxPage) {
+                  inboxScheduler.advanceCursor(afterBatch.state, inboxPage, pageResponse.data.length);
+                  await saveRegistry(afterBatch.state, afterBatch, 'FARAST coordinator: advance durable inbox cursor to page ' + nextPage);
+                }
+              } catch (sweepError) {
+                console.error('FARAST scheduled inbox sweep deferred; the durable cursor is unchanged and the next schedule will retry: ' + String(sweepError.message || sweepError));
               }
             }
