@@ -60,7 +60,7 @@ The merged PR #86 exact-head Control Plane Validation includes the Work Item cor
 
 **S5_REGRESSION:** The migration matrix and registry read-back are complete. The exact-head CI run above is green. The current Issue #68 claim succeeded after the semantic fix, demonstrating that the false-positive duplicate list is gone without editing Issue #68's identity or scope.
 
-**S6_VERIFY_HANDOFF:** This report is the auditable migration record. The remaining step is to read back the report from the branch, open a focused PR, run exact-head Control Plane Validation, and hand off through `/farast review` and `/farast accept`.
+**S6_VERIFY_HANDOFF:** The report has been read back from this branch and is included as the sole file in PR #87. The PR is open for coordinator-controlled acceptance; do not merge manually. After any report update, read the live PR head and require a successful Control Plane Validation run on that exact SHA before `/farast accept`.
 
 ## 6. Explicit limitations
 
