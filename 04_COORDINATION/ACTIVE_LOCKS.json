@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1926,
+  "revision": 1927,
   "next_fencing_token": 123,
   "locks": [
     {
@@ -16957,6 +16957,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-18T06:24:18.888Z"
+    },
+    "6970911920": {
+      "response": "معیار پذیرش ثبت شد: AC_REGISTRY_SYNC; ACCEPTANCE_PROGRESS=71.42%; OVERALL_COMPLETION=71.42%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 68,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-18T06:24:26.281Z"
     }
   },
   "work_items": {
@@ -20824,7 +20833,15 @@
         {
           "criterion_id": "AC_REGISTRY_SYNC",
           "title": "Registry refresh preserves progress, checkpoints, locks and branch/PR lineage",
-          "evidence_requirement": "Issue/registry read-back and preserved evidence comparison"
+          "evidence_requirement": "Issue/registry read-back and preserved evidence comparison",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/68#issuecomment-6970070728",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/coordination/locks/04_COORDINATION/ACTIVE_LOCKS.json"
+          ],
+          "validated_at_utc": "2026-11-18T06:24:26.281Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "All eight migrated Work Items were refreshed and read back at registry revisions 1603/1605 with matching stable IDs, operation-scope versions, requested operations and preserved progress/checkpoints/locks; no active locks remained after the refresh sequence."
         },
         {
           "criterion_id": "AC_FAIL_CLOSED",
