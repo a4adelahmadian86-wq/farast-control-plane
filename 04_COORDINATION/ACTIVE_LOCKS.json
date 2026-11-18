@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2012,
+  "revision": 2013,
   "next_fencing_token": 124,
   "locks": [
     {
@@ -17445,6 +17445,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-18T06:35:52.869Z"
+    },
+    "6971121739": {
+      "response": "معیار پذیرش ثبت شد: AC_IDENTITY; ACCEPTANCE_PROGRESS=40%; OVERALL_COMPLETION=40%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 81,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-18T06:36:11.802Z"
     }
   },
   "work_items": {
@@ -22061,7 +22070,18 @@
         {
           "criterion_id": "AC_IDENTITY",
           "title": "Issue #67 JSON spec and PR #80 lineage remain unchanged apart from body position",
-          "evidence_requirement": "Machine-readable before/after object equality and PR read-back"
+          "evidence_requirement": "Machine-readable before/after object equality and PR read-back",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/67",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/80",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/83",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/88",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/coordination/locks/04_COORDINATION/ACTIVE_LOCKS.json"
+          ],
+          "validated_at_utc": "2026-11-18T06:36:11.801Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_FORMAT",
