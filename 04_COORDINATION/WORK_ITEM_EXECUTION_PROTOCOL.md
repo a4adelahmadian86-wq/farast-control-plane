@@ -73,3 +73,7 @@ BACKLOG, READY, CLAIMED, IN_PROGRESS, BLOCKED, REVIEW_REQUIRED, PARTIALLY_ACCEPT
 - OVERALL_COMPLETION
 
 اگر criteria تعریف نشده یا وزن معتبر نیست، N/A را صریح ثبت کن. claim/lease/owner و blocker مستقل از این درصدها هستند. claim موفق یا branch creation به‌تنهایی progress نیست.
+
+## جایگزینی امن branch پس از ادغام PR
+
+اگر branch اجرای قبلی حذف شده یا PR قبلی بسته/ادغام‌نشده است، branch گمشده را بازسازی یا reuse نکن. اگر یک PR جایگزین قبلاً merge شده، فقط پس از read-back PR و اثبات اینکه merge commit آن ancestor شاخه پیش‌فرض فعلی همان target repository است، می‌توان `main` فعلی را checkpoint جایگزین و مبنای branch جدید دانست. اثبات باید از GitHub Compare بیاید: `base_commit.sha` و `merge_base_commit.sha` برابر merge commit، `behind_by=0` و status برابر `ahead` یا `identical` باشد. این قاعده مجوز پذیرش PR ادغام‌نشده نیست؛ PR باز همچنان باید دقیقاً از branch آخرین رویداد REVIEW همان lease باشد. Coordinator فقط برای PR بسته و واقعاً merged با مخزن head/base برابر target و Check Runهای موفق روی SHA دقیق head استثنای lineage را می‌پذیرد. هر compare ناموفق یا مبهم = STOP WRITES.
