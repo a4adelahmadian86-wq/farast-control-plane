@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1902,
+  "revision": 1903,
   "next_fencing_token": 123,
   "locks": [
     {
@@ -16801,6 +16801,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-18T06:21:28.051Z"
+    },
+    "6970878495": {
+      "response": "STEP ثبت شد: S6_VERIFY_HANDOFF; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=7/7.",
+      "response_posted": false,
+      "issue_number": 68,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-18T06:21:46.905Z"
     }
   },
   "work_items": {
@@ -20585,7 +20594,19 @@
           "weight": 1,
           "expected_output": "Auditable migration report and next actions",
           "evidence_requirement": "Per-Issue SHAs/URLs, registry revision, CI and final status",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/68#issuecomment-6970869866",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/68#issuecomment-6969939169",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/68#issuecomment-6970070728",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/68#issuecomment-6970127186",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/86",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44249107014"
+          ],
+          "validated_at_utc": "2026-11-18T06:21:46.905Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Read back the complete current open WRITE_ALLOWED inventory (12 items), all eight legacy migration targets and four already-versioned records; the exact before/after preservation, registry refresh acknowledgements, allocator claim/release and CI evidence are linked in the final evidence matrix. Issue #85 is explicitly tracked as a duplicate artifact of #84 and is not treated as an independent eligible task."
         }
       ],
       "acceptance_criteria": [
