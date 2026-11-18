@@ -29,6 +29,16 @@
 - مخزن محصول `a4adelahmadian86-wq/non` به‌صورت پیش‌فرض `READ_ONLY` است. تنها استثنا یک Work Item با `WRITE_ALLOWED` است که Issue آن را repository owner ساخته، `owner_approval_ref` دقیقاً URL همان Issue است و بدنه Issue تصمیم صریح مالک را ثبت می‌کند. این استثنا فقط همان Issue را پوشش می‌دهد؛ هیچ Work Item قدیمی به‌صورت خودکار ارتقا نمی‌یابد.
 - `priority_source=DEFAULT_POLICY` با priority=50 یعنی اولویت برابر و انتخاب FIFO/aging؛ این مقدار رتبه‌بندی مالک نیست. فقط وقتی مالک صریحاً رتبه تعیین کرد `OWNER_ASSIGNED` ثبت شود. `OWNER_ASSIGNED` فقط با تصمیم صریح مالک ثبت شود.
 
+## provenance تخصیص و انحصار هر چت
+
+- ساخت هر Work Item جدید فقط زیر lease فعال allocator ثابت Issue #11 / `WI-GOAL-ALLOCATOR-001` مجاز است؛ هیچ استثنای مستقیم برای OWNER وجود ندارد.
+- Issueهای #1 تا #90 برای سازگاری legacy grandfathered هستند. هر Issue جدید با شماره بزرگ‌تر از #90 باید در JSON دارای `allocation_provenance` باشد و مقدارهای آن دقیقاً از lease زنده allocator خوانده شوند: `allocator_work_item_id`, `allocator_issue_number`, `actor`, `chat_id`, `run_id`, `fencing_token`, `branch`, `allocated_at_utc`.
+- `allocated_at_utc` باید داخل بازه lease allocator و حداکثر پنج دقیقه با `issue.created_at` اختلاف داشته باشد. branch باید دقیقاً branch همان lease باشد؛ برای allocator branchless مقدار null ثبت شود.
+- برای Work Item جدید مخزن کنترل‌پلین که `parent_goal_ids` شامل G-09 است، فیلد `Parent CP IDs` در بدنه Issue و `parent_cp_ids` در JSON الزامی است و باید با هم برابر باشند؛ این فیلد مستقل از `parent_exp_ids` است.
+- پس از ایجاد Issue، lease allocator را تا وقتی Coordinator provenance را اعتبارسنجی و Issue را `agent:ready` نکرده آزاد نکن. provenance مفقود، منقضی یا نامنطبق یعنی BLOCKED؛ Issue تکراری نساز و claim را دور نزن.
+- هر `chat_id` در کل مخزن و میان همه Issueها فقط یک lease فعال می‌تواند داشته باشد؛ claim دوم همان چت حتی با resource keyهای مستقل رد می‌شود. چت‌های متفاوت می‌توانند منابع مستقل را هم‌زمان claim کنند؛ تعارض یک resource همچنان رد می‌شود.
+- lock فعال legacy که `chat_id` معتبر ندارد fail-closed است و تا آزادشدن/انقضای معتبر آن، claim جدید نمی‌گیرد. claim ردشده باید read-back شود و همان چت فقط پس از اطمینان از نداشتن lease فعال، نامزد بعدی را امتحان کند.
+
 ## تخصیص branch بر اساس write_policy
 - `WRITE_ALLOWED`: Coordinator یک branch یکتای `work/GH-ISSUE-RUN` صادر می‌کند؛ worker فقط پس از Claim و Heartbeat معتبر آن را در همان target repository می‌سازد.
 - `READ_ONLY`: Coordinator باید `branch=none` ثبت کند. worker حق ساخت branch، commit، file یا PR در target repository را ندارد؛ evidence فقط در Issue thread یا artifact location صریحاً مجاز در control-plane ثبت می‌شود.
