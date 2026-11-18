@@ -195,3 +195,18 @@ MASTER-00 یک فرمان ثابت برای تمام چت‌هاست؛ هر چت
 - **محدودیت اثبات:** N=25 آزمون مدل/شبیه‌سازی با CHAT_IDهای مستقل است، نه E2E با ۲۵ حساب مستقل ChatGPT. اجرای واقعی چند حساب مستقل هنوز انجام نشده؛ هیچ ادعایی درباره auto-spawn یا اجرای پس‌زمینه وجود ندارد.
 - محدودیت throughput تابع quota/rate limit سرویس GitHub Actions/API است؛ پروتکل سقف ثابت N ندارد اما throughput نامحدود تضمین نمی‌کند.
 - وضعیت Issue #67 تا زمان تکمیل review/accept ماشینی coordinator: implementation PR باز، exact-head CI باید سبز بماند، و هیچ merge/accept پیش از ثبت تمام شواهد مجاز نیست.
+
+
+---
+
+## به‌روزرسانی زنده — 2026-11-18، اجرای ادامه‌دار Issue #67
+
+- PR ادامه‌دهنده: https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/83
+- شاخه اجرای جاری: `work/GH-67-RUN-20261118-PROMPT-DISPATCH-RESUME-001`
+- head تأییدشده فعلی: `09b4f723767425eb207838ebbdc90240bf95938d`
+- CI دقیق همین head: run `44247329713` — **SUCCESS**؛ همه مراحل شامل coordinator contention/fencing، Work Item resume/progress، dispatch N-worker، JSON/schema، ۱۷ prompt contract و bundle parity موفق‌اند.
+- PR #80 شاخه اجرای قبلی است و نباید با PR جاری اشتباه شود؛ branch قبلی دست‌نخورده مانده است. PR #80 پس از پذیرش ماشینی PR #83 به‌عنوان مسیر superseded بسته خواهد شد.
+- پوشش تکمیلی جدید: allocator contention به برگ محلی fallback می‌کند؛ برگ‌های فرزند تازه‌افزوده‌شده بر اساس EXP تخصصی کشف می‌شوند و به‌اشتباه به‌عنوان کار جهانی G-09 به همه promptها نمایش داده نمی‌شوند.
+- اجرای N=2،5،10،25، replay صندوق ورودی ۲۵ فرمان، پاسخ idempotent، stale/invalid/expired fencing و semantic duplicate در این شاخه همچنان آزمون مدل/شبیه‌سازی هستند؛ CI موفق، آزمون واقعی چند حساب ChatGPT مستقل نیست.
+- آزمون دو حساب مستقل ChatGPT/GitHub، takeover واقعی میان دو نشست و hard-fencing مسیر direct-write خارج از coordinator همچنان **NOT VERIFIED** هستند. هیچ ادعای ایجاد خودکار چت یا ادامه در پس‌زمینه وجود ندارد.
+- یک اجرای میانی CI با run `44247203711` به‌دلیل fixture اشتباهِ هدف G-09 در دو برگ تخصصی شکست خورد؛ fixture اصلاح شد و run دقیق head بعدی `44247329713` موفق شد.
