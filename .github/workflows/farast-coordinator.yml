@@ -640,7 +640,8 @@ jobs:
                 snapshot.state.processed_operations[id].response_posted = true;
                 snapshot = await saveRegistry(snapshot.state, snapshot, 'FARAST coordinator: recover response ' + id);
               }
-              for (const comment of inboxScheduler.selectPendingCommandComments(comments, snapshot.state.processed_operations, limits.maxCommandsPerIssue || inboxScheduler.MAX_COMMANDS_PER_ISSUE)) {
+              const selectedCommandIds = new Set(inboxScheduler.selectPendingCommandComments(comments, snapshot.state.processed_operations, limits.maxCommandsPerIssue || inboxScheduler.MAX_COMMANDS_PER_ISSUE).map(comment => String(comment.id)));
+              for (const comment of coordinatorCore.pendingCommandComments(comments, snapshot.state.processed_operations).filter(comment => selectedCommandIds.has(String(comment.id)))) {
                 const operationId = String(comment.id);
                 // The durable inbox helper deduplicates comment IDs and excludes committed operations.
                 snapshot = await handleCommand(issue, comment, snapshot);
