@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1930,
+  "revision": 1931,
   "next_fencing_token": 123,
   "locks": [
     {
@@ -16975,6 +16975,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-18T06:24:34.162Z"
+    },
+    "6970913415": {
+      "response": "معیار پذیرش ثبت شد: AC_EVIDENCE; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; can_accept=true.",
+      "response_posted": false,
+      "issue_number": 68,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-18T06:24:41.671Z"
     }
   },
   "work_items": {
@@ -20615,7 +20624,7 @@
         "EXP-22",
         "EXP-23"
       ],
-      "status": "IN_PROGRESS",
+      "status": "REVIEW_REQUIRED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "module:legacy-operation-scope-migration",
@@ -20869,7 +20878,17 @@
         {
           "criterion_id": "AC_EVIDENCE",
           "title": "Every migration is traceable to exact Issue URLs, SHAs, refresh responses and CI",
-          "evidence_requirement": "Final evidence matrix"
+          "evidence_requirement": "Final evidence matrix",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/87",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44250653413",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-68-RUN-20261118-LEGACY-SCOPE-MIGRATION-006/04_COORDINATION/LEGACY_WRITE_SCOPE_MIGRATION_REPORT.md",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/68#issuecomment-6970869866"
+          ],
+          "validated_at_utc": "2026-11-18T06:24:41.671Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Every migration row has an exact Issue URL and registry evidence; report, source, PR and exact-head CI are linked and read back. Duplicate Issue #85 is explicitly classified as superseded/unregistered rather than silently counted as a valid independent task."
         }
       ],
       "deliverables": [
