@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1599,
+  "revision": 1600,
   "next_fencing_token": 110,
   "locks": [],
   "history": [
@@ -7180,6 +7180,17 @@
       "hard_gate_ready": true,
       "hard_gate_blockers": [],
       "at_utc": "2026-11-18T05:30:43.630Z"
+    },
+    {
+      "event": "WORK_ITEM_REFRESHED",
+      "issue_number": 52,
+      "work_item_id": "WI-NON-WRITE-POLICY-COORDINATOR-001",
+      "actor": "a4adelahmadian86-wq",
+      "preserved_steps": 7,
+      "preserved_criteria": 5,
+      "hard_gate_ready": true,
+      "hard_gate_blockers": [],
+      "at_utc": "2026-11-18T05:31:29.186Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -14194,6 +14205,15 @@
       "command": "status",
       "next_status": null,
       "at_utc": "2026-11-18T05:30:54.417Z"
+    },
+    "6969989770": {
+      "response": "Work Item specification refreshed from Issue body; preserved_steps=7; preserved_criteria=5; hard_gates=PASS; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%.",
+      "response_posted": false,
+      "issue_number": 52,
+      "actor": "a4adelahmadian86-wq",
+      "command": "refresh",
+      "next_status": "review",
+      "at_utc": "2026-11-18T05:31:29.190Z"
     }
   },
   "work_items": {
@@ -16277,7 +16297,7 @@
       "parent_exp_ids": [
         "EXP-22"
       ],
-      "status": "READY",
+      "status": "REVIEW_REQUIRED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "module:work-item-policy",
@@ -16495,6 +16515,10 @@
           "description": "Stacked PR with exact head SHA, passing CI, live smoke-test plan and merge handoff",
           "evidence_requirement": "PR URL, Actions URL and checkpoint"
         }
+      ],
+      "operation_scope_version": "1.0",
+      "requested_operations": [
+        "control_plane_write"
       ]
     },
     "58": {
