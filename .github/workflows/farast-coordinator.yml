@@ -270,6 +270,8 @@ jobs:
               const token = Number(args.token || 0);
               let response = '';
               let nextStatus = null;
+              let acceptanceLineageMode = null;
+              let acceptanceAudit = null;
 
               if (!allowedAssociations.has(comment.author_association) || !coordinatorCore.isCommandAllowed(authorizationPolicy, actor, comment.author_association, command, { targetRepository: targetRepositoryFor(issue), resourceKeys: resourcesFor(issue) })) {
                 const role = coordinatorCore.roleForActor(authorizationPolicy, actor, comment.author_association) || 'UNASSIGNED';
@@ -512,6 +514,27 @@ jobs:
                         const pr = (await prClient.rest.pulls.get({ owner: prOwner, repo: prRepo, pull_number: Number(prNumber) })).data;
                         const reviewEvent = [...state.history].reverse().find(x => x.issue_number === issue.number && x.event === 'REVIEW');
                         const branchBound = coordinatorCore.matchesReviewLease(pr, reviewEvent);
+                        let mergedReplacementBound = false;
+                        if (!branchBound && pr.merged === true && pr.merge_commit_sha && acceptanceItem?.target_repository) {
+                          try {
+                            const targetRepoInfo = (await prClient.rest.repos.get({ owner: prOwner, repo: prRepo })).data;
+                            const defaultBranch = targetRepoInfo.default_branch;
+                            if (pr.base?.repo?.full_name === acceptanceItem.target_repository &&
+                                pr.head?.repo?.full_name === acceptanceItem.target_repository &&
+                                pr.base?.ref === defaultBranch) {
+                              const ancestry = (await prClient.rest.repos.compareCommits({
+                                owner: prOwner, repo: prRepo, base: pr.merge_commit_sha, head: defaultBranch
+                              })).data;
+                              mergedReplacementBound = workItemCore.matchesMergedReplacementLineage(
+                                pr, acceptanceItem.target_repository, defaultBranch, ancestry
+                              );
+                            }
+                          } catch (_) {
+                            mergedReplacementBound = false;
+                          }
+                        }
+                        const lineageBound = branchBound || mergedReplacementBound;
+                        acceptanceLineageMode = branchBound ? 'EXACT_REVIEW_BRANCH' : mergedReplacementBound ? 'MERGED_REPLACEMENT_ANCESTOR' : null;
                         const mergeOperation = acceptanceItem?.target_repository === 'a4adelahmadian86-wq/farast-control-plane' ? 'control_plane_merge' : 'merge';
                         const mergeGate = acceptanceItem
                           ? workItemCore.evaluateHardGates(acceptanceItem, dependencyGraph, acceptanceWorkItems, { requestedOperations: [mergeOperation], requireChildrenAccepted: true })
@@ -519,7 +542,8 @@ jobs:
                         const checkRuns = await prClient.paginate(prClient.rest.checks.listForRef, { owner: prOwner, repo: prRepo, ref: pr.head.sha, per_page: 100 });
                         const combinedStatus = await prClient.rest.repos.getCombinedStatusForRef({ owner: prOwner, repo: prRepo, ref: pr.head.sha });
                         const automatedChecksPassed = coordinatorCore.hasSuccessfulChecks(checkRuns, combinedStatus.data);
-                        if (!branchBound) response = 'پذیرش رد شد: PR باید از branch و target repository ثبت‌شده در آخرین handoff همان lease ساخته شده باشد.';
+                        acceptanceAudit = { pr_url: prUrl, pr_head_sha: pr.head.sha, merge_commit_sha: pr.merge_commit_sha || null, lineage_mode: acceptanceLineageMode };
+                        if (!lineageBound) response = 'پذیرش رد شد: PR باید از branch و target repository ثبت‌شده در آخرین handoff همان lease ساخته شده باشد؛ استثنا فقط PR ادغام‌شده با merge commit اثبات‌شده به‌عنوان ancestor شاخه پیش‌فرض همان مخزن است.';
                         else if (!hardGate.ready) response = 'پذیرش خودکار رد شد: گیت سخت/عملیات درخواست‌شده حل‌نشده یا پاس‌نشده است: ' + hardGate.blockers.join(',') + '.';
                         else if (!mergeGate.ready) response = 'ادغام رد شد: گیت عملیات merge پاس نشده است: ' + mergeGate.blockers.join(',') + '.';
                         else if (!automatedChecksPassed) response = 'پذیرش خودکار رد شد: تمام Check Runها و Commit Statusهای SHA دقیق head باید با conclusion/state برابر success تکمیل شده باشند؛ بازبین انسانی دوم لازم نیست.';
@@ -544,7 +568,7 @@ jobs:
                                 state.work_items[issue.number] ||= acceptanceItem;
                                 state.work_items[issue.number].status = 'ACCEPTED';
                                 nextStatus = 'done';
-                                response = 'Work Item ACCEPTED: همه گام‌ها و معیارهای اجباری با evidence معتبر پاس شده‌اند؛ PR ادغام‌شده و تمام گیت‌های ماشینی موفق روی SHA دقیق head احراز شد؛ هیچ Review انسانی شرط پذیرش نیست.';
+                                response = 'Work Item ACCEPTED: همه گام‌ها و معیارهای اجباری با evidence معتبر پاس شده‌اند؛ PR ادغام‌شده و تمام گیت‌های ماشینی موفق روی SHA دقیق head احراز شد؛ هیچ Review انسانی شرط پذیرش نیست.' + (acceptanceLineageMode === 'MERGED_REPLACEMENT_ANCESTOR' ? ' lineage از طریق PR جایگزین ادغام‌شده و ancestry تأییدشده احراز شد.' : '');
                               }
                             } else {
                               nextStatus = 'done';
@@ -559,7 +583,7 @@ jobs:
               }
 
               state.processed_operations ||= {};
-              state.processed_operations[id] = { response, response_posted: false, issue_number: issue.number, actor, command, next_status: nextStatus, at_utc: new Date().toISOString() };
+              state.processed_operations[id] = { response, response_posted: false, issue_number: issue.number, actor, command, next_status: nextStatus, ...(acceptanceAudit || {}), at_utc: new Date().toISOString() };
               const updated = await saveRegistry(state, snapshot, 'FARAST coordinator: ' + command + ' issue #' + issue.number + ' operation ' + id);
               if (nextStatus) await setStatus(issue.number, nextStatus);
               if (command === 'reopen' && nextStatus === 'ready') await github.rest.issues.update({ owner, repo, issue_number: issue.number, state: 'open', state_reason: 'reopened' });
