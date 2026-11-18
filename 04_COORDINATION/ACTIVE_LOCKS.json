@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1808,
+  "revision": 1809,
   "next_fencing_token": 119,
   "locks": [
     {
@@ -15957,6 +15957,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-18T06:09:55.900Z"
+    },
+    "6970661501": {
+      "response": "معیار پذیرش ثبت شد: AC_LOCAL_IDS; ACCEPTANCE_PROGRESS=14.28%; OVERALL_COMPLETION=14.28%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 84,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-18T06:10:04.238Z"
     }
   },
   "work_items": {
@@ -20630,7 +20639,15 @@
         {
           "criterion_id": "AC_LOCAL_IDS",
           "title": "Local deliverable identifiers are not treated as globally unique semantic identities",
-          "evidence_requirement": "Regression fixture reuses D1-D4 across unrelated Work Items without duplicate classification"
+          "evidence_requirement": "Regression fixture reuses D1-D4 across unrelated Work Items without duplicate classification",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44249107014",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/8bb4d4099a9f859673826f0ba34b869af7f5ab5f"
+          ],
+          "validated_at_utc": "2026-11-18T06:10:04.237Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_FALSE_POSITIVE",
