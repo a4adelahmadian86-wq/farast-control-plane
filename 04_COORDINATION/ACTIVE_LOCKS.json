@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2525,
+  "revision": 2526,
   "next_fencing_token": 144,
   "locks": [
     {
@@ -21611,7 +21611,7 @@
     },
     "6984210220": {
       "response": "CLAIM GRANTED. TASK=GH-90; WORK_ITEM_ID=WI-CP-ALLOCATOR-CHAT-GATE-001; verified_steps=S1_REPRODUCE_ALLOCATOR_BYPASS,S2_DEFINE_PROVENANCE_AND_CHAT_POLICY; remaining_steps=S3_EXTEND_WORK_ITEM_SCHEMA,S4_ENFORCE_ALLOCATOR_CREATION_GATE,S5_ENFORCE_CHAT_LEASE_EXCLUSIVITY,S6_REGRESSION_AND_PROTOCOLS,S7_CI_HANDOFF; EXECUTION_PROGRESS=28.57%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; actor=@a4adelahmadian86-wq; chat=CHAT-20261118-READY-EXECUTION-01; run=RUN-20261118-ALLOCATOR-CHAT-GATE-REPAIR-001; resource_keys=file:.github/scripts/coordinator-core.js,file:.github/scripts/coordinator-core.test.js,file:.github/scripts/work-item-core.js,file:.github/scripts/work-item-core.test.js,file:04_coordination/active_locks.schema.json,file:04_coordination/coordinator_commands.md,file:04_coordination/work_item_execution_protocol.md,file:04_coordination/work_item_schema.json,module:allocator-provenance-gate,module:chat-lease-exclusivity,module:parent-cp-schema; target_repository=a4adelahmadian86-wq/farast-control-plane; write_policy=WRITE_ALLOWED; branch=work/GH-90-RUN-20261118-ALLOCATOR-CHAT-GATE-REPAIR-001; previous_run=RUN-20261118-ALLOCATOR-CHAT-GATE-001; previous_target_repository=a4adelahmadian86-wq/farast-control-plane; previous_branch=work/GH-90-RUN-20261118-ALLOCATOR-CHAT-GATE-001; fencing_token=143; lease_expires=2026-11-18T16:43:10.524Z. این Work Item با سیاست WRITE_ALLOWED است؛ branch را فقط در target_repository ثبت‌شده بساز و قبل از هر write heartbeat/token را دوباره تأیید کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز و branch قبلی را تغییر نده.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 90,
       "actor": "a4adelahmadian86-wq",
       "command": "claim",
