@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2553,
+  "revision": 2554,
   "next_fencing_token": 144,
   "locks": [
     {
@@ -21809,7 +21809,7 @@
     },
     "6984446704": {
       "response": "STEP ثبت شد: S3_EXTEND_WORK_ITEM_SCHEMA; EXECUTION_PROGRESS=42.85%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=3/7.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 90,
       "actor": "a4adelahmadian86-wq",
       "command": "step",
