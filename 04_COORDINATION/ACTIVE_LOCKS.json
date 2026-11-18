@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2064,
+  "revision": 2065,
   "next_fencing_token": 125,
   "locks": [],
   "history": [
@@ -17797,7 +17797,7 @@
     },
     "6972117950": {
       "response": "وضعیت: بدون lease فعال.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 11,
       "actor": "a4adelahmadian86-wq",
       "command": "status",
