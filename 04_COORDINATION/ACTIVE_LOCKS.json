@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1755,
+  "revision": 1756,
   "next_fencing_token": 117,
   "locks": [],
   "history": [
@@ -7808,6 +7808,13 @@
       "branch": "work/GH-67-RUN-20261118-PROMPT-DISPATCH-RESUME-001",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "at_utc": "2026-11-18T05:58:25.229Z"
+    },
+    {
+      "event": "DEPENDENCY_AUTO_UNBLOCKED",
+      "issue_number": 68,
+      "work_item_id": "WI-LEGACY-WRITE-SCOPE-MIGRATION-001",
+      "preserved_steps": 5,
+      "at_utc": "2026-11-18T06:01:57.923Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -19164,7 +19171,7 @@
         "EXP-22",
         "EXP-23"
       ],
-      "status": "IN_PROGRESS",
+      "status": "READY",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "module:legacy-operation-scope-migration",
