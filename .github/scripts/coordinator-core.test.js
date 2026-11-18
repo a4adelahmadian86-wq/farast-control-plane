@@ -2,6 +2,7 @@
 
 const test = require('node:test');
 const assert = require('node:assert/strict');
+const fs = require('node:fs');
 const core = require('./coordinator-core');
 const dispatch = require('./work-item-dispatch-core');
 
@@ -508,4 +509,209 @@ test('N=2,5,10,25 workers contend for one G-09 global leaf then safely fall back
     assert.equal(claimed.filter(id => id === global.work_item_id).length, 1);
     assert.equal(state.locks.length, workerCount);
   }
+});
+
+
+test('one chat cannot hold a second active lease across disjoint Issues', () => {
+  const s = registry();
+  const first = core.claimResources(s, {
+    issueNumber:10, taskId:'GH-10', actor:'alice', chatId:'shared-chat', runId:'run-a',
+    targetRepository:'owner/repo', branch:'work/GH-10-run-a',
+    resourceKeys:['module:payments'], leaseMinutes:30, nowMs:1000
+  });
+  assert.equal(first.ok, true);
+  const beforeLocks = JSON.parse(JSON.stringify(s.locks));
+  const beforeToken = s.next_fencing_token;
+  const second = core.claimResources(s, {
+    issueNumber:11, taskId:'GH-11', actor:'bob', chatId:'shared-chat', runId:'run-b',
+    targetRepository:'owner/repo', branch:'work/GH-11-run-b',
+    resourceKeys:['module:identity'], leaseMinutes:30, nowMs:2000
+  });
+  assert.equal(second.ok, false);
+  assert.equal(second.reason, 'chat_conflict');
+  assert.equal(second.conflict.issue_number, 10);
+  assert.equal(s.next_fencing_token, beforeToken);
+  assert.deepEqual(s.locks, beforeLocks);
+});
+
+test('expired chat lease no longer blocks a different Issue', () => {
+  const s = registry();
+  core.claimResources(s, {
+    issueNumber:10, taskId:'GH-10', actor:'alice', chatId:'shared-chat', runId:'run-a',
+    targetRepository:'owner/repo', branch:'work/GH-10-run-a',
+    resourceKeys:['module:payments'], leaseMinutes:5, nowMs:1000
+  });
+  core.expireLocks(s, 301000);
+  const next = core.claimResources(s, {
+    issueNumber:11, taskId:'GH-11', actor:'alice', chatId:'shared-chat', runId:'run-b',
+    targetRepository:'owner/repo', branch:'work/GH-11-run-b',
+    resourceKeys:['module:identity'], leaseMinutes:5, nowMs:301000
+  });
+  assert.equal(next.ok, true);
+});
+
+test('invalid expiry on a same-chat lease fails closed without consuming a fencing token', () => {
+  const s = registry();
+  s.locks.push({
+    resource_key:'module:payments', issue_number:10, task_id:'GH-10', actor:'alice',
+    chat_id:'shared-chat', run_id:'run-a', target_repository:'owner/repo',
+    branch:'work/GH-10-run-a', acquired_at_utc:'2026-11-18T00:00:00.000Z',
+    heartbeat_at_utc:'2026-11-18T00:00:00.000Z', lease_expires_at_utc:'invalid',
+    fencing_token:7, status:'ACTIVE'
+  });
+  const beforeToken = s.next_fencing_token;
+  const denied = core.claimResources(s, {
+    issueNumber:11, taskId:'GH-11', actor:'bob', chatId:'shared-chat', runId:'run-b',
+    targetRepository:'owner/repo', branch:'work/GH-11-run-b',
+    resourceKeys:['module:identity'], leaseMinutes:5, nowMs:1000
+  });
+  assert.equal(denied.ok, false);
+  assert.equal(denied.reason, 'chat_conflict');
+  assert.equal(s.next_fencing_token, beforeToken);
+  assert.equal(s.locks.length, 1);
+});
+
+test('allocator provenance must exactly match a live allocator lease and issue creation time', () => {
+  const s = registry();
+  s.locks.push({
+    resource_key:'coordination:work-item-allocation', issue_number:11, task_id:'GH-11',
+    actor:'owner', chat_id:'allocator-chat', run_id:'allocator-run',
+    target_repository:'owner/repo', branch:null,
+    acquired_at_utc:'2026-11-18T06:00:00.000Z',
+    heartbeat_at_utc:'2026-11-18T06:00:00.000Z',
+    lease_expires_at_utc:'2026-11-18T06:30:00.000Z',
+    fencing_token:77, status:'ACTIVE'
+  });
+  const item = {
+    work_item_id:'WI-NEW-001',
+    allocation_provenance:{
+      allocator_work_item_id:'WI-GOAL-ALLOCATOR-001',
+      allocator_issue_number:11, actor:'owner', chat_id:'allocator-chat',
+      run_id:'allocator-run', fencing_token:77, branch:null,
+      allocated_at_utc:'2026-11-18T06:05:00.000Z'
+    }
+  };
+  const valid = core.validateAllocationProvenance(
+    s, item, 96, '2026-11-18T06:05:30.000Z', Date.parse('2026-11-18T06:06:00.000Z')
+  );
+  assert.equal(valid.ok, true);
+  assert.equal(valid.lock.issue_number, 11);
+
+  const invalidCases = [
+    ['actor', 'other-owner'],
+    ['chat_id', 'other-chat'],
+    ['run_id', 'other-run'],
+    ['fencing_token', 78],
+    ['allocator_work_item_id', 'WI-OTHER-001'],
+    ['allocator_issue_number', 12],
+    ['branch', 'work/GH-11-wrong']
+  ];
+  for (const [field, value] of invalidCases) {
+    const altered = JSON.parse(JSON.stringify(item));
+    altered.allocation_provenance[field] = value;
+    assert.equal(core.validateAllocationProvenance(
+      s, altered, 96, '2026-11-18T06:05:30.000Z', Date.parse('2026-11-18T06:06:00.000Z')
+    ).ok, false, field + ' mismatch must be denied');
+  }
+  assert.equal(core.validateAllocationProvenance(
+    s, item, 96, '2026-11-18T06:11:00.000Z', Date.parse('2026-11-18T06:12:00.000Z')
+  ).reason, 'invalid_allocation_timestamp');
+  assert.equal(core.validateAllocationProvenance(
+    s, item, 96, '2026-11-18T06:05:30.000Z', Date.parse('2026-11-18T06:31:00.000Z')
+  ).reason, 'allocator_lease_mismatch_or_expired');
+});
+
+test('verified allocation provenance is durable, exact and idempotent', () => {
+  const s = registry();
+  const item = {
+    work_item_id:'WI-NEW-001',
+    allocation_provenance:{
+      allocator_work_item_id:'WI-GOAL-ALLOCATOR-001',
+      allocator_issue_number:11, actor:'owner', chat_id:'allocator-chat',
+      run_id:'allocator-run', fencing_token:77, branch:null,
+      allocated_at_utc:'2026-11-18T06:05:00.000Z'
+    }
+  };
+  assert.equal(core.hasVerifiedAllocationProvenance(s, 96, item), false);
+  assert.equal(core.recordAllocationProvenance(s, 96, item, Date.parse('2026-11-18T06:06:00.000Z')), true);
+  assert.equal(core.hasVerifiedAllocationProvenance(s, 96, item), true);
+  assert.equal(core.recordAllocationProvenance(s, 96, item, Date.parse('2026-11-18T06:07:00.000Z')), false);
+  assert.equal(s.history.filter(x => x.event === 'WORK_ITEM_ALLOCATED').length, 1);
+});
+
+
+test('an active legacy lock without chat_id blocks new claims until identity is known', () => {
+  const s = registry();
+  s.locks.push({
+    resource_key:'module:legacy', issue_number:10, task_id:'GH-10', actor:'alice',
+    run_id:'run-a', target_repository:'owner/repo', branch:'work/GH-10-run-a',
+    acquired_at_utc:'2026-11-18T00:00:00.000Z',
+    heartbeat_at_utc:'2026-11-18T00:00:00.000Z',
+    lease_expires_at_utc:'2026-11-18T01:00:00.000Z',
+    fencing_token:7, status:'ACTIVE'
+  });
+  const beforeToken = s.next_fencing_token;
+  const denied = core.claimResources(s, {
+    issueNumber:11, taskId:'GH-11', actor:'bob', chatId:'new-chat', runId:'run-b',
+    targetRepository:'owner/repo', branch:'work/GH-11-run-b',
+    resourceKeys:['module:identity'], leaseMinutes:5, nowMs:1000
+  });
+  assert.equal(denied.ok, false);
+  assert.equal(denied.reason, 'chat_conflict');
+  assert.equal(s.next_fencing_token, beforeToken);
+  assert.equal(s.locks.length, 1);
+});
+
+
+test('distinct chats can hold disjoint resource leases concurrently', () => {
+  const s = registry();
+  const first = core.claimResources(s, {
+    issueNumber:10, taskId:'GH-10', actor:'alice', chatId:'chat-a', runId:'run-a',
+    targetRepository:'owner/repo', branch:'work/GH-10-run-a',
+    resourceKeys:['module:payments'], leaseMinutes:30, nowMs:1000
+  });
+  const second = core.claimResources(s, {
+    issueNumber:11, taskId:'GH-11', actor:'bob', chatId:'chat-b', runId:'run-b',
+    targetRepository:'owner/repo', branch:'work/GH-11-run-b',
+    resourceKeys:['module:identity'], leaseMinutes:30, nowMs:2000
+  });
+  assert.equal(first.ok, true);
+  assert.equal(second.ok, true);
+  assert.equal(s.locks.length, 2);
+  assert.notEqual(s.locks[0].chat_id, s.locks[1].chat_id);
+});
+
+test('new Work Items with missing allocator provenance are denied', () => {
+  const s = registry();
+  assert.equal(core.validateAllocationProvenance(
+    s, {work_item_id:'WI-NEW-001'}, 96,
+    '2026-11-18T06:05:30.000Z', Date.parse('2026-11-18T06:06:00.000Z')
+  ).reason, 'missing_allocation_provenance');
+});
+
+
+test('Work Item acceptance progress is checked before any PR merge', () => {
+  const workflow = fs.readFileSync('.github/workflows/farast-coordinator.yml', 'utf8');
+  const start = workflow.indexOf('const mergeOperation =');
+  const progress = workflow.indexOf('const acceptanceProgress = acceptanceItem ? workItemCore.calculateProgress(acceptanceItem)', start);
+  const rejection = workflow.indexOf('else if (acceptanceItem && !acceptanceProgress.can_accept)', start);
+  const merge = workflow.indexOf('prClient.rest.pulls.merge', start);
+  assert.ok(start >= 0);
+  assert.ok(progress > start && progress < merge);
+  assert.ok(rejection > progress && rejection < merge);
+});
+
+
+test('comment events process their Issue without sweeping the global inbox', () => {
+  const workflow = fs.readFileSync('.github/workflows/farast-coordinator.yml', 'utf8');
+  const sweepGuard = workflow.indexOf("const shouldSweepInbox = ['schedule','workflow_dispatch'].includes(context.eventName);");
+  const eventOnly = workflow.indexOf('if (eventIssue && !shouldSweepInbox)', sweepGuard);
+  const scheduledSweep = workflow.indexOf('else if (shouldSweepInbox)', sweepGuard);
+  const listIssues = workflow.indexOf('github.rest.issues.listForRepo', scheduledSweep);
+  assert.ok(sweepGuard >= 0);
+  assert.ok(eventOnly > sweepGuard && eventOnly < scheduledSweep);
+  assert.ok(scheduledSweep > eventOnly && listIssues > scheduledSweep);
+  assert.ok(workflow.includes('Leave the command in the durable inbox; the next scheduled sweep will retry it.'));
+  assert.ok(workflow.includes('FARAST scheduled inbox sweep deferred; the durable cursor is unchanged and the next schedule will retry:'));
+  assert.ok(workflow.includes('FARAST issue-opened processing deferred; the durable inbox will retry:'));
 });

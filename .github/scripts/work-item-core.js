@@ -33,6 +33,26 @@ function validateWorkItem(item) {
   assert(typeof item.title === 'string' && item.title.trim(), 'title is required');
   assert(Array.isArray(item.parent_goal_ids) && item.parent_goal_ids.length > 0, 'parent_goal_ids are required');
   assert(Array.isArray(item.parent_exp_ids) && item.parent_exp_ids.length > 0, 'parent_exp_ids are required');
+  if (item.parent_cp_ids !== undefined) {
+    assert(Array.isArray(item.parent_cp_ids) && item.parent_cp_ids.length > 0, 'parent_cp_ids must be a non-empty array');
+    assert(item.parent_cp_ids.every(x => typeof x === 'string' && /^[A-Z0-9][A-Z0-9._-]{1,63}$/.test(x)), 'invalid parent_cp_ids');
+    assert(new Set(item.parent_cp_ids).size === item.parent_cp_ids.length, 'parent_cp_ids must be unique');
+  }
+  if (item.allocation_provenance !== undefined) {
+    const provenance = item.allocation_provenance;
+    const fields = ['allocator_work_item_id','allocator_issue_number','actor','chat_id','run_id','fencing_token','branch','allocated_at_utc'];
+    assert(provenance && typeof provenance === 'object' && !Array.isArray(provenance), 'allocation_provenance must be an object');
+    assert(fields.every(key => Object.prototype.hasOwnProperty.call(provenance, key)) &&
+      Object.keys(provenance).every(key => fields.includes(key)), 'invalid allocation_provenance fields');
+    assert(provenance.allocator_work_item_id === 'WI-GOAL-ALLOCATOR-001', 'invalid allocation_provenance allocator_work_item_id');
+    assert(provenance.allocator_issue_number === 11, 'invalid allocation_provenance allocator_issue_number');
+    assert(typeof provenance.actor === 'string' && /^[A-Za-z0-9-]{1,39}$/.test(provenance.actor), 'invalid allocation_provenance actor');
+    assert(typeof provenance.chat_id === 'string' && /^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$/.test(provenance.chat_id), 'invalid allocation_provenance chat_id');
+    assert(typeof provenance.run_id === 'string' && /^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$/.test(provenance.run_id), 'invalid allocation_provenance run_id');
+    assert(Number.isInteger(provenance.fencing_token) && provenance.fencing_token > 0, 'invalid allocation_provenance fencing_token');
+    assert(provenance.branch === null || (typeof provenance.branch === 'string' && provenance.branch.trim()), 'invalid allocation_provenance branch');
+    assert(isIso(provenance.allocated_at_utc), 'allocation_provenance allocated_at_utc must be an ISO timestamp');
+  }
   if (item.parent_work_item_id !== undefined && item.parent_work_item_id !== null) assert(typeof item.parent_work_item_id === 'string' && /^[A-Z0-9][A-Z0-9._-]{2,63}$/.test(item.parent_work_item_id) && item.parent_work_item_id !== item.work_item_id, 'invalid parent_work_item_id');
   assert(Number.isInteger(item.priority) && item.priority >= 0 && item.priority <= 100, 'priority must be an integer from 0 to 100');
   assert(isIso(item.created_at_utc), 'created_at_utc must be an ISO timestamp');
