@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1792,
+  "revision": 1793,
   "next_fencing_token": 119,
   "locks": [
     {
@@ -15873,6 +15873,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-18T06:08:28.736Z"
+    },
+    "6970639484": {
+      "response": "STEP ثبت شد: S2_FIX_CORE; EXECUTION_PROGRESS=42.85%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=3/7.",
+      "response_posted": false,
+      "issue_number": 84,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-18T06:08:36.055Z"
     }
   },
   "work_items": {
@@ -20480,7 +20489,14 @@
           "weight": 1,
           "expected_output": "Core implementation diff",
           "evidence_requirement": "Exact changed lines and before/after behavior",
-          "estimate_minutes": 5
+          "estimate_minutes": 5,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-84-RUN-20261118-SEMANTIC-DEDUP-002/.github/scripts/work-item-core.js"
+          ],
+          "validated_at_utc": "2026-11-18T06:08:36.054Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Semantic matcher no longer treats deliverable_id (D1/D2 etc.) as globally shared. It compares non-empty descriptive text only, and requires shared parent scope plus material title/resource evidence; stable-ID uniqueness and explicit canonical alias logic are unchanged."
         },
         {
           "step_id": "S3_REGRESSION",
