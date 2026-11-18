@@ -917,3 +917,67 @@ test('meaningful deliverable descriptions can corroborate a duplicate even when 
   assert.equal(matches.length, 1);
   assert.equal(matches[0].canonical_work_item_id, canonical.work_item_id);
 });
+
+
+test('Work Item-local D1-D4 deliverable IDs do not create cross-Work-Item semantic duplicates', () => {
+  const migration = item({
+    work_item_id:'WI-LEGACY-WRITE-SCOPE-MIGRATION-001',
+    title:'Migrate legacy write-enabled Work Items to versioned operation scope',
+    parent_goal_ids:['G-09'],
+    parent_exp_ids:['EXP-01'],
+    resource_keys:['module:legacy-operation-scope-migration'],
+    deliverables:[
+      {deliverable_id:'D1',description:'Complete before and after migration inventory'},
+      {deliverable_id:'D2',description:'Minimal versioned operation scope updates'},
+      {deliverable_id:'D3',description:'Allocator bootstrap and registry synchronization proof'},
+      {deliverable_id:'D4',description:'Regression and policy compatibility report'}
+    ]
+  });
+  const baseline = item({
+    work_item_id:'WI-EXP01-BASELINE-001',
+    title:'Establish verified product and control-plane baseline inventory',
+    parent_goal_ids:['G-09'],
+    parent_exp_ids:['EXP-01'],
+    resource_keys:['analysis:exp-01'],
+    deliverables:[
+      {deliverable_id:'D1',description:'Repository and branch snapshot'},
+      {deliverable_id:'D2',description:'Runtime and dependency inventory'},
+      {deliverable_id:'D3',description:'Environment and release evidence matrix'},
+      {deliverable_id:'D4',description:'Baseline findings and unknowns report'}
+    ]
+  });
+  assert.deepEqual(
+    wi.findSemanticDuplicateWorkItems(migration, [{...baseline,issue_number:13}]),
+    []
+  );
+  assert.deepEqual(
+    wi.findDuplicateWorkItemIdIssues(68,migration,[{...baseline,number:13}],[]),
+    []
+  );
+});
+
+test('different Work Items may reuse generic local deliverable labels without semantic collision', () => {
+  const left = item({
+    work_item_id:'WI-COMMERCE-CATALOG-001',
+    title:'Design product catalog and purchase flows',
+    parent_goal_ids:['G-09'],
+    parent_exp_ids:['EXP-08'],
+    resource_keys:['module:commerce-catalog'],
+    deliverables:[
+      {deliverable_id:'D1',description:'Catalog entity and attribute model'},
+      {deliverable_id:'D2',description:'Purchase flow requirements'}
+    ]
+  });
+  const right = item({
+    work_item_id:'WI-AI-TYPING-001',
+    title:'Specify AI-assisted typing service workflows',
+    parent_goal_ids:['G-09'],
+    parent_exp_ids:['EXP-08'],
+    resource_keys:['module:ai-typing'],
+    deliverables:[
+      {deliverable_id:'D1',description:'AI typing interaction scenarios'},
+      {deliverable_id:'D2',description:'Service quality and safety requirements'}
+    ]
+  });
+  assert.deepEqual(wi.findSemanticDuplicateWorkItems(left,[{...right,issue_number:208}]),[]);
+});
