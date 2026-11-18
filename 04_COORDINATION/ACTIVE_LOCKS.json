@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2295,
+  "revision": 2296,
   "next_fencing_token": 139,
   "locks": [
     {
@@ -19937,6 +19937,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-18T12:40:05.690Z"
+    },
+    "6978854596": {
+      "response": "STEP ثبت شد: S1_REPRODUCE_ALLOCATOR_BYPASS; EXECUTION_PROGRESS=14.28%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=1/7.",
+      "response_posted": false,
+      "issue_number": 90,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-18T12:41:42.215Z"
     }
   },
   "work_items": {
@@ -25437,7 +25446,7 @@
         "EXP-01"
       ],
       "parent_work_item_id": "WI-GOAL-ALLOCATOR-001",
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "file:.github/scripts/coordinator-core.js",
@@ -25461,7 +25470,18 @@
           "weight": 1,
           "expected_output": "A source-level and live-evidence trace showing a new Work Item Issue can be opened while a different allocator run holds the allocation lock, without matching actor/chat/run/fencing token validation.",
           "evidence_requirement": "Exact Issue numbers, allocator lock snapshot, creation event run ID, issue body provenance and registry read-back.",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/11#issuecomment-6971218934",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/11#issuecomment-6971305933",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/90",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/89",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/.github/workflows/farast-coordinator.yml"
+          ],
+          "validated_at_utc": "2026-11-18T12:41:42.214Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Issue #11 held allocator lease token 124 from 06:41:31Z through at least 07:16:23Z; Issue #89 was opened 06:44:17Z and Issue #90 06:45:44Z while that lease was active. Allocator comment 6971305933 confirms both were created under that run/token. Issue #90 stores only allocator_work_item_id, not allocator_issue_number/actor/chat_id/run_id/fencing_token/allocated_at_utc. Main issue-opened handler only labels new task issues ready and performs no allocation-provenance validation. Main SHA 6b53ea062b2105597d50c13a1b541e2ea299bad0; schema/core also lack allocation_provenance and parent_cp_ids."
         },
         {
           "step_id": "S2_DEFINE_PROVENANCE_AND_CHAT_POLICY",
