@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1693,
+  "revision": 1694,
   "next_fencing_token": 117,
   "locks": [
     {
@@ -15639,6 +15639,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-18T05:50:26.746Z"
+    },
+    "6970353083": {
+      "response": "STEP ثبت شد: S2_SHARED_ENTRYPOINT; EXECUTION_PROGRESS=42.85%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=3/7.",
+      "response_posted": false,
+      "issue_number": 67,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-18T05:50:33.104Z"
     }
   },
   "work_items": {
@@ -19030,7 +19039,16 @@
           "weight": 1,
           "expected_output": "Canonical prompt entry contract and global G-09 lane",
           "evidence_requirement": "Read-back of MASTER-00 and dispatch protocol with exact SHAs plus cross-EXP global-lane fixtures",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-67-RUN-20261118-PROMPT-DISPATCH-RESUME-001/05_PROMPT_LIBRARY/MASTER-00.md",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-67-RUN-20261118-PROMPT-DISPATCH-RESUME-001/04_COORDINATION/SINGLE_PROMPT_MULTI_CHAT_DISPATCH.md",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-67-RUN-20261118-PROMPT-DISPATCH-RESUME-001/.github/scripts/work-item-dispatch-core.js"
+          ],
+          "validated_at_utc": "2026-11-18T05:50:33.103Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Shared entrypoint and dispatch contract implement fresh-main bootstrap, prompt-local EXP OR global G-09 scope, resume-first selection, deterministic fallback after claim/resource conflict, allocator lane and checkpoint/handoff. Explicitly prohibit claims of auto-created chats or background continuation."
         },
         {
           "step_id": "S3_ALL_SPECIALISTS",
