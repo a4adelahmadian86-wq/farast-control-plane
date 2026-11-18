@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1569,
+  "revision": 1570,
   "next_fencing_token": 110,
   "locks": [
     {
@@ -14119,6 +14119,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-18T05:25:44.241Z"
+    },
+    "6969949385": {
+      "response": "STEP ثبت شد: S2_MIGRATE; EXECUTION_PROGRESS=42.85%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=3/7.",
+      "response_posted": false,
+      "issue_number": 68,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-18T05:25:51.874Z"
     }
   },
   "work_items": {
@@ -17571,7 +17580,14 @@
           "weight": 1,
           "expected_output": "Minimal metadata-only migration",
           "evidence_requirement": "Before/after body diffs and read-back for every Issue",
-          "estimate_minutes": 5
+          "estimate_minutes": 5,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/68#issuecomment-6969939169"
+          ],
+          "validated_at_utc": "2026-11-18T05:25:51.874Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S3_REGISTRY_SYNC",
