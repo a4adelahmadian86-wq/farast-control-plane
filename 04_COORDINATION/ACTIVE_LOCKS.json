@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2083,
+  "revision": 2084,
   "next_fencing_token": 128,
   "locks": [],
   "history": [
@@ -8796,6 +8796,17 @@
       "hard_gate_ready": true,
       "hard_gate_blockers": [],
       "at_utc": "2026-11-18T07:38:54.521Z"
+    },
+    {
+      "event": "WORK_ITEM_REFRESHED",
+      "issue_number": 90,
+      "work_item_id": "WI-CP-ALLOCATOR-CHAT-GATE-001",
+      "actor": "a4adelahmadian86-wq",
+      "preserved_steps": 0,
+      "preserved_criteria": 0,
+      "hard_gate_ready": true,
+      "hard_gate_blockers": [],
+      "at_utc": "2026-11-18T07:39:19.235Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -17979,6 +17990,15 @@
       "command": "status",
       "next_status": null,
       "at_utc": "2026-11-18T07:39:02.252Z"
+    },
+    "6972214529": {
+      "response": "Work Item specification refreshed from Issue body; preserved_steps=0; preserved_criteria=0; hard_gates=PASS; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%.",
+      "response_posted": false,
+      "issue_number": 90,
+      "actor": "a4adelahmadian86-wq",
+      "command": "refresh",
+      "next_status": "ready",
+      "at_utc": "2026-11-18T07:39:19.239Z"
     }
   },
   "work_items": {
@@ -23145,6 +23165,182 @@
         "version": "1.0"
       },
       "next_action": "Claim this leaf with a fresh run and fencing token; begin with read-only reproduction of cross-Issue starvation. Do not modify the NON product repository."
+    },
+    "90": {
+      "schema_version": "1.0",
+      "operation_scope_version": "1.0",
+      "requested_operations": [
+        "control_plane_write"
+      ],
+      "work_item_id": "WI-CP-ALLOCATOR-CHAT-GATE-001",
+      "title": "Enforce allocator provenance and one active lease per chat",
+      "description": "New Work Item Issues can currently be registered without proving that their allocation provenance matches the active allocator lease. A control-plane Issue was created while another allocator run held the allocation lock, without a matching token check. The lock manager also needs an explicit cross-Issue invariant that one chat_id may hold at most one active lease. Add allocation provenance and parent CP metadata to the schema, enforce both gates, and preserve backward compatibility for existing Work Items. Control-plane only.",
+      "parent_goal_ids": [
+        "G-09"
+      ],
+      "parent_exp_ids": [
+        "EXP-01"
+      ],
+      "parent_work_item_id": "WI-GOAL-ALLOCATOR-001",
+      "status": "READY",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "resource_keys": [
+        "file:.github/scripts/coordinator-core.js",
+        "file:.github/scripts/coordinator-core.test.js",
+        "file:.github/scripts/work-item-core.js",
+        "file:.github/scripts/work-item-core.test.js",
+        "file:04_coordination/WORK_ITEM_SCHEMA.json",
+        "file:04_coordination/ACTIVE_LOCKS.schema.json",
+        "file:04_coordination/COORDINATOR_COMMANDS.md",
+        "file:04_coordination/WORK_ITEM_EXECUTION_PROTOCOL.md",
+        "module:allocator-provenance-gate",
+        "module:chat-lease-exclusivity",
+        "module:parent-cp-schema"
+      ],
+      "dependencies": [],
+      "steps": [
+        {
+          "step_id": "S1_REPRODUCE_ALLOCATOR_BYPASS",
+          "title": "Reproduce issue creation without matching allocator provenance",
+          "required": true,
+          "weight": 1,
+          "expected_output": "A source-level and live-evidence trace showing a new Work Item Issue can be opened while a different allocator run holds the allocation lock, without matching actor/chat/run/fencing token validation.",
+          "evidence_requirement": "Exact Issue numbers, allocator lock snapshot, creation event run ID, issue body provenance and registry read-back.",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S2_DEFINE_PROVENANCE_AND_CHAT_POLICY",
+          "title": "Define allocation provenance and chat-level lease invariants",
+          "required": true,
+          "weight": 1,
+          "expected_output": "A precise contract for allocator_work_item_id, allocator_issue_number, actor, chat_id, run_id, fencing_token, branch and allocated_at_utc; plus one-active-lease-per-chat semantics.",
+          "evidence_requirement": "Schema design, backward-compatibility rules, owner exception policy (if any), and denial reasons.",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S3_EXTEND_WORK_ITEM_SCHEMA",
+          "title": "Extend Work Item schema/parser for allocation provenance and parent CP IDs",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Schema/parser support for optional parent_cp_ids distinct from parent_exp_ids and allocation_provenance, preserving legacy Work Items.",
+          "evidence_requirement": "Schema validation fixtures for old Work Items and new provenance-bearing Work Items; exact parse read-back.",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S4_ENFORCE_ALLOCATOR_CREATION_GATE",
+          "title": "Require a matching active allocator lease before registering a new Work Item",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Issue-opened registration rejects or marks blocked any new task whose allocation provenance does not exactly match the active allocator lock and fencing token; valid allocator-created Issues become ready.",
+          "evidence_requirement": "Tests and live event evidence for valid, missing, mismatched, expired and stale-fencing-token cases.",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S5_ENFORCE_CHAT_LEASE_EXCLUSIVITY",
+          "title": "Enforce one active lease per chat across all Work Items",
+          "required": true,
+          "weight": 1,
+          "expected_output": "A chat_id with an active lease cannot claim a second Work Item even when resources are disjoint; distinct chat IDs can claim disjoint resources concurrently.",
+          "evidence_requirement": "Lock-manager tests for same-chat rejection, different-chat parallel claims, resource conflicts and lease expiry/recovery.",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S6_REGRESSION_AND_PROTOCOLS",
+          "title": "Complete the test matrix and document the new allocation/lease rules",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Automated regression coverage plus updated schema/command/execution protocol and a migration note for existing Work Items.",
+          "evidence_requirement": "Focused test output, updated Markdown/JSON schema paths and backward-compatibility evidence.",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S7_CI_HANDOFF",
+          "title": "Run exact-head CI and hand off a focused control-plane PR",
+          "required": true,
+          "weight": 1,
+          "expected_output": "A control-plane-only PR with exact-head green CI, evidence-linked handoff and no active lease at acceptance.",
+          "evidence_requirement": "PR URL, exact head SHA, changed-file list, workflow run IDs and final lock/registry read-back.",
+          "estimate_minutes": 2
+        }
+      ],
+      "acceptance_criteria": [
+        {
+          "criterion_id": "AC_ALLOCATOR_PROVENANCE",
+          "title": "A new Work Item is registered as READY only when allocation_provenance matches the active allocator lock's actor, chat_id, run_id, fencing_token and expiry; invalid or missing provenance is blocked and audited.",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Positive and negative tests plus live issue-opened event evidence for matching and mismatching allocator tokens."
+        },
+        {
+          "criterion_id": "AC_CHAT_EXCLUSIVITY",
+          "title": "No chat_id can hold more than one active lease across Issues; distinct chat IDs may hold disjoint resource leases concurrently, while same-resource conflicts remain denied.",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Lock-manager tests and registry read-back for same-chat denial and different-chat parallel success."
+        },
+        {
+          "criterion_id": "AC_PARENT_CP_SCHEMA",
+          "title": "The Work Item schema supports parent_cp_ids separately from parent_exp_ids and allocation_provenance, while existing Work Items remain valid under the documented migration policy.",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Schema validation of legacy fixtures and new CP-linked provenance fixtures."
+        },
+        {
+          "criterion_id": "AC_REGRESSION_MATRIX",
+          "title": "Tests cover valid/missing/wrong/expired allocator token, stale fencing token, duplicate creation, same-chat second lease, different-chat disjoint resources and legacy migration.",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Focused automated matrix with every case passing."
+        },
+        {
+          "criterion_id": "AC_EXACT_HEAD_CI",
+          "title": "Control Plane Validation and focused tests pass on the exact PR head; no NON product files are changed.",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Successful exact-head workflow run and changed-file read-back."
+        }
+      ],
+      "priority": 50,
+      "created_at_utc": "2026-11-18T06:45:10Z",
+      "ready_at_utc": "2026-11-18T06:45:10Z",
+      "write_policy": "WRITE_ALLOWED",
+      "priority_source": "DEFAULT_POLICY",
+      "effort_estimate_minutes": 25,
+      "effort_rationale": "Focused audit, schema extension, two explicit coordinator gates, regression matrix and protocol updates; target effort is 25 minutes.",
+      "depth_profile": {
+        "profile_version": "2.0.0",
+        "min_substantive_steps": 6,
+        "min_acceptance_criteria": 4,
+        "min_deliverables": 3,
+        "target_effort_minutes": 25
+      },
+      "deliverables": [
+        {
+          "deliverable_id": "ACG-01",
+          "description": "Work Item schema/parser extension for parent_cp_ids and allocation_provenance with legacy compatibility.",
+          "evidence_requirement": "Schema diff and legacy/new fixture validation.",
+          "artifact_path": "04_COORDINATION/WORK_ITEM_SCHEMA.json"
+        },
+        {
+          "deliverable_id": "ACG-02",
+          "description": "Coordinator enforcement for allocator provenance and chat-level lease exclusivity.",
+          "evidence_requirement": "Source diff, lock/issue event tests and live registry evidence.",
+          "artifact_path": ".github/scripts/coordinator-core.js"
+        },
+        {
+          "deliverable_id": "ACG-03",
+          "description": "Regression matrix and updated allocator/lease protocol documentation.",
+          "evidence_requirement": "Focused test output and updated command/execution protocol.",
+          "artifact_path": ".github/scripts/coordinator-core.test.js"
+        }
+      ],
+      "weighting": {
+        "version": "1.0"
+      },
+      "acceptance_weighting": {
+        "version": "1.0"
+      },
+      "next_action": "Claim this leaf with a fresh run and fencing token; start read-only by reproducing the Issue #84 allocation-provenance gap. Do not modify the NON product repository."
     }
   },
   "checkpoints": {
