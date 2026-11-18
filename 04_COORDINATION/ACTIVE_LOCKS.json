@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2173,
+  "revision": 2174,
   "next_fencing_token": 133,
   "locks": [],
   "history": [
@@ -18823,6 +18823,15 @@
       "command": "review",
       "next_status": "review",
       "at_utc": "2026-11-18T11:17:06.723Z"
+    },
+    "6977002567": {
+      "response": "Work Item ACCEPTED: عملیات Issue/metadata مجاز تکمیل شده؛ همه گام‌ها، معیارها، شواهد، وابستگی‌ها و handoff بدون branch/PR احراز شدند.",
+      "response_posted": false,
+      "issue_number": 58,
+      "actor": "a4adelahmadian86-wq",
+      "command": "accept",
+      "next_status": "done",
+      "at_utc": "2026-11-18T11:17:27.307Z"
     }
   },
   "work_items": {
@@ -21144,7 +21153,7 @@
         "EXP-22",
         "EXP-23"
       ],
-      "status": "REVIEW_REQUIRED",
+      "status": "ACCEPTED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "issue:51",
