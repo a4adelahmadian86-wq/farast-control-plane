@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2205,
+  "revision": 2206,
   "next_fencing_token": 136,
   "locks": [
     {
@@ -19301,6 +19301,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-18T11:30:38.827Z"
+    },
+    "6977319390": {
+      "response": "معیار پذیرش ثبت شد: AC_REGRESSION_MATRIX; ACCEPTANCE_PROGRESS=60%; OVERALL_COMPLETION=60%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 89,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-18T11:31:59.250Z"
     }
   },
   "work_items": {
@@ -24537,7 +24546,14 @@
           "title": "Regression coverage includes current-Issue-only failure, cross-Issue recovery, cancelled-run replay, noisy-Issue fairness, bounded batch continuation and pagination.",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "Focused automated test matrix with all cases passing."
+          "evidence_requirement": "Focused automated test matrix with all cases passing.",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-89-RUN-20261118-GLOBAL-INBOX-FAIRNESS-004/.github/scripts/inbox-scheduler.test.js"
+          ],
+          "validated_at_utc": "2026-11-18T11:31:59.250Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_EXACT_HEAD_CI",
