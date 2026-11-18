@@ -124,6 +124,7 @@ jobs:
             const targetRepositoryFor = issue => coordinatorCore.targetRepositoryFor(issue.body);
             const activeForIssue = (state, n) => coordinatorCore.activeForIssue(state, n);
             const expireLocks = state => coordinatorCore.expireLocks(state);
+            const LEGACY_ALLOCATION_PROVENANCE_MAX_ISSUE = 90;
             const workItemSpecFor = issue => {
               const match = (issue.body || '').match(/(?:^|\n)###\s*Work item specification JSON\s*\n([\s\S]*?)(?=\n###|$)/i);
               if (!match) return null;
@@ -147,6 +148,7 @@ jobs:
                 const formResources = resourcesFor(issue);
                 const formGoals = scalar('Parent Goal IDs').split(/[\n,;]+/).map(x => x.trim()).filter(Boolean).sort();
                 const formExps = scalar('Parent EXP IDs').split(/[\n,;]+/).map(x => x.trim()).filter(Boolean).sort();
+                const formCps = scalar('Parent CP IDs').split(/[\n,;]+/).map(x => x.trim()).filter(Boolean).sort();
                 const formPriorityRaw = scalar('Priority (0-100; lower is higher)');
                 const formPriority = formPriorityRaw ? Number(formPriorityRaw) : Number.NaN;
                 const formEffortRaw = scalar('Target focused effort (minutes)');
@@ -159,6 +161,11 @@ jobs:
                 if (JSON.stringify(formResources) !== JSON.stringify(specResources)) throw new Error('Resource keys do not match JSON');
                 if (formGoals.length && JSON.stringify(formGoals) !== JSON.stringify([...(item.parent_goal_ids || [])].sort())) throw new Error('Parent Goal IDs do not match JSON');
                 if (formExps.length && JSON.stringify(formExps) !== JSON.stringify([...(item.parent_exp_ids || [])].sort())) throw new Error('Parent EXP IDs do not match JSON');
+                if (issue.number > LEGACY_ALLOCATION_PROVENANCE_MAX_ISSUE &&
+                    (formCps.length || item.parent_cp_ids !== undefined) &&
+                    JSON.stringify(formCps) !== JSON.stringify([...(item.parent_cp_ids || [])].sort())) {
+                  throw new Error('Parent CP IDs do not match JSON');
+                }
                 if (Number.isFinite(formPriority) && formPriority !== item.priority) throw new Error('Priority does not match JSON');
                 if (Number.isFinite(formEffort) && formEffort !== item.effort_estimate_minutes) throw new Error('Target focused effort does not match JSON');
                 if (formWritePolicy && formWritePolicy !== item.write_policy) throw new Error('Write policy does not match JSON');
@@ -177,6 +184,20 @@ jobs:
               } catch (error) {
                 throw new Error('Invalid Work item specification JSON in Issue #' + issue.number + ': ' + error.message);
               }
+            };
+            const ensureAllocationProvenance = (issue, item, state, nowMs = Date.now()) => {
+              if (Number(issue.number) <= LEGACY_ALLOCATION_PROVENANCE_MAX_ISSUE) return { ok:true, legacy:true };
+              if (!item) return { ok:false, reason:'work_item_spec_missing' };
+              if (item.target_repository === 'a4adelahmadian86-wq/farast-control-plane' &&
+                  (item.parent_goal_ids || []).includes('G-09') &&
+                  (!Array.isArray(item.parent_cp_ids) || item.parent_cp_ids.length === 0)) {
+                return { ok:false, reason:'missing_parent_cp_ids' };
+              }
+              if (coordinatorCore.hasVerifiedAllocationProvenance(state, issue.number, item)) return { ok:true, verified:true };
+              const validation = coordinatorCore.validateAllocationProvenance(state, item, issue.number, issue.created_at, nowMs);
+              if (!validation.ok) return validation;
+              coordinatorCore.recordAllocationProvenance(state, issue.number, item, nowMs);
+              return { ok:true, verified:true, recorded:true };
             };
             const rawWorkItemForIssue = issue => {
               const match = (issue.body || '').match(/(?:^|\n)###\s*Work item specification JSON\s*\n([\s\S]*?)(?=\n###|$)/i);
@@ -284,10 +305,12 @@ jobs:
                 let duplicateWorkItemIds = [];
                 let duplicateCheckError = '';
                 let candidateWorkItemId = '';
+                let candidateWorkItem = null;
                 if (['claim','refresh','unblock','reopen','accept'].includes(command)) {
                   let candidate = null;
                   try { candidate = workItemSpecFor(issue); } catch (_) {}
                   if (candidate) {
+                    candidateWorkItem = candidate;
                     candidateWorkItemId = candidate.work_item_id;
                     try {
                       taskIssuesSnapshot = await allTaskIssues();
@@ -297,7 +320,13 @@ jobs:
                     }
                   }
                 }
-                if (duplicateCheckError) {
+                const allocationGate = ['claim','refresh','unblock','reopen','accept'].includes(command)
+                  ? ensureAllocationProvenance(issue, candidateWorkItem, state)
+                  : { ok:true };
+                if (!allocationGate.ok) {
+                  nextStatus = 'blocked';
+                  response = 'فرمان رد شد: تخصیص این Work Item با lease معتبر Issue #11 قابل اثبات نیست؛ ' + allocationGate.reason + '. ابتدا فقط از مسیر allocator مجاز و با provenance دقیق اقدام کنید.';
+                } else if (duplicateCheckError) {
                   nextStatus = 'blocked';
                   response = 'فرمان رد شد: یکتایی WORK_ITEM_ID قابل راستی‌آزمایی نیست؛ برای fail-closed بودن هیچ Claim/refresh/unblock/accept انجام نشد. ' + duplicateCheckError;
                 } else if (duplicateWorkItemIds.length) {
@@ -377,6 +406,9 @@ jobs:
                       if (!claim.ok && claim.reason === 'task_already_claimed') {
                         const conflict = claim.conflict;
                         response = 'Claim رد شد: این TASK هم‌اکنون در اختیار @' + conflict.actor + ' با run=' + conflict.run_id + ' است؛ برای جلوگیری از دو نویسنده روی یک branch، ابتدا handoff یا انقضای lease لازم است.';
+                      } else if (!claim.ok && claim.reason === 'chat_conflict') {
+                        const conflict = claim.conflict;
+                        response = 'Claim رد شد: chat_id=' + chat + ' هم‌اکنون lease فعال روی Issue #' + conflict.issue_number + ' / run=' + conflict.run_id + ' تا ' + conflict.lease_expires_at_utc + ' UTC دارد؛ یک چت نمی‌تواند هم‌زمان Work Item دومی را حتی با منابع مجزا claim کند.';
                       } else if (!claim.ok && claim.reason === 'branch_reuse') {
                         response = 'Claim رد شد: این RUN/branch قبلاً استفاده شده است؛ برای هر handoff یک RUN_ID جدید و یکتا انتخاب کن.';
                       } else if (!claim.ok && claim.reason === 'missing_resources') {
@@ -629,7 +661,10 @@ jobs:
               });
               if (issue.state === 'open' && labelsOf(issue).includes('agent:blocked') && activeLocksForIssue.length === 0) {
                 const fresh = workItemSpecFor(issue), previous = snapshot.state.work_items?.[issue.number];
-                if (fresh && (!previous || previous.work_item_id === fresh.work_item_id)) {
+                const allocationGate = fresh
+                  ? ensureAllocationProvenance(issue, fresh, snapshot.state)
+                  : { ok:false, reason:'work_item_spec_missing' };
+                if (fresh && allocationGate.ok && (!previous || previous.work_item_id === fresh.work_item_id)) {
                   const oldSteps = new Map((previous?.steps || []).map(x => [x.step_id, x]));
                   const oldCriteria = new Map((previous?.acceptance_criteria || []).map(x => [x.criterion_id, x]));
                   fresh.steps = fresh.steps.map(step => {
@@ -678,9 +713,47 @@ jobs:
 
             if (context.eventName === 'issues' && ['opened','reopened'].includes(context.payload.action)) {
               const issue = context.payload.issue;
-              if (issue.title.startsWith('[FARAST-TASK]') || labelsOf(issue).includes('agent:task')) {
+              if (isTask(issue)) {
                 await addLabel(issue.number, 'agent:task');
-                if (!['agent:blocked','agent:review','agent:done'].some(x => labelsOf(issue).includes(x))) await addLabel(issue.number, 'agent:ready');
+                if (Number(issue.number) > LEGACY_ALLOCATION_PROVENANCE_MAX_ISSUE) {
+                  await setStatus(issue.number, 'blocked');
+                  const snapshot = await getRegistry();
+                  let item = null;
+                  let gate;
+                  try {
+                    item = workItemSpecFor(issue);
+                    gate = ensureAllocationProvenance(issue, item, snapshot.state);
+                  } catch (error) {
+                    gate = { ok:false, reason:String(error.message || error).slice(0, 300) };
+                  }
+                  if (gate.ok) {
+                    await saveRegistry(snapshot.state, snapshot, 'FARAST coordinator: verify allocator provenance for Issue #' + issue.number);
+                    await setStatus(issue.number, 'ready');
+                  } else {
+                    snapshot.state.history ||= [];
+                    const alreadyRejected = snapshot.state.history.some(entry =>
+                      entry.event === 'WORK_ITEM_ALLOCATION_REJECTED' &&
+                      Number(entry.issue_number) === Number(issue.number) &&
+                      entry.reason === gate.reason
+                    );
+                    if (!alreadyRejected) snapshot.state.history.push({
+                      event:'WORK_ITEM_ALLOCATION_REJECTED',
+                      issue_number:Number(issue.number),
+                      work_item_id:item?.work_item_id || null,
+                      reason:gate.reason || 'unknown',
+                      at_utc:new Date().toISOString()
+                    });
+                    await saveRegistry(snapshot.state, snapshot, 'FARAST coordinator: reject invalid allocation provenance for Issue #' + issue.number);
+                    await setStatus(issue.number, 'blocked');
+                    const marker = '<!-- FARAST_ALLOCATION_PROVENANCE_REJECTED:' + issue.number + ' -->';
+                    const comments = await github.paginate(github.rest.issues.listComments, { owner, repo, issue_number:issue.number, per_page:100 });
+                    if (!comments.some(comment => comment.body.includes(marker))) {
+                      await publish(issue.number, 'Work Item BLOCKED: allocation_provenance is missing, stale or does not match the active allocator Issue #11 lease. No claim is permitted until exact allocator provenance is supplied and verified. Reason: ' + (gate.reason || 'unknown') + '\n\n' + marker);
+                    }
+                  }
+                } else if (!['agent:blocked','agent:review','agent:done'].some(x => labelsOf(issue).includes(x))) {
+                  await addLabel(issue.number, 'agent:ready');
+                }
               }
             }
 
