@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1829,
+  "revision": 1830,
   "next_fencing_token": 119,
   "locks": [],
   "history": [
@@ -16024,7 +16024,7 @@
     },
     "6970702819": {
       "response": "پذیرش Work Item رد شد: همه گام‌های اجباری، معیارهای پذیرش و dependencyها باید با evidence معتبر PASS شوند؛ EXECUTION_PROGRESS=71.42%; ACCEPTANCE_PROGRESS=85.71%; OVERALL_COMPLETION=71.42%.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 84,
       "actor": "a4adelahmadian86-wq",
       "command": "accept",
