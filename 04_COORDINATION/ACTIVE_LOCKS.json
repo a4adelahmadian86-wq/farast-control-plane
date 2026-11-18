@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2478,
+  "revision": 2479,
   "next_fencing_token": 142,
   "locks": [
     {
@@ -21386,6 +21386,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-18T15:56:25.132Z"
+    },
+    "6983819422": {
+      "response": "STEP ثبت شد: S7_MERGED_REPLACEMENT_LINEAGE; EXECUTION_PROGRESS=88.88%; ACCEPTANCE_PROGRESS=83.33%; OVERALL_COMPLETION=83.33%; verified_steps=8/9.",
+      "response_posted": false,
+      "issue_number": 52,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-18T15:57:54.766Z"
     }
   },
   "work_items": {
@@ -23570,7 +23579,7 @@
       "parent_exp_ids": [
         "EXP-22"
       ],
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "module:work-item-policy",
@@ -23698,11 +23707,16 @@
           "title": "Implement a fail-closed acceptance path for an already-merged replacement PR whose merge commit is proven in the current target base",
           "required": true,
           "weight": 1,
-          "validation_status": "NOT_RUN",
-          "evidence_refs": [],
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/98"
+          ],
           "expected_output": "Coordinator may recognize a merged replacement PR despite review-branch mismatch only when the exact target repository matches, merged=true, merge_commit_sha exists and is an ancestor of current base; unmerged PRs remain bound to the exact latest REVIEW branch.",
           "evidence_requirement": "Coordinator source diff, GitHub compare evidence, and positive/negative tests for ancestor, non-ancestor, wrong-repository and unmerged-PR cases.",
-          "estimate_minutes": 2
+          "estimate_minutes": 2,
+          "validated_at_utc": "2026-11-18T15:57:54.766Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S8_LINEAGE_REGRESSION",
