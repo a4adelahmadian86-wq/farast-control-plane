@@ -1,8 +1,121 @@
 {
   "schema_version": "1.0",
-  "revision": 2087,
-  "next_fencing_token": 128,
-  "locks": [],
+  "revision": 2088,
+  "next_fencing_token": 129,
+  "locks": [
+    {
+      "resource_key": "file:.github/scripts/inbox-scheduler.js",
+      "issue_number": 89,
+      "task_id": "GH-89",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-MASTER-CONTINUE-20261118-01",
+      "chat_id": "CHAT-MASTER-CONTINUE-20261118-01",
+      "run_id": "RUN-20261118-GLOBAL-INBOX-FAIRNESS-002",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-89-RUN-20261118-GLOBAL-INBOX-FAIRNESS-002",
+      "acquired_at_utc": "2026-11-18T07:39:53.897Z",
+      "heartbeat_at_utc": "2026-11-18T07:39:53.897Z",
+      "lease_expires_at_utc": "2026-11-18T08:09:53.897Z",
+      "fencing_token": 128,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "file:.github/scripts/inbox-scheduler.test.js",
+      "issue_number": 89,
+      "task_id": "GH-89",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-MASTER-CONTINUE-20261118-01",
+      "chat_id": "CHAT-MASTER-CONTINUE-20261118-01",
+      "run_id": "RUN-20261118-GLOBAL-INBOX-FAIRNESS-002",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-89-RUN-20261118-GLOBAL-INBOX-FAIRNESS-002",
+      "acquired_at_utc": "2026-11-18T07:39:53.897Z",
+      "heartbeat_at_utc": "2026-11-18T07:39:53.897Z",
+      "lease_expires_at_utc": "2026-11-18T08:09:53.897Z",
+      "fencing_token": 128,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "file:.github/workflows/farast-coordinator.yml",
+      "issue_number": 89,
+      "task_id": "GH-89",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-MASTER-CONTINUE-20261118-01",
+      "chat_id": "CHAT-MASTER-CONTINUE-20261118-01",
+      "run_id": "RUN-20261118-GLOBAL-INBOX-FAIRNESS-002",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-89-RUN-20261118-GLOBAL-INBOX-FAIRNESS-002",
+      "acquired_at_utc": "2026-11-18T07:39:53.897Z",
+      "heartbeat_at_utc": "2026-11-18T07:39:53.897Z",
+      "lease_expires_at_utc": "2026-11-18T08:09:53.897Z",
+      "fencing_token": 128,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "file:04_coordination/interruption_recovery_protocol.md",
+      "issue_number": 89,
+      "task_id": "GH-89",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-MASTER-CONTINUE-20261118-01",
+      "chat_id": "CHAT-MASTER-CONTINUE-20261118-01",
+      "run_id": "RUN-20261118-GLOBAL-INBOX-FAIRNESS-002",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-89-RUN-20261118-GLOBAL-INBOX-FAIRNESS-002",
+      "acquired_at_utc": "2026-11-18T07:39:53.897Z",
+      "heartbeat_at_utc": "2026-11-18T07:39:53.897Z",
+      "lease_expires_at_utc": "2026-11-18T08:09:53.897Z",
+      "fencing_token": 128,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "file:04_coordination/multi_chat_readiness.md",
+      "issue_number": 89,
+      "task_id": "GH-89",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-MASTER-CONTINUE-20261118-01",
+      "chat_id": "CHAT-MASTER-CONTINUE-20261118-01",
+      "run_id": "RUN-20261118-GLOBAL-INBOX-FAIRNESS-002",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-89-RUN-20261118-GLOBAL-INBOX-FAIRNESS-002",
+      "acquired_at_utc": "2026-11-18T07:39:53.897Z",
+      "heartbeat_at_utc": "2026-11-18T07:39:53.897Z",
+      "lease_expires_at_utc": "2026-11-18T08:09:53.897Z",
+      "fencing_token": 128,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "module:durable-command-replay",
+      "issue_number": 89,
+      "task_id": "GH-89",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-MASTER-CONTINUE-20261118-01",
+      "chat_id": "CHAT-MASTER-CONTINUE-20261118-01",
+      "run_id": "RUN-20261118-GLOBAL-INBOX-FAIRNESS-002",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-89-RUN-20261118-GLOBAL-INBOX-FAIRNESS-002",
+      "acquired_at_utc": "2026-11-18T07:39:53.897Z",
+      "heartbeat_at_utc": "2026-11-18T07:39:53.897Z",
+      "lease_expires_at_utc": "2026-11-18T08:09:53.897Z",
+      "fencing_token": 128,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "module:global-inbox-fairness",
+      "issue_number": 89,
+      "task_id": "GH-89",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-MASTER-CONTINUE-20261118-01",
+      "chat_id": "CHAT-MASTER-CONTINUE-20261118-01",
+      "run_id": "RUN-20261118-GLOBAL-INBOX-FAIRNESS-002",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-89-RUN-20261118-GLOBAL-INBOX-FAIRNESS-002",
+      "acquired_at_utc": "2026-11-18T07:39:53.897Z",
+      "heartbeat_at_utc": "2026-11-18T07:39:53.897Z",
+      "lease_expires_at_utc": "2026-11-18T08:09:53.897Z",
+      "fencing_token": 128,
+      "status": "ACTIVE"
+    }
+  ],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -8807,6 +8920,29 @@
       "hard_gate_ready": true,
       "hard_gate_blockers": [],
       "at_utc": "2026-11-18T07:39:19.235Z"
+    },
+    {
+      "event": "ACQUIRED",
+      "issue_number": 89,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-MASTER-CONTINUE-20261118-01",
+      "run_id": "RUN-20261118-GLOBAL-INBOX-FAIRNESS-002",
+      "resource_keys": [
+        "file:.github/scripts/inbox-scheduler.js",
+        "file:.github/scripts/inbox-scheduler.test.js",
+        "file:.github/workflows/farast-coordinator.yml",
+        "file:04_coordination/interruption_recovery_protocol.md",
+        "file:04_coordination/multi_chat_readiness.md",
+        "module:durable-command-replay",
+        "module:global-inbox-fairness"
+      ],
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-89-RUN-20261118-GLOBAL-INBOX-FAIRNESS-002",
+      "previous_branch": null,
+      "previous_target_repository": null,
+      "previous_run_id": null,
+      "fencing_token": 128,
+      "at_utc": "2026-11-18T07:39:53.897Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -18008,6 +18144,15 @@
       "command": "status",
       "next_status": null,
       "at_utc": "2026-11-18T07:39:28.249Z"
+    },
+    "6972275185": {
+      "response": "CLAIM GRANTED. TASK=GH-89; WORK_ITEM_ID=WI-CP-GLOBAL-INBOX-FAIRNESS-001; verified_steps=; remaining_steps=S1_REPRODUCE_STARVATION,S2_DESIGN_FAIR_INBOX,S3_IMPLEMENT_GLOBAL_SCAN,S4_PERSIST_IDEMPOTENCY,S5_REGRESSION_TESTS,S6_PROTOCOL_READINESS,S7_CI_HANDOFF; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; actor=@a4adelahmadian86-wq; chat=CHAT-MASTER-CONTINUE-20261118-01; run=RUN-20261118-GLOBAL-INBOX-FAIRNESS-002; resource_keys=file:.github/scripts/inbox-scheduler.js,file:.github/scripts/inbox-scheduler.test.js,file:.github/workflows/farast-coordinator.yml,file:04_coordination/interruption_recovery_protocol.md,file:04_coordination/multi_chat_readiness.md,module:durable-command-replay,module:global-inbox-fairness; target_repository=a4adelahmadian86-wq/farast-control-plane; write_policy=WRITE_ALLOWED; branch=work/GH-89-RUN-20261118-GLOBAL-INBOX-FAIRNESS-002; previous_run=none; fencing_token=128; lease_expires=2026-11-18T08:09:53.897Z. این Work Item با سیاست WRITE_ALLOWED است؛ branch را فقط در target_repository ثبت‌شده بساز و قبل از هر write heartbeat/token را دوباره تأیید کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز و branch قبلی را تغییر نده.",
+      "response_posted": false,
+      "issue_number": 89,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "locked",
+      "at_utc": "2026-11-18T07:39:53.903Z"
     }
   },
   "work_items": {
@@ -23019,7 +23164,7 @@
         "EXP-01"
       ],
       "parent_work_item_id": "WI-GOAL-ALLOCATOR-001",
-      "status": "READY",
+      "status": "CLAIMED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "file:.github/workflows/farast-coordinator.yml",
