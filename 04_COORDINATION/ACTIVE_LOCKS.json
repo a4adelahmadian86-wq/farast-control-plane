@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2093,
+  "revision": 2094,
   "next_fencing_token": 129,
   "locks": [],
   "history": [
@@ -8853,6 +8853,17 @@
       "branch": "work/GH-89-RUN-20261118-GLOBAL-INBOX-FAIRNESS-002",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "at_utc": "2026-11-18T07:47:42.924Z"
+    },
+    {
+      "event": "WORK_ITEM_REFRESHED",
+      "issue_number": 89,
+      "work_item_id": "WI-CP-GLOBAL-INBOX-FAIRNESS-001",
+      "actor": "a4adelahmadian86-wq",
+      "preserved_steps": 0,
+      "preserved_criteria": 0,
+      "hard_gate_ready": true,
+      "hard_gate_blockers": [],
+      "at_utc": "2026-11-18T07:48:21.045Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -18081,6 +18092,15 @@
       "command": "release",
       "next_status": "ready",
       "at_utc": "2026-11-18T07:47:42.925Z"
+    },
+    "6972434813": {
+      "response": "Work Item specification refreshed from Issue body; preserved_steps=0; preserved_criteria=0; hard_gates=PASS; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%.",
+      "response_posted": false,
+      "issue_number": 89,
+      "actor": "a4adelahmadian86-wq",
+      "command": "refresh",
+      "next_status": "ready",
+      "at_utc": "2026-11-18T07:48:21.049Z"
     }
   },
   "work_items": {
@@ -23080,7 +23100,8 @@
       "schema_version": "1.0",
       "operation_scope_version": "1.0",
       "requested_operations": [
-        "control_plane_write"
+        "control_plane_write",
+        "control_plane_merge"
       ],
       "work_item_id": "WI-CP-GLOBAL-INBOX-FAIRNESS-001",
       "title": "Implement global fair replay for the durable FARAST command inbox",
@@ -23095,13 +23116,15 @@
       "status": "READY",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
+        "file:.github/workflows/control-plane-validation.yml",
         "file:.github/workflows/farast-coordinator.yml",
         "file:.github/scripts/inbox-scheduler.js",
         "file:.github/scripts/inbox-scheduler.test.js",
+        "file:04_coordination/ACTIVE_LOCKS.schema.json",
         "file:04_coordination/INTERRUPTION_RECOVERY_PROTOCOL.md",
         "file:04_coordination/MULTI_CHAT_READINESS.md",
-        "module:global-inbox-fairness",
-        "module:durable-command-replay"
+        "module:durable-command-replay",
+        "module:global-inbox-fairness"
       ],
       "dependencies": [],
       "steps": [
