@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2490,
+  "revision": 2491,
   "next_fencing_token": 142,
   "locks": [
     {
@@ -21422,6 +21422,15 @@
       "command": "status",
       "next_status": null,
       "at_utc": "2026-11-18T16:00:36.695Z"
+    },
+    "6983931158": {
+      "response": "معیار پذیرش ثبت شد: AC_MERGED_REPLACEMENT_LINEAGE; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; can_accept=true.",
+      "response_posted": false,
+      "issue_number": 52,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-18T16:01:45.724Z"
     }
   },
   "work_items": {
@@ -23606,7 +23615,7 @@
       "parent_exp_ids": [
         "EXP-22"
       ],
-      "status": "IN_PROGRESS",
+      "status": "REVIEW_REQUIRED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "module:work-item-policy",
@@ -23828,9 +23837,14 @@
           "title": "Coordinator accepts a previously merged replacement PR despite a different historical review branch only when the exact target repository matches and its merge commit is proven to be an ancestor of the current target base; unmerged PRs still require exact latest-review branch lineage.",
           "required": true,
           "weight": 1,
-          "validation_status": "NOT_RUN",
-          "evidence_refs": [],
-          "evidence_requirement": "Positive/negative coordinator tests, GitHub compare proof for PR #55 merge commit 22a3d30a7dfffa903ded81d31cafc53e602751bd against current main, exact PR #55 head CI and final coordinator acceptance evidence."
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/98"
+          ],
+          "evidence_requirement": "Positive/negative coordinator tests, GitHub compare proof for PR #55 merge commit 22a3d30a7dfffa903ded81d31cafc53e602751bd against current main, exact PR #55 head CI and final coordinator acceptance evidence.",
+          "validated_at_utc": "2026-11-18T16:01:45.723Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "priority": 40,
