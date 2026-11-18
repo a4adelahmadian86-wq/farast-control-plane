@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1952,
+  "revision": 1953,
   "next_fencing_token": 123,
   "locks": [
     {
@@ -16965,6 +16965,15 @@
       "command": "status",
       "next_status": null,
       "at_utc": "2026-11-18T06:27:21.343Z"
+    },
+    "6970791305": {
+      "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-SEMANTIC-DEDUP-DELIVERABLE-SCOPE-001; EXECUTION_PROGRESS=85.71%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=85.71%; next_action=Monitor; remaining_steps=S6_HANDOFF.",
+      "response_posted": false,
+      "issue_number": 84,
+      "actor": "a4adelahmadian86-wq",
+      "command": "checkpoint",
+      "next_status": null,
+      "at_utc": "2026-11-18T06:27:39.223Z"
     }
   },
   "work_items": {
@@ -22456,6 +22465,59 @@
         "lease_expires_at_utc": "2026-11-17T17:57:11.692Z"
       },
       "next_action": "Run /farast review with this lease, then /farast accept pr=https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/79; after merge, verify Issue #64's live dependency gate and continue #68 then #67."
+    },
+    "84": {
+      "work_item_id": "WI-SEMANTIC-DEDUP-DELIVERABLE-SCOPE-001",
+      "run_id": "RUN-20261118-84-POSTMERGE-RECOVERY-001",
+      "checkpoint_version": 1,
+      "created_at_utc": "2026-11-18T06:27:39.222Z",
+      "last_verified_step_id": "S5_CLAIM_RECOVERY",
+      "current_step_id": "S6_HANDOFF",
+      "completed_step_ids": [
+        "S0_REPRODUCE",
+        "S1_DEFINE",
+        "S2_FIX_CORE",
+        "S3_REGRESSION",
+        "S4_VALIDATE",
+        "S5_CLAIM_RECOVERY"
+      ],
+      "remaining_step_ids": [
+        "S6_HANDOFF"
+      ],
+      "progress_percentage": 85.71,
+      "execution_progress_percentage": 85.71,
+      "acceptance_progress_percentage": 100,
+      "overall_completion_percentage": 85.71,
+      "progress_calculation_version": "PROGRESS_V2",
+      "required_step_counts": {
+        "pass": 6,
+        "fail": 0,
+        "blocked": 0,
+        "unknown": 0,
+        "not_run": 1
+      },
+      "acceptance_criteria_counts": {
+        "pass": 7,
+        "fail": 0,
+        "blocked": 0,
+        "unknown": 0,
+        "not_run": 0
+      },
+      "evidence_refs": [
+        "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/86",
+        "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44249107014",
+        "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/e26bf2d5b48e8fdcdf16755a86e8901f1999aa31",
+        "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/68#issuecomment-6970727188",
+        "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/coordination/locks/04_COORDINATION/ACTIVE_LOCKS.json"
+      ],
+      "blockers": [],
+      "owner": {
+        "actor": "a4adelahmadian86-wq",
+        "chat_id": "CHAT-FARAST-POSTMERGE-84-20261118-0613Z-7C2A",
+        "fencing_token": 119,
+        "lease_expires_at_utc": "2026-11-18T06:44:01.096Z"
+      },
+      "next_action": "Monitor"
     }
   }
 }
