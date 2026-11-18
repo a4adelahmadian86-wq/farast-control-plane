@@ -1086,3 +1086,43 @@ test('different Work Items may reuse generic local deliverable labels without se
   });
   assert.deepEqual(wi.findSemanticDuplicateWorkItems(left,[{...right,issue_number:208}]),[]);
 });
+
+
+test('parent_cp_ids is distinct optional metadata and legacy Work Items remain valid', () => {
+  const legacy = item();
+  assert.equal(wi.validateWorkItem(legacy), true);
+  const cpLinked = item({ parent_cp_ids:['CP-02','CP-03'] });
+  assert.equal(wi.validateWorkItem(cpLinked), true);
+  assert.throws(() => wi.validateWorkItem(item({ parent_cp_ids:'CP-02' })), /parent_cp_ids/);
+  assert.throws(() => wi.validateWorkItem(item({ parent_cp_ids:['CP-02','CP-02'] })), /parent_cp_ids must be unique/);
+  assert.throws(() => wi.validateWorkItem(item({ parent_cp_ids:['bad cp id'] })), /invalid parent_cp_ids/);
+});
+
+test('allocation_provenance validates the canonical allocator and exact field types', () => {
+  const provenance = {
+    allocator_work_item_id:'WI-GOAL-ALLOCATOR-001',
+    allocator_issue_number:11,
+    actor:'owner',
+    chat_id:'allocator-chat',
+    run_id:'allocator-run',
+    fencing_token:77,
+    branch:null,
+    allocated_at_utc:'2026-11-18T06:05:00.000Z'
+  };
+  assert.equal(wi.validateWorkItem(item({ allocation_provenance:provenance })), true);
+  assert.throws(() => wi.validateWorkItem(item({
+    allocation_provenance:{ ...provenance, fencing_token:0 }
+  })), /invalid allocation_provenance fencing_token/);
+  assert.throws(() => wi.validateWorkItem(item({
+    allocation_provenance:{ ...provenance, allocator_issue_number:12 }
+  })), /invalid allocation_provenance allocator_issue_number/);
+  assert.throws(() => wi.validateWorkItem(item({
+    allocation_provenance:{ ...provenance, actor:'bad actor' }
+  })), /invalid allocation_provenance actor/);
+  assert.throws(() => wi.validateWorkItem(item({
+    allocation_provenance:{ ...provenance, allocated_at_utc:'not-a-date' }
+  })), /allocated_at_utc must be an ISO timestamp/);
+  assert.throws(() => wi.validateWorkItem(item({
+    allocation_provenance:{ ...provenance, extra:'not-allowed' }
+  })), /invalid allocation_provenance fields/);
+});
