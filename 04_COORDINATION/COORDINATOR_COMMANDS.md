@@ -101,3 +101,11 @@ Coordinator فقط برای `write_policy=WRITE_ALLOWED` مقدار branch را 
 - مشخصات جدید با schema/core validation بررسی می‌شود؛ اگر عمق یا evidence requirement ناقص باشد refresh رد می‌شود.
 - پس از refresh، progress سه‌گانه از ساختار جدید محاسبه و وضعیت READY/IN_PROGRESS/REVIEW_REQUIRED تعیین می‌شود.
 - refresh پذیرش یا اجرای کار نیست؛ فقط همگام‌سازی تعریف Work Item بین Issue و registry است.
+
+## پذیرش امن PR جایگزین ادغام‌شده
+
+- قاعده اصلی برای PR باز یا ادغام‌نشده تغییر نمی‌کند: `head.ref` باید دقیقاً با branch آخرین رویداد `REVIEW` همان lease و مخزن target یکسان باشد.
+- فقط برای PR جایگزینی که از قبل `closed` و `merged=true` است، Coordinator می‌تواند عدم تطابق branch تاریخی را بپذیرد؛ مشروط بر اینکه مخزن head و base دقیقاً با `target_repository` یکسان باشند، `base.ref` شاخه پیش‌فرض همان مخزن باشد و `merge_commit_sha` خالی نباشد.
+- Coordinator باید با GitHub Compare ثابت کند `merge_commit_sha` ancestor شاخه پیش‌فرض فعلی است: `base_commit.sha` و `merge_base_commit.sha` هر دو باید دقیقاً برابر merge commit باشند، `behind_by=0` و status فقط `ahead` یا `identical` باشد.
+- Check Runها و Commit Statusهای SHA دقیق `pr.head.sha` همچنان باید موفق باشند؛ hard gate، dependency، operation gate، Issue link و نبود lease فعال نیز بدون تغییر الزامی‌اند.
+- PR باز/ادغام‌نشده، fork، مخزن متفاوت، base branch متفاوت، compare ناموفق/مبهم یا merge commit غیرancestor هرگز از این استثنا عبور نمی‌کند. حالت lineage در operation ledger با `EXACT_REVIEW_BRANCH` یا `MERGED_REPLACEMENT_ANCESTOR` ثبت می‌شود.
