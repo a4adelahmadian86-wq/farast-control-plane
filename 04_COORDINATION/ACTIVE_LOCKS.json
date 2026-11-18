@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1924,
+  "revision": 1925,
   "next_fencing_token": 123,
   "locks": [
     {
@@ -16948,6 +16948,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-18T06:24:11.034Z"
+    },
+    "6970910202": {
+      "response": "معیار پذیرش ثبت شد: AC_ALLOCATOR_BOOTSTRAP; ACCEPTANCE_PROGRESS=57.14%; OVERALL_COMPLETION=57.14%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 68,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-18T06:24:18.888Z"
     }
   },
   "work_items": {
@@ -20800,7 +20809,17 @@
         {
           "criterion_id": "AC_ALLOCATOR_BOOTSTRAP",
           "title": "The canonical allocator remains claimable and can create future leaves under the accepted contract",
-          "evidence_requirement": "Live claim/read-back plus allocator-specific regression test"
+          "evidence_requirement": "Live claim/read-back plus allocator-specific regression test",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/68#issuecomment-6970127186",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/11#issuecomment-6970104794",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/86",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44249107014"
+          ],
+          "validated_at_utc": "2026-11-18T06:24:18.888Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "After migration, canonical allocator Issue #11 passed hard gates, a fresh claim succeeded with token 111, and the lease was released; registry read-back returned READY with v1.0/control_plane_write. Allocator contention and dynamic leaf expansion regressions also pass."
         },
         {
           "criterion_id": "AC_REGISTRY_SYNC",
