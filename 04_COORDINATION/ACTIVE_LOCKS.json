@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2149,
+  "revision": 2150,
   "next_fencing_token": 132,
   "locks": [
     {
@@ -18642,6 +18642,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-18T11:12:50.371Z"
+    },
+    "6976894660": {
+      "response": "معیار پذیرش ثبت شد: AC_POLICY; ACCEPTANCE_PROGRESS=50%; OVERALL_COMPLETION=50%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 58,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-18T11:12:57.687Z"
     }
   },
   "work_items": {
@@ -21105,7 +21114,16 @@
         {
           "criterion_id": "AC_POLICY",
           "title": "Issue #51 owner authorization and WRITE_ALLOWED scope are unchanged; Issue #52 remains control-plane-only; no blanket product authorization is introduced",
-          "evidence_requirement": "Before/after comparison of exact issue fields and live coordinator validation"
+          "evidence_requirement": "Before/after comparison of exact issue fields and live coordinator validation",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/58#issuecomment-6976871049",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/51",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/52"
+          ],
+          "validated_at_utc": "2026-11-18T11:12:57.687Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_SMOKE",
