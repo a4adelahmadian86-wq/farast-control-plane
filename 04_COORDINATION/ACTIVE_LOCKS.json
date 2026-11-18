@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2008,
+  "revision": 2009,
   "next_fencing_token": 124,
   "locks": [
     {
@@ -17415,6 +17415,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-18T06:35:23.771Z"
+    },
+    "6971115727": {
+      "response": "معیار پذیرش ثبت شد: AC_PARSE; ACCEPTANCE_PROGRESS=20%; OVERALL_COMPLETION=20%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 81,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-18T06:35:44.499Z"
     }
   },
   "work_items": {
@@ -22016,7 +22025,17 @@
         {
           "criterion_id": "AC_PARSE",
           "title": "The exact current coordinator extraction regex parses Issue #67 without a trailing-character error",
-          "evidence_requirement": "Parser output and live Issue read-back"
+          "evidence_requirement": "Parser output and live Issue read-back",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/67",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/.github/workflows/farast-coordinator.yml",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/04_COORDINATION/WORK_ITEM_SCHEMA.json",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/88"
+          ],
+          "validated_at_utc": "2026-11-18T06:35:44.498Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_IDENTITY",
