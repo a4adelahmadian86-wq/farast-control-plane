@@ -211,6 +211,33 @@ MASTER-00 یک فرمان ثابت برای تمام چت‌هاست؛ هر چت
 - آزمون دو حساب مستقل ChatGPT/GitHub، takeover واقعی میان دو نشست و hard-fencing مسیر direct-write خارج از coordinator همچنان **NOT VERIFIED** هستند. هیچ ادعای ایجاد خودکار چت یا ادامه در پس‌زمینه وجود ندارد.
 - یک اجرای میانی CI با run `44247203711` به‌دلیل fixture اشتباهِ هدف G-09 روی دو برگ تخصصی شکست خورد. fixture اصلاح شد: برگ EXP-02 در G-01 و برگ EXP-22 در G-08 قرار گرفتند تا فقط worker متناظر آن‌ها را از مسیر محلی انتخاب کند؛ run `44247484021` روی head `e7c3ffe83083dbdeb9d3c361c62e4dd2377f213c` سپس موفق شد. این run پس از commitهای بعدی، صرفاً سابقه است و جایگزین CI head جاری نیست.
 
+
+---
+
+## بازبینی زنده و تصحیح handoff — 2026-11-18
+
+این بخش وضعیت قبلی را با شواهد زنده جایگزین می‌کند و مرز «شبیه‌سازی» و «آزمون واقعی چندحسابی» را حفظ می‌کند.
+
+- PR #83 با head `f675c7bb893f577a8d98b4547469a39bca256a3e` ادغام شده است؛ merge commit آن `74b0389a8de651e1e1c6a64e8a2841dae7779d91` است.
+- اجرای Control Plane Validation روی همان head دقیق PR #83 موفق بوده است: [run 44247672388](https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44247672388).
+- PR #88 قرارداد استخراج JSON از Issue body را اصلاح و ادغام کرده است؛ main در زمان این بازبینی روی `2b9157f7054bf5b3d18bdd331193d234f4b41690` قرار دارد. این main از merge commit مربوط به PR #83 جلوتر است؛ بنابراین محتوای PR #83 در main موجود است.
+- یک تلاش پذیرش #67 به‌درستی رد شد، چون PR #83 از branch اجرای قبلی بود و با branch ثبت‌شده در آخرین handoff منطبق نبود. این ردشدن نشان می‌دهد کنترل branch lineage فعال است؛ پذیرش باید با PR ساخته‌شده از branch آخرین handoff انجام شود. branchهای قدیمی PR #80 و PR #83 نباید بازنویسی شوند.
+- branch فعلی main در GitHub مقدار `protected=false` دارد و repository rulesets خالی است (`[]`). تا فعال‌سازی و read-back حفاظت شاخه و required checks، hard-fencing در سطح GitHub ادعا نمی‌شود.
+- آزمون‌های N=2،5،10،25، replay بیست‌وپنج فرمان و بازیابی interruption، آزمون‌های deterministic simulation/fixture هستند؛ آزمون E2E با دو حساب مستقل GitHub و دو نشست مستقل ChatGPT هنوز **NOT VERIFIED / NOT RUN** است.
+- GitHub هویت واقعی ChatGPT chat را ارائه نمی‌کند؛ CHAT_ID/RUN_ID شناسه‌های metadata خوداظهاری‌اند. این سامانه چت/حساب جدید ایجاد نمی‌کند و خارج از نشست جاری در پس‌زمینه ادامه نمی‌دهد.
+- throughput نامحدود برای N دلخواه تضمین نمی‌شود؛ نرخ و ظرفیت واقعی تابع quota و محدودیت‌های GitHub Actions/API و منابع هر Work Item است.
+- تا اجرای E2E مستقل، فعال‌سازی branch protection/rulesets و اثبات takeover واقعی با رد token قدیمی، وضعیت نهایی **MULTI-ACCOUNT E2E NOT VERIFIED — DO NOT CLAIM “APPLY READY”** باقی می‌ماند.
+
+### وضعیت تصمیم
+
+- [x] PR #83 ادغام و CI روی SHA دقیق آن موفق شد.
+- [x] قرارداد قالب Issue body در PR #88 اصلاح و ادغام شد.
+- [x] انتخاب/رقابت N-worker در شبیه‌سازی N=2،5،10،25 و بازیابی durable inbox پوشش داده شده است.
+- [ ] آزمون واقعی دو حساب مستقل و دو نشست مستقل ChatGPT.
+- [ ] takeover واقعی پس از قطع نشست و رد فرمان/write با fencing token قدیمی.
+- [ ] فعال‌سازی و read-back branch protection یا rulesets و required checks روی main.
+- [ ] اثبات hard-fencing برای مسیرهای مستقیم write در مخزن هدف.
+
 ---
 
 ## به‌روزرسانی زنده — 2026-11-18 — صندوق فرمان سراسری و عدالت بین Issueها (Issue #89)
