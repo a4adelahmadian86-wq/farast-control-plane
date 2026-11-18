@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1579,
+  "revision": 1580,
   "next_fencing_token": 110,
   "locks": [],
   "history": [
@@ -7112,6 +7112,19 @@
       "hard_gate_ready": true,
       "hard_gate_blockers": [],
       "at_utc": "2026-11-18T05:27:36.975Z"
+    },
+    {
+      "event": "WORK_ITEM_REFRESHED",
+      "issue_number": 50,
+      "work_item_id": "WI-PROMPT-ENTRY-GUIDE-SYNC-001",
+      "actor": "a4adelahmadian86-wq",
+      "preserved_steps": 0,
+      "preserved_criteria": 0,
+      "hard_gate_ready": false,
+      "hard_gate_blockers": [
+        "explicit_dependency_not_accepted:WI-PROMPT-INTEGRATION-001:REVIEW_REQUIRED"
+      ],
+      "at_utc": "2026-11-18T05:28:01.114Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -14036,6 +14049,15 @@
       "command": "refresh",
       "next_status": "review",
       "at_utc": "2026-11-18T05:27:36.980Z"
+    },
+    "6969988823": {
+      "response": "Work Item specification refreshed from Issue body; preserved_steps=0; preserved_criteria=0; hard_gates=BLOCKED:explicit_dependency_not_accepted:WI-PROMPT-INTEGRATION-001:REVIEW_REQUIRED; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%.",
+      "response_posted": false,
+      "issue_number": 50,
+      "actor": "a4adelahmadian86-wq",
+      "command": "refresh",
+      "next_status": "blocked",
+      "at_utc": "2026-11-18T05:28:01.196Z"
     }
   },
   "work_items": {
@@ -15765,6 +15787,104 @@
       ],
       "priority": 5,
       "created_at_utc": "2026-11-16T10:56:00Z"
+    },
+    "50": {
+      "schema_version": "1.0",
+      "write_policy": "WRITE_ALLOWED",
+      "priority_source": "DEFAULT_POLICY",
+      "work_item_id": "WI-PROMPT-ENTRY-GUIDE-SYNC-001",
+      "title": "Synchronize the official FARAST execution start guide with the canonical executable prompt bundle 1.9.0",
+      "description": "Update only after WI-PROMPT-INTEGRATION-001 is accepted and its integration is present on main. Reconcile guide version references, entrypoint links, tested operational facts, and multi-account limitations with live main and the accepted prompt bundle.",
+      "parent_goal_ids": [
+        "G-09"
+      ],
+      "parent_exp_ids": [
+        "EXP-01"
+      ],
+      "status": "BLOCKED",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "resource_keys": [
+        "doc:EXECUTION_START_GUIDE_FA.md"
+      ],
+      "dependencies": [
+        {
+          "work_item_id": "WI-PROMPT-INTEGRATION-001",
+          "status": "ACCEPTED"
+        }
+      ],
+      "steps": [
+        {
+          "step_id": "S0_AUDIT",
+          "title": "After dependency acceptance, read back main, accepted bundle/catalog and current execution guide; record exact SHA and stale claims",
+          "required": true,
+          "weight": 1,
+          "validation_status": "NOT_RUN",
+          "evidence_refs": []
+        },
+        {
+          "step_id": "S1_SYNC",
+          "title": "Update the guide's canonical bundle version, prompt-library entrypoint links, and status statements only from accepted/live evidence",
+          "required": true,
+          "weight": 1,
+          "validation_status": "NOT_RUN",
+          "evidence_refs": []
+        },
+        {
+          "step_id": "S2_VALIDATE",
+          "title": "Validate all guide links and version references against files on the proposed branch; run relevant control-plane validation and read back the exact head",
+          "required": true,
+          "weight": 1,
+          "validation_status": "NOT_RUN",
+          "evidence_refs": []
+        },
+        {
+          "step_id": "S3_HANDOFF",
+          "title": "Open a focused PR, document evidence and residual multi-account limitations, and hand off for independent review without merging",
+          "required": true,
+          "weight": 1,
+          "validation_status": "NOT_RUN",
+          "evidence_refs": []
+        }
+      ],
+      "acceptance_criteria": [
+        {
+          "criterion_id": "AC_VERSION",
+          "title": "The official guide identifies the exact accepted bundle version 1.9.0 and links to the canonical bundle file present on main",
+          "required": true,
+          "validation_status": "NOT_RUN",
+          "evidence_refs": []
+        },
+        {
+          "criterion_id": "AC_LINKS",
+          "title": "All prompt catalog, MASTER-00, specialist prompt and multi-chat readiness links resolve to the canonical paths on main",
+          "required": true,
+          "validation_status": "NOT_RUN",
+          "evidence_refs": []
+        },
+        {
+          "criterion_id": "AC_EVIDENCE",
+          "title": "Operational status, CI evidence, branch-protection facts and multi-account E2E limitations are current, dated and supported by read-back evidence",
+          "required": true,
+          "validation_status": "NOT_RUN",
+          "evidence_refs": []
+        },
+        {
+          "criterion_id": "AC_SCOPE",
+          "title": "Only EXECUTION_START_GUIDE_FA.md is changed; product repository non remains READ_ONLY; PR is not merged by the worker",
+          "required": true,
+          "validation_status": "NOT_RUN",
+          "evidence_refs": []
+        }
+      ],
+      "priority": 50,
+      "created_at_utc": "2026-11-16T11:49:00Z",
+      "weighting": {
+        "version": "1.0"
+      },
+      "operation_scope_version": "1.0",
+      "requested_operations": [
+        "control_plane_write"
+      ]
     },
     "51": {
       "schema_version": "1.0",
