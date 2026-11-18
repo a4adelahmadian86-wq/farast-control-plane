@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2509,
+  "revision": 2510,
   "next_fencing_token": 142,
   "locks": [],
   "history": [
@@ -21309,7 +21309,7 @@
     },
     "6984065958": {
       "response": "Work Item ACCEPTED: همه گام‌ها و معیارهای اجباری با evidence معتبر پاس شده‌اند؛ PR ادغام‌شده و تمام گیت‌های ماشینی موفق روی SHA دقیق head احراز شد؛ هیچ Review انسانی شرط پذیرش نیست.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 52,
       "actor": "a4adelahmadian86-wq",
       "command": "accept",
