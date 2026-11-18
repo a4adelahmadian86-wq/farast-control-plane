@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2652,
+  "revision": 2653,
   "next_fencing_token": 148,
   "locks": [
     {
@@ -22236,7 +22236,7 @@
     },
     "6985969717": {
       "response": "CLAIM GRANTED. TASK=GH-50; WORK_ITEM_ID=WI-PROMPT-ENTRY-GUIDE-SYNC-001; verified_steps=; remaining_steps=S0_AUDIT,S1_SYNC,S2_VALIDATE,S3_HANDOFF; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; actor=@a4adelahmadian86-wq; chat=CHAT-20261118-READY-EXECUTION-01; run=RUN-20261118-GUIDE-SYNC-001; resource_keys=doc:execution_start_guide_fa.md; target_repository=a4adelahmadian86-wq/farast-control-plane; write_policy=WRITE_ALLOWED; branch=work/GH-50-RUN-20261118-GUIDE-SYNC-001; previous_run=none; fencing_token=147; lease_expires=2026-11-18T17:47:19.075Z. این Work Item با سیاست WRITE_ALLOWED است؛ branch را فقط در target_repository ثبت‌شده بساز و قبل از هر write heartbeat/token را دوباره تأیید کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز و branch قبلی را تغییر نده.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 50,
       "actor": "a4adelahmadian86-wq",
       "command": "claim",
