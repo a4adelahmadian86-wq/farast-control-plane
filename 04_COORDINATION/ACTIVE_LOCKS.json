@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1727,
+  "revision": 1728,
   "next_fencing_token": 117,
   "locks": [
     {
@@ -15888,6 +15888,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-18T05:56:43.479Z"
+    },
+    "6970453357": {
+      "response": "معیار پذیرش ثبت شد: AC_GLOBAL_G09; ACCEPTANCE_PROGRESS=37.5%; OVERALL_COMPLETION=37.5%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 67,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-18T05:56:51.153Z"
     }
   },
   "work_items": {
@@ -19396,7 +19405,16 @@
         {
           "criterion_id": "AC_GLOBAL_G09",
           "title": "Every specialist prompt can access global G-09 coordination tasks outside its local EXP scope and fall back safely",
-          "evidence_requirement": "Cross-scope selection tests for PR-02/EXP-02, PR-16/EXP-22-23 and PR-17/EXP-26 against G-09 allocator/coordination Work Items"
+          "evidence_requirement": "Cross-scope selection tests for PR-02/EXP-02, PR-16/EXP-22-23 and PR-17/EXP-26 against G-09 allocator/coordination Work Items",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-67-RUN-20261118-PROMPT-DISPATCH-RESUME-001/.github/scripts/work-item-dispatch-core.js",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-67-RUN-20261118-PROMPT-DISPATCH-RESUME-001/.github/scripts/work-item-dispatch-core.test.js",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44247418634"
+          ],
+          "validated_at_utc": "2026-11-18T05:56:51.153Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_OPERATION_SCOPE",
