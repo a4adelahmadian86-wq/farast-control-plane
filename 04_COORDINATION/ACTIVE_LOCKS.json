@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2368,
+  "revision": 2369,
   "next_fencing_token": 140,
   "locks": [
     {
@@ -20491,6 +20491,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-18T13:14:55.537Z"
+    },
+    "6979652108": {
+      "response": "معیار پذیرش ثبت شد: AC_READONLY_ISOLATION; ACCEPTANCE_PROGRESS=40%; OVERALL_COMPLETION=40%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 47,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-18T13:15:41.299Z"
     }
   },
   "work_items": {
@@ -22218,7 +22227,14 @@
         },
         {
           "criterion_id": "AC_READONLY_ISOLATION",
-          "title": "READ_ONLY work creates no branch, commit, PR or mutation in its target repository; invalid or conflicting policies fail closed"
+          "title": "READ_ONLY work creates no branch, commit, PR or mutation in its target repository; invalid or conflicting policies fail closed",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/55"
+          ],
+          "validated_at_utc": "2026-11-18T13:15:41.299Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_AUTONOMOUS_SELECTION",
