@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2137,
+  "revision": 2138,
   "next_fencing_token": 132,
   "locks": [
     {
@@ -14,8 +14,8 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "branch": null,
       "acquired_at_utc": "2026-11-18T11:09:03.179Z",
-      "heartbeat_at_utc": "2026-11-18T11:09:03.179Z",
-      "lease_expires_at_utc": "2026-11-18T11:39:03.179Z",
+      "heartbeat_at_utc": "2026-11-18T11:09:45.673Z",
+      "lease_expires_at_utc": "2026-11-18T11:39:45.673Z",
       "fencing_token": 131,
       "status": "ACTIVE"
     },
@@ -30,8 +30,8 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "branch": null,
       "acquired_at_utc": "2026-11-18T11:09:03.179Z",
-      "heartbeat_at_utc": "2026-11-18T11:09:03.179Z",
-      "lease_expires_at_utc": "2026-11-18T11:39:03.179Z",
+      "heartbeat_at_utc": "2026-11-18T11:09:45.673Z",
+      "lease_expires_at_utc": "2026-11-18T11:39:45.673Z",
       "fencing_token": 131,
       "status": "ACTIVE"
     }
@@ -9147,6 +9147,18 @@
       "previous_run_id": null,
       "fencing_token": 131,
       "at_utc": "2026-11-18T11:09:03.179Z"
+    },
+    {
+      "event": "HEARTBEAT",
+      "issue_number": 58,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-MASTER-CONTINUE-20261118-01",
+      "run_id": "RUN-20261118-PR16-SPEC-REPAIR-RESUME-006",
+      "fencing_token": 131,
+      "branch": null,
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "lease_expires_at_utc": "2026-11-18T11:39:45.673Z",
+      "at_utc": "2026-11-18T11:09:45.673Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -18564,6 +18576,15 @@
       "command": "claim",
       "next_status": "locked",
       "at_utc": "2026-11-18T11:09:03.185Z"
+    },
+    "6976802387": {
+      "response": "Lease تمدید شد تا 2026-11-18T11:39:45.673Z UTC؛ fencing_token=131.",
+      "response_posted": false,
+      "issue_number": 58,
+      "actor": "a4adelahmadian86-wq",
+      "command": "heartbeat",
+      "next_status": null,
+      "at_utc": "2026-11-18T11:09:45.673Z"
     }
   },
   "work_items": {
