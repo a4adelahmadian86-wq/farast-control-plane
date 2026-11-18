@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2392,
+  "revision": 2393,
   "next_fencing_token": 140,
   "locks": [
     {
@@ -20611,6 +20611,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-18T13:21:51.293Z"
+    },
+    "6979815992": {
+      "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-PROMPT-INTEGRATION-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=Run /farast review for PR #96 on the exact successful head; ensure the lease is released; owner-refresh Issue #47 so the new deep Work Item schema is loaded while preserving evidence; verify 100/100 progress and run /farast accept for PR #96. Keep MULTI-ACCOUNT E2E marked NOT VERIFIED until two independent accounts and sessions actually pass.; remaining_steps=.",
+      "response_posted": false,
+      "issue_number": 47,
+      "actor": "a4adelahmadian86-wq",
+      "command": "checkpoint",
+      "next_status": null,
+      "at_utc": "2026-11-18T13:22:33.811Z"
     }
   },
   "work_items": {
@@ -26607,6 +26616,52 @@
         "lease_expires_at_utc": "2026-11-15T18:55:57.323Z"
       },
       "next_action": "Independent review of PR #46 after PR #45 is reviewed and merged; then retarget/rebase PR #46 to main and rerun CI. Do not merge without independent review."
+    },
+    "47": {
+      "work_item_id": "WI-PROMPT-INTEGRATION-001",
+      "run_id": "RUN-PR16-EXP23-INTEGRATION-RESUME-20261118-001",
+      "checkpoint_version": 1,
+      "created_at_utc": "2026-11-18T13:22:33.810Z",
+      "last_verified_step_id": "S6_VERIFY_HANDOFF",
+      "current_step_id": "S6_VERIFY_HANDOFF",
+      "completed_step_ids": [
+        "S0_AUDIT",
+        "S1_MERGE_PLAN",
+        "S2_DEEP_STANDARD",
+        "S3_WRITE_POLICY",
+        "S4_AUTO_SELECTION",
+        "S5_BUNDLE_TESTS",
+        "S6_VERIFY_HANDOFF"
+      ],
+      "remaining_step_ids": [],
+      "progress_percentage": 100,
+      "execution_progress_percentage": 100,
+      "acceptance_progress_percentage": 100,
+      "overall_completion_percentage": 100,
+      "progress_calculation_version": "PROGRESS_V2",
+      "required_step_counts": {
+        "pass": 7,
+        "fail": 0,
+        "blocked": 0,
+        "unknown": 0,
+        "not_run": 0
+      },
+      "acceptance_criteria_counts": {
+        "pass": 5,
+        "fail": 0,
+        "blocked": 0,
+        "unknown": 0,
+        "not_run": 0
+      },
+      "evidence_refs": [],
+      "blockers": [],
+      "owner": {
+        "actor": "a4adelahmadian86-wq",
+        "chat_id": "CHAT-PR16-EXP23-CONTINUATION-20261118",
+        "fencing_token": 139,
+        "lease_expires_at_utc": "2026-11-18T13:51:51.293Z"
+      },
+      "next_action": "Run /farast review for PR #96 on the exact successful head; ensure the lease is released; owner-refresh Issue #47 so the new deep Work Item schema is loaded while preserving evidence; verify 100/100 progress and run /farast accept for PR #96. Keep MULTI-ACCOUNT E2E marked NOT VERIFIED until two independent accounts and sessions actually pass."
     },
     "51": {
       "work_item_id": "WI-NON-IMPLEMENTATION-VERTICAL-SLICE-001",
