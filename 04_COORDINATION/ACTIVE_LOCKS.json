@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1994,
+  "revision": 1995,
   "next_fencing_token": 124,
   "locks": [
     {
@@ -17280,6 +17280,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-18T06:33:03.288Z"
+    },
+    "6971071301": {
+      "response": "STEP ثبت شد: S5_CLAIM_RECOVERY; EXECUTION_PROGRESS=85.71%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=6/7.",
+      "response_posted": false,
+      "issue_number": 81,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-18T06:33:10.578Z"
     }
   },
   "work_items": {
@@ -21856,7 +21865,16 @@
           "weight": 1,
           "expected_output": "Fresh claim grant or precise hard blocker",
           "evidence_requirement": "New fencing token and registry read-back, or exact denial reason",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/67",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/83",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/coordination/locks/04_COORDINATION/ACTIVE_LOCKS.json"
+          ],
+          "validated_at_utc": "2026-11-18T06:33:10.578Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "After releasing this task's issue:67 lock, verified no active issue:67 resource lock. Issue #67 is already closed and its registry Work Item status is ACCEPTED after merged PR #83; a fresh claim is not permitted for an accepted/closed Work Item. The claim attempt was left fail-closed; no reopen or bypass was attempted."
         },
         {
           "step_id": "S6_HANDOFF",
