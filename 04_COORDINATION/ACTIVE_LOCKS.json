@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1890,
+  "revision": 1891,
   "next_fencing_token": 123,
   "locks": [
     {
@@ -16736,6 +16736,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-18T06:19:55.050Z"
+    },
+    "6970848252": {
+      "response": "STEP ثبت شد: S5_REGRESSION; EXECUTION_PROGRESS=85.71%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=6/7.",
+      "response_posted": false,
+      "issue_number": 68,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-18T06:20:02.098Z"
     }
   },
   "work_items": {
@@ -20376,7 +20385,7 @@
         "EXP-22",
         "EXP-23"
       ],
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "module:legacy-operation-scope-migration",
@@ -20492,7 +20501,26 @@
           "weight": 1,
           "expected_output": "All operation-scope migration invariants pass",
           "evidence_requirement": "Named tests, exact-head CI and no-bypass assertions",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/86",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44249107014",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/11",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/43",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/44",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/47",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/50",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/51",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/52",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/58",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/81",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/84",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/85"
+          ],
+          "validated_at_utc": "2026-11-18T06:20:02.097Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Current main e26bf2d5b48e8fdcdf16755a86e8901f1999aa31 includes the accepted operation-scope and semantic-dedup changes. PR #86 exact head 8bb4d4099a9f859673826f0ba34b869af7f5ab5f passed Control Plane Validation. Read-only inventory of all 12 open WRITE_ALLOWED Work Items: 8 legacy targets were migrated; #81 and #84 are already v1.0; #68 and #85 are v1.0; all use control_plane_write except the explicitly scoped NON product implementation Issue #51 which uses product_implementation. No READ_ONLY task was upgraded. The policy regression suite covers unknown/unsupported operations, policy-specific allowlists and READ_ONLY mismatch. Existing issue bodies and current registry were read back; no task identity or progress was reset."
         },
         {
           "step_id": "S6_VERIFY_HANDOFF",
