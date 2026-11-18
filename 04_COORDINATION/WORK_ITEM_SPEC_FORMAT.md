@@ -28,10 +28,12 @@ Use the exact heading text below. The Work Item JSON section must be the final s
 The live coordinator currently extracts the JSON section using this boundary:
 
 ```js
-/(?:^|\\n)###\\s*Work item specification JSON\\s*\\n([\\s\\S]*?)(?=\\n###|$)/i
+/(?:^|\n)###\s*Work item specification JSON\s*\n([\s\S]*?)(?=\n###|$)/i
 ```
 
 It trims the captured section, removes an optional ```json fence, parses JSON, then validates the object and cross-checks scalar/resource sections against the JSON.
+
+This is a JavaScript regex literal, not a JSON string: use each escape once (\n, \s, \S). Doubling the backslashes changes the match to literal backslash text.
 
 Consequences:
 
