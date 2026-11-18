@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2103,
+  "revision": 2104,
   "next_fencing_token": 130,
   "locks": [
     {
@@ -18331,6 +18331,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-18T07:54:40.415Z"
+    },
+    "6972561762": {
+      "response": "STEP ثبت شد: S2_DESIGN_FAIR_INBOX; EXECUTION_PROGRESS=28.57%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=2/7.",
+      "response_posted": false,
+      "issue_number": 89,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-18T07:55:09.112Z"
     }
   },
   "work_items": {
@@ -23381,7 +23390,14 @@
           "weight": 1,
           "expected_output": "A deterministic scheduling design covering all open agent:task Issues, ordering, per-Issue quota or round-robin, maximum commands per run, cursor/checkpoint, pagination and rate limits.",
           "evidence_requirement": "Written algorithm, invariants, ordering examples, cancellation/replay behavior and failure/stop conditions.",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-89-RUN-20261118-GLOBAL-INBOX-FAIRNESS-003/.github/scripts/inbox-scheduler.js"
+          ],
+          "validated_at_utc": "2026-11-18T07:55:09.111Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S3_IMPLEMENT_GLOBAL_SCAN",
