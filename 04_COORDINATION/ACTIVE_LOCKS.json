@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2552,
+  "revision": 2553,
   "next_fencing_token": 144,
   "locks": [
     {
@@ -21806,6 +21806,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-18T16:18:52.455Z"
+    },
+    "6984446704": {
+      "response": "STEP ثبت شد: S3_EXTEND_WORK_ITEM_SCHEMA; EXECUTION_PROGRESS=42.85%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=3/7.",
+      "response_posted": false,
+      "issue_number": 90,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-18T16:20:27.584Z"
     }
   },
   "work_items": {
@@ -27460,7 +27469,7 @@
         "EXP-01"
       ],
       "parent_work_item_id": "WI-GOAL-ALLOCATOR-001",
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "file:.github/scripts/coordinator-core.js",
@@ -27520,7 +27529,18 @@
           "weight": 1,
           "expected_output": "Schema/parser support for optional parent_cp_ids distinct from parent_exp_ids and allocation_provenance, preserving legacy Work Items.",
           "evidence_requirement": "Schema validation fixtures for old Work Items and new provenance-bearing Work Items; exact parse read-back.",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/99",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/f0c35db1e83972e14ce2a676ad288a36b18f031d",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/3d1ff6a4c936f3f712fbd5f142b95c66b05b569b",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/a3d605a49f89acc0828aee6f668e60c0e212dc2c",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44345733764"
+          ],
+          "validated_at_utc": "2026-11-18T16:20:27.584Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Schema and parser support parent_cp_ids plus allocation_provenance; legacy fixtures remain valid; exact-head CI passed all 147 tests."
         },
         {
           "step_id": "S4_ENFORCE_ALLOCATOR_CREATION_GATE",
