@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1794,
+  "revision": 1795,
   "next_fencing_token": 119,
   "locks": [
     {
@@ -15882,6 +15882,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-18T06:08:36.055Z"
+    },
+    "6970643277": {
+      "response": "STEP ثبت شد: S2_FIX_CORE; EXECUTION_PROGRESS=42.85%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=3/7.",
+      "response_posted": false,
+      "issue_number": 84,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-18T06:08:55.823Z"
     }
   },
   "work_items": {
