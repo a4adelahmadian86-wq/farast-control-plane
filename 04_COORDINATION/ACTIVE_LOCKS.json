@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1886,
+  "revision": 1887,
   "next_fencing_token": 123,
   "locks": [
     {
@@ -16706,6 +16706,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-18T06:19:32.923Z"
+    },
+    "6970840911": {
+      "response": "STEP ثبت شد: S4_VERIFY; EXECUTION_PROGRESS=71.42%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=5/7.",
+      "response_posted": false,
+      "issue_number": 81,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-18T06:19:39.232Z"
     }
   },
   "work_items": {
@@ -21071,7 +21080,7 @@
         "EXP-22",
         "EXP-23"
       ],
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "issue:67",
@@ -21160,7 +21169,18 @@
           "weight": 1,
           "expected_output": "Exact parser and schema validation pass",
           "evidence_requirement": "Node/parser validation output and parsed JSON equality proof",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/67",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/.github/workflows/farast-coordinator.yml",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/04_COORDINATION/WORK_ITEM_SCHEMA.json",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/80",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/83"
+          ],
+          "validated_at_utc": "2026-11-18T06:19:39.231Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Applied the exact live extraction regex /(?:^|\\\\n)###\\\\s*Work item specification JSON\\\\s*\\\\n([\\\\s\\\\S]*?)(?=\\\\n###|$)/i to current Issue #67; the fenced block parses as JSON, is the final section, and passes the current Work Item schema required/type/enum/conditional checks. Stable WORK_ITEM_ID and operation scope remain WI-PROMPT-OPERATION-SCOPE-001/control_plane_write. PR #80 remains merged at its original head 4cb356ccfad04c24ddbf9ddb34f1c391501845e2; current Issue #67 also records the resumed PR #83 lineage. No Issue #67 fields were changed in this verification."
         },
         {
           "step_id": "S5_CLAIM_RECOVERY",
