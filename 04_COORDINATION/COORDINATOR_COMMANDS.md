@@ -30,7 +30,7 @@ Issue باید عنوان `[FARAST-TASK]` داشته باشد. فیلد Target r
 
 - مقادیر actor/chat_id/run_id/fencing_token/branch باید دقیقاً از lock فعال `coordination:work-item-allocation` در Issue #11 خوانده شوند؛ مقدار حدسی یا کپی از اجرای قبلی پذیرفته نیست. `branch` شاخه allocator است و برای allocator شاخه‌ندار `null` می‌شود.
 - `allocated_at_utc` باید داخل بازه acquired/expiry همان lease و حداکثر با اختلاف پنج دقیقه از `issue.created_at` باشد.
-- برای کارهای جدید G-09 در مخزن کنترل‌پلین، `parent_cp_ids` باید جدا از `parent_exp_ids` در JSON و بخش متناظر Issue ثبت شود. این فیلد برای Work Itemهای legacy اختیاری می‌ماند.
+- برای کارهای جدید G-09 در مخزن کنترل‌پلین، `parent_cp_ids` باید جدا از `parent_exp_ids` در JSON ثبت شود؛ اگر فرم Issue فیلد جداگانه Parent CP IDs داشته باشد، مقدار آن نیز باید با JSON برابر باشد. این فیلد برای Work Itemهای legacy اختیاری می‌ماند.
 - Coordinator فقط پس از تطبیق provenance با lock زنده، رویداد ممیزی `WORK_ITEM_ALLOCATED` را در history ثبت و Issue را `agent:ready` می‌کند. provenance مفقود/منقضی/نامنطبق یعنی `agent:blocked` و claim ممنوع.
 - lease allocator را تا وقتی Issue جدید واقعاً پس از اعتبارسنجی به `agent:ready` تبدیل نشده آزاد نکن. اگر blocked شد، همان Issue را اصلاح و در lease معتبر دوباره اعتبارسنجی کن؛ Issue تکراری نساز.
 
