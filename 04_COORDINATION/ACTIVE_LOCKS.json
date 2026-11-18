@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2231,
+  "revision": 2232,
   "next_fencing_token": 137,
   "locks": [
     {
@@ -19497,6 +19497,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-18T11:56:42.627Z"
+    },
+    "6977868235": {
+      "response": "معیار پذیرش ثبت شد: AC_EXACT_HEAD_CI; ACCEPTANCE_PROGRESS=80%; OVERALL_COMPLETION=80%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 89,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-18T11:57:13.250Z"
     }
   },
   "work_items": {
@@ -24757,9 +24766,9 @@
           "evidence_requirement": "Successful workflow run whose head SHA equals the PR head plus changed-file read-back.",
           "validation_status": "PASS",
           "evidence_refs": [
-            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44295280344"
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44299157014"
           ],
-          "validated_at_utc": "2026-11-18T11:32:33.414Z",
+          "validated_at_utc": "2026-11-18T11:57:13.250Z",
           "validated_by": "a4adelahmadian86-wq",
           "validation_note": ""
         }
