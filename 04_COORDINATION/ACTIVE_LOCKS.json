@@ -1,40 +1,8 @@
 {
   "schema_version": "1.0",
-  "revision": 2165,
+  "revision": 2166,
   "next_fencing_token": 133,
   "locks": [
-    {
-      "resource_key": "issue:51",
-      "issue_number": 58,
-      "task_id": "GH-58",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "CHAT-MASTER-CONTINUE-20261118-01",
-      "chat_id": "CHAT-MASTER-CONTINUE-20261118-01",
-      "run_id": "RUN-20261118-PR16-SPEC-REPAIR-RESUME-006",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": null,
-      "acquired_at_utc": "2026-11-18T11:09:03.179Z",
-      "heartbeat_at_utc": "2026-11-18T11:14:43.382Z",
-      "lease_expires_at_utc": "2026-11-18T11:44:43.382Z",
-      "fencing_token": 131,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "issue:52",
-      "issue_number": 58,
-      "task_id": "GH-58",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "CHAT-MASTER-CONTINUE-20261118-01",
-      "chat_id": "CHAT-MASTER-CONTINUE-20261118-01",
-      "run_id": "RUN-20261118-PR16-SPEC-REPAIR-RESUME-006",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": null,
-      "acquired_at_utc": "2026-11-18T11:09:03.179Z",
-      "heartbeat_at_utc": "2026-11-18T11:14:43.382Z",
-      "lease_expires_at_utc": "2026-11-18T11:44:43.382Z",
-      "fencing_token": 131,
-      "status": "ACTIVE"
-    },
     {
       "resource_key": "file:.github/scripts/coordinator-core.js",
       "issue_number": 67,
@@ -9755,6 +9723,17 @@
       "previous_run_id": "RUN-20261118-ISSUE67-CLAIM-RECOVERY-001",
       "fencing_token": 132,
       "at_utc": "2026-11-18T11:15:41.927Z"
+    },
+    {
+      "event": "REVIEW",
+      "issue_number": 58,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-MASTER-CONTINUE-20261118-01",
+      "run_id": "RUN-20261118-PR16-SPEC-REPAIR-RESUME-006",
+      "fencing_token": 131,
+      "branch": null,
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "at_utc": "2026-11-18T11:16:06.399Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -19298,6 +19277,15 @@
       "command": "claim",
       "next_status": "locked",
       "at_utc": "2026-11-18T11:15:41.929Z"
+    },
+    "6976958089": {
+      "response": "پیاده‌سازی برای اجرای گیت‌های ماشینی و پذیرش خودکار تحویل شد؛ این فرمان به‌تنهایی پذیرش نیست.",
+      "response_posted": false,
+      "issue_number": 58,
+      "actor": "a4adelahmadian86-wq",
+      "command": "review",
+      "next_status": "review",
+      "at_utc": "2026-11-18T11:16:06.400Z"
     }
   },
   "work_items": {
@@ -21619,7 +21607,7 @@
         "EXP-22",
         "EXP-23"
       ],
-      "status": "IN_PROGRESS",
+      "status": "REVIEW_REQUIRED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "issue:51",
