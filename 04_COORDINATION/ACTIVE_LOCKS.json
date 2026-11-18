@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2285,
+  "revision": 2286,
   "next_fencing_token": 138,
   "locks": [],
   "history": [
@@ -26025,9 +26025,9 @@
   },
   "inbox_scheduler": {
     "version": 1,
-    "last_page": 1,
-    "last_page_count": 25,
-    "page": 2,
-    "updated_at_utc": "2026-11-18T12:35:02.894Z"
+    "last_page": 2,
+    "last_page_count": 15,
+    "page": 1,
+    "updated_at_utc": "2026-11-18T12:36:04.236Z"
   }
 }
