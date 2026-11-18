@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2070,
+  "revision": 2071,
   "next_fencing_token": 126,
   "locks": [],
   "history": [
@@ -17852,7 +17852,7 @@
     },
     "6972164026": {
       "response": "Claim رد شد: اختلاف یا نقص در Work Item زنده/رجیستری؛ هیچ branch تخصیص داده نشد. Invalid Work item specification JSON in Issue #89: parent_exp_ids are required",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 89,
       "actor": "a4adelahmadian86-wq",
       "command": "claim",
