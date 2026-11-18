@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1816,
+  "revision": 1817,
   "next_fencing_token": 119,
   "locks": [
     {
@@ -15993,6 +15993,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-18T06:10:27.579Z"
+    },
+    "6970664079": {
+      "response": "معیار پذیرش ثبت شد: AC_STABLE_IDS; ACCEPTANCE_PROGRESS=71.42%; OVERALL_COMPLETION=71.42%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 84,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-18T06:10:35.663Z"
     }
   },
   "work_items": {
@@ -20722,7 +20731,16 @@
         {
           "criterion_id": "AC_STABLE_IDS",
           "title": "Exact duplicate stable Work Item IDs still block claim",
-          "evidence_requirement": "Exact duplicate-ID negative test remains passing"
+          "evidence_requirement": "Exact duplicate-ID negative test remains passing",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-84-RUN-20261118-SEMANTIC-DEDUP-002/.github/scripts/work-item-core.js",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44249107014",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/8bb4d4099a9f859673826f0ba34b869af7f5ab5f"
+          ],
+          "validated_at_utc": "2026-11-18T06:10:35.663Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_REGRESSION_CI",
