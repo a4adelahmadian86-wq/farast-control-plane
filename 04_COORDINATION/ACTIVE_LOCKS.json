@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1998,
+  "revision": 1999,
   "next_fencing_token": 124,
   "locks": [
     {
@@ -14,8 +14,8 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "branch": "work/GH-81-RUN-20261118-ISSUE-SPEC-REPAIR-004",
       "acquired_at_utc": "2026-11-18T06:28:56.722Z",
-      "heartbeat_at_utc": "2026-11-18T06:33:28.945Z",
-      "lease_expires_at_utc": "2026-11-18T07:03:28.945Z",
+      "heartbeat_at_utc": "2026-11-18T06:33:46.807Z",
+      "lease_expires_at_utc": "2026-11-18T07:03:46.807Z",
       "fencing_token": 123,
       "status": "ACTIVE"
     },
@@ -30,8 +30,8 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "branch": "work/GH-81-RUN-20261118-ISSUE-SPEC-REPAIR-004",
       "acquired_at_utc": "2026-11-18T06:28:56.722Z",
-      "heartbeat_at_utc": "2026-11-18T06:33:28.945Z",
-      "lease_expires_at_utc": "2026-11-18T07:03:28.945Z",
+      "heartbeat_at_utc": "2026-11-18T06:33:46.807Z",
+      "lease_expires_at_utc": "2026-11-18T07:03:46.807Z",
       "fencing_token": 123,
       "status": "ACTIVE"
     },
@@ -46,8 +46,8 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "branch": "work/GH-81-RUN-20261118-ISSUE-SPEC-REPAIR-004",
       "acquired_at_utc": "2026-11-18T06:28:56.722Z",
-      "heartbeat_at_utc": "2026-11-18T06:33:28.945Z",
-      "lease_expires_at_utc": "2026-11-18T07:03:28.945Z",
+      "heartbeat_at_utc": "2026-11-18T06:33:46.807Z",
+      "lease_expires_at_utc": "2026-11-18T07:03:46.807Z",
       "fencing_token": 123,
       "status": "ACTIVE"
     }
@@ -8505,6 +8505,18 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "lease_expires_at_utc": "2026-11-18T07:03:28.945Z",
       "at_utc": "2026-11-18T06:33:28.945Z"
+    },
+    {
+      "event": "HEARTBEAT",
+      "issue_number": 81,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-MASTER-CONTINUE-20261118-01",
+      "run_id": "RUN-20261118-ISSUE-SPEC-REPAIR-004",
+      "fencing_token": 123,
+      "branch": "work/GH-81-RUN-20261118-ISSUE-SPEC-REPAIR-004",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "lease_expires_at_utc": "2026-11-18T07:03:46.807Z",
+      "at_utc": "2026-11-18T06:33:46.807Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -17310,6 +17322,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-18T06:33:28.945Z"
+    },
+    "6971082318": {
+      "response": "Lease تمدید شد تا 2026-11-18T07:03:46.807Z UTC؛ fencing_token=123.",
+      "response_posted": false,
+      "issue_number": 81,
+      "actor": "a4adelahmadian86-wq",
+      "command": "heartbeat",
+      "next_status": null,
+      "at_utc": "2026-11-18T06:33:46.807Z"
     }
   },
   "work_items": {
