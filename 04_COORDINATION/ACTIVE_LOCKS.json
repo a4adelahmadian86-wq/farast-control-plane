@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2588,
+  "revision": 2589,
   "next_fencing_token": 144,
   "locks": [
     {
@@ -21989,6 +21989,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-18T16:50:00.186Z"
+    },
+    "6985267780": {
+      "response": "STEP ثبت شد: S7_CI_HANDOFF; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=7/7.",
+      "response_posted": false,
+      "issue_number": 90,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-18T16:54:26.239Z"
     }
   },
   "work_items": {
@@ -27786,7 +27795,17 @@
           "weight": 1,
           "expected_output": "A control-plane-only PR with exact-head green CI, evidence-linked handoff and no active lease at acceptance.",
           "evidence_requirement": "PR URL, exact head SHA, changed-file list, workflow run IDs and final lock/registry read-back.",
-          "estimate_minutes": 2
+          "estimate_minutes": 2,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/99",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/33b5dc14c8c8cebad26d065e10c78843f7f971b1",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44349241705",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/coordination/locks/04_COORDINATION/ACTIVE_LOCKS.json"
+          ],
+          "validated_at_utc": "2026-11-18T16:54:26.238Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "PR #99 exact final head 33b5dc14c8c8cebad26d065e10c78843f7f971b1 is mergeable with 151/151 CI tests passing; compare is 22 ahead/0 behind and contains only the nine scoped control-plane files. Review handoff will release token 143 for this Work Item; immediately before acceptance verify zero active locks for Issue 90/resource set. Unrelated disjoint chat leases may remain active."
         }
       ],
       "acceptance_criteria": [
