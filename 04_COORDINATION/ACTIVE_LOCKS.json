@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1577,
+  "revision": 1578,
   "next_fencing_token": 110,
   "locks": [],
   "history": [
@@ -7101,6 +7101,17 @@
       "branch": null,
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "at_utc": "2026-11-18T05:27:13.182Z"
+    },
+    {
+      "event": "WORK_ITEM_REFRESHED",
+      "issue_number": 11,
+      "work_item_id": "WI-GOAL-ALLOCATOR-001",
+      "actor": "a4adelahmadian86-wq",
+      "preserved_steps": 5,
+      "preserved_criteria": 3,
+      "hard_gate_ready": true,
+      "hard_gate_blockers": [],
+      "at_utc": "2026-11-18T05:27:36.975Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -14016,6 +14027,15 @@
       "command": "status",
       "next_status": null,
       "at_utc": "2026-11-18T05:27:20.380Z"
+    },
+    "6969983783": {
+      "response": "Work Item specification refreshed from Issue body; preserved_steps=5; preserved_criteria=3; hard_gates=PASS; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%.",
+      "response_posted": false,
+      "issue_number": 11,
+      "actor": "a4adelahmadian86-wq",
+      "command": "refresh",
+      "next_status": "review",
+      "at_utc": "2026-11-18T05:27:36.980Z"
     }
   },
   "work_items": {
@@ -14179,7 +14199,7 @@
       "parent_exp_ids": [
         "EXP-01"
       ],
-      "status": "READY",
+      "status": "REVIEW_REQUIRED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "coordination:work-item-allocation"
@@ -14287,7 +14307,11 @@
         }
       ],
       "priority": 100,
-      "created_at_utc": "2026-11-14T17:23:43.733Z"
+      "created_at_utc": "2026-11-14T17:23:43.733Z",
+      "operation_scope_version": "1.0",
+      "requested_operations": [
+        "control_plane_write"
+      ]
     },
     "13": {
       "schema_version": "1.0",
