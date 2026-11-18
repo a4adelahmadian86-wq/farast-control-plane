@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2263,
+  "revision": 2264,
   "next_fencing_token": 138,
   "locks": [
     {
@@ -19720,6 +19720,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-18T12:06:47.213Z"
+    },
+    "6978088154": {
+      "response": "معیار پذیرش ثبت شد: AC_GLOBAL_REPLAY; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; can_accept=true.",
+      "response_posted": false,
+      "issue_number": 89,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-18T12:07:41.035Z"
     }
   },
   "work_items": {
@@ -24962,7 +24971,7 @@
         "EXP-01"
       ],
       "parent_work_item_id": "WI-GOAL-ALLOCATOR-001",
-      "status": "CLAIMED",
+      "status": "REVIEW_REQUIRED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "file:.github/workflows/control-plane-validation.yml",
@@ -25097,11 +25106,11 @@
           "required": true,
           "weight": 1,
           "evidence_requirement": "Integration tests and live replay evidence for a command on Issue A recovered by a run triggered from Issue B or scheduled reconciliation.",
-          "validation_status": "BLOCKED",
+          "validation_status": "PASS",
           "evidence_refs": [
-            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-89-RUN-20261118-GLOBAL-INBOX-FAIRNESS-004/.github/scripts/inbox-scheduler.test.js"
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/2d285a44b19d6b9181fd85c9b556e68b4255d84d"
           ],
-          "validated_at_utc": "2026-11-18T11:32:58.995Z",
+          "validated_at_utc": "2026-11-18T12:07:41.034Z",
           "validated_by": "a4adelahmadian86-wq",
           "validation_note": ""
         },
