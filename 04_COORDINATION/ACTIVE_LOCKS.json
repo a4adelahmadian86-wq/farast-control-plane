@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2586,
+  "revision": 2587,
   "next_fencing_token": 144,
   "locks": [
     {
@@ -28603,9 +28603,9 @@
     "updated_at_utc": "2026-11-18T16:51:25.599Z",
     "issue_errors": {
       "90": {
-        "reason": "Invalid Work item specification JSON in Issue #90: Unexpected non-whitespace character after JSON at position 9219 (line 177 column 1)",
+        "reason": "unknown_step_id",
         "count": 1,
-        "last_seen_at_utc": "2026-11-18T16:51:06.358Z"
+        "last_seen_at_utc": "2026-11-18T16:52:55.353Z"
       }
     }
   }
