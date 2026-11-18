@@ -242,7 +242,7 @@ MASTER-00 یک فرمان ثابت برای تمام چت‌هاست؛ هر چت
 
 ## به‌روزرسانی زنده — 2026-11-18 — صندوق فرمان سراسری و عدالت بین Issueها (Issue #89)
 
-**وضعیت پیاده‌سازی:** در PR #91 پیاده‌سازی شده؛ آزمون مستقل ماژول ۱۱/۱۱ PASS است و فایل آزمون به Control Plane Validation افزوده شده است. وضعیت CI فقط از run موفق روی SHA فعلی head در PR #91 تعیین می‌شود؛ CI روی head قدیمی‌تر جایگزین آن نیست.
+**وضعیت پیاده‌سازی:** PR #94 با head `f951fd385e2ba57b6fb9ea45a3c527f4e495e7db` و Control Plane Validation موفق در run `44299157014` از مسیر رسمی `/farast accept` ادغام شد؛ merge commit روی main برابر `bf75fa1a5e2f2b012d0a01ef208ec1dee1d09b26` است. PR #91 و PR #93 به‌عنوان شاخه‌های قبلی حفظ/بسته شده‌اند؛ مرجع کد فعال main است.
 
 - هر issue_comment، schedule و workflow_dispatch اکنون باید همان مسیر global inbox را اجرا کند: Issue محرک در اولویت، سپس یک صفحه حداکثر ۲۵تایی از Issueهای باز با ترتیب created ASC.
 - cursor پایدار در رجیستری مرکزی و فیلد inbox_scheduler.page ذخیره می‌شود؛ cursor فقط پس از تکمیل batch پیش می‌رود و صفحه ناقص نهایی به صفحه اول wrap می‌شود.
@@ -256,7 +256,7 @@ MASTER-00 یک فرمان ثابت برای تمام چت‌هاست؛ هر چت
 
 ## آزمون زنده بازیابی بین دو Issue — مرحله پس از ادغام (Issue #89)
 
-**وضعیت: NOT RUN؛ معیار AC_GLOBAL_REPLAY هنوز PASS نیست.**
+**وضعیت: PASS — آزمون زنده cross-Issue replay با یک هویت GitHub در 2026-11-18 انجام شد؛ شواهد دقیق در بخش «نتیجه آزمون واقعی» ثبت شده است.**
 
 - پیاده‌سازی global inbox در PR #93 و ادامه آن در branch `work/GH-89-RUN-20261118-GLOBAL-INBOX-LIVE-TEST-005` قرار دارد؛ head پایه این ادامه `ce1a0460cf3006fc896e11adc7e3eb6a0af1e9d5` است.
 - تا وقتی کد روی `main` ادغام نشده، رویداد `issue_comment` روی main نسخه قبلی coordinator را اجرا می‌کند؛ بنابراین اجرای زنده از روی main نمی‌تواند کد PR را اثبات کند.
@@ -279,3 +279,17 @@ MASTER-00 یک فرمان ثابت برای تمام چت‌هاست؛ هر چت
 اگر run اول پیش از مرحله 3 یا 4 تمام شد، یا event مربوط به #7 واقعاً supersede نشد، آن تلاش را نامعتبر بدان و با comment IDهای تازه تکرار کن؛ هیچ‌گاه صرفاً به‌دلیل موفقیت CI معیار را PASS نکن.
 
 **مرز شواهد:** موفقیت این سناریو فقط live cross-Issue replay در یک مخزن و یک هویت GitHub را اثبات می‌کند؛ آزمون چند حساب مستقل ChatGPT/GitHub، takeover واقعی میان دو نشست و throughput نامحدود همچنان جداگانه NOT VERIFIED می‌مانند.
+
+### نتیجه آزمون واقعی — 2026-11-18
+
+- پیش‌شرط: PR #94 روی main ادغام شد؛ runهای پس از merge با SHA `bf75fa1a5e2f2b012d0a01ef208ec1dee1d09b26` اجرا شدند.
+- اجرای محرک اولیه روی صفحه دوم صف: [run 44300061477](https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44300061477) با نتیجه success؛ cursor پس از تکمیل batch صفحه 2 به صفحه 1 چرخید.
+- فرمان هدف روی Issue #7: [comment 6977991671](https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/7#issuecomment-6977991671) با متن `/farast status`.
+- اجرای event اولیه همان فرمان، [run 44300190864](https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44300190864)، پیش از شروع لغو شد؛ این run در Actions با conclusion=`cancelled` ثبت شده است.
+- رویداد جایگزین روی Issue #9: [comment 6977992473](https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/9#issuecomment-6977992473)، یک comment عادی و بدون فرمان بود.
+- اجرای جایگزین محرک Issue #9: [run 44300195589](https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44300195589) با event=`issue_comment`، head SHA برابر merge commit بالا و conclusion=`success`.
+- همان run فرمان pending روی Issue #7 را بازیابی کرد و پاسخ coordinator را به‌صورت یکتا ثبت کرد: [response comment 6978003530](https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/7#issuecomment-6978003530). تعداد پاسخ‌های دارای marker برای comment هدف دقیقاً 1 است.
+- Read-back رجیستری مرکزی در revision `2251` نشان داد `processed_operations["6977991671"]` دارای `issue_number=7`، `command=status` و `response_posted=true` است. این رکورد در read-backهای بعدی نیز باقی ماند؛ فایل canonical: [ACTIVE_LOCKS.json روی شاخه coordination/locks](https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/coordination/locks/04_COORDINATION/ACTIVE_LOCKS.json).
+- نتیجه: **AC_GLOBAL_REPLAY = PASS** برای replay زنده بین دو Issue در یک مخزن و با یک هویت GitHub. اجرای محرک #9 فرمان pending #7 را پس از لغو run اولیه #7 بازیابی کرد؛ این دیگر صرفاً fixture یا simulation نیست.
+
+**محدودیت اثبات:** این نتیجه، E2E چند حساب مستقل ChatGPT/GitHub، takeover واقعی بین دو نشست، hard-fencing direct-write یا throughput نامحدود را اثبات نمی‌کند؛ آن موارد همچنان NOT VERIFIED هستند.
