@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1721,
+  "revision": 1722,
   "next_fencing_token": 117,
   "locks": [
     {
@@ -15861,6 +15861,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-18T05:56:10.716Z"
+    },
+    "6970446738": {
+      "response": "STEP ثبت شد: S6_VERIFY_AND_HANDOFF; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=7/7.",
+      "response_posted": false,
+      "issue_number": 67,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-18T05:56:17.569Z"
     }
   },
   "work_items": {
@@ -19324,7 +19333,17 @@
           "weight": 1,
           "expected_output": "Review-ready PR and evidence matrix",
           "evidence_requirement": "PR URL, head SHA, Actions run, file read-back and checkpoint",
-          "estimate_minutes": 2
+          "estimate_minutes": 2,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/83",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44247418634",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/67",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-67-RUN-20261118-PROMPT-DISPATCH-RESUME-001/04_COORDINATION/MULTI_CHAT_READINESS.md"
+          ],
+          "validated_at_utc": "2026-11-18T05:56:17.569Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Read-back of all 30 changed files on the current branch succeeded; exact PR head 5c13c184fd0d9d66542a0ea291ebb332ee73d166 has a fully successful Control Plane Validation run. Issue body points to PR #83, Work Item JSON remains valid, and readiness report records the exact evidence plus explicit NOT VERIFIED boundaries for independent-account E2E/direct-write hard-fencing. Previous PR #80 branch remains untouched and superseded."
         }
       ],
       "acceptance_criteria": [
