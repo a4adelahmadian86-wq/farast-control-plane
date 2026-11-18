@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1865,
+  "revision": 1866,
   "next_fencing_token": 121,
   "locks": [
     {
@@ -16326,7 +16326,7 @@
     },
     "6970752497": {
       "response": "معیار پذیرش ثبت شد: AC_ISSUE68_RECOVERY; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=85.71%; can_accept=false.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 84,
       "actor": "a4adelahmadian86-wq",
       "command": "criterion",
