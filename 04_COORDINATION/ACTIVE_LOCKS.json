@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1687,
+  "revision": 1688,
   "next_fencing_token": 117,
   "locks": [
     {
@@ -15588,6 +15588,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-18T05:48:37.954Z"
+    },
+    "6970332570": {
+      "response": "STEP ثبت شد: S1_CONTRACT_MAPPING; EXECUTION_PROGRESS=28.57%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=2/7.",
+      "response_posted": false,
+      "issue_number": 67,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-18T05:49:09.132Z"
     }
   },
   "work_items": {
@@ -18881,7 +18890,7 @@
         "EXP-23",
         "EXP-26"
       ],
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "module:prompt-library",
@@ -18960,7 +18969,17 @@
           "weight": 1,
           "expected_output": "Versioned operation-scope decision table",
           "evidence_requirement": "Accepted Issue #64 merge SHA and schema/core/test references",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/76",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/72",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/04_COORDINATION/WORK_ITEM_SCHEMA.json",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/.github/scripts/work-item-core.js"
+          ],
+          "validated_at_utc": "2026-11-18T05:49:09.132Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Issue #64 operation-gate model and Issue #69 fail-closed lease coordinator are both ACCEPTED; PR #76 and PR #72 are merged. Main schema and core enforce operation_scope_version=1.0, explicit requested_operations, policy-specific operation validation and exact legacy allowlist. This evidence establishes the accepted contract required before prompt synchronization."
         },
         {
           "step_id": "S2_SHARED_ENTRYPOINT",
