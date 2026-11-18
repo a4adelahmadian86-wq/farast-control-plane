@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1953,
+  "revision": 1954,
   "next_fencing_token": 123,
   "locks": [
     {
@@ -16968,7 +16968,7 @@
     },
     "6970791305": {
       "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-SEMANTIC-DEDUP-DELIVERABLE-SCOPE-001; EXECUTION_PROGRESS=85.71%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=85.71%; next_action=Monitor; remaining_steps=S6_HANDOFF.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 84,
       "actor": "a4adelahmadian86-wq",
       "command": "checkpoint",
