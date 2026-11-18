@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1669,
+  "revision": 1670,
   "next_fencing_token": 116,
   "locks": [
     {
@@ -14924,6 +14924,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-18T05:45:37.941Z"
+    },
+    "6970272775": {
+      "response": "STEP ثبت شد: S2_CORRECT_BODY; EXECUTION_PROGRESS=42.85%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=3/7.",
+      "response_posted": false,
+      "issue_number": 81,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-18T05:45:44.237Z"
     }
   },
   "work_items": {
@@ -19216,7 +19225,14 @@
           "weight": 1,
           "expected_output": "Issue #67 body whose Work Item JSON section is last",
           "evidence_requirement": "Before/after body diff and exact JSON object parity",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/67"
+          ],
+          "validated_at_utc": "2026-11-18T05:45:44.236Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S3_FORMAT_CONTRACT",
