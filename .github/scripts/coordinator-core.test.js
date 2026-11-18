@@ -660,3 +660,30 @@ test('an active legacy lock without chat_id blocks new claims until identity is 
   assert.equal(s.next_fencing_token, beforeToken);
   assert.equal(s.locks.length, 1);
 });
+
+
+test('distinct chats can hold disjoint resource leases concurrently', () => {
+  const s = registry();
+  const first = core.claimResources(s, {
+    issueNumber:10, taskId:'GH-10', actor:'alice', chatId:'chat-a', runId:'run-a',
+    targetRepository:'owner/repo', branch:'work/GH-10-run-a',
+    resourceKeys:['module:payments'], leaseMinutes:30, nowMs:1000
+  });
+  const second = core.claimResources(s, {
+    issueNumber:11, taskId:'GH-11', actor:'bob', chatId:'chat-b', runId:'run-b',
+    targetRepository:'owner/repo', branch:'work/GH-11-run-b',
+    resourceKeys:['module:identity'], leaseMinutes:30, nowMs:2000
+  });
+  assert.equal(first.ok, true);
+  assert.equal(second.ok, true);
+  assert.equal(s.locks.length, 2);
+  assert.notEqual(s.locks[0].chat_id, s.locks[1].chat_id);
+});
+
+test('new Work Items with missing allocator provenance are denied', () => {
+  const s = registry();
+  assert.equal(core.validateAllocationProvenance(
+    s, {work_item_id:'WI-NEW-001'}, 96,
+    '2026-11-18T06:05:30.000Z', Date.parse('2026-11-18T06:06:00.000Z')
+  ).reason, 'missing_allocation_provenance');
+});
