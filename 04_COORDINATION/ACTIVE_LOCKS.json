@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1875,
+  "revision": 1876,
   "next_fencing_token": 123,
   "locks": [
     {
@@ -16607,7 +16607,7 @@
     },
     "6970785807": {
       "response": "CLAIM GRANTED. TASK=GH-81; WORK_ITEM_ID=WI-ISSUE-SPEC-EXTRACTION-REPAIR-001; verified_steps=S0_REPRODUCE,S1_PRESERVE,S2_CORRECT_BODY,S3_FORMAT_CONTRACT; remaining_steps=S4_VERIFY,S5_CLAIM_RECOVERY,S6_HANDOFF; EXECUTION_PROGRESS=57.14%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; actor=@a4adelahmadian86-wq; chat=CHAT-MASTER-CONTINUE-20261118-01; run=RUN-20261118-ISSUE-SPEC-REPAIR-003; resource_keys=file:04_coordination/work_item_spec_format.md,issue:67,module:issue-spec-format-contract; target_repository=a4adelahmadian86-wq/farast-control-plane; write_policy=WRITE_ALLOWED; branch=work/GH-81-RUN-20261118-ISSUE-SPEC-REPAIR-003; previous_run=RUN-20261118-ISSUE-SPEC-REPAIR-002; previous_target_repository=a4adelahmadian86-wq/farast-control-plane; previous_branch=work/GH-81-RUN-20261118-ISSUE-SPEC-REPAIR-002; fencing_token=122; lease_expires=2026-11-18T06:47:51.881Z. این Work Item با سیاست WRITE_ALLOWED است؛ branch را فقط در target_repository ثبت‌شده بساز و قبل از هر write heartbeat/token را دوباره تأیید کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز و branch قبلی را تغییر نده.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 81,
       "actor": "a4adelahmadian86-wq",
       "command": "claim",
