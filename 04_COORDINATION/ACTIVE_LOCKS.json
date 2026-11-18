@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2401,
+  "revision": 2402,
   "next_fencing_token": 140,
   "locks": [
     {
@@ -10219,6 +10219,17 @@
       "branch": "work/GH-47-RUN-PR16-EXP23-INTEGRATION-RESUME-20261118-001",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "at_utc": "2026-11-18T13:24:08.320Z"
+    },
+    {
+      "event": "WORK_ITEM_REFRESHED",
+      "issue_number": 47,
+      "work_item_id": "WI-PROMPT-INTEGRATION-001",
+      "actor": "a4adelahmadian86-wq",
+      "preserved_steps": 7,
+      "preserved_criteria": 5,
+      "hard_gate_ready": true,
+      "hard_gate_blockers": [],
+      "at_utc": "2026-11-18T13:25:09.412Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -20581,6 +20592,15 @@
       "command": "review",
       "next_status": "review",
       "at_utc": "2026-11-18T13:24:08.321Z"
+    },
+    "6979875005": {
+      "response": "Work Item specification refreshed from Issue body; preserved_steps=7; preserved_criteria=5; hard_gates=PASS; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%.",
+      "response_posted": false,
+      "issue_number": 47,
+      "actor": "a4adelahmadian86-wq",
+      "command": "refresh",
+      "next_status": "review",
+      "at_utc": "2026-11-18T13:25:09.412Z"
     }
   },
   "work_items": {
@@ -22193,6 +22213,9 @@
           "title": "Read back the exact heads, diffs, changed paths, CI evidence and current main for PRs 42, 45 and 46; map all overlapping files and incompatible instructions",
           "required": true,
           "weight": 1,
+          "expected_output": "A read-back matrix of source PRs #42/#45/#46, merged outputs #48/#49, current main, changed paths, exact heads, CI and incompatible instructions.",
+          "evidence_requirement": "PR URLs, exact commit SHAs, compare results, changed-file read-back and CI run references.",
+          "estimate_minutes": 4,
           "validation_status": "PASS",
           "evidence_refs": [
             "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/42",
@@ -22210,6 +22233,9 @@
           "title": "Define a deterministic additive integration plan that preserves the complete 17 specialist prompts and 27 Work Items while resolving READ_ONLY routing and automatic queue selection conflicts",
           "required": true,
           "weight": 1,
+          "expected_output": "A deterministic additive integration map preserving every non-conflicting feature and identifying the canonical merged result.",
+          "evidence_requirement": "Merge plan, PR #48/#49 merge commits, and evidence that current main contains the merged result.",
+          "estimate_minutes": 3,
           "validation_status": "PASS",
           "evidence_refs": [
             "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/b6baf10c18923ff7b0f164adadf56d2218449024",
@@ -22225,6 +22251,9 @@
           "title": "Preserve and integrate the full deep execution contract across MASTER-00, all 17 specialist prompts, 27 Work Item definitions, seven-stage execution and five acceptance criteria per Work Item",
           "required": true,
           "weight": 1,
+          "expected_output": "All 17 specialist prompts map to 27 EXP plans and use the seven-stage, evidence-backed deep Work Item contract.",
+          "evidence_requirement": "17x27 decomposition, depth standard, prompt source read-back and CI assertions for 17 prompts/27 EXPs.",
+          "estimate_minutes": 4,
           "validation_status": "PASS",
           "evidence_refs": [
             "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/1bab37193e40c77916ac40bf665077234c4afaa2",
@@ -22240,6 +22269,9 @@
           "title": "Apply fail-closed write-policy-aware routing so READ_ONLY creates no target branch or product write, WRITE_ALLOWED uses only the authorized control-plane branch, and owner-approval work remains blocked",
           "required": true,
           "weight": 1,
+          "expected_output": "Fail-closed READ_ONLY isolation and exact-Issue owner authorization for WRITE_ALLOWED; no implicit permission propagation.",
+          "evidence_requirement": "Merged PR #55, coordinator source/tests, exact policy assertions and confirmation no NON product files changed in this Work Item.",
+          "estimate_minutes": 4,
           "validation_status": "PASS",
           "evidence_refs": [
             "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/1bab37193e40c77916ac40bf665077234c4afaa2",
@@ -22254,6 +22286,9 @@
           "title": "Integrate deterministic scope-filtered Work Item selection, hard_gates, soft_inputs, active-lease/resource conflict avoidance, resume-first behavior, priority aging and candidate fallback",
           "required": true,
           "weight": 1,
+          "expected_output": "Deterministic scope-filtered selection and resume with hard-gate, lease, resource-conflict, priority-aging and candidate-fallback handling.",
+          "evidence_requirement": "Dispatch core and test paths, prompt contract assertions and exact-head CI evidence.",
+          "estimate_minutes": 4,
           "validation_status": "PASS",
           "evidence_refs": [
             "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/1bab37193e40c77916ac40bf665077234c4afaa2",
@@ -22268,6 +22303,9 @@
           "title": "Synchronize the executable prompt bundle and all entrypoint documentation; add or reconcile regression and prompt-contract tests for all 17 prompts, 27 Work Items and policy/dispatch invariants",
           "required": true,
           "weight": 1,
+          "expected_output": "A synchronized 18-source executable prompt bundle and CI contract checks covering all 17 specialist prompts and the 27 EXP decomposition.",
+          "evidence_requirement": "Bundle and source-file read-back, validation workflow diff and successful exact-head CI run.",
+          "estimate_minutes": 4,
           "validation_status": "PASS",
           "evidence_refs": [
             "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/48",
@@ -22280,9 +22318,12 @@
         },
         {
           "step_id": "S6_VERIFY_HANDOFF",
-          "title": "Run the complete validation suite on the final integration head, inspect the exact diff and CI, create a review-ready PR, and record remaining independent-review and two-account E2E limitations without merging",
+          "title": "Run the complete validation suite on the final integration head, inspect the exact diff and CI, create a review-ready PR, and record the remaining E2E limitation without claiming unexecuted tests or requiring a second human reviewer.",
           "required": true,
           "weight": 1,
+          "expected_output": "A focused review-ready PR with exact-head validation and a truthful statement that two-account/two-session E2E remains unverified until actually executed.",
+          "evidence_requirement": "PR #96 URL/head SHA, exact-head workflow run/checks, changed-file list, coordinator review/accept response and readiness limitation evidence.",
+          "estimate_minutes": 2,
           "validation_status": "PASS",
           "evidence_refs": [
             "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/48",
@@ -22298,6 +22339,9 @@
         {
           "criterion_id": "AC_DEEP_COVERAGE",
           "title": "All 17 specialist prompts and 27 Work Items retain the full deep standard, seven ordered execution stages, five acceptance criteria and evidence requirements",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Evidence: 01_STRATEGY/EXECUTION_DECOMPOSITION_17x27.md, 04_COORDINATION/WORK_ITEM_DEPTH_STANDARD.md, all 17 prompt source files, merged PR #49 and exact-head validation run.",
           "validation_status": "PASS",
           "evidence_refs": [
             "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44311058108"
@@ -22309,6 +22353,9 @@
         {
           "criterion_id": "AC_READONLY_ISOLATION",
           "title": "READ_ONLY work creates no branch, commit, PR or mutation in its target repository; invalid or conflicting policies fail closed",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Evidence: merged PR #55, live write-policy coordinator implementation/tests, exact Work Item policy read-back and changed-file evidence confirming this task did not mutate the NON product repository.",
           "validation_status": "PASS",
           "evidence_refs": [
             "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/55"
@@ -22320,6 +22367,9 @@
         {
           "criterion_id": "AC_AUTONOMOUS_SELECTION",
           "title": "A pasted specialist prompt selects and resumes the next eligible scoped Work Item without asking the owner for an Issue number, while respecting hard_gates, soft_inputs, leases, resource conflicts and deterministic fairness",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Evidence: merged PR #48/#49, .github/scripts/work-item-dispatch-core.js and its tests, prompt dispatch assertions, and exact-head validation run.",
           "validation_status": "PASS",
           "evidence_refs": [
             "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/48"
@@ -22331,6 +22381,9 @@
         {
           "criterion_id": "AC_BUNDLE_CONSISTENCY",
           "title": "MASTER-00, all specialist prompt files, catalog, executable bundle, usage guide and CI contract checks are synchronized with no stale or contradictory instructions",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Evidence: current MASTER-00 and 17 specialist prompt files, executable bundle read-back, current main SHA, and exact-head Control Plane Validation result.",
           "validation_status": "PASS",
           "evidence_refs": [
             "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44311058108"
@@ -22341,7 +22394,10 @@
         },
         {
           "criterion_id": "AC_VERIFIED_HANDOFF",
-          "title": "All relevant tests and CI pass on the exact final PR head; independent review is still required before merge, and two-account/two-session E2E is not claimed unless actually executed",
+          "title": "All relevant tests and CI pass on the exact final PR head; automated Coordinator acceptance is used without a second human approval, and two-account/two-session E2E is not claimed unless actually executed.",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Evidence: PR #96 exact head SHA, successful exact-head CI/checks, coordinator review/accept events, and MULTI_CHAT_READINESS.md explicitly retaining NOT VERIFIED for real two-account/two-session E2E.",
           "validation_status": "PASS",
           "evidence_refs": [
             "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/96"
@@ -22356,7 +22412,37 @@
       "operation_scope_version": "1.0",
       "requested_operations": [
         "control_plane_write"
-      ]
+      ],
+      "effort_estimate_minutes": 25,
+      "effort_rationale": "Focused integration audit, prompt/depth and policy/dispatch verification, CI contract hardening, evidence completion and automated handoff; target effort is 25 minutes.",
+      "depth_profile": {
+        "profile_version": "2.0.0",
+        "min_substantive_steps": 6,
+        "min_acceptance_criteria": 4,
+        "min_deliverables": 3,
+        "target_effort_minutes": 25
+      },
+      "deliverables": [
+        {
+          "deliverable_id": "D1",
+          "description": "Deep 17-prompt/27-EXP decomposition and reusable Work Item execution standard.",
+          "evidence_requirement": "Decomposition and depth-standard paths plus 17 prompt source read-back.",
+          "artifact_path": "01_STRATEGY/EXECUTION_DECOMPOSITION_17x27.md"
+        },
+        {
+          "deliverable_id": "D2",
+          "description": "Fail-closed write-policy routing and deterministic autonomous Work Item selection.",
+          "evidence_requirement": "Coordinator and dispatch implementation/test paths plus merged PR evidence.",
+          "artifact_path": ".github/scripts/work-item-dispatch-core.js"
+        },
+        {
+          "deliverable_id": "D3",
+          "description": "Synchronized executable prompt bundle with CI-enforced independent execution and automated acceptance contract.",
+          "evidence_requirement": "Bundle/source read-back, PR #96 exact head, and successful validation run.",
+          "artifact_path": "05_PROMPT_LIBRARY/FARAST_EXECUTABLE_PROMPTS_COMPLETE.md"
+        }
+      ],
+      "next_action": "Wait for exact-head CI on PR #96, record all five acceptance criteria with evidence, release the lease, owner-refresh the deep Work Item specification, then run automated /farast accept. Real two-account/two-session E2E remains NOT VERIFIED until executed."
     },
     "50": {
       "schema_version": "1.0",
