@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2218,
+  "revision": 2219,
   "next_fencing_token": 136,
   "locks": [],
   "history": [
@@ -19219,7 +19219,7 @@
     },
     "6977771743": {
       "response": "فقط وظیفه review/done قابل بازگشایی است.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 89,
       "actor": "a4adelahmadian86-wq",
       "command": "reopen",
