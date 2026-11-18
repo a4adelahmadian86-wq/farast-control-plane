@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2591,
+  "revision": 2592,
   "next_fencing_token": 144,
   "locks": [
     {
@@ -21998,6 +21998,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-18T16:54:26.239Z"
+    },
+    "6985396748": {
+      "response": "معیار پذیرش ثبت شد: AC_ALLOCATOR_PROVENANCE; ACCEPTANCE_PROGRESS=20%; OVERALL_COMPLETION=20%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 90,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-18T16:55:10.427Z"
     }
   },
   "work_items": {
@@ -27814,7 +27823,19 @@
           "title": "A new Work Item is registered as READY only when allocation_provenance matches the active allocator lock's actor, chat_id, run_id, fencing_token and expiry; invalid or missing provenance is blocked and audited.",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "Positive and negative tests plus live issue-opened event evidence for matching and mismatching allocator tokens."
+          "evidence_requirement": "Positive and negative tests plus live issue-opened event evidence for matching and mismatching allocator tokens.",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/99",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-90-RUN-20261118-ALLOCATOR-CHAT-GATE-REPAIR-001/.github/scripts/coordinator-core.js",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-90-RUN-20261118-ALLOCATOR-CHAT-GATE-REPAIR-001/.github/scripts/coordinator-core.test.js",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44349241705",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/89",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/90"
+          ],
+          "validated_at_utc": "2026-11-18T16:55:10.426Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Final-head tests cover matching, missing, mismatched, expired and stale allocator provenance; Issues 89/90 preserve the live issue-opened bypass reproducer. A dedicated post-merge live registration smoke for valid and invalid provenance remains mandatory before write-enabled multi-chat rollout."
         },
         {
           "criterion_id": "AC_CHAT_EXCLUSIVITY",
