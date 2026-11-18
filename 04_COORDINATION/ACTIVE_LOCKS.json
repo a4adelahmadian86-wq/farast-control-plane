@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1583,
+  "revision": 1584,
   "next_fencing_token": 110,
   "locks": [],
   "history": [
@@ -7136,6 +7136,17 @@
       "hard_gate_ready": true,
       "hard_gate_blockers": [],
       "at_utc": "2026-11-18T05:28:23.271Z"
+    },
+    {
+      "event": "WORK_ITEM_REFRESHED",
+      "issue_number": 43,
+      "work_item_id": "WI-PROMPT-AUTORUN-001",
+      "actor": "a4adelahmadian86-wq",
+      "preserved_steps": 7,
+      "preserved_criteria": 5,
+      "hard_gate_ready": true,
+      "hard_gate_blockers": [],
+      "at_utc": "2026-11-18T05:28:54.226Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -14078,6 +14089,15 @@
       "command": "refresh",
       "next_status": "ready",
       "at_utc": "2026-11-18T05:28:23.297Z"
+    },
+    "6969987133": {
+      "response": "Work Item specification refreshed from Issue body; preserved_steps=7; preserved_criteria=5; hard_gates=PASS; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%.",
+      "response_posted": false,
+      "issue_number": 43,
+      "actor": "a4adelahmadian86-wq",
+      "command": "refresh",
+      "next_status": "review",
+      "at_utc": "2026-11-18T05:28:54.229Z"
     }
   },
   "work_items": {
@@ -15465,7 +15485,11 @@
       "created_at_utc": "2026-11-15T17:47:50.763Z",
       "weighting": {
         "version": "1.0"
-      }
+      },
+      "operation_scope_version": "1.0",
+      "requested_operations": [
+        "control_plane_write"
+      ]
     },
     "44": {
       "schema_version": "1.0",
