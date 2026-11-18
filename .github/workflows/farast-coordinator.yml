@@ -162,7 +162,7 @@ jobs:
                 if (formGoals.length && JSON.stringify(formGoals) !== JSON.stringify([...(item.parent_goal_ids || [])].sort())) throw new Error('Parent Goal IDs do not match JSON');
                 if (formExps.length && JSON.stringify(formExps) !== JSON.stringify([...(item.parent_exp_ids || [])].sort())) throw new Error('Parent EXP IDs do not match JSON');
                 if (issue.number > LEGACY_ALLOCATION_PROVENANCE_MAX_ISSUE &&
-                    (formCps.length || item.parent_cp_ids !== undefined) &&
+                    formCps.length &&
                     JSON.stringify(formCps) !== JSON.stringify([...(item.parent_cp_ids || [])].sort())) {
                   throw new Error('Parent CP IDs do not match JSON');
                 }
