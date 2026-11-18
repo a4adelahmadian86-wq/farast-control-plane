@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1715,
+  "revision": 1716,
   "next_fencing_token": 117,
   "locks": [
     {
@@ -15810,6 +15810,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-18T05:55:21.316Z"
+    },
+    "6970433701": {
+      "response": "STEP ثبت شد: S5_BUNDLE_AND_CI; EXECUTION_PROGRESS=85.71%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=6/7.",
+      "response_posted": false,
+      "issue_number": 67,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-18T05:55:27.614Z"
     }
   },
   "work_items": {
@@ -19255,7 +19264,16 @@
           "weight": 1,
           "expected_output": "Synchronized bundle and passing CI assertions",
           "evidence_requirement": "Exact bundle parity test and Actions run",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44247418634",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-67-RUN-20261118-PROMPT-DISPATCH-RESUME-001/05_PROMPT_LIBRARY/FARAST_EXECUTABLE_PROMPTS_COMPLETE.md",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-67-RUN-20261118-PROMPT-DISPATCH-RESUME-001/.github/workflows/control-plane-validation.yml"
+          ],
+          "validated_at_utc": "2026-11-18T05:55:27.614Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "The aggregate v2.0.0 bundle is regenerated from exactly 18 canonical sources (MASTER-00 plus 17 specialist prompts). CI asserts every source block is present byte-for-byte, all 17 prompt mappings exist, prompt bootstrap/operation-scope/authorization/branch contracts agree, and forbidden stale scope markers are absent. Exact current PR #83 head 5c13c184fd0d9d66542a0ea291ebb332ee73d166 passed every CI stage."
         },
         {
           "step_id": "S6_VERIFY_AND_HANDOFF",
