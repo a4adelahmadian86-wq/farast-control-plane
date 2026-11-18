@@ -71,6 +71,11 @@ function advanceCursor(state, currentPage, fetchedCount, nowUtc = new Date().toI
 
 function recordIssueError(state, issueNumber, error, nowUtc = new Date().toISOString()) {
   state.inbox_scheduler ||= {};
+  state.inbox_scheduler.version ??= 1;
+  state.inbox_scheduler.page ??= 1;
+  state.inbox_scheduler.last_page ??= 1;
+  state.inbox_scheduler.last_page_count ??= 0;
+  state.inbox_scheduler.updated_at_utc ??= nowUtc;
   state.inbox_scheduler.issue_errors ||= {};
   const key = String(issueNumber);
   const reason = String(error?.message || error || 'unknown issue processing error').slice(0, 400);
