@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1737,
+  "revision": 1738,
   "next_fencing_token": 117,
   "locks": [
     {
@@ -15933,6 +15933,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-18T05:57:30.972Z"
+    },
+    "6970456422": {
+      "response": "معیار پذیرش ثبت شد: AC_SEMANTIC_DEDUP; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; can_accept=true.",
+      "response_posted": false,
+      "issue_number": 67,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-18T05:57:37.451Z"
     }
   },
   "work_items": {
@@ -19226,7 +19235,7 @@
         "EXP-23",
         "EXP-26"
       ],
-      "status": "IN_PROGRESS",
+      "status": "REVIEW_REQUIRED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "module:prompt-library",
@@ -19512,7 +19521,17 @@
         {
           "criterion_id": "AC_SEMANTIC_DEDUP",
           "title": "Allocator prevents semantic duplicate Work Items even when stable IDs differ, preserving the canonical EXP-02 backup task",
-          "evidence_requirement": "Regression fixture compares Issue #14 WI-EXP02-BACKUP-RESTORE-001 with canonical Issue #66 WI-EXP02-BACKUP-RECOVERY-001; proves #66 remains the sole active backup/restore task, #14 is marked superseded while its audit history is preserved, and no duplicate gate/task is created"
+          "evidence_requirement": "Regression fixture compares Issue #14 WI-EXP02-BACKUP-RESTORE-001 with canonical Issue #66 WI-EXP02-BACKUP-RECOVERY-001; proves #66 remains the sole active backup/restore task, #14 is marked superseded while its audit history is preserved, and no duplicate gate/task is created",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/14",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/66",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-67-RUN-20261118-PROMPT-DISPATCH-RESUME-001/.github/scripts/work-item-core.test.js",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44247418634"
+          ],
+          "validated_at_utc": "2026-11-18T05:57:37.451Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "deliverables": [
