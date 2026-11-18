@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1963,
+  "revision": 1964,
   "next_fencing_token": 123,
   "locks": [
     {
@@ -17013,7 +17013,7 @@
     },
     "6970989124": {
       "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-SEMANTIC-DEDUP-DELIVERABLE-SCOPE-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=resume_issue81_json_extraction_repair_then_fix_cross_issue_inbox_replay_and_unique_chat_identity; remaining_steps=.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 84,
       "actor": "a4adelahmadian86-wq",
       "command": "checkpoint",
