@@ -491,6 +491,22 @@ function evaluateHardGates(item, graph, workItems = [], options = {}) {
   return {ready:blockers.length===0,exp_id:expId,exp_ids:expIds,blockers,dependency_blockers:dependencyBlockers,operation_blockers:operations.blockers,requested_operations:operations.requested_operations,soft_inputs_ignored:unique(nodes.flatMap(node=>node.soft_inputs||[]))};
 }
 
+function matchesMergedReplacementLineage(pr, targetRepository, defaultBranch, comparison) {
+  const target = String(targetRepository || '').trim().toLowerCase();
+  const mergeSha = String(pr?.merge_commit_sha || '').trim().toLowerCase();
+  const baseSha = String(comparison?.base_commit?.sha || '').trim().toLowerCase();
+  const mergeBaseSha = String(comparison?.merge_base_commit?.sha || '').trim().toLowerCase();
+  const baseRepository = String(pr?.base?.repo?.full_name || '').trim().toLowerCase();
+  const headRepository = String(pr?.head?.repo?.full_name || '').trim().toLowerCase();
+  const ancestryVerified = !!mergeSha && baseSha === mergeSha && mergeBaseSha === mergeSha &&
+    Number(comparison?.behind_by) === 0 &&
+    ['ahead', 'identical'].includes(String(comparison?.status || '').toLowerCase());
+  return pr?.state === 'closed' && pr?.merged === true && !!target && !!defaultBranch &&
+    baseRepository === target && headRepository === target &&
+    String(pr?.base?.ref || '') === String(defaultBranch) &&
+    ancestryVerified;
+}
+
 function isBranchlessControlPlaneWorkItem(item) {
   const legacy = LEGACY_WRITE_OPERATION_SCOPES[item?.work_item_id];
   return !!legacy?.branchless && item?.write_policy === 'WRITE_ALLOWED' &&
@@ -636,6 +652,6 @@ function createCheckpoint(item, input) {
 
 module.exports = {
   STATUSES, validateWorkItem, validateProductWriteAuthorization, evidenceVerified, calculateProgress, validateLease,
-  recordStepEvidence, recordCriterionEvidence, primaryExpId, defaultRequestedOperations, findSemanticDuplicateWorkItems, SEMANTIC_CANONICAL_ALIASES, validateDependencyGraph, evaluateOperationGates, evaluateHardGates, evaluateReadOnlyAcceptance, evaluateBranchlessMetadataAcceptance, isBranchlessControlPlaneWorkItem, dependencyReady, selectNextWorkItem,
+  recordStepEvidence, recordCriterionEvidence, primaryExpId, defaultRequestedOperations, findSemanticDuplicateWorkItems, SEMANTIC_CANONICAL_ALIASES, validateDependencyGraph, evaluateOperationGates, evaluateHardGates, evaluateReadOnlyAcceptance, evaluateBranchlessMetadataAcceptance, matchesMergedReplacementLineage, isBranchlessControlPlaneWorkItem, dependencyReady, selectNextWorkItem,
   resumePlan, createCheckpoint, refreshedStatus, evaluateChildCompletion, findDuplicateWorkItemIdIssues
 };
