@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2561,
+  "revision": 2562,
   "next_fencing_token": 144,
   "locks": [
     {
@@ -21857,6 +21857,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-18T16:23:31.545Z"
+    },
+    "6984582963": {
+      "response": "STEP ثبت شد: S4_ENFORCE_ALLOCATOR_CREATION_GATE; EXECUTION_PROGRESS=57.14%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=4/7.",
+      "response_posted": false,
+      "issue_number": 90,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-18T16:24:44.196Z"
     }
   },
   "work_items": {
@@ -27591,7 +27600,20 @@
           "weight": 1,
           "expected_output": "Issue-opened registration rejects or marks blocked any new task whose allocation provenance does not exactly match the active allocator lock and fencing token; valid allocator-created Issues become ready.",
           "evidence_requirement": "Tests and live event evidence for valid, missing, mismatched, expired and stale-fencing-token cases.",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/99",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-90-RUN-20261118-ALLOCATOR-CHAT-GATE-REPAIR-001/.github/workflows/farast-coordinator.yml",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-90-RUN-20261118-ALLOCATOR-CHAT-GATE-REPAIR-001/.github/scripts/coordinator-core.test.js",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44346437573",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/89",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/90",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/11"
+          ],
+          "validated_at_utc": "2026-11-18T16:24:44.196Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Exact-head tests cover valid, missing, mismatched, expired and stale-fencing allocator provenance; issue-opened bypass reproducer is recorded in Issues 89/90. A dedicated post-merge live registration smoke will be run before declaring write-enabled multi-chat readiness."
         },
         {
           "step_id": "S5_ENFORCE_CHAT_LEASE_EXCLUSIVITY",
