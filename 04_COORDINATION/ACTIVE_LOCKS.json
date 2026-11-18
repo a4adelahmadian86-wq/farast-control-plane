@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1580,
+  "revision": 1581,
   "next_fencing_token": 110,
   "locks": [],
   "history": [
@@ -14052,7 +14052,7 @@
     },
     "6969988823": {
       "response": "Work Item specification refreshed from Issue body; preserved_steps=0; preserved_criteria=0; hard_gates=BLOCKED:explicit_dependency_not_accepted:WI-PROMPT-INTEGRATION-001:REVIEW_REQUIRED; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 50,
       "actor": "a4adelahmadian86-wq",
       "command": "refresh",
