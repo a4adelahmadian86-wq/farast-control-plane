@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2484,
+  "revision": 2485,
   "next_fencing_token": 142,
   "locks": [
     {
@@ -21404,6 +21404,15 @@
       "command": "status",
       "next_status": null,
       "at_utc": "2026-11-18T15:58:45.785Z"
+    },
+    "6983874596": {
+      "response": "STEP ثبت شد: S8_LINEAGE_REGRESSION; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=83.33%; OVERALL_COMPLETION=83.33%; verified_steps=9/9.",
+      "response_posted": false,
+      "issue_number": 52,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-18T15:59:48.665Z"
     }
   },
   "work_items": {
@@ -23732,11 +23741,16 @@
           "title": "Add regression tests for Issue #52's merged PR #55 replacement lineage and verify fail-closed acceptance behavior",
           "required": true,
           "weight": 1,
-          "validation_status": "NOT_RUN",
-          "evidence_refs": [],
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44317382888"
+          ],
           "expected_output": "Tests prove PR #55's merged replacement lineage is recognized only because its merge commit is an ancestor of current main; unrelated merged PRs and unmerged branch mismatches remain rejected.",
           "evidence_requirement": "Focused unit-test output, exact PR #55 head CI, merge-commit ancestry comparison and successful exact-head validation for the lineage-fix PR.",
-          "estimate_minutes": 2
+          "estimate_minutes": 2,
+          "validated_at_utc": "2026-11-18T15:59:48.664Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "acceptance_criteria": [
