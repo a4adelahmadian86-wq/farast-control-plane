@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1753,
+  "revision": 1754,
   "next_fencing_token": 117,
   "locks": [],
   "history": [
@@ -15515,6 +15515,15 @@
       "command": "reopen",
       "next_status": "blocked",
       "at_utc": "2026-11-18T05:59:39.229Z"
+    },
+    "6970533109": {
+      "response": "فرمان رد شد: WORK_ITEM_ID=WI-LEGACY-WRITE-SCOPE-MIGRATION-001 در Issueهای دیگری نیز ثبت شده است: #13,#34,#35,#51,#52,#58,#59,#62,#64,#67,#69,#77,#81; تا رفع تکرار، هیچ Claim/refresh/unblock/accept مجاز نیست.",
+      "response_posted": false,
+      "issue_number": 68,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "blocked",
+      "at_utc": "2026-11-18T06:01:38.098Z"
     }
   },
   "work_items": {
