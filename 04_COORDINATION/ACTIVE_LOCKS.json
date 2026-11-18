@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2111,
+  "revision": 2112,
   "next_fencing_token": 130,
   "locks": [
     {
@@ -18367,6 +18367,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-18T07:56:28.524Z"
+    },
+    "6972593270": {
+      "response": "STEP ثبت شد: S6_PROTOCOL_READINESS; EXECUTION_PROGRESS=85.71%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=6/7.",
+      "response_posted": false,
+      "issue_number": 89,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-18T07:56:51.427Z"
     }
   },
   "work_items": {
@@ -23481,7 +23490,14 @@
           "weight": 1,
           "expected_output": "Protocols describe the actual global queue semantics, bounded fairness, replay guarantees and remaining limits.",
           "evidence_requirement": "Updated Markdown paths, exact source references and a readiness status tied to test evidence.",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-89-RUN-20261118-GLOBAL-INBOX-FAIRNESS-003/04_COORDINATION/INTERRUPTION_RECOVERY_PROTOCOL.md"
+          ],
+          "validated_at_utc": "2026-11-18T07:56:51.426Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S7_CI_HANDOFF",
