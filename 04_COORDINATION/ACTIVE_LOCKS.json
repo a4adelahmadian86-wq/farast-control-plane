@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2301,
+  "revision": 2302,
   "next_fencing_token": 139,
   "locks": [
     {
@@ -19967,6 +19967,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-18T12:45:27.633Z"
+    },
+    "6978951895": {
+      "response": "STEP ثبت شد: S2_DEFINE_PROVENANCE_AND_CHAT_POLICY; EXECUTION_PROGRESS=28.57%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=2/7.",
+      "response_posted": false,
+      "issue_number": 90,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-18T12:46:28.075Z"
     }
   },
   "work_items": {
@@ -25511,7 +25520,14 @@
           "weight": 1,
           "expected_output": "A precise contract for allocator_work_item_id, allocator_issue_number, actor, chat_id, run_id, fencing_token, branch and allocated_at_utc; plus one-active-lease-per-chat semantics.",
           "evidence_requirement": "Schema design, backward-compatibility rules, owner exception policy (if any), and denial reasons.",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/90"
+          ],
+          "validated_at_utc": "2026-11-18T12:46:28.074Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Canonical allocator is Issue #11 / WI-GOAL-ALLOCATOR-001. New Work Item Issues above legacy cutoff #90 require an allocation_provenance object containing allocator_work_item_id, allocator_issue_number, actor, chat_id, run_id, fencing_token, branch (nullable for branchless allocator), and allocated_at_utc. All fields must exactly match an active coordination:work-item-allocation lease; allocated_at_utc must fall within the lease and within five minutes of GitHub issue.created_at. No owner bypass: owner-created Work Items also require allocator provenance. Issues #1-#90 are grandfathered as legacy; no retroactive blocking. A successful open-event validation is recorded immutably in registry history and must match the live Issue spec for later claims; missing/mismatched/expired provenance fails closed. One chat_id may own only one active lease globally, even across disjoint resources; distinct chats may claim disjoint resources, while same-resource conflicts remain denied. Same-chat rejection occurs before fencing-token increment or lock mutation."
         },
         {
           "step_id": "S3_EXTEND_WORK_ITEM_SCHEMA",
