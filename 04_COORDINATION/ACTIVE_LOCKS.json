@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1954,
+  "revision": 1955,
   "next_fencing_token": 123,
   "locks": [
     {
@@ -16974,6 +16974,15 @@
       "command": "checkpoint",
       "next_status": null,
       "at_utc": "2026-11-18T06:27:39.223Z"
+    },
+    "6970846568": {
+      "response": "STEP ثبت شد: S6_HANDOFF; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; verified_steps=7/7.",
+      "response_posted": false,
+      "issue_number": 84,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-18T06:27:46.307Z"
     }
   },
   "work_items": {
@@ -21763,7 +21772,18 @@
           "weight": 1,
           "expected_output": "Auditable completion report",
           "evidence_requirement": "PR, CI, merge SHA and Issue #68 status",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/86",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44249107014",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/e26bf2d5b48e8fdcdf16755a86e8901f1999aa31",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/68#issuecomment-6970727188",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/coordination/locks/04_COORDINATION/ACTIVE_LOCKS.json"
+          ],
+          "validated_at_utc": "2026-11-18T06:27:46.307Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Merged fix and exact-head CI are verified. Issue #68 has a live claim under a distinct worker identity and holds disjoint resources; do not interfere while token 120 remains active. Next: monitor its migration, then continue the remaining prompt-order and multi-chat acceptance tests."
         }
       ],
       "acceptance_criteria": [
