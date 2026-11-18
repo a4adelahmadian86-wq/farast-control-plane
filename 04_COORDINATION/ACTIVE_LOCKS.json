@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1733,
+  "revision": 1734,
   "next_fencing_token": 117,
   "locks": [
     {
@@ -15915,6 +15915,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-18T05:57:06.975Z"
+    },
+    "6970455250": {
+      "response": "معیار پذیرش ثبت شد: AC_BUNDLE_PARITY; ACCEPTANCE_PROGRESS=75%; OVERALL_COMPLETION=75%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 67,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-18T05:57:24.888Z"
     }
   },
   "work_items": {
@@ -19467,7 +19476,16 @@
         {
           "criterion_id": "AC_BUNDLE_PARITY",
           "title": "All 18 canonical prompt sources, catalog, dispatch docs and aggregate bundle are consistent and CI-enforced",
-          "evidence_requirement": "Exact source-to-bundle parity test and full CI"
+          "evidence_requirement": "Exact source-to-bundle parity test and full CI",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44247418634",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-67-RUN-20261118-PROMPT-DISPATCH-RESUME-001/05_PROMPT_LIBRARY/FARAST_EXECUTABLE_PROMPTS_COMPLETE.md",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-67-RUN-20261118-PROMPT-DISPATCH-RESUME-001/.github/workflows/control-plane-validation.yml"
+          ],
+          "validated_at_utc": "2026-11-18T05:57:24.887Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_TRUTHFUL_LIMITS",
