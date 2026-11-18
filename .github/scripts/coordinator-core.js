@@ -135,12 +135,80 @@ function resolveWritePolicy(liveWorkItem, storedWorkItem) {
   return policy;
 }
 
+function validateAllocationProvenance(state, item, issueNumber, issueCreatedAt, nowMs = Date.now()) {
+  const provenance = item?.allocation_provenance;
+  if (!provenance) return { ok: false, reason: 'missing_allocation_provenance' };
+  if (provenance.allocator_work_item_id !== 'WI-GOAL-ALLOCATOR-001' ||
+      Number(provenance.allocator_issue_number) !== 11) {
+    return { ok: false, reason: 'wrong_allocator' };
+  }
+  if (!isSafeRunId(provenance.chat_id) || !isSafeRunId(provenance.run_id) ||
+      typeof provenance.actor !== 'string' || !/^[A-Za-z0-9-]{1,39}$/.test(provenance.actor) ||
+      !Number.isInteger(provenance.fencing_token) || provenance.fencing_token < 1 ||
+      !(provenance.branch === null || (typeof provenance.branch === 'string' && provenance.branch.trim()))) {
+    return { ok: false, reason: 'invalid_allocation_provenance' };
+  }
+  const allocatedAt = Date.parse(provenance.allocated_at_utc);
+  const issueCreated = Date.parse(issueCreatedAt);
+  if (!Number.isFinite(allocatedAt) || !Number.isFinite(issueCreated) ||
+      allocatedAt > nowMs || Math.abs(allocatedAt - issueCreated) > 5 * 60 * 1000) {
+    return { ok: false, reason: 'invalid_allocation_timestamp' };
+  }
+  const lock = (state.locks || []).find(candidate =>
+    Number(candidate.issue_number) === 11 &&
+    candidate.task_id === 'GH-11' &&
+    candidate.resource_key === 'coordination:work-item-allocation' &&
+    candidate.actor === provenance.actor &&
+    candidate.chat_id === provenance.chat_id &&
+    candidate.run_id === provenance.run_id &&
+    Number(candidate.fencing_token) === provenance.fencing_token &&
+    (candidate.branch ?? null) === provenance.branch &&
+    leaseExpiryState(candidate, nowMs) === 'ACTIVE'
+  );
+  if (!lock) return { ok: false, reason: 'allocator_lease_mismatch_or_expired' };
+  const acquiredAt = Date.parse(lock.acquired_at_utc);
+  const expiresAt = Date.parse(lock.lease_expires_at_utc);
+  if (!Number.isFinite(acquiredAt) || !Number.isFinite(expiresAt) ||
+      allocatedAt < acquiredAt || allocatedAt > expiresAt) {
+    return { ok: false, reason: 'allocation_outside_allocator_lease' };
+  }
+  return { ok: true, lock, provenance };
+}
+
+function hasVerifiedAllocationProvenance(state, issueNumber, item) {
+  const provenance = item?.allocation_provenance;
+  if (!provenance) return false;
+  const fields = ['allocator_work_item_id','allocator_issue_number','actor','chat_id','run_id','fencing_token','branch','allocated_at_utc'];
+  return (state.history || []).some(entry =>
+    entry.event === 'WORK_ITEM_ALLOCATED' &&
+    Number(entry.issue_number) === Number(issueNumber) &&
+    entry.work_item_id === item.work_item_id &&
+    fields.every(key => (entry.allocation_provenance?.[key] ?? null) === (provenance[key] ?? null))
+  );
+}
+
+function recordAllocationProvenance(state, issueNumber, item, nowMs = Date.now()) {
+  if (hasVerifiedAllocationProvenance(state, issueNumber, item)) return false;
+  state.history ||= [];
+  state.history.push({
+    event: 'WORK_ITEM_ALLOCATED',
+    issue_number: Number(issueNumber),
+    work_item_id: item.work_item_id,
+    allocation_provenance: { ...item.allocation_provenance },
+    at_utc: new Date(nowMs).toISOString()
+  });
+  return true;
+}
+
 function claimResources(state, args) {
   const nowMs = args.nowMs ?? Date.now();
   const keys = [...new Set(args.resourceKeys || [])].sort();
   if (!keys.length) return { ok: false, reason: 'missing_resources' };
+  if (!isSafeRunId(args.chatId)) return { ok: false, reason: 'missing_chat' };
   const taskConflict = state.locks.find(x => x.issue_number === args.issueNumber && leaseBlocksClaim(x, nowMs));
   if (taskConflict) return { ok: false, reason: 'task_already_claimed', conflict: taskConflict };
+  const chatConflict = state.locks.find(x => x.chat_id === args.chatId && leaseBlocksClaim(x, nowMs));
+  if (chatConflict) return { ok: false, reason: 'chat_conflict', conflict: chatConflict };
   const branchUsed = !!args.branch && (state.history || []).some(x => x.event === 'ACQUIRED' && x.issue_number === args.issueNumber && x.branch === args.branch);
   if (branchUsed) return { ok: false, reason: 'branch_reuse' };
   // A branchless claim is READ_ONLY or approval-pending: never inherit an old target-repository branch.
@@ -239,5 +307,6 @@ function responseMarker(operationId) {
 module.exports = {
   isSafeRunId, roleForActor, isWithinDelegatedScope, isCommandAllowed, resourcesFor, targetRepositoryFor, branchForWritePolicy, resolveWritePolicy, expireLocks, activeForIssue,
   claimResources, renewLease, ownsLease, latestTaskStatus, matchesReviewLease, hasSuccessfulChecks,
+  validateAllocationProvenance, hasVerifiedAllocationProvenance, recordAllocationProvenance,
   pendingCommandComments, pendingResponseOperations, responseMarker
 };
