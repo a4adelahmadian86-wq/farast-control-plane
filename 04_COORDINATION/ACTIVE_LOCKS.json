@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2629,
+  "revision": 2630,
   "next_fencing_token": 146,
   "locks": [
     {
@@ -17,22 +17,6 @@
       "heartbeat_at_utc": "2026-11-18T17:02:13.395Z",
       "lease_expires_at_utc": "2026-11-18T17:32:13.395Z",
       "fencing_token": 144,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "repo:non:controlled-implementation",
-      "issue_number": 51,
-      "task_id": "GH-51",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "CHAT-PR16-FINAL-HANDOFF-20261118",
-      "chat_id": "CHAT-PR16-FINAL-HANDOFF-20261118",
-      "run_id": "RUN-PR16-FINAL-HANDOFF-20261118-001",
-      "target_repository": "a4adelahmadian86-wq/non",
-      "branch": "work/GH-51-RUN-PR16-FINAL-HANDOFF-20261118-001",
-      "acquired_at_utc": "2026-11-18T17:08:58.670Z",
-      "heartbeat_at_utc": "2026-11-18T17:11:00.393Z",
-      "lease_expires_at_utc": "2026-11-18T17:41:00.393Z",
-      "fencing_token": 145,
       "status": "ACTIVE"
     }
   ],
@@ -10991,6 +10975,17 @@
       "target_repository": "a4adelahmadian86-wq/non",
       "lease_expires_at_utc": "2026-11-18T17:41:00.393Z",
       "at_utc": "2026-11-18T17:11:00.393Z"
+    },
+    {
+      "event": "REVIEW",
+      "issue_number": 51,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-PR16-FINAL-HANDOFF-20261118",
+      "run_id": "RUN-PR16-FINAL-HANDOFF-20261118-001",
+      "fencing_token": 145,
+      "branch": "work/GH-51-RUN-PR16-FINAL-HANDOFF-20261118-001",
+      "target_repository": "a4adelahmadian86-wq/non",
+      "at_utc": "2026-11-18T17:12:12.575Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -22059,6 +22054,15 @@
       "command": "status",
       "next_status": null,
       "at_utc": "2026-11-18T17:11:51.926Z"
+    },
+    "6985840702": {
+      "response": "پیاده‌سازی برای اجرای گیت‌های ماشینی و پذیرش خودکار تحویل شد؛ این فرمان به‌تنهایی پذیرش نیست.",
+      "response_posted": false,
+      "issue_number": 51,
+      "actor": "a4adelahmadian86-wq",
+      "command": "review",
+      "next_status": "review",
+      "at_utc": "2026-11-18T17:12:12.576Z"
     }
   },
   "work_items": {
@@ -24017,7 +24021,7 @@
         "EXP-22",
         "EXP-23"
       ],
-      "status": "CLAIMED",
+      "status": "REVIEW_REQUIRED",
       "target_repository": "a4adelahmadian86-wq/non",
       "resource_keys": [
         "repo:non:controlled-implementation"
