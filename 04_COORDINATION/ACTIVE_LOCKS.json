@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2024,
+  "revision": 2025,
   "next_fencing_token": 124,
   "locks": [
     {
@@ -17535,6 +17535,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-18T06:37:02.206Z"
+    },
+    "6971136641": {
+      "response": "معیار پذیرش ثبت شد: AC_CI; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=85.71%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 81,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-18T06:37:25.906Z"
     }
   },
   "work_items": {
@@ -22195,7 +22204,16 @@
         {
           "criterion_id": "AC_CI",
           "title": "Exact-head Control Plane Validation passes and no unrelated files/product repository are changed",
-          "evidence_requirement": "Successful Actions run on exact PR head and changed-file list"
+          "evidence_requirement": "Successful Actions run on exact PR head and changed-file list",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/88",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44252251410",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/7beeb576c0b6aba7fe6900b9852db15ad79101f0"
+          ],
+          "validated_at_utc": "2026-11-18T06:37:25.905Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "deliverables": [
