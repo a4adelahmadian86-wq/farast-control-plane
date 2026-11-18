@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2393,
+  "revision": 2394,
   "next_fencing_token": 140,
   "locks": [
     {
@@ -20614,7 +20614,7 @@
     },
     "6979815992": {
       "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-PROMPT-INTEGRATION-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=Run /farast review for PR #96 on the exact successful head; ensure the lease is released; owner-refresh Issue #47 so the new deep Work Item schema is loaded while preserving evidence; verify 100/100 progress and run /farast accept for PR #96. Keep MULTI-ACCOUNT E2E marked NOT VERIFIED until two independent accounts and sessions actually pass.; remaining_steps=.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 47,
       "actor": "a4adelahmadian86-wq",
       "command": "checkpoint",
