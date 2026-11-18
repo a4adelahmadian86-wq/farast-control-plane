@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2514,
+  "revision": 2515,
   "next_fencing_token": 142,
   "locks": [],
   "history": [
@@ -10629,6 +10629,17 @@
       "branch": "work/GH-52-RUN-20261118-PR97-VERIFY-01",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "at_utc": "2026-11-18T16:05:01.297Z"
+    },
+    {
+      "event": "WORK_ITEM_REFRESHED",
+      "issue_number": 50,
+      "work_item_id": "WI-PROMPT-ENTRY-GUIDE-SYNC-001",
+      "actor": "a4adelahmadian86-wq",
+      "preserved_steps": 0,
+      "preserved_criteria": 0,
+      "hard_gate_ready": true,
+      "hard_gate_blockers": [],
+      "at_utc": "2026-11-18T16:10:43.585Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -21324,6 +21335,15 @@
       "command": "status",
       "next_status": null,
       "at_utc": "2026-11-18T16:09:24.694Z"
+    },
+    "6984199981": {
+      "response": "Work Item specification refreshed from Issue body; preserved_steps=0; preserved_criteria=0; hard_gates=PASS; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%.",
+      "response_posted": false,
+      "issue_number": 50,
+      "actor": "a4adelahmadian86-wq",
+      "command": "refresh",
+      "next_status": "ready",
+      "at_utc": "2026-11-18T16:10:43.589Z"
     }
   },
   "work_items": {
