@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1609,
+  "revision": 1610,
   "next_fencing_token": 111,
   "locks": [
     {
@@ -14444,6 +14444,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-18T05:33:09.735Z"
+    },
+    "6970073117": {
+      "response": "STEP ثبت شد: S3_REGISTRY_SYNC; EXECUTION_PROGRESS=57.14%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=4/7.",
+      "response_posted": false,
+      "issue_number": 68,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-18T05:33:28.601Z"
     }
   },
   "work_items": {
@@ -17954,7 +17963,7 @@
         "EXP-22",
         "EXP-23"
       ],
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "module:legacy-operation-scope-migration",
@@ -18038,7 +18047,14 @@
           "weight": 1,
           "expected_output": "Registry and Issue state synchronized",
           "evidence_requirement": "Refresh command responses and registry revision/read-back",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/68#issuecomment-6970070728"
+          ],
+          "validated_at_utc": "2026-11-18T05:33:28.601Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S4_BOOTSTRAP_CHECK",
