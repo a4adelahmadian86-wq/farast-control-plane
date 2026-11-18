@@ -203,10 +203,10 @@ MASTER-00 یک فرمان ثابت برای تمام چت‌هاست؛ هر چت
 
 - PR ادامه‌دهنده: https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/83
 - شاخه اجرای جاری: `work/GH-67-RUN-20261118-PROMPT-DISPATCH-RESUME-001`
-- head تأییدشده فعلی: `09b4f723767425eb207838ebbdc90240bf95938d`
-- CI دقیق همین head: run `44247329713` — **SUCCESS**؛ همه مراحل شامل coordinator contention/fencing، Work Item resume/progress، dispatch N-worker، JSON/schema، ۱۷ prompt contract و bundle parity موفق‌اند.
+- SHA جاری و وضعیت CI باید همیشه از metadata زنده PR #83 و checkهای همان head خوانده شود؛ SHA یا run جاری را در این سند ثابت نکن تا پس از handoff کهنه نشود.
+- آخرین اجرای موفق پیش از این به‌روزرسانی، run `44247484021` روی head `e7c3ffe83083dbdeb9d3c361c62e4dd2377f213c` بود؛ تمام مراحل coordinator contention/fencing، Work Item resume/progress، dispatch، JSON/schema، قرارداد ۱۷ prompt و bundle parity موفق شدند. این run فقط برای همان SHA معتبر است؛ هر commit بعدی نیازمند CI موفق روی head تازه است.
 - PR #80 شاخه اجرای قبلی است و نباید با PR جاری اشتباه شود؛ branch قبلی دست‌نخورده مانده است. PR #80 پس از پذیرش ماشینی PR #83 به‌عنوان مسیر superseded بسته خواهد شد.
 - پوشش تکمیلی جدید: allocator contention به برگ محلی fallback می‌کند؛ برگ‌های فرزند تازه‌افزوده‌شده بر اساس EXP تخصصی کشف می‌شوند و به‌اشتباه به‌عنوان کار جهانی G-09 به همه promptها نمایش داده نمی‌شوند.
 - اجرای N=2،5،10،25، replay صندوق ورودی ۲۵ فرمان، پاسخ idempotent، stale/invalid/expired fencing و semantic duplicate در این شاخه همچنان آزمون مدل/شبیه‌سازی هستند؛ CI موفق، آزمون واقعی چند حساب ChatGPT مستقل نیست.
 - آزمون دو حساب مستقل ChatGPT/GitHub، takeover واقعی میان دو نشست و hard-fencing مسیر direct-write خارج از coordinator همچنان **NOT VERIFIED** هستند. هیچ ادعای ایجاد خودکار چت یا ادامه در پس‌زمینه وجود ندارد.
-- یک اجرای میانی CI با run `44247203711` به‌دلیل fixture اشتباهِ هدف G-09 در دو برگ تخصصی شکست خورد؛ fixture اصلاح شد و run دقیق head بعدی `44247329713` موفق شد.
+- یک اجرای میانی CI با run `44247203711` به‌دلیل fixture اشتباهِ هدف G-09 روی دو برگ تخصصی شکست خورد. fixture اصلاح شد: برگ EXP-02 در G-01 و برگ EXP-22 در G-08 قرار گرفتند تا فقط worker متناظر آن‌ها را از مسیر محلی انتخاب کند؛ run `44247484021` روی head `e7c3ffe83083dbdeb9d3c361c62e4dd2377f213c` سپس موفق شد. این run پس از commitهای بعدی، صرفاً سابقه است و جایگزین CI head جاری نیست.
