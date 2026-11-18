@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2562,
+  "revision": 2563,
   "next_fencing_token": 144,
   "locks": [
     {
@@ -21860,7 +21860,7 @@
     },
     "6984582963": {
       "response": "STEP ثبت شد: S4_ENFORCE_ALLOCATOR_CREATION_GATE; EXECUTION_PROGRESS=57.14%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=4/7.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 90,
       "actor": "a4adelahmadian86-wq",
       "command": "step",
