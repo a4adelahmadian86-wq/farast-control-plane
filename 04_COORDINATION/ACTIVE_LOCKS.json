@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1776,
+  "revision": 1777,
   "next_fencing_token": 119,
   "locks": [
     {
@@ -15758,6 +15758,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-18T06:07:05.771Z"
+    },
+    "6970624478": {
+      "response": "STEP ثبت شد: S1_DEFINE; EXECUTION_PROGRESS=28.57%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=2/7.",
+      "response_posted": false,
+      "issue_number": 84,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-18T06:07:13.778Z"
     }
   },
   "work_items": {
@@ -20348,7 +20357,15 @@
           "weight": 1,
           "expected_output": "Narrow semantic matching rule",
           "evidence_requirement": "Decision table for local IDs, descriptions, resources and canonical aliases",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/.github/scripts/work-item-core.js",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/68"
+          ],
+          "validated_at_utc": "2026-11-18T06:07:13.778Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Deliverable IDs are scoped to their owning Work Item and are not global identity. Semantic overlap will use meaningful deliverable descriptions only as corroborating evidence, requiring shared parent scope plus material title/resource overlap; shared resources plus similar titles and high title similarity remain valid duplicate signals. Exact stable WORK_ITEM_ID collisions and explicit canonical alias #14→#66 remain separate strict rules."
         },
         {
           "step_id": "S2_FIX_CORE",
