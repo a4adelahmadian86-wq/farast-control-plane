@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2115,
+  "revision": 2116,
   "next_fencing_token": 130,
   "locks": [
     {
@@ -18385,6 +18385,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-18T07:57:18.384Z"
+    },
+    "6972627480": {
+      "response": "معیار پذیرش ثبت شد: AC_FAIR_SCHEDULING; ACCEPTANCE_PROGRESS=20%; OVERALL_COMPLETION=20%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 89,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-18T07:58:44.450Z"
     }
   },
   "work_items": {
@@ -23538,7 +23547,14 @@
           "title": "A noisy Issue cannot indefinitely starve another eligible Issue; bounded batches and deterministic fairness guarantee progress.",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "Tests with multiple Issues and skewed command volumes proving per-Issue progress across consecutive runs."
+          "evidence_requirement": "Tests with multiple Issues and skewed command volumes proving per-Issue progress across consecutive runs.",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-89-RUN-20261118-GLOBAL-INBOX-FAIRNESS-003/.github/scripts/inbox-scheduler.test.js"
+          ],
+          "validated_at_utc": "2026-11-18T07:58:44.450Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_IDEMPOTENT_REPLAY",
