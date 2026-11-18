@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2564,
+  "revision": 2565,
   "next_fencing_token": 144,
   "locks": [
     {
@@ -21866,6 +21866,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-18T16:24:44.196Z"
+    },
+    "6984600061": {
+      "response": "STEP ثبت شد: S5_ENFORCE_CHAT_LEASE_EXCLUSIVITY; EXECUTION_PROGRESS=71.42%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=5/7.",
+      "response_posted": false,
+      "issue_number": 90,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-18T16:25:49.853Z"
     }
   },
   "work_items": {
@@ -27622,7 +27631,17 @@
           "weight": 1,
           "expected_output": "A chat_id with an active lease cannot claim a second Work Item even when resources are disjoint; distinct chat IDs can claim disjoint resources concurrently.",
           "evidence_requirement": "Lock-manager tests for same-chat rejection, different-chat parallel claims, resource conflicts and lease expiry/recovery.",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/99",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-90-RUN-20261118-ALLOCATOR-CHAT-GATE-REPAIR-001/.github/scripts/coordinator-core.test.js",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44346437573",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/coordination/locks/04_COORDINATION/ACTIVE_LOCKS.json"
+          ],
+          "validated_at_utc": "2026-11-18T16:25:49.853Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Tests prove same-chat second-lease denial, different-chat disjoint claims, resource conflict and expiry/recovery; live registry read-back revision 2563 shows distinct CHAT_IDs concurrently holding disjoint NON and control-plane resources."
         },
         {
           "step_id": "S6_REGRESSION_AND_PROTOCOLS",
