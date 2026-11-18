@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1802,
+  "revision": 1803,
   "next_fencing_token": 119,
   "locks": [
     {
@@ -15930,6 +15930,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-18T06:09:20.088Z"
+    },
+    "6970652986": {
+      "response": "STEP ثبت شد: S4_VALIDATE; EXECUTION_PROGRESS=71.42%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=5/7.",
+      "response_posted": false,
+      "issue_number": 84,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-18T06:09:28.891Z"
     }
   },
   "work_items": {
@@ -20570,7 +20579,15 @@
           "weight": 1,
           "expected_output": "Green exact-head CI",
           "evidence_requirement": "Actions run URL and head SHA",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44249073992",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/6aaebdd7f903de70fddcf0c101b39241cd752e04"
+          ],
+          "validated_at_utc": "2026-11-18T06:09:28.891Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Control Plane Validation run 44249073992 succeeded on exact PR head 6aaebdd7f903de70fddcf0c101b39241cd752e04; all workflow steps completed successfully."
         },
         {
           "step_id": "S5_CLAIM_RECOVERY",
