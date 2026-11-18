@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2412,
+  "revision": 2413,
   "next_fencing_token": 140,
   "locks": [],
   "history": [
@@ -10203,6 +10203,17 @@
       "work_item_id": "WI-PROMPT-ENTRY-GUIDE-SYNC-001",
       "preserved_steps": 0,
       "at_utc": "2026-11-18T13:31:17.263Z"
+    },
+    {
+      "event": "WORK_ITEM_REFRESHED",
+      "issue_number": 52,
+      "work_item_id": "WI-NON-WRITE-POLICY-COORDINATOR-001",
+      "actor": "a4adelahmadian86-wq",
+      "preserved_steps": 7,
+      "preserved_criteria": 5,
+      "hard_gate_ready": true,
+      "hard_gate_blockers": [],
+      "at_utc": "2026-11-18T13:32:45.108Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -20592,6 +20603,15 @@
       "command": "status",
       "next_status": null,
       "at_utc": "2026-11-18T13:30:54.378Z"
+    },
+    "6980075479": {
+      "response": "Work Item specification refreshed from Issue body; preserved_steps=7; preserved_criteria=5; hard_gates=PASS; EXECUTION_PROGRESS=77.77%; ACCEPTANCE_PROGRESS=83.33%; OVERALL_COMPLETION=77.77%.",
+      "response_posted": false,
+      "issue_number": 52,
+      "actor": "a4adelahmadian86-wq",
+      "command": "refresh",
+      "next_status": "ready",
+      "at_utc": "2026-11-18T13:32:45.113Z"
     }
   },
   "work_items": {
@@ -22776,7 +22796,7 @@
       "parent_exp_ids": [
         "EXP-22"
       ],
-      "status": "REVIEW_REQUIRED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "module:work-item-policy",
@@ -22898,6 +22918,28 @@
           "validated_at_utc": "2026-11-16T12:39:24.174Z",
           "validated_by": "a4adelahmadian86-wq",
           "validation_note": ""
+        },
+        {
+          "step_id": "S7_MERGED_REPLACEMENT_LINEAGE",
+          "title": "Implement a fail-closed acceptance path for an already-merged replacement PR whose merge commit is proven in the current target base",
+          "required": true,
+          "weight": 1,
+          "validation_status": "NOT_RUN",
+          "evidence_refs": [],
+          "expected_output": "Coordinator may recognize a merged replacement PR despite review-branch mismatch only when the exact target repository matches, merged=true, merge_commit_sha exists and is an ancestor of current base; unmerged PRs remain bound to the exact latest REVIEW branch.",
+          "evidence_requirement": "Coordinator source diff, GitHub compare evidence, and positive/negative tests for ancestor, non-ancestor, wrong-repository and unmerged-PR cases.",
+          "estimate_minutes": 2
+        },
+        {
+          "step_id": "S8_LINEAGE_REGRESSION",
+          "title": "Add regression tests for Issue #52's merged PR #55 replacement lineage and verify fail-closed acceptance behavior",
+          "required": true,
+          "weight": 1,
+          "validation_status": "NOT_RUN",
+          "evidence_refs": [],
+          "expected_output": "Tests prove PR #55's merged replacement lineage is recognized only because its merge commit is an ancestor of current main; unrelated merged PRs and unmerged branch mismatches remain rejected.",
+          "evidence_requirement": "Focused unit-test output, exact PR #55 head CI, merge-commit ancestry comparison and successful exact-head validation for the lineage-fix PR.",
+          "estimate_minutes": 2
         }
       ],
       "acceptance_criteria": [
@@ -22960,18 +23002,27 @@
           "validated_at_utc": "2026-11-17T09:33:01.090Z",
           "validated_by": "a4adelahmadian86-wq",
           "validation_note": ""
+        },
+        {
+          "criterion_id": "AC_MERGED_REPLACEMENT_LINEAGE",
+          "title": "Coordinator accepts a previously merged replacement PR despite a different historical review branch only when the exact target repository matches and its merge commit is proven to be an ancestor of the current target base; unmerged PRs still require exact latest-review branch lineage.",
+          "required": true,
+          "weight": 1,
+          "validation_status": "NOT_RUN",
+          "evidence_refs": [],
+          "evidence_requirement": "Positive/negative coordinator tests, GitHub compare proof for PR #55 merge commit 22a3d30a7dfffa903ded81d31cafc53e602751bd against current main, exact PR #55 head CI and final coordinator acceptance evidence."
         }
       ],
       "priority": 40,
       "created_at_utc": "2026-11-16T12:16:00Z",
-      "effort_estimate_minutes": 25,
-      "effort_rationale": "حداقل ۲۵ دقیقه کار واقعی شامل بازتولید، اصلاح منطق مجوز، آزمون مثبت/منفی، همگام‌سازی قرارداد و اجرای CI؛ زمان انتظار مصنوعی ممنوع است.",
+      "effort_estimate_minutes": 29,
+      "effort_rationale": "Original 25-minute owner-authorization implementation plus a narrowly scoped 4-minute merged-replacement lineage reconciliation and fail-closed regression matrix; total remains within the 20–30 minute depth standard.",
       "depth_profile": {
         "profile_version": "2.0.0",
         "min_substantive_steps": 7,
         "min_acceptance_criteria": 5,
         "min_deliverables": 4,
-        "target_effort_minutes": 25
+        "target_effort_minutes": 29
       },
       "deliverables": [
         {
@@ -22993,12 +23044,19 @@
           "deliverable_id": "D4",
           "description": "Stacked PR with exact head SHA, passing CI, live smoke-test plan and merge handoff",
           "evidence_requirement": "PR URL, Actions URL and checkpoint"
+        },
+        {
+          "deliverable_id": "D5",
+          "description": "Fail-closed merged-replacement PR lineage acceptance guard and regression tests.",
+          "evidence_requirement": "Coordinator helper/source diff, positive/negative unit tests and verified ancestry of PR #55 merge commit in current main.",
+          "artifact_path": ".github/scripts/coordinator-core.js"
         }
       ],
       "operation_scope_version": "1.0",
       "requested_operations": [
         "control_plane_write"
-      ]
+      ],
+      "next_action": "After confirming no conflicting active leases, reopen and claim a fresh run. Use current main as the safe base because merged replacement PR #55's merge commit 22a3d30a7dfffa903ded81d31cafc53e602751bd is verified as an ancestor of current main 93ad1497275ccfab274c6cf133644b7316183dfd; the previous run branch is missing and PR #53 is closed/unmerged. Implement and test the merged-replacement lineage fallback without weakening exact-branch checks for unmerged PRs. Control-plane only; never write to NON."
     },
     "58": {
       "schema_version": "1.0",
