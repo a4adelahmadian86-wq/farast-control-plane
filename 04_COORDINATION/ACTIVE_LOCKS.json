@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1928,
+  "revision": 1929,
   "next_fencing_token": 123,
   "locks": [
     {
@@ -16966,6 +16966,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-18T06:24:26.281Z"
+    },
+    "6970912536": {
+      "response": "معیار پذیرش ثبت شد: AC_FAIL_CLOSED; ACCEPTANCE_PROGRESS=85.71%; OVERALL_COMPLETION=85.71%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 68,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-18T06:24:34.162Z"
     }
   },
   "work_items": {
@@ -20846,7 +20855,16 @@
         {
           "criterion_id": "AC_FAIL_CLOSED",
           "title": "Unknown or ambiguous operations fail closed and READ_ONLY/proposal-only behavior is unchanged",
-          "evidence_requirement": "Negative and positive policy regression tests"
+          "evidence_requirement": "Negative and positive policy regression tests",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44250653413",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/.github/scripts/work-item-core.test.js",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/86"
+          ],
+          "validated_at_utc": "2026-11-18T06:24:34.162Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Exact-head CI passes unsupported/missing operation gates, unlisted legacy WRITE_ALLOWED, policy-specific allowlists, READ_ONLY/proposal-only compatibility, owner authorization, exact stable-ID collisions and canonical alias checks. No bypass or broad legacy fallback was introduced."
         },
         {
           "criterion_id": "AC_EVIDENCE",
