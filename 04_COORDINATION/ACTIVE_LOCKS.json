@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1595,
+  "revision": 1596,
   "next_fencing_token": 110,
   "locks": [],
   "history": [
@@ -7169,6 +7169,17 @@
       "hard_gate_ready": true,
       "hard_gate_blockers": [],
       "at_utc": "2026-11-18T05:30:08.565Z"
+    },
+    {
+      "event": "WORK_ITEM_REFRESHED",
+      "issue_number": 51,
+      "work_item_id": "WI-NON-IMPLEMENTATION-VERTICAL-SLICE-001",
+      "actor": "a4adelahmadian86-wq",
+      "preserved_steps": 7,
+      "preserved_criteria": 5,
+      "hard_gate_ready": true,
+      "hard_gate_blockers": [],
+      "at_utc": "2026-11-18T05:30:43.630Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -14165,6 +14176,15 @@
       "command": "status",
       "next_status": null,
       "at_utc": "2026-11-18T05:30:17.491Z"
+    },
+    "6969989262": {
+      "response": "Work Item specification refreshed from Issue body; preserved_steps=7; preserved_criteria=5; hard_gates=PASS; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%.",
+      "response_posted": false,
+      "issue_number": 51,
+      "actor": "a4adelahmadian86-wq",
+      "command": "refresh",
+      "next_status": "review",
+      "at_utc": "2026-11-18T05:30:43.635Z"
     }
   },
   "work_items": {
@@ -16229,6 +16249,10 @@
           "description": "Review-ready PR, risk/rollback note and durable checkpoint/handoff",
           "evidence_requirement": "PR URL, head SHA, rollback steps and checkpoint read-back"
         }
+      ],
+      "operation_scope_version": "1.0",
+      "requested_operations": [
+        "product_implementation"
       ]
     },
     "52": {
