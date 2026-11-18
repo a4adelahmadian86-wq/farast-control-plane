@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2565,
+  "revision": 2566,
   "next_fencing_token": 144,
   "locks": [
     {
@@ -21869,7 +21869,7 @@
     },
     "6984600061": {
       "response": "STEP ثبت شد: S5_ENFORCE_CHAT_LEASE_EXCLUSIVITY; EXECUTION_PROGRESS=71.42%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=5/7.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 90,
       "actor": "a4adelahmadian86-wq",
       "command": "step",
