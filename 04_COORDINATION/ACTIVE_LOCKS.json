@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1840,
+  "revision": 1841,
   "next_fencing_token": 121,
   "locks": [
     {
@@ -16312,6 +16312,15 @@
       "command": "claim",
       "next_status": "locked",
       "at_utc": "2026-11-18T06:13:22.010Z"
+    },
+    "6970730469": {
+      "response": "وضعیت: LOCKED؛ مالک @a4adelahmadian86-wq؛ chat=CHAT-MASTER-CONTINUE-20261118-01؛ run=RUN-20261118-LEGACY-SCOPE-MIGRATION-005؛ token=120؛ expiry=2026-11-18T06:43:22.009Z",
+      "response_posted": false,
+      "issue_number": 68,
+      "actor": "a4adelahmadian86-wq",
+      "command": "status",
+      "next_status": null,
+      "at_utc": "2026-11-18T06:13:32.754Z"
     }
   },
   "work_items": {
