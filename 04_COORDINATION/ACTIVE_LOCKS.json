@@ -1,25 +1,8 @@
 {
   "schema_version": "1.0",
-  "revision": 2649,
+  "revision": 2650,
   "next_fencing_token": 147,
-  "locks": [
-    {
-      "resource_key": "repo:non:controlled-implementation",
-      "issue_number": 51,
-      "task_id": "GH-51",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "CHAT-PR16-GATE-SYNC-20261118",
-      "chat_id": "CHAT-PR16-GATE-SYNC-20261118",
-      "run_id": "RUN-PR16-GATE-SYNC-20261118-001",
-      "target_repository": "a4adelahmadian86-wq/non",
-      "branch": "work/GH-51-RUN-PR16-GATE-SYNC-20261118-001",
-      "acquired_at_utc": "2026-11-18T17:14:08.708Z",
-      "heartbeat_at_utc": "2026-11-18T17:16:16.728Z",
-      "lease_expires_at_utc": "2026-11-18T17:46:16.728Z",
-      "fencing_token": 146,
-      "status": "ACTIVE"
-    }
-  ],
+  "locks": [],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -11038,6 +11021,17 @@
       "target_repository": "a4adelahmadian86-wq/non",
       "lease_expires_at_utc": "2026-11-18T17:46:16.728Z",
       "at_utc": "2026-11-18T17:16:16.728Z"
+    },
+    {
+      "event": "RELEASE",
+      "issue_number": 51,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-PR16-GATE-SYNC-20261118",
+      "run_id": "RUN-PR16-GATE-SYNC-20261118-001",
+      "fencing_token": 146,
+      "branch": "work/GH-51-RUN-PR16-GATE-SYNC-20261118-001",
+      "target_repository": "a4adelahmadian86-wq/non",
+      "at_utc": "2026-11-18T17:16:57.231Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -22196,6 +22190,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-18T17:16:16.728Z"
+    },
+    "6985950241": {
+      "response": "Lease آزاد شد؛ وظیفه تکمیل‌شده محسوب نمی‌شود.",
+      "response_posted": false,
+      "issue_number": 51,
+      "actor": "a4adelahmadian86-wq",
+      "command": "release",
+      "next_status": "ready",
+      "at_utc": "2026-11-18T17:16:57.232Z"
     }
   },
   "work_items": {
@@ -24154,7 +24157,7 @@
         "EXP-22",
         "EXP-23"
       ],
-      "status": "CLAIMED",
+      "status": "READY",
       "target_repository": "a4adelahmadian86-wq/non",
       "resource_keys": [
         "repo:non:controlled-implementation"
