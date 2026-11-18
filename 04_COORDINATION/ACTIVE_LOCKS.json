@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2155,
+  "revision": 2156,
   "next_fencing_token": 132,
   "locks": [
     {
@@ -14,8 +14,8 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "branch": null,
       "acquired_at_utc": "2026-11-18T11:09:03.179Z",
-      "heartbeat_at_utc": "2026-11-18T11:12:04.437Z",
-      "lease_expires_at_utc": "2026-11-18T11:42:04.437Z",
+      "heartbeat_at_utc": "2026-11-18T11:13:39.884Z",
+      "lease_expires_at_utc": "2026-11-18T11:43:39.884Z",
       "fencing_token": 131,
       "status": "ACTIVE"
     },
@@ -30,8 +30,8 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "branch": null,
       "acquired_at_utc": "2026-11-18T11:09:03.179Z",
-      "heartbeat_at_utc": "2026-11-18T11:12:04.437Z",
-      "lease_expires_at_utc": "2026-11-18T11:42:04.437Z",
+      "heartbeat_at_utc": "2026-11-18T11:13:39.884Z",
+      "lease_expires_at_utc": "2026-11-18T11:43:39.884Z",
       "fencing_token": 131,
       "status": "ACTIVE"
     }
@@ -9171,6 +9171,18 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "lease_expires_at_utc": "2026-11-18T11:42:04.437Z",
       "at_utc": "2026-11-18T11:12:04.437Z"
+    },
+    {
+      "event": "HEARTBEAT",
+      "issue_number": 58,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-MASTER-CONTINUE-20261118-01",
+      "run_id": "RUN-20261118-PR16-SPEC-REPAIR-RESUME-006",
+      "fencing_token": 131,
+      "branch": null,
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "lease_expires_at_utc": "2026-11-18T11:43:39.884Z",
+      "at_utc": "2026-11-18T11:13:39.884Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -18669,6 +18681,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-18T11:13:20.376Z"
+    },
+    "6976913448": {
+      "response": "Lease تمدید شد تا 2026-11-18T11:43:39.884Z UTC؛ fencing_token=131.",
+      "response_posted": false,
+      "issue_number": 58,
+      "actor": "a4adelahmadian86-wq",
+      "command": "heartbeat",
+      "next_status": null,
+      "at_utc": "2026-11-18T11:13:39.884Z"
     }
   },
   "work_items": {
