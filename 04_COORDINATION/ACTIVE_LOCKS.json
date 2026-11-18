@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2628,
+  "revision": 2629,
   "next_fencing_token": 146,
   "locks": [
     {
@@ -22053,7 +22053,7 @@
     },
     "6985833880": {
       "response": "وضعیت: LOCKED؛ مالک @a4adelahmadian86-wq؛ chat=CHAT-PR16-FINAL-HANDOFF-20261118؛ run=RUN-PR16-FINAL-HANDOFF-20261118-001؛ token=145؛ expiry=2026-11-18T17:41:00.393Z",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 51,
       "actor": "a4adelahmadian86-wq",
       "command": "status",
