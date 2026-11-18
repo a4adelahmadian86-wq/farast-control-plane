@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1906,
+  "revision": 1907,
   "next_fencing_token": 123,
   "locks": [
     {
@@ -16831,6 +16831,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-18T06:22:10.339Z"
+    },
+    "6970889551": {
+      "response": "معیار پذیرش ثبت شد: AC_MINIMAL_MIGRATION; ACCEPTANCE_PROGRESS=14.28%; OVERALL_COMPLETION=14.28%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 68,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-18T06:22:30.887Z"
     }
   },
   "work_items": {
@@ -20639,7 +20648,22 @@
         {
           "criterion_id": "AC_MINIMAL_MIGRATION",
           "title": "Eligible Issues receive only the version and correct requested operations while all other fields/evidence remain unchanged",
-          "evidence_requirement": "Machine-readable before/after JSON diff for every migrated Issue"
+          "evidence_requirement": "Machine-readable before/after JSON diff for every migrated Issue",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/68#issuecomment-6969939169",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/11",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/43",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/44",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/47",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/50",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/51",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/52",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/58"
+          ],
+          "validated_at_utc": "2026-11-18T06:22:30.886Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Before/after preservation report confirms only operation_scope_version and requested_operations were added to the eight legacy target issues; all other fields, stable IDs, task states, progress and evidence were preserved."
         },
         {
           "criterion_id": "AC_POLICY_CORRECT",
