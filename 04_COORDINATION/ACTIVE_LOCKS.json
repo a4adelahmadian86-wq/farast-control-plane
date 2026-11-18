@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2042,
+  "revision": 2043,
   "next_fencing_token": 124,
   "locks": [],
   "history": [
@@ -17626,6 +17626,15 @@
       "command": "review",
       "next_status": "review",
       "at_utc": "2026-11-18T06:39:24.844Z"
+    },
+    "6971193304": {
+      "response": "Work Item ACCEPTED: همه گام‌ها و معیارهای اجباری با evidence معتبر پاس شده‌اند؛ PR ادغام‌شده و تمام گیت‌های ماشینی موفق روی SHA دقیق head احراز شد؛ هیچ Review انسانی شرط پذیرش نیست.",
+      "response_posted": false,
+      "issue_number": 81,
+      "actor": "a4adelahmadian86-wq",
+      "command": "accept",
+      "next_status": "done",
+      "at_utc": "2026-11-18T06:40:19.705Z"
     }
   },
   "work_items": {
@@ -22093,7 +22102,7 @@
         "EXP-22",
         "EXP-23"
       ],
-      "status": "REVIEW_REQUIRED",
+      "status": "ACCEPTED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "issue:67",
