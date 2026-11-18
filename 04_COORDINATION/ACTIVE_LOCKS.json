@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2207,
+  "revision": 2208,
   "next_fencing_token": 136,
   "locks": [
     {
@@ -19310,6 +19310,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-18T11:31:59.250Z"
+    },
+    "6977328517": {
+      "response": "معیار پذیرش ثبت شد: AC_EXACT_HEAD_CI; ACCEPTANCE_PROGRESS=80%; OVERALL_COMPLETION=80%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 89,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-18T11:32:33.414Z"
     }
   },
   "work_items": {
@@ -24560,7 +24569,14 @@
           "title": "Control Plane Validation and focused tests pass on the exact PR head; no NON product files are changed.",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "Successful workflow run whose head SHA equals the PR head plus changed-file read-back."
+          "evidence_requirement": "Successful workflow run whose head SHA equals the PR head plus changed-file read-back.",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44295280344"
+          ],
+          "validated_at_utc": "2026-11-18T11:32:33.414Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "priority": 50,
