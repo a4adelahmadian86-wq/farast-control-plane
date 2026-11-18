@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2576,
+  "revision": 2577,
   "next_fencing_token": 144,
   "locks": [
     {
@@ -21938,6 +21938,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-18T16:28:21.337Z"
+    },
+    "6984689923": {
+      "response": "STEP ثبت شد: S6_REGRESSION_AND_PROTOCOLS; EXECUTION_PROGRESS=85.71%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=6/7.",
+      "response_posted": false,
+      "issue_number": 90,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-18T16:29:27.776Z"
     }
   },
   "work_items": {
@@ -27713,7 +27722,20 @@
           "weight": 1,
           "expected_output": "Automated regression coverage plus updated schema/command/execution protocol and a migration note for existing Work Items.",
           "evidence_requirement": "Focused test output, updated Markdown/JSON schema paths and backward-compatibility evidence.",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/99",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-90-RUN-20261118-ALLOCATOR-CHAT-GATE-REPAIR-001/04_COORDINATION/WORK_ITEM_EXECUTION_PROTOCOL.md",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-90-RUN-20261118-ALLOCATOR-CHAT-GATE-REPAIR-001/04_COORDINATION/COORDINATOR_COMMANDS.md",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-90-RUN-20261118-ALLOCATOR-CHAT-GATE-REPAIR-001/04_COORDINATION/WORK_ITEM_SCHEMA.json",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-90-RUN-20261118-ALLOCATOR-CHAT-GATE-REPAIR-001/04_COORDINATION/ACTIVE_LOCKS.schema.json",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-90-RUN-20261118-ALLOCATOR-CHAT-GATE-REPAIR-001/.github/scripts/coordinator-core.test.js",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44347442937"
+          ],
+          "validated_at_utc": "2026-11-18T16:29:27.775Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Exact final-head CI passed 150/150 tests with 0 failures; regression matrix covers allocator provenance, same-chat exclusivity, different-chat disjoint claims, expiry/recovery and pre-merge acceptance gating. Protocols define stable CHAT_ID, one lease per chat, allocator provenance, CP metadata and legacy migration."
         },
         {
           "step_id": "S7_CI_HANDOFF",
