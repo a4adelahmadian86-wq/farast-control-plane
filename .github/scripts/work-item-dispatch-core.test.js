@@ -208,7 +208,7 @@ test('newly allocated child leaves are discovered dynamically by each matching s
       issue_number:95,
       work_item_id:'WI-DYNAMIC-EXP22-001',
       parent_work_item_id:'WI-GOAL-ALLOCATOR-001',
-      parent_goal_ids:['G-01'],
+      parent_goal_ids:['G-08'],
       parent_exp_ids:['EXP-22'],
       title:'Independent EXP-22 implementation architecture audit',
       resource_keys:['analysis:dynamic-exp-22'],
