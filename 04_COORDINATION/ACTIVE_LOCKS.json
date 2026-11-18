@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1729,
+  "revision": 1730,
   "next_fencing_token": 117,
   "locks": [
     {
@@ -15897,6 +15897,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-18T05:56:51.153Z"
+    },
+    "6970454023": {
+      "response": "معیار پذیرش ثبت شد: AC_OPERATION_SCOPE; ACCEPTANCE_PROGRESS=50%; OVERALL_COMPLETION=50%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 67,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-18T05:56:58.774Z"
     }
   },
   "work_items": {
@@ -19419,7 +19428,17 @@
         {
           "criterion_id": "AC_OPERATION_SCOPE",
           "title": "All new Work Items use explicit versioned operations; only exact legacy allowlist exceptions remain safe",
-          "evidence_requirement": "Prompt/schema examples use operation_scope_version 1.0 and requested_operations; exact Issue #64 legacy ID/target allowlist is read back and tested; every non-allowlisted missing/malformed WRITE_ALLOWED scope is rejected"
+          "evidence_requirement": "Prompt/schema examples use operation_scope_version 1.0 and requested_operations; exact Issue #64 legacy ID/target allowlist is read back and tested; every non-allowlisted missing/malformed WRITE_ALLOWED scope is rejected",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/76",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/64",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/04_COORDINATION/WORK_ITEM_SCHEMA.json",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/.github/scripts/work-item-core.js"
+          ],
+          "validated_at_utc": "2026-11-18T05:56:58.774Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_RESUME_FALLBACK",
