@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2175,
+  "revision": 2176,
   "next_fencing_token": 133,
   "locks": [],
   "history": [
@@ -18832,6 +18832,15 @@
       "command": "accept",
       "next_status": "done",
       "at_utc": "2026-11-18T11:17:27.307Z"
+    },
+    "6977003756": {
+      "response": "پذیرش رد شد: PR باید از branch و target repository ثبت‌شده در آخرین handoff همان lease ساخته شده باشد.",
+      "response_posted": false,
+      "issue_number": 67,
+      "actor": "a4adelahmadian86-wq",
+      "command": "accept",
+      "next_status": null,
+      "at_utc": "2026-11-18T11:17:48.965Z"
     }
   },
   "work_items": {
