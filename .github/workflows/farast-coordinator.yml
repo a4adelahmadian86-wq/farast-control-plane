@@ -574,11 +574,13 @@ jobs:
                         const checkRuns = await prClient.paginate(prClient.rest.checks.listForRef, { owner: prOwner, repo: prRepo, ref: pr.head.sha, per_page: 100 });
                         const combinedStatus = await prClient.rest.repos.getCombinedStatusForRef({ owner: prOwner, repo: prRepo, ref: pr.head.sha });
                         const automatedChecksPassed = coordinatorCore.hasSuccessfulChecks(checkRuns, combinedStatus.data);
+                        const acceptanceProgress = acceptanceItem ? workItemCore.calculateProgress(acceptanceItem) : { can_accept: false, execution_percentage: 0, acceptance_percentage: 0, overall_completion_percentage: 0 };
                         acceptanceAudit = { pr_url: prUrl, pr_head_sha: pr.head.sha, merge_commit_sha: pr.merge_commit_sha || null, lineage_mode: acceptanceLineageMode };
                         if (!lineageBound) response = 'پذیرش رد شد: PR باید از branch و target repository ثبت‌شده در آخرین handoff همان lease ساخته شده باشد؛ استثنا فقط PR ادغام‌شده با merge commit اثبات‌شده به‌عنوان ancestor شاخه پیش‌فرض همان مخزن است.';
                         else if (!hardGate.ready) response = 'پذیرش خودکار رد شد: گیت سخت/عملیات درخواست‌شده حل‌نشده یا پاس‌نشده است: ' + hardGate.blockers.join(',') + '.';
                         else if (!mergeGate.ready) response = 'ادغام رد شد: گیت عملیات merge پاس نشده است: ' + mergeGate.blockers.join(',') + '.';
                         else if (!automatedChecksPassed) response = 'پذیرش خودکار رد شد: تمام Check Runها و Commit Statusهای SHA دقیق head باید با conclusion/state برابر success تکمیل شده باشند؛ بازبین انسانی دوم لازم نیست.';
+                        else if (acceptanceItem && !acceptanceProgress.can_accept) response = 'ادغام متوقف شد: پیش از merge همه گام‌ها، معیارهای پذیرش و dependencyها باید با evidence معتبر PASS باشند؛ EXECUTION_PROGRESS=' + acceptanceProgress.execution_percentage + '%; ACCEPTANCE_PROGRESS=' + (acceptanceProgress.acceptance_percentage === null ? 'N/A' : acceptanceProgress.acceptance_percentage + '%') + '; OVERALL_COMPLETION=' + (acceptanceProgress.overall_completion_percentage === null ? 'N/A' : acceptanceProgress.overall_completion_percentage + '%') + '.';
                         else {
                           let mergeConfirmed = pr.merged;
                           if (!mergeConfirmed) {
@@ -593,15 +595,11 @@ jobs:
                             if (!response) response = 'ادغام خودکار تأیید نشد؛ PR باز می‌ماند و پذیرش انجام نمی‌شود.';
                           } else {
                             if (acceptanceItem) {
-                              const gate = workItemCore.calculateProgress(acceptanceItem);
-                              if (!gate.can_accept) response = 'پذیرش Work Item رد شد: همه گام‌های اجباری، معیارهای پذیرش و dependencyها باید با evidence معتبر PASS شوند؛ EXECUTION_PROGRESS=' + gate.execution_percentage + '%; ACCEPTANCE_PROGRESS=' + (gate.acceptance_percentage === null ? 'N/A' : gate.acceptance_percentage + '%') + '; OVERALL_COMPLETION=' + (gate.overall_completion_percentage === null ? 'N/A' : gate.overall_completion_percentage + '%') + '.';
-                              else {
-                                state.work_items ||= {};
-                                state.work_items[issue.number] ||= acceptanceItem;
-                                state.work_items[issue.number].status = 'ACCEPTED';
-                                nextStatus = 'done';
-                                response = 'Work Item ACCEPTED: همه گام‌ها و معیارهای اجباری با evidence معتبر پاس شده‌اند؛ PR ادغام‌شده و تمام گیت‌های ماشینی موفق روی SHA دقیق head احراز شد؛ هیچ Review انسانی شرط پذیرش نیست.' + (acceptanceLineageMode === 'MERGED_REPLACEMENT_ANCESTOR' ? ' lineage از طریق PR جایگزین ادغام‌شده و ancestry تأییدشده احراز شد.' : '');
-                              }
+                              state.work_items ||= {};
+                              state.work_items[issue.number] ||= acceptanceItem;
+                              state.work_items[issue.number].status = 'ACCEPTED';
+                              nextStatus = 'done';
+                              response = 'Work Item ACCEPTED: همه گام‌ها و معیارهای اجباری پیش از merge با evidence معتبر پاس شدند؛ PR ادغام‌شده و تمام گیت‌های ماشینی موفق روی SHA دقیق head احراز شد؛ هیچ Review انسانی شرط پذیرش نیست.' + (acceptanceLineageMode === 'MERGED_REPLACEMENT_ANCESTOR' ? ' lineage از طریق PR جایگزین ادغام‌شده و ancestry تأییدشده احراز شد.' : '');
                             } else {
                               nextStatus = 'done';
                               response = 'پذیرش تأیید شد: PR به‌صورت خودکار ادغام شد و تمام گیت‌های ماشینی موفق روی SHA دقیق head احراز شد؛ هیچ Review انسانی شرط پذیرش نیست.';
