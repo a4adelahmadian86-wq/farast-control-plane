@@ -1,57 +1,8 @@
 {
   "schema_version": "1.0",
-  "revision": 1822,
+  "revision": 1823,
   "next_fencing_token": 119,
-  "locks": [
-    {
-      "resource_key": "file:.github/scripts/work-item-core.js",
-      "issue_number": 84,
-      "task_id": "GH-84",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "CHAT-MASTER-CONTINUE-20261118-01",
-      "chat_id": "CHAT-MASTER-CONTINUE-20261118-01",
-      "run_id": "RUN-20261118-SEMANTIC-DEDUP-002",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": "work/GH-84-RUN-20261118-SEMANTIC-DEDUP-002",
-      "acquired_at_utc": "2026-11-18T06:05:53.708Z",
-      "heartbeat_at_utc": "2026-11-18T06:11:01.949Z",
-      "lease_expires_at_utc": "2026-11-18T06:41:01.949Z",
-      "fencing_token": 118,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "file:.github/scripts/work-item-core.test.js",
-      "issue_number": 84,
-      "task_id": "GH-84",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "CHAT-MASTER-CONTINUE-20261118-01",
-      "chat_id": "CHAT-MASTER-CONTINUE-20261118-01",
-      "run_id": "RUN-20261118-SEMANTIC-DEDUP-002",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": "work/GH-84-RUN-20261118-SEMANTIC-DEDUP-002",
-      "acquired_at_utc": "2026-11-18T06:05:53.708Z",
-      "heartbeat_at_utc": "2026-11-18T06:11:01.949Z",
-      "lease_expires_at_utc": "2026-11-18T06:41:01.949Z",
-      "fencing_token": 118,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "module:semantic-duplicate-detection",
-      "issue_number": 84,
-      "task_id": "GH-84",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "CHAT-MASTER-CONTINUE-20261118-01",
-      "chat_id": "CHAT-MASTER-CONTINUE-20261118-01",
-      "run_id": "RUN-20261118-SEMANTIC-DEDUP-002",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": "work/GH-84-RUN-20261118-SEMANTIC-DEDUP-002",
-      "acquired_at_utc": "2026-11-18T06:05:53.708Z",
-      "heartbeat_at_utc": "2026-11-18T06:11:01.949Z",
-      "lease_expires_at_utc": "2026-11-18T06:41:01.949Z",
-      "fencing_token": 118,
-      "status": "ACTIVE"
-    }
-  ],
+  "locks": [],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -8019,6 +7970,17 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "lease_expires_at_utc": "2026-11-18T06:41:01.949Z",
       "at_utc": "2026-11-18T06:11:01.949Z"
+    },
+    {
+      "event": "REVIEW",
+      "issue_number": 84,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-MASTER-CONTINUE-20261118-01",
+      "run_id": "RUN-20261118-SEMANTIC-DEDUP-002",
+      "fencing_token": 118,
+      "branch": "work/GH-84-RUN-20261118-SEMANTIC-DEDUP-002",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "at_utc": "2026-11-18T06:11:08.866Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -16032,6 +15994,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-18T06:11:01.949Z"
+    },
+    "6970681747": {
+      "response": "پیاده‌سازی برای اجرای گیت‌های ماشینی و پذیرش خودکار تحویل شد؛ این فرمان به‌تنهایی پذیرش نیست.",
+      "response_posted": false,
+      "issue_number": 84,
+      "actor": "a4adelahmadian86-wq",
+      "command": "review",
+      "next_status": "review",
+      "at_utc": "2026-11-18T06:11:08.868Z"
     }
   },
   "work_items": {
@@ -20575,7 +20546,7 @@
       "parent_exp_ids": [
         "EXP-01"
       ],
-      "status": "IN_PROGRESS",
+      "status": "REVIEW_REQUIRED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "file:.github/scripts/work-item-core.js",
