@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1565,
+  "revision": 1566,
   "next_fencing_token": 110,
   "locks": [
     {
@@ -14089,6 +14089,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-18T05:25:27.657Z"
+    },
+    "6969947190": {
+      "response": "STEP ثبت شد: S1_CLASSIFY; EXECUTION_PROGRESS=28.57%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=2/7.",
+      "response_posted": false,
+      "issue_number": 68,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-18T05:25:35.979Z"
     }
   },
   "work_items": {
@@ -17525,7 +17534,14 @@
           "weight": 1,
           "expected_output": "Policy-correct operation mapping",
           "evidence_requirement": "Per-Issue policy and operation decision with source evidence",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/68#issuecomment-6969939169"
+          ],
+          "validated_at_utc": "2026-11-18T05:25:35.979Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S2_MIGRATE",
