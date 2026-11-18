@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2036,
+  "revision": 2037,
   "next_fencing_token": 124,
   "locks": [
     {
@@ -17625,6 +17625,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-18T06:38:24.639Z"
+    },
+    "6971163079": {
+      "response": "STEP ثبت شد: S6_HANDOFF; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; verified_steps=7/7.",
+      "response_posted": false,
+      "issue_number": 81,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-18T06:38:33.039Z"
     }
   },
   "work_items": {
@@ -22219,7 +22228,19 @@
           "weight": 1,
           "expected_output": "Review-ready PR and complete evidence package",
           "evidence_requirement": "PR URL, exact-head Actions run, issue-body parity and checkpoint",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/88",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44252251410",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/67",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/80",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/83",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-81-RUN-20261118-ISSUE-SPEC-REPAIR-004/04_COORDINATION/WORK_ITEM_SPEC_FORMAT.md"
+          ],
+          "validated_at_utc": "2026-11-18T06:38:33.038Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Handoff complete: corrected canonical issue-body format, exact live regex, parser/schema validation, identity/PR80 lineage preservation, accepted/blocked Issue67 claim blocker, and exact-head CI success. PR #82 was closed as superseded; PR #88 is the current mergeable implementation PR and Issue #81 body references its exact head. Separate out-of-scope follow-ups remain: global inbox fairness across issue_comment events, allocator-lease enforcement for issue creation, and same-chat single-active-lease enforcement."
         }
       ],
       "acceptance_criteria": [
