@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1810,
+  "revision": 1811,
   "next_fencing_token": 119,
   "locks": [
     {
@@ -15966,6 +15966,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-18T06:10:04.238Z"
+    },
+    "6970662121": {
+      "response": "معیار پذیرش ثبت شد: AC_FALSE_POSITIVE; ACCEPTANCE_PROGRESS=28.57%; OVERALL_COMPLETION=28.57%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 84,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-18T06:10:12.097Z"
     }
   },
   "work_items": {
@@ -20652,7 +20661,16 @@
         {
           "criterion_id": "AC_FALSE_POSITIVE",
           "title": "Issue #68 no longer reports unrelated Work Items as semantic duplicates solely due to D1-D4 reuse",
-          "evidence_requirement": "Exact live issue fixture and post-fix duplicate-check result"
+          "evidence_requirement": "Exact live issue fixture and post-fix duplicate-check result",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/68",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44249107014",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/8bb4d4099a9f859673826f0ba34b869af7f5ab5f"
+          ],
+          "validated_at_utc": "2026-11-18T06:10:12.097Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_TRUE_DUPLICATE",
