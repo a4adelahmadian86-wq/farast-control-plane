@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1922,
+  "revision": 1923,
   "next_fencing_token": 123,
   "locks": [
     {
@@ -16939,6 +16939,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-18T06:24:02.872Z"
+    },
+    "6970909347": {
+      "response": "معیار پذیرش ثبت شد: AC_POLICY_CORRECT; ACCEPTANCE_PROGRESS=42.85%; OVERALL_COMPLETION=42.85%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 68,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-18T06:24:11.034Z"
     }
   },
   "work_items": {
@@ -20776,7 +20785,17 @@
         {
           "criterion_id": "AC_POLICY_CORRECT",
           "title": "NON product, control-plane and other repository tasks have correct base operations and no unrequested sensitive actions",
-          "evidence_requirement": "Operation mapping table and schema/core validation"
+          "evidence_requirement": "Operation mapping table and schema/core validation",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/68#issuecomment-6969939169",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/51",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/.github/scripts/work-item-core.test.js",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/87"
+          ],
+          "validated_at_utc": "2026-11-18T06:24:11.034Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Only Issue #51 retains product_implementation with its exact owner_approval_ref; the other seven legacy targets use control_plane_write. No READ_ONLY or proposal-only task was upgraded, and no product repository write was performed."
         },
         {
           "criterion_id": "AC_ALLOCATOR_BOOTSTRAP",
