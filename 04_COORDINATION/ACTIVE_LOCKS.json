@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2079,
+  "revision": 2080,
   "next_fencing_token": 128,
   "locks": [],
   "history": [
@@ -8785,6 +8785,17 @@
       "branch": null,
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "at_utc": "2026-11-18T07:38:08.303Z"
+    },
+    {
+      "event": "WORK_ITEM_REFRESHED",
+      "issue_number": 89,
+      "work_item_id": "WI-CP-GLOBAL-INBOX-FAIRNESS-001",
+      "actor": "a4adelahmadian86-wq",
+      "preserved_steps": 0,
+      "preserved_criteria": 0,
+      "hard_gate_ready": true,
+      "hard_gate_blockers": [],
+      "at_utc": "2026-11-18T07:38:54.521Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -17950,6 +17961,15 @@
       "command": "release",
       "next_status": "ready",
       "at_utc": "2026-11-18T07:38:08.304Z"
+    },
+    "6972213979": {
+      "response": "Work Item specification refreshed from Issue body; preserved_steps=0; preserved_criteria=0; hard_gates=PASS; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%.",
+      "response_posted": false,
+      "issue_number": 89,
+      "actor": "a4adelahmadian86-wq",
+      "command": "refresh",
+      "next_status": "ready",
+      "at_utc": "2026-11-18T07:38:54.526Z"
     }
   },
   "work_items": {
@@ -22944,6 +22964,178 @@
           "evidence_requirement": "Actions run, merge SHA and claim response"
         }
       ]
+    },
+    "89": {
+      "schema_version": "1.0",
+      "operation_scope_version": "1.0",
+      "requested_operations": [
+        "control_plane_write"
+      ],
+      "work_item_id": "WI-CP-GLOBAL-INBOX-FAIRNESS-001",
+      "title": "Implement global fair replay for the durable FARAST command inbox",
+      "description": "The coordinator currently processes only the event Issue for issue_comment runs. When a queued run is cancelled or replaced by activity on another Issue, pending commands on other Work Items can remain unprocessed; repeated activity on one Issue can starve other Issues. Implement a bounded, deterministic, globally fair inbox scan with durable replay and idempotency. Control-plane only; do not modify the NON product repository.",
+      "parent_goal_ids": [
+        "G-09"
+      ],
+      "parent_exp_ids": [
+        "EXP-01"
+      ],
+      "parent_work_item_id": "WI-GOAL-ALLOCATOR-001",
+      "status": "READY",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "resource_keys": [
+        "file:.github/workflows/farast-coordinator.yml",
+        "file:.github/scripts/inbox-scheduler.js",
+        "file:.github/scripts/inbox-scheduler.test.js",
+        "file:04_coordination/INTERRUPTION_RECOVERY_PROTOCOL.md",
+        "file:04_coordination/MULTI_CHAT_READINESS.md",
+        "module:global-inbox-fairness",
+        "module:durable-command-replay"
+      ],
+      "dependencies": [],
+      "steps": [
+        {
+          "step_id": "S1_REPRODUCE_STARVATION",
+          "title": "Reproduce cross-Issue command starvation from live coordinator events",
+          "required": true,
+          "weight": 1,
+          "expected_output": "A time-ordered reproduction showing an Issue #67 command left pending while repeated Issue #68/#84 events replace queued runs; identify current-issue-only targeting and schedule recovery behavior.",
+          "evidence_requirement": "Exact issue/comment IDs, workflow run IDs and conclusions, current workflow source lines, and registry processed_operations read-back.",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S2_DESIGN_FAIR_INBOX",
+          "title": "Specify a bounded global inbox scan and fairness policy",
+          "required": true,
+          "weight": 1,
+          "expected_output": "A deterministic scheduling design covering all open agent:task Issues, ordering, per-Issue quota or round-robin, maximum commands per run, cursor/checkpoint, pagination and rate limits.",
+          "evidence_requirement": "Written algorithm, invariants, ordering examples, cancellation/replay behavior and failure/stop conditions.",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S3_IMPLEMENT_GLOBAL_SCAN",
+          "title": "Implement global reconciliation for issue_comment, schedule and workflow_dispatch events",
+          "required": true,
+          "weight": 1,
+          "expected_output": "A shared inbox path that collects pending commands across all eligible Issues rather than only the event Issue, and processes a bounded fair batch.",
+          "evidence_requirement": "Minimal workflow/module diff and read-back proving each trigger uses the same global scanner.",
+          "estimate_minutes": 5
+        },
+        {
+          "step_id": "S4_PERSIST_IDEMPOTENCY",
+          "title": "Persist fair progress and preserve exactly-once command effects",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Durable cursor/checkpoint plus processed-operation guards that allow replay after cancelled runs without duplicate state changes.",
+          "evidence_requirement": "Registry/schema diff and tests for repeated events, replayed comments, pagination boundaries and partial batches.",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S5_REGRESSION_TESTS",
+          "title": "Add regression tests for cancellation recovery and noisy-Issue fairness",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Automated tests showing a pending command on another Issue is processed despite a noisy Issue, and that bounded batches make progress for every eligible Issue.",
+          "evidence_requirement": "Focused test output for cross-Issue scan, cancelled/replaced run replay, per-Issue fairness, idempotency and pagination.",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S6_PROTOCOL_READINESS",
+          "title": "Update interruption recovery and multi-chat readiness documentation",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Protocols describe the actual global queue semantics, bounded fairness, replay guarantees and remaining limits.",
+          "evidence_requirement": "Updated Markdown paths, exact source references and a readiness status tied to test evidence.",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S7_CI_HANDOFF",
+          "title": "Run exact-head validation and hand off a focused control-plane PR",
+          "required": true,
+          "weight": 1,
+          "expected_output": "A PR with only authorized control-plane changes, exact-head green CI and evidence-linked handoff.",
+          "evidence_requirement": "PR URL, exact head SHA, changed-file list, workflow run IDs, diff review and known limitations.",
+          "estimate_minutes": 2
+        }
+      ],
+      "acceptance_criteria": [
+        {
+          "criterion_id": "AC_GLOBAL_REPLAY",
+          "title": "Every eligible issue_comment, schedule and workflow_dispatch reconciliation can recover pending commands across all open agent:task Issues, including commands whose original run was cancelled or replaced.",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Integration tests and live replay evidence for a command on Issue A recovered by a run triggered from Issue B or scheduled reconciliation."
+        },
+        {
+          "criterion_id": "AC_FAIR_SCHEDULING",
+          "title": "A noisy Issue cannot indefinitely starve another eligible Issue; bounded batches and deterministic fairness guarantee progress.",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Tests with multiple Issues and skewed command volumes proving per-Issue progress across consecutive runs."
+        },
+        {
+          "criterion_id": "AC_IDEMPOTENT_REPLAY",
+          "title": "Replayed or duplicated events do not apply a command more than once and do not duplicate claims, checkpoints or registry mutations.",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Tests asserting processed-operation identity, idempotent replay and unchanged registry after duplicate delivery."
+        },
+        {
+          "criterion_id": "AC_REGRESSION_MATRIX",
+          "title": "Regression coverage includes current-Issue-only failure, cross-Issue recovery, cancelled-run replay, noisy-Issue fairness, bounded batch continuation and pagination.",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Focused automated test matrix with all cases passing."
+        },
+        {
+          "criterion_id": "AC_EXACT_HEAD_CI",
+          "title": "Control Plane Validation and focused tests pass on the exact PR head; no NON product files are changed.",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Successful workflow run whose head SHA equals the PR head plus changed-file read-back."
+        }
+      ],
+      "priority": 50,
+      "created_at_utc": "2026-11-18T06:43:23Z",
+      "ready_at_utc": "2026-11-18T06:43:23Z",
+      "write_policy": "WRITE_ALLOWED",
+      "priority_source": "DEFAULT_POLICY",
+      "effort_estimate_minutes": 25,
+      "effort_rationale": "Focused reproduction, bounded global scheduling implementation, durable replay/idempotency, regression matrix and protocol update; target effort is 25 minutes.",
+      "depth_profile": {
+        "profile_version": "2.0.0",
+        "min_substantive_steps": 6,
+        "min_acceptance_criteria": 4,
+        "min_deliverables": 3,
+        "target_effort_minutes": 25
+      },
+      "deliverables": [
+        {
+          "deliverable_id": "GIF-01",
+          "description": "Global durable inbox scheduler and workflow integration with bounded fair processing.",
+          "evidence_requirement": "Source diff, workflow read-back and deterministic scheduling evidence.",
+          "artifact_path": ".github/scripts/inbox-scheduler.js"
+        },
+        {
+          "deliverable_id": "GIF-02",
+          "description": "Regression suite for cross-Issue replay, cancellation recovery, idempotency and fairness.",
+          "evidence_requirement": "Focused test output and exact-head CI.",
+          "artifact_path": ".github/scripts/inbox-scheduler.test.js"
+        },
+        {
+          "deliverable_id": "GIF-03",
+          "description": "Updated interruption recovery and multi-chat readiness documentation.",
+          "evidence_requirement": "Updated protocol/readiness files and evidence-linked status.",
+          "artifact_path": "04_COORDINATION/MULTI_CHAT_READINESS.md"
+        }
+      ],
+      "weighting": {
+        "version": "1.0"
+      },
+      "acceptance_weighting": {
+        "version": "1.0"
+      },
+      "next_action": "Claim this leaf with a fresh run and fencing token; begin with read-only reproduction of cross-Issue starvation. Do not modify the NON product repository."
     }
   },
   "checkpoints": {
