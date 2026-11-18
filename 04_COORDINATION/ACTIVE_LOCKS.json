@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2597,
+  "revision": 2598,
   "next_fencing_token": 144,
   "locks": [
     {
@@ -22016,6 +22016,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-18T16:56:08.452Z"
+    },
+    "6985438296": {
+      "response": "معیار پذیرش ثبت شد: AC_PARENT_CP_SCHEMA; ACCEPTANCE_PROGRESS=60%; OVERALL_COMPLETION=60%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 90,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-18T16:56:48.698Z"
     }
   },
   "work_items": {
@@ -27868,7 +27877,18 @@
           "title": "The Work Item schema supports parent_cp_ids separately from parent_exp_ids and allocation_provenance, while existing Work Items remain valid under the documented migration policy.",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "Schema validation of legacy fixtures and new CP-linked provenance fixtures."
+          "evidence_requirement": "Schema validation of legacy fixtures and new CP-linked provenance fixtures.",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/99",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-90-RUN-20261118-ALLOCATOR-CHAT-GATE-REPAIR-001/04_COORDINATION/WORK_ITEM_SCHEMA.json",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-90-RUN-20261118-ALLOCATOR-CHAT-GATE-REPAIR-001/04_COORDINATION/ACTIVE_LOCKS.schema.json",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-90-RUN-20261118-ALLOCATOR-CHAT-GATE-REPAIR-001/.github/scripts/work-item-core.test.js",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44349241705"
+          ],
+          "validated_at_utc": "2026-11-18T16:56:48.697Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Final-head schema and parser tests cover parent_cp_ids independently from parent_exp_ids, allocation_provenance, legacy compatibility and new Work Item validation."
         },
         {
           "criterion_id": "AC_REGRESSION_MATRIX",
