@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1591,
+  "revision": 1592,
   "next_fencing_token": 110,
   "locks": [],
   "history": [
@@ -7158,6 +7158,17 @@
       "hard_gate_ready": true,
       "hard_gate_blockers": [],
       "at_utc": "2026-11-18T05:29:32.093Z"
+    },
+    {
+      "event": "WORK_ITEM_REFRESHED",
+      "issue_number": 47,
+      "work_item_id": "WI-PROMPT-INTEGRATION-001",
+      "actor": "a4adelahmadian86-wq",
+      "preserved_steps": 7,
+      "preserved_criteria": 0,
+      "hard_gate_ready": true,
+      "hard_gate_blockers": [],
+      "at_utc": "2026-11-18T05:30:08.565Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -14136,6 +14147,15 @@
       "command": "status",
       "next_status": null,
       "at_utc": "2026-11-18T05:29:42.309Z"
+    },
+    "6969988208": {
+      "response": "Work Item specification refreshed from Issue body; preserved_steps=7; preserved_criteria=0; hard_gates=PASS; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%.",
+      "response_posted": false,
+      "issue_number": 47,
+      "actor": "a4adelahmadian86-wq",
+      "command": "refresh",
+      "next_status": "ready",
+      "at_utc": "2026-11-18T05:30:08.570Z"
     }
   },
   "work_items": {
@@ -15727,7 +15747,7 @@
         "EXP-23",
         "EXP-26"
       ],
-      "status": "REVIEW_REQUIRED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "module:prompt-library",
@@ -15872,7 +15892,11 @@
         }
       ],
       "priority": 5,
-      "created_at_utc": "2026-11-16T10:56:00Z"
+      "created_at_utc": "2026-11-16T10:56:00Z",
+      "operation_scope_version": "1.0",
+      "requested_operations": [
+        "control_plane_write"
+      ]
     },
     "50": {
       "schema_version": "1.0",
