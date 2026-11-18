@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1596,
+  "revision": 1597,
   "next_fencing_token": 110,
   "locks": [],
   "history": [
@@ -14179,7 +14179,7 @@
     },
     "6969989262": {
       "response": "Work Item specification refreshed from Issue body; preserved_steps=7; preserved_criteria=5; hard_gates=PASS; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 51,
       "actor": "a4adelahmadian86-wq",
       "command": "refresh",
