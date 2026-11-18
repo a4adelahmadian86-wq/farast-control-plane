@@ -207,7 +207,7 @@ function claimResources(state, args) {
   if (!isSafeRunId(args.chatId)) return { ok: false, reason: 'missing_chat' };
   const taskConflict = state.locks.find(x => x.issue_number === args.issueNumber && leaseBlocksClaim(x, nowMs));
   if (taskConflict) return { ok: false, reason: 'task_already_claimed', conflict: taskConflict };
-  const chatConflict = state.locks.find(x => x.chat_id === args.chatId && leaseBlocksClaim(x, nowMs));
+  const chatConflict = state.locks.find(x => leaseBlocksClaim(x, nowMs) && (!isSafeRunId(x.chat_id) || x.chat_id === args.chatId));
   if (chatConflict) return { ok: false, reason: 'chat_conflict', conflict: chatConflict };
   const branchUsed = !!args.branch && (state.history || []).some(x => x.event === 'ACQUIRED' && x.issue_number === args.issueNumber && x.branch === args.branch);
   if (branchUsed) return { ok: false, reason: 'branch_reuse' };
