@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1699,
+  "revision": 1700,
   "next_fencing_token": 117,
   "locks": [
     {
@@ -15678,6 +15678,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-18T05:50:56.461Z"
+    },
+    "6970362039": {
+      "response": "STEP ثبت شد: S3_ALL_SPECIALISTS; EXECUTION_PROGRESS=57.14%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=4/7.",
+      "response_posted": false,
+      "issue_number": 67,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-18T05:51:03.797Z"
     }
   },
   "work_items": {
@@ -19087,7 +19096,16 @@
           "weight": 1,
           "expected_output": "17 consistent but scope-specific standalone prompts",
           "evidence_requirement": "Per-file diff/read-back matrix and prompt-contract tests",
-          "estimate_minutes": 5
+          "estimate_minutes": 5,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/80",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44142424801",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/tree/work/GH-67-RUN-20261117-PROMPT-DISPATCH-1734Z-002/05_PROMPT_LIBRARY"
+          ],
+          "validated_at_utc": "2026-11-18T05:51:03.797Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Live read-back of PR-01 through PR-17: all 17 contain G-09 global lane, explicit operation_scope_version/requested_operations, any-order semantics, claim, checkpoint/resume and scope-specific EXP metadata. CI validates every specialist's common bootstrap, authorization, branch/lease rules and absence of contradictory commands; no PR-number chronological dependency was found. Individual EXP missions preserved."
         },
         {
           "step_id": "S4_N_WORKER_SAFETY",
