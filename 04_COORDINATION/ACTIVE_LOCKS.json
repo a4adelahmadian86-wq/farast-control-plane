@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1920,
+  "revision": 1921,
   "next_fencing_token": 123,
   "locks": [
     {
@@ -16930,6 +16930,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-18T06:23:54.745Z"
+    },
+    "6970908644": {
+      "response": "معیار پذیرش ثبت شد: AC_MINIMAL_MIGRATION; ACCEPTANCE_PROGRESS=28.57%; OVERALL_COMPLETION=28.57%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 68,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-18T06:24:02.872Z"
     }
   },
   "work_items": {
@@ -20760,9 +20769,9 @@
             "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/52",
             "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/58"
           ],
-          "validated_at_utc": "2026-11-18T06:22:30.886Z",
+          "validated_at_utc": "2026-11-18T06:24:02.872Z",
           "validated_by": "a4adelahmadian86-wq",
-          "validation_note": "Before/after preservation report confirms only operation_scope_version and requested_operations were added to the eight legacy target issues; all other fields, stable IDs, task states, progress and evidence were preserved."
+          "validation_note": "Before/after JSON comparison confirms only operation_scope_version and requested_operations were added to the eight eligible legacy WRITE_ALLOWED Issues; all protected fields, evidence, status, dependencies, IDs and PR lineage were preserved."
         },
         {
           "criterion_id": "AC_POLICY_CORRECT",
