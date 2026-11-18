@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2589,
+  "revision": 2590,
   "next_fencing_token": 144,
   "locks": [
     {
@@ -21992,7 +21992,7 @@
     },
     "6985267780": {
       "response": "STEP ثبت شد: S7_CI_HANDOFF; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=7/7.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 90,
       "actor": "a4adelahmadian86-wq",
       "command": "step",
