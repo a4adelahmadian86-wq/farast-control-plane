@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2694,
+  "revision": 2695,
   "next_fencing_token": 149,
   "locks": [
     {
@@ -22548,6 +22548,15 @@
       "command": "status",
       "next_status": null,
       "at_utc": "2026-11-18T18:04:54.082Z"
+    },
+    "6987141276": {
+      "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-NON-IMPLEMENTATION-VERTICAL-SLICE-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=Run /farast review for this RUN; verify Issue #51 enters agent:review and the lease is released; keep PR #691 open and unmerged; do not run accept, merge, deploy, or release.; remaining_steps=.",
+      "response_posted": false,
+      "issue_number": 51,
+      "actor": "a4adelahmadian86-wq",
+      "command": "checkpoint",
+      "next_status": null,
+      "at_utc": "2026-11-18T18:07:27.329Z"
     }
   },
   "work_items": {
@@ -28823,9 +28832,9 @@
     },
     "51": {
       "work_item_id": "WI-NON-IMPLEMENTATION-VERTICAL-SLICE-001",
-      "run_id": "RUN-PR16-FINAL-HANDOFF-20261118-001",
+      "run_id": "RUN-PR16-FINAL-REVIEW-20261118-001",
       "checkpoint_version": 1,
-      "created_at_utc": "2026-11-18T17:11:29.943Z",
+      "created_at_utc": "2026-11-18T18:07:27.329Z",
       "last_verified_step_id": "S6_PR_HANDOFF",
       "current_step_id": "S6_PR_HANDOFF",
       "completed_step_ids": [
@@ -28861,11 +28870,11 @@
       "blockers": [],
       "owner": {
         "actor": "a4adelahmadian86-wq",
-        "chat_id": "CHAT-PR16-FINAL-HANDOFF-20261118",
-        "fencing_token": 145,
-        "lease_expires_at_utc": "2026-11-18T17:41:00.393Z"
+        "chat_id": "CHAT-PR16-FINAL-REVIEW-20261118",
+        "fencing_token": 148,
+        "lease_expires_at_utc": "2026-11-18T18:34:29.973Z"
       },
-      "next_action": "PR #690 is the current rebased, CI-green handoff at head b58bc25822ad2e738feff7dffb1404f1c84dd5a2. Keep it open and unmerged under AC_REVIEW_READY_HANDOFF; do not deploy. Resolve the stale execution-gate text and configure the coordinator cross-repository Secret only through authorized repository settings before any future automated acceptance."
+      "next_action": "Run /farast review for this RUN; verify Issue #51 enters agent:review and the lease is released; keep PR #691 open and unmerged; do not run accept, merge, deploy, or release."
     },
     "52": {
       "work_item_id": "WI-NON-WRITE-POLICY-COORDINATOR-001",
