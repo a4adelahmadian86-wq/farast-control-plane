@@ -210,3 +210,17 @@ MASTER-00 یک فرمان ثابت برای تمام چت‌هاست؛ هر چت
 - اجرای N=2،5،10،25، replay صندوق ورودی ۲۵ فرمان، پاسخ idempotent، stale/invalid/expired fencing و semantic duplicate در این شاخه همچنان آزمون مدل/شبیه‌سازی هستند؛ CI موفق، آزمون واقعی چند حساب ChatGPT مستقل نیست.
 - آزمون دو حساب مستقل ChatGPT/GitHub، takeover واقعی میان دو نشست و hard-fencing مسیر direct-write خارج از coordinator همچنان **NOT VERIFIED** هستند. هیچ ادعای ایجاد خودکار چت یا ادامه در پس‌زمینه وجود ندارد.
 - یک اجرای میانی CI با run `44247203711` به‌دلیل fixture اشتباهِ هدف G-09 روی دو برگ تخصصی شکست خورد. fixture اصلاح شد: برگ EXP-02 در G-01 و برگ EXP-22 در G-08 قرار گرفتند تا فقط worker متناظر آن‌ها را از مسیر محلی انتخاب کند؛ run `44247484021` روی head `e7c3ffe83083dbdeb9d3c361c62e4dd2377f213c` سپس موفق شد. این run پس از commitهای بعدی، صرفاً سابقه است و جایگزین CI head جاری نیست.
+
+---
+
+## به‌روزرسانی زنده — 2026-11-18 — صندوق فرمان سراسری و عدالت بین Issueها (Issue #89)
+
+**وضعیت پیاده‌سازی:** در شاخه اختصاصی work/GH-89-RUN-20261118-GLOBAL-INBOX-FAIRNESS-002 پیاده‌سازی شده؛ آزمون مستقل محلی ماژول ۹/۹ PASS است. وضعیت CI دقیق head پس از ساخت PR باید جداگانه ثبت شود و تا آن زمان این مورد را CI-VERIFIED اعلام نکن.
+
+- هر issue_comment، schedule و workflow_dispatch اکنون باید همان مسیر global inbox را اجرا کند: Issue محرک در اولویت، سپس یک صفحه حداکثر ۲۵تایی از Issueهای باز با ترتیب created ASC.
+- cursor پایدار در رجیستری مرکزی و فیلد inbox_scheduler.page ذخیره می‌شود؛ cursor فقط پس از تکمیل batch پیش می‌رود و صفحه ناقص نهایی به صفحه اول wrap می‌شود.
+- سقف پردازش هر Issue در هر run یک فرمان pending است؛ حداکثر ۱۰ پاسخ pending نیز در هر Issue بازیابی می‌شود. این سقف، fairness بین Issueها را در برابر یک منبع پرحجم حفظ می‌کند.
+- idempotency با processed_operations[comment_id] حفظ می‌شود. interruption قبل از cursor commit همان صفحه را replay می‌کند؛ interruption پس از commit عملیات و قبل از پاسخ، مسیر pending-response را بازیابی می‌کند.
+- خطای پردازش یک Issue در inbox_scheduler.issue_errors ثبت می‌شود و batch سایر Issueها ادامه می‌یابد؛ خطای رجیستری مرکزی fail-closed باقی می‌ماند.
+- **محدودیت:** این مسیر صف جهانی bounded است و throughput نامحدود یا زمان پاسخ ثابت تضمین نمی‌کند. schedule پنج‌دقیقه‌ای و quota سرویس GitHub روی زمان رسیدن نوبت بعدی اثر دارند.
+- این تست‌ها اثبات اجرای واقعی N حساب ChatGPT نیستند. E2E دو یا چند حساب مستقل، takeover واقعی میان دو نشست و hard-fencing خارج از coordinator همچنان NOT VERIFIED باقی می‌مانند.
