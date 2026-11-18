@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1907,
+  "revision": 1908,
   "next_fencing_token": 123,
   "locks": [
     {
@@ -16834,7 +16834,7 @@
     },
     "6970889551": {
       "response": "معیار پذیرش ثبت شد: AC_MINIMAL_MIGRATION; ACCEPTANCE_PROGRESS=14.28%; OVERALL_COMPLETION=14.28%; can_accept=false.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 68,
       "actor": "a4adelahmadian86-wq",
       "command": "criterion",
