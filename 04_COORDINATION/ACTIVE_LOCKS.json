@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2121,
+  "revision": 2122,
   "next_fencing_token": 130,
   "locks": [],
   "history": [
@@ -18378,7 +18378,7 @@
     },
     "6971020082": {
       "response": "فرمان رد شد: WORK_ITEM_ID=WI-SEMANTIC-DUPLICATE-DELIVERABLE-SCOPE-001 در Issueهای دیگری نیز ثبت شده است: #84; تا رفع تکرار، هیچ Claim/refresh/unblock/accept مجاز نیست.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 85,
       "actor": "a4adelahmadian86-wq",
       "command": "claim",
