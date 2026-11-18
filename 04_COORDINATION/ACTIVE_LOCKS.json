@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2212,
+  "revision": 2213,
   "next_fencing_token": 136,
   "locks": [
     {
@@ -19198,7 +19198,7 @@
     },
     "6977350303": {
       "response": "وظیفه مسدود شد و lease آزاد شد.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 89,
       "actor": "a4adelahmadian86-wq",
       "command": "block",
