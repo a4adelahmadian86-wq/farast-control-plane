@@ -6,6 +6,19 @@ const STATUSES = Object.freeze([
 ]);
 const TERMINAL = new Set(['ACCEPTED','REJECTED','CANCELLED']);
 const VALIDATION = new Set(['NOT_RUN','PASS','FAIL','BLOCKED','UNKNOWN']);
+const PRODUCT_REPOSITORY = 'a4adelahmadian86-wq/non';
+const CONTROL_PLANE_REPOSITORY = 'a4adelahmadian86-wq/farast-control-plane';
+const BASE_OPERATIONS = new Set(['analysis','proposal_only']);
+const ACTION_OPERATIONS = new Set(['control_plane_write','control_plane_merge','control_plane_authorization_change','repository_write','product_implementation','destructive_data_change','database_migration','authorization_change','security_sensitive_change','audit_log_change','architecture_implementation','hosting_deployment','legal_policy_change','merge','acceptance','security_acceptance','production_release']);
+const ALL_OPERATIONS = new Set([...BASE_OPERATIONS, ...ACTION_OPERATIONS]);
+const LEGACY_WRITE_OPERATION_SCOPES = Object.freeze({
+ 'WI-GOAL-ALLOCATOR-001':{target_repository:CONTROL_PLANE_REPOSITORY,operations:['control_plane_write'],branchless:true},
+ 'WI-NON-IMPLEMENTATION-VERTICAL-SLICE-001':{target_repository:PRODUCT_REPOSITORY,operations:['product_implementation']},
+ 'WI-NON-WRITE-POLICY-COORDINATOR-001':{target_repository:CONTROL_PLANE_REPOSITORY,operations:['control_plane_write']},
+ 'WI-PR16-SPEC-REPAIR-001':{target_repository:CONTROL_PLANE_REPOSITORY,operations:['control_plane_write'],branchless:true},
+ 'WI-OPERATION-GATE-MODEL-001':{target_repository:CONTROL_PLANE_REPOSITORY,operations:['control_plane_write']},
+ 'WI-READONLY-EVIDENCE-ACCEPTANCE-001':{target_repository:CONTROL_PLANE_REPOSITORY,operations:['control_plane_write']},
+});
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -20,14 +33,41 @@ function validateWorkItem(item) {
   assert(typeof item.title === 'string' && item.title.trim(), 'title is required');
   assert(Array.isArray(item.parent_goal_ids) && item.parent_goal_ids.length > 0, 'parent_goal_ids are required');
   assert(Array.isArray(item.parent_exp_ids) && item.parent_exp_ids.length > 0, 'parent_exp_ids are required');
+  if (item.parent_work_item_id !== undefined && item.parent_work_item_id !== null) assert(typeof item.parent_work_item_id === 'string' && /^[A-Z0-9][A-Z0-9._-]{2,63}$/.test(item.parent_work_item_id) && item.parent_work_item_id !== item.work_item_id, 'invalid parent_work_item_id');
   assert(Number.isInteger(item.priority) && item.priority >= 0 && item.priority <= 100, 'priority must be an integer from 0 to 100');
   assert(isIso(item.created_at_utc), 'created_at_utc must be an ISO timestamp');
   assert(STATUSES.includes(item.status), 'invalid work item status');
   assert(typeof item.target_repository === 'string' && /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(item.target_repository), 'invalid target_repository');
   assert(['READ_ONLY','WRITE_REQUIRES_OWNER_APPROVAL','WRITE_ALLOWED'].includes(item.write_policy), 'invalid write_policy');
   assert(['OWNER_ASSIGNED','DEFAULT_POLICY'].includes(item.priority_source), 'invalid priority_source');
-  if (item.target_repository === 'a4adelahmadian86-wq/non') assert(item.write_policy === 'READ_ONLY', 'NON product repository is READ_ONLY until explicit owner authorization');
+  if (item.target_repository === PRODUCT_REPOSITORY && item.write_policy === 'WRITE_ALLOWED') assert(typeof item.owner_approval_ref === 'string' && item.owner_approval_ref.trim(), 'owner_approval_ref is required for NON WRITE_ALLOWED');
   if (item.write_policy === 'WRITE_REQUIRES_OWNER_APPROVAL') assert(typeof item.owner_approval_ref === 'string' && item.owner_approval_ref.trim(), 'owner_approval_ref is required for approval-gated writes');
+  const hasOperationScopeVersion = item.operation_scope_version !== undefined;
+  const hasRequestedOperations = item.requested_operations !== undefined;
+  assert(hasOperationScopeVersion === hasRequestedOperations, 'operation_scope_version and requested_operations must be supplied together');
+  if (hasOperationScopeVersion) {
+    assert(item.operation_scope_version === '1.0', 'unsupported operation_scope_version');
+    assert(Array.isArray(item.requested_operations) && item.requested_operations.length > 0, 'versioned operation scope requires requested_operations');
+  }
+  if (item.write_policy === 'WRITE_ALLOWED') {
+    const legacyScope = LEGACY_WRITE_OPERATION_SCOPES[item.work_item_id];
+    if (legacyScope) assert(item.target_repository === legacyScope.target_repository, 'legacy write exception target mismatch');
+    else assert(hasOperationScopeVersion && hasRequestedOperations, 'new WRITE_ALLOWED Work Items require operation_scope_version=1.0 and requested_operations');
+  }
+  if (item.requested_operations !== undefined) {
+    assert(Array.isArray(item.requested_operations) && item.requested_operations.length > 0, 'requested_operations must be a non-empty array');
+    assert(item.requested_operations.every(x => typeof x === 'string' && x.trim()), 'requested_operations must contain non-empty strings');
+    assert(new Set(item.requested_operations).size === item.requested_operations.length, 'requested_operations must be unique');
+    if (item.write_policy === 'READ_ONLY') assert(item.requested_operations.every(x => x === 'analysis'), 'READ_ONLY Work Items may request analysis only');
+    if (item.write_policy === 'WRITE_REQUIRES_OWNER_APPROVAL') assert(item.requested_operations.every(x => x === 'proposal_only'), 'approval-pending Work Items may request proposal_only only');
+    if (item.write_policy === 'WRITE_ALLOWED') {
+      assert(!item.requested_operations.some(x => x === 'analysis' || x === 'proposal_only'), 'WRITE_ALLOWED Work Items cannot request analysis/proposal-only as their write scope');
+      assert(item.requested_operations.some(operation => ACTION_OPERATIONS.has(operation)), 'WRITE_ALLOWED Work Items must declare at least one write/action operation');
+      if (item.target_repository === PRODUCT_REPOSITORY) assert(item.requested_operations.includes('product_implementation'), 'NON WRITE_ALLOWED Work Items must include product_implementation as their base write scope');
+      else if (item.target_repository === CONTROL_PLANE_REPOSITORY) assert(item.requested_operations.includes('control_plane_write'), 'control-plane Work Items must include control_plane_write as their base write scope');
+      else assert(item.requested_operations.includes('repository_write'), 'other repository Work Items must include repository_write as their base write scope');
+    }
+  }
   assert(Array.isArray(item.resource_keys) && item.resource_keys.length > 0, 'resource_keys are required');
   assert(Array.isArray(item.dependencies || []), 'dependencies must be an array');
   assert(Array.isArray(item.steps) && item.steps.length > 0, 'at least one atomic step is required');
@@ -88,10 +128,32 @@ function validateWorkItem(item) {
   return true;
 }
 
+function validateProductWriteAuthorization(item, context = {}) {
+  validateWorkItem(item);
+  if (item.target_repository !== PRODUCT_REPOSITORY || item.write_policy !== 'WRITE_ALLOWED') return false;
+  assert(typeof context.repository_owner === 'string' && context.repository_owner.trim(), 'repository_owner is required');
+  assert(context.issue_author === context.repository_owner, 'NON WRITE_ALLOWED requires an owner-authored Issue');
+  assert(typeof context.issue_url === 'string' && context.issue_url.trim() && item.owner_approval_ref === context.issue_url,
+    'owner_approval_ref must exactly reference the owner-created Issue');
+  const approvalText = String(context.issue_body || '').replace(/[`*]/g, '').toLowerCase();
+  assert(approvalText.includes('owner decision') &&
+    approvalText.includes('explicitly approved write_allowed') &&
+    approvalText.includes(PRODUCT_REPOSITORY),
+    'explicit owner approval statement is missing');
+  return true;
+}
+
 function evidenceVerified(record) {
   return record && record.validation_status === 'PASS' &&
     Array.isArray(record.evidence_refs) && record.evidence_refs.length > 0 &&
     record.evidence_refs.every(x => typeof x === 'string' && x.trim());
+}
+
+function refreshedStatus(previousStatus, progress, hardGatesReady) {
+  if (TERMINAL.has(previousStatus)) return previousStatus;
+  if (!hardGatesReady) return 'BLOCKED';
+  if (progress.can_accept) return 'REVIEW_REQUIRED';
+  return progress.verified_steps > 0 ? 'IN_PROGRESS' : 'READY';
 }
 
 function calculateProgress(item) {
@@ -179,25 +241,343 @@ function recordCriterionEvidence(item, input) {
   return { progress };
 }
 
-function dependencyReady(item, byId) {
-  return (item.dependencies || []).every(dep => {
-    const parent = byId.get(dep.work_item_id);
-    return !!parent && parent.status === 'ACCEPTED';
+function primaryExpId(item) {
+  const match = /^WI-EXP([0-9]{2})-/i.exec(String(item?.work_item_id || ''));
+  if (match) return 'EXP-' + match[1];
+  const parentExpIds = [...new Set((item?.parent_exp_ids || []).map(String))];
+  return parentExpIds[0] || null;
+}
+
+function evaluateChildCompletion(parent, workItems = []) {
+  const blockers = [], seen = new Set([parent.work_item_id]);
+  const queue = workItems.filter(x => x.parent_work_item_id === parent.work_item_id);
+  for (let index = 0; index < queue.length; index++) {
+    const child = queue[index], id = String(child.work_item_id || '');
+    if (!id || seen.has(id)) { blockers.push('child_work_item_cycle_or_duplicate:' + id); continue; }
+    seen.add(id);
+    if (child.status !== 'ACCEPTED') blockers.push('child_work_item_not_accepted:' + id + ':' + String(child.status || 'UNKNOWN'));
+    for (const nested of workItems) if (nested.parent_work_item_id === id) queue.push(nested);
+  }
+  return { ready: blockers.length === 0, blockers, descendant_count: seen.size - 1 };
+}
+const SEMANTIC_CANONICAL_ALIASES = Object.freeze({
+  'WI-EXP02-BACKUP-RESTORE-001': 'WI-EXP02-BACKUP-RECOVERY-001'
+});
+const SEMANTIC_STOPWORDS = new Set(['a','an','and','or','the','for','to','of','in','on','with','from','by','is','are','assessment','readiness','task','work','item']);
+
+function semanticTokens(value) {
+  return [...new Set(String(value || '').toLowerCase().normalize('NFKD')
+    .replace(/[^a-z0-9]+/g, ' ').trim().split(/\s+/)
+    .filter(token => token.length > 1 && !SEMANTIC_STOPWORDS.has(token)))];
+}
+
+function tokenSimilarity(left, right) {
+  const a = new Set(semanticTokens(left)), b = new Set(semanticTokens(right));
+  if (!a.size || !b.size) return 0;
+  const intersection = [...a].filter(token => b.has(token)).length;
+  return intersection / new Set([...a, ...b]).size;
+}
+
+function intersection(left, right, normalizeValue = value => String(value)) {
+  const values = new Set((right || []).map(normalizeValue));
+  return [...new Set((left || []).map(normalizeValue))].filter(value => values.has(value));
+}
+
+function evidenceScore(item) {
+  const steps = (item?.steps || []).filter(step => step.validation_status === 'PASS' && (step.evidence_refs || []).length).length;
+  const criteria = (item?.acceptance_criteria || []).filter(criterion => criterion.validation_status === 'PASS' && (criterion.evidence_refs || []).length).length;
+  return steps + criteria;
+}
+
+function canonicalWorkItem(left, right) {
+  if (left?.status === 'ACCEPTED' && right?.status !== 'ACCEPTED') return left;
+  if (right?.status === 'ACCEPTED' && left?.status !== 'ACCEPTED') return right;
+  const scoreLeft = evidenceScore(left), scoreRight = evidenceScore(right);
+  if (scoreLeft !== scoreRight) return scoreLeft > scoreRight ? left : right;
+  const timeLeft = Date.parse(left?.created_at_utc || '') || Number.MAX_SAFE_INTEGER;
+  const timeRight = Date.parse(right?.created_at_utc || '') || Number.MAX_SAFE_INTEGER;
+  if (timeLeft !== timeRight) return timeLeft < timeRight ? left : right;
+  return String(left?.work_item_id || '').localeCompare(String(right?.work_item_id || '')) <= 0 ? left : right;
+}
+
+function findSemanticDuplicateWorkItems(candidate, records = []) {
+  if (!candidate?.work_item_id) return [];
+  const candidateId = String(candidate.work_item_id);
+  const duplicates = [];
+  for (const record of records || []) {
+    if (!record?.work_item_id || record.work_item_id === candidateId) continue;
+    const recordId = String(record.work_item_id);
+    const explicitCanonical = SEMANTIC_CANONICAL_ALIASES[candidateId];
+    if (explicitCanonical && recordId === explicitCanonical) {
+      duplicates.push({
+        issue_number: Number(record.issue_number ?? record.number),
+        work_item_id: recordId,
+        canonical_work_item_id: explicitCanonical,
+        reason: 'explicit_canonical_alias',
+        status: 'SUPERSEDED',
+        superseded: true
+      });
+      continue;
+    }
+    if (SEMANTIC_CANONICAL_ALIASES[recordId] === candidateId) continue;
+    const sharedExp = intersection(candidate.parent_exp_ids, record.parent_exp_ids);
+    const sharedGoals = intersection(candidate.parent_goal_ids, record.parent_goal_ids);
+    const sharedResources = intersection(candidate.resource_keys, record.resource_keys, value => String(value).trim().toLowerCase().replace(/\\/g, '/'));
+    // deliverable_id values such as D1/D2 are local to one Work Item, not global identities.
+    // Only descriptive deliverable text can corroborate semantic overlap.
+    const deliverableDescriptions = item => (item.deliverables || [])
+      .map(deliverable => String(deliverable.description || '').trim().toLowerCase())
+      .filter(Boolean);
+    const leftDeliverables = deliverableDescriptions(candidate);
+    const rightDeliverables = deliverableDescriptions(record);
+    const sharedDeliverables = intersection(leftDeliverables, rightDeliverables);
+    const titleSimilarity = tokenSimilarity(candidate.title, record.title);
+    const sameParent = sharedExp.length > 0 || sharedGoals.length > 0;
+    const materiallyOverlaps = sameParent && (
+      titleSimilarity >= 0.85 ||
+      (titleSimilarity >= 0.35 && (sharedResources.length > 0 || sharedDeliverables.length > 0)) ||
+      (sharedResources.length > 0 && sharedDeliverables.length > 0)
+    );
+    if (!materiallyOverlaps) continue;
+    const canonical = canonicalWorkItem(candidate, record);
+    if (canonical.work_item_id !== candidateId) {
+      duplicates.push({
+        issue_number: Number(record.issue_number ?? record.number),
+        work_item_id: recordId,
+        canonical_work_item_id: canonical.work_item_id,
+        reason: 'semantic_scope_resource_deliverable_overlap',
+        shared_exp_ids: sharedExp,
+        shared_goal_ids: sharedGoals,
+        shared_resource_keys: sharedResources,
+        shared_deliverables: sharedDeliverables,
+        title_similarity: titleSimilarity
+      });
+    }
+  }
+  return duplicates.filter(item => Number.isInteger(item.issue_number) && item.issue_number > 0)
+    .sort((a, b) => a.issue_number - b.issue_number);
+}
+
+function findDuplicateWorkItemIdIssues(currentIssueNumber, item, issueRecords = [], registryRecords = []) {
+  const conflicts = new Set(), current = Number(currentIssueNumber);
+  const records = [...issueRecords, ...registryRecords];
+  for (const record of records) {
+    if (!record || record.work_item_id !== item?.work_item_id) continue;
+    const issueNumber = Number(record.issue_number ?? record.number);
+    if (Number.isInteger(issueNumber) && issueNumber > 0 && issueNumber !== current) conflicts.add(issueNumber);
+  }
+  for (const duplicate of findSemanticDuplicateWorkItems(item, records)) {
+    if (duplicate.issue_number !== current) conflicts.add(duplicate.issue_number);
+  }
+  return [...conflicts].sort((a,b)=>a-b);
+}
+
+function defaultRequestedOperations(item) {
+  if (Array.isArray(item?.requested_operations)) return item.requested_operations;
+  if (item?.write_policy === 'READ_ONLY') return ['analysis'];
+  if (item?.write_policy === 'WRITE_REQUIRES_OWNER_APPROVAL') return ['proposal_only'];
+  const legacyScope = LEGACY_WRITE_OPERATION_SCOPES[item?.work_item_id];
+  if (item?.write_policy === 'WRITE_ALLOWED' && legacyScope && item?.target_repository === legacyScope.target_repository) return [...legacyScope.operations];
+  return [];
+}
+
+function validateDependencyGraph(graph) {
+  const errors = [], operationErrors = [];
+  if (!graph || typeof graph !== 'object' || !Array.isArray(graph.nodes)) return {valid:false,exp_valid:false,operation_errors:[],errors:['dependency_graph_nodes_required']};
+  const nodeIds = new Set();
+  for (const node of graph.nodes) {
+    if (!node || typeof node !== 'object' || !/^EXP-[0-9]{2}$/.test(String(node.id || ''))) { errors.push('invalid_exp_node_id'); continue; }
+    if (nodeIds.has(node.id)) errors.push('duplicate_exp_node:' + node.id);
+    nodeIds.add(node.id);
+    if (!Array.isArray(node.hard_gates)) errors.push('hard_gates_must_be_array:' + node.id);
+    else for (const gate of node.hard_gates) if (typeof gate !== 'string' || !/^EXP-[0-9]{2}$/.test(gate)) errors.push('non_exp_hard_gate:' + node.id + ':' + String(gate));
+    if (node.soft_inputs !== undefined && (!Array.isArray(node.soft_inputs) || !node.soft_inputs.every(x => typeof x === 'string' && /^EXP-[0-9]{2}$/.test(x)))) errors.push('invalid_soft_inputs:' + node.id);
+  }
+  for (const node of graph.nodes) for (const ref of [...(Array.isArray(node.hard_gates)?node.hard_gates:[]),...(Array.isArray(node.soft_inputs)?node.soft_inputs:[])]) if (!nodeIds.has(ref)) errors.push('unknown_exp_reference:'+node.id+':'+ref);
+  if (!Array.isArray(graph.operation_gates)) operationErrors.push('operation_gates_must_be_array');
+  const gateIds = new Set();
+  for (const gate of Array.isArray(graph.operation_gates)?graph.operation_gates:[]) {
+    if (!gate || !ACTION_OPERATIONS.has(gate.id)) { operationErrors.push('unknown_operation_gate:'+String(gate?.id)); continue; }
+    if (gateIds.has(gate.id)) operationErrors.push('duplicate_operation_gate:'+gate.id);
+    gateIds.add(gate.id);
+    if (!Array.isArray(gate.required_work_item_ids) || !gate.required_work_item_ids.every(x=>typeof x==='string'&&/^[A-Z0-9][A-Z0-9._-]{2,63}$/.test(x))) operationErrors.push('invalid_required_work_item_ids:'+gate.id);
+    if (gate.applies_to_exp_ids!==undefined&&(!Array.isArray(gate.applies_to_exp_ids)||!gate.applies_to_exp_ids.every(x=>typeof x==='string'&&/^EXP-[0-9]{2}$/.test(x)))) operationErrors.push('invalid_operation_exp_scope:'+gate.id);
+    if (gate.applies_to_target_repositories!==undefined&&(!Array.isArray(gate.applies_to_target_repositories)||!gate.applies_to_target_repositories.every(x=>typeof x==='string'&&x.includes('/')))) operationErrors.push('invalid_operation_repository_scope:'+gate.id);
+    if (typeof gate.owner_authorization_required!=='boolean') operationErrors.push('owner_authorization_required_missing:'+gate.id);
+    if (!Array.isArray(gate.evidence_requirements)||!gate.evidence_requirements.length||!gate.evidence_requirements.every(x=>typeof x==='string'&&x.trim())) operationErrors.push('evidence_requirements_missing:'+gate.id);
+  }
+  for (const op of ACTION_OPERATIONS) if (!(Array.isArray(graph.operation_gates)?graph.operation_gates:[]).some(g=>g?.id===op)) operationErrors.push('operation_gate_definition_missing:'+op);
+  return {valid:errors.length===0&&operationErrors.length===0,exp_valid:errors.length===0,operation_errors:operationErrors,errors:[...errors,...operationErrors]};
+}
+
+function evaluateOperationGates(item, graph, workItems = [], options = {}) {
+  const requested = options.requestedOperations || defaultRequestedOperations(item);
+  const blockers = [];
+  if (!Array.isArray(requested) || requested.length === 0) blockers.push('requested_operations_required_for_write');
+  const graphCheck = validateDependencyGraph(graph);
+  for (const operation of requested) {
+    if (!ALL_OPERATIONS.has(operation)) { blockers.push('unknown_requested_operation:' + operation); continue; }
+    if (BASE_OPERATIONS.has(operation)) {
+      if (operation === 'analysis' && item.write_policy !== 'READ_ONLY') blockers.push('analysis_operation_requires_read_only:' + operation);
+      if (operation === 'proposal_only' && item.write_policy !== 'WRITE_REQUIRES_OWNER_APPROVAL') blockers.push('proposal_operation_policy_mismatch');
+      continue;
+    }
+    if (operation === 'control_plane_write' && (item.target_repository !== CONTROL_PLANE_REPOSITORY || item.write_policy !== 'WRITE_ALLOWED')) blockers.push('control_plane_write_scope_mismatch');
+    if (operation === 'control_plane_merge' && item.target_repository !== CONTROL_PLANE_REPOSITORY) blockers.push('control_plane_merge_scope_mismatch');
+    if (operation === 'control_plane_authorization_change' && (item.target_repository !== CONTROL_PLANE_REPOSITORY || item.write_policy !== 'WRITE_ALLOWED')) blockers.push('control_plane_authorization_scope_mismatch');
+    if (operation === 'repository_write' && (item.target_repository === PRODUCT_REPOSITORY || item.target_repository === CONTROL_PLANE_REPOSITORY || item.write_policy !== 'WRITE_ALLOWED')) blockers.push('repository_write_scope_mismatch');
+    if (operation === 'product_implementation' && (item.target_repository !== PRODUCT_REPOSITORY || item.write_policy !== 'WRITE_ALLOWED')) blockers.push('product_implementation_scope_mismatch');
+    const gate = (Array.isArray(graph.operation_gates) ? graph.operation_gates : []).find(g => g.id === operation);
+    const relevantErrors = (graphCheck.operation_errors || []).filter(error => error === 'operation_gates_must_be_array' || error.endsWith(':' + operation));
+    if (relevantErrors.length) blockers.push(...relevantErrors.map(error => 'invalid_operation_gate_definition:' + operation + ':' + error));
+    if (!gate) { blockers.push('operation_gate_definition_missing:' + operation); continue; }
+    const repoApplies = !Array.isArray(gate.applies_to_target_repositories) || gate.applies_to_target_repositories.includes(item.target_repository);
+    const itemExpIds = new Set((item.parent_exp_ids || [primaryExpId(item)]).map(String));
+    const expApplies = !Array.isArray(gate.applies_to_exp_ids) || gate.applies_to_exp_ids.some(id => itemExpIds.has(id));
+    if (!repoApplies) { blockers.push('operation_target_scope_mismatch:' + operation + ':' + item.target_repository); continue; }
+    if (!expApplies) { blockers.push('operation_scope_mismatch:' + operation + ':' + [...itemExpIds].join(',')); continue; }
+    if (Array.isArray(gate.applies_to_work_item_ids) && !gate.applies_to_work_item_ids.includes(item.work_item_id)) {
+      blockers.push('operation_work_item_scope_mismatch:' + operation + ':' + item.work_item_id); continue;
+    }
+    if (gate.owner_authorization_required && (item.write_policy !== 'WRITE_ALLOWED' || !String(item.owner_approval_ref || '').trim())) blockers.push('owner_authorization_required:' + operation);
+    for (const id of gate.required_work_item_ids) {
+      if (id === item.work_item_id) { blockers.push('operation_prerequisite_self_reference:' + operation + ':' + id); continue; }
+      const matches = workItems.filter(x => x.work_item_id === id);
+      if (matches.length !== 1) blockers.push((matches.length ? 'ambiguous' : 'missing') + '_operation_prerequisite:' + operation + ':' + id);
+      else if (matches[0].status !== 'ACCEPTED') blockers.push('operation_prerequisite_not_accepted:' + operation + ':' + id + ':' + matches[0].status);
+    }
+  }
+  return {ready:blockers.length===0,blockers,requested_operations:requested};
+}
+
+function evaluateHardGates(item, graph, workItems = [], options = {}) {
+  const checked = validateDependencyGraph(graph);
+  if (!checked.exp_valid) {
+    const structuralErrors = checked.errors.filter(x => !(checked.operation_errors || []).includes(x));
+    return {ready:false,exp_id:primaryExpId(item),blockers:structuralErrors.map(x=>'invalid_dependency_graph:'+x),dependency_blockers:structuralErrors,operation_blockers:[]};
+  }
+  const expId = primaryExpId(item);
+  const expIds = unique([...(item.parent_exp_ids || []).map(String), expId].filter(Boolean));
+  if (!expIds.length) return {ready:false,exp_id:null,blockers:['primary_exp_unresolved'],dependency_blockers:['primary_exp_unresolved'],operation_blockers:[]};
+  const nodes = [], dependencyBlockers = [];
+  for (const id of expIds) {
+    const node = graph.nodes.find(x=>x.id===id);
+    if (!node || !Array.isArray(node.hard_gates)) dependencyBlockers.push('missing_or_invalid_graph_node:' + id);
+    else nodes.push(node);
+  }
+  for (const dependency of item.dependencies || []) {
+    const id = dependency.work_item_id, matches = workItems.filter(candidate=>candidate.work_item_id===id);
+    if (matches.length!==1) dependencyBlockers.push((matches.length?'ambiguous':'unresolved')+'_explicit_dependency:'+id);
+    else if (matches[0].status!=='ACCEPTED') dependencyBlockers.push('explicit_dependency_not_accepted:'+id+':'+matches[0].status);
+  }
+  for (const gate of unique(nodes.flatMap(node=>node.hard_gates))) {
+    // EXP completion is represented by its unique top-level Work Item. Child tasks roll up to that parent; secondary EXP tags do not complete another EXP.
+    const matches = workItems.filter(x=>x.work_item_id!==item.work_item_id && !x.parent_work_item_id && primaryExpId(x)===gate);
+    if (matches.length!==1) dependencyBlockers.push((matches.length?'ambiguous':'unresolved')+'_hard_gate:'+gate);
+    else if (matches[0].status!=='ACCEPTED') dependencyBlockers.push('hard_gate_not_accepted:'+gate+':'+matches[0].status);
+  }
+  for (const gate of unique(nodes.flatMap(node=>node.hard_gates))) {
+    const matches = workItems.filter(x=>x.work_item_id!==item.work_item_id && !x.parent_work_item_id && primaryExpId(x)===gate);
+    if (matches.length !== 1) continue;
+    const children = evaluateChildCompletion(matches[0], workItems);
+    if (!children.ready) dependencyBlockers.push(...children.blockers.map(x=>'hard_gate_'+x));
+  }
+  if (options.requireChildrenAccepted === true) {
+    const children = evaluateChildCompletion(item, workItems);
+    if (!children.ready) dependencyBlockers.push(...children.blockers);
+  }
+  const operations=evaluateOperationGates(item,graph,workItems,options);
+  const blockers=[...dependencyBlockers,...operations.blockers];
+  return {ready:blockers.length===0,exp_id:expId,exp_ids:expIds,blockers,dependency_blockers:dependencyBlockers,operation_blockers:operations.blockers,requested_operations:operations.requested_operations,soft_inputs_ignored:unique(nodes.flatMap(node=>node.soft_inputs||[]))};
+}
+
+function isBranchlessControlPlaneWorkItem(item) {
+  const legacy = LEGACY_WRITE_OPERATION_SCOPES[item?.work_item_id];
+  return !!legacy?.branchless && item?.write_policy === 'WRITE_ALLOWED' &&
+    item?.target_repository === CONTROL_PLANE_REPOSITORY &&
+    JSON.stringify(defaultRequestedOperations(item)) === JSON.stringify(['control_plane_write']);
+}
+
+function evaluateBranchlessMetadataAcceptance(item, options = {}) {
+  const blockers = [];
+  try { validateWorkItem(item); }
+  catch (error) { return {ready:false,blockers:['invalid_work_item:' + String(error.message || error)],progress:null}; }
+  const requested = defaultRequestedOperations(item);
+  if (!isBranchlessControlPlaneWorkItem(item) || requested.length !== 1 || requested[0] !== 'control_plane_write') {
+    blockers.push('not_authorized_for_branchless_control_plane_acceptance');
+  }
+  if (options.hasActiveLease === true) blockers.push('active_lease');
+  if (options.hardGatesReady !== true) blockers.push('hard_gates_not_satisfied');
+  const handoff = options.reviewEvent;
+  if (!handoff || handoff.event !== 'REVIEW') blockers.push('missing_review_handoff');
+  else {
+    if (Number(handoff.issue_number) !== Number(options.issueNumber)) blockers.push('review_handoff_issue_mismatch');
+    if (handoff.target_repository !== item.target_repository) blockers.push('review_handoff_target_mismatch');
+    if (handoff.branch !== null && handoff.branch !== undefined) blockers.push('branchless_metadata_handoff_must_not_have_branch');
+  }
+  const progress = calculateProgress(item);
+  if (!progress.can_accept) blockers.push('required_evidence_incomplete');
+  return {ready:blockers.length===0,blockers,progress};
+}
+
+function evaluateReadOnlyAcceptance(item, options = {}) {
+  const blockers = [];
+  try {
+    validateWorkItem(item);
+  } catch (error) {
+    return { ready: false, blockers: ['invalid_work_item:' + String(error.message || error)], progress: null };
+  }
+  if (item.write_policy !== 'READ_ONLY') blockers.push('write_policy_not_read_only');
+  if (options.hasActiveLease === true) blockers.push('active_lease');
+  if (options.hardGatesReady !== true) blockers.push('hard_gates_not_satisfied');
+  const handoff = options.reviewEvent;
+  if (!handoff || handoff.event !== 'REVIEW') blockers.push('missing_review_handoff');
+  else {
+    if (Number(handoff.issue_number) !== Number(options.issueNumber)) blockers.push('review_handoff_issue_mismatch');
+    if (handoff.target_repository !== item.target_repository) blockers.push('review_handoff_target_mismatch');
+    if (handoff.branch !== null && handoff.branch !== undefined) blockers.push('read_only_handoff_must_not_have_branch');
+  }
+  const progress = calculateProgress(item);
+  if (!progress.can_accept) blockers.push('required_evidence_incomplete');
+  return { ready: blockers.length === 0, blockers, progress };
+}
+
+function dependencyReady(item, byId, dependencyGraph) {
+  const explicitDependenciesReady = (item.dependencies || []).every(dep => {
+    const value = byId.get(dep.work_item_id);
+    const matches = Array.isArray(value) ? value : value ? [value] : [];
+    return matches.length === 1 && matches[0].status === 'ACCEPTED';
   });
+  if (!explicitDependenciesReady) return false;
+  const allItems = [...byId.values()].flatMap(value => Array.isArray(value) ? value : value ? [value] : []);
+  if (!dependencyGraph) return false;
+  return evaluateHardGates(item, dependencyGraph, allItems).ready;
 }
 
 function selectNextWorkItem(items, options = {}) {
   const nowMs = options.nowMs ?? Date.now();
   const locks = options.activeLocks || [];
-  const byId = new Map(items.map(x => [x.work_item_id, x]));
+  const byId = new Map();
+  for (const candidate of items) {
+    const matches = byId.get(candidate.work_item_id) || [];
+    matches.push(candidate);
+    byId.set(candidate.work_item_id, matches);
+  }
   const eligible = items.filter(item => {
     validateWorkItem(item);
     if (TERMINAL.has(item.status) || item.status === 'BLOCKED' || item.status === 'REVIEW_REQUIRED') return false;
-    if (!dependencyReady(item, byId)) return false;
+    if (!dependencyReady(item, byId, options.dependencyGraph)) return false;
     const lease = options.leasesByWorkItem?.[item.work_item_id];
-    if (lease && lease.status === 'ACTIVE' && Date.parse(lease.lease_expires_at_utc) > nowMs) return false;
+    if (lease && lease.status === 'ACTIVE') {
+      const expiry = Date.parse(lease.lease_expires_at_utc);
+      if (!Number.isFinite(expiry) || expiry > nowMs) return false;
+    }
     const keys = new Set(item.resource_keys);
-    if (locks.some(lock => keys.has(lock.resource_key) && Date.parse(lock.lease_expires_at_utc) > nowMs)) return false;
+    if (locks.some(lock => {
+      if (!keys.has(lock.resource_key)) return false;
+      const expiry = Date.parse(lock.lease_expires_at_utc);
+      return !Number.isFinite(expiry) || expiry > nowMs;
+    })) return false;
     return item.status === 'READY' || item.status === 'BACKLOG' || item.status === 'CLAIMED' || item.status === 'IN_PROGRESS' || item.status === 'PARTIALLY_ACCEPTED';
   });
   const ageHours = item => Math.max(0, (nowMs - Date.parse(item.ready_at_utc || item.created_at_utc || new Date(nowMs).toISOString())) / 3600000);
@@ -255,7 +635,7 @@ function createCheckpoint(item, input) {
 }
 
 module.exports = {
-  STATUSES, validateWorkItem, evidenceVerified, calculateProgress, validateLease,
-  recordStepEvidence, recordCriterionEvidence, dependencyReady, selectNextWorkItem,
-  resumePlan, createCheckpoint
+  STATUSES, validateWorkItem, validateProductWriteAuthorization, evidenceVerified, calculateProgress, validateLease,
+  recordStepEvidence, recordCriterionEvidence, primaryExpId, defaultRequestedOperations, findSemanticDuplicateWorkItems, SEMANTIC_CANONICAL_ALIASES, validateDependencyGraph, evaluateOperationGates, evaluateHardGates, evaluateReadOnlyAcceptance, evaluateBranchlessMetadataAcceptance, isBranchlessControlPlaneWorkItem, dependencyReady, selectNextWorkItem,
+  resumePlan, createCheckpoint, refreshedStatus, evaluateChildCompletion, findDuplicateWorkItemIdIssues
 };

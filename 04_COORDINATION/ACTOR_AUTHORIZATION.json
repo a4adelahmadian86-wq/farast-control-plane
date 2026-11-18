@@ -43,7 +43,8 @@
       "progress",
       "step",
       "criterion",
-      "checkpoint"
+      "checkpoint",
+      "accept"
     ],
     "READ_ONLY": [
       "status",

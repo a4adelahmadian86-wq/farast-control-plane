@@ -52,6 +52,8 @@ jobs:
             .github/workflows/farast-coordinator.yml
             .github/scripts/coordinator-core.js
             .github/scripts/coordinator-core.test.js
+            .github/scripts/inbox-scheduler.js
+            .github/scripts/inbox-scheduler.test.js
             .github/scripts/work-item-core.js
             .github/scripts/work-item-core.test.js
             .github/scripts/work-item-dispatch-core.js
@@ -73,6 +75,8 @@ jobs:
           for f in "${required[@]}"; do
             test -s "$f" || { echo "Missing/empty: $f"; exit 1; }
           done
+      - name: Run fair durable inbox scheduler regression fixtures
+        run: node --test .github/scripts/inbox-scheduler.test.js
       - name: Run multi-chat contention and fencing fixtures
         run: node --test .github/scripts/coordinator-core.test.js
       - name: Run hierarchical work item progress, fairness and resume fixtures
@@ -108,7 +112,17 @@ jobs:
           from jsonschema import Draft202012Validator, FormatChecker
           from pathlib import Path
           json.loads(Path("01_STRATEGY/DEPENDENCY_GRAPH.json").read_text(encoding="utf-8"))
-          json.loads(Path("04_COORDINATION/ACTIVE_LOCKS.schema.json").read_text(encoding="utf-8"))
+          active_locks_schema = json.loads(Path("04_COORDINATION/ACTIVE_LOCKS.schema.json").read_text(encoding="utf-8"))
+          Draft202012Validator.check_schema(active_locks_schema)
+          active_registry_sample = {
+            "schema_version":"1.0", "revision":1, "next_fencing_token":2, "locks":[], "history":[],
+            "inbox_scheduler":{
+              "version":1, "page":2, "last_page":1, "last_page_count":25,
+              "updated_at_utc":"2026-11-18T07:00:00Z",
+              "issue_errors":{"89":{"reason":"fixture error","count":1,"last_seen_at_utc":"2026-11-18T07:00:00Z"}}
+            }
+          }
+          Draft202012Validator(active_locks_schema, format_checker=FormatChecker()).validate(active_registry_sample)
           work_item_schema = json.loads(Path("04_COORDINATION/WORK_ITEM_SCHEMA.json").read_text(encoding="utf-8"))
           work_item_checkpoint_schema = json.loads(Path("04_COORDINATION/WORK_ITEM_CHECKPOINT_SCHEMA.json").read_text(encoding="utf-8"))
           Draft202012Validator.check_schema(work_item_schema)
@@ -118,7 +132,7 @@ jobs:
           assert isinstance(auth_policy["actor_scopes"], dict)
           assert "refresh" in auth_policy["roles"]["OWNER"] and "refresh" not in auth_policy["roles"]["WORKER"]
           assert {"progress", "step", "criterion", "checkpoint"}.issubset(set(auth_policy["roles"]["WORKER"]))
-          assert "accept" not in auth_policy["roles"]["WORKER"] and "status" in auth_policy["roles"]["READ_ONLY"]
+          assert "accept" in auth_policy["roles"]["WORKER"] and "status" in auth_policy["roles"]["READ_ONLY"]
           work_schema = json.loads(Path("04_COORDINATION/WORK_ORDER_SCHEMA.json").read_text(encoding="utf-8"))
           checkpoint_schema = json.loads(Path("04_COORDINATION/CHECKPOINT_SCHEMA.json").read_text(encoding="utf-8"))
           Draft202012Validator.check_schema(work_schema)
@@ -170,7 +184,7 @@ jobs:
           assert "acceptance_progress_percentage" in work_item_checkpoint_schema["properties"]
           assert "overall_completion_percentage" in work_item_checkpoint_schema["properties"]
           prompt_bundle = Path("05_PROMPT_LIBRARY/FARAST_EXECUTABLE_PROMPTS_COMPLETE.md").read_text(encoding="utf-8")
-          assert "نسخه: 1.9.0" in prompt_bundle
+          assert "نسخه: 2.0.0" in prompt_bundle
           assert "قرارداد اجباری عمق مأموریت و گزارش پیشرفت (نسخه 2.0)" in prompt_bundle
           for n in range(1, 18):
               matches = list(Path("05_PROMPT_LIBRARY").glob(f"PR-{n:02d}_*.md"))
@@ -178,6 +192,9 @@ jobs:
               body = matches[0].read_text(encoding="utf-8")
               for required in ("قرارداد اجباری عمق مأموریت و گزارش پیشرفت (نسخه 2.0)", "EXECUTION_DECOMPOSITION_17x27.md", "WORK_ITEM_DEPTH_STANDARD.md", "PROGRESS_REPORTING_PROTOCOL.md", "START_HERE.md", "LOCK_MANAGER_PROTOCOL.md", "INTERRUPTION_RECOVERY_PROTOCOL.md", "MASTER-00.md", "OPERATION_ID", "AMBIGUOUS", "TASK_ID", "GitHub", "WORK_ITEM_EXECUTION_PROTOCOL.md", "WORK_ITEM_SCHEMA.json", "WI-GOAL-ALLOCATOR-001", "write_policy", "WRITE_REQUIRES_OWNER_APPROVAL", "/farast step", "/farast criterion", "/farast progress", "/farast checkpoint"):
                   assert required in body, (matches[0], required)
+              for required in ("operation_scope_version", "requested_operations", "G-09", "WI-EXP02-BACKUP-RECOVERY-001", "WI-EXP02-BACKUP-RESTORE-001"):
+                  assert required in body, (matches[0], required)
+              assert "شماره PR فقط حوزه تخصصی است، نه زنجیره وابستگی یا ترتیب اجرا" in body, matches[0]
               assert "قفل این نسخه اتمیک نیست" not in body, matches[0]
               assert "رجیستری `coordination/locks` فقط توسط workflow مرکزی نوشته می‌شود" in body, matches[0]
               assert "هرگز branch قبلی را دوباره استفاده نکن" in body, matches[0]
@@ -191,6 +208,8 @@ jobs:
           assert "ACTIVE_LOCKS.json" in master
           assert "blob/main/START_HERE.md" in master
           assert "WORK_ITEM_EXECUTION_PROTOCOL.md" in master
+          for required in ("operation_scope_version", "requested_operations", "G-09", "WI-EXP02-BACKUP-RECOVERY-001", "N=2،5،10،25"):
+              assert required in master, required
           start_here = Path("START_HERE.md").read_text(encoding="utf-8")
           assert "مرجع حقیقت و اجرای کنترل‌پلین" in start_here
           assert "WORK_ITEM_SCHEMA.json" in start_here
@@ -200,17 +219,20 @@ jobs:
           assert "item.write_policy ||= 'READ_ONLY';\n                item.priority_source ||= 'DEFAULT_POLICY';\n                workItemCore.validateWorkItem(item);" in coordinator
           assert "const formPriorityRaw = scalar('Priority (0-100; lower is higher)');" in coordinator
           assert "formPriorityRaw ? Number(formPriorityRaw) : Number.NaN" in coordinator
-          for required in ("farast-control-plane-single-writer", "schedule:", "issue_comment:", "workItemCore", "new github.constructor", "typeof issue === 'number' ? issue : issue.number", "NON product repository is READ_ONLY", "Only repository owner may create a write-enabled Work Item", "owner_approval_ref", "recordStepEvidence", "recordCriterionEvidence", "createCheckpoint", "processed_operations", "FARAST_OP_RESPONSE:", "coordination/locks", "pulls.listReviews", "workerActor", "task_already_claimed", "branch_reuse", "claim.previousRun", "next_status: nextStatus", "FARAST_GITHUB_TOKEN", "prUrl", "targetRepositoryFor", "authorizationPolicy", "resourceKeys: resourcesFor(issue)", "coordinatorCore.isCommandAllowed", "coordinatorCore.isSafeRunId", "coordinatorCore.claimResources", "coordinatorCore.ownsLease", "coordinatorCore.renewLease", "coordinatorCore.hasIndependentApproval", "coordinatorCore.matchesReviewLease", "const taskBranch =", "expiredLeases", "event: 'HEARTBEAT'", "if (!accepted && labelsOf(issue).includes('agent:done'))", "else if (!current.length && !['agent:blocked','agent:review','agent:done'].some(x => labelsOf(issue).includes(x)) && !labelsOf(issue).includes('agent:ready'))"):
+          for required in ("Owner-authorized NON Work Item requires a live Issue specification", "Saved Work Item identity/policy/resources do not match live Issue", "farast-control-plane-single-writer", "schedule:", "issue_comment:", "workItemCore", "new github.constructor", "typeof issue === 'number' ? issue : issue.number", "validateProductWriteAuthorization", "Only repository owner may create a write-enabled Work Item", "owner_approval_ref", "recordStepEvidence", "recordCriterionEvidence", "createCheckpoint", "processed_operations", "coordinatorCore.responseMarker", "coordination/locks", "checks.listForRef", "getCombinedStatusForRef", "pulls.merge", "automatedChecksPassed", "task_already_claimed", "branch_reuse", "claim.previousRun", "next_status: nextStatus", "FARAST_GITHUB_TOKEN", "prUrl", "targetRepositoryFor", "authorizationPolicy", "resourceKeys: resourcesFor(issue)", "coordinatorCore.isCommandAllowed", "coordinatorCore.isSafeRunId", "coordinatorCore.claimResources", "coordinatorCore.ownsLease", "coordinatorCore.renewLease", "coordinatorCore.hasSuccessfulChecks", "coordinatorCore.matchesReviewLease", "coordinatorCore.pendingCommandComments", "coordinatorCore.pendingResponseOperations", "coordinatorCore.responseMarker", "const taskBranch =", "expiredLeases", "event: 'HEARTBEAT'", "if (!accepted && labelsOf(issue).includes('agent:done'))", "else if (!current.length && !['agent:blocked','agent:review','agent:done'].some(x => labelsOf(issue).includes(x)) && !labelsOf(issue).includes('agent:ready'))"):
               assert required in coordinator, required
           assert "require('@actions/github')" not in coordinator
+          work_item_core = Path(".github/scripts/work-item-core.js").read_text(encoding="utf-8")
+          for required in ("function findSemanticDuplicateWorkItems", "WI-EXP02-BACKUP-RESTORE-001", "WI-EXP02-BACKUP-RECOVERY-001"):
+              assert required in work_item_core, required
           dispatch_core = Path(".github/scripts/work-item-dispatch-core.js").read_text(encoding="utf-8")
-          for required in ("function selectNextWorkItem", "function hardGatesSatisfied", "function hasActiveConflict", "effectivePriority"):
+          for required in ("function selectNextWorkItem", "function hardGatesSatisfied", "function hasActiveConflict", "effectivePriority", "globalGoalIds", "globalGoalMatch", "scopeLane", "findSemanticDuplicateWorkItems"):
               assert required in dispatch_core, required
           core = Path(".github/scripts/coordinator-core.js").read_text(encoding="utf-8")
-          for required in ("agent_alias: args.chatId || args.actor", "target_repository: args.targetRepository", "target_repository: x.target_repository", "function isSafeRunId", "function roleForActor", "function isWithinDelegatedScope", "function isCommandAllowed", "function latestTaskStatus", "function matchesReviewLease", "function claimResources", "function ownsLease", "function renewLease", "task_already_claimed", "branchUsed", "previousRun", "function roleForActor", "function isCommandAllowed"):
+          for required in ("agent_alias: args.chatId || args.actor", "target_repository: args.targetRepository", "target_repository: x.target_repository", "function isSafeRunId", "function roleForActor", "function isWithinDelegatedScope", "function isCommandAllowed", "function latestTaskStatus", "function matchesReviewLease", "function pendingCommandComments", "function pendingResponseOperations", "function responseMarker", "function claimResources", "function ownsLease", "function renewLease", "task_already_claimed", "branchUsed", "previousRun", "function roleForActor", "function isCommandAllowed"):
               assert required in core, required
           broadcast = Path("04_COORDINATION/SINGLE_PROMPT_MULTI_CHAT_DISPATCH.md").read_text(encoding="utf-8")
-          for required in ("همین متن واحد MASTER-00", "توزیع رقابتی", "resource keyهایشان مستقل", "allocator", "RUN_ID", "fencing token", "NOT VERIFIED", "دو حساب مستقل", "بازنده باید وضعیت زنده را دوباره بخواند", "حلقه خودگردان مأموریت", "هیچ سؤال یا درخواست انتخابی از مالک مجاز نیست", "هر حساب ChatGPT باید اتصال GitHub خودش را جداگانه authorize کند", "collaborator/member"):
+          for required in ("همین متن واحد MASTER-00", "توزیع رقابتی", "resource keyهایشان مستقل", "allocator", "RUN_ID", "fencing token", "NOT VERIFIED", "دو حساب مستقل", "بازنده باید وضعیت زنده را دوباره بخواند", "حلقه خودگردان مأموریت", "هیچ سؤال یا درخواست انتخابی از مالک مجاز نیست", "هر حساب ChatGPT باید اتصال GitHub خودش را جداگانه authorize کند", "collaborator/member", "G-09", "operation_scope_version", "requested_operations", "N=2,5,10,25"):
               assert required in broadcast, required
           master = Path("05_PROMPT_LIBRARY/MASTER-00.md").read_text(encoding="utf-8")
           assert "SINGLE_PROMPT_MULTI_CHAT_DISPATCH.md" in master
@@ -243,6 +265,8 @@ jobs:
               assert "branch قبلی را read-only نگه دار" in prompt_text, p
               assert "ACTOR_AUTHORIZATION.json" in prompt_text, p
               assert "resource_key_prefixes" in prompt_text, p
+              for required in ("G-09", "operation_scope_version", "requested_operations", "WI-EXP02-BACKUP-RECOVERY-001"):
+                  assert required in prompt_text, (p, required)
               assert "از طریق CAS آزاد کن" not in prompt_text, p
           legacy = Path("04_COORDINATION/LEGACY_COORDINATOR_MIGRATION.md").read_text(encoding="utf-8")
           assert "PR #479" in legacy and "CAS" in legacy
@@ -250,12 +274,14 @@ jobs:
           catalog = Path("05_PROMPT_LIBRARY/PROMPT_CATALOG.md").read_text(encoding="utf-8")
           assert "| PR-02 | PR-02_RECOVERY.md | EXP-02 |" in catalog
           assert "| PR-14 | PR-14_HOSTING_OPERATIONS.md | EXP-16,17,18 |" in catalog
+          assert "## استقلال ترتیب و مسیر جهانی" in catalog
+          assert "parent_goal_ids" in catalog and "G-09" in catalog
           assert "INTERRUPTION_RECOVERY_PROTOCOL.md" in master
           assert "OPERATION_ID" in master and "AMBIGUOUS" in master
           checkpoint = Path("04_COORDINATION/CHECKPOINT_TEMPLATE.md").read_text(encoding="utf-8")
           assert "OPERATION_ID_LAST_CONFIRMED" in checkpoint
           bundle = Path("05_PROMPT_LIBRARY/FARAST_EXECUTABLE_PROMPTS_COMPLETE.md").read_text(encoding="utf-8")
-          assert "نسخه: 1.9.0" in bundle
+          assert "نسخه: 2.0.0" in bundle
           source_paths = [Path("05_PROMPT_LIBRARY/MASTER-00.md"), *sorted(Path("05_PROMPT_LIBRARY").glob("PR-*.md"))]
           assert len(source_paths) == 18
           for source_path in source_paths:
@@ -264,10 +290,14 @@ jobs:
           assert bundle.count("# SOURCE: 05_PROMPT_LIBRARY/") == 18
           assert bundle.count("# PR-") >= 17
           assert "ACTOR_AUTHORIZATION.json" in bundle
+          for required in ("operation_scope_version", "requested_operations", "G-09", "WI-EXP02-BACKUP-RECOVERY-001", "WI-EXP02-BACKUP-RESTORE-001"):
+              assert required in bundle, required
           assert "رجیستری `coordination/locks` فقط توسط workflow مرکزی نوشته می‌شود" in bundle
           assert bundle.count("INTERRUPTION_RECOVERY_PROTOCOL.md") >= 1
           assert bundle.count("blob/main/START_HERE.md") >= 17
           assert "WORK_ITEM_EXECUTION_PROTOCOL.md" in bundle
+          assert "coordinatorCore.hasSuccessfulChecks(checkRuns, combinedStatus.data)" in coordinator
+          assert "checkRuns.data.check_runs" not in coordinator
           assert "/farast step" in bundle and "/farast checkpoint" in bundle
           assert "- EXP: EXP-02, EXP-17" not in bundle
           assert "این مخزن فعلاً فاقد سرویس قفل مستقل است" not in Path("00_PROJECT_FOUNDATION/KNOWN_UNKNOWN.md").read_text(encoding="utf-8")

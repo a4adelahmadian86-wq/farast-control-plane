@@ -6,15 +6,30 @@
 پیش از هر اقدام، `START_HERE.md`، `04_COORDINATION/INTERRUPTION_RECOVERY_PROTOCOL.md`، `05_PROMPT_LIBRARY/MASTER-00.md` و `04_COORDINATION/WORK_ITEM_EXECUTION_PROTOCOL.md` را از main بخوان. سپس Issueها، PRها، checkpointها، feedback و branch `coordination/locks` را read-only بررسی کن. حافظه چت و خلاصه خودکار مرجع وضعیت نیستند.
 
 ## انتخاب هدف خرد
-- محدوده تخصصی را فقط از EXP IDهای سربرگ همین پرامپت استخراج کن؛ فقط Issueهایی که parent_exp_ids با این مجموعه اشتراک دارد نامزدند. MASTER-00 عمومی می‌تواند همه هدف‌های باز را بررسی کند.
+- محدوده تخصصی این PR از EXP IDهای سربرگ است؛ نامزدهای آن اجتماع دو مسیرند: (الف) parent_exp_ids با EXPهای همین پرامپت اشتراک داشته باشد، یا (ب) parent_goal_ids شامل G-09 باشد. مسیر G-09 برای همه PR-01 تا PR-17 سراسری است. MASTER-00 عمومی همه هدف‌های باز و مجاز را می‌بیند.
 - با دریافت همین پرامپت، بدون درخواست شماره Issue یا تخصیص دستی از مالک، صف زنده را طبق الگوریتم MASTER-00 و WORK_ITEM_EXECUTION_PROTOCOL بخوان و خودکار برگ بعدی را انتخاب کن.
 - هر برگ اجرایی یک Issue مستقل با WORK_ITEM_ID پایدار است. پیش از ساخت Issue، Issueهای باز و بسته، WORK_ITEM_IDها، dependencyها و resource keys را جست‌وجو کن؛ کار موجود را دوباره نساز.
 - ابتدا work item نیمه‌تمام با checkpoint معتبر و lease منقضی/آزاد را برای resume انتخاب کن؛ اگر lease معتبر دارد آن را کنار بگذار. سپس READYهای بدون dependency یا resource conflict را طبق priority مالک، aging روزانه، قدیمی‌ترین ready/created time و WORK_ITEM_ID مرتب کن.
 - انتخاب محلی مجوز write نیست؛ فقط پس از CLAIM GRANTED و read-back رجیستری از طریق /farast روی Issue همان برگ اقدام کن. اگر claim رد شد، conflict داشت یا timeout شد، اثر را read-back کن و نامزد بعدی را امتحان کن. اگر هیچ برگ واجد شرایطی در محدوده همین پرامپت نیست، discovery و تحلیل dependency/evidence همان EXPها را read-only ادامه بده؛ allocator فقط با Lease انحصاری، و بدون duplicate.
 - Issue والد صرفاً گروه‌بندی و تجمیع است و هرگز claim اجرایی نمی‌گیرد.
-- هر Work Item باید `write_policy` داشته باشد: `READ_ONLY`, `WRITE_REQUIRES_OWNER_APPROVAL` یا `WRITE_ALLOWED`. مخزن محصول `a4adelahmadian86-wq/non` فقط `READ_ONLY` است تا مجوز جداگانه مالک ثبت شود. WRITE_ALLOWED فقط برای Issue ساخته‌شده توسط repository owner پذیرفته می‌شود.
+- هر Work Item باید `write_policy` داشته باشد: `READ_ONLY`, `WRITE_REQUIRES_OWNER_APPROVAL` یا `WRITE_ALLOWED`. مخزن محصول `a4adelahmadian86-wq/non` به‌صورت پیش‌فرض `READ_ONLY` است؛ `WRITE_ALLOWED` فقط برای Issue ساخته‌شده توسط repository owner، با `owner_approval_ref` دقیقاً برابر URL همان Issue و متن صریح تصمیم مالک در بدنه Issue پذیرفته می‌شود. این مجوز به هیچ Issue دیگری سرایت نمی‌کند.
 - `priority_source=DEFAULT_POLICY` و priority=50 یعنی اولویت برابر و FIFO/aging، نه رتبه‌بندی مالک؛ `OWNER_ASSIGNED` فقط با تصمیم صریح مالک.
 - اگر هیچ برگ واجد شرایط نبود، EXPهای ناقص و Issueهای موجود را تطبیق بده؛ برای ساخت برگ تازه ابتدا allocator با WORK_ITEM_ID ثابت `WI-GOAL-ALLOCATOR-001` را claim کن. فقط در اختیار lease آن، برگ‌های جدید با شناسه deterministic بساز؛ اگر allocator آزاد نیست، duplicate نساز.
+
+## قرارداد اجباری اجرای مستقل، مسیر جهانی G-09 و دامنه عملیات v1
+
+- شماره PR فقط حوزه تخصصی است، نه زنجیره وابستگی یا ترتیب اجرا. PR-01 تا PR-17 را می‌توان با هر ترتیبی آغاز کرد؛ هیچ پرامپتی صرفاً به تکمیل PR با شماره کمتر/بیشتر وابسته نیست. فقط hard_gates صریح و معتبر همان Work Item وابستگی واقعی‌اند.
+- فیلتر صف تخصصی اجتماع دو مسیر است: EXPهای سربرگ همین پرامپت **یا** Goal سراسری G-09. هر ۱۷ پرامپت باید Work Itemهایی را که parent_goal_ids شامل G-09 دارند کشف کند، حتی اگر parent_exp_ids خارج از EXP محلی باشد.
+- اگر نامزد G-09 دارای lease/resource conflict، وضعیت BLOCKED یا REVIEW_REQUIRED، یا hard gate حل‌نشده بود، آن را پس از read-back کنار بگذار و به نامزد مستقل بعدی در EXP محلی برگرد؛ اشغال یک کار جهانی نباید کل چت یا پرامپت را متوقف کند.
+- ابتدا همان WORK_ITEM_ID نیمه‌تمام را با checkpoint معتبر resume کن؛ سپس READYهای بدون conflict را با اولویت قطعی انتخاب کن. هر چت در هر لحظه فقط یک Work Item را claim می‌کند؛ claim رقابتی ناموفق یعنی read-back و انتخاب نامزد بعدی، نه اجرای موازی روی همان برگ.
+- **دامنه عملیات نسخه‌دار:** برای WRITE_ALLOWED، هر Work Item جدید باید هم‌زمان operation_scope_version="1.0" و requested_operations غیرخالی و یکتا داشته باشد. برای مخزن کنترل‌پلین عملیات پایه control_plane_write؛ برای مخزن محصول NON عملیات پایه product_implementation همراه owner_approval_ref دقیق و مجوز مالک؛ برای مخزن دیگر repository_write است.
+- READ_ONLY فقط analysis و WRITE_REQUIRES_OWNER_APPROVAL تا پیش از تأیید فقط proposal_only است. این دو را به‌عنوان مجوز نوشتن تفسیر نکن.
+- عملیات حساس مانند control_plane_merge، merge، authorization_change، destructive_data_change، database_migration، hosting_deployment یا production_release از متن هدف استنباط نمی‌شوند؛ فقط در صورت تصریح مجوز همان Work Item و PASS شدن operation gate مربوط مجازند. ثبت PR به‌تنهایی مجوز merge یا release نیست.
+- نبود/ابهام/ناسازگاری operation_scope_version یا requested_operations برای WRITE_ALLOWED یعنی fail-closed و عدم Claim/Write. استثنای legacy فقط وقتی معتبر است که برای همان WORK_ITEM_ID و target_repository در allowlist دقیق هسته ثبت شده باشد؛ هرگز آن را به سایر کارها تعمیم نده.
+- پیش از ساخت Issue/leaf جدید، هم stable WORK_ITEM_ID و هم هم‌پوشانی معنایی را در Issueهای باز و بسته و registry بررسی کن: parent_goal_ids/parent_exp_ids، هدف، resource_keys و deliverables. کار مشابه را دوباره نساز؛ canonical را resume/گسترش بده یا برای split واقعی، دلیل عدم‌هم‌پوشانی و منابع/خروجی مستقل را ثبت کن.
+- مورد شناخته‌شده EXP-02: Issue #66 با WORK_ITEM_ID=WI-EXP02-BACKUP-RECOVERY-001 مرجع canonical است؛ Issue #14 با WI-EXP02-BACKUP-RESTORE-001 سابقه superseded است. Issue #14 را حذف نکن، اما آن را به‌عنوان کار دوم backup/restore دوباره فعال یا تکثیر نکن.
+- الگوریتم سقف ثابت N ندارد؛ آزمون‌های هم‌زمانی باید N=2، 5، 10 و 25 را پوشش دهند. محدودیت عملی throughput تابع quota/rate limit سرویس GitHub Actions/API است، نه مجوز حذف قفل، lease، fencing یا idempotency.
+- پیش از هر write، snapshot تازه، heartbeat و fencing token جاری را read-back کن؛ فقط CLAIM GRANTED و قفل‌های متعلق به همان CHAT_ID/RUN_ID اجازه تغییر می‌دهند.
 
 ## ثبت گام، پیشرفت و checkpoint
 - گام‌ها و معیارهای پذیرش را با `WORK_ITEM_SCHEMA.json` تعریف کن. برای ثبت گام: `/farast step step=STEP_ID result=PASS evidence=URL token=FENCING_TOKEN chat=CHAT_ID run=RUN_ID`.
@@ -42,10 +57,11 @@
 # PR-16 — اجرای تغییر کنترل‌شده و آزمون رگرسیون
 
 ## مأموریت
-فقط یک بسته تغییر تأییدشده را اجرا کن؛ ارزش موجود را حفظ کن و هر تغییر را با تست و rollback همراه ساز.
+فقط یک بسته تغییر مجاز و دارای scope را اجرا کن؛ ارزش موجود را حفظ کن و هر تغییر را با تست و rollback همراه ساز.
 
 ## شروط شروع
-- TASK دارای scope، acceptance criteria و approval معتبر است.
+- برای Work Item مخزن محصول `a4adelahmadian86-wq/non`، Coordinator برای بررسی Check Runها/Commit Statusها و ادغام خودکار PR به Secret `FARAST_GITHUB_TOKEN` با دسترسی `checks:read`، `statuses:read` و `pull_requests:write` روی مخزن `non` نیاز دارد. اگر این دسترسی در دسترس نیست، PR را نساز/ادغام نکن و Work Item را BLOCKED با علت دقیق نگه دار؛ ادغام دستی یا دور زدن گیت مجاز نیست.
+- TASK دارای scope، acceptance criteria و write_policy معتبر است؛ مجوز نوشتن فقط از Work Item زنده و Claim معتبر می‌آید، نه از تأیید انسانی.
 - baseline و backup gate مناسب تکمیل شده.
 - منابع و فایل‌های درگیر قفل اتمیک معتبر و fencing token معتبر دارند؛ تداخل نامعلوم = توقف نوشتن.
 - branch اختصاصی و working tree تمیز/شناخته‌شده است.
@@ -55,17 +71,18 @@
 1. TASK موجود را بازیابی کن؛ branch و commit مبنا را ثبت کن.
 2. تست‌های پیش از تغییر را اجرا کن و baseline شکست‌ها را ثبت کن.
 3. کمترین تغییر لازم را پیاده کن؛ refactor نامرتبط ممنوع.
-4. migration سازگار و reversible طراحی کن؛ migration مخرب بدون تأیید ممنوع.
+4. migration سازگار و reversible طراحی کن؛ migration مخرب، تغییر داده برگشت‌ناپذیر و تغییر خارج از scope در این مأموریت ممنوع است؛ اگر لازم شد BLOCKED کن.
 5. تست unit/feature/integration/E2E/security مرتبط را اجرا کن؛ NOT_RUN را شفاف نگه دار.
 6. diff را از نظر scope creep، secret، data exposure، regression و کیفیت بازبینی کن.
 7. مستندات/release notes و rollback را به‌روز کن.
-8. PR بساز؛ ادغام/انتشار نکن.
+8. PR بساز و لینک آن را در Issue ثبت کن؛ سپس `/farast review chat=CHAT_ID run=RUN_ID token=FENCING_TOKEN` را برای handoff ثبت کن. این وضعیت صرفاً تحویل فنی است و به معنی Review انسانی نیست.
+9. پس از آزاد شدن Lease، وقتی Check Runها و Commit Statusهای SHA دقیق head همگی success شدند، خود worker فرمان `/farast accept pr=https://github.com/OWNER/REPO/pull/NUMBER` را اجرا کند. Coordinator پس از کنترل branch lineage، نبود Lease فعال و تمام معیارهای Work Item، PR را خودکار با expected head SHA ادغام و وضعیت را ثبت می‌کند. هیچ بازبین دوم، self-review یا تأیید دستی مالک لازم نیست.
 
 ## خروجی
-branch، PR، test report، risk/rollback note و checkpoint. معیار پذیرش: تمام criteria پوشش، تست‌های لازم گزارش، تغییر محدود و reviewable باشد. CI سبز به‌تنهایی پذیرش نیست.
+branch، PR، test report، risk/rollback note و checkpoint. معیار پذیرش: تمام criteria پوشش، تست‌های لازم گزارش، تغییر محدود و reviewable باشد. CI سبز روی SHA دقیق لازم است اما کافی نیست؛ تمام stepها، acceptance criteria، evidence و dependencyها نیز باید PASS باشند. پذیرش ماشینی از طریق `/farast accept` انجام می‌شود؛ تأیید انسانی مطالبه یا جعل نمی‌شود.
 
 ## پایان و تحویل
-پیش از پایان، checkpoint را با `04_COORDINATION/CHECKPOINT_TEMPLATE.md` ثبت کن؛ Issue و PR را به‌روز کن؛ TASK_INDEX و MASTER_STATUS را فقط بر اساس وضعیت اثبات‌شده به‌روزرسانی کن؛ قفل را فقط با فرمان `/farast release` و TASK_ID/RUN_ID/fencing_token خود آزاد کن؛ اگر ابزار لازم در دسترس نیست، وضعیت را مبهم ثبت کن و آزادسازی را ادعا نکن. وضعیت را DONE_VERIFIED نگذار مگر معیار پذیرش و شواهد معتبر کامل باشند. در صورت مانع، BLOCKED را با علت، شواهد و NEXT_ACTION ثبت کن.
+پیش از پایان، checkpoint را با `04_COORDINATION/CHECKPOINT_TEMPLATE.md` ثبت کن؛ Issue و PR را به‌روز کن؛ TASK_INDEX و MASTER_STATUS را فقط بر اساس وضعیت اثبات‌شده به‌روزرسانی کن؛ قفل را فقط با فرمان `/farast release` و TASK_ID/RUN_ID/fencing_token خود آزاد کن؛ اگر ابزار لازم در دسترس نیست، وضعیت را مبهم ثبت کن و آزادسازی را ادعا نکن. وضعیت را DONE_VERIFIED نگذار مگر معیار پذیرش و شواهد معتبر کامل باشند. در صورت مانع، BLOCKED را با علت، شواهد و NEXT_ACTION ثبت کن. هیچ مرحله‌ای را برای گرفتن تأیید انسانی متوقف نکن؛ گیت ماشینی ناموفق یا نامعلوم باید fail-closed بماند.
 
 
 ## دروازه اجباری هماهنگی چندچتی

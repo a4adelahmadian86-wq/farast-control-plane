@@ -6,7 +6,7 @@
 پیش از هر اقدام، `START_HERE.md`، `04_COORDINATION/INTERRUPTION_RECOVERY_PROTOCOL.md`، `05_PROMPT_LIBRARY/MASTER-00.md` و `04_COORDINATION/WORK_ITEM_EXECUTION_PROTOCOL.md` را از main بخوان. سپس Issueها، PRها، checkpointها، feedback و branch `coordination/locks` را read-only بررسی کن. حافظه چت و خلاصه خودکار مرجع وضعیت نیستند.
 
 ## انتخاب هدف خرد
-- محدوده تخصصی را فقط از EXP IDهای سربرگ همین پرامپت استخراج کن؛ فقط Issueهایی که parent_exp_ids با این مجموعه اشتراک دارد نامزدند. MASTER-00 عمومی می‌تواند همه هدف‌های باز را بررسی کند.
+- محدوده تخصصی این PR از EXP IDهای سربرگ است؛ نامزدهای آن اجتماع دو مسیرند: (الف) parent_exp_ids با EXPهای همین پرامپت اشتراک داشته باشد، یا (ب) parent_goal_ids شامل G-09 باشد. مسیر G-09 برای همه PR-01 تا PR-17 سراسری است. MASTER-00 عمومی همه هدف‌های باز و مجاز را می‌بیند.
 - با دریافت همین پرامپت، بدون درخواست شماره Issue یا تخصیص دستی از مالک، صف زنده را طبق الگوریتم MASTER-00 و WORK_ITEM_EXECUTION_PROTOCOL بخوان و خودکار برگ بعدی را انتخاب کن.
 - هر برگ اجرایی یک Issue مستقل با WORK_ITEM_ID پایدار است. پیش از ساخت Issue، Issueهای باز و بسته، WORK_ITEM_IDها، dependencyها و resource keys را جست‌وجو کن؛ کار موجود را دوباره نساز.
 - ابتدا work item نیمه‌تمام با checkpoint معتبر و lease منقضی/آزاد را برای resume انتخاب کن؛ اگر lease معتبر دارد آن را کنار بگذار. سپس READYهای بدون dependency یا resource conflict را طبق priority مالک، aging روزانه، قدیمی‌ترین ready/created time و WORK_ITEM_ID مرتب کن.
@@ -15,6 +15,21 @@
 - هر Work Item باید `write_policy` داشته باشد: `READ_ONLY`, `WRITE_REQUIRES_OWNER_APPROVAL` یا `WRITE_ALLOWED`. مخزن محصول `a4adelahmadian86-wq/non` فقط `READ_ONLY` است تا مجوز جداگانه مالک ثبت شود. WRITE_ALLOWED فقط برای Issue ساخته‌شده توسط repository owner پذیرفته می‌شود.
 - `priority_source=DEFAULT_POLICY` و priority=50 یعنی اولویت برابر و FIFO/aging، نه رتبه‌بندی مالک؛ `OWNER_ASSIGNED` فقط با تصمیم صریح مالک.
 - اگر هیچ برگ واجد شرایط نبود، EXPهای ناقص و Issueهای موجود را تطبیق بده؛ برای ساخت برگ تازه ابتدا allocator با WORK_ITEM_ID ثابت `WI-GOAL-ALLOCATOR-001` را claim کن. فقط در اختیار lease آن، برگ‌های جدید با شناسه deterministic بساز؛ اگر allocator آزاد نیست، duplicate نساز.
+
+## قرارداد اجباری اجرای مستقل، مسیر جهانی G-09 و دامنه عملیات v1
+
+- شماره PR فقط حوزه تخصصی است، نه زنجیره وابستگی یا ترتیب اجرا. PR-01 تا PR-17 را می‌توان با هر ترتیبی آغاز کرد؛ هیچ پرامپتی صرفاً به تکمیل PR با شماره کمتر/بیشتر وابسته نیست. فقط hard_gates صریح و معتبر همان Work Item وابستگی واقعی‌اند.
+- فیلتر صف تخصصی اجتماع دو مسیر است: EXPهای سربرگ همین پرامپت **یا** Goal سراسری G-09. هر ۱۷ پرامپت باید Work Itemهایی را که parent_goal_ids شامل G-09 دارند کشف کند، حتی اگر parent_exp_ids خارج از EXP محلی باشد.
+- اگر نامزد G-09 دارای lease/resource conflict، وضعیت BLOCKED یا REVIEW_REQUIRED، یا hard gate حل‌نشده بود، آن را پس از read-back کنار بگذار و به نامزد مستقل بعدی در EXP محلی برگرد؛ اشغال یک کار جهانی نباید کل چت یا پرامپت را متوقف کند.
+- ابتدا همان WORK_ITEM_ID نیمه‌تمام را با checkpoint معتبر resume کن؛ سپس READYهای بدون conflict را با اولویت قطعی انتخاب کن. هر چت در هر لحظه فقط یک Work Item را claim می‌کند؛ claim رقابتی ناموفق یعنی read-back و انتخاب نامزد بعدی، نه اجرای موازی روی همان برگ.
+- **دامنه عملیات نسخه‌دار:** برای WRITE_ALLOWED، هر Work Item جدید باید هم‌زمان operation_scope_version="1.0" و requested_operations غیرخالی و یکتا داشته باشد. برای مخزن کنترل‌پلین عملیات پایه control_plane_write؛ برای مخزن محصول NON عملیات پایه product_implementation همراه owner_approval_ref دقیق و مجوز مالک؛ برای مخزن دیگر repository_write است.
+- READ_ONLY فقط analysis و WRITE_REQUIRES_OWNER_APPROVAL تا پیش از تأیید فقط proposal_only است. این دو را به‌عنوان مجوز نوشتن تفسیر نکن.
+- عملیات حساس مانند control_plane_merge، merge، authorization_change، destructive_data_change، database_migration، hosting_deployment یا production_release از متن هدف استنباط نمی‌شوند؛ فقط در صورت تصریح مجوز همان Work Item و PASS شدن operation gate مربوط مجازند. ثبت PR به‌تنهایی مجوز merge یا release نیست.
+- نبود/ابهام/ناسازگاری operation_scope_version یا requested_operations برای WRITE_ALLOWED یعنی fail-closed و عدم Claim/Write. استثنای legacy فقط وقتی معتبر است که برای همان WORK_ITEM_ID و target_repository در allowlist دقیق هسته ثبت شده باشد؛ هرگز آن را به سایر کارها تعمیم نده.
+- پیش از ساخت Issue/leaf جدید، هم stable WORK_ITEM_ID و هم هم‌پوشانی معنایی را در Issueهای باز و بسته و registry بررسی کن: parent_goal_ids/parent_exp_ids، هدف، resource_keys و deliverables. کار مشابه را دوباره نساز؛ canonical را resume/گسترش بده یا برای split واقعی، دلیل عدم‌هم‌پوشانی و منابع/خروجی مستقل را ثبت کن.
+- مورد شناخته‌شده EXP-02: Issue #66 با WORK_ITEM_ID=WI-EXP02-BACKUP-RECOVERY-001 مرجع canonical است؛ Issue #14 با WI-EXP02-BACKUP-RESTORE-001 سابقه superseded است. Issue #14 را حذف نکن، اما آن را به‌عنوان کار دوم backup/restore دوباره فعال یا تکثیر نکن.
+- الگوریتم سقف ثابت N ندارد؛ آزمون‌های هم‌زمانی باید N=2، 5، 10 و 25 را پوشش دهند. محدودیت عملی throughput تابع quota/rate limit سرویس GitHub Actions/API است، نه مجوز حذف قفل، lease، fencing یا idempotency.
+- پیش از هر write، snapshot تازه، heartbeat و fencing token جاری را read-back کن؛ فقط CLAIM GRANTED و قفل‌های متعلق به همان CHAT_ID/RUN_ID اجازه تغییر می‌دهند.
 
 ## ثبت گام، پیشرفت و checkpoint
 - گام‌ها و معیارهای پذیرش را با `WORK_ITEM_SCHEMA.json` تعریف کن. برای ثبت گام: `/farast step step=STEP_ID result=PASS evidence=URL token=FENCING_TOKEN chat=CHAT_ID run=RUN_ID`.
@@ -38,6 +53,10 @@
 - نوع: تحلیل/اقدام تخصصی محدود؛ تغییر فقط در صورت تصریح در مأموریت.
 - ورودی اصلی: مخزن محصول + اسناد کنترل‌پلین + وظایف و شواهد قبلی.
 - خروجی: گزارش و شواهد در GitHub؛ نه گزارش مفصل در چت.
+
+## استقلال EXP-01 از پیاده‌سازی
+
+EXP-01 یک مأموریت کشف و ثبت خط مبناست و برای آغاز یا پذیرش آن، EXP-22 پیش‌نیاز نیست. EXP-22 می‌تواند از خروجی baseline به‌عنوان ورودی نرم استفاده کند؛ این رابطه نباید به گیت سخت یا ترتیب زمانی تبدیل شود. وابستگی‌های سخت فقط از گراف canonical و گیت‌های صریح و قابل اثبات می‌آیند.
 
 # PR-01 — خط مبنا و کشف وضعیت واقعی
 

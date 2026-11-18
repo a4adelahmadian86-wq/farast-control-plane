@@ -2,10 +2,34 @@
 
 ## نسخه یکپارچه
 
-برای کپی یکجای همه پرامپت‌ها: [FARAST_EXECUTABLE_PROMPTS_COMPLETE.md](FARAST_EXECUTABLE_PROMPTS_COMPLETE.md) (نسخه 1.9.0؛ بازتولیدشده از ۱۷ پرامپت مستقل و MASTER-00؛ شامل قرارداد عمق اجرایی 2.0). نسخه‌های مستقل و قابل به‌روزرسانی در همین پوشه مرجع‌اند.
+برای کپی یکجای همه پرامپت‌ها: [FARAST_EXECUTABLE_PROMPTS_COMPLETE.md](FARAST_EXECUTABLE_PROMPTS_COMPLETE.md) (نسخه 2.0.0؛ بازتولیدشده از ۱۷ پرامپت مستقل و MASTER-00؛ شامل قرارداد عمق اجرایی 2.0). نسخه‌های مستقل و قابل به‌روزرسانی در همین پوشه مرجع‌اند.
 
 ## زمینه پروژه
 نیازمندی‌های اجرای چندچتی در [CONTROL_PLANE_REQUIREMENTS.md](../00_PROJECT_FOUNDATION/CONTROL_PLANE_REQUIREMENTS.md) و بازخورد مالک در دفتر مرکزی ثبت شده‌اند.
+
+## ترتیب اولویت اجرایی مورد تأیید مالک
+
+ترتیب زیر اولویت برنامه‌ریزی و تخصیص کار است، نه زنجیره وابستگی یا ترتیب اجباری اجرا. هر پرامپت مستقل است و می‌تواند هر زمان که گیت‌های واقعی، منابع و شواهد اجازه دهند اجرا شود. هیچ پرامپتی صرفاً به دلیل شماره بزرگ‌تر نباید منتظر تکمیل شماره کوچک‌تر بماند.
+
+مرجع canonical: [OWNER_APPROVED_PROMPT_PRIORITY_ORDER.md](OWNER_APPROVED_PROMPT_PRIORITY_ORDER.md).
+
+1. PR-01 — خط مبنا
+2. PR-02 — بازیابی و حفاظت داده
+3. PR-03 — کشف قابلیت‌ها
+4. PR-04 — ردیابی‌پذیری
+5. PR-05 — سناریوهای کاربر
+6. PR-06 — آزمون و شواهد
+7. PR-07 — تحلیل شکاف و علت ریشه‌ای
+8. PR-08 — تجارت
+9. PR-09 — خدمات هوشمند
+10. PR-10 — معماری و داده
+11. PR-11 — مجوزها
+12. PR-12 — امنیت و حریم خصوصی
+13. PR-13 — معماری هدف
+14. PR-14 — میزبانی و عملیات
+15. PR-15 — اولویت‌بندی
+16. PR-16 — پیاده‌سازی
+17. PR-17 — پذیرش و انتشار
 
 ## راهنمای مبتدی
 
@@ -58,3 +82,11 @@
 - استاندارد عمق هر leaf (۶+ گام، ۴+ معیار، ۳+ خروجی، effort هدف ۲۰–۳۰ دقیقه): [WORK_ITEM_DEPTH_STANDARD.md](../04_COORDINATION/WORK_ITEM_DEPTH_STANDARD.md).
 - محاسبه EXECUTION_PROGRESS، ACCEPTANCE_PROGRESS و OVERALL_COMPLETION: [PROGRESS_REPORTING_PROTOCOL.md](../04_COORDINATION/PROGRESS_REPORTING_PROTOCOL.md).
 - ۱۷ فایل مستقل و MASTER-00 باید همواره با bundle تجمیعی همگام باشند.
+
+
+## استقلال ترتیب و مسیر جهانی
+
+- PR-01 تا PR-17 دسته‌های تخصصی‌اند، نه مراحل زنجیره‌ای؛ اجرای هرکدام با هر ترتیب مجاز است و فقط hard_gates واقعی Work Item ترتیب محلی ایجاد می‌کند.
+- تمام پرامپت‌های تخصصی علاوه بر EXP محلی، مسیر جهانی parent_goal_ids شامل G-09 را می‌بینند. conflict در G-09 باید به انتخاب برگ مستقل بعدی منجر شود، نه توقف چت.
+- همه پرامپت‌ها قرارداد operation_scope_version=1.0 و requested_operations را برای WRITE_ALLOWED اعمال می‌کنند؛ bundle باید دقیقاً از MASTER-00 و ۱۷ منبع canonical ساخته شود.
+- canonical backup/recovery در EXP-02، Issue #66 / WI-EXP02-BACKUP-RECOVERY-001 است؛ Issue #14 سابقه superseded و غیرقابل تکثیر است.

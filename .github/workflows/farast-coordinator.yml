@@ -19,7 +19,9 @@ concurrency:
 permissions:
   contents: write
   issues: write
-  pull-requests: read
+  pull-requests: write
+  checks: read
+  statuses: read
 
 jobs:
   coordinate:
@@ -39,6 +41,8 @@ jobs:
             const repo = context.repo.repo;
             const coordinatorCore = require(process.env.GITHUB_WORKSPACE + '/.github/scripts/coordinator-core.js');
             const workItemCore = require(process.env.GITHUB_WORKSPACE + '/.github/scripts/work-item-core.js');
+            const inboxScheduler = require(process.env.GITHUB_WORKSPACE + '/.github/scripts/inbox-scheduler.js');
+            const dependencyGraph = JSON.parse(require('fs').readFileSync(process.env.GITHUB_WORKSPACE + '/01_STRATEGY/DEPENDENCY_GRAPH.json', 'utf8'));
             const authorizationPolicy = require(process.env.GITHUB_WORKSPACE + '/04_COORDINATION/ACTOR_AUTHORIZATION.json');
             const registryBranch = 'coordination/locks';
             const crossRepoGithub = process.env.FARAST_GITHUB_TOKEN ? new github.constructor({ auth: process.env.FARAST_GITHUB_TOKEN }) : null;
@@ -49,8 +53,8 @@ jobs:
               { name: 'agent:ready', color: '0E8A16', description: 'Ready for an authorized worker to claim' },
               { name: 'agent:locked', color: 'B60205', description: 'One or more central resource leases are active' },
               { name: 'agent:blocked', color: 'D93F0B', description: 'Blocked pending resolution' },
-              { name: 'agent:review', color: 'FBCA04', description: 'Implementation complete; independent review required' },
-              { name: 'agent:done', color: '5319E7', description: 'Accepted after merged PR and independent current-head approval' }
+              { name: 'agent:review', color: 'FBCA04', description: 'Implementation complete; automated checks and acceptance pending' },
+              { name: 'agent:done', color: '5319E7', description: 'Accepted after exact-head automated checks and merge' }
             ];
 
             for (const label of labelDefs) {
@@ -83,11 +87,18 @@ jobs:
               const commit = await github.rest.git.createCommit({
                 owner, repo, message, tree: tree.data.sha, parents: [snapshot.refSha]
               });
-              // If the ref moved unexpectedly, fail closed. Never retry blindly.
+              // A successful ref update is durable; GitHub reads may briefly lag.
+              // Accept only a read-back that confirms this exact commit SHA.
               await github.rest.git.updateRef({
                 owner, repo, ref: 'heads/' + registryBranch, sha: commit.data.sha, force: false
               });
-              return await getRegistry();
+              for (let attempt = 0; attempt < 4; attempt++) {
+                const readBack = await getRegistry();
+                if (readBack.refSha === commit.data.sha) return readBack;
+                if (attempt < 3) await new Promise(resolve => setTimeout(resolve, 250 * (attempt + 1)));
+              }
+              throw new Error('registry_readback_commit_mismatch: committed=' + commit.data.sha + '; durable operation remains in the inbox for reconciliation');
+
             };
 
             const labelsOf = issue => (issue.labels || []).map(x => typeof x === 'string' ? x : x.name);
@@ -152,7 +163,14 @@ jobs:
                 if (Number.isFinite(formEffort) && formEffort !== item.effort_estimate_minutes) throw new Error('Target focused effort does not match JSON');
                 if (formWritePolicy && formWritePolicy !== item.write_policy) throw new Error('Write policy does not match JSON');
                 if (formPrioritySource && formPrioritySource !== item.priority_source) throw new Error('Priority source does not match JSON');
-                if (item.target_repository === 'a4adelahmadian86-wq/non' && item.write_policy !== 'READ_ONLY') throw new Error('NON product repository is READ_ONLY until explicit owner authorization is recorded');
+                if (item.target_repository === 'a4adelahmadian86-wq/non' && item.write_policy === 'WRITE_ALLOWED') {
+                  workItemCore.validateProductWriteAuthorization(item, {
+                    repository_owner: owner,
+                    issue_author: issue.user?.login || '',
+                    issue_url: `https://github.com/${owner}/${repo}/issues/${issue.number}`,
+                    issue_body: issue.body || ''
+                  });
+                }
                 if (item.write_policy !== 'READ_ONLY' && issue.user && issue.user.login !== owner) throw new Error('Only repository owner may create a write-enabled Work Item');
                 if (item.write_policy === 'WRITE_REQUIRES_OWNER_APPROVAL' && !item.owner_approval_ref) throw new Error('Owner approval evidence reference is required');
                 return item;
@@ -160,13 +178,80 @@ jobs:
                 throw new Error('Invalid Work item specification JSON in Issue #' + issue.number + ': ' + error.message);
               }
             };
+            const rawWorkItemForIssue = issue => {
+              const match = (issue.body || '').match(/(?:^|\n)###\s*Work item specification JSON\s*\n([\s\S]*?)(?=\n###|$)/i);
+              if (!match) return null;
+              const raw = match[1].trim().replace(/^\x60{3}(?:json)?\s*/i, '').replace(/\s*\x60{3}$/, '');
+              try { return JSON.parse(raw); } catch (_) { return null; }
+            };
+            const allTaskIssues = async () => github.paginate(github.rest.issues.listForRepo, { owner, repo, state: 'all', per_page: 100 });
+            const findDuplicateWorkItemIdIssuesForIssue = async (issue, item, state, issues) => {
+              const records = issues.filter(isTask).map(other => {
+                const raw = rawWorkItemForIssue(other) || {};
+                return { ...raw, number: other.number, issue_number: other.number, work_item_id: raw.work_item_id || null };
+              });
+              const registryRecords = Object.entries(state.work_items || {}).map(([number, saved]) => ({ ...saved, issue_number: Number(number) }));
+              return workItemCore.findDuplicateWorkItemIdIssues(issue.number, item, records, registryRecords);
+            };
+            const allWorkItemsFor = async (state, issues) => {
+              const records = new Map();
+              for (const liveIssue of issues.filter(isTask)) {
+                const raw = rawWorkItemForIssue(liveIssue);
+                if (!raw || !raw.work_item_id) continue;
+                const stored = state.work_items && state.work_items[liveIssue.number];
+                let resolved = raw;
+                try {
+                  const validated = workItemSpecFor(liveIssue);
+                  if (stored) {
+                    const resources = value => [...new Set((value || []).map(x => String(x).trim().toLowerCase().replace(/\\/g, '/')))].sort();
+                    const same = stored.work_item_id === validated.work_item_id &&
+                      stored.write_policy === validated.write_policy &&
+                      stored.target_repository === validated.target_repository &&
+                      (stored.owner_approval_ref || '') === (validated.owner_approval_ref || '') &&
+                      (stored.parent_work_item_id || null) === (validated.parent_work_item_id || null) &&
+                      JSON.stringify(resources(stored.resource_keys)) === JSON.stringify(resources(validated.resource_keys));
+                    resolved = same ? { ...stored, parent_work_item_id: validated.parent_work_item_id } : { ...raw, status: 'INVALID' };
+                  } else resolved = validated;
+                } catch (_) {
+                  resolved = { ...raw, status: 'INVALID' };
+                }
+                records.set(liveIssue.number, resolved);
+              }
+              for (const number in (state.work_items || {})) if (!records.has(Number(number))) records.set(Number(number), state.work_items[number]);
+              return [...records.values()];
+            };
             const savedWorkItemFor = (state, issue) => {
-              const item = (state.work_items && state.work_items[issue.number]) || workItemSpecFor(issue);
+              // Revalidate the live Issue on every command so owner authorization cannot be
+              // silently removed or changed after a Work Item was first saved in the registry.
+              const liveSpec = workItemSpecFor(issue);
+              const stored = state.work_items && state.work_items[issue.number];
+              const item = stored || liveSpec;
               if (!item) return null;
+              if (!liveSpec && stored &&
+                stored.target_repository === 'a4adelahmadian86-wq/non' &&
+                stored.write_policy === 'WRITE_ALLOWED') {
+                throw new Error('Owner-authorized NON Work Item requires a live Issue specification');
+              }
+              if (liveSpec && (
+                item.work_item_id !== liveSpec.work_item_id ||
+                item.write_policy !== liveSpec.write_policy ||
+                item.target_repository !== liveSpec.target_repository ||
+                (item.owner_approval_ref || '') !== (liveSpec.owner_approval_ref || '') ||
+                JSON.stringify([...new Set((item.resource_keys || []).map(x => String(x).trim().toLowerCase().split(String.fromCharCode(92)).join('/')))].sort()) !==
+                  JSON.stringify([...new Set((liveSpec.resource_keys || []).map(x => String(x).trim().toLowerCase().split(String.fromCharCode(92)).join('/')))].sort())
+              )) throw new Error('Saved Work Item identity/policy/resources do not match live Issue');
               item.write_policy ||= 'READ_ONLY';
               item.priority_source ||= 'DEFAULT_POLICY';
-              const byId = new Map(Object.values(state.work_items || {}).map(x => [x.work_item_id, x]));
-              item.dependencies = (item.dependencies || []).map(dep => ({ ...dep, status: (byId.get(dep.work_item_id) && byId.get(dep.work_item_id).status) || dep.status || 'UNKNOWN' }));
+              const byId = new Map();
+              for (const saved of Object.values(state.work_items || {})) {
+                const matches = byId.get(saved.work_item_id) || [];
+                matches.push(saved);
+                byId.set(saved.work_item_id, matches);
+              }
+              item.dependencies = (item.dependencies || []).map(dep => {
+                const matches = byId.get(dep.work_item_id) || [];
+                return { ...dep, status: matches.length === 1 ? matches[0].status : 'UNKNOWN' };
+              });
               return item;
             };
 
@@ -193,7 +278,30 @@ jobs:
                 expireLocks(state);
                 const current = activeForIssue(state, issue.number);
                 const owned = coordinatorCore.ownsLease(current, actor, chat, run, token);
-                if (command === 'refresh') {
+                let taskIssuesSnapshot = null;
+                let duplicateWorkItemIds = [];
+                let duplicateCheckError = '';
+                let candidateWorkItemId = '';
+                if (['claim','refresh','unblock','reopen','accept'].includes(command)) {
+                  let candidate = null;
+                  try { candidate = workItemSpecFor(issue); } catch (_) {}
+                  if (candidate) {
+                    candidateWorkItemId = candidate.work_item_id;
+                    try {
+                      taskIssuesSnapshot = await allTaskIssues();
+                      duplicateWorkItemIds = await findDuplicateWorkItemIdIssuesForIssue(issue, candidate, state, taskIssuesSnapshot);
+                    } catch (error) {
+                      duplicateCheckError = String(error.message || error).slice(0, 240);
+                    }
+                  }
+                }
+                if (duplicateCheckError) {
+                  nextStatus = 'blocked';
+                  response = 'فرمان رد شد: یکتایی WORK_ITEM_ID قابل راستی‌آزمایی نیست؛ برای fail-closed بودن هیچ Claim/refresh/unblock/accept انجام نشد. ' + duplicateCheckError;
+                } else if (duplicateWorkItemIds.length) {
+                  nextStatus = 'blocked';
+                  response = 'فرمان رد شد: WORK_ITEM_ID=' + candidateWorkItemId + ' در Issueهای دیگری نیز ثبت شده است: ' + duplicateWorkItemIds.map(n=>'#'+n).join(',') + '; تا رفع تکرار، هیچ Claim/refresh/unblock/accept مجاز نیست.';
+                } else if (command === 'refresh') {
                   if (current.length) {
                     response = 'Refresh رد شد: ابتدا lease فعال باید با فرمان release معتبر آزاد شود.';
                   } else {
@@ -215,13 +323,14 @@ jobs:
                         return old ? { ...criterion, validation_status: old.validation_status, evidence_refs: old.evidence_refs, validated_at_utc: old.validated_at_utc, validated_by: old.validated_by, validation_note: old.validation_note } : criterion;
                       });
                       const p = workItemCore.calculateProgress(fresh);
-                      fresh.status = p.can_accept ? 'REVIEW_REQUIRED' : p.verified_steps > 0 ? 'IN_PROGRESS' : 'READY';
+                      const hardGate = workItemCore.evaluateHardGates(fresh, dependencyGraph, [...Object.values(state.work_items || {}).filter(x => x.work_item_id !== fresh.work_item_id), fresh]);
+                      fresh.status = workItemCore.refreshedStatus(previous?.status, p, hardGate.ready);
                       state.work_items ||= {};
                       state.work_items[issue.number] = fresh;
                       state.history ||= [];
-                      state.history.push({ event: 'WORK_ITEM_REFRESHED', issue_number: issue.number, work_item_id: fresh.work_item_id, actor, preserved_steps: p.verified_steps, preserved_criteria: p.verified_criteria, at_utc: new Date().toISOString() });
-                      nextStatus = fresh.status === 'REVIEW_REQUIRED' ? 'review' : 'ready';
-                      response = 'Work Item specification refreshed from Issue body; preserved_steps=' + p.verified_steps + '; preserved_criteria=' + p.verified_criteria + '; EXECUTION_PROGRESS=' + p.execution_percentage + '%; ACCEPTANCE_PROGRESS=' + p.acceptance_percentage + '%; OVERALL_COMPLETION=' + p.overall_completion_percentage + '%.';
+                      state.history.push({ event: 'WORK_ITEM_REFRESHED', issue_number: issue.number, work_item_id: fresh.work_item_id, actor, preserved_steps: p.verified_steps, preserved_criteria: p.verified_criteria, hard_gate_ready: hardGate.ready, hard_gate_blockers: hardGate.blockers, at_utc: new Date().toISOString() });
+                      nextStatus = !hardGate.ready ? 'blocked' : fresh.status === 'REVIEW_REQUIRED' ? 'review' : 'ready';
+                      response = 'Work Item specification refreshed from Issue body; preserved_steps=' + p.verified_steps + '; preserved_criteria=' + p.verified_criteria + '; hard_gates=' + (hardGate.ready ? 'PASS' : 'BLOCKED:' + hardGate.blockers.join(',')) + '; EXECUTION_PROGRESS=' + p.execution_percentage + '%; ACCEPTANCE_PROGRESS=' + p.acceptance_percentage + '%; OVERALL_COMPLETION=' + p.overall_completion_percentage + '%.';
                     }
                   }
                 } else if (command === 'claim') {
@@ -236,18 +345,26 @@ jobs:
                     // Any policy/target/resource disagreement fails closed until an owner refresh reconciles it.
                     let writePolicy = 'READ_ONLY';
                     let policyError = '';
+                    let liveWorkItem = null;
                     try {
-                      const liveWorkItem = workItemSpecFor(issue);
+                      liveWorkItem = workItemSpecFor(issue);
                       const storedWorkItem = state.work_items?.[issue.number];
                       writePolicy = coordinatorCore.resolveWritePolicy(liveWorkItem, storedWorkItem);
                     } catch (error) {
                       policyError = error.message;
                     }
-                    const taskBranch = policyError ? null : coordinatorCore.branchForWritePolicy(issue.number, run, writePolicy);
+                    const hardGate = liveWorkItem
+                      ? workItemCore.evaluateHardGates(liveWorkItem, dependencyGraph, [...Object.values(state.work_items || {}).filter(x => x.work_item_id !== liveWorkItem.work_item_id), liveWorkItem])
+                      : { ready: false, blockers: ['work_item_spec_missing'] };
+                    const branchlessControlPlane = !!liveWorkItem && workItemCore.isBranchlessControlPlaneWorkItem(liveWorkItem);
+                    const taskBranch = policyError || branchlessControlPlane ? null : coordinatorCore.branchForWritePolicy(issue.number, run, writePolicy);
                     if (policyError) {
                       response = 'Claim رد شد: اختلاف یا نقص در Work Item زنده/رجیستری؛ هیچ branch تخصیص داده نشد. ' + policyError;
                     } else if (!targetRepository) {
                       response = 'Claim رد شد: Target repository باید به‌صورت owner/name در Issue مشخص شود.';
+                    } else if (!hardGate.ready) {
+                      nextStatus = 'blocked';
+                      response = 'Claim رد شد: گیت سخت وابستگی پاس نشده یا حل‌نشده است؛ ' + hardGate.blockers.join(',') + '. soft_inputs مانع اجرا نیستند.';
                     } else {
                       const claim = coordinatorCore.claimResources(state, {
                         issueNumber: issue.number, taskId: 'GH-' + issue.number, actor,
@@ -276,9 +393,11 @@ jobs:
                           const plan = workItemCore.resumePlan(state.work_items[issue.number]);
                           resumeText = '; WORK_ITEM_ID=' + plan.work_item_id + '; verified_steps=' + plan.completed_step_ids.join(',') + '; remaining_steps=' + plan.remaining_step_ids.join(',') + '; EXECUTION_PROGRESS=' + plan.execution_progress_percentage + '%; ACCEPTANCE_PROGRESS=' + (plan.acceptance_progress_percentage === null ? 'N/A' : plan.acceptance_progress_percentage + '%') + '; OVERALL_COMPLETION=' + (plan.overall_completion_percentage === null ? 'N/A' : plan.overall_completion_percentage + '%');
                         }
-                        const branchInstruction = taskBranch
-                          ? '. این Work Item با سیاست WRITE_ALLOWED است؛ branch را فقط در target_repository ثبت‌شده بساز و قبل از هر write heartbeat/token را دوباره تأیید کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز و branch قبلی را تغییر نده.'
-                          : '. این Work Item با سیاست ' + writePolicy + ' است؛ در target_repository هیچ branch، file، commit یا PR ایجاد/تغییر نده. شواهد را فقط در Issue thread یا محل مجاز control-plane ثبت کن؛ برای WRITE_REQUIRES_OWNER_APPROVAL فقط proposal ارائه بده.';
+                        const branchInstruction = branchlessControlPlane
+                          ? '. این Work Item فقط مجاز به عملیات Issue/metadata صریحاً تعریف‌شده در دامنه خودش است؛ branch، file، commit یا PR ایجاد نکن و هیچ کد یا رجیستری را تغییر نده.'
+                          : taskBranch
+                            ? '. این Work Item با سیاست WRITE_ALLOWED است؛ branch را فقط در target_repository ثبت‌شده بساز و قبل از هر write heartbeat/token را دوباره تأیید کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز و branch قبلی را تغییر نده.'
+                            : '. این Work Item با سیاست ' + writePolicy + ' است؛ در target_repository هیچ branch، file، commit یا PR ایجاد/تغییر نده. شواهد را فقط در Issue thread یا محل مجاز control-plane ثبت کن؛ برای WRITE_REQUIRES_OWNER_APPROVAL فقط proposal ارائه بده.';
                         response = 'CLAIM GRANTED. TASK=GH-' + issue.number + resumeText + '; actor=@' + actor + '; chat=' + chat + '; run=' + run + '; resource_keys=' + claim.resourceKeys.join(',') + '; target_repository=' + targetRepository + '; write_policy=' + writePolicy + '; branch=' + (taskBranch || 'none') + handoff + '; fencing_token=' + claim.fencingToken + '; lease_expires=' + claim.expiresAt + branchInstruction;
                         nextStatus = 'locked';
                       }
@@ -336,41 +455,104 @@ jobs:
                       else if (command === 'release' && state.work_items[issue.number].status === 'CLAIMED') state.work_items[issue.number].status = 'READY';
                     }
                     nextStatus = command === 'block' ? 'blocked' : command === 'review' ? 'review' : 'ready';
-                    response = command === 'release' ? 'Lease آزاد شد؛ وظیفه تکمیل‌شده محسوب نمی‌شود.' : command === 'block' ? 'وظیفه مسدود شد و lease آزاد شد.' : 'پیاده‌سازی برای بازبینی مستقل تحویل شد؛ این به معنی پذیرش نیست.';
+                    response = command === 'release' ? 'Lease آزاد شد؛ وظیفه تکمیل‌شده محسوب نمی‌شود.' : command === 'block' ? 'وظیفه مسدود شد و lease آزاد شد.' : 'پیاده‌سازی برای اجرای گیت‌های ماشینی و پذیرش خودکار تحویل شد؛ این فرمان به‌تنهایی پذیرش نیست.';
                   }
                 } else if (command === 'unblock' || command === 'reopen') {
                   if (current.length) response = 'فرمان رد شد: ابتدا lease فعال باید با مالکیت معتبر آزاد شود.';
                   else if (command === 'unblock' && !labelsOf(issue).includes('agent:blocked')) response = 'وظیفه blocked نیست.';
                   else if (command === 'reopen' && !['agent:review','agent:done'].some(x => labelsOf(issue).includes(x))) response = 'فقط وظیفه review/done قابل بازگشایی است.';
-                  else { const workItem = savedWorkItemFor(state, issue); if (workItem) { state.work_items ||= {}; state.work_items[issue.number] ||= workItem; state.work_items[issue.number].status = 'READY'; } nextStatus = 'ready'; response = 'وظیفه به ready بازگشت؛ برای شروع دوباره claim لازم است.'; }
-                } else if (command === 'accept') {
-                  const prUrl = args.pr || (issue.body || '').match(/https:\/\/github\.com\/[^\s)]+\/pull\/\d+/)?.[0];
-                  const prMatch = prUrl?.match(/github\.com\/([^/]+)\/([^/]+)\/pull\/(\d+)/);
-                  if (!prMatch || !(issue.body || '').includes(prUrl)) response = 'پذیرش رد شد: لینک PR باید هم در بدنه Issue ثبت شده باشد و هم با pr= به فرمان accept داده شود.';
                   else {
-                    const [__, prOwner, prRepo, prNumber] = prMatch;
-                    const prClient = (prOwner === owner && prRepo === repo) ? github : crossRepoGithub;
-                    if (!prClient) {
-                      response = 'پذیرش انجام نشد: برای بررسی PR در مخزن دیگر، Secret با نام FARAST_GITHUB_TOKEN و دسترسی read به آن مخزن لازم است.';
+                    const workItem = savedWorkItemFor(state, issue);
+                    const hardGate = workItem ? workItemCore.evaluateHardGates(workItem, dependencyGraph, Object.values(state.work_items || {})) : { ready: false, blockers: ['work_item_spec_missing'] };
+                    if (!hardGate.ready) response = 'بازگشایی/رفع انسداد رد شد؛ گیت سخت پاس نشده یا حل‌نشده است: ' + hardGate.blockers.join(',');
+                    else { if (workItem) { state.work_items ||= {}; state.work_items[issue.number] ||= workItem; state.work_items[issue.number].status = 'READY'; } nextStatus = 'ready'; response = 'وظیفه به ready بازگشت؛ گیت‌های سخت پاس شده‌اند و برای شروع دوباره claim لازم است.'; }
+                  }
+                } else if (command === 'accept') {
+                  const acceptanceItem = savedWorkItemFor(state, issue);
+                  const acceptanceWorkItems = acceptanceItem
+                    ? await allWorkItemsFor(state, taskIssuesSnapshot || await allTaskIssues())
+                    : Object.values(state.work_items || {});
+                  const hardGate = acceptanceItem ? workItemCore.evaluateHardGates(acceptanceItem, dependencyGraph, acceptanceWorkItems, { requireChildrenAccepted: true }) : { ready: false, blockers: ['work_item_spec_missing'] };
+                  const prUrl = args.pr || (issue.body || '').match(/https:\/\/github\.com\/[^\s)]+\/pull\/\d+/)?.[0];
+                  const branchlessControlPlane = !!acceptanceItem && workItemCore.isBranchlessControlPlaneWorkItem(acceptanceItem);
+                  const latestIssueEvent = [...state.history].reverse().find(x => x.issue_number === issue.number);
+                  if (!labelsOf(issue).includes('agent:review') || current.length) {
+                    response = 'پذیرش رد شد: وظیفه باید در وضعیت review و بدون lease فعال باشد.';
+                  } else if ((acceptanceItem?.write_policy === 'READ_ONLY' || branchlessControlPlane) && !prUrl) {
+                    const evidenceGate = branchlessControlPlane
+                      ? workItemCore.evaluateBranchlessMetadataAcceptance(acceptanceItem, {
+                          issueNumber: issue.number, hasActiveLease: current.length > 0,
+                          hardGatesReady: hardGate.ready, reviewEvent: latestIssueEvent
+                        })
+                      : workItemCore.evaluateReadOnlyAcceptance(acceptanceItem, {
+                          issueNumber: issue.number, hasActiveLease: current.length > 0,
+                          hardGatesReady: hardGate.ready, reviewEvent: latestIssueEvent
+                        });
+                    if (!evidenceGate.ready) {
+                      response = 'پذیرش evidence-only رد شد: گیت‌های ماشینی کامل نیستند: ' + evidenceGate.blockers.join(',') + '.';
                     } else {
-                    const pr = (await prClient.rest.pulls.get({ owner: prOwner, repo: prRepo, pull_number: Number(prNumber) })).data;
-                    const reviews = await prClient.paginate(prClient.rest.pulls.listReviews, { owner: prOwner, repo: prRepo, pull_number: Number(prNumber), per_page: 100 });
-                    const reviewEvent = [...state.history].reverse().find(x => x.issue_number === issue.number && x.event === 'REVIEW');
-                    const workerActor = reviewEvent?.actor;
-                    const branchBound = coordinatorCore.matchesReviewLease(pr, reviewEvent);
-                    const independent = coordinatorCore.hasIndependentApproval(reviews, pr, workerActor, actor);
-                    if (!labelsOf(issue).includes('agent:review') || current.length) response = 'پذیرش رد شد: وظیفه باید در وضعیت review و بدون lease فعال باشد.';
-                    else if (!branchBound) response = 'پذیرش رد شد: PR باید از branch و target repository ثبت‌شده در آخرین handoff همان lease ساخته شده باشد.';
-                    else if (!pr.merged || !independent) response = 'پذیرش رد شد: PR باید merged باشد و approval مستقل روی head فعلی داشته باشد.';
-                    else {
-                      const workItem = savedWorkItemFor(state, issue);
-                      if (workItem) {
-                        state.work_items ||= {}; state.work_items[issue.number] ||= workItem;
-                        const gate = workItemCore.calculateProgress(state.work_items[issue.number]);
-                        if (!gate.can_accept) response = 'پذیرش Work Item رد شد: همه گام‌های اجباری، معیارهای پذیرش و dependencyها باید با evidence معتبر PASS شوند؛ EXECUTION_PROGRESS=' + gate.execution_percentage + '%; ACCEPTANCE_PROGRESS=' + (gate.acceptance_percentage === null ? 'N/A' : gate.acceptance_percentage + '%') + '; OVERALL_COMPLETION=' + (gate.overall_completion_percentage === null ? 'N/A' : gate.overall_completion_percentage + '%') + '.';
-                        else { state.work_items[issue.number].status = 'ACCEPTED'; nextStatus = 'done'; response = 'Work Item ACCEPTED: همه گام‌ها و معیارهای اجباری با evidence معتبر پاس شده‌اند؛ PR ادغام‌شده و approval مستقل روی head فعلی نیز احراز شد.'; }
-                      } else { nextStatus = 'done'; response = 'پذیرش تأیید شد: PR ادغام‌شده و approval مستقل روی head فعلی احراز شد.'; }
+                      state.work_items ||= {};
+                      state.work_items[issue.number] ||= acceptanceItem;
+                      state.work_items[issue.number].status = 'ACCEPTED';
+                      nextStatus = 'done';
+                      response = branchlessControlPlane
+                        ? 'Work Item ACCEPTED: عملیات Issue/metadata مجاز تکمیل شده؛ همه گام‌ها، معیارها، شواهد، وابستگی‌ها و handoff بدون branch/PR احراز شدند.'
+                        : 'Work Item ACCEPTED: همه گام‌ها، معیارها، شواهد و hard gateها با موفقیت احراز شدند؛ سیاست READ_ONLY است، بنابراین PR/branch محصول لازم نیست؛ هیچ Review انسانی دوم شرط پذیرش نیست.';
                     }
+                  } else {
+                    const prMatch = prUrl?.match(/github\.com\/([^/]+)\/([^/]+)\/pull\/(\d+)/);
+                    if (!prMatch || !(issue.body || '').includes(prUrl)) {
+                      response = 'پذیرش رد شد: لینک PR باید هم در بدنه Issue ثبت شده باشد و هم با pr= به فرمان accept داده شود؛ فقط READ_ONLY بدون PR از مسیر شواهد ماشینی استفاده می‌کند.';
+                    } else {
+                      const [__, prOwner, prRepo, prNumber] = prMatch;
+                      const prClient = (prOwner === owner && prRepo === repo) ? github : crossRepoGithub;
+                      if (!prClient) {
+                        response = 'پذیرش انجام نشد: برای پذیرش خودکار PR در مخزن دیگر، Secret با نام FARAST_GITHUB_TOKEN با دسترسی checks:read، statuses:read و pull_requests:write روی مخزن مقصد لازم است؛ بدون آن merge انجام نمی‌شود.';
+                      } else {
+                        const pr = (await prClient.rest.pulls.get({ owner: prOwner, repo: prRepo, pull_number: Number(prNumber) })).data;
+                        const reviewEvent = [...state.history].reverse().find(x => x.issue_number === issue.number && x.event === 'REVIEW');
+                        const branchBound = coordinatorCore.matchesReviewLease(pr, reviewEvent);
+                        const mergeOperation = acceptanceItem?.target_repository === 'a4adelahmadian86-wq/farast-control-plane' ? 'control_plane_merge' : 'merge';
+                        const mergeGate = acceptanceItem
+                          ? workItemCore.evaluateHardGates(acceptanceItem, dependencyGraph, acceptanceWorkItems, { requestedOperations: [mergeOperation], requireChildrenAccepted: true })
+                          : { ready: false, blockers: ['work_item_spec_missing'] };
+                        const checkRuns = await prClient.paginate(prClient.rest.checks.listForRef, { owner: prOwner, repo: prRepo, ref: pr.head.sha, per_page: 100 });
+                        const combinedStatus = await prClient.rest.repos.getCombinedStatusForRef({ owner: prOwner, repo: prRepo, ref: pr.head.sha });
+                        const automatedChecksPassed = coordinatorCore.hasSuccessfulChecks(checkRuns, combinedStatus.data);
+                        if (!branchBound) response = 'پذیرش رد شد: PR باید از branch و target repository ثبت‌شده در آخرین handoff همان lease ساخته شده باشد.';
+                        else if (!hardGate.ready) response = 'پذیرش خودکار رد شد: گیت سخت/عملیات درخواست‌شده حل‌نشده یا پاس‌نشده است: ' + hardGate.blockers.join(',') + '.';
+                        else if (!mergeGate.ready) response = 'ادغام رد شد: گیت عملیات merge پاس نشده است: ' + mergeGate.blockers.join(',') + '.';
+                        else if (!automatedChecksPassed) response = 'پذیرش خودکار رد شد: تمام Check Runها و Commit Statusهای SHA دقیق head باید با conclusion/state برابر success تکمیل شده باشند؛ بازبین انسانی دوم لازم نیست.';
+                        else {
+                          let mergeConfirmed = pr.merged;
+                          if (!mergeConfirmed) {
+                            try {
+                              const mergeResponse = await prClient.rest.pulls.merge({ owner: prOwner, repo: prRepo, pull_number: Number(prNumber), sha: pr.head.sha });
+                              mergeConfirmed = mergeResponse.data.merged === true;
+                            } catch (mergeError) {
+                              response = 'ادغام خودکار انجام نشد؛ GitHub merge را رد کرد: ' + String(mergeError.message || mergeError).slice(0, 300);
+                            }
+                          }
+                          if (!mergeConfirmed) {
+                            if (!response) response = 'ادغام خودکار تأیید نشد؛ PR باز می‌ماند و پذیرش انجام نمی‌شود.';
+                          } else {
+                            if (acceptanceItem) {
+                              const gate = workItemCore.calculateProgress(acceptanceItem);
+                              if (!gate.can_accept) response = 'پذیرش Work Item رد شد: همه گام‌های اجباری، معیارهای پذیرش و dependencyها باید با evidence معتبر PASS شوند؛ EXECUTION_PROGRESS=' + gate.execution_percentage + '%; ACCEPTANCE_PROGRESS=' + (gate.acceptance_percentage === null ? 'N/A' : gate.acceptance_percentage + '%') + '; OVERALL_COMPLETION=' + (gate.overall_completion_percentage === null ? 'N/A' : gate.overall_completion_percentage + '%') + '.';
+                              else {
+                                state.work_items ||= {};
+                                state.work_items[issue.number] ||= acceptanceItem;
+                                state.work_items[issue.number].status = 'ACCEPTED';
+                                nextStatus = 'done';
+                                response = 'Work Item ACCEPTED: همه گام‌ها و معیارهای اجباری با evidence معتبر پاس شده‌اند؛ PR ادغام‌شده و تمام گیت‌های ماشینی موفق روی SHA دقیق head احراز شد؛ هیچ Review انسانی شرط پذیرش نیست.';
+                              }
+                            } else {
+                              nextStatus = 'done';
+                              response = 'پذیرش تأیید شد: PR به‌صورت خودکار ادغام شد و تمام گیت‌های ماشینی موفق روی SHA دقیق head احراز شد؛ هیچ Review انسانی شرط پذیرش نیست.';
+                            }
+                          }
+                        }
+                      }
                     }
                   }
                 }
@@ -382,15 +564,17 @@ jobs:
               if (nextStatus) await setStatus(issue.number, nextStatus);
               if (command === 'reopen' && nextStatus === 'ready') await github.rest.issues.update({ owner, repo, issue_number: issue.number, state: 'open', state_reason: 'reopened' });
               if (nextStatus === 'done') await github.rest.issues.update({ owner, repo, issue_number: issue.number, state: 'closed', state_reason: 'completed' });
-              const marker = '<!-- FARAST_OP_RESPONSE:' + id + ' -->';
+              const marker = coordinatorCore.responseMarker(id);
               const comments = await github.paginate(github.rest.issues.listComments, { owner, repo, issue_number: issue.number, per_page: 100 });
               if (!comments.some(c => c.body.includes(marker))) await publish(issue.number, response + '\n\n' + marker);
-              const latest = updated.state;
-              latest.processed_operations[id].response_posted = true;
+              const latest = updated?.state;
+              const durableOperation = latest?.processed_operations?.[id];
+              if (!durableOperation) throw new Error('durable_processed_operation_missing:' + id + '; scheduled reconciliation must retry');
+              durableOperation.response_posted = true;
               return await saveRegistry(latest, updated, 'FARAST coordinator: record response for operation ' + id);
             };
 
-            const processIssue = async issue => {
+            const processIssue = async (issue, limits = {}) => {
               if (!isTask(issue)) return;
               issue = (await github.rest.issues.get({ owner, repo, issue_number: issue.number })).data;
               if (!isTask(issue)) return;
@@ -413,18 +597,53 @@ jobs:
               const comments = await github.paginate(github.rest.issues.listComments, { owner, repo, issue_number: issue.number, per_page: 100 });
               const expiredLeases = expireLocks(snapshot.state);
               if (expiredLeases.length) snapshot = await saveRegistry(snapshot.state, snapshot, 'FARAST coordinator: expire stale leases');
+              // Reconcile blocked children automatically when their exact dependencies become ACCEPTED.
+              const activeLocksForIssue = snapshot.state.locks.filter(lock => {
+                if (lock.issue_number !== issue.number) return false;
+                const expiry = Date.parse(lock.lease_expires_at_utc);
+                return !Number.isFinite(expiry) || expiry > Date.now();
+              });
+              if (issue.state === 'open' && labelsOf(issue).includes('agent:blocked') && activeLocksForIssue.length === 0) {
+                const fresh = workItemSpecFor(issue), previous = snapshot.state.work_items?.[issue.number];
+                if (fresh && (!previous || previous.work_item_id === fresh.work_item_id)) {
+                  const oldSteps = new Map((previous?.steps || []).map(x => [x.step_id, x]));
+                  const oldCriteria = new Map((previous?.acceptance_criteria || []).map(x => [x.criterion_id, x]));
+                  fresh.steps = fresh.steps.map(step => {
+                    const old = oldSteps.get(step.step_id);
+                    return old ? { ...step, validation_status: old.validation_status, evidence_refs: old.evidence_refs, validated_at_utc: old.validated_at_utc, validated_by: old.validated_by, validation_note: old.validation_note } : step;
+                  });
+                  fresh.acceptance_criteria = fresh.acceptance_criteria.map(criterion => {
+                    const old = oldCriteria.get(criterion.criterion_id);
+                    return old ? { ...criterion, validation_status: old.validation_status, evidence_refs: old.evidence_refs, validated_at_utc: old.validated_at_utc, validated_by: old.validated_by, validation_note: old.validation_note } : criterion;
+                  });
+                  const candidates = [...Object.values(snapshot.state.work_items || {}).filter(x => x.work_item_id !== fresh.work_item_id), fresh];
+                  const gate = workItemCore.evaluateHardGates(fresh, dependencyGraph, candidates);
+                  if (gate.ready) {
+                    const progress = workItemCore.calculateProgress(fresh);
+                    fresh.status = 'READY';
+                    snapshot.state.work_items ||= {};
+                    snapshot.state.work_items[issue.number] = fresh;
+                    snapshot.state.history ||= [];
+                    snapshot.state.history.push({ event: 'DEPENDENCY_AUTO_UNBLOCKED', issue_number: issue.number, work_item_id: fresh.work_item_id, preserved_steps: progress.verified_steps, at_utc: new Date().toISOString() });
+                    snapshot = await saveRegistry(snapshot.state, snapshot, 'FARAST coordinator: auto-unblock Issue #' + issue.number);
+                    await setStatus(issue.number, 'ready');
+                    issue = (await github.rest.issues.get({ owner, repo, issue_number: issue.number })).data;
+                  }
+                }
+              }
               // Recover responses that were committed but not posted before an interruption.
-              for (const [id, op] of Object.entries(snapshot.state.processed_operations || {})) {
-                if (op.issue_number !== issue.number || op.response_posted) continue;
+              for (const [id, op] of coordinatorCore.pendingResponseOperations(snapshot.state.processed_operations, issue.number).slice(0, limits.maxPendingResponsesPerIssue || inboxScheduler.MAX_PENDING_RESPONSES_PER_ISSUE)) {
                 if (op.next_status) await setStatus(issue.number, op.next_status);
                 if (op.next_status === 'done' && issue.state !== 'closed') await github.rest.issues.update({ owner, repo, issue_number: issue.number, state: 'closed', state_reason: 'completed' });
-                const marker = '<!-- FARAST_OP_RESPONSE:' + id + ' -->';
+                const marker = coordinatorCore.responseMarker(id);
                 if (!comments.some(c => c.body.includes(marker))) await publish(issue.number, op.response + '\n\n' + marker);
                 snapshot.state.processed_operations[id].response_posted = true;
                 snapshot = await saveRegistry(snapshot.state, snapshot, 'FARAST coordinator: recover response ' + id);
               }
-              for (const comment of comments) {
-                if (!/^\s*\/farast\s+/i.test(comment.body || '')) continue;
+              const selectedCommandIds = new Set(inboxScheduler.selectPendingCommandComments(comments, snapshot.state.processed_operations, limits.maxCommandsPerIssue || inboxScheduler.MAX_COMMANDS_PER_ISSUE).map(comment => String(comment.id)));
+              for (const comment of coordinatorCore.pendingCommandComments(comments, snapshot.state.processed_operations).filter(comment => selectedCommandIds.has(String(comment.id)))) {
+                const operationId = String(comment.id);
+                // The durable inbox helper deduplicates comment IDs and excludes committed operations.
                 snapshot = await handleCommand(issue, comment, snapshot);
                 issue = (await github.rest.issues.get({ owner, repo, issue_number: issue.number })).data;
               }
@@ -441,10 +660,35 @@ jobs:
               }
             }
 
-            let targets = [];
-            if (context.eventName === 'schedule' || context.eventName === 'workflow_dispatch') {
-              targets = await github.paginate(github.rest.issues.listForRepo, { owner, repo, state: 'all', per_page: 100 });
-            } else if (context.payload.issue) {
-              targets = [context.payload.issue];
+            // One event Issue gets priority, then every trigger scans one bounded page from the
+            // durable global cursor. A single noisy Issue can consume at most one command per run.
+            const safelyProcessIssue = async issue => {
+              try {
+                await processIssue(issue);
+              } catch (error) {
+                console.error('FARAST inbox processing failed for Issue #' + issue.number + ': ' + String(error.message || error));
+                const failedSnapshot = await getRegistry();
+                inboxScheduler.recordIssueError(failedSnapshot.state, issue.number, error);
+                await saveRegistry(failedSnapshot.state, failedSnapshot, 'FARAST coordinator: record inbox processing error #' + issue.number);
+              }
+            };
+
+            const cursorSnapshot = await getRegistry();
+            const inboxPage = inboxScheduler.getCursorPage(cursorSnapshot.state);
+            const pageResponse = await github.rest.issues.listForRepo({
+              owner, repo, state: 'open', per_page: inboxScheduler.PAGE_SIZE,
+              page: inboxPage, sort: 'created', direction: 'asc'
+            });
+            const targets = inboxScheduler.selectIssueBatch({
+              eventIssue: context.payload.issue || null,
+              pageIssues: pageResponse.data,
+              maxIssues: inboxScheduler.MAX_ISSUES_PER_BATCH
+            });
+            for (const issue of targets) await safelyProcessIssue(issue);
+
+            const afterBatch = await getRegistry();
+            const nextPage = inboxScheduler.nextCursorPage(inboxPage, pageResponse.data.length, inboxScheduler.PAGE_SIZE);
+            if (nextPage !== inboxPage) {
+              inboxScheduler.advanceCursor(afterBatch.state, inboxPage, pageResponse.data.length);
+              await saveRegistry(afterBatch.state, afterBatch, 'FARAST coordinator: advance durable inbox cursor to page ' + nextPage);
             }
-            for (const issue of targets) await processIssue(issue);
