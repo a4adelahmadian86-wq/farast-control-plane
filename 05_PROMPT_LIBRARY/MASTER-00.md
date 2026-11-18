@@ -164,3 +164,7 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 - هر چت CHAT_ID و RUN_ID یکتا دارد و در هر لحظه فقط یک برگ را claim می‌کند. N محدودیت منطقی ثابت ندارد؛ تست‌های اجباری N=2،5،10،25 هستند. یک resource مشترک فقط یک مالک دارد؛ منابع مستقل می‌توانند هم‌زمان claim شوند. بعد از conflict، snapshot تازه بخوان و نامزد بعدی را انتخاب کن. محدودیت throughput تابع quota سرویس است.
 - صندوق ورودی /farast پایدار است: comment ID کلید idempotency است؛ فقط commandهای پردازش‌نشده اجرا می‌شوند؛ response ثبت‌شده ولی ارسال‌نشده پس از interruption بازیابی می‌شود؛ replay یا scheduled reconciliation نباید lease/Issue/PR/response تکراری بسازد.
 - پیش از هر write، heartbeat و fencing token را از رجیستری زنده تأیید کن؛ timeout یا نتیجه مبهم یعنی STOP WRITES و read-back، نه retry کور.
+
+## استثنای محدود برای PR جایگزینِ از قبل ادغام‌شده
+
+اگر branch اجرای قبلی وجود ندارد، آن را بازسازی یا reuse نکن. فقط وقتی یک PR جایگزین واقعاً `merged=true` است می‌توان `main` فعلی را checkpoint جایگزین دانست؛ آن هم پس از اثبات اینکه merge commit همان PR ancestor شاخه پیش‌فرض فعلی همان مخزن است. بررسی اجباری: مخزن head و base دقیقاً target repository، base ref برابر default branch، merge commit غیرخالی، GitHub Compare با `base_commit.sha = merge_base_commit.sha = merge_commit_sha`، `behind_by=0` و status برابر `ahead` یا `identical`. این استثنا فقط برای PR بسته و ادغام‌شده است؛ PR باز/ادغام‌نشده همچنان باید دقیقاً با branch آخرین REVIEW event همان lease منطبق باشد. Check Runهای SHA دقیق head و همه hard gateها همچنان الزامی‌اند. اگر هر جزء نامعلوم یا ناموفق بود: STOP WRITES.
