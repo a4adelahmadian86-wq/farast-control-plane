@@ -713,4 +713,5 @@ test('comment events process their Issue without sweeping the global inbox', () 
   assert.ok(scheduledSweep > eventOnly && listIssues > scheduledSweep);
   assert.ok(workflow.includes('Leave the command in the durable inbox; the next scheduled sweep will retry it.'));
   assert.ok(workflow.includes('FARAST scheduled inbox sweep deferred; the durable cursor is unchanged and the next schedule will retry:'));
+  assert.ok(workflow.includes('FARAST issue-opened processing deferred; the durable inbox will retry:'));
 });
