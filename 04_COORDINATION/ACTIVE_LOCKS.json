@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2245,
+  "revision": 2246,
   "next_fencing_token": 137,
   "locks": [],
   "history": [
@@ -25627,5 +25627,12 @@
       },
       "next_action": "resume_issue81_json_extraction_repair_then_fix_cross_issue_inbox_replay_and_unique_chat_identity"
     }
+  },
+  "inbox_scheduler": {
+    "version": 1,
+    "last_page": 1,
+    "last_page_count": 25,
+    "page": 2,
+    "updated_at_utc": "2026-11-18T12:01:33.775Z"
   }
 }
