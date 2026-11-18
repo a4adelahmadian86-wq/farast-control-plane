@@ -75,6 +75,16 @@ test('cursor state survives restart and records the completed page boundary', ()
 test('issue processing errors are isolated, counted, and bounded for audit', () => {
   const state = {};
   inbox.recordIssueError(state, 42, new Error('bad Work Item'), '2026-11-18T07:00:00.000Z');
+  assert.deepEqual({
+    version: state.inbox_scheduler.version,
+    page: state.inbox_scheduler.page,
+    last_page: state.inbox_scheduler.last_page,
+    last_page_count: state.inbox_scheduler.last_page_count,
+    updated_at_utc: state.inbox_scheduler.updated_at_utc
+  }, {
+    version: 1, page: 1, last_page: 1, last_page_count: 0,
+    updated_at_utc: '2026-11-18T07:00:00.000Z'
+  });
   inbox.recordIssueError(state, 42, new Error('bad Work Item'), '2026-11-18T07:05:00.000Z');
   assert.deepEqual(state.inbox_scheduler.issue_errors['42'], {
     reason: 'bad Work Item',
