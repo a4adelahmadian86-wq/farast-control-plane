@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2117,
+  "revision": 2118,
   "next_fencing_token": 130,
   "locks": [
     {
@@ -18394,6 +18394,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-18T07:58:44.450Z"
+    },
+    "6972635421": {
+      "response": "معیار پذیرش ثبت شد: AC_IDEMPOTENT_REPLAY; ACCEPTANCE_PROGRESS=40%; OVERALL_COMPLETION=40%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 89,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-18T07:59:08.870Z"
     }
   },
   "work_items": {
@@ -23561,7 +23570,14 @@
           "title": "Replayed or duplicated events do not apply a command more than once and do not duplicate claims, checkpoints or registry mutations.",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "Tests asserting processed-operation identity, idempotent replay and unchanged registry after duplicate delivery."
+          "evidence_requirement": "Tests asserting processed-operation identity, idempotent replay and unchanged registry after duplicate delivery.",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-89-RUN-20261118-GLOBAL-INBOX-FAIRNESS-003/.github/scripts/inbox-scheduler.test.js"
+          ],
+          "validated_at_utc": "2026-11-18T07:59:08.869Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_REGRESSION_MATRIX",
