@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2246,
+  "revision": 2247,
   "next_fencing_token": 137,
   "locks": [],
   "history": [
@@ -9568,6 +9568,13 @@
       "branch": "work/GH-89-RUN-20261118-GLOBAL-INBOX-LIVE-TEST-005",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "at_utc": "2026-11-18T11:59:20.006Z"
+    },
+    {
+      "event": "DEPENDENCY_AUTO_UNBLOCKED",
+      "issue_number": 85,
+      "work_item_id": "WI-SEMANTIC-DUPLICATE-DELIVERABLE-SCOPE-001",
+      "preserved_steps": 0,
+      "at_utc": "2026-11-18T12:02:44.175Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -24511,6 +24518,181 @@
           "evidence_requirement": "Actions run, merge SHA and claim response"
         }
       ]
+    },
+    "85": {
+      "schema_version": "1.0",
+      "operation_scope_version": "1.0",
+      "requested_operations": [
+        "control_plane_write"
+      ],
+      "work_item_id": "WI-SEMANTIC-DUPLICATE-DELIVERABLE-SCOPE-001",
+      "title": "Fix false-positive semantic duplicate detection for generic deliverable identifiers",
+      "description": "Correct the Work Item semantic duplicate detector so local deliverable IDs such as D1/D2 are not treated as globally unique across unrelated Work Items. Preserve exact stable-ID collision rejection, true semantic overlap detection, explicit canonical alias handling, and provide accurate coordinator diagnostics.",
+      "parent_goal_ids": [
+        "G-09"
+      ],
+      "parent_exp_ids": [
+        "EXP-21",
+        "EXP-23"
+      ],
+      "parent_work_item_id": "WI-GOAL-ALLOCATOR-001",
+      "status": "READY",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "resource_keys": [
+        "module:semantic-duplicate-detection",
+        "file:.github/scripts/work-item-core.js",
+        "file:.github/scripts/work-item-core.test.js",
+        "file:.github/workflows/farast-coordinator.yml"
+      ],
+      "dependencies": [],
+      "steps": [
+        {
+          "step_id": "S0_REPRODUCE",
+          "title": "Reproduce the false-positive duplicate decision from live Issues #67 and the listed independent Work Items",
+          "required": true,
+          "weight": 1,
+          "expected_output": "A reproducible matrix of same-parent, shared-resource, title-similarity and deliverable-overlap signals for each flagged Issue",
+          "evidence_requirement": "Current main SHA, exact Issue JSON blocks and a deterministic reproduction of the duplicate detector output",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S1_ROOT_CAUSE",
+          "title": "Trace deliverable identity semantics and distinguish local IDs from globally meaningful descriptions",
+          "required": true,
+          "weight": 1,
+          "expected_output": "A root-cause note showing why generic D1/D2 identifiers collide across unrelated Work Items",
+          "evidence_requirement": "Relevant work-item-core.js lines, schema requirements and regression fixture showing identical local IDs with distinct descriptions",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S2_FIX_COMPARATOR",
+          "title": "Change semantic deliverable comparison to use normalized descriptions or explicitly namespaced identities, never bare local IDs",
+          "required": true,
+          "weight": 1,
+          "expected_output": "A narrowly scoped comparator change that preserves true semantic overlap detection",
+          "evidence_requirement": "Commit diff and focused tests proving generic IDs no longer create cross-Work-Item overlap",
+          "estimate_minutes": 5
+        },
+        {
+          "step_id": "S3_REGRESSION_MATRIX",
+          "title": "Add regression coverage for generic IDs, identical descriptions, exact stable-ID collisions and canonical aliases",
+          "required": true,
+          "weight": 1,
+          "expected_output": "A matrix covering false-positive and true-positive duplicate cases",
+          "evidence_requirement": "Automated test output for unrelated D1/D2 deliverables, matching descriptions, exact duplicate WORK_ITEM_ID and Issue #14/#66 canonical alias",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S4_COORDINATOR_DIAGNOSTICS",
+          "title": "Separate exact stable-ID conflicts from semantic duplicate conflicts in coordinator responses",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Accurate fail-closed messages that identify the actual conflict type and canonical Issue",
+          "evidence_requirement": "Coordinator handler diff and tests proving stable-ID and semantic-overlap messages are distinct",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S5_LIVE_RECHECK",
+          "title": "Re-evaluate Issue #67 and representative unrelated Work Items against the corrected detector",
+          "required": true,
+          "weight": 1,
+          "expected_output": "A read-only before/after conflict report with no false duplicate for distinct tasks",
+          "evidence_requirement": "Exact main/PR SHA, issue numbers, detector results and unchanged accepted/terminal records",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S6_CI_HANDOFF",
+          "title": "Run exact-head control-plane CI and hand off the focused fix through a machine-acceptable PR",
+          "required": true,
+          "weight": 1,
+          "expected_output": "An open PR with exact-head green CI and an evidence-linked handoff",
+          "evidence_requirement": "PR URL, changed-file read-back, test run IDs, diff review and explicit limitations",
+          "estimate_minutes": 3
+        }
+      ],
+      "acceptance_criteria": [
+        {
+          "criterion_id": "AC_LOCAL_DELIVERABLE_IDS",
+          "title": "Generic deliverable IDs such as D1/D2 are scoped to their own Work Item and do not create cross-item semantic duplicates",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Regression test with shared parent scope and generic IDs but distinct descriptions, resources and objectives"
+        },
+        {
+          "criterion_id": "AC_TRUE_SEMANTIC_OVERLAP",
+          "title": "Materially overlapping descriptions/resources/objectives within a shared parent scope are still detected and resolve to a canonical Work Item",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Positive regression tests for matching deliverable descriptions and materially overlapping resource/title cases"
+        },
+        {
+          "criterion_id": "AC_EXACT_ID_COLLISION",
+          "title": "An exact duplicate WORK_ITEM_ID across Issues remains blocked and is reported as an ID collision, not a semantic duplicate",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Exact stable-ID collision fixture and coordinator response assertion"
+        },
+        {
+          "criterion_id": "AC_CANONICAL_ALIAS",
+          "title": "The EXP-02 canonical Issue #66 remains preferred and Issue #14 remains superseded without losing audit history",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Existing alias regression passes unchanged and live Issues #14/#66 are read back"
+        },
+        {
+          "criterion_id": "AC_COORDINATOR_REOPEN",
+          "title": "The corrected detector allows unrelated cross-cutting Work Items to proceed while true duplicates remain fail-closed",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Re-evaluation of Issue #67 and representative Issues with exact conflict reasons"
+        },
+        {
+          "criterion_id": "AC_EXACT_HEAD_CI",
+          "title": "All focused tests and Control Plane Validation pass on the exact PR head",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Successful GitHub Actions run whose head SHA exactly matches the PR head"
+        }
+      ],
+      "priority": 50,
+      "created_at_utc": "2026-11-18T06:05:32.240Z",
+      "write_policy": "WRITE_ALLOWED",
+      "priority_source": "DEFAULT_POLICY",
+      "effort_estimate_minutes": 25,
+      "effort_rationale": "Focused root-cause analysis, comparator correction, regression matrix, coordinator diagnostic separation, live re-evaluation and exact-head CI; target effort is 25 minutes.",
+      "depth_profile": {
+        "profile_version": "2.0.0",
+        "min_substantive_steps": 6,
+        "min_acceptance_criteria": 4,
+        "min_deliverables": 3,
+        "target_effort_minutes": 25
+      },
+      "deliverables": [
+        {
+          "deliverable_id": "SDD-01",
+          "description": "False-positive reproduction and root-cause matrix",
+          "evidence_requirement": "Issue references, current source lines and deterministic before-state results"
+        },
+        {
+          "deliverable_id": "SDD-02",
+          "description": "Corrected semantic deliverable identity comparator",
+          "evidence_requirement": "Minimal code diff and source read-back"
+        },
+        {
+          "deliverable_id": "SDD-03",
+          "description": "Regression suite for local IDs, true overlap, exact collisions and canonical aliases",
+          "evidence_requirement": "Focused test output and exact-head CI"
+        },
+        {
+          "deliverable_id": "SDD-04",
+          "description": "Coordinator conflict diagnostics and live re-evaluation report",
+          "evidence_requirement": "Coordinator tests and issue-by-issue before/after results"
+        }
+      ],
+      "acceptance_weighting": {
+        "version": "1.0"
+      },
+      "next_action": "Claim this leaf after allocator release; inspect the merged main implementation and reproduce the false-positive semantic overlap before changing code."
     },
     "89": {
       "schema_version": "1.0",
