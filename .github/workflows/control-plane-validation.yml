@@ -206,6 +206,10 @@ jobs:
               assert "متوقف شو و وضعیت را گزارش کن" not in body, matches[0]
           master = Path("05_PROMPT_LIBRARY/MASTER-00.md").read_text(encoding="utf-8")
           assert "ACTIVE_LOCKS.json" in master
+          assert "این رفتار تا ثبت آزمون واقعی دو حساب مستقل" in master
+          pr16 = Path("05_PROMPT_LIBRARY/PR-16_IMPLEMENTATION.md").read_text(encoding="utf-8")
+          for required in ("هیچ بازبین دوم، self-review یا تأیید دستی مالک لازم نیست.", "پذیرش ماشینی از طریق `/farast accept` انجام می‌شود", "مجوز نوشتن فقط از Work Item زنده و Claim معتبر می‌آید، نه از تأیید انسانی."):
+              assert required in pr16, required
           assert "blob/main/START_HERE.md" in master
           assert "WORK_ITEM_EXECUTION_PROTOCOL.md" in master
           for required in ("operation_scope_version", "requested_operations", "G-09", "WI-EXP02-BACKUP-RECOVERY-001", "N=2،5،10،25"):
