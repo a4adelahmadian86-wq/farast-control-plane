@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2243,
+  "revision": 2244,
   "next_fencing_token": 137,
   "locks": [],
   "history": [
@@ -19453,6 +19453,15 @@
       "command": "accept",
       "next_status": null,
       "at_utc": "2026-11-18T12:00:01.144Z"
+    },
+    "6977940921": {
+      "response": "وظیفه به ready بازگشت؛ گیت‌های سخت پاس شده‌اند و برای شروع دوباره claim لازم است.",
+      "response_posted": false,
+      "issue_number": 89,
+      "actor": "a4adelahmadian86-wq",
+      "command": "reopen",
+      "next_status": "ready",
+      "at_utc": "2026-11-18T12:00:43.198Z"
     }
   },
   "work_items": {
@@ -24520,7 +24529,7 @@
         "EXP-01"
       ],
       "parent_work_item_id": "WI-GOAL-ALLOCATOR-001",
-      "status": "REVIEW_REQUIRED",
+      "status": "READY",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "file:.github/workflows/control-plane-validation.yml",
