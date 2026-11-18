@@ -144,3 +144,86 @@ test('G-09 global coordination is visible to PR-02, PR-16 and PR-17 scopes with 
     assert.equal(fallback.work_item_id, local.work_item_id);
   }
 });
+
+
+test('allocator contention falls back to a specialist leaf without creating a duplicate allocator task', () => {
+  const allocator = item({
+    issue_number:90,
+    work_item_id:'WI-GOAL-ALLOCATOR-001',
+    parent_goal_ids:['G-09'],
+    parent_exp_ids:['EXP-01'],
+    resource_keys:['coordination:work-item-allocation'],
+    priority:0
+  });
+  const local = item({
+    issue_number:91,
+    work_item_id:'WI-LOCAL-EXP02',
+    parent_goal_ids:['G-01'],
+    parent_exp_ids:['EXP-02'],
+    resource_keys:['analysis:exp-02'],
+    priority:10
+  });
+  const activeLocks = [{
+    issue_number:92,
+    resource_key:'coordination:work-item-allocation',
+    status:'ACTIVE',
+    lease_expires_at_utc:'2026-11-15T12:30:00Z'
+  }];
+  const selected = selectNextWorkItem([allocator, local], {
+    scopeExpIds:['EXP-02'], activeLocks, nowMs:now
+  });
+  assert.equal(selected.work_item_id, 'WI-LOCAL-EXP02');
+  assert.equal(selected.selection.scopeLane, 'SPECIALIST_EXP');
+  assert.equal([allocator, local].filter(x => x.work_item_id === 'WI-GOAL-ALLOCATOR-001').length, 1);
+});
+
+test('newly allocated child leaves are discovered dynamically by each matching specialist without manual assignment', () => {
+  const allocator = item({
+    issue_number:93,
+    work_item_id:'WI-GOAL-ALLOCATOR-001',
+    status:'IN_PROGRESS',
+    parent_goal_ids:['G-09'],
+    parent_exp_ids:['EXP-01'],
+    resource_keys:['coordination:work-item-allocation'],
+    priority:0
+  });
+  const allocatorLock = [{
+    issue_number:93,
+    resource_key:'coordination:work-item-allocation',
+    status:'ACTIVE',
+    lease_expires_at_utc:'2026-11-15T12:30:00Z'
+  }];
+  const allocatedLeaves = [
+    item({
+      issue_number:94,
+      work_item_id:'WI-DYNAMIC-EXP02-001',
+      parent_work_item_id:'WI-GOAL-ALLOCATOR-001',
+      parent_goal_ids:['G-09'],
+      parent_exp_ids:['EXP-02'],
+      title:'Independent EXP-02 backup evidence audit',
+      resource_keys:['analysis:dynamic-exp-02'],
+      priority:10
+    }),
+    item({
+      issue_number:95,
+      work_item_id:'WI-DYNAMIC-EXP22-001',
+      parent_work_item_id:'WI-GOAL-ALLOCATOR-001',
+      parent_goal_ids:['G-09'],
+      parent_exp_ids:['EXP-22'],
+      title:'Independent EXP-22 implementation architecture audit',
+      resource_keys:['analysis:dynamic-exp-22'],
+      priority:10
+    })
+  ];
+  const expandedQueue = [allocator, ...allocatedLeaves];
+  const exp02Worker = selectNextWorkItem(expandedQueue, {
+    scopeExpIds:['EXP-02'], activeLocks:allocatorLock, nowMs:now
+  });
+  const exp22Worker = selectNextWorkItem(expandedQueue, {
+    scopeExpIds:['EXP-22'], activeLocks:allocatorLock, nowMs:now
+  });
+  assert.equal(exp02Worker.work_item_id, 'WI-DYNAMIC-EXP02-001');
+  assert.equal(exp22Worker.work_item_id, 'WI-DYNAMIC-EXP22-001');
+  assert.notEqual(exp02Worker.work_item_id, exp22Worker.work_item_id);
+  assert.ok(expandedQueue.filter(x => x.parent_work_item_id === allocator.work_item_id).length === 2);
+});
