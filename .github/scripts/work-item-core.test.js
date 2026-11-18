@@ -830,3 +830,90 @@ test('an accepted semantic duplicate is always preferred as the canonical Work I
   const duplicates = wi.findSemanticDuplicateWorkItems(candidate, [{ ...accepted, issue_number:202 }]);
   assert.equal(duplicates[0].canonical_work_item_id, accepted.work_item_id);
 });
+
+
+test('Work Item-local D1-D4 labels do not make independent EXP tasks semantic duplicates', () => {
+  const migration = item({
+    issue_number:68,
+    work_item_id:'WI-LEGACY-WRITE-SCOPE-MIGRATION-001',
+    title:'Migrate all active legacy WRITE_ALLOWED Work Items to explicit versioned operation scope',
+    parent_goal_ids:['G-09'],
+    parent_exp_ids:['EXP-01','EXP-22','EXP-23'],
+    resource_keys:['module:legacy-operation-scope-migration','issue:11','issue:43','issue:44','issue:47','issue:50','issue:51','issue:52','issue:58'],
+    deliverables:[
+      {deliverable_id:'D1',description:'Complete legacy WRITE_ALLOWED inventory and operation mapping'},
+      {deliverable_id:'D2',description:'Minimal versioned operation-scope migration'},
+      {deliverable_id:'D3',description:'Allocator and registry synchronization proof'},
+      {deliverable_id:'D4',description:'Regression and CI report'}
+    ]
+  });
+  const unrelated = [
+    item({
+      issue_number:13,
+      work_item_id:'WI-EXP01-BASELINE-001',
+      title:'EXP-01 Baseline and environment inventory',
+      parent_goal_ids:['G-01'],
+      parent_exp_ids:['EXP-01'],
+      resource_keys:['analysis:exp-01'],
+      deliverables:[
+        {deliverable_id:'D1',description:'Baseline environment inventory'},
+        {deliverable_id:'D2',description:'Source and capability map'},
+        {deliverable_id:'D3',description:'Current-state evidence report'},
+        {deliverable_id:'D4',description:'Baseline risks and assumptions'}
+      ]
+    }),
+    item({
+      issue_number:34,
+      work_item_id:'WI-EXP22-CONTROLLED-IMPLEMENTATION-001',
+      title:'EXP-22 Controlled implementation readiness and proposal',
+      parent_goal_ids:['G-08'],
+      parent_exp_ids:['EXP-22'],
+      resource_keys:['analysis:exp-22-readiness'],
+      deliverables:[
+        {deliverable_id:'D1',description:'Implementation readiness matrix'},
+        {deliverable_id:'D2',description:'Controlled proposal'},
+        {deliverable_id:'D3',description:'Risk and rollback plan'}
+      ]
+    }),
+    item({
+      issue_number:59,
+      work_item_id:'WI-PROMPT-ORDER-DEPENDENCY-REPAIR-001',
+      title:'Implement approved prompt priority order and repair dependency refresh semantics',
+      parent_goal_ids:['G-09'],
+      parent_exp_ids:['EXP-01'],
+      resource_keys:['module:prompt-priority'],
+      deliverables:[
+        {deliverable_id:'D1',description:'Prompt priority order'},
+        {deliverable_id:'D2',description:'Dependency graph repair'},
+        {deliverable_id:'D3',description:'Refresh behavior tests'},
+        {deliverable_id:'D4',description:'Execution order report'}
+      ]
+    })
+  ];
+  assert.deepEqual(wi.findSemanticDuplicateWorkItems(migration, unrelated), []);
+  assert.deepEqual(wi.findDuplicateWorkItemIdIssues(68, migration, unrelated, []), []);
+});
+
+test('meaningful deliverable descriptions can corroborate a duplicate even when local IDs differ', () => {
+  const canonical = item({
+    issue_number:201,
+    work_item_id:'WI-BACKUP-MATRIX-CANONICAL-001',
+    title:'Prepare database backup recovery evidence matrix',
+    parent_goal_ids:['G-01'],
+    parent_exp_ids:['EXP-02'],
+    resource_keys:['module:backup-recovery'],
+    deliverables:[{deliverable_id:'D1',description:'Database backup recovery evidence matrix'}]
+  });
+  const duplicate = item({
+    issue_number:202,
+    work_item_id:'WI-BACKUP-MATRIX-DUPLICATE-001',
+    title:'Audit database backup recovery evidence matrix',
+    parent_goal_ids:['G-01'],
+    parent_exp_ids:['EXP-02'],
+    resource_keys:['module:backup-recovery'],
+    deliverables:[{deliverable_id:'BACKUP_MATRIX',description:'Database backup recovery evidence matrix'}]
+  });
+  const matches = wi.findSemanticDuplicateWorkItems(duplicate, [canonical]);
+  assert.equal(matches.length, 1);
+  assert.equal(matches[0].canonical_work_item_id, canonical.work_item_id);
+});
