@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1725,
+  "revision": 1726,
   "next_fencing_token": 117,
   "locks": [
     {
@@ -15879,6 +15879,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-18T05:56:35.273Z"
+    },
+    "6970452700": {
+      "response": "معیار پذیرش ثبت شد: AC_ANY_CHAT_COUNT; ACCEPTANCE_PROGRESS=25%; OVERALL_COMPLETION=25%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 67,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-18T05:56:43.479Z"
     }
   },
   "work_items": {
@@ -19373,7 +19382,16 @@
         {
           "criterion_id": "AC_ANY_CHAT_COUNT",
           "title": "The same prompt works across N already-open chats through atomic claims and durable command-inbox replay",
-          "evidence_requirement": "N=2,5,10,25 contention tests plus simulated replaced issue_comment runs and scheduled inbox reconciliation; prove each command is processed once, each response marker appears once, shared-task contention has one winner, disjoint work eventually progresses, and commit-before-response crashes recover idempotently"
+          "evidence_requirement": "N=2,5,10,25 contention tests plus simulated replaced issue_comment runs and scheduled inbox reconciliation; prove each command is processed once, each response marker appears once, shared-task contention has one winner, disjoint work eventually progresses, and commit-before-response crashes recover idempotently",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44247418634",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-67-RUN-20261118-PROMPT-DISPATCH-RESUME-001/.github/scripts/coordinator-core.test.js",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-67-RUN-20261118-PROMPT-DISPATCH-RESUME-001/04_COORDINATION/MULTI_CHAT_READINESS.md"
+          ],
+          "validated_at_utc": "2026-11-18T05:56:43.479Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_GLOBAL_G09",
