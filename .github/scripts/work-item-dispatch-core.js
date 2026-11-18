@@ -1,5 +1,6 @@
 'use strict';
 
+const workItemCore = require('./work-item-core');
 const TERMINAL = new Set(['ACCEPTED', 'REJECTED', 'CANCELLED', 'BLOCKED', 'REVIEW_REQUIRED', 'PARTIALLY_ACCEPTED']);
 
 function normalize(value) {
@@ -36,6 +37,7 @@ function hardGatesSatisfied(item, hardGateStates) {
 function selectNextWorkItem(items, options = {}) {
   const nowMs = Number.isFinite(options.nowMs) ? options.nowMs : Date.now();
   const scope = new Set((options.scopeExpIds || []).map(String));
+  const globalGoalIds = new Set((options.globalGoalIds === undefined ? ['G-09'] : options.globalGoalIds).map(String));
   const locks = options.activeLocks || [];
   const gates = options.hardGateStates || {};
   const candidates = [];
@@ -44,7 +46,10 @@ function selectNextWorkItem(items, options = {}) {
     const status = normalize(item.status);
     if (!['READY', 'IN_PROGRESS', 'CLAIMED'].includes(status)) continue;
     if ((item.labels || []).some(label => ['agent:blocked', 'agent:review', 'agent:done'].includes(String(label).toLowerCase()))) continue;
-    if (scope.size && !(item.parent_exp_ids || []).some(exp => scope.has(String(exp)))) continue;
+    const localScopeMatch = (item.parent_exp_ids || []).some(exp => scope.has(String(exp)));
+    const globalGoalMatch = (item.parent_goal_ids || []).some(goal => globalGoalIds.has(String(goal)));
+    if (scope.size && !localScopeMatch && !globalGoalMatch) continue;
+    if (workItemCore.findSemanticDuplicateWorkItems(item, items || []).length) continue;
     if (!hardGatesSatisfied(item, gates)) continue;
     if (hasActiveConflict(item, locks, nowMs)) continue;
 
@@ -59,7 +64,7 @@ function selectNextWorkItem(items, options = {}) {
 
     candidates.push({
       ...item,
-      selection: { resumeRank, effectivePriority, ageDays, stableCreatedAt }
+      selection: { resumeRank, effectivePriority, ageDays, stableCreatedAt, scopeLane: globalGoalMatch && !localScopeMatch ? 'GLOBAL_GOAL' : localScopeMatch ? 'SPECIALIST_EXP' : 'ALL' }
     });
   }
 

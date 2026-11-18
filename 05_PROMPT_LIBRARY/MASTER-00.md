@@ -151,3 +151,16 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 
 ### همگام‌سازی نسخه جدید Work Item
 اگر Issue body یا تعریف گام‌ها/معیارها تغییر کرد ولی registry نسخه قبلی را نگه داشت، فقط پس از آزادشدن تمام leaseهای فعال و با نقش مالک از `/farast refresh` استفاده کن. این فرمان WORK_ITEM_ID را ثابت نگه می‌دارد، evidence شناسه‌های unchanged را حفظ می‌کند و مشخصات جدید را validate می‌کند؛ refresh به‌معنی اجرا یا پذیرش نیست.
+
+
+## قرارداد سراسری اجرای مستقل، G-09 و دامنه عملیات نسخه‌دار
+
+- PR-01 تا PR-17 پرامپت‌های تخصصی مستقل‌اند، نه مراحل متوالی. هرکدام را می‌توان با هر ترتیبی و در هر چت اجرا کرد؛ فقط hard_gates صریح یک Work Item وابستگی واقعی است.
+- برای همه پرامپت‌های تخصصی، صف نامزدها اجتماع EXP محلی و مسیر جهانی parent_goal_ids شامل G-09 است. قفل یا hard gate روی نامزد جهانی باید باعث skip/read-back و ادامه روی برگ محلی مستقل شود، نه توقف چت.
+- برای WRITE_ALLOWED، operation_scope_version="1.0" و requested_operations صریح، غیرخالی و یکتا اجباری است. عملیات پایه control plane برابر control_plane_write؛ برای NON برابر product_implementation با owner_approval_ref دقیق؛ و برای مخزن دیگر repository_write است. هیچ عملیات حساس از متن یا نام PR استنباط نمی‌شود.
+- READ_ONLY فقط analysis و WRITE_REQUIRES_OWNER_APPROVAL تا پیش از تأیید فقط proposal_only است. control_plane_merge، merge، authorization_change، destructive_data_change، database_migration، hosting_deployment و production_release مجوزهای مستقل‌اند و فقط با تصریح و PASS شدن gate مربوط اجرا می‌شوند.
+- Work Item فاقد operation scope نسخه‌دار fail-closed است، مگر استثنای دقیق همان شناسه در allowlist هسته. allowlist را هرگز به تمام Work Itemهای legacy تعمیم نده.
+- پیش از ساخت هر Issue جدید، stable ID و هم‌پوشانی معنایی را در Issueهای باز/بسته و registry بررسی کن؛ parent_goal_ids، parent_exp_ids، هدف، resource_keys و deliverables باید مقایسه شوند. مورد EXP-02: Issue #66 / WI-EXP02-BACKUP-RECOVERY-001 canonical و Issue #14 / WI-EXP02-BACKUP-RESTORE-001 superseded است؛ تاریخچه #14 حفظ شود ولی کار دوم backup ساخته یا فعال نشود.
+- هر چت CHAT_ID و RUN_ID یکتا دارد و در هر لحظه فقط یک برگ را claim می‌کند. N محدودیت منطقی ثابت ندارد؛ تست‌های اجباری N=2،5،10،25 هستند. یک resource مشترک فقط یک مالک دارد؛ منابع مستقل می‌توانند هم‌زمان claim شوند. بعد از conflict، snapshot تازه بخوان و نامزد بعدی را انتخاب کن. محدودیت throughput تابع quota سرویس است.
+- صندوق ورودی /farast پایدار است: comment ID کلید idempotency است؛ فقط commandهای پردازش‌نشده اجرا می‌شوند؛ response ثبت‌شده ولی ارسال‌نشده پس از interruption بازیابی می‌شود؛ replay یا scheduled reconciliation نباید lease/Issue/PR/response تکراری بسازد.
+- پیش از هر write، heartbeat و fencing token را از رجیستری زنده تأیید کن؛ timeout یا نتیجه مبهم یعنی STOP WRITES و read-back، نه retry کور.

@@ -260,12 +260,114 @@ function evaluateChildCompletion(parent, workItems = []) {
   }
   return { ready: blockers.length === 0, blockers, descendant_count: seen.size - 1 };
 }
+const SEMANTIC_CANONICAL_ALIASES = Object.freeze({
+  'WI-EXP02-BACKUP-RESTORE-001': 'WI-EXP02-BACKUP-RECOVERY-001'
+});
+const SEMANTIC_STOPWORDS = new Set(['a','an','and','or','the','for','to','of','in','on','with','from','by','is','are','assessment','readiness','task','work','item']);
+
+function semanticTokens(value) {
+  return [...new Set(String(value || '').toLowerCase().normalize('NFKD')
+    .replace(/[^a-z0-9]+/g, ' ').trim().split(/\s+/)
+    .filter(token => token.length > 1 && !SEMANTIC_STOPWORDS.has(token)))];
+}
+
+function tokenSimilarity(left, right) {
+  const a = new Set(semanticTokens(left)), b = new Set(semanticTokens(right));
+  if (!a.size || !b.size) return 0;
+  const intersection = [...a].filter(token => b.has(token)).length;
+  return intersection / new Set([...a, ...b]).size;
+}
+
+function intersection(left, right, normalizeValue = value => String(value)) {
+  const values = new Set((right || []).map(normalizeValue));
+  return [...new Set((left || []).map(normalizeValue))].filter(value => values.has(value));
+}
+
+function evidenceScore(item) {
+  const steps = (item?.steps || []).filter(step => step.validation_status === 'PASS' && (step.evidence_refs || []).length).length;
+  const criteria = (item?.acceptance_criteria || []).filter(criterion => criterion.validation_status === 'PASS' && (criterion.evidence_refs || []).length).length;
+  return steps + criteria;
+}
+
+function canonicalWorkItem(left, right) {
+  if (left?.status === 'ACCEPTED' && right?.status !== 'ACCEPTED') return left;
+  if (right?.status === 'ACCEPTED' && left?.status !== 'ACCEPTED') return right;
+  const scoreLeft = evidenceScore(left), scoreRight = evidenceScore(right);
+  if (scoreLeft !== scoreRight) return scoreLeft > scoreRight ? left : right;
+  const timeLeft = Date.parse(left?.created_at_utc || '') || Number.MAX_SAFE_INTEGER;
+  const timeRight = Date.parse(right?.created_at_utc || '') || Number.MAX_SAFE_INTEGER;
+  if (timeLeft !== timeRight) return timeLeft < timeRight ? left : right;
+  return String(left?.work_item_id || '').localeCompare(String(right?.work_item_id || '')) <= 0 ? left : right;
+}
+
+function findSemanticDuplicateWorkItems(candidate, records = []) {
+  if (!candidate?.work_item_id) return [];
+  const candidateId = String(candidate.work_item_id);
+  const duplicates = [];
+  for (const record of records || []) {
+    if (!record?.work_item_id || record.work_item_id === candidateId) continue;
+    const recordId = String(record.work_item_id);
+    const explicitCanonical = SEMANTIC_CANONICAL_ALIASES[candidateId];
+    if (explicitCanonical && recordId === explicitCanonical) {
+      duplicates.push({
+        issue_number: Number(record.issue_number ?? record.number),
+        work_item_id: recordId,
+        canonical_work_item_id: explicitCanonical,
+        reason: 'explicit_canonical_alias',
+        status: 'SUPERSEDED',
+        superseded: true
+      });
+      continue;
+    }
+    if (SEMANTIC_CANONICAL_ALIASES[recordId] === candidateId) continue;
+    const sharedExp = intersection(candidate.parent_exp_ids, record.parent_exp_ids);
+    const sharedGoals = intersection(candidate.parent_goal_ids, record.parent_goal_ids);
+    const sharedResources = intersection(candidate.resource_keys, record.resource_keys, value => String(value).trim().toLowerCase().replace(/\\/g, '/'));
+    // deliverable_id values such as D1/D2 are local to one Work Item, not global identities.
+    // Only descriptive deliverable text can corroborate semantic overlap.
+    const deliverableDescriptions = item => (item.deliverables || [])
+      .map(deliverable => String(deliverable.description || '').trim().toLowerCase())
+      .filter(Boolean);
+    const leftDeliverables = deliverableDescriptions(candidate);
+    const rightDeliverables = deliverableDescriptions(record);
+    const sharedDeliverables = intersection(leftDeliverables, rightDeliverables);
+    const titleSimilarity = tokenSimilarity(candidate.title, record.title);
+    const sameParent = sharedExp.length > 0 || sharedGoals.length > 0;
+    const materiallyOverlaps = sameParent && (
+      titleSimilarity >= 0.85 ||
+      (titleSimilarity >= 0.35 && (sharedResources.length > 0 || sharedDeliverables.length > 0)) ||
+      (sharedResources.length > 0 && sharedDeliverables.length > 0)
+    );
+    if (!materiallyOverlaps) continue;
+    const canonical = canonicalWorkItem(candidate, record);
+    if (canonical.work_item_id !== candidateId) {
+      duplicates.push({
+        issue_number: Number(record.issue_number ?? record.number),
+        work_item_id: recordId,
+        canonical_work_item_id: canonical.work_item_id,
+        reason: 'semantic_scope_resource_deliverable_overlap',
+        shared_exp_ids: sharedExp,
+        shared_goal_ids: sharedGoals,
+        shared_resource_keys: sharedResources,
+        shared_deliverables: sharedDeliverables,
+        title_similarity: titleSimilarity
+      });
+    }
+  }
+  return duplicates.filter(item => Number.isInteger(item.issue_number) && item.issue_number > 0)
+    .sort((a, b) => a.issue_number - b.issue_number);
+}
+
 function findDuplicateWorkItemIdIssues(currentIssueNumber, item, issueRecords = [], registryRecords = []) {
   const conflicts = new Set(), current = Number(currentIssueNumber);
-  for (const record of [...issueRecords, ...registryRecords]) {
+  const records = [...issueRecords, ...registryRecords];
+  for (const record of records) {
     if (!record || record.work_item_id !== item?.work_item_id) continue;
     const issueNumber = Number(record.issue_number ?? record.number);
     if (Number.isInteger(issueNumber) && issueNumber > 0 && issueNumber !== current) conflicts.add(issueNumber);
+  }
+  for (const duplicate of findSemanticDuplicateWorkItems(item, records)) {
+    if (duplicate.issue_number !== current) conflicts.add(duplicate.issue_number);
   }
   return [...conflicts].sort((a,b)=>a-b);
 }
@@ -534,6 +636,6 @@ function createCheckpoint(item, input) {
 
 module.exports = {
   STATUSES, validateWorkItem, validateProductWriteAuthorization, evidenceVerified, calculateProgress, validateLease,
-  recordStepEvidence, recordCriterionEvidence, primaryExpId, defaultRequestedOperations, validateDependencyGraph, evaluateOperationGates, evaluateHardGates, evaluateReadOnlyAcceptance, evaluateBranchlessMetadataAcceptance, isBranchlessControlPlaneWorkItem, dependencyReady, selectNextWorkItem,
+  recordStepEvidence, recordCriterionEvidence, primaryExpId, defaultRequestedOperations, findSemanticDuplicateWorkItems, SEMANTIC_CANONICAL_ALIASES, validateDependencyGraph, evaluateOperationGates, evaluateHardGates, evaluateReadOnlyAcceptance, evaluateBranchlessMetadataAcceptance, isBranchlessControlPlaneWorkItem, dependencyReady, selectNextWorkItem,
   resumePlan, createCheckpoint, refreshedStatus, evaluateChildCompletion, findDuplicateWorkItemIdIssues
 };

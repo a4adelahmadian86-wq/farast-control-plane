@@ -180,3 +180,33 @@ MASTER-00 یک فرمان ثابت برای تمام چت‌هاست؛ هر چت
 - **PRODUCT REPOSITORY WRITE: NOT AUTHORIZED**
 
 این بخش snapshotهای قدیمی‌تر همین سند را که schedule را NOT_RUN یا workflow زنده را نیازمند تأیید می‌دانند، فقط در مواردی که در بالا با شواهد جدید پوشش داده شده supersede می‌کند. سابقه قدیمی برای audit حفظ شده است.
+
+
+## وضعیت تکمیلی آزمون استقلال پرامپت‌ها (Issue #67)
+
+- Implementation PR: https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/80
+- CI exact-head: الزامی است و وضعیت authoritative همیشه از checkهای head جاری PR #80 خوانده می‌شود؛ SHA و run جاری در Issue #67 ثبت می‌شود، نه در این سند ثابت.
+- MASTER-00 و هر ۱۷ پرامپت specialist دارای قرارداد مشترک v2 هستند: اجرای مستقل در هر ترتیب، صف محلی EXP به‌علاوه مسیر جهانی G-09، operation_scope_version=1.0 و requested_operations صریح.
+- تست‌های dispatch، hard-gate، lease/fencing، resume/checkpoint، semantic duplicate و bundle parity در CI موفق بوده‌اند؛ تغییر هر commit جدید، نیازمند CI موفق روی همان head جدید است.
+- رقابت N=2،5،10،25 در مدل هماهنگ‌کننده آزموده شد؛ یک G-09 مشترک فقط یک برنده می‌گیرد و سایر workerها به برگ‌های محلی مستقل برمی‌گردند. پوشش cross-scope شامل EXP-02، EXP-22/23 و EXP-26 است.
+- تست durable inbox شامل ۲۵ فرمان در پنج Issue، interruption پس از commit و پیش از response، replacement/scheduled replay، exactly-once response marker و replay بدون اثر تکراری است.
+- Read-back رجیستری زنده نشان داد ۱۸۳ فرمان /farast در Issueهای #64، #67 و #77 پردازش شده و هر ۱۸۳ پاسخ ثبت/ارسال شده‌اند؛ فرمان pending بدون پاسخ باقی نمانده است.
+- Issue #66 / WI-EXP02-BACKUP-RECOVERY-001 canonical است؛ detector برای Issue #14 / WI-EXP02-BACKUP-RESTORE-001 نتیجه SUPERSEDED می‌دهد و coordinator claim gate آن را به‌عنوان duplicate رد می‌کند. تاریخچه Issue #14 حذف نمی‌شود.
+- **محدودیت اثبات:** N=25 آزمون مدل/شبیه‌سازی با CHAT_IDهای مستقل است، نه E2E با ۲۵ حساب مستقل ChatGPT. اجرای واقعی چند حساب مستقل هنوز انجام نشده؛ هیچ ادعایی درباره auto-spawn یا اجرای پس‌زمینه وجود ندارد.
+- محدودیت throughput تابع quota/rate limit سرویس GitHub Actions/API است؛ پروتکل سقف ثابت N ندارد اما throughput نامحدود تضمین نمی‌کند.
+- وضعیت Issue #67 تا زمان تکمیل review/accept ماشینی coordinator: implementation PR باز، exact-head CI باید سبز بماند، و هیچ merge/accept پیش از ثبت تمام شواهد مجاز نیست.
+
+
+---
+
+## به‌روزرسانی زنده — 2026-11-18، اجرای ادامه‌دار Issue #67
+
+- PR ادامه‌دهنده: https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/83
+- شاخه اجرای جاری: `work/GH-67-RUN-20261118-PROMPT-DISPATCH-RESUME-001`
+- SHA جاری و وضعیت CI باید همیشه از metadata زنده PR #83 و checkهای همان head خوانده شود؛ SHA یا run جاری را در این سند ثابت نکن تا پس از handoff کهنه نشود.
+- آخرین اجرای موفق پیش از این به‌روزرسانی، run `44247484021` روی head `e7c3ffe83083dbdeb9d3c361c62e4dd2377f213c` بود؛ تمام مراحل coordinator contention/fencing، Work Item resume/progress، dispatch، JSON/schema، قرارداد ۱۷ prompt و bundle parity موفق شدند. این run فقط برای همان SHA معتبر است؛ هر commit بعدی نیازمند CI موفق روی head تازه است.
+- PR #80 شاخه اجرای قبلی است و نباید با PR جاری اشتباه شود؛ branch قبلی دست‌نخورده مانده است. PR #80 پس از پذیرش ماشینی PR #83 به‌عنوان مسیر superseded بسته خواهد شد.
+- پوشش تکمیلی جدید: allocator contention به برگ محلی fallback می‌کند؛ برگ‌های فرزند تازه‌افزوده‌شده بر اساس EXP تخصصی کشف می‌شوند و به‌اشتباه به‌عنوان کار جهانی G-09 به همه promptها نمایش داده نمی‌شوند.
+- اجرای N=2،5،10،25، replay صندوق ورودی ۲۵ فرمان، پاسخ idempotent، stale/invalid/expired fencing و semantic duplicate در این شاخه همچنان آزمون مدل/شبیه‌سازی هستند؛ CI موفق، آزمون واقعی چند حساب ChatGPT مستقل نیست.
+- آزمون دو حساب مستقل ChatGPT/GitHub، takeover واقعی میان دو نشست و hard-fencing مسیر direct-write خارج از coordinator همچنان **NOT VERIFIED** هستند. هیچ ادعای ایجاد خودکار چت یا ادامه در پس‌زمینه وجود ندارد.
+- یک اجرای میانی CI با run `44247203711` به‌دلیل fixture اشتباهِ هدف G-09 روی دو برگ تخصصی شکست خورد. fixture اصلاح شد: برگ EXP-02 در G-01 و برگ EXP-22 در G-08 قرار گرفتند تا فقط worker متناظر آن‌ها را از مسیر محلی انتخاب کند؛ run `44247484021` روی head `e7c3ffe83083dbdeb9d3c361c62e4dd2377f213c` سپس موفق شد. این run پس از commitهای بعدی، صرفاً سابقه است و جایگزین CI head جاری نیست.

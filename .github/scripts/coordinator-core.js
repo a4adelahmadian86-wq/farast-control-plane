@@ -212,7 +212,32 @@ function hasSuccessfulChecks(checkRuns, combinedStatus) {
     statusChecksPassed;
 }
 
+const FARAST_COMMAND_RE = /^\s*\/farast\s+(claim|heartbeat|release|status|progress|step|criterion|checkpoint|block|unblock|review|reopen|accept|refresh)\b/i;
+
+function pendingCommandComments(comments, processedOperations = {}) {
+  const seen = new Set();
+  return (comments || []).filter(comment => {
+    const id = String(comment?.id ?? '').trim();
+    if (!id || seen.has(id) || processedOperations[id]) return false;
+    if (!FARAST_COMMAND_RE.test(String(comment?.body || ''))) return false;
+    seen.add(id);
+    return true;
+  }).sort((a, b) => Number(a.id) - Number(b.id) || String(a.id).localeCompare(String(b.id)));
+}
+
+function pendingResponseOperations(processedOperations = {}, issueNumber) {
+  return Object.entries(processedOperations || {})
+    .filter(([, operation]) => operation && operation.response_posted !== true &&
+      (issueNumber === undefined || Number(operation.issue_number) === Number(issueNumber)))
+    .sort((a, b) => Number(a[0]) - Number(b[0]));
+}
+
+function responseMarker(operationId) {
+  return '<!-- FARAST_OP_RESPONSE:' + String(operationId) + ' -->';
+}
+
 module.exports = {
   isSafeRunId, roleForActor, isWithinDelegatedScope, isCommandAllowed, resourcesFor, targetRepositoryFor, branchForWritePolicy, resolveWritePolicy, expireLocks, activeForIssue,
-  claimResources, renewLease, ownsLease, latestTaskStatus, matchesReviewLease, hasSuccessfulChecks
+  claimResources, renewLease, ownsLease, latestTaskStatus, matchesReviewLease, hasSuccessfulChecks,
+  pendingCommandComments, pendingResponseOperations, responseMarker
 };
