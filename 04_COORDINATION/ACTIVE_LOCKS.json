@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1714,
+  "revision": 1715,
   "next_fencing_token": 117,
   "locks": [
     {
@@ -15804,7 +15804,7 @@
     },
     "6970429910": {
       "response": "STEP ثبت شد: S4_N_WORKER_SAFETY; EXECUTION_PROGRESS=71.42%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=5/7.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 67,
       "actor": "a4adelahmadian86-wq",
       "command": "step",
