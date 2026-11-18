@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1705,
+  "revision": 1706,
   "next_fencing_token": 117,
   "locks": [
     {
@@ -15729,6 +15729,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-18T05:51:44.179Z"
+    },
+    "6970375411": {
+      "response": "STEP ثبت شد: S4_N_WORKER_SAFETY; EXECUTION_PROGRESS=71.42%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=5/7.",
+      "response_posted": false,
+      "issue_number": 67,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-18T05:52:02.247Z"
     }
   },
   "work_items": {
@@ -19156,7 +19165,16 @@
           "weight": 1,
           "expected_output": "Deterministic N-worker selection/claim simulation, durable inbox replay test and duplicate-detection matrix",
           "evidence_requirement": "Passing N=2,5,10,25 concurrency tests plus 25+ durable /farast comments across Issues, pending-run replacement, scheduled reconciliation, exactly-once response markers, shared/disjoint resources, same stable ID and semantic-overlap fixtures (including #14 vs #66); delayed/no-response command is not re-submitted while pending, and duplicate comments/replays cannot create duplicate active leases",
-          "estimate_minutes": 5
+          "estimate_minutes": 5,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-67-RUN-20261117-PROMPT-DISPATCH-1734Z-002/.github/scripts/coordinator-core.test.js",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-67-RUN-20261117-PROMPT-DISPATCH-1734Z-002/.github/scripts/work-item-dispatch-core.test.js",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44142424801"
+          ],
+          "validated_at_utc": "2026-11-18T05:52:02.247Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Verified deterministic concurrency tests at N=2,5,10,25; single winner for shared resources and concurrent disjoint-resource claims; all-or-none multi-resource locking; stale/invalid/expired lease and fencing rejection; interruption/resume; 25-command durable inbox exactly-once replay and deterministic response recovery; G-09 global contention with local EXP fallback; semantic duplicate suppression including Issue #14 versus canonical #66. CI exact head passed."
         },
         {
           "step_id": "S5_BUNDLE_AND_CI",
