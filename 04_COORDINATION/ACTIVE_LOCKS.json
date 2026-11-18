@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2601,
+  "revision": 2602,
   "next_fencing_token": 144,
   "locks": [
     {
@@ -22022,6 +22022,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-18T16:56:48.698Z"
+    },
+    "6985456069": {
+      "response": "معیار پذیرش ثبت شد: AC_REGRESSION_MATRIX; ACCEPTANCE_PROGRESS=80%; OVERALL_COMPLETION=80%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 90,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-18T16:57:54.302Z"
     }
   },
   "work_items": {
@@ -27892,7 +27901,18 @@
           "title": "Tests cover valid/missing/wrong/expired allocator token, stale fencing token, duplicate creation, same-chat second lease, different-chat disjoint resources and legacy migration.",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "Focused automated matrix with every case passing."
+          "evidence_requirement": "Focused automated matrix with every case passing.",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/99",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-90-RUN-20261118-ALLOCATOR-CHAT-GATE-REPAIR-001/.github/scripts/coordinator-core.test.js",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-90-RUN-20261118-ALLOCATOR-CHAT-GATE-REPAIR-001/.github/scripts/work-item-core.test.js",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-90-RUN-20261118-ALLOCATOR-CHAT-GATE-REPAIR-001/.github/scripts/inbox-scheduler.test.js",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44349241705"
+          ],
+          "validated_at_utc": "2026-11-18T16:57:54.301Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Final exact-head CI passes all 151 tests with 0 failures across coordinator, Work Item, scheduler and dispatch suites, including event-only inbox processing, API-rate-limit retry, pre-merge acceptance guard and legacy migration."
         },
         {
           "criterion_id": "AC_EXACT_HEAD_CI",
