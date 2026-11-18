@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2714,
+  "revision": 2715,
   "next_fencing_token": 149,
   "locks": [],
   "history": [
@@ -29316,10 +29316,10 @@
   },
   "inbox_scheduler": {
     "version": 1,
-    "last_page": 1,
-    "last_page_count": 25,
-    "page": 2,
-    "updated_at_utc": "2026-11-18T17:01:28.083Z",
+    "last_page": 2,
+    "last_page_count": 10,
+    "page": 1,
+    "updated_at_utc": "2026-11-18T19:22:57.116Z",
     "issue_errors": {
       "90": {
         "reason": "unknown_step_id",
