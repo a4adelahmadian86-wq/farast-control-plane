@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1532,
+  "revision": 1533,
   "next_fencing_token": 108,
   "locks": [],
   "history": [
@@ -13580,7 +13580,7 @@
     },
     "6969849955": {
       "response": "Claim رد شد: اختلاف یا نقص در Work Item زنده/رجیستری؛ هیچ branch تخصیص داده نشد. Invalid Work item specification JSON in Issue #67: Unexpected non-whitespace character after JSON at position 10472 (line 212 column 1)",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 67,
       "actor": "a4adelahmadian86-wq",
       "command": "claim",
