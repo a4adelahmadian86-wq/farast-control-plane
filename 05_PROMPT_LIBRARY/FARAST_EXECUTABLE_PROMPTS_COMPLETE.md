@@ -1,6 +1,6 @@
 # کتابخانه کامل پرامپت‌های اجرایی FARAST
 
-نسخه: 2.0.0 | زبان: فارسی | مرجع وضعیت: farast-control-plane
+نسخه: 2.0.1 | زبان: فارسی | مرجع وضعیت: farast-control-plane
 
 > این فایل تجمیعی شامل MASTER-00 خودگردان و ۱۷ پرامپت تخصصی مستقل است. نگاشت آن‌ها به ۲۷ مأموریت عمیق EXP-01 تا EXP-27، استاندارد عمق ۲۰–۳۰ دقیقه‌ای و قواعد پیشرفت در اسناد مرجع ثبت شده است؛ هر چت باید مرجع زنده GitHub و آخرین checkpoint را بخواند؛ این bundle جایگزین read-back زنده نیست.
 
@@ -181,6 +181,9 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 - صندوق ورودی /farast پایدار است: comment ID کلید idempotency است؛ فقط commandهای پردازش‌نشده اجرا می‌شوند؛ response ثبت‌شده ولی ارسال‌نشده پس از interruption بازیابی می‌شود؛ replay یا scheduled reconciliation نباید lease/Issue/PR/response تکراری بسازد.
 - پیش از هر write، heartbeat و fencing token را از رجیستری زنده تأیید کن؛ timeout یا نتیجه مبهم یعنی STOP WRITES و read-back، نه retry کور.
 
+## استثنای محدود برای PR جایگزینِ از قبل ادغام‌شده
+
+اگر branch اجرای قبلی وجود ندارد، آن را بازسازی یا reuse نکن. فقط وقتی یک PR جایگزین واقعاً `merged=true` است می‌توان `main` فعلی را checkpoint جایگزین دانست؛ آن هم پس از اثبات اینکه merge commit همان PR ancestor شاخه پیش‌فرض فعلی همان مخزن است. بررسی اجباری: مخزن head و base دقیقاً target repository، base ref برابر default branch، merge commit غیرخالی، GitHub Compare با `base_commit.sha = merge_base_commit.sha = merge_commit_sha`، `behind_by=0` و status برابر `ahead` یا `identical`. این استثنا فقط برای PR بسته و ادغام‌شده است؛ PR باز/ادغام‌نشده همچنان باید دقیقاً با branch آخرین REVIEW event همان lease منطبق باشد. Check Runهای SHA دقیق head و همه hard gateها همچنان الزامی‌اند. اگر هر جزء نامعلوم یا ناموفق بود: STOP WRITES.
 # SOURCE: 05_PROMPT_LIBRARY/PR-01_BASELINE.md
 
 # دستور مشترک اجباری همه پرامپت‌های FARAST
@@ -1974,6 +1977,12 @@ branch، PR، test report، risk/rollback note و checkpoint. معیار پذی�
 6. اگر کار مسدود است، blocker و کار read-only مستقل را ثبت کن؛ زمان را مصنوعی پر نکن و به مأموریت نامرتبط نپرداز.
 7. قبل از پایان یا handoff، checkpoint کامل و NEXT_ACTION دقیق ثبت کن.
 
+## پذیرش PR جایگزینِ از قبل ادغام‌شده
+
+- برای PR باز یا ادغام‌نشده، شرط اصلی تغییر نمی‌کند: branch دقیقاً باید با آخرین `REVIEW` event همان lease منطبق باشد.
+- اگر branch قبلی حذف شده ولی PR جایگزین واقعاً merge شده است، branch گمشده را بازسازی نکن. فقط پس از اثبات ancestry می‌توان `main` فعلی را checkpoint جایگزین و مبنای branch جدید دانست.
+- استثنای پذیرش فقط برای PR بسته و `merged=true` است: head/base repository باید دقیقاً target repository باشد؛ base ref شاخه پیش‌فرض همان مخزن باشد؛ merge commit غیرخالی باشد؛ GitHub Compare باید `base_commit.sha = merge_base_commit.sha = merge_commit_sha`، `behind_by=0` و status برابر `ahead` یا `identical` را ثابت کند.
+- Check Runها و Commit Statusهای SHA دقیق head، تمام hard gateها، نبود lease فعال و ثبت operation ledger همچنان الزامی‌اند. PR باز، fork، مخزن/base متفاوت یا compare مبهم هرگز از استثنا عبور نمی‌کند.
 # SOURCE: 05_PROMPT_LIBRARY/PR-17_ACCEPTANCE_RELEASE.md
 
 # دستور مشترک اجباری همه پرامپت‌های FARAST
