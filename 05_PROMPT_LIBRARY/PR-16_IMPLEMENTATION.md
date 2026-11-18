@@ -116,3 +116,10 @@ branch، PR، test report، risk/rollback note و checkpoint. معیار پذی�
 5. Claim فقط مالکیت موقت است؛ شروع، progress یا acceptance محسوب نمی‌شود.
 6. اگر کار مسدود است، blocker و کار read-only مستقل را ثبت کن؛ زمان را مصنوعی پر نکن و به مأموریت نامرتبط نپرداز.
 7. قبل از پایان یا handoff، checkpoint کامل و NEXT_ACTION دقیق ثبت کن.
+
+## پذیرش PR جایگزینِ از قبل ادغام‌شده
+
+- برای PR باز یا ادغام‌نشده، شرط اصلی تغییر نمی‌کند: branch دقیقاً باید با آخرین `REVIEW` event همان lease منطبق باشد.
+- اگر branch قبلی حذف شده ولی PR جایگزین واقعاً merge شده است، branch گمشده را بازسازی نکن. فقط پس از اثبات ancestry می‌توان `main` فعلی را checkpoint جایگزین و مبنای branch جدید دانست.
+- استثنای پذیرش فقط برای PR بسته و `merged=true` است: head/base repository باید دقیقاً target repository باشد؛ base ref شاخه پیش‌فرض همان مخزن باشد؛ merge commit غیرخالی باشد؛ GitHub Compare باید `base_commit.sha = merge_base_commit.sha = merge_commit_sha`، `behind_by=0` و status برابر `ahead` یا `identical` را ثابت کند.
+- Check Runها و Commit Statusهای SHA دقیق head، تمام hard gateها، نبود lease فعال و ثبت operation ledger همچنان الزامی‌اند. PR باز، fork، مخزن/base متفاوت یا compare مبهم هرگز از استثنا عبور نمی‌کند.
