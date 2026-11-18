@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1723,
+  "revision": 1724,
   "next_fencing_token": 117,
   "locks": [
     {
@@ -15870,6 +15870,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-18T05:56:17.569Z"
+    },
+    "6970451972": {
+      "response": "معیار پذیرش ثبت شد: AC_ANY_ORDER; ACCEPTANCE_PROGRESS=12.5%; OVERALL_COMPLETION=12.5%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 67,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-18T05:56:35.273Z"
     }
   },
   "work_items": {
@@ -19350,7 +19359,16 @@
         {
           "criterion_id": "AC_ANY_ORDER",
           "title": "Each of the 17 prompts can be used first and independently bootstraps the same state without chronological prerequisite assumptions",
-          "evidence_requirement": "Static prompt contract tests and per-prompt read-back"
+          "evidence_requirement": "Static prompt contract tests and per-prompt read-back",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/83",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44247418634",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/tree/work/GH-67-RUN-20261118-PROMPT-DISPATCH-RESUME-001/05_PROMPT_LIBRARY"
+          ],
+          "validated_at_utc": "2026-11-18T05:56:35.272Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_ANY_CHAT_COUNT",
