@@ -1,8 +1,57 @@
 {
   "schema_version": "1.0",
-  "revision": 1836,
-  "next_fencing_token": 119,
-  "locks": [],
+  "revision": 1837,
+  "next_fencing_token": 120,
+  "locks": [
+    {
+      "resource_key": "file:.github/scripts/work-item-core.js",
+      "issue_number": 84,
+      "task_id": "GH-84",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-FARAST-POSTMERGE-84-20261118-0613Z-7C2A",
+      "chat_id": "CHAT-FARAST-POSTMERGE-84-20261118-0613Z-7C2A",
+      "run_id": "RUN-20261118-84-POSTMERGE-RECOVERY-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-84-RUN-20261118-84-POSTMERGE-RECOVERY-001",
+      "acquired_at_utc": "2026-11-18T06:12:51.308Z",
+      "heartbeat_at_utc": "2026-11-18T06:12:51.308Z",
+      "lease_expires_at_utc": "2026-11-18T06:42:51.308Z",
+      "fencing_token": 119,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "file:.github/scripts/work-item-core.test.js",
+      "issue_number": 84,
+      "task_id": "GH-84",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-FARAST-POSTMERGE-84-20261118-0613Z-7C2A",
+      "chat_id": "CHAT-FARAST-POSTMERGE-84-20261118-0613Z-7C2A",
+      "run_id": "RUN-20261118-84-POSTMERGE-RECOVERY-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-84-RUN-20261118-84-POSTMERGE-RECOVERY-001",
+      "acquired_at_utc": "2026-11-18T06:12:51.308Z",
+      "heartbeat_at_utc": "2026-11-18T06:12:51.308Z",
+      "lease_expires_at_utc": "2026-11-18T06:42:51.308Z",
+      "fencing_token": 119,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "module:semantic-duplicate-detection",
+      "issue_number": 84,
+      "task_id": "GH-84",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-FARAST-POSTMERGE-84-20261118-0613Z-7C2A",
+      "chat_id": "CHAT-FARAST-POSTMERGE-84-20261118-0613Z-7C2A",
+      "run_id": "RUN-20261118-84-POSTMERGE-RECOVERY-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-84-RUN-20261118-84-POSTMERGE-RECOVERY-001",
+      "acquired_at_utc": "2026-11-18T06:12:51.308Z",
+      "heartbeat_at_utc": "2026-11-18T06:12:51.308Z",
+      "lease_expires_at_utc": "2026-11-18T06:42:51.308Z",
+      "fencing_token": 119,
+      "status": "ACTIVE"
+    }
+  ],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -7981,6 +8030,25 @@
       "branch": "work/GH-84-RUN-20261118-SEMANTIC-DEDUP-002",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "at_utc": "2026-11-18T06:11:08.866Z"
+    },
+    {
+      "event": "ACQUIRED",
+      "issue_number": 84,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-FARAST-POSTMERGE-84-20261118-0613Z-7C2A",
+      "run_id": "RUN-20261118-84-POSTMERGE-RECOVERY-001",
+      "resource_keys": [
+        "file:.github/scripts/work-item-core.js",
+        "file:.github/scripts/work-item-core.test.js",
+        "module:semantic-duplicate-detection"
+      ],
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-84-RUN-20261118-84-POSTMERGE-RECOVERY-001",
+      "previous_branch": "work/GH-84-RUN-20261118-SEMANTIC-DEDUP-002",
+      "previous_target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "previous_run_id": "RUN-20261118-SEMANTIC-DEDUP-002",
+      "fencing_token": 119,
+      "at_utc": "2026-11-18T06:12:51.308Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -16057,6 +16125,15 @@
       "command": "reopen",
       "next_status": "ready",
       "at_utc": "2026-11-18T06:12:25.903Z"
+    },
+    "6970726078": {
+      "response": "CLAIM GRANTED. TASK=GH-84; WORK_ITEM_ID=WI-SEMANTIC-DEDUP-DELIVERABLE-SCOPE-001; verified_steps=S0_REPRODUCE,S1_DEFINE,S2_FIX_CORE,S3_REGRESSION,S4_VALIDATE; remaining_steps=S5_CLAIM_RECOVERY,S6_HANDOFF; EXECUTION_PROGRESS=71.42%; ACCEPTANCE_PROGRESS=85.71%; OVERALL_COMPLETION=71.42%; actor=@a4adelahmadian86-wq; chat=CHAT-FARAST-POSTMERGE-84-20261118-0613Z-7C2A; run=RUN-20261118-84-POSTMERGE-RECOVERY-001; resource_keys=file:.github/scripts/work-item-core.js,file:.github/scripts/work-item-core.test.js,module:semantic-duplicate-detection; target_repository=a4adelahmadian86-wq/farast-control-plane; write_policy=WRITE_ALLOWED; branch=work/GH-84-RUN-20261118-84-POSTMERGE-RECOVERY-001; previous_run=RUN-20261118-SEMANTIC-DEDUP-002; previous_target_repository=a4adelahmadian86-wq/farast-control-plane; previous_branch=work/GH-84-RUN-20261118-SEMANTIC-DEDUP-002; fencing_token=119; lease_expires=2026-11-18T06:42:51.308Z. این Work Item با سیاست WRITE_ALLOWED است؛ branch را فقط در target_repository ثبت‌شده بساز و قبل از هر write heartbeat/token را دوباره تأیید کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز و branch قبلی را تغییر نده.",
+      "response_posted": false,
+      "issue_number": 84,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "locked",
+      "at_utc": "2026-11-18T06:12:51.469Z"
     }
   },
   "work_items": {
@@ -20600,7 +20677,7 @@
       "parent_exp_ids": [
         "EXP-01"
       ],
-      "status": "READY",
+      "status": "CLAIMED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "file:.github/scripts/work-item-core.js",
