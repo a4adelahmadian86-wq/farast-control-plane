@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1731,
+  "revision": 1732,
   "next_fencing_token": 117,
   "locks": [
     {
@@ -15906,6 +15906,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-18T05:56:58.774Z"
+    },
+    "6970454624": {
+      "response": "معیار پذیرش ثبت شد: AC_RESUME_FALLBACK; ACCEPTANCE_PROGRESS=62.5%; OVERALL_COMPLETION=62.5%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 67,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-18T05:57:06.975Z"
     }
   },
   "work_items": {
@@ -19443,7 +19452,17 @@
         {
           "criterion_id": "AC_RESUME_FALLBACK",
           "title": "Blocked/leased/invalid candidates are skipped safely; interruption resumes the same stable Work Item with fresh run/token",
-          "evidence_requirement": "Interruption resumes the same stable Work Item from verified checkpoint with a fresh RUN_ID/token; blocked/leased/invalid candidates are skipped; delayed/replaced workflow runs are reconciled from the durable inbox without reposting duplicate commands; a duplicate/replayed command cannot create a second active lease or duplicate side effect"
+          "evidence_requirement": "Interruption resumes the same stable Work Item from verified checkpoint with a fresh RUN_ID/token; blocked/leased/invalid candidates are skipped; delayed/replaced workflow runs are reconciled from the durable inbox without reposting duplicate commands; a duplicate/replayed command cannot create a second active lease or duplicate side effect",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/78",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/83",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44247418634",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-67-RUN-20261118-PROMPT-DISPATCH-RESUME-001/.github/scripts/work-item-core.test.js"
+          ],
+          "validated_at_utc": "2026-11-18T05:57:06.975Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_BUNDLE_PARITY",
