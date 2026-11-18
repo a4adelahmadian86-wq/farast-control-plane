@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1867,
+  "revision": 1868,
   "next_fencing_token": 121,
   "locks": [
     {
@@ -16335,7 +16335,7 @@
     },
     "6970774041": {
       "response": "فرمان رد شد: ابتدا lease فعال باید با مالکیت معتبر آزاد شود.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 84,
       "actor": "a4adelahmadian86-wq",
       "command": "reopen",
