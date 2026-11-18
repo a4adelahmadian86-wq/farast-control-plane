@@ -1,25 +1,8 @@
 {
   "schema_version": "1.0",
-  "revision": 2067,
+  "revision": 2068,
   "next_fencing_token": 126,
-  "locks": [
-    {
-      "resource_key": "coordination:work-item-allocation",
-      "issue_number": 11,
-      "task_id": "GH-11",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "CHAT-MASTER-CONTINUE-20261118-01",
-      "chat_id": "CHAT-MASTER-CONTINUE-20261118-01",
-      "run_id": "RUN-20261118-POSTMERGE-ALLOCATOR-RESUME-002",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": null,
-      "acquired_at_utc": "2026-11-18T07:32:03.019Z",
-      "heartbeat_at_utc": "2026-11-18T07:32:03.019Z",
-      "lease_expires_at_utc": "2026-11-18T08:02:03.019Z",
-      "fencing_token": 125,
-      "status": "ACTIVE"
-    }
-  ],
+  "locks": [],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -8735,6 +8718,17 @@
       "previous_run_id": null,
       "fencing_token": 125,
       "at_utc": "2026-11-18T07:32:03.019Z"
+    },
+    {
+      "event": "RELEASE",
+      "issue_number": 11,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-MASTER-CONTINUE-20261118-01",
+      "run_id": "RUN-20261118-POSTMERGE-ALLOCATOR-RESUME-002",
+      "fencing_token": 125,
+      "branch": null,
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "at_utc": "2026-11-18T07:33:16.120Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -17846,6 +17840,15 @@
       "command": "claim",
       "next_status": "locked",
       "at_utc": "2026-11-18T07:32:03.172Z"
+    },
+    "6972150841": {
+      "response": "Lease آزاد شد؛ وظیفه تکمیل‌شده محسوب نمی‌شود.",
+      "response_posted": false,
+      "issue_number": 11,
+      "actor": "a4adelahmadian86-wq",
+      "command": "release",
+      "next_status": "ready",
+      "at_utc": "2026-11-18T07:33:16.121Z"
     }
   },
   "work_items": {
@@ -18009,7 +18012,7 @@
       "parent_exp_ids": [
         "EXP-01"
       ],
-      "status": "CLAIMED",
+      "status": "READY",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "coordination:work-item-allocation"
