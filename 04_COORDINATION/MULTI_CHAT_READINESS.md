@@ -238,3 +238,16 @@ MASTER-00 یک فرمان ثابت برای تمام چت‌هاست؛ هر چت
 - [ ] فعال‌سازی و read-back branch protection یا rulesets و required checks روی main.
 - [ ] اثبات hard-fencing برای مسیرهای مستقیم write در مخزن هدف.
 
+---
+
+## به‌روزرسانی زنده — 2026-11-18 — صندوق فرمان سراسری و عدالت بین Issueها (Issue #89)
+
+**وضعیت پیاده‌سازی:** در PR #91 پیاده‌سازی شده؛ آزمون مستقل ماژول ۱۱/۱۱ PASS است و فایل آزمون به Control Plane Validation افزوده شده است. وضعیت CI فقط از run موفق روی SHA فعلی head در PR #91 تعیین می‌شود؛ CI روی head قدیمی‌تر جایگزین آن نیست.
+
+- هر issue_comment، schedule و workflow_dispatch اکنون باید همان مسیر global inbox را اجرا کند: Issue محرک در اولویت، سپس یک صفحه حداکثر ۲۵تایی از Issueهای باز با ترتیب created ASC.
+- cursor پایدار در رجیستری مرکزی و فیلد inbox_scheduler.page ذخیره می‌شود؛ cursor فقط پس از تکمیل batch پیش می‌رود و صفحه ناقص نهایی به صفحه اول wrap می‌شود.
+- سقف پردازش هر Issue در هر run یک فرمان pending است؛ حداکثر ۱۰ پاسخ pending نیز در هر Issue بازیابی می‌شود. این سقف، fairness بین Issueها را در برابر یک منبع پرحجم حفظ می‌کند.
+- idempotency با processed_operations[comment_id] حفظ می‌شود. interruption قبل از cursor commit همان صفحه را replay می‌کند؛ interruption پس از commit عملیات و قبل از پاسخ، مسیر pending-response را بازیابی می‌کند.
+- خطای پردازش یک Issue در inbox_scheduler.issue_errors ثبت می‌شود و batch سایر Issueها ادامه می‌یابد؛ خطای رجیستری مرکزی fail-closed باقی می‌ماند.
+- **محدودیت:** این مسیر صف جهانی bounded است و throughput نامحدود یا زمان پاسخ ثابت تضمین نمی‌کند. schedule پنج‌دقیقه‌ای و quota سرویس GitHub روی زمان رسیدن نوبت بعدی اثر دارند.
+- این تست‌ها اثبات اجرای واقعی N حساب ChatGPT نیستند. E2E دو یا چند حساب مستقل، takeover واقعی میان دو نشست و hard-fencing خارج از coordinator همچنان NOT VERIFIED باقی می‌مانند.

@@ -41,6 +41,7 @@ jobs:
             const repo = context.repo.repo;
             const coordinatorCore = require(process.env.GITHUB_WORKSPACE + '/.github/scripts/coordinator-core.js');
             const workItemCore = require(process.env.GITHUB_WORKSPACE + '/.github/scripts/work-item-core.js');
+            const inboxScheduler = require(process.env.GITHUB_WORKSPACE + '/.github/scripts/inbox-scheduler.js');
             const dependencyGraph = JSON.parse(require('fs').readFileSync(process.env.GITHUB_WORKSPACE + '/01_STRATEGY/DEPENDENCY_GRAPH.json', 'utf8'));
             const authorizationPolicy = require(process.env.GITHUB_WORKSPACE + '/04_COORDINATION/ACTOR_AUTHORIZATION.json');
             const registryBranch = 'coordination/locks';
@@ -573,7 +574,7 @@ jobs:
               return await saveRegistry(latest, updated, 'FARAST coordinator: record response for operation ' + id);
             };
 
-            const processIssue = async issue => {
+            const processIssue = async (issue, limits = {}) => {
               if (!isTask(issue)) return;
               issue = (await github.rest.issues.get({ owner, repo, issue_number: issue.number })).data;
               if (!isTask(issue)) return;
@@ -631,7 +632,7 @@ jobs:
                 }
               }
               // Recover responses that were committed but not posted before an interruption.
-              for (const [id, op] of coordinatorCore.pendingResponseOperations(snapshot.state.processed_operations, issue.number)) {
+              for (const [id, op] of coordinatorCore.pendingResponseOperations(snapshot.state.processed_operations, issue.number).slice(0, limits.maxPendingResponsesPerIssue || inboxScheduler.MAX_PENDING_RESPONSES_PER_ISSUE)) {
                 if (op.next_status) await setStatus(issue.number, op.next_status);
                 if (op.next_status === 'done' && issue.state !== 'closed') await github.rest.issues.update({ owner, repo, issue_number: issue.number, state: 'closed', state_reason: 'completed' });
                 const marker = coordinatorCore.responseMarker(id);
@@ -639,7 +640,8 @@ jobs:
                 snapshot.state.processed_operations[id].response_posted = true;
                 snapshot = await saveRegistry(snapshot.state, snapshot, 'FARAST coordinator: recover response ' + id);
               }
-              for (const comment of coordinatorCore.pendingCommandComments(comments, snapshot.state.processed_operations)) {
+              const selectedCommandIds = new Set(inboxScheduler.selectPendingCommandComments(comments, snapshot.state.processed_operations, limits.maxCommandsPerIssue || inboxScheduler.MAX_COMMANDS_PER_ISSUE).map(comment => String(comment.id)));
+              for (const comment of coordinatorCore.pendingCommandComments(comments, snapshot.state.processed_operations).filter(comment => selectedCommandIds.has(String(comment.id)))) {
                 const operationId = String(comment.id);
                 // The durable inbox helper deduplicates comment IDs and excludes committed operations.
                 snapshot = await handleCommand(issue, comment, snapshot);
@@ -658,10 +660,35 @@ jobs:
               }
             }
 
-            let targets = [];
-            if (context.eventName === 'schedule' || context.eventName === 'workflow_dispatch') {
-              targets = await github.paginate(github.rest.issues.listForRepo, { owner, repo, state: 'all', per_page: 100 });
-            } else if (context.payload.issue) {
-              targets = [context.payload.issue];
+            // One event Issue gets priority, then every trigger scans one bounded page from the
+            // durable global cursor. A single noisy Issue can consume at most one command per run.
+            const safelyProcessIssue = async issue => {
+              try {
+                await processIssue(issue);
+              } catch (error) {
+                console.error('FARAST inbox processing failed for Issue #' + issue.number + ': ' + String(error.message || error));
+                const failedSnapshot = await getRegistry();
+                inboxScheduler.recordIssueError(failedSnapshot.state, issue.number, error);
+                await saveRegistry(failedSnapshot.state, failedSnapshot, 'FARAST coordinator: record inbox processing error #' + issue.number);
+              }
+            };
+
+            const cursorSnapshot = await getRegistry();
+            const inboxPage = inboxScheduler.getCursorPage(cursorSnapshot.state);
+            const pageResponse = await github.rest.issues.listForRepo({
+              owner, repo, state: 'open', per_page: inboxScheduler.PAGE_SIZE,
+              page: inboxPage, sort: 'created', direction: 'asc'
+            });
+            const targets = inboxScheduler.selectIssueBatch({
+              eventIssue: context.payload.issue || null,
+              pageIssues: pageResponse.data,
+              maxIssues: inboxScheduler.MAX_ISSUES_PER_BATCH
+            });
+            for (const issue of targets) await safelyProcessIssue(issue);
+
+            const afterBatch = await getRegistry();
+            const nextPage = inboxScheduler.nextCursorPage(inboxPage, pageResponse.data.length, inboxScheduler.PAGE_SIZE);
+            if (nextPage !== inboxPage) {
+              inboxScheduler.advanceCursor(afterBatch.state, inboxPage, pageResponse.data.length);
+              await saveRegistry(afterBatch.state, afterBatch, 'FARAST coordinator: advance durable inbox cursor to page ' + nextPage);
             }
-            for (const issue of targets) await processIssue(issue);
