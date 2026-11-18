@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2196,
+  "revision": 2197,
   "next_fencing_token": 136,
   "locks": [
     {
@@ -19211,7 +19211,7 @@
     },
     "6977216694": {
       "response": "CLAIM GRANTED. TASK=GH-89; WORK_ITEM_ID=WI-CP-GLOBAL-INBOX-FAIRNESS-001; verified_steps=S1_REPRODUCE_STARVATION,S2_DESIGN_FAIR_INBOX,S3_IMPLEMENT_GLOBAL_SCAN,S4_PERSIST_IDEMPOTENCY,S5_REGRESSION_TESTS,S6_PROTOCOL_READINESS,S7_CI_HANDOFF; remaining_steps=; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=40%; OVERALL_COMPLETION=40%; actor=@a4adelahmadian86-wq; chat=CHAT-MASTER-CONTINUE-20261118-02; run=RUN-20261118-GLOBAL-INBOX-FAIRNESS-004; resource_keys=file:.github/scripts/inbox-scheduler.js,file:.github/scripts/inbox-scheduler.test.js,file:.github/workflows/control-plane-validation.yml,file:.github/workflows/farast-coordinator.yml,file:04_coordination/active_locks.schema.json,file:04_coordination/interruption_recovery_protocol.md,file:04_coordination/multi_chat_readiness.md,module:durable-command-replay,module:global-inbox-fairness; target_repository=a4adelahmadian86-wq/farast-control-plane; write_policy=WRITE_ALLOWED; branch=work/GH-89-RUN-20261118-GLOBAL-INBOX-FAIRNESS-004; previous_run=RUN-20261118-GLOBAL-INBOX-FAIRNESS-003; previous_target_repository=a4adelahmadian86-wq/farast-control-plane; previous_branch=work/GH-89-RUN-20261118-GLOBAL-INBOX-FAIRNESS-003; fencing_token=135; lease_expires=2026-11-18T11:57:12.108Z. این Work Item با سیاست WRITE_ALLOWED است؛ branch را فقط در target_repository ثبت‌شده بساز و قبل از هر write heartbeat/token را دوباره تأیید کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز و branch قبلی را تغییر نده.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 89,
       "actor": "a4adelahmadian86-wq",
       "command": "claim",
