@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1846,
+  "revision": 1847,
   "next_fencing_token": 121,
   "locks": [
     {
@@ -16351,6 +16351,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-18T06:14:01.096Z"
+    },
+    "6970738013": {
+      "response": "Claim رد شد: این TASK هم‌اکنون در اختیار @a4adelahmadian86-wq با run=RUN-20261118-LEGACY-SCOPE-MIGRATION-005 است؛ برای جلوگیری از دو نویسنده روی یک branch، ابتدا handoff یا انقضای lease لازم است.",
+      "response_posted": false,
+      "issue_number": 68,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": null,
+      "at_utc": "2026-11-18T06:14:19.898Z"
     }
   },
   "work_items": {
