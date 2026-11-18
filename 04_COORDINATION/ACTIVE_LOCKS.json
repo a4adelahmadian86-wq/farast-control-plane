@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2278,
+  "revision": 2279,
   "next_fencing_token": 138,
   "locks": [],
   "history": [
@@ -19655,6 +19655,15 @@
       "command": "review",
       "next_status": "review",
       "at_utc": "2026-11-18T12:33:25.559Z"
+    },
+    "6978688171": {
+      "response": "پذیرش انجام نشد: برای پذیرش خودکار PR در مخزن دیگر، Secret با نام FARAST_GITHUB_TOKEN با دسترسی checks:read، statuses:read و pull_requests:write روی مخزن مقصد لازم است؛ بدون آن merge انجام نمی‌شود.",
+      "response_posted": false,
+      "issue_number": 51,
+      "actor": "a4adelahmadian86-wq",
+      "command": "accept",
+      "next_status": null,
+      "at_utc": "2026-11-18T12:34:14.768Z"
     }
   },
   "work_items": {
