@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2386,
+  "revision": 2387,
   "next_fencing_token": 140,
   "locks": [
     {
@@ -20581,6 +20581,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-18T13:20:08.658Z"
+    },
+    "6979775161": {
+      "response": "معیار پذیرش ثبت شد: AC_VERIFIED_HANDOFF; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; can_accept=true.",
+      "response_posted": false,
+      "issue_number": 47,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-18T13:20:52.031Z"
     }
   },
   "work_items": {
@@ -22172,7 +22181,7 @@
         "EXP-23",
         "EXP-26"
       ],
-      "status": "IN_PROGRESS",
+      "status": "REVIEW_REQUIRED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "module:prompt-library",
@@ -22341,7 +22350,14 @@
         },
         {
           "criterion_id": "AC_VERIFIED_HANDOFF",
-          "title": "All relevant tests and CI pass on the exact final PR head; independent review is still required before merge, and two-account/two-session E2E is not claimed unless actually executed"
+          "title": "All relevant tests and CI pass on the exact final PR head; independent review is still required before merge, and two-account/two-session E2E is not claimed unless actually executed",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/96"
+          ],
+          "validated_at_utc": "2026-11-18T13:20:52.031Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "priority": 5,
