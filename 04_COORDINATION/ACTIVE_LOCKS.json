@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1561,
+  "revision": 1562,
   "next_fencing_token": 110,
   "locks": [
     {
@@ -14059,6 +14059,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-18T05:24:58.894Z"
+    },
+    "6969943364": {
+      "response": "STEP ثبت شد: S0_INVENTORY; EXECUTION_PROGRESS=14.28%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=1/7.",
+      "response_posted": false,
+      "issue_number": 68,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-18T05:25:05.136Z"
     }
   },
   "work_items": {
@@ -17443,7 +17452,7 @@
         "EXP-22",
         "EXP-23"
       ],
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "module:legacy-operation-scope-migration",
@@ -17479,7 +17488,14 @@
           "weight": 1,
           "expected_output": "Complete migration candidate matrix",
           "evidence_requirement": "Issue URLs, current main SHA, schema/core/graph and lock registry read-back",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/68#issuecomment-6969939169"
+          ],
+          "validated_at_utc": "2026-11-18T05:25:05.136Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S1_CLASSIFY",
