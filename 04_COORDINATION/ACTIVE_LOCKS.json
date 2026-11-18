@@ -1,8 +1,57 @@
 {
   "schema_version": "1.0",
-  "revision": 1649,
-  "next_fencing_token": 115,
-  "locks": [],
+  "revision": 1650,
+  "next_fencing_token": 116,
+  "locks": [
+    {
+      "resource_key": "file:04_coordination/work_item_spec_format.md",
+      "issue_number": 81,
+      "task_id": "GH-81",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-MASTER-CONTINUE-20261118-01",
+      "chat_id": "CHAT-MASTER-CONTINUE-20261118-01",
+      "run_id": "RUN-20261118-ISSUE-SPEC-REPAIR-002",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-81-RUN-20261118-ISSUE-SPEC-REPAIR-002",
+      "acquired_at_utc": "2026-11-18T05:43:04.072Z",
+      "heartbeat_at_utc": "2026-11-18T05:43:04.072Z",
+      "lease_expires_at_utc": "2026-11-18T06:13:04.072Z",
+      "fencing_token": 115,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "issue:67",
+      "issue_number": 81,
+      "task_id": "GH-81",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-MASTER-CONTINUE-20261118-01",
+      "chat_id": "CHAT-MASTER-CONTINUE-20261118-01",
+      "run_id": "RUN-20261118-ISSUE-SPEC-REPAIR-002",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-81-RUN-20261118-ISSUE-SPEC-REPAIR-002",
+      "acquired_at_utc": "2026-11-18T05:43:04.072Z",
+      "heartbeat_at_utc": "2026-11-18T05:43:04.072Z",
+      "lease_expires_at_utc": "2026-11-18T06:13:04.072Z",
+      "fencing_token": 115,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "module:issue-spec-format-contract",
+      "issue_number": 81,
+      "task_id": "GH-81",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-MASTER-CONTINUE-20261118-01",
+      "chat_id": "CHAT-MASTER-CONTINUE-20261118-01",
+      "run_id": "RUN-20261118-ISSUE-SPEC-REPAIR-002",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-81-RUN-20261118-ISSUE-SPEC-REPAIR-002",
+      "acquired_at_utc": "2026-11-18T05:43:04.072Z",
+      "heartbeat_at_utc": "2026-11-18T05:43:04.072Z",
+      "lease_expires_at_utc": "2026-11-18T06:13:04.072Z",
+      "fencing_token": 115,
+      "status": "ACTIVE"
+    }
+  ],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -7443,6 +7492,25 @@
       "branch": null,
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "at_utc": "2026-11-18T05:42:28.780Z"
+    },
+    {
+      "event": "ACQUIRED",
+      "issue_number": 81,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-MASTER-CONTINUE-20261118-01",
+      "run_id": "RUN-20261118-ISSUE-SPEC-REPAIR-002",
+      "resource_keys": [
+        "file:04_coordination/work_item_spec_format.md",
+        "issue:67",
+        "module:issue-spec-format-contract"
+      ],
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-81-RUN-20261118-ISSUE-SPEC-REPAIR-002",
+      "previous_branch": null,
+      "previous_target_repository": null,
+      "previous_run_id": null,
+      "fencing_token": 115,
+      "at_utc": "2026-11-18T05:43:04.072Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -14682,6 +14750,15 @@
       "command": "release",
       "next_status": "ready",
       "at_utc": "2026-11-18T05:42:28.781Z"
+    },
+    "6970231149": {
+      "response": "CLAIM GRANTED. TASK=GH-81; WORK_ITEM_ID=WI-ISSUE-SPEC-EXTRACTION-REPAIR-001; verified_steps=; remaining_steps=S0_REPRODUCE,S1_PRESERVE,S2_CORRECT_BODY,S3_FORMAT_CONTRACT,S4_VERIFY,S5_CLAIM_RECOVERY,S6_HANDOFF; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; actor=@a4adelahmadian86-wq; chat=CHAT-MASTER-CONTINUE-20261118-01; run=RUN-20261118-ISSUE-SPEC-REPAIR-002; resource_keys=file:04_coordination/work_item_spec_format.md,issue:67,module:issue-spec-format-contract; target_repository=a4adelahmadian86-wq/farast-control-plane; write_policy=WRITE_ALLOWED; branch=work/GH-81-RUN-20261118-ISSUE-SPEC-REPAIR-002; previous_run=none; fencing_token=115; lease_expires=2026-11-18T06:13:04.072Z. این Work Item با سیاست WRITE_ALLOWED است؛ branch را فقط در target_repository ثبت‌شده بساز و قبل از هر write heartbeat/token را دوباره تأیید کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز و branch قبلی را تغییر نده.",
+      "response_posted": false,
+      "issue_number": 81,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "locked",
+      "at_utc": "2026-11-18T05:43:04.283Z"
     }
   },
   "work_items": {
@@ -18898,6 +18975,158 @@
       ],
       "priority": 4,
       "created_at_utc": "2026-11-17T16:50:00Z"
+    },
+    "81": {
+      "schema_version": "1.0",
+      "operation_scope_version": "1.0",
+      "requested_operations": [
+        "control_plane_write"
+      ],
+      "write_policy": "WRITE_ALLOWED",
+      "priority_source": "DEFAULT_POLICY",
+      "work_item_id": "WI-ISSUE-SPEC-EXTRACTION-REPAIR-001",
+      "title": "Repair Issue #67 Work Item JSON extraction and document the canonical issue-body format",
+      "parent_goal_ids": [
+        "G-09"
+      ],
+      "parent_exp_ids": [
+        "EXP-01",
+        "EXP-22",
+        "EXP-23"
+      ],
+      "status": "CLAIMED",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "resource_keys": [
+        "issue:67",
+        "file:04_COORDINATION/WORK_ITEM_SPEC_FORMAT.md",
+        "module:issue-spec-format-contract"
+      ],
+      "dependencies": [],
+      "effort_estimate_minutes": 25,
+      "effort_rationale": "Narrow live issue-body extraction repair, exact JSON parity validation, format-contract documentation, CI and claim recovery handoff.",
+      "depth_profile": {
+        "profile_version": "2.0.0",
+        "min_substantive_steps": 7,
+        "min_acceptance_criteria": 5,
+        "min_deliverables": 4,
+        "target_effort_minutes": 25
+      },
+      "steps": [
+        {
+          "step_id": "S0_REPRODUCE",
+          "title": "Reproduce the exact coordinator Work Item extraction failure",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Source-backed parser failure reproduction",
+          "evidence_requirement": "Issue #67 body, exact workflow regex and error location",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S1_PRESERVE",
+          "title": "Snapshot the full valid JSON spec and PR/registry lineage before correction",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Immutable before-state comparison set",
+          "evidence_requirement": "Issue #67 spec object, labels, PR #80 URL/head and registry status",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S2_CORRECT_BODY",
+          "title": "Move trailing PR handoff section before the fenced JSON spec without changing JSON fields",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Issue #67 body whose Work Item JSON section is last",
+          "evidence_requirement": "Before/after body diff and exact JSON object parity",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S3_FORMAT_CONTRACT",
+          "title": "Document the canonical Work Item issue-body extraction format",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Versioned Markdown format contract",
+          "evidence_requirement": "Committed format document with examples and extraction boundary",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S4_VERIFY",
+          "title": "Validate Issue #67 with the exact live extraction regex and schema/core validator",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Exact parser and schema validation pass",
+          "evidence_requirement": "Node/parser validation output and parsed JSON equality proof",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S5_CLAIM_RECOVERY",
+          "title": "Verify a fresh Issue #67 claim after releasing the metadata-repair lock",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Fresh claim grant or precise hard blocker",
+          "evidence_requirement": "New fencing token and registry read-back, or exact denial reason",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S6_HANDOFF",
+          "title": "Publish documentation PR, exact-head CI and resumable handoff",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Review-ready PR and complete evidence package",
+          "evidence_requirement": "PR URL, exact-head Actions run, issue-body parity and checkpoint",
+          "estimate_minutes": 3
+        }
+      ],
+      "acceptance_criteria": [
+        {
+          "criterion_id": "AC_PARSE",
+          "title": "The exact current coordinator extraction regex parses Issue #67 without a trailing-character error",
+          "evidence_requirement": "Parser output and live Issue read-back"
+        },
+        {
+          "criterion_id": "AC_IDENTITY",
+          "title": "Issue #67 JSON spec and PR #80 lineage remain unchanged apart from body position",
+          "evidence_requirement": "Machine-readable before/after object equality and PR read-back"
+        },
+        {
+          "criterion_id": "AC_FORMAT",
+          "title": "A canonical format contract documents the heading/fence boundary and safe layout",
+          "evidence_requirement": "Committed Markdown contract and CI validation"
+        },
+        {
+          "criterion_id": "AC_CLAIM",
+          "title": "Issue #67 is claimable under its real hard gates after this task releases issue:67, or the exact blocker is documented",
+          "evidence_requirement": "Fresh claim response and ACTIVE_LOCKS read-back or exact fail-closed denial"
+        },
+        {
+          "criterion_id": "AC_CI",
+          "title": "Exact-head Control Plane Validation passes and no unrelated files/product repository are changed",
+          "evidence_requirement": "Successful Actions run on exact PR head and changed-file list"
+        }
+      ],
+      "deliverables": [
+        {
+          "deliverable_id": "D1",
+          "description": "Parser failure reproduction and before-state snapshot",
+          "evidence_requirement": "Issue URL, regex and original JSON SHA/object"
+        },
+        {
+          "deliverable_id": "D2",
+          "description": "Corrected Issue #67 body with unchanged Work Item JSON",
+          "evidence_requirement": "Issue read-back and exact JSON parity"
+        },
+        {
+          "deliverable_id": "D3",
+          "description": "Canonical Work Item issue-body format contract",
+          "evidence_requirement": "Committed Markdown file"
+        },
+        {
+          "deliverable_id": "D4",
+          "description": "Exact-head PR/CI and fresh-claim recovery evidence",
+          "evidence_requirement": "PR, Actions, claim/lock read-back and checkpoint"
+        }
+      ],
+      "priority": 8,
+      "created_at_utc": "2026-11-18T05:38:12Z"
     }
   },
   "checkpoints": {
