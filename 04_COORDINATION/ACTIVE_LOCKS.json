@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2151,
+  "revision": 2152,
   "next_fencing_token": 132,
   "locks": [
     {
@@ -18651,6 +18651,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-18T11:12:57.687Z"
+    },
+    "6976897609": {
+      "response": "معیار پذیرش ثبت شد: AC_SMOKE; ACCEPTANCE_PROGRESS=75%; OVERALL_COMPLETION=75%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 58,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-18T11:13:04.400Z"
     }
   },
   "work_items": {
@@ -21128,7 +21137,18 @@
         {
           "criterion_id": "AC_SMOKE",
           "title": "Live /farast progress succeeds on both issues and registry read-back confirms consistent Work Item identities/policies with no unintended active lease",
-          "evidence_requirement": "Exact coordinator Actions runs, bot response comments and registry revision/read-back"
+          "evidence_requirement": "Exact coordinator Actions runs, bot response comments and registry revision/read-back",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/51#issuecomment-6976826165",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44292171284",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/52#issuecomment-6976840903",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44292174343",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/58#issuecomment-6976791835"
+          ],
+          "validated_at_utc": "2026-11-18T11:13:04.400Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_SCOPE",
