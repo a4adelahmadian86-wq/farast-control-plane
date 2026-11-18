@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2153,
+  "revision": 2154,
   "next_fencing_token": 132,
   "locks": [
     {
@@ -18660,6 +18660,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-18T11:13:04.400Z"
+    },
+    "6976898491": {
+      "response": "معیار پذیرش ثبت شد: AC_SCOPE; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=85.71%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 58,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-18T11:13:20.376Z"
     }
   },
   "work_items": {
@@ -21153,7 +21162,16 @@
         {
           "criterion_id": "AC_SCOPE",
           "title": "Only the two control-plane issue metadata specifications are repaired; no product files, branches, PRs, data, deployment or merge are changed",
-          "evidence_requirement": "Issue update diffs, product repository read-only checks and final change inventory"
+          "evidence_requirement": "Issue update diffs, product repository read-only checks and final change inventory",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/58#issuecomment-6976871049",
+            "https://github.com/a4adelahmadian86-wq/non/pull/689",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/58#issuecomment-6976791835"
+          ],
+          "validated_at_utc": "2026-11-18T11:13:20.376Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "priority": 50,
