@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1918,
+  "revision": 1919,
   "next_fencing_token": 123,
   "locks": [
     {
@@ -16921,6 +16921,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-18T06:23:46.373Z"
+    },
+    "6970907907": {
+      "response": "معیار پذیرش ثبت شد: AC_COMPLETE_INVENTORY; ACCEPTANCE_PROGRESS=28.57%; OVERALL_COMPLETION=28.57%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 68,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-18T06:23:54.745Z"
     }
   },
   "work_items": {
@@ -20724,7 +20733,16 @@
         {
           "criterion_id": "AC_COMPLETE_INVENTORY",
           "title": "Every open WRITE_ALLOWED Work Item is accounted for and no active task is silently made unclaimable",
-          "evidence_requirement": "Complete open-issue inventory with policy and operation-scope status"
+          "evidence_requirement": "Complete open-issue inventory with policy and operation-scope status",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/87",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-68-RUN-20261118-LEGACY-SCOPE-MIGRATION-006/04_COORDINATION/LEGACY_WRITE_SCOPE_MIGRATION_REPORT.md",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/68#issuecomment-6970869866"
+          ],
+          "validated_at_utc": "2026-11-18T06:23:54.744Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Live inventory covered all 40 open task-labelled Issues and all 12 explicit WRITE_ALLOWED records. Eight original legacy targets, four already-versioned records, and duplicate artifact #85 are separately classified; no write-enabled record is silently omitted."
         },
         {
           "criterion_id": "AC_MINIMAL_MIGRATION",
