@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1842,
+  "revision": 1843,
   "next_fencing_token": 121,
   "locks": [
     {
@@ -16321,6 +16321,15 @@
       "command": "status",
       "next_status": null,
       "at_utc": "2026-11-18T06:13:32.754Z"
+    },
+    "6970738922": {
+      "response": "وضعیت: LOCKED؛ مالک @a4adelahmadian86-wq؛ chat=CHAT-FARAST-POSTMERGE-84-20261118-0613Z-7C2A؛ run=RUN-20261118-84-POSTMERGE-RECOVERY-001؛ token=119؛ expiry=2026-11-18T06:42:51.308Z",
+      "response_posted": false,
+      "issue_number": 84,
+      "actor": "a4adelahmadian86-wq",
+      "command": "status",
+      "next_status": null,
+      "at_utc": "2026-11-18T06:13:52.728Z"
     }
   },
   "work_items": {
