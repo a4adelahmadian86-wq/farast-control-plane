@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2657,
+  "revision": 2658,
   "next_fencing_token": 148,
   "locks": [
     {
@@ -22272,6 +22272,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-18T17:18:04.068Z"
+    },
+    "6986016863": {
+      "response": "Refresh رد شد: ابتدا lease فعال باید با فرمان release معتبر آزاد شود.",
+      "response_posted": false,
+      "issue_number": 50,
+      "actor": "a4adelahmadian86-wq",
+      "command": "refresh",
+      "next_status": null,
+      "at_utc": "2026-11-18T17:18:48.171Z"
     }
   },
   "work_items": {
