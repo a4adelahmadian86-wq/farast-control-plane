@@ -18,7 +18,7 @@
 5. هر Lease فعال روی همان Issue یا یکی از `resource_keys` نامزد را حذف می‌کند. expiry نامعتبر fail-closed و فعال فرض می‌شود.
 6. ابتدا Work Item نیمه‌تمام `IN_PROGRESS/CLAIMED` با checkpoint معتبر یا step PASS دارای evidence را resume کن؛ همان `WORK_ITEM_ID` و step IDs حفظ شوند و فقط remaining steps اجرا شوند.
 7. برای بقیه نامزدها `effective_priority = max(0, priority - floor(age_days))` را محاسبه کن؛ سپس با ترتیب `effective_priority` صعودی، `ready_at_utc/created_at_utc` قدیمی‌تر، `WORK_ITEM_ID` و Issue number مرتب کن. priority عدد کمتر یعنی اولویت بالاتر؛ aging روزانه فقط tie/fairness را بهبود می‌دهد و priority مالک را در داده تغییر نمی‌دهد.
-8. فقط نامزد اول را با `/farast claim` امتحان کن. Claim موفق CAS و read-back مرجع نهایی است. در conflict/رد/timeout، اثر فرمان را بررسی و در صورت عدم grant نامزد بعدی را امتحان کن؛ رد یک claim کل چت را متوقف نمی‌کند.
+8. فقط نامزد اول را با `/farast claim` امتحان کن. Claim موفق CAS و read-back مرجع نهایی است. در `resource_conflict` یا `task_already_claimed`، پس از read-back مطمئن شو همین `CHAT_ID` lease فعالی ندارد؛ سپس نامزد بعدی را امتحان کن. در `chat_conflict`، `missing_chat` یا lock مبهم/منقضی‌نشده، claim دیگری نزن: lease فعال همین چت را پیدا و همان Work Item را resume یا handoff/release کن. یک چت هرگز برای دورزدن این قاعده `CHAT_ID` تازه نسازد.
 9. اگر هیچ leaf واجد شرایطی در محدوده پرامپت نبود، discovery، dependency analysis و evidence audit همان محدوده را read-only ادامه بده. برای ایجاد برگ جدید فقط allocator ثابت `WI-GOAL-ALLOCATOR-001` را با Lease انحصاری بگیر؛ اگر قفل است duplicate نساز و read-only ادامه بده.
 10. بعد از هر handoff، review، release یا block صف را دوباره snapshot و انتخاب را تکرار کن. چت تخصصی نباید کار خارج از EXPهای خود را claim کند.
 
@@ -31,6 +31,7 @@
 
 ## provenance تخصیص و انحصار هر چت
 
+- هر گفت‌وگوی ChatGPT یک `CHAT_ID` یکتا و پایدار دارد؛ در همان گفت‌وگو و هنگام resume همان شناسه حفظ می‌شود، اما هر گفت‌وگوی مستقل شناسه تازه می‌گیرد. `RUN_ID` برای هر claim/handoff/resume جدید و یکتا است. `CHAT_ID` metadata خوداظهاری است و هویت رمزنگاری‌شده نشست ChatGPT نیست؛ آن را از چت دیگر کپی نکن و برای دورزدن قفل تغییر نده.
 - ساخت هر Work Item جدید فقط زیر lease فعال allocator ثابت Issue #11 / `WI-GOAL-ALLOCATOR-001` مجاز است؛ هیچ استثنای مستقیم برای OWNER وجود ندارد.
 - Issueهای #1 تا #90 برای سازگاری legacy grandfathered هستند. هر Issue جدید با شماره بزرگ‌تر از #90 باید در JSON دارای `allocation_provenance` باشد و مقدارهای آن دقیقاً از lease زنده allocator خوانده شوند: `allocator_work_item_id`, `allocator_issue_number`, `actor`, `chat_id`, `run_id`, `fencing_token`, `branch`, `allocated_at_utc`.
 - `allocated_at_utc` باید داخل بازه lease allocator و حداکثر پنج دقیقه با `issue.created_at` اختلاف داشته باشد. branch باید دقیقاً branch همان lease باشد؛ برای allocator branchless مقدار null ثبت شود.
