@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2362,
+  "revision": 2363,
   "next_fencing_token": 140,
   "locks": [
     {
@@ -20461,6 +20461,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-18T13:13:21.200Z"
+    },
+    "6979612434": {
+      "response": "معیار پذیرش ثبت شد: AC_DEEP_COVERAGE; ACCEPTANCE_PROGRESS=20%; OVERALL_COMPLETION=20%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 47,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-18T13:14:02.623Z"
     }
   },
   "work_items": {
@@ -22177,7 +22186,14 @@
       "acceptance_criteria": [
         {
           "criterion_id": "AC_DEEP_COVERAGE",
-          "title": "All 17 specialist prompts and 27 Work Items retain the full deep standard, seven ordered execution stages, five acceptance criteria and evidence requirements"
+          "title": "All 17 specialist prompts and 27 Work Items retain the full deep standard, seven ordered execution stages, five acceptance criteria and evidence requirements",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44311058108"
+          ],
+          "validated_at_utc": "2026-11-18T13:14:02.622Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_READONLY_ISOLATION",
