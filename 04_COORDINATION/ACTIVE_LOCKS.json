@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1866,
+  "revision": 1867,
   "next_fencing_token": 121,
   "locks": [
     {
@@ -16332,6 +16332,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-18T06:16:21.381Z"
+    },
+    "6970774041": {
+      "response": "فرمان رد شد: ابتدا lease فعال باید با مالکیت معتبر آزاد شود.",
+      "response_posted": false,
+      "issue_number": 84,
+      "actor": "a4adelahmadian86-wq",
+      "command": "reopen",
+      "next_status": null,
+      "at_utc": "2026-11-18T06:16:30.210Z"
     }
   },
   "work_items": {
