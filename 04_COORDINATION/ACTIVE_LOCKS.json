@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2145,
+  "revision": 2146,
   "next_fencing_token": 132,
   "locks": [
     {
@@ -18624,6 +18624,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-18T11:12:04.437Z"
+    },
+    "6976882650": {
+      "response": "STEP ثبت شد: S5_POLICY_VERIFY; EXECUTION_PROGRESS=85.71%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=6/7.",
+      "response_posted": false,
+      "issue_number": 58,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-18T11:12:22.210Z"
     }
   },
   "work_items": {
@@ -20945,7 +20954,7 @@
         "EXP-22",
         "EXP-23"
       ],
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "issue:51",
@@ -21049,7 +21058,15 @@
           "weight": 1,
           "expected_output": "Policy-preservation and no-product-write verification record",
           "evidence_requirement": "Exact issue, registry and product read-only references",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/58#issuecomment-6976871049",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/58#issuecomment-6976791835"
+          ],
+          "validated_at_utc": "2026-11-18T11:12:22.210Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S6_REPORT",
