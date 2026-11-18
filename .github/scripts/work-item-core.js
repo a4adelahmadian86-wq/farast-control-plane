@@ -323,15 +323,20 @@ function findSemanticDuplicateWorkItems(candidate, records = []) {
     const sharedExp = intersection(candidate.parent_exp_ids, record.parent_exp_ids);
     const sharedGoals = intersection(candidate.parent_goal_ids, record.parent_goal_ids);
     const sharedResources = intersection(candidate.resource_keys, record.resource_keys, value => String(value).trim().toLowerCase().replace(/\\/g, '/'));
-    const leftDeliverables = (candidate.deliverables || []).map(item => item.deliverable_id || item.description);
-    const rightDeliverables = (record.deliverables || []).map(item => item.deliverable_id || item.description);
-    const sharedDeliverables = intersection(leftDeliverables, rightDeliverables, value => String(value).trim().toLowerCase());
+    // deliverable_id values such as D1/D2 are local to one Work Item, not global identities.
+    // Only descriptive deliverable text can corroborate semantic overlap.
+    const deliverableDescriptions = item => (item.deliverables || [])
+      .map(deliverable => String(deliverable.description || '').trim().toLowerCase())
+      .filter(Boolean);
+    const leftDeliverables = deliverableDescriptions(candidate);
+    const rightDeliverables = deliverableDescriptions(record);
+    const sharedDeliverables = intersection(leftDeliverables, rightDeliverables);
     const titleSimilarity = tokenSimilarity(candidate.title, record.title);
     const sameParent = sharedExp.length > 0 || sharedGoals.length > 0;
     const materiallyOverlaps = sameParent && (
-      (sharedResources.length > 0 && titleSimilarity >= 0.35) ||
-      sharedDeliverables.length > 0 ||
-      titleSimilarity >= 0.85
+      titleSimilarity >= 0.85 ||
+      (titleSimilarity >= 0.35 && (sharedResources.length > 0 || sharedDeliverables.length > 0)) ||
+      (sharedResources.length > 0 && sharedDeliverables.length > 0)
     );
     if (!materiallyOverlaps) continue;
     const canonical = canonicalWorkItem(candidate, record);
