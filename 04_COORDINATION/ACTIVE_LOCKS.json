@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1626,
+  "revision": 1627,
   "next_fencing_token": 113,
   "locks": [
     {
@@ -14607,7 +14607,7 @@
     },
     "6970129784": {
       "response": "STEP ثبت شد: S4_BOOTSTRAP_CHECK; EXECUTION_PROGRESS=71.42%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=5/7.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 68,
       "actor": "a4adelahmadian86-wq",
       "command": "step",
