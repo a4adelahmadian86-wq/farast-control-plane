@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2105,
+  "revision": 2106,
   "next_fencing_token": 130,
   "locks": [
     {
@@ -18340,6 +18340,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-18T07:55:09.112Z"
+    },
+    "6972568529": {
+      "response": "STEP ثبت شد: S3_IMPLEMENT_GLOBAL_SCAN; EXECUTION_PROGRESS=42.85%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=3/7.",
+      "response_posted": false,
+      "issue_number": 89,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-18T07:55:30.955Z"
     }
   },
   "work_items": {
@@ -23406,7 +23415,14 @@
           "weight": 1,
           "expected_output": "A shared inbox path that collects pending commands across all eligible Issues rather than only the event Issue, and processes a bounded fair batch.",
           "evidence_requirement": "Minimal workflow/module diff and read-back proving each trigger uses the same global scanner.",
-          "estimate_minutes": 5
+          "estimate_minutes": 5,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-89-RUN-20261118-GLOBAL-INBOX-FAIRNESS-003/.github/workflows/farast-coordinator.yml"
+          ],
+          "validated_at_utc": "2026-11-18T07:55:30.955Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S4_PERSIST_IDEMPOTENCY",
