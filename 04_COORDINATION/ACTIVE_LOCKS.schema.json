@@ -104,6 +104,66 @@
       "additionalProperties": {
         "type": "object"
       }
+    },
+    "inbox_scheduler": {
+      "type": "object",
+      "required": [
+        "version",
+        "page",
+        "last_page",
+        "last_page_count",
+        "updated_at_utc"
+      ],
+      "properties": {
+        "version": {
+          "const": 1
+        },
+        "page": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "last_page": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "last_page_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 25
+        },
+        "updated_at_utc": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "issue_errors": {
+          "type": "object",
+          "maxProperties": 50,
+          "additionalProperties": {
+            "type": "object",
+            "required": [
+              "reason",
+              "count",
+              "last_seen_at_utc"
+            ],
+            "properties": {
+              "reason": {
+                "type": "string",
+                "maxLength": 400
+              },
+              "count": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "last_seen_at_utc": {
+                "type": "string",
+                "format": "date-time"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
     }
   },
   "additionalProperties": true
