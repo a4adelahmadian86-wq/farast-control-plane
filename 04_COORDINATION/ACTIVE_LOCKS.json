@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1814,
+  "revision": 1815,
   "next_fencing_token": 119,
   "locks": [
     {
@@ -15984,6 +15984,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-18T06:10:20.116Z"
+    },
+    "6970663422": {
+      "response": "معیار پذیرش ثبت شد: AC_CANONICAL_ALIAS; ACCEPTANCE_PROGRESS=57.14%; OVERALL_COMPLETION=57.14%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 84,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-18T06:10:27.579Z"
     }
   },
   "work_items": {
@@ -20698,7 +20707,17 @@
         {
           "criterion_id": "AC_CANONICAL_ALIAS",
           "title": "Issue #14 remains superseded by canonical Issue #66 without losing history",
-          "evidence_requirement": "Existing canonical alias regression tests remain passing"
+          "evidence_requirement": "Existing canonical alias regression tests remain passing",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/14",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/66",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44249107014",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/8bb4d4099a9f859673826f0ba34b869af7f5ab5f"
+          ],
+          "validated_at_utc": "2026-11-18T06:10:27.579Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_STABLE_IDS",
