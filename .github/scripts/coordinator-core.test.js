@@ -2,6 +2,7 @@
 
 const test = require('node:test');
 const assert = require('node:assert/strict');
+const fs = require('node:fs');
 const core = require('./coordinator-core');
 const dispatch = require('./work-item-dispatch-core');
 
@@ -686,4 +687,16 @@ test('new Work Items with missing allocator provenance are denied', () => {
     s, {work_item_id:'WI-NEW-001'}, 96,
     '2026-11-18T06:05:30.000Z', Date.parse('2026-11-18T06:06:00.000Z')
   ).reason, 'missing_allocation_provenance');
+});
+
+
+test('Work Item acceptance progress is checked before any PR merge', () => {
+  const workflow = fs.readFileSync('.github/workflows/farast-coordinator.yml', 'utf8');
+  const start = workflow.indexOf('const mergeOperation =');
+  const progress = workflow.indexOf('const acceptanceProgress = acceptanceItem ? workItemCore.calculateProgress(acceptanceItem)', start);
+  const rejection = workflow.indexOf('else if (acceptanceItem && !acceptanceProgress.can_accept)', start);
+  const merge = workflow.indexOf('prClient.rest.pulls.merge', start);
+  assert.ok(start >= 0);
+  assert.ok(progress > start && progress < merge);
+  assert.ok(rejection > progress && rejection < merge);
 });
