@@ -780,6 +780,82 @@ test('known EXP-02 backup alias resolves Issue 14 to canonical Issue 66 without 
   assert.deepEqual(wi.findDuplicateWorkItemIdIssues(66, canonical, [{ ...legacy, number:14 }], []), []);
 });
 
+test('Work Item-local D1-D4 deliverable IDs do not create false semantic duplicates', () => {
+  const migration = item({
+    work_item_id:'WI-LEGACY-WRITE-SCOPE-MIGRATION-001',
+    title:'Migrate legacy write-enabled Work Items to versioned operation scope',
+    parent_goal_ids:['G-00','G-08'],
+    parent_exp_ids:['EXP-22','EXP-23'],
+    resource_keys:['module:legacy-write-scope-migration'],
+    deliverables:[
+      {deliverable_id:'D1',description:'Inventory legacy write policies and authorization references'},
+      {deliverable_id:'D2',description:'Map each legacy Work Item to explicit operation scope'},
+      {deliverable_id:'D3',description:'Validate policy compatibility and migration safety'},
+      {deliverable_id:'D4',description:'Publish migration evidence and recovery handoff'}
+    ]
+  });
+  const reader = item({
+    work_item_id:'WI-NON-IMPLEMENTATION-VERTICAL-SLICE-001',
+    title:'Persist private reader previews and verify PDF sample boundaries',
+    parent_goal_ids:['G-00','G-04','G-05','G-08'],
+    parent_exp_ids:['EXP-22','EXP-23'],
+    resource_keys:['repo:non:controlled-implementation'],
+    deliverables:[
+      {deliverable_id:'D1',description:'Select a bounded reader behavior improvement with rollback evidence'},
+      {deliverable_id:'D2',description:'Implement private PDF preview persistence in the application'},
+      {deliverable_id:'D3',description:'Add reader regression coverage and run exact-head CI'},
+      {deliverable_id:'D4',description:'Publish a review-ready product pull request'}
+    ],
+    created_at_utc:'2026-01-02T00:00:00Z'
+  });
+  assert.deepEqual(wi.findSemanticDuplicateWorkItems(migration, [{...reader,issue_number:51}]), []);
+  assert.deepEqual(wi.findDuplicateWorkItemIdIssues(68, migration, [{...reader,number:51}], []), []);
+});
+
+test('shared deliverable descriptions corroborate material overlap but never trigger it alone', () => {
+  const unrelated = item({
+    work_item_id:'WI-UNRELATED-DELIVERABLE-001',
+    title:'Authentication log retention review',
+    parent_goal_ids:['G-01'],
+    parent_exp_ids:['EXP-02'],
+    resource_keys:['analysis:auth-retention'],
+    deliverables:[{deliverable_id:'D1',description:'A verified backup integrity evidence report'}],
+    created_at_utc:'2026-01-01T00:00:00Z'
+  });
+  const different = item({
+    work_item_id:'WI-DIFFERENT-DELIVERABLE-002',
+    title:'Customer notification preference audit',
+    parent_goal_ids:['G-01'],
+    parent_exp_ids:['EXP-02'],
+    resource_keys:['analysis:notification-preferences'],
+    deliverables:[{deliverable_id:'D4',description:'A verified backup integrity evidence report'}],
+    created_at_utc:'2026-01-02T00:00:00Z'
+  });
+  assert.deepEqual(wi.findSemanticDuplicateWorkItems(different, [{...unrelated,issue_number:301}]), []);
+
+  const material = item({
+    work_item_id:'WI-BACKUP-MATERIAL-DUPLICATE-003',
+    title:'Database backup integrity audit and evidence',
+    parent_goal_ids:['G-01'],
+    parent_exp_ids:['EXP-02'],
+    resource_keys:['analysis:separate-backup-resource'],
+    deliverables:[{deliverable_id:'D1',description:'A verified backup integrity evidence report'}],
+    created_at_utc:'2026-01-03T00:00:00Z'
+  });
+  const original = item({
+    work_item_id:'WI-BACKUP-ORIGINAL-004',
+    title:'Database backup integrity verification and evidence',
+    parent_goal_ids:['G-01'],
+    parent_exp_ids:['EXP-02'],
+    resource_keys:['analysis:original-backup-resource'],
+    deliverables:[{deliverable_id:'D4',description:'A verified backup integrity evidence report'}],
+    created_at_utc:'2026-01-01T00:00:00Z'
+  });
+  const duplicates = wi.findSemanticDuplicateWorkItems(material, [{...original,issue_number:302}]);
+  assert.equal(duplicates.length,1);
+  assert.equal(duplicates[0].canonical_work_item_id,original.work_item_id);
+});
+
 test('semantic overlap requires shared parent scope plus material resource/title or deliverable overlap', () => {
   const canonical = item({
     work_item_id:'WI-BACKUP-CANONICAL-001',
@@ -829,4 +905,155 @@ test('an accepted semantic duplicate is always preferred as the canonical Work I
   });
   const duplicates = wi.findSemanticDuplicateWorkItems(candidate, [{ ...accepted, issue_number:202 }]);
   assert.equal(duplicates[0].canonical_work_item_id, accepted.work_item_id);
+});
+
+
+test('Work Item-local D1-D4 labels do not make independent EXP tasks semantic duplicates', () => {
+  const migration = item({
+    issue_number:68,
+    work_item_id:'WI-LEGACY-WRITE-SCOPE-MIGRATION-001',
+    title:'Migrate all active legacy WRITE_ALLOWED Work Items to explicit versioned operation scope',
+    parent_goal_ids:['G-09'],
+    parent_exp_ids:['EXP-01','EXP-22','EXP-23'],
+    resource_keys:['module:legacy-operation-scope-migration','issue:11','issue:43','issue:44','issue:47','issue:50','issue:51','issue:52','issue:58'],
+    deliverables:[
+      {deliverable_id:'D1',description:'Complete legacy WRITE_ALLOWED inventory and operation mapping'},
+      {deliverable_id:'D2',description:'Minimal versioned operation-scope migration'},
+      {deliverable_id:'D3',description:'Allocator and registry synchronization proof'},
+      {deliverable_id:'D4',description:'Regression and CI report'}
+    ]
+  });
+  const unrelated = [
+    item({
+      issue_number:13,
+      work_item_id:'WI-EXP01-BASELINE-001',
+      title:'EXP-01 Baseline and environment inventory',
+      parent_goal_ids:['G-01'],
+      parent_exp_ids:['EXP-01'],
+      resource_keys:['analysis:exp-01'],
+      deliverables:[
+        {deliverable_id:'D1',description:'Baseline environment inventory'},
+        {deliverable_id:'D2',description:'Source and capability map'},
+        {deliverable_id:'D3',description:'Current-state evidence report'},
+        {deliverable_id:'D4',description:'Baseline risks and assumptions'}
+      ]
+    }),
+    item({
+      issue_number:34,
+      work_item_id:'WI-EXP22-CONTROLLED-IMPLEMENTATION-001',
+      title:'EXP-22 Controlled implementation readiness and proposal',
+      parent_goal_ids:['G-08'],
+      parent_exp_ids:['EXP-22'],
+      resource_keys:['analysis:exp-22-readiness'],
+      deliverables:[
+        {deliverable_id:'D1',description:'Implementation readiness matrix'},
+        {deliverable_id:'D2',description:'Controlled proposal'},
+        {deliverable_id:'D3',description:'Risk and rollback plan'}
+      ]
+    }),
+    item({
+      issue_number:59,
+      work_item_id:'WI-PROMPT-ORDER-DEPENDENCY-REPAIR-001',
+      title:'Implement approved prompt priority order and repair dependency refresh semantics',
+      parent_goal_ids:['G-09'],
+      parent_exp_ids:['EXP-01'],
+      resource_keys:['module:prompt-priority'],
+      deliverables:[
+        {deliverable_id:'D1',description:'Prompt priority order'},
+        {deliverable_id:'D2',description:'Dependency graph repair'},
+        {deliverable_id:'D3',description:'Refresh behavior tests'},
+        {deliverable_id:'D4',description:'Execution order report'}
+      ]
+    })
+  ];
+  assert.deepEqual(wi.findSemanticDuplicateWorkItems(migration, unrelated), []);
+  assert.deepEqual(wi.findDuplicateWorkItemIdIssues(68, migration, unrelated, []), []);
+});
+
+test('meaningful deliverable descriptions can corroborate a duplicate even when local IDs differ', () => {
+  const canonical = item({
+    issue_number:201,
+    work_item_id:'WI-BACKUP-MATRIX-CANONICAL-001',
+    title:'Prepare database backup recovery evidence matrix',
+    parent_goal_ids:['G-01'],
+    parent_exp_ids:['EXP-02'],
+    resource_keys:['module:backup-recovery'],
+    deliverables:[{deliverable_id:'D1',description:'Database backup recovery evidence matrix'}]
+  });
+  const duplicate = item({
+    issue_number:202,
+    work_item_id:'WI-BACKUP-MATRIX-DUPLICATE-001',
+    title:'Audit database backup recovery evidence matrix',
+    parent_goal_ids:['G-01'],
+    parent_exp_ids:['EXP-02'],
+    resource_keys:['module:backup-recovery'],
+    deliverables:[{deliverable_id:'BACKUP_MATRIX',description:'Database backup recovery evidence matrix'}]
+  });
+  const matches = wi.findSemanticDuplicateWorkItems(duplicate, [canonical]);
+  assert.equal(matches.length, 1);
+  assert.equal(matches[0].canonical_work_item_id, canonical.work_item_id);
+});
+
+
+test('Work Item-local D1-D4 deliverable IDs do not create cross-Work-Item semantic duplicates', () => {
+  const migration = item({
+    work_item_id:'WI-LEGACY-WRITE-SCOPE-MIGRATION-001',
+    title:'Migrate legacy write-enabled Work Items to versioned operation scope',
+    parent_goal_ids:['G-09'],
+    parent_exp_ids:['EXP-01'],
+    resource_keys:['module:legacy-operation-scope-migration'],
+    deliverables:[
+      {deliverable_id:'D1',description:'Complete before and after migration inventory'},
+      {deliverable_id:'D2',description:'Minimal versioned operation scope updates'},
+      {deliverable_id:'D3',description:'Allocator bootstrap and registry synchronization proof'},
+      {deliverable_id:'D4',description:'Regression and policy compatibility report'}
+    ]
+  });
+  const baseline = item({
+    work_item_id:'WI-EXP01-BASELINE-001',
+    title:'Establish verified product and control-plane baseline inventory',
+    parent_goal_ids:['G-09'],
+    parent_exp_ids:['EXP-01'],
+    resource_keys:['analysis:exp-01'],
+    deliverables:[
+      {deliverable_id:'D1',description:'Repository and branch snapshot'},
+      {deliverable_id:'D2',description:'Runtime and dependency inventory'},
+      {deliverable_id:'D3',description:'Environment and release evidence matrix'},
+      {deliverable_id:'D4',description:'Baseline findings and unknowns report'}
+    ]
+  });
+  assert.deepEqual(
+    wi.findSemanticDuplicateWorkItems(migration, [{...baseline,issue_number:13}]),
+    []
+  );
+  assert.deepEqual(
+    wi.findDuplicateWorkItemIdIssues(68,migration,[{...baseline,number:13}],[]),
+    []
+  );
+});
+
+test('different Work Items may reuse generic local deliverable labels without semantic collision', () => {
+  const left = item({
+    work_item_id:'WI-COMMERCE-CATALOG-001',
+    title:'Design product catalog and purchase flows',
+    parent_goal_ids:['G-09'],
+    parent_exp_ids:['EXP-08'],
+    resource_keys:['module:commerce-catalog'],
+    deliverables:[
+      {deliverable_id:'D1',description:'Catalog entity and attribute model'},
+      {deliverable_id:'D2',description:'Purchase flow requirements'}
+    ]
+  });
+  const right = item({
+    work_item_id:'WI-AI-TYPING-001',
+    title:'Specify AI-assisted typing service workflows',
+    parent_goal_ids:['G-09'],
+    parent_exp_ids:['EXP-08'],
+    resource_keys:['module:ai-typing'],
+    deliverables:[
+      {deliverable_id:'D1',description:'AI typing interaction scenarios'},
+      {deliverable_id:'D2',description:'Service quality and safety requirements'}
+    ]
+  });
+  assert.deepEqual(wi.findSemanticDuplicateWorkItems(left,[{...right,issue_number:208}]),[]);
 });
