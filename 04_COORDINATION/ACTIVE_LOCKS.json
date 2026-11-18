@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1735,
+  "revision": 1736,
   "next_fencing_token": 117,
   "locks": [
     {
@@ -15924,6 +15924,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-18T05:57:24.888Z"
+    },
+    "6970455855": {
+      "response": "معیار پذیرش ثبت شد: AC_TRUTHFUL_LIMITS; ACCEPTANCE_PROGRESS=87.5%; OVERALL_COMPLETION=87.5%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 67,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-18T05:57:30.972Z"
     }
   },
   "work_items": {
@@ -19490,7 +19499,15 @@
         {
           "criterion_id": "AC_TRUTHFUL_LIMITS",
           "title": "No claim of real multi-account E2E, auto-spawning or background execution is made without direct evidence",
-          "evidence_requirement": "Readiness report clearly distinguishes simulation from independent-account E2E"
+          "evidence_requirement": "Readiness report clearly distinguishes simulation from independent-account E2E",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-67-RUN-20261118-PROMPT-DISPATCH-RESUME-001/04_COORDINATION/MULTI_CHAT_READINESS.md",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/83"
+          ],
+          "validated_at_utc": "2026-11-18T05:57:30.972Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_SEMANTIC_DEDUP",
