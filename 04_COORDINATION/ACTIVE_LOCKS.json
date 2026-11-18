@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1659,
+  "revision": 1660,
   "next_fencing_token": 116,
   "locks": [
     {
@@ -14843,6 +14843,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-18T05:44:55.872Z"
+    },
+    "6970263095": {
+      "response": "STEP ثبت شد: S0_REPRODUCE; EXECUTION_PROGRESS=14.28%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=1/7.",
+      "response_posted": false,
+      "issue_number": 81,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-18T05:45:02.202Z"
     }
   },
   "work_items": {
@@ -19078,7 +19087,7 @@
         "EXP-22",
         "EXP-23"
       ],
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "issue:67",
@@ -19103,7 +19112,14 @@
           "weight": 1,
           "expected_output": "Source-backed parser failure reproduction",
           "evidence_requirement": "Issue #67 body, exact workflow regex and error location",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/81#issuecomment-6970260312"
+          ],
+          "validated_at_utc": "2026-11-18T05:45:02.202Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S1_PRESERVE",
