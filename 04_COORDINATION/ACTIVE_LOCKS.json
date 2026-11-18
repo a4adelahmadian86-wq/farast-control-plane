@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2217,
+  "revision": 2218,
   "next_fencing_token": 136,
   "locks": [],
   "history": [
@@ -19216,6 +19216,15 @@
       "command": "release",
       "next_status": null,
       "at_utc": "2026-11-18T11:52:15.283Z"
+    },
+    "6977771743": {
+      "response": "فقط وظیفه review/done قابل بازگشایی است.",
+      "response_posted": false,
+      "issue_number": 89,
+      "actor": "a4adelahmadian86-wq",
+      "command": "reopen",
+      "next_status": null,
+      "at_utc": "2026-11-18T11:52:54.750Z"
     }
   },
   "work_items": {
