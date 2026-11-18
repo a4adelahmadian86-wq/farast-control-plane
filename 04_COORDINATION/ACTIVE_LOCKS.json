@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 1663,
+  "revision": 1664,
   "next_fencing_token": 116,
   "locks": [
     {
@@ -14873,6 +14873,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-18T05:45:08.997Z"
+    },
+    "6970265646": {
+      "response": "STEP ثبت شد: S1_PRESERVE; EXECUTION_PROGRESS=28.57%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=2/7.",
+      "response_posted": false,
+      "issue_number": 81,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-18T05:45:15.778Z"
     }
   },
   "work_items": {
@@ -19149,7 +19158,14 @@
           "weight": 1,
           "expected_output": "Immutable before-state comparison set",
           "evidence_requirement": "Issue #67 spec object, labels, PR #80 URL/head and registry status",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/81#issuecomment-6970260312"
+          ],
+          "validated_at_utc": "2026-11-18T05:45:15.778Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S2_CORRECT_BODY",
