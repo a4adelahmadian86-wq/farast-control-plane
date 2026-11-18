@@ -251,3 +251,31 @@ MASTER-00 یک فرمان ثابت برای تمام چت‌هاست؛ هر چت
 - خطای پردازش یک Issue در inbox_scheduler.issue_errors ثبت می‌شود و batch سایر Issueها ادامه می‌یابد؛ خطای رجیستری مرکزی fail-closed باقی می‌ماند.
 - **محدودیت:** این مسیر صف جهانی bounded است و throughput نامحدود یا زمان پاسخ ثابت تضمین نمی‌کند. schedule پنج‌دقیقه‌ای و quota سرویس GitHub روی زمان رسیدن نوبت بعدی اثر دارند.
 - این تست‌ها اثبات اجرای واقعی N حساب ChatGPT نیستند. E2E دو یا چند حساب مستقل، takeover واقعی میان دو نشست و hard-fencing خارج از coordinator همچنان NOT VERIFIED باقی می‌مانند.
+
+---
+
+## آزمون زنده بازیابی بین دو Issue — مرحله پس از ادغام (Issue #89)
+
+**وضعیت: NOT RUN؛ معیار AC_GLOBAL_REPLAY هنوز PASS نیست.**
+
+- پیاده‌سازی global inbox در PR #93 و ادامه آن در branch `work/GH-89-RUN-20261118-GLOBAL-INBOX-LIVE-TEST-005` قرار دارد؛ head پایه این ادامه `ce1a0460cf3006fc896e11adc7e3eb6a0af1e9d5` است.
+- تا وقتی کد روی `main` ادغام نشده، رویداد `issue_comment` روی main نسخه قبلی coordinator را اجرا می‌کند؛ بنابراین اجرای زنده از روی main نمی‌تواند کد PR را اثبات کند.
+- تست‌های scheduler و CI دقیق-head فقط شواهد deterministic هستند؛ آن‌ها را به‌جای live cross-Issue replay ثبت نکن.
+- پس از ادغام ماشینی PR از طریق مسیر رسمی `/farast accept`، اگر Work Item به‌دلیل AC_GLOBAL_REPLAY هنوز ACCEPTED نشد، آن را دوباره با lease و fencing token تازه claim کن و فقط آزمون زیر را انجام بده.
+
+### سناریوی زنده کم‌خطر
+
+از Issueهای آزمایشی باز و غیرمحصولی #7 و #9 استفاده کن؛ هر دو `agent:task` هستند و resource مستقل دارند.
+
+1. روی Issue #7 یک فرمان فقط‌خواندنی `/farast status` بفرست؛ شناسه comment و Actions run محرک را ثبت کن.
+2. تا ثبت پاسخ coordinator برای همان comment صبر کن و بررسی کن همان Actions run هنوز `in_progress` است؛ اگر تمام شده، این تلاش برای اثبات replay معتبر نیست.
+3. در حالی که run اول هنوز فعال است، روی Issue #7 یک `/farast status` دوم بفرست تا event آن در صف pending قرار گیرد.
+4. بلافاصله یک comment عادی، بدون فرمان، روی Issue #9 بفرست تا event دوم جایگزین event pending مربوط به Issue #7 شود.
+5. در Actions اثبات کن event دومِ #9 اجرا شده و event pending مربوط به comment دوم #7 قبل از اجرا supersede/cancel شده است.
+6. ثابت کن run محرک #9 با کد global inbox، comment دوم #7 را پردازش کرده و پاسخ دارای marker همان comment را روی Issue #7 منتشر کرده است.
+7. رجیستری `coordination/locks:04_COORDINATION/ACTIVE_LOCKS.json` را read-back کن و وجود `processed_operations[comment_id]` با `issue_number=7` و `response_posted=true` را تأیید کن؛ همچنین نبود اثر تکراری برای همان comment را بررسی کن.
+8. شناسه هر دو comment، runهای مربوط، نتیجه cancellation/replacement و snapshot رجیستری را در Issue #89 به‌عنوان evidence ثبت کن؛ فقط پس از آن AC_GLOBAL_REPLAY را PASS کن.
+
+اگر run اول پیش از مرحله 3 یا 4 تمام شد، یا event مربوط به #7 واقعاً supersede نشد، آن تلاش را نامعتبر بدان و با comment IDهای تازه تکرار کن؛ هیچ‌گاه صرفاً به‌دلیل موفقیت CI معیار را PASS نکن.
+
+**مرز شواهد:** موفقیت این سناریو فقط live cross-Issue replay در یک مخزن و یک هویت GitHub را اثبات می‌کند؛ آزمون چند حساب مستقل ChatGPT/GitHub، takeover واقعی میان دو نشست و throughput نامحدود همچنان جداگانه NOT VERIFIED می‌مانند.
