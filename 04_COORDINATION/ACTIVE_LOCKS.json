@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2215,
+  "revision": 2216,
   "next_fencing_token": 136,
   "locks": [],
   "history": [
@@ -19203,7 +19203,7 @@
     },
     "6977757422": {
       "response": "فرمان رد شد: actor/chat/run/token با lease فعال تطبیق ندارد؛ هیچ تغییری انجام نشد.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 11,
       "actor": "a4adelahmadian86-wq",
       "command": "release",
