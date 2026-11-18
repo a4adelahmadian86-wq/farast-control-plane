@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2604,
+  "revision": 2605,
   "next_fencing_token": 144,
   "locks": [
     {
@@ -22031,6 +22031,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-18T16:57:54.302Z"
+    },
+    "6985493258": {
+      "response": "معیار پذیرش ثبت شد: AC_EXACT_HEAD_CI; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; can_accept=true.",
+      "response_posted": false,
+      "issue_number": 90,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-18T16:58:44.423Z"
     }
   },
   "work_items": {
@@ -27685,7 +27694,7 @@
         "EXP-01"
       ],
       "parent_work_item_id": "WI-GOAL-ALLOCATOR-001",
-      "status": "IN_PROGRESS",
+      "status": "REVIEW_REQUIRED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "file:.github/scripts/coordinator-core.js",
@@ -27919,7 +27928,17 @@
           "title": "Control Plane Validation and focused tests pass on the exact PR head; no NON product files are changed.",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "Successful exact-head workflow run and changed-file read-back."
+          "evidence_requirement": "Successful exact-head workflow run and changed-file read-back.",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/99",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/33b5dc14c8c8cebad26d065e10c78843f7f971b1",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44349241705",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/compare/main...work/GH-90-RUN-20261118-ALLOCATOR-CHAT-GATE-REPAIR-001"
+          ],
+          "validated_at_utc": "2026-11-18T16:58:44.422Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Exact head 33b5dc14c8c8cebad26d065e10c78843f7f971b1 passed Control Plane Validation 151/151; compare main...branch is 22 ahead/0 behind with nine control-plane-only files and no NON product changes."
         }
       ],
       "priority": 50,
