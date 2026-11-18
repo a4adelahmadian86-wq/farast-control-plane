@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2658,
+  "revision": 2659,
   "next_fencing_token": 148,
   "locks": [
     {
@@ -22275,7 +22275,7 @@
     },
     "6986016863": {
       "response": "Refresh رد شد: ابتدا lease فعال باید با فرمان release معتبر آزاد شود.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 50,
       "actor": "a4adelahmadian86-wq",
       "command": "refresh",
