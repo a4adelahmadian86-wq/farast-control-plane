@@ -52,6 +52,8 @@ jobs:
             .github/workflows/farast-coordinator.yml
             .github/scripts/coordinator-core.js
             .github/scripts/coordinator-core.test.js
+            .github/scripts/inbox-scheduler.js
+            .github/scripts/inbox-scheduler.test.js
             .github/scripts/work-item-core.js
             .github/scripts/work-item-core.test.js
             .github/scripts/work-item-dispatch-core.js
@@ -73,6 +75,8 @@ jobs:
           for f in "${required[@]}"; do
             test -s "$f" || { echo "Missing/empty: $f"; exit 1; }
           done
+      - name: Run fair durable inbox scheduler regression fixtures
+        run: node --test .github/scripts/inbox-scheduler.test.js
       - name: Run multi-chat contention and fencing fixtures
         run: node --test .github/scripts/coordinator-core.test.js
       - name: Run hierarchical work item progress, fairness and resume fixtures
@@ -108,7 +112,17 @@ jobs:
           from jsonschema import Draft202012Validator, FormatChecker
           from pathlib import Path
           json.loads(Path("01_STRATEGY/DEPENDENCY_GRAPH.json").read_text(encoding="utf-8"))
-          json.loads(Path("04_COORDINATION/ACTIVE_LOCKS.schema.json").read_text(encoding="utf-8"))
+          active_locks_schema = json.loads(Path("04_COORDINATION/ACTIVE_LOCKS.schema.json").read_text(encoding="utf-8"))
+          Draft202012Validator.check_schema(active_locks_schema)
+          active_registry_sample = {
+            "schema_version":"1.0", "revision":1, "next_fencing_token":2, "locks":[], "history":[],
+            "inbox_scheduler":{
+              "version":1, "page":2, "last_page":1, "last_page_count":25,
+              "updated_at_utc":"2026-11-18T07:00:00Z",
+              "issue_errors":{"89":{"reason":"fixture error","count":1,"last_seen_at_utc":"2026-11-18T07:00:00Z"}}
+            }
+          }
+          Draft202012Validator(active_locks_schema, format_checker=FormatChecker()).validate(active_registry_sample)
           work_item_schema = json.loads(Path("04_COORDINATION/WORK_ITEM_SCHEMA.json").read_text(encoding="utf-8"))
           work_item_checkpoint_schema = json.loads(Path("04_COORDINATION/WORK_ITEM_CHECKPOINT_SCHEMA.json").read_text(encoding="utf-8"))
           Draft202012Validator.check_schema(work_item_schema)
