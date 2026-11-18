@@ -637,3 +637,26 @@ test('verified allocation provenance is durable, exact and idempotent', () => {
   assert.equal(core.recordAllocationProvenance(s, 96, item, Date.parse('2026-11-18T06:07:00.000Z')), false);
   assert.equal(s.history.filter(x => x.event === 'WORK_ITEM_ALLOCATED').length, 1);
 });
+
+
+test('an active legacy lock without chat_id blocks new claims until identity is known', () => {
+  const s = registry();
+  s.locks.push({
+    resource_key:'module:legacy', issue_number:10, task_id:'GH-10', actor:'alice',
+    run_id:'run-a', target_repository:'owner/repo', branch:'work/GH-10-run-a',
+    acquired_at_utc:'2026-11-18T00:00:00.000Z',
+    heartbeat_at_utc:'2026-11-18T00:00:00.000Z',
+    lease_expires_at_utc:'2026-11-18T01:00:00.000Z',
+    fencing_token:7, status:'ACTIVE'
+  });
+  const beforeToken = s.next_fencing_token;
+  const denied = core.claimResources(s, {
+    issueNumber:11, taskId:'GH-11', actor:'bob', chatId:'new-chat', runId:'run-b',
+    targetRepository:'owner/repo', branch:'work/GH-11-run-b',
+    resourceKeys:['module:identity'], leaseMinutes:5, nowMs:1000
+  });
+  assert.equal(denied.ok, false);
+  assert.equal(denied.reason, 'chat_conflict');
+  assert.equal(s.next_fencing_token, beforeToken);
+  assert.equal(s.locks.length, 1);
+});
