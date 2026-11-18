@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2162,
+  "revision": 2163,
   "next_fencing_token": 132,
   "locks": [
     {
@@ -18723,7 +18723,7 @@
     },
     "6976950000": {
       "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-PR16-SPEC-REPAIR-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=Issue #58 is branchless control-plane metadata work; all seven steps and four criteria are PASS. Submit /farast review to create the required branchless handoff and release token 131, verify /farast status returns no active lease, then submit /farast accept with no PR for evidence-only acceptance. Preserve Issue #51/#52 policy and do not modify NON product repository.; remaining_steps=.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 58,
       "actor": "a4adelahmadian86-wq",
       "command": "checkpoint",
