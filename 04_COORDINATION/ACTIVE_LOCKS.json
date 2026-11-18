@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2610,
+  "revision": 2611,
   "next_fencing_token": 144,
   "locks": [],
   "history": [
@@ -21883,6 +21883,19 @@
       "command": "review",
       "next_status": "review",
       "at_utc": "2026-11-18T16:59:40.906Z"
+    },
+    "6985541380": {
+      "response": "Work Item ACCEPTED: همه گام‌ها و معیارهای اجباری با evidence معتبر پاس شده‌اند؛ PR ادغام‌شده و تمام گیت‌های ماشینی موفق روی SHA دقیق head احراز شد؛ هیچ Review انسانی شرط پذیرش نیست.",
+      "response_posted": false,
+      "issue_number": 90,
+      "actor": "a4adelahmadian86-wq",
+      "command": "accept",
+      "next_status": "done",
+      "pr_url": "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/99",
+      "pr_head_sha": "33b5dc14c8c8cebad26d065e10c78843f7f971b1",
+      "merge_commit_sha": "945a007b5048f304e66a1f94ad589cf0b112b91b",
+      "lineage_mode": "EXACT_REVIEW_BRANCH",
+      "at_utc": "2026-11-18T17:00:39.761Z"
     }
   },
   "work_items": {
@@ -27537,7 +27550,7 @@
         "EXP-01"
       ],
       "parent_work_item_id": "WI-GOAL-ALLOCATOR-001",
-      "status": "REVIEW_REQUIRED",
+      "status": "ACCEPTED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "file:.github/scripts/coordinator-core.js",
