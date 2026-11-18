@@ -105,3 +105,38 @@ test('a bounded issue page lets other Issues progress despite a noisy command so
     { issue: 3, comments: [5] }
   ]);
 });
+
+test('a command on another Issue is included when a different Issue triggers reconciliation', () => {
+  const selected = inbox.selectIssueBatch({
+    eventIssue: task(90),
+    pageIssues: [task(89), task(90)]
+  });
+  assert.deepEqual(selected.map(x => x.number), [90, 89]);
+  const pendingOnOtherIssue = inbox.selectPendingCommandComments(
+    [{ id: 700, body: '/farast status' }],
+    {},
+    inbox.MAX_COMMANDS_PER_ISSUE
+  );
+  assert.deepEqual(pendingOnOtherIssue.map(x => x.id), [700]);
+});
+
+test('a cancelled run replays its page without reapplying an already committed command', () => {
+  const state = { inbox_scheduler: { version: 1, page: 2 } };
+  const comments = [
+    { id: 20, body: '/farast status' },
+    { id: 21, body: '/farast progress' }
+  ];
+  const firstAttempt = inbox.selectPendingCommandComments(comments, {}, 1);
+  assert.deepEqual(firstAttempt.map(x => x.id), [20]);
+
+  // Simulate a crash after the operation ledger commit but before cursor advancement.
+  const processedOperations = { '20': { response_posted: false, issue_number: 89 } };
+  assert.equal(inbox.getCursorPage(state), 2);
+  const replayAttempt = inbox.selectPendingCommandComments(comments, processedOperations, 1);
+  assert.deepEqual(replayAttempt.map(x => x.id), [21]);
+  assert.equal(inbox.getCursorPage(state), 2);
+
+  inbox.advanceCursor(state, 2, 25, '2026-11-18T07:45:00.000Z');
+  assert.equal(inbox.getCursorPage(state), 3);
+});
+
