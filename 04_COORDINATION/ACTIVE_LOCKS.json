@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "revision": 2317,
-  "next_fencing_token": 139,
+  "revision": 2318,
+  "next_fencing_token": 140,
   "locks": [
     {
       "resource_key": "file:.github/scripts/coordinator-core.js",
@@ -177,6 +177,86 @@
       "heartbeat_at_utc": "2026-11-18T12:50:46.256Z",
       "lease_expires_at_utc": "2026-11-18T13:20:46.256Z",
       "fencing_token": 138,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "doc:.github/workflows/control-plane-validation.yml",
+      "issue_number": 47,
+      "task_id": "GH-47",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-PR16-EXP23-CONTINUATION-20261118",
+      "chat_id": "CHAT-PR16-EXP23-CONTINUATION-20261118",
+      "run_id": "RUN-PR16-EXP23-INTEGRATION-RESUME-20261118-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-47-RUN-PR16-EXP23-INTEGRATION-RESUME-20261118-001",
+      "acquired_at_utc": "2026-11-18T12:51:03.052Z",
+      "heartbeat_at_utc": "2026-11-18T12:51:03.052Z",
+      "lease_expires_at_utc": "2026-11-18T13:21:03.052Z",
+      "fencing_token": 139,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "doc:05_prompt_library/farast_executable_prompts_complete.md",
+      "issue_number": 47,
+      "task_id": "GH-47",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-PR16-EXP23-CONTINUATION-20261118",
+      "chat_id": "CHAT-PR16-EXP23-CONTINUATION-20261118",
+      "run_id": "RUN-PR16-EXP23-INTEGRATION-RESUME-20261118-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-47-RUN-PR16-EXP23-INTEGRATION-RESUME-20261118-001",
+      "acquired_at_utc": "2026-11-18T12:51:03.052Z",
+      "heartbeat_at_utc": "2026-11-18T12:51:03.052Z",
+      "lease_expires_at_utc": "2026-11-18T13:21:03.052Z",
+      "fencing_token": 139,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "module:coordinator-claim-routing",
+      "issue_number": 47,
+      "task_id": "GH-47",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-PR16-EXP23-CONTINUATION-20261118",
+      "chat_id": "CHAT-PR16-EXP23-CONTINUATION-20261118",
+      "run_id": "RUN-PR16-EXP23-INTEGRATION-RESUME-20261118-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-47-RUN-PR16-EXP23-INTEGRATION-RESUME-20261118-001",
+      "acquired_at_utc": "2026-11-18T12:51:03.052Z",
+      "heartbeat_at_utc": "2026-11-18T12:51:03.052Z",
+      "lease_expires_at_utc": "2026-11-18T13:21:03.052Z",
+      "fencing_token": 139,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "module:prompt-library",
+      "issue_number": 47,
+      "task_id": "GH-47",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-PR16-EXP23-CONTINUATION-20261118",
+      "chat_id": "CHAT-PR16-EXP23-CONTINUATION-20261118",
+      "run_id": "RUN-PR16-EXP23-INTEGRATION-RESUME-20261118-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-47-RUN-PR16-EXP23-INTEGRATION-RESUME-20261118-001",
+      "acquired_at_utc": "2026-11-18T12:51:03.052Z",
+      "heartbeat_at_utc": "2026-11-18T12:51:03.052Z",
+      "lease_expires_at_utc": "2026-11-18T13:21:03.052Z",
+      "fencing_token": 139,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "module:work-item-dispatch",
+      "issue_number": 47,
+      "task_id": "GH-47",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-PR16-EXP23-CONTINUATION-20261118",
+      "chat_id": "CHAT-PR16-EXP23-CONTINUATION-20261118",
+      "run_id": "RUN-PR16-EXP23-INTEGRATION-RESUME-20261118-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-47-RUN-PR16-EXP23-INTEGRATION-RESUME-20261118-001",
+      "acquired_at_utc": "2026-11-18T12:51:03.052Z",
+      "heartbeat_at_utc": "2026-11-18T12:51:03.052Z",
+      "lease_expires_at_utc": "2026-11-18T13:21:03.052Z",
+      "fencing_token": 139,
       "status": "ACTIVE"
     }
   ],
@@ -9959,6 +10039,27 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "lease_expires_at_utc": "2026-11-18T13:20:46.256Z",
       "at_utc": "2026-11-18T12:50:46.256Z"
+    },
+    {
+      "event": "ACQUIRED",
+      "issue_number": 47,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-PR16-EXP23-CONTINUATION-20261118",
+      "run_id": "RUN-PR16-EXP23-INTEGRATION-RESUME-20261118-001",
+      "resource_keys": [
+        "doc:.github/workflows/control-plane-validation.yml",
+        "doc:05_prompt_library/farast_executable_prompts_complete.md",
+        "module:coordinator-claim-routing",
+        "module:prompt-library",
+        "module:work-item-dispatch"
+      ],
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-47-RUN-PR16-EXP23-INTEGRATION-RESUME-20261118-001",
+      "previous_branch": "work/GH-47-RUN-20261116-FINALIZE-002",
+      "previous_target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "previous_run_id": "RUN-20261116-FINALIZE-002",
+      "fencing_token": 139,
+      "at_utc": "2026-11-18T12:51:03.052Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -20069,6 +20170,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-18T12:50:46.256Z"
+    },
+    "6979056354": {
+      "response": "CLAIM GRANTED. TASK=GH-47; WORK_ITEM_ID=WI-PROMPT-INTEGRATION-001; verified_steps=S0_AUDIT,S1_MERGE_PLAN,S2_DEEP_STANDARD,S3_WRITE_POLICY,S4_AUTO_SELECTION,S5_BUNDLE_TESTS,S6_VERIFY_HANDOFF; remaining_steps=; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; actor=@a4adelahmadian86-wq; chat=CHAT-PR16-EXP23-CONTINUATION-20261118; run=RUN-PR16-EXP23-INTEGRATION-RESUME-20261118-001; resource_keys=doc:.github/workflows/control-plane-validation.yml,doc:05_prompt_library/farast_executable_prompts_complete.md,module:coordinator-claim-routing,module:prompt-library,module:work-item-dispatch; target_repository=a4adelahmadian86-wq/farast-control-plane; write_policy=WRITE_ALLOWED; branch=work/GH-47-RUN-PR16-EXP23-INTEGRATION-RESUME-20261118-001; previous_run=RUN-20261116-FINALIZE-002; previous_target_repository=a4adelahmadian86-wq/farast-control-plane; previous_branch=work/GH-47-RUN-20261116-FINALIZE-002; fencing_token=139; lease_expires=2026-11-18T13:21:03.052Z. این Work Item با سیاست WRITE_ALLOWED است؛ branch را فقط در target_repository ثبت‌شده بساز و قبل از هر write heartbeat/token را دوباره تأیید کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز و branch قبلی را تغییر نده.",
+      "response_posted": false,
+      "issue_number": 47,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "locked",
+      "at_utc": "2026-11-18T12:51:03.053Z"
     }
   },
   "work_items": {
@@ -21660,7 +21770,7 @@
         "EXP-23",
         "EXP-26"
       ],
-      "status": "IN_PROGRESS",
+      "status": "CLAIMED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "module:prompt-library",
