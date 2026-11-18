@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2584,
+  "revision": 2585,
   "next_fencing_token": 144,
   "locks": [
     {
@@ -28600,6 +28600,13 @@
     "last_page": 1,
     "last_page_count": 25,
     "page": 2,
-    "updated_at_utc": "2026-11-18T16:50:48.703Z"
+    "updated_at_utc": "2026-11-18T16:50:48.703Z",
+    "issue_errors": {
+      "90": {
+        "reason": "Invalid Work item specification JSON in Issue #90: Unexpected non-whitespace character after JSON at position 9219 (line 177 column 1)",
+        "count": 1,
+        "last_seen_at_utc": "2026-11-18T16:51:06.358Z"
+      }
+    }
   }
 }
