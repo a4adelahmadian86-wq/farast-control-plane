@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "revision": 1964,
-  "next_fencing_token": 123,
+  "revision": 1965,
+  "next_fencing_token": 124,
   "locks": [
     {
       "resource_key": "file:.github/scripts/work-item-core.js",
@@ -49,6 +49,54 @@
       "heartbeat_at_utc": "2026-11-18T06:14:01.096Z",
       "lease_expires_at_utc": "2026-11-18T06:44:01.096Z",
       "fencing_token": 119,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "file:04_coordination/work_item_spec_format.md",
+      "issue_number": 81,
+      "task_id": "GH-81",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-MASTER-CONTINUE-20261118-01",
+      "chat_id": "CHAT-MASTER-CONTINUE-20261118-01",
+      "run_id": "RUN-20261118-ISSUE-SPEC-REPAIR-004",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-81-RUN-20261118-ISSUE-SPEC-REPAIR-004",
+      "acquired_at_utc": "2026-11-18T06:28:56.722Z",
+      "heartbeat_at_utc": "2026-11-18T06:28:56.722Z",
+      "lease_expires_at_utc": "2026-11-18T06:58:56.722Z",
+      "fencing_token": 123,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "issue:67",
+      "issue_number": 81,
+      "task_id": "GH-81",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-MASTER-CONTINUE-20261118-01",
+      "chat_id": "CHAT-MASTER-CONTINUE-20261118-01",
+      "run_id": "RUN-20261118-ISSUE-SPEC-REPAIR-004",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-81-RUN-20261118-ISSUE-SPEC-REPAIR-004",
+      "acquired_at_utc": "2026-11-18T06:28:56.722Z",
+      "heartbeat_at_utc": "2026-11-18T06:28:56.722Z",
+      "lease_expires_at_utc": "2026-11-18T06:58:56.722Z",
+      "fencing_token": 123,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "module:issue-spec-format-contract",
+      "issue_number": 81,
+      "task_id": "GH-81",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-MASTER-CONTINUE-20261118-01",
+      "chat_id": "CHAT-MASTER-CONTINUE-20261118-01",
+      "run_id": "RUN-20261118-ISSUE-SPEC-REPAIR-004",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-81-RUN-20261118-ISSUE-SPEC-REPAIR-004",
+      "acquired_at_utc": "2026-11-18T06:28:56.722Z",
+      "heartbeat_at_utc": "2026-11-18T06:28:56.722Z",
+      "lease_expires_at_utc": "2026-11-18T06:58:56.722Z",
+      "fencing_token": 123,
       "status": "ACTIVE"
     }
   ],
@@ -8367,6 +8415,25 @@
       "branch": "work/GH-68-RUN-20261118-LEGACY-SCOPE-MIGRATION-006",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "at_utc": "2026-11-18T06:26:25.836Z"
+    },
+    {
+      "event": "ACQUIRED",
+      "issue_number": 81,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-MASTER-CONTINUE-20261118-01",
+      "run_id": "RUN-20261118-ISSUE-SPEC-REPAIR-004",
+      "resource_keys": [
+        "file:04_coordination/work_item_spec_format.md",
+        "issue:67",
+        "module:issue-spec-format-contract"
+      ],
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-81-RUN-20261118-ISSUE-SPEC-REPAIR-004",
+      "previous_branch": "work/GH-81-RUN-20261118-ISSUE-SPEC-REPAIR-003",
+      "previous_target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "previous_run_id": "RUN-20261118-ISSUE-SPEC-REPAIR-003",
+      "fencing_token": 123,
+      "at_utc": "2026-11-18T06:28:56.722Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -17019,6 +17086,15 @@
       "command": "checkpoint",
       "next_status": null,
       "at_utc": "2026-11-18T06:28:24.588Z"
+    },
+    "6970961365": {
+      "response": "CLAIM GRANTED. TASK=GH-81; WORK_ITEM_ID=WI-ISSUE-SPEC-EXTRACTION-REPAIR-001; verified_steps=S0_REPRODUCE,S1_PRESERVE,S2_CORRECT_BODY,S3_FORMAT_CONTRACT,S4_VERIFY; remaining_steps=S5_CLAIM_RECOVERY,S6_HANDOFF; EXECUTION_PROGRESS=71.42%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; actor=@a4adelahmadian86-wq; chat=CHAT-MASTER-CONTINUE-20261118-01; run=RUN-20261118-ISSUE-SPEC-REPAIR-004; resource_keys=file:04_coordination/work_item_spec_format.md,issue:67,module:issue-spec-format-contract; target_repository=a4adelahmadian86-wq/farast-control-plane; write_policy=WRITE_ALLOWED; branch=work/GH-81-RUN-20261118-ISSUE-SPEC-REPAIR-004; previous_run=RUN-20261118-ISSUE-SPEC-REPAIR-003; previous_target_repository=a4adelahmadian86-wq/farast-control-plane; previous_branch=work/GH-81-RUN-20261118-ISSUE-SPEC-REPAIR-003; fencing_token=123; lease_expires=2026-11-18T06:58:56.722Z. این Work Item با سیاست WRITE_ALLOWED است؛ branch را فقط در target_repository ثبت‌شده بساز و قبل از هر write heartbeat/token را دوباره تأیید کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز و branch قبلی را تغییر نده.",
+      "response_posted": false,
+      "issue_number": 81,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "locked",
+      "at_utc": "2026-11-18T06:28:56.723Z"
     }
   },
   "work_items": {
@@ -21486,7 +21562,7 @@
         "EXP-22",
         "EXP-23"
       ],
-      "status": "IN_PROGRESS",
+      "status": "CLAIMED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "issue:67",
