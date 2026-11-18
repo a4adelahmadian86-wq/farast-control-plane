@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2113,
+  "revision": 2114,
   "next_fencing_token": 130,
   "locks": [
     {
@@ -18376,6 +18376,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-18T07:56:51.427Z"
+    },
+    "6972601046": {
+      "response": "STEP ثبت شد: S7_CI_HANDOFF; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=7/7.",
+      "response_posted": false,
+      "issue_number": 89,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-18T07:57:18.384Z"
     }
   },
   "work_items": {
@@ -23506,7 +23515,14 @@
           "weight": 1,
           "expected_output": "A PR with only authorized control-plane changes, exact-head green CI and evidence-linked handoff.",
           "evidence_requirement": "PR URL, exact head SHA, changed-file list, workflow run IDs, diff review and known limitations.",
-          "estimate_minutes": 2
+          "estimate_minutes": 2,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44262363777"
+          ],
+          "validated_at_utc": "2026-11-18T07:57:18.384Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "acceptance_criteria": [
