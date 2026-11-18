@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2147,
+  "revision": 2148,
   "next_fencing_token": 132,
   "locks": [
     {
@@ -18633,6 +18633,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-18T11:12:22.210Z"
+    },
+    "6976893872": {
+      "response": "معیار پذیرش ثبت شد: AC_SCHEMA; ACCEPTANCE_PROGRESS=25%; OVERALL_COMPLETION=25%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 58,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-18T11:12:50.371Z"
     }
   },
   "work_items": {
@@ -21082,7 +21091,16 @@
         {
           "criterion_id": "AC_SCHEMA",
           "title": "Both Issue #51 and #52 JSON specifications pass the live deep Work Item validator with evidence_requirement on every required criterion",
-          "evidence_requirement": "Successful /farast progress responses and read-back issue JSON for both issues"
+          "evidence_requirement": "Successful /farast progress responses and read-back issue JSON for both issues",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/58#issuecomment-6976871049",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/51#issuecomment-6976826165",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/52#issuecomment-6976840903"
+          ],
+          "validated_at_utc": "2026-11-18T11:12:50.371Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_POLICY",
