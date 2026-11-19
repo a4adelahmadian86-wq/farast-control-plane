@@ -41,8 +41,8 @@ test('coordinator events are isolated by Issue and shared registry writes use no
   const workflowPath = path.join(__dirname, '..', 'workflows', 'farast-coordinator.yml');
   const workflow = fs.readFileSync(workflowPath, 'utf8');
   assert.ok(workflow.includes('group: farast-control-plane-${{ github.event.issue.number || github.event.number || github.event_name }}'));
-  assert.match(workflow, /cancel-in-progress:\\s*false/);
-  assert.match(workflow, /force:\\s*false/);
+  assert.ok(workflow.includes('cancel-in-progress: false'));
+  assert.ok(workflow.includes('force: false'));
   assert.match(workflow, /registry_cas_conflict/);
   assert.match(workflow, /durable inbox.*replay|durable comment inbox/i);
 });
