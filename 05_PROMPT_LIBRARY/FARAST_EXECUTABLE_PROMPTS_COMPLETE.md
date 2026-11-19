@@ -184,6 +184,15 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 ## استثنای محدود برای PR جایگزینِ از قبل ادغام‌شده
 
 اگر branch اجرای قبلی وجود ندارد، آن را بازسازی یا reuse نکن. فقط وقتی یک PR جایگزین واقعاً `merged=true` است می‌توان `main` فعلی را checkpoint جایگزین دانست؛ آن هم پس از اثبات اینکه merge commit همان PR ancestor شاخه پیش‌فرض فعلی همان مخزن است. بررسی اجباری: مخزن head و base دقیقاً target repository، base ref برابر default branch، merge commit غیرخالی، GitHub Compare با `base_commit.sha = merge_base_commit.sha = merge_commit_sha`، `behind_by=0` و status برابر `ahead` یا `identical`. این استثنا فقط برای PR بسته و ادغام‌شده است؛ PR باز/ادغام‌نشده همچنان باید دقیقاً با branch آخرین REVIEW event همان lease منطبق باشد. Check Runهای SHA دقیق head و همه hard gateها همچنان الزامی‌اند. اگر هر جزء نامعلوم یا ناموفق بود: STOP WRITES.
+
+## هویت پایدار هر چت و قفل منابع مستقل
+
+- در شروع هر مکالمه ChatGPT، اگر CHAT_ID قبلی همان مکالمه موجود نیست، یک شناسه تصادفی مستقل و با entropy بالا تولید کن (ترجیحاً UUID v4؛ در نبود ابزار کدنویسی ۳۲ رقم hex تصادفی). آن را در checkpoint نگه دار. هر چت جدید شناسه جدید می‌سازد؛ از CHAT_ID ثابت داخل مثال‌ها یا چت دیگر استفاده نکن.
+- همان CHAT_ID را در تمام PR-01 تا PR-17 و resumeهای همان مکالمه حفظ کن. RUN_ID برای هر Lease/اجرای جدید یکتا است. یک CHAT_ID فقط یک Lease فعال می‌تواند داشته باشد؛ این محدودیت فقط همان مکالمه است، نه کل پروژه و نه همه چت‌های یک حساب GitHub.
+- اگر پاسخ صریح `chat_conflict` دریافت شد، lock را بررسی کن: اگر همان مکالمه کار فعال دارد، آن را resume کن؛ اگر این مکالمه تازه است و هیچ Lease فعالی نگرفته، CHAT_ID تکراری را قبل از claim موفق با شناسه جدید جایگزین کن. هنگام داشتن Lease فعال خودت، CHAT_ID را تغییر نده.
+- resource keys باید به دامنه واقعی محدود باشند: `file:path` و `doc:path` برای مسیر یکسان تعارض دارند؛ `dir:path` با تمام فرزندان تعارض دارد؛ `module:id` و کلیدهای منطقی فقط با شناسه یکسان تعارض دارند؛ `repo:label` قفل انحصاری کل target_repository است. کلیدهای یکسان در دو مخزن متفاوت تعارض ندارند.
+- برای درخواست جدید روی NON، ابتدا READ_ONLY بررسی کن و فایل‌ها/ماژول‌های واقعی را تعیین کن؛ سپس file/dir/module keys دقیق بگیر. کلید legacy `repo:non:controlled-implementation` قفل کل NON است و نباید برای هر درخواست جدید استفاده شود. دامنه نامعلوم یا غیرقابل‌تقسیم = READ_ONLY یا repo-exclusive فقط با دلیل واقعی.
+- صف global Actions فقط پردازش تغییرات رجیستری را سریالی می‌کند. نبود پاسخ فرمان یا run queued را LOCKED تلقی نکن؛ وضعیت را از همان comment ID، Actions run و رجیستری بخوان. برای هر Issue در هر pass فقط یک فرمان pending اجرا می‌شود؛ فرمان تکراری نفرست.
 # SOURCE: 05_PROMPT_LIBRARY/PR-01_BASELINE.md
 
 # دستور مشترک اجباری همه پرامپت‌های FARAST
