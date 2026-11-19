@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2762,
+  "revision": 2763,
   "next_fencing_token": 152,
   "locks": [],
   "history": [
@@ -11364,6 +11364,17 @@
       "branch": "work/GH-100-RUN-LOCK-SCOPE-REPAIR-20261119-003",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "at_utc": "2026-11-19T12:59:59.893Z"
+    },
+    {
+      "event": "WORK_ITEM_REFRESHED",
+      "issue_number": 100,
+      "work_item_id": "WI-LOCK-SCOPE-ISOLATION-001",
+      "actor": "a4adelahmadian86-wq",
+      "preserved_steps": 0,
+      "preserved_criteria": 0,
+      "hard_gate_ready": true,
+      "hard_gate_blockers": [],
+      "at_utc": "2026-11-19T13:01:11.609Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -22999,6 +23010,15 @@
       "command": "status",
       "next_status": null,
       "at_utc": "2026-11-19T13:00:38.682Z"
+    },
+    "7009845760": {
+      "response": "Work Item specification refreshed from Issue body; preserved_steps=0; preserved_criteria=0; hard_gates=PASS; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%.",
+      "response_posted": false,
+      "issue_number": 100,
+      "actor": "a4adelahmadian86-wq",
+      "command": "refresh",
+      "next_status": "ready",
+      "at_utc": "2026-11-19T13:01:11.612Z"
     }
   },
   "work_items": {
@@ -28960,8 +28980,9 @@
         "file:.github/scripts/coordinator-core.js",
         "file:.github/scripts/coordinator-core.test.js",
         "file:04_COORDINATION/COORDINATOR_COMMANDS.md",
-        "file:04_COORDINATION/SINGLE_PROMPT_MULTI_CHAT_DISPATCH.md",
         "file:04_COORDINATION/LOCK_PROTOCOL.md",
+        "file:04_COORDINATION/SINGLE_PROMPT_MULTI_CHAT_DISPATCH.md",
+        "file:05_PROMPT_LIBRARY/FARAST_EXECUTABLE_PROMPTS_COMPLETE.md",
         "file:05_PROMPT_LIBRARY/MASTER-00.md",
         "file:05_PROMPT_LIBRARY/PROMPT_CATALOG.md"
       ],
