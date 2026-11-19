@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2787,
+  "revision": 2788,
   "next_fencing_token": 154,
   "locks": [
     {
@@ -23407,7 +23407,7 @@
     },
     "7010247629": {
       "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-LOCK-SCOPE-ISOLATION-001; EXECUTION_PROGRESS=12.5%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; next_action=CI exposed a stale static assertion in control-plane-validation.yml that still requires the old global concurrency group. Release token 153; add that validation workflow to resource keys; refresh; reclaim from the current branch head; update assertion to per-Issue group; rerun exact-head CI.; remaining_steps=S1_IDENTITY,S2_RESOURCE_MODEL,S3_NON_POLICY,S4_QUEUE_SEMANTICS,S5_PROMPT_PARITY,S6_CONCURRENCY_TEST,S7_PR_HANDOFF.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 100,
       "actor": "a4adelahmadian86-wq",
       "command": "checkpoint",
