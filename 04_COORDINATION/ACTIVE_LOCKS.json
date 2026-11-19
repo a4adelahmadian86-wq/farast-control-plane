@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2808,
+  "revision": 2809,
   "next_fencing_token": 155,
   "locks": [
     {
@@ -23581,6 +23581,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-19T13:26:25.415Z"
+    },
+    "7010373122": {
+      "response": "STEP ثبت شد: S7_PR_HANDOFF; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=8/8.",
+      "response_posted": false,
+      "issue_number": 100,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-19T13:27:10.947Z"
     }
   },
   "work_items": {
@@ -29665,7 +29674,14 @@
           "required": true,
           "weight": 1,
           "expected_output": "Review-ready PR and durable handoff with exact SHA",
-          "evidence_requirement": "PR URL/head SHA, CI, changed-file list, rollback and checkpoint read-back"
+          "evidence_requirement": "PR URL/head SHA, CI, changed-file list, rollback and checkpoint read-back",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/104"
+          ],
+          "validated_at_utc": "2026-11-19T13:27:10.946Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "acceptance_criteria": [
