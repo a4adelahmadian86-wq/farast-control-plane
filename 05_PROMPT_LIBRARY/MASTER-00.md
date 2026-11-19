@@ -18,7 +18,7 @@
 
 ## وضعیت هماهنگ‌کننده رویدادمحور
 - workflow مستقل .github/workflows/farast-coordinator.yml مدیریت فرمان‌های /farast، labelها، idempotency، lease و review/close gate را بر عهده دارد.
-- همه اجراها با concurrency group سراسری single-writer سریال می‌شوند؛ کامنت‌های Issue صندوق ورودی پایدارند و reconciliation دوره‌ای فرمان‌های جامانده را بازیابی می‌کند.
+- رویدادهای هر Issue concurrency group مستقل دارند و Issueهای متفاوت می‌توانند هم‌زمان پردازش شوند. رجیستری مشترک با fast-forward CAS و force=false محافظت می‌شود؛ در تعارض CAS فرمان در inbox پایدار می‌ماند و sweep بعدی آن را replay می‌کند. برای هر Issue در هر pass حداکثر ۳ فرمان pending قدیمی‌تر پردازش می‌شود.
 - رجیستری coordination/locks فقط توسط workflow مرکزی نوشته می‌شود؛ workerها حق نوشتن مستقیم یا استفاده از direct CAS ندارند.
 - workflow باید در default branch فعال باشد؛ PR #1 ادغام شده است؛ workflow در main فعال است، اما اجرا و دسترسی Actions باید با شواهد زنده تأیید شوند.
 - قرارداد فرمان‌ها در 04_COORDINATION/COORDINATOR_COMMANDS.md است.
@@ -176,5 +176,5 @@ Issue، checkpoint، branch/PR/commit، شواهد، اقدام بعدی و وض
 - اگر پاسخ صریح `chat_conflict` دریافت شد، lock را بررسی کن: اگر همان مکالمه کار فعال دارد، آن را resume کن؛ اگر این مکالمه تازه است و هیچ Lease فعالی نگرفته، CHAT_ID تکراری را قبل از claim موفق با شناسه جدید جایگزین کن. هنگام داشتن Lease فعال خودت، CHAT_ID را تغییر نده.
 - resource keys باید به دامنه واقعی محدود باشند: `file:path` و `doc:path` برای مسیر یکسان تعارض دارند؛ `dir:path` با تمام فرزندان تعارض دارد؛ `module:id` و کلیدهای منطقی فقط با شناسه یکسان تعارض دارند؛ `repo:label` قفل انحصاری کل target_repository است. کلیدهای یکسان در دو مخزن متفاوت تعارض ندارند.
 - برای درخواست جدید روی NON، ابتدا READ_ONLY بررسی کن و فایل‌ها/ماژول‌های واقعی را تعیین کن؛ سپس file/dir/module keys دقیق بگیر. کلید legacy `repo:non:controlled-implementation` قفل کل NON است و نباید برای هر درخواست جدید استفاده شود. دامنه نامعلوم یا غیرقابل‌تقسیم = READ_ONLY یا repo-exclusive فقط با دلیل واقعی.
-- صف global Actions فقط پردازش تغییرات رجیستری را سریالی می‌کند. نبود پاسخ فرمان یا run queued را LOCKED تلقی نکن؛ وضعیت را از همان comment ID، Actions run و رجیستری بخوان. برای هر Issue در هر pass فقط یک فرمان pending اجرا می‌شود؛ فرمان تکراری نفرست.
+- هر Issue گروه concurrency مستقل دارد و رویدادهای Issueهای متفاوت موازی اجرا می‌شوند. تغییر ACTIVE_LOCKS.json با fast-forward CAS و force=false محافظت می‌شود؛ اگر commit رقیب زودتر ref را جلو برد، فرمان بازنده باید unprocessed بماند تا inbox پایدار در sweep بعدی آن را replay کند. برای هر Issue در هر pass حداکثر ۳ فرمان قدیمی‌تر pending اجرا می‌شود. نبود پاسخ یا run queued را LOCKED تلقی نکن؛ فقط پاسخ صریح coordinator و snapshot رجیستری قفل واقعی را ثابت می‌کند.
 
