@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2814,
+  "revision": 2815,
   "next_fencing_token": 155,
   "locks": [
     {
@@ -23608,6 +23608,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-19T13:28:24.002Z"
+    },
+    "7010378537": {
+      "response": "معیار پذیرش ثبت شد: AC_NON_BOUNDARY; ACCEPTANCE_PROGRESS=42.85%; OVERALL_COMPLETION=42.85%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 100,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-19T13:28:51.186Z"
     }
   },
   "work_items": {
@@ -29730,7 +29739,14 @@
         {
           "criterion_id": "AC_NON_BOUNDARY",
           "title": "No blanket NON WRITE_ALLOWED permission is introduced; Issue #51's owner authorization remains exact to that Issue; unknown scope stays READ_ONLY until bounded",
-          "evidence_requirement": "Before/after policy comparison and negative authorization tests"
+          "evidence_requirement": "Before/after policy comparison and negative authorization tests",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/104"
+          ],
+          "validated_at_utc": "2026-11-19T13:28:51.186Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_QUEUE",
