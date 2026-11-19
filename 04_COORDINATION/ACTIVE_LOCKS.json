@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2807,
+  "revision": 2808,
   "next_fencing_token": 155,
   "locks": [
     {
@@ -23575,7 +23575,7 @@
     },
     "7010371948": {
       "response": "STEP ثبت شد: S6_CONCURRENCY_TEST; EXECUTION_PROGRESS=87.5%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=7/8.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 100,
       "actor": "a4adelahmadian86-wq",
       "command": "step",
