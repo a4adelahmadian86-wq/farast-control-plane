@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2753,
+  "revision": 2754,
   "next_fencing_token": 152,
   "locks": [
     {
@@ -23059,7 +23059,7 @@
     },
     "7009795843": {
       "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-LOCK-SCOPE-ISOLATION-001; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; next_action=Release token 151; add generated bundle path to Work Item resources; refresh spec; reclaim as a new RUN from the current branch head; regenerate bundle from canonical Master and 17 prompt sources; rerun exact-head CI.; remaining_steps=S0_BASELINE,S1_IDENTITY,S2_RESOURCE_MODEL,S3_NON_POLICY,S4_QUEUE_SEMANTICS,S5_PROMPT_PARITY,S6_CONCURRENCY_TEST,S7_PR_HANDOFF.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 100,
       "actor": "a4adelahmadian86-wq",
       "command": "checkpoint",
