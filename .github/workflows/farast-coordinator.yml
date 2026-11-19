@@ -9,11 +9,14 @@ on:
     - cron: "*/5 * * * *"
   workflow_dispatch:
 
-# One writer for the entire control plane, not one writer per Issue.
-# GitHub may replace a pending run; the durable comment inbox + scheduled
-# reconciliation recovers commands that were not handled by the replaced run.
+# Serialize events for the same Issue, but let unrelated Issues reconcile in parallel.
+# The shared registry is protected by a non-force fast-forward compare-and-swap:
+# only one writer based on a given registry commit can advance the ref. A stale
+# writer fails without marking its command processed; the durable inbox retries it.
+# GitHub may replace a pending run within one Issue group; scheduled reconciliation
+# recovers the durable comment. Different Issues do not cancel one another.
 concurrency:
-  group: farast-control-plane-single-writer
+  group: farast-control-plane-${{ github.event.issue.number || github.event.number || github.event_name }}
   cancel-in-progress: false
 
 permissions:
@@ -73,8 +76,10 @@ jobs:
               return { state: JSON.parse(decoded), refSha: ref.data.object.sha, treeSha: commit.data.tree.sha };
             };
 
-            // This workflow is the sole authorized writer. Global Actions concurrency
-            // serializes every mutation; workers must never write ACTIVE_LOCKS.json directly.
+            // This workflow is the sole authorized writer. Different Issue events may
+            // execute concurrently, but saveRegistry advances the shared ref with a
+            // non-force fast-forward CAS. A stale writer must fail and leave its command
+            // unprocessed so the durable inbox can replay it; workers never write directly.
             const saveRegistry = async (state, snapshot, message) => {
               state.revision = (state.revision || 0) + 1;
               const blob = await github.rest.git.createBlob({
@@ -89,9 +94,17 @@ jobs:
               });
               // A successful ref update is durable; GitHub reads may briefly lag.
               // Accept only a read-back that confirms this exact commit SHA.
-              await github.rest.git.updateRef({
-                owner, repo, ref: 'heads/' + registryBranch, sha: commit.data.sha, force: false
-              });
+              try {
+                await github.rest.git.updateRef({
+                  owner, repo, ref: 'heads/' + registryBranch, sha: commit.data.sha, force: false
+                });
+              } catch (error) {
+                const latest = await getRegistry();
+                if (latest.refSha !== snapshot.refSha) {
+                  throw new Error('registry_cas_conflict: another Issue advanced the shared registry; this command remains durable and must be replayed. latest=' + latest.refSha + '; cause=' + error.message);
+                }
+                throw error;
+              }
               for (let attempt = 0; attempt < 4; attempt++) {
                 const readBack = await getRegistry();
                 if (readBack.refSha === commit.data.sha) return readBack;

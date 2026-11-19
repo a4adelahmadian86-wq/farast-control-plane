@@ -133,3 +133,18 @@ Coordinator فقط برای `write_policy=WRITE_ALLOWED` مقدار branch را 
 - Coordinator باید با GitHub Compare ثابت کند `merge_commit_sha` ancestor شاخه پیش‌فرض فعلی است: `base_commit.sha` و `merge_base_commit.sha` هر دو باید دقیقاً برابر merge commit باشند، `behind_by=0` و status فقط `ahead` یا `identical` باشد.
 - Check Runها و Commit Statusهای SHA دقیق `pr.head.sha` همچنان باید موفق باشند؛ hard gate، dependency، operation gate، Issue link و نبود lease فعال نیز بدون تغییر الزامی‌اند.
 - PR باز/ادغام‌نشده، fork، مخزن متفاوت، base branch متفاوت، compare ناموفق/مبهم یا merge commit غیرancestor هرگز از این استثنا عبور نمی‌کند. حالت lineage در operation ledger با `EXACT_REVIEW_BRANCH` یا `MERGED_REPLACEMENT_ANCESTOR` ثبت می‌شود.
+
+## شناسه مستقل مکالمه و دامنه قفل منابع
+
+- در اولین اجرای هر مکالمه ChatGPT، اگر CHAT_ID پایدار از اجرای قبلی همان مکالمه وجود ندارد، یک شناسه تصادفی مستقل با entropy بالا بساز (ترجیحاً UUID v4؛ در نبود ابزار کدنویسی، یک رشته تصادفی ۳۲ رقم hex). این شناسه را در checkpoint همان مکالمه نگه دار؛ هیچ نمونه ثابت یا CHAT_ID چت دیگر را کپی نکن.
+- تمام پرامپت‌هایی که در همان مکالمه اجرا می‌شوند از همان CHAT_ID استفاده می‌کنند. چت مستقل دیگر، حتی با همان حساب GitHub، باید CHAT_ID مستقل داشته باشد. RUN_ID برای هر اجرای/Lease جدید یکتا است.
+- قاعده یک Lease فعال برای هر CHAT_ID فقط همان مکالمه را محدود می‌کند؛ قفل یک چت، چت‌های دیگر را به‌خودی‌خود متوقف نمی‌کند. اگر `chat_conflict` دیدی، جزئیات lock را بخوان: اگر متعلق به کار فعال همین مکالمه است، همان کار را resume کن؛ اگر این مکالمه تازه است و هنوز هیچ Lease فعالی نگرفته، CHAT_ID تکراری را با شناسه مستقل جایگزین کن و فقط پس از snapshot تازه دوباره claim کن. CHAT_ID را برای دور زدن resource_conflict یا هنگام داشتن Lease فعال خودت عوض نکن.
+- دامنه‌های منابع:
+  - `repo:<label>`: قفل انحصاری کل target_repository؛ هر کلید دیگری در همان مخزن با آن تعارض دارد. کلید legacy مانند `repo:non:controlled-implementation` قفل کل مخزن NON محسوب می‌شود و نباید برای کارهای نامرتبط جدید کپی شود.
+  - `dir:<path>`: با فایل/سند/دایرکتوری همان مسیر و تمام فرزندانش تعارض دارد.
+  - `file:<path>` و `doc:<path>`: برای یک مسیر واحد alias هستند و با هم تعارض دارند؛ مسیرهای متفاوت مستقل‌اند.
+  - `module:<id>` و سایر کلیدهای منطقی مانند `schema:`, `analysis:`, `coordination:`: اتمیک‌اند و فقط با همان namespace و شناسه تعارض دارند.
+  - کلیدهای یکسان در target_repositoryهای متفاوت تعارض ندارند. چند کلید یک Work Item همچنان all-or-none گرفته می‌شوند.
+- برای درخواست جدید NON، ابتدا discovery را READ_ONLY انجام بده و فایل‌ها/ماژول‌های واقعی درگیر را مشخص کن؛ سپس فقط همان file/dir/module keys را claim کن. کلید repo-wide را فقط برای migration یا تغییر واقعاً سراسری و غیرقابل‌تقسیم بگیر. اگر دامنه هنوز معلوم نیست، READ_ONLY بمان؛ از کلید عمومی repo:non برای همه درخواست‌ها استفاده نکن.
+- Concurrency برای هر Issue جداست؛ رویدادهای Issueهای مستقل می‌توانند هم‌زمان اجرا شوند. چون ACTIVE_LOCKS.json یک ref مشترک دارد، هر save با fast-forward CAS و force=false انجام می‌شود؛ فقط یکی از writerهایی که از یک snapshot شروع کرده‌اند می‌تواند ref را جلو ببرد. writer بازنده باید fail closed کند و فرمان را processed علامت نزند تا inbox پایدار در sweep بعدی replay کند. برای هر Issue در هر pass حداکثر ۳ فرمان قدیمی‌تر pending پردازش می‌شود. بعد از ثبت فرمان، پاسخ همان comment ID و وضعیت run را بررسی کن؛ فرمان‌های تکراری نفرست. نبود پاسخ یا run در صف به معنی resource lock نیست؛ فقط پاسخ صریح coordinator وضعیت LOCKED/CONFLICT را ثابت می‌کند.
+

@@ -211,7 +211,7 @@ test('stale or mismatched worker cannot renew/release a lease', () => {
 test('task parser requires target repository and canonical resource keys', () => {
   const body = '### Target repository (owner/name)\nowner/repo\n\n### Resource keys\nmodule:Payments\nfile:src/Pay.js';
   assert.equal(core.targetRepositoryFor(body), 'owner/repo');
-  assert.deepEqual(core.resourcesFor(body, 10), ['file:src/pay.js','module:payments']);
+  assert.deepEqual(core.resourcesFor(body, 10), ['file:src/Pay.js','module:payments']);
   assert.equal(core.targetRepositoryFor('### Target repository\ninvalid'), '');
   assert.deepEqual(core.resourcesFor('### Resource keys\n', 10), []);
 });
@@ -714,4 +714,148 @@ test('comment events process their Issue without sweeping the global inbox', () 
   assert.ok(workflow.includes('Leave the command in the durable inbox; the next scheduled sweep will retry it.'));
   assert.ok(workflow.includes('FARAST scheduled inbox sweep deferred; the durable cursor is unchanged and the next schedule will retry:'));
   assert.ok(workflow.includes('FARAST issue-opened processing deferred; the durable inbox will retry:'));
+});
+
+
+test('different files in one repository can be claimed concurrently while cross-repository paths stay isolated', () => {
+  const s = registry();
+  const first = core.claimResources(s, {
+    issueNumber:10, taskId:'GH-10', actor:'alice', chatId:'chat-a', runId:'run-a',
+    targetRepository:'owner/non', branch:'work/GH-10',
+    resourceKeys:['file:src/payments/service.js'], leaseMinutes:30, nowMs:1000
+  });
+  const second = core.claimResources(s, {
+    issueNumber:11, taskId:'GH-11', actor:'bob', chatId:'chat-b', runId:'run-b',
+    targetRepository:'owner/non', branch:'work/GH-11',
+    resourceKeys:['file:src/identity/service.js'], leaseMinutes:30, nowMs:1000
+  });
+  const third = core.claimResources(s, {
+    issueNumber:12, taskId:'GH-12', actor:'carol', chatId:'chat-c', runId:'run-c',
+    targetRepository:'owner/other', branch:'work/GH-12',
+    resourceKeys:['file:src/payments/service.js'], leaseMinutes:30, nowMs:1000
+  });
+  assert.equal(first.ok, true);
+  assert.equal(second.ok, true);
+  assert.equal(third.ok, true);
+  assert.equal(s.locks.length, 3);
+});
+
+test('directory locks conflict with descendants but disjoint directories remain concurrent', () => {
+  const s = registry();
+  const first = core.claimResources(s, {
+    issueNumber:10, taskId:'GH-10', actor:'alice', chatId:'chat-a', runId:'run-a',
+    targetRepository:'owner/non', branch:'work/GH-10',
+    resourceKeys:['dir:src/payments'], leaseMinutes:30, nowMs:1000
+  });
+  const nested = core.claimResources(s, {
+    issueNumber:11, taskId:'GH-11', actor:'bob', chatId:'chat-b', runId:'run-b',
+    targetRepository:'owner/non', branch:'work/GH-11',
+    resourceKeys:['file:src/payments/refunds/service.js'], leaseMinutes:30, nowMs:1000
+  });
+  const sibling = core.claimResources(s, {
+    issueNumber:12, taskId:'GH-12', actor:'carol', chatId:'chat-c', runId:'run-c',
+    targetRepository:'owner/non', branch:'work/GH-12',
+    resourceKeys:['file:src/identity/service.js'], leaseMinutes:30, nowMs:1000
+  });
+  assert.equal(first.ok, true);
+  assert.equal(nested.ok, false);
+  assert.equal(nested.reason, 'resource_conflict');
+  assert.equal(sibling.ok, true);
+  assert.equal(s.locks.length, 2);
+});
+
+test('repository-exclusive keys conflict with every scope only in their target repository', () => {
+  const s = registry();
+  const first = core.claimResources(s, {
+    issueNumber:10, taskId:'GH-10', actor:'alice', chatId:'chat-a', runId:'run-a',
+    targetRepository:'a4adelahmadian86-wq/non', branch:'work/GH-10',
+    resourceKeys:['repo:non:controlled-implementation'], leaseMinutes:30, nowMs:1000
+  });
+  const blocked = core.claimResources(s, {
+    issueNumber:11, taskId:'GH-11', actor:'bob', chatId:'chat-b', runId:'run-b',
+    targetRepository:'a4adelahmadian86-wq/non', branch:'work/GH-11',
+    resourceKeys:['file:app/services/catalog.py'], leaseMinutes:30, nowMs:1000
+  });
+  const otherRepo = core.claimResources(s, {
+    issueNumber:12, taskId:'GH-12', actor:'carol', chatId:'chat-c', runId:'run-c',
+    targetRepository:'a4adelahmadian86-wq/farast-control-plane', branch:'work/GH-12',
+    resourceKeys:['file:app/services/catalog.py'], leaseMinutes:30, nowMs:1000
+  });
+  assert.equal(first.ok, true);
+  assert.equal(blocked.ok, false);
+  assert.equal(blocked.reason, 'resource_conflict');
+  assert.equal(otherRepo.ok, true);
+  assert.equal(s.locks.length, 2);
+});
+
+test('file and doc aliases conflict on the same path; logical resources remain atomic', () => {
+  const s = registry();
+  const first = core.claimResources(s, {
+    issueNumber:10, taskId:'GH-10', actor:'alice', chatId:'chat-a', runId:'run-a',
+    targetRepository:'owner/repo', branch:'work/GH-10',
+    resourceKeys:['file:docs/usage.md'], leaseMinutes:30, nowMs:1000
+  });
+  const alias = core.claimResources(s, {
+    issueNumber:11, taskId:'GH-11', actor:'bob', chatId:'chat-b', runId:'run-b',
+    targetRepository:'owner/repo', branch:'work/GH-11',
+    resourceKeys:['doc:docs/usage.md'], leaseMinutes:30, nowMs:1000
+  });
+  const module = core.claimResources(s, {
+    issueNumber:12, taskId:'GH-12', actor:'carol', chatId:'chat-c', runId:'run-c',
+    targetRepository:'owner/repo', branch:'work/GH-12',
+    resourceKeys:['module:documentation'], leaseMinutes:30, nowMs:1000
+  });
+  assert.equal(first.ok, true);
+  assert.equal(alias.ok, false);
+  assert.equal(alias.reason, 'resource_conflict');
+  assert.equal(module.ok, true);
+});
+
+test('malformed path scopes fail closed before consuming a fencing token', () => {
+  const s = registry();
+  const beforeToken = s.next_fencing_token;
+  const invalid = core.claimResources(s, {
+    issueNumber:10, taskId:'GH-10', actor:'alice', chatId:'chat-a', runId:'run-a',
+    targetRepository:'owner/repo', branch:'work/GH-10',
+    resourceKeys:['file:src/../secrets.env'], leaseMinutes:30, nowMs:1000
+  });
+  assert.equal(invalid.ok, false);
+  assert.equal(invalid.reason, 'invalid_resource_key');
+  assert.equal(s.next_fencing_token, beforeToken);
+  assert.equal(s.locks.length, 0);
+});
+
+test('path overlap checks preserve all-or-none multi-resource acquisition', () => {
+  const s = registry();
+  core.claimResources(s, {
+    issueNumber:10, taskId:'GH-10', actor:'alice', chatId:'chat-a', runId:'run-a',
+    targetRepository:'owner/repo', branch:'work/GH-10',
+    resourceKeys:['dir:src/payments'], leaseMinutes:30, nowMs:1000
+  });
+  const blocked = core.claimResources(s, {
+    issueNumber:11, taskId:'GH-11', actor:'bob', chatId:'chat-b', runId:'run-b',
+    targetRepository:'owner/repo', branch:'work/GH-11',
+    resourceKeys:['module:identity','file:src/payments/checkout.js'], leaseMinutes:30, nowMs:1000
+  });
+  assert.equal(blocked.ok, false);
+  assert.equal(blocked.reason, 'resource_conflict');
+  assert.equal(s.locks.length, 1);
+  assert.deepEqual(s.locks.map(x => x.resource_key), ['dir:src/payments']);
+});
+
+
+test('case-sensitive file paths remain independently lockable in the same repository', () => {
+  const s = registry();
+  const upper = core.claimResources(s, {
+    issueNumber:10, taskId:'GH-10', actor:'alice', chatId:'chat-a', runId:'run-a',
+    targetRepository:'owner/repo', branch:'work/GH-10',
+    resourceKeys:['file:src/Foo.js'], leaseMinutes:30, nowMs:1000
+  });
+  const lower = core.claimResources(s, {
+    issueNumber:11, taskId:'GH-11', actor:'bob', chatId:'chat-b', runId:'run-b',
+    targetRepository:'owner/repo', branch:'work/GH-11',
+    resourceKeys:['file:src/foo.js'], leaseMinutes:30, nowMs:1000
+  });
+  assert.equal(upper.ok, true);
+  assert.equal(lower.ok, true);
 });

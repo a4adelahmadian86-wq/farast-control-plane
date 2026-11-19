@@ -2,7 +2,7 @@
 
 const PAGE_SIZE = 25;
 const MAX_ISSUES_PER_BATCH = PAGE_SIZE + 1; // event Issue plus one bounded global page
-const MAX_COMMANDS_PER_ISSUE = 1;
+const MAX_COMMANDS_PER_ISSUE = 3;
 const MAX_PENDING_RESPONSES_PER_ISSUE = 10;
 
 const COMMAND_RE = /^\s*\/farast\s+(claim|heartbeat|release|status|progress|step|criterion|checkpoint|block|unblock|review|reopen|accept|refresh)\b/i;
