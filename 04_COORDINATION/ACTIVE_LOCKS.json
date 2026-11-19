@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2733,
+  "revision": 2734,
   "next_fencing_token": 151,
   "locks": [
     {
@@ -22776,6 +22776,15 @@
       "command": "refresh",
       "next_status": "blocked",
       "at_utc": "2026-11-19T12:46:22.247Z"
+    },
+    "7009537056": {
+      "response": "فرمان رد شد: تخصیص این Work Item با lease معتبر Issue #11 قابل اثبات نیست؛ missing_parent_cp_ids. ابتدا فقط از مسیر allocator مجاز و با provenance دقیق اقدام کنید.",
+      "response_posted": false,
+      "issue_number": 100,
+      "actor": "a4adelahmadian86-wq",
+      "command": "refresh",
+      "next_status": "blocked",
+      "at_utc": "2026-11-19T12:47:45.229Z"
     }
   },
   "work_items": {
