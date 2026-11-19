@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2820,
+  "revision": 2821,
   "next_fencing_token": 155,
   "locks": [
     {
@@ -23635,6 +23635,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-19T13:29:56.423Z"
+    },
+    "7010381456": {
+      "response": "معیار پذیرش ثبت شد: AC_REGRESSION; ACCEPTANCE_PROGRESS=85.71%; OVERALL_COMPLETION=85.71%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 100,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-19T13:30:45.631Z"
     }
   },
   "work_items": {
@@ -29793,7 +29802,14 @@
         {
           "criterion_id": "AC_REGRESSION",
           "title": "All relevant tests and exact-head CI pass; stale fencing and true resource conflicts still fail closed; limitations of real multi-account E2E are stated honestly",
-          "evidence_requirement": "Named tests, exit codes, exact PR head and CI URLs"
+          "evidence_requirement": "Named tests, exit codes, exact PR head and CI URLs",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44532472401"
+          ],
+          "validated_at_utc": "2026-11-19T13:30:45.630Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_HANDOFF",
