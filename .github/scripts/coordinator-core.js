@@ -65,14 +65,14 @@ function leaseBlocksClaim(lock, nowMs = Date.now()) {
 
 function canonicalResourceKey(value) {
   if (typeof value !== 'string') return null;
-  const key = value.trim().toLowerCase().replace(/\\/g, '/').replace(/\\/+/g, '/');
+  const key = value.trim().toLowerCase().replace(/\\/g, '/').replace(/\/+/g, '/');
   const separator = key.indexOf(':');
   if (separator <= 0 || separator === key.length - 1) return null;
   const type = key.slice(0, separator);
   const raw = key.slice(separator + 1);
   if (!/^[a-z][a-z0-9-]*$/.test(type)) return null;
   if (['file', 'doc', 'dir'].includes(type)) {
-    const path = raw.replace(/^\\/+|\\/+$/g, '');
+    const path = raw.replace(/^\/+|\/+$/g,'');
     const segments = path.split('/');
     if (!path || segments.some(segment => !segment || segment === '.' || segment === '..')) return null;
     return type + ':' + path;
