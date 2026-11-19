@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2806,
+  "revision": 2807,
   "next_fencing_token": 155,
   "locks": [
     {
@@ -23572,6 +23572,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-19T13:25:49.240Z"
+    },
+    "7010371948": {
+      "response": "STEP ثبت شد: S6_CONCURRENCY_TEST; EXECUTION_PROGRESS=87.5%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=7/8.",
+      "response_posted": false,
+      "issue_number": 100,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-19T13:26:25.415Z"
     }
   },
   "work_items": {
@@ -29641,7 +29650,14 @@
           "required": true,
           "weight": 1,
           "expected_output": "All expected pass/fail outcomes demonstrated; no test is represented as real multi-account E2E unless actually performed",
-          "evidence_requirement": "Named test cases, exit codes and exact-head CI run URL; explicitly label simulated versus real account tests"
+          "evidence_requirement": "Named test cases, exit codes and exact-head CI run URL; explicitly label simulated versus real account tests",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44532472401"
+          ],
+          "validated_at_utc": "2026-11-19T13:26:25.415Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S7_PR_HANDOFF",
