@@ -90,3 +90,8 @@
 - تمام پرامپت‌های تخصصی علاوه بر EXP محلی، مسیر جهانی parent_goal_ids شامل G-09 را می‌بینند. conflict در G-09 باید به انتخاب برگ مستقل بعدی منجر شود، نه توقف چت.
 - همه پرامپت‌ها قرارداد operation_scope_version=1.0 و requested_operations را برای WRITE_ALLOWED اعمال می‌کنند؛ bundle باید دقیقاً از MASTER-00 و ۱۷ منبع canonical ساخته شود.
 - canonical backup/recovery در EXP-02، Issue #66 / WI-EXP02-BACKUP-RECOVERY-001 است؛ Issue #14 سابقه superseded و غیرقابل تکثیر است.
+
+## قاعده ضروری چندچتی برای همه ۱۷ پرامپت
+
+هر مکالمه جدید باید CHAT_ID مستقل و تصادفی بسازد و آن را فقط در همان مکالمه نگه دارد؛ تمام پرامپت‌های اجراشده در یک مکالمه همان شناسه را استفاده می‌کنند. قفل یک CHAT_ID فقط همان مکالمه را محدود می‌کند. منابع جدید NON باید با file/dir/module keys دقیق قفل شوند؛ `repo:non:controlled-implementation` قفل کل مخزن است و کلید پیش‌فرض مأموریت‌های جدید نیست. صف Actions را با قفل منابع اشتباه نگیر؛ برای جزئیات و recovery به MASTER-00 و COORDINATOR_COMMANDS مراجعه کن.
+
