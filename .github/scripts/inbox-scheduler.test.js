@@ -2,6 +2,8 @@
 
 const test = require('node:test');
 const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
 const inbox = require('./inbox-scheduler');
 
 const task = number => ({ number, title: '[FARAST-TASK] Task ' + number, labels: [{ name: 'agent:task' }] });
@@ -22,15 +24,27 @@ test('issue batch is bounded even when the page and triggering Issue are both fu
   assert.equal(selected[0].number, 100);
 });
 
-test('a noisy Issue processes only its oldest bounded pending command', () => {
+test('a noisy Issue drains only its oldest bounded command batch', () => {
   const comments = [
     { id: 12, body: '/farast heartbeat chat=x run=y token=1' },
     { id: 10, body: '/farast status' },
     { id: 11, body: '/farast claim chat=x run=y' },
-    { id: 13, body: 'ordinary comment' }
+    { id: 13, body: 'ordinary comment' },
+    { id: 14, body: '/farast release chat=x run=y token=1' }
   ];
-  const selected = inbox.selectPendingCommandComments(comments, {}, 1);
-  assert.deepEqual(selected.map(x => x.id), [10]);
+  const selected = inbox.selectPendingCommandComments(comments);
+  assert.equal(inbox.MAX_COMMANDS_PER_ISSUE, 3);
+  assert.deepEqual(selected.map(x => x.id), [10, 11, 12]);
+});
+
+test('coordinator events are isolated by Issue and shared registry writes use non-force CAS', () => {
+  const workflowPath = path.join(__dirname, '..', 'workflows', 'farast-coordinator.yml');
+  const workflow = fs.readFileSync(workflowPath, 'utf8');
+  assert.ok(workflow.includes('group: farast-control-plane-${{ github.event.issue.number || github.event.number || github.event_name }}'));
+  assert.match(workflow, /cancel-in-progress:\\s*false/);
+  assert.match(workflow, /force:\\s*false/);
+  assert.match(workflow, /registry_cas_conflict/);
+  assert.match(workflow, /durable inbox.*replay|durable comment inbox/i);
 });
 
 test('replayed command comments are excluded by durable operation identity', () => {
