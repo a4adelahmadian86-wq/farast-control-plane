@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2822,
+  "revision": 2823,
   "next_fencing_token": 155,
   "locks": [
     {
@@ -23644,6 +23644,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-19T13:30:45.631Z"
+    },
+    "7010382303": {
+      "response": "معیار پذیرش ثبت شد: AC_HANDOFF; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; can_accept=true.",
+      "response_posted": false,
+      "issue_number": 100,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-19T13:31:17.740Z"
     }
   },
   "work_items": {
@@ -29599,7 +29608,7 @@
       "parent_exp_ids": [
         "EXP-01"
       ],
-      "status": "IN_PROGRESS",
+      "status": "REVIEW_REQUIRED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "file:.github/scripts/coordinator-core.js",
@@ -29814,7 +29823,14 @@
         {
           "criterion_id": "AC_HANDOFF",
           "title": "A review-ready PR, rollback note, exact SHA and durable checkpoint are available; no unapproved product write, merge or deployment occurs",
-          "evidence_requirement": "PR, checkpoint, branch and change inventory"
+          "evidence_requirement": "PR, checkpoint, branch and change inventory",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/104"
+          ],
+          "validated_at_utc": "2026-11-19T13:31:17.740Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "priority": 10,
