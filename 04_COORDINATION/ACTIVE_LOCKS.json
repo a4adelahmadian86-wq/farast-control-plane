@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2776,
+  "revision": 2777,
   "next_fencing_token": 153,
   "locks": [
     {
@@ -23250,6 +23250,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-19T13:05:53.678Z"
+    },
+    "7010018144": {
+      "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-LOCK-SCOPE-ISOLATION-001; EXECUTION_PROGRESS=12.5%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; next_action=Release token 152; extend Work Item resources to workflow and inbox scheduler; update concurrency to preserve running single-writer job, add bounded multi-command fairness and queue recovery tests; re-claim on a fresh branch from PR102 head; rerun exact-head CI.; remaining_steps=S1_IDENTITY,S2_RESOURCE_MODEL,S3_NON_POLICY,S4_QUEUE_SEMANTICS,S5_PROMPT_PARITY,S6_CONCURRENCY_TEST,S7_PR_HANDOFF.",
+      "response_posted": false,
+      "issue_number": 100,
+      "actor": "a4adelahmadian86-wq",
+      "command": "checkpoint",
+      "next_status": null,
+      "at_utc": "2026-11-19T13:07:58.236Z"
     }
   },
   "work_items": {
@@ -30109,14 +30118,15 @@
     },
     "100": {
       "work_item_id": "WI-LOCK-SCOPE-ISOLATION-001",
-      "run_id": "RUN-LOCK-SCOPE-REPAIR-20261119-003",
+      "run_id": "RUN-LOCK-SCOPE-REPAIR-20261119-004",
       "checkpoint_version": 1,
-      "created_at_utc": "2026-11-19T12:58:53.960Z",
-      "last_verified_step_id": null,
-      "current_step_id": "S5_PROMPT_PARITY",
-      "completed_step_ids": [],
+      "created_at_utc": "2026-11-19T13:07:58.235Z",
+      "last_verified_step_id": "S0_BASELINE",
+      "current_step_id": "S4_QUEUE_SEMANTICS",
+      "completed_step_ids": [
+        "S0_BASELINE"
+      ],
       "remaining_step_ids": [
-        "S0_BASELINE",
         "S1_IDENTITY",
         "S2_RESOURCE_MODEL",
         "S3_NON_POLICY",
@@ -30125,17 +30135,17 @@
         "S6_CONCURRENCY_TEST",
         "S7_PR_HANDOFF"
       ],
-      "progress_percentage": 0,
-      "execution_progress_percentage": 0,
+      "progress_percentage": 12.5,
+      "execution_progress_percentage": 12.5,
       "acceptance_progress_percentage": 0,
       "overall_completion_percentage": 0,
       "progress_calculation_version": "PROGRESS_V2",
       "required_step_counts": {
-        "pass": 0,
+        "pass": 1,
         "fail": 0,
         "blocked": 0,
         "unknown": 0,
-        "not_run": 8
+        "not_run": 7
       },
       "acceptance_criteria_counts": {
         "pass": 0,
@@ -30149,10 +30159,10 @@
       "owner": {
         "actor": "a4adelahmadian86-wq",
         "chat_id": "CHAT-LOCK-SCOPE-REPAIR-20261119-01",
-        "fencing_token": 151,
-        "lease_expires_at_utc": "2026-11-19T13:28:36.369Z"
+        "fencing_token": 152,
+        "lease_expires_at_utc": "2026-11-19T13:35:32.191Z"
       },
-      "next_action": "Release token 151; add generated bundle path to Work Item resources; refresh spec; reclaim as a new RUN from the current branch head; regenerate bundle from canonical Master and 17 prompt sources; rerun exact-head CI."
+      "next_action": "Release token 152; extend Work Item resources to workflow and inbox scheduler; update concurrency to preserve running single-writer job, add bounded multi-command fairness and queue recovery tests; re-claim on a fresh branch from PR102 head; rerun exact-head CI."
     }
   },
   "inbox_scheduler": {
