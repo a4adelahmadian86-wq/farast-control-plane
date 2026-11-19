@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2818,
+  "revision": 2819,
   "next_fencing_token": 155,
   "locks": [
     {
@@ -23626,6 +23626,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-19T13:29:14.031Z"
+    },
+    "7010380573": {
+      "response": "معیار پذیرش ثبت شد: AC_PROMPT_PARITY; ACCEPTANCE_PROGRESS=71.42%; OVERALL_COMPLETION=71.42%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 100,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-19T13:29:56.423Z"
     }
   },
   "work_items": {
@@ -29772,7 +29781,14 @@
         {
           "criterion_id": "AC_PROMPT_PARITY",
           "title": "MASTER-00, dispatch protocol, command guide, catalog and all 17 prompts/bundle are synchronized and independently runnable in any order",
-          "evidence_requirement": "Canonical generation/parity validation and exact-main source read-back"
+          "evidence_requirement": "Canonical generation/parity validation and exact-main source read-back",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44532472401"
+          ],
+          "validated_at_utc": "2026-11-19T13:29:56.423Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_REGRESSION",
