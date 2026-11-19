@@ -842,3 +842,20 @@ test('path overlap checks preserve all-or-none multi-resource acquisition', () =
   assert.equal(s.locks.length, 1);
   assert.deepEqual(s.locks.map(x => x.resource_key), ['dir:src/payments']);
 });
+
+
+test('case-sensitive file paths remain independently lockable in the same repository', () => {
+  const s = registry();
+  const upper = core.claimResources(s, {
+    issueNumber:10, taskId:'GH-10', actor:'alice', chatId:'chat-a', runId:'run-a',
+    targetRepository:'owner/repo', branch:'work/GH-10',
+    resourceKeys:['file:src/Foo.js'], leaseMinutes:30, nowMs:1000
+  });
+  const lower = core.claimResources(s, {
+    issueNumber:11, taskId:'GH-11', actor:'bob', chatId:'chat-b', runId:'run-b',
+    targetRepository:'owner/repo', branch:'work/GH-11',
+    resourceKeys:['file:src/foo.js'], leaseMinutes:30, nowMs:1000
+  });
+  assert.equal(upper.ok, true);
+  assert.equal(lower.ok, true);
+});
