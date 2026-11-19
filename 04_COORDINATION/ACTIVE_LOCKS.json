@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2810,
+  "revision": 2811,
   "next_fencing_token": 155,
   "locks": [
     {
@@ -23590,6 +23590,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-19T13:27:10.947Z"
+    },
+    "7010376047": {
+      "response": "معیار پذیرش ثبت شد: AC_CHAT_ID; ACCEPTANCE_PROGRESS=14.28%; OVERALL_COMPLETION=14.28%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 100,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-19T13:27:44.322Z"
     }
   },
   "work_items": {
@@ -29688,7 +29697,14 @@
         {
           "criterion_id": "AC_CHAT_ID",
           "title": "Different conversations reliably use different stable CHAT_ID values; the same conversation can resume its lease; one conversation cannot accidentally acquire two active Work Items",
-          "evidence_requirement": "Tests and prompt protocol covering distinct conversation IDs, resume and same-chat denial"
+          "evidence_requirement": "Tests and prompt protocol covering distinct conversation IDs, resume and same-chat denial",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/104"
+          ],
+          "validated_at_utc": "2026-11-19T13:27:44.322Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_GRANULAR_LOCKS",
