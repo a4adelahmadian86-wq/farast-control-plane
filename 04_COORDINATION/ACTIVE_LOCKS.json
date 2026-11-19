@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2790,
+  "revision": 2791,
   "next_fencing_token": 154,
   "locks": [],
   "history": [
@@ -11495,6 +11495,17 @@
       "branch": "work/GH-100-RUN-LOCK-SCOPE-REPAIR-20261119-005",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "at_utc": "2026-11-19T13:18:00.024Z"
+    },
+    {
+      "event": "WORK_ITEM_REFRESHED",
+      "issue_number": 100,
+      "work_item_id": "WI-LOCK-SCOPE-ISOLATION-001",
+      "actor": "a4adelahmadian86-wq",
+      "preserved_steps": 1,
+      "preserved_criteria": 0,
+      "hard_gate_ready": true,
+      "hard_gate_blockers": [],
+      "at_utc": "2026-11-19T13:18:38.972Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -23256,6 +23267,15 @@
       "command": "release",
       "next_status": "ready",
       "at_utc": "2026-11-19T13:18:00.026Z"
+    },
+    "7010275489": {
+      "response": "Work Item specification refreshed from Issue body; preserved_steps=1; preserved_criteria=0; hard_gates=PASS; EXECUTION_PROGRESS=12.5%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%.",
+      "response_posted": false,
+      "issue_number": 100,
+      "actor": "a4adelahmadian86-wq",
+      "command": "refresh",
+      "next_status": "ready",
+      "at_utc": "2026-11-19T13:18:38.979Z"
     }
   },
   "work_items": {
@@ -29211,13 +29231,14 @@
       "parent_exp_ids": [
         "EXP-01"
       ],
-      "status": "READY",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "file:.github/scripts/coordinator-core.js",
         "file:.github/scripts/coordinator-core.test.js",
         "file:.github/scripts/inbox-scheduler.js",
         "file:.github/scripts/inbox-scheduler.test.js",
+        "file:.github/workflows/control-plane-validation.yml",
         "file:.github/workflows/farast-coordinator.yml",
         "file:04_COORDINATION/COORDINATOR_COMMANDS.md",
         "file:04_COORDINATION/LOCK_PROTOCOL.md",
