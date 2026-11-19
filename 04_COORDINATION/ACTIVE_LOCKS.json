@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2798,
+  "revision": 2799,
   "next_fencing_token": 155,
   "locks": [
     {
@@ -23536,6 +23536,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-19T13:22:25.377Z"
+    },
+    "7010367652": {
+      "response": "STEP ثبت شد: S2_RESOURCE_MODEL; EXECUTION_PROGRESS=37.5%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=3/8.",
+      "response_posted": false,
+      "issue_number": 100,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-19T13:23:04.060Z"
     }
   },
   "work_items": {
@@ -29545,7 +29554,14 @@
           "required": true,
           "weight": 1,
           "expected_output": "Deterministic conflict function where broad exclusive scopes conflict with descendants and unrelated file/module scopes remain independent",
-          "evidence_requirement": "Implementation diff and table-driven tests for exact, parent/child, repository-exclusive, disjoint and malformed keys"
+          "evidence_requirement": "Implementation diff and table-driven tests for exact, parent/child, repository-exclusive, disjoint and malformed keys",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/104"
+          ],
+          "validated_at_utc": "2026-11-19T13:23:04.060Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S3_NON_POLICY",
