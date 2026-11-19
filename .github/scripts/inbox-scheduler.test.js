@@ -124,7 +124,7 @@ test('a bounded issue page lets other Issues progress despite a noisy command so
     comments: inbox.selectPendingCommandComments(pendingByIssue[issue.number], {}, inbox.MAX_COMMANDS_PER_ISSUE).map(x => x.id)
   }));
   assert.deepEqual(processed, [
-    { issue: 1, comments: [1] },
+    { issue: 1, comments: [1, 2, 3] },
     { issue: 2, comments: [4] },
     { issue: 3, comments: [5] }
   ]);
