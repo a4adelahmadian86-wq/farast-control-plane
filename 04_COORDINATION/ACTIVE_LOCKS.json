@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2774,
+  "revision": 2775,
   "next_fencing_token": 153,
   "locks": [
     {
@@ -23241,6 +23241,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-19T13:05:32.191Z"
+    },
+    "7009948283": {
+      "response": "STEP ثبت شد: S0_BASELINE; EXECUTION_PROGRESS=12.5%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=1/8.",
+      "response_posted": false,
+      "issue_number": 100,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-19T13:05:53.678Z"
     }
   },
   "work_items": {
@@ -29196,7 +29205,7 @@
       "parent_exp_ids": [
         "EXP-01"
       ],
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "file:.github/scripts/coordinator-core.js",
@@ -29216,7 +29225,14 @@
           "required": true,
           "weight": 1,
           "expected_output": "Exact baseline and reproducible behavior matrix",
-          "evidence_requirement": "Main SHA, source line references, live registry/lease read-back and named test output"
+          "evidence_requirement": "Main SHA, source line references, live registry/lease read-back and named test output",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/756d68a189161472fdbda63d424e1e061d14c8be"
+          ],
+          "validated_at_utc": "2026-11-19T13:05:53.677Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S1_IDENTITY",
