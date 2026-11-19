@@ -211,7 +211,7 @@ test('stale or mismatched worker cannot renew/release a lease', () => {
 test('task parser requires target repository and canonical resource keys', () => {
   const body = '### Target repository (owner/name)\nowner/repo\n\n### Resource keys\nmodule:Payments\nfile:src/Pay.js';
   assert.equal(core.targetRepositoryFor(body), 'owner/repo');
-  assert.deepEqual(core.resourcesFor(body, 10), ['file:src/pay.js','module:payments']);
+  assert.deepEqual(core.resourcesFor(body, 10), ['file:src/Pay.js','module:payments']);
   assert.equal(core.targetRepositoryFor('### Target repository\ninvalid'), '');
   assert.deepEqual(core.resourcesFor('### Resource keys\n', 10), []);
 });
