@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2804,
+  "revision": 2805,
   "next_fencing_token": 155,
   "locks": [
     {
@@ -23563,6 +23563,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-19T13:25:12.720Z"
+    },
+    "7010370733": {
+      "response": "STEP ثبت شد: S5_PROMPT_PARITY; EXECUTION_PROGRESS=75%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=6/8.",
+      "response_posted": false,
+      "issue_number": 100,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-19T13:25:49.240Z"
     }
   },
   "work_items": {
@@ -29617,7 +29626,14 @@
           "required": true,
           "weight": 1,
           "expected_output": "Consistent copy-paste-ready instructions across all prompts and generated bundle",
-          "evidence_requirement": "Bundle parity test and exact file list/SHA read-back"
+          "evidence_requirement": "Bundle parity test and exact file list/SHA read-back",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44532472401"
+          ],
+          "validated_at_utc": "2026-11-19T13:25:49.239Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S6_CONCURRENCY_TEST",
