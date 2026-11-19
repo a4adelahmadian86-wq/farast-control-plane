@@ -63,6 +63,59 @@ function leaseBlocksClaim(lock, nowMs = Date.now()) {
   return leaseExpiryState(lock, nowMs) !== 'EXPIRED';
 }
 
+function canonicalResourceKey(value) {
+  if (typeof value !== 'string') return null;
+  const key = value.trim().toLowerCase().replace(/\\/g, '/').replace(/\\/+/g, '/');
+  const separator = key.indexOf(':');
+  if (separator <= 0 || separator === key.length - 1) return null;
+  const type = key.slice(0, separator);
+  const raw = key.slice(separator + 1);
+  if (!/^[a-z][a-z0-9-]*$/.test(type)) return null;
+  if (['file', 'doc', 'dir'].includes(type)) {
+    const path = raw.replace(/^\\/+|\\/+$/g, '');
+    const segments = path.split('/');
+    if (!path || segments.some(segment => !segment || segment === '.' || segment === '..')) return null;
+    return type + ':' + path;
+  }
+  return type + ':' + raw;
+}
+
+function parseResourceKey(key) {
+  const canonical = canonicalResourceKey(key);
+  if (!canonical) return null;
+  const separator = canonical.indexOf(':');
+  const type = canonical.slice(0, separator);
+  const value = canonical.slice(separator + 1);
+  if (type === 'repo') return { type, value };
+  if (['file', 'doc', 'dir'].includes(type)) return { type, path: value };
+  return { type, value };
+}
+
+function pathIsWithin(path, directory) {
+  return path === directory || path.startsWith(directory + '/');
+}
+
+function resourceKeysConflict(leftKey, rightKey, leftRepository, rightRepository) {
+  // A missing repository identity on either live lock is ambiguous: fail closed.
+  if (!leftRepository || !rightRepository) return true;
+  if (String(leftRepository).toLowerCase() !== String(rightRepository).toLowerCase()) return false;
+  const left = parseResourceKey(leftKey);
+  const right = parseResourceKey(rightKey);
+  if (!left || !right) return true;
+  // Any repo: key is a repository-wide exclusive lock, including legacy
+  // repo:non:controlled-implementation keys. It is scoped by target_repository.
+  if (left.type === 'repo' || right.type === 'repo') return true;
+  const pathTypes = new Set(['file', 'doc', 'dir']);
+  if (pathTypes.has(left.type) && pathTypes.has(right.type)) {
+    if (left.type === 'dir' && pathIsWithin(right.path, left.path)) return true;
+    if (right.type === 'dir' && pathIsWithin(left.path, right.path)) return true;
+    return left.path === right.path;
+  }
+  // Logical resources (module:, schema:, analysis:, coordination:, etc.) are
+  // atomic identifiers and conflict only with the same canonical identifier.
+  return left.type === right.type && left.value === right.value;
+}
+
 function expireLocks(state, nowMs = Date.now()) {
   const expired = [];
   const retained = [];
@@ -202,8 +255,11 @@ function recordAllocationProvenance(state, issueNumber, item, nowMs = Date.now()
 
 function claimResources(state, args) {
   const nowMs = args.nowMs ?? Date.now();
-  const keys = [...new Set(args.resourceKeys || [])].sort();
-  if (!keys.length) return { ok: false, reason: 'missing_resources' };
+  const rawKeys = [...new Set(args.resourceKeys || [])];
+  if (!rawKeys.length) return { ok: false, reason: 'missing_resources' };
+  const keys = rawKeys.map(canonicalResourceKey);
+  if (keys.some(key => !key)) return { ok: false, reason: 'invalid_resource_key' };
+  keys.sort();
   if (!isSafeRunId(args.chatId)) return { ok: false, reason: 'missing_chat' };
   const taskConflict = state.locks.find(x => x.issue_number === args.issueNumber && leaseBlocksClaim(x, nowMs));
   if (taskConflict) return { ok: false, reason: 'task_already_claimed', conflict: taskConflict };
@@ -213,7 +269,10 @@ function claimResources(state, args) {
   if (branchUsed) return { ok: false, reason: 'branch_reuse' };
   // A branchless claim is READ_ONLY or approval-pending: never inherit an old target-repository branch.
   const previousRun = args.branch ? [...(state.history || [])].reverse().find(x => x.issue_number === args.issueNumber && ['RELEASE','REVIEW','BLOCK','LEASE_EXPIRED'].includes(x.event) && x.branch) : null;
-  const conflict = state.locks.find(x => keys.includes(x.resource_key) && leaseBlocksClaim(x, nowMs));
+  const conflict = state.locks.find(x =>
+    leaseBlocksClaim(x, nowMs) &&
+    keys.some(key => resourceKeysConflict(key, x.resource_key, args.targetRepository, x.target_repository))
+  );
   if (conflict) return { ok: false, reason: 'resource_conflict', conflict };
   const fencingToken = state.next_fencing_token++;
   const acquiredAt = new Date(nowMs).toISOString();
