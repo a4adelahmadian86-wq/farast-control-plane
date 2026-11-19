@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2796,
+  "revision": 2797,
   "next_fencing_token": 155,
   "locks": [
     {
@@ -23527,6 +23527,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-19T13:20:04.761Z"
+    },
+    "7010366662": {
+      "response": "STEP ثبت شد: S1_IDENTITY; EXECUTION_PROGRESS=25%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=2/8.",
+      "response_posted": false,
+      "issue_number": 100,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-19T13:22:25.377Z"
     }
   },
   "work_items": {
@@ -29482,7 +29491,7 @@
       "parent_exp_ids": [
         "EXP-01"
       ],
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "file:.github/scripts/coordinator-core.js",
@@ -29521,7 +29530,14 @@
           "required": true,
           "weight": 1,
           "expected_output": "Unambiguous instructions and machine-readable conflict response behavior without weakening lease ownership",
-          "evidence_requirement": "Prompt/protocol diff and positive/negative tests for same ID, distinct IDs, resume and collision"
+          "evidence_requirement": "Prompt/protocol diff and positive/negative tests for same ID, distinct IDs, resume and collision",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/104"
+          ],
+          "validated_at_utc": "2026-11-19T13:22:25.377Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S2_RESOURCE_MODEL",
