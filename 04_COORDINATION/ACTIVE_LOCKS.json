@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2735,
+  "revision": 2736,
   "next_fencing_token": 151,
   "locks": [
     {
@@ -11267,6 +11267,29 @@
       "previous_run_id": null,
       "fencing_token": 150,
       "at_utc": "2026-11-19T12:45:33.767Z"
+    },
+    {
+      "event": "WORK_ITEM_ALLOCATED",
+      "issue_number": 100,
+      "work_item_id": "WI-LOCK-SCOPE-ISOLATION-001",
+      "allocation_provenance": {
+        "allocator_work_item_id": "WI-GOAL-ALLOCATOR-001",
+        "allocator_issue_number": 11,
+        "actor": "a4adelahmadian86-wq",
+        "chat_id": "CHAT-LOCK-SCOPE-REPAIR-20261119-01",
+        "run_id": "RUN-LOCK-SCOPE-REPAIR-20261119-002",
+        "fencing_token": 150,
+        "branch": null,
+        "allocated_at_utc": "2026-11-19T12:45:46Z"
+      },
+      "at_utc": "2026-11-19T12:48:25.543Z"
+    },
+    {
+      "event": "DEPENDENCY_AUTO_UNBLOCKED",
+      "issue_number": 100,
+      "work_item_id": "WI-LOCK-SCOPE-ISOLATION-001",
+      "preserved_steps": 0,
+      "at_utc": "2026-11-19T12:48:25.545Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -28727,6 +28750,186 @@
         "version": "1.0"
       },
       "next_action": "Claim this leaf with a fresh run and fencing token; start read-only by reproducing the Issue #84 allocation-provenance gap. Do not modify the NON product repository."
+    },
+    "100": {
+      "schema_version": "1.0",
+      "write_policy": "WRITE_ALLOWED",
+      "priority_source": "DEFAULT_POLICY",
+      "work_item_id": "WI-LOCK-SCOPE-ISOLATION-001",
+      "title": "Repair multi-chat identity and granular resource-lock isolation",
+      "parent_goal_ids": [
+        "G-09"
+      ],
+      "parent_exp_ids": [
+        "EXP-01"
+      ],
+      "status": "READY",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "resource_keys": [
+        "file:.github/scripts/coordinator-core.js",
+        "file:.github/scripts/coordinator-core.test.js",
+        "file:04_COORDINATION/COORDINATOR_COMMANDS.md",
+        "file:04_COORDINATION/SINGLE_PROMPT_MULTI_CHAT_DISPATCH.md",
+        "file:04_COORDINATION/LOCK_PROTOCOL.md",
+        "file:05_PROMPT_LIBRARY/MASTER-00.md",
+        "file:05_PROMPT_LIBRARY/PROMPT_CATALOG.md"
+      ],
+      "dependencies": [],
+      "steps": [
+        {
+          "step_id": "S0_BASELINE",
+          "title": "Read live main, current workflow, registry, open PRs, prompt sources and generation/parity checks; reproduce same-chat, distinct-chat, same-resource and disjoint-resource claim behavior",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Exact baseline and reproducible behavior matrix",
+          "evidence_requirement": "Main SHA, source line references, live registry/lease read-back and named test output"
+        },
+        {
+          "step_id": "S1_IDENTITY",
+          "title": "Define and implement a unique per-conversation CHAT_ID initialization rule: generated once before first claim, stable for resume, distinct across conversations, and never rotated while that conversation owns a lease; provide safe collision diagnosis",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Unambiguous instructions and machine-readable conflict response behavior without weakening lease ownership",
+          "evidence_requirement": "Prompt/protocol diff and positive/negative tests for same ID, distinct IDs, resume and collision"
+        },
+        {
+          "step_id": "S2_RESOURCE_MODEL",
+          "title": "Define canonical granular resource keys and overlap semantics for repository-exclusive, directory/module and file scopes; preserve all-or-none multi-key claim; make unknown scope read-only until bounded",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Deterministic conflict function where broad exclusive scopes conflict with descendants and unrelated file/module scopes remain independent",
+          "evidence_requirement": "Implementation diff and table-driven tests for exact, parent/child, repository-exclusive, disjoint and malformed keys"
+        },
+        {
+          "step_id": "S3_NON_POLICY",
+          "title": "Specify NON task resource-key policy: no generic repo-wide key by default; use evidence-backed file/module keys after discovery; reserve repository-exclusive lock for genuinely repository-wide operations; preserve Issue #51's exact authorization boundary",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Clear safe path for unrelated NON requests without blanket WRITE_ALLOWED or lock bypass",
+          "evidence_requirement": "Protocol/catalog text and regression tests proving Issue #51 authorization is not broadened"
+        },
+        {
+          "step_id": "S4_QUEUE_SEMANTICS",
+          "title": "Clarify coordinator single-writer Actions queue versus work-resource locks; ensure queued, pending, delayed or replayed inbox events are not misreported as resource-locked and are safely reconciled",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Correct diagnosis and retry/read-back behavior for queued workflow events",
+          "evidence_requirement": "Workflow/inbox tests and exact run evidence where feasible"
+        },
+        {
+          "step_id": "S5_PROMPT_PARITY",
+          "title": "Update MASTER-00, dispatch/command docs and catalog; regenerate or synchronize the complete 17-prompt bundle using the repository's canonical generator, preserving every specialist's independent EXP scope",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Consistent copy-paste-ready instructions across all prompts and generated bundle",
+          "evidence_requirement": "Bundle parity test and exact file list/SHA read-back"
+        },
+        {
+          "step_id": "S6_CONCURRENCY_TEST",
+          "title": "Run full focused and repository validation including N=2,5,10,25 model cases, two distinct chats on disjoint resources, same-resource single winner, same-chat single active lease, resume, stale token and queue replay",
+          "required": true,
+          "weight": 1,
+          "expected_output": "All expected pass/fail outcomes demonstrated; no test is represented as real multi-account E2E unless actually performed",
+          "evidence_requirement": "Named test cases, exit codes and exact-head CI run URL; explicitly label simulated versus real account tests"
+        },
+        {
+          "step_id": "S7_PR_HANDOFF",
+          "title": "Review exact diff, document compatibility/rollback, create review-ready PR, checkpoint and verify all evidence; do not merge unless existing machine acceptance rules authorize it",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Review-ready PR and durable handoff with exact SHA",
+          "evidence_requirement": "PR URL/head SHA, CI, changed-file list, rollback and checkpoint read-back"
+        }
+      ],
+      "acceptance_criteria": [
+        {
+          "criterion_id": "AC_CHAT_ID",
+          "title": "Different conversations reliably use different stable CHAT_ID values; the same conversation can resume its lease; one conversation cannot accidentally acquire two active Work Items",
+          "evidence_requirement": "Tests and prompt protocol covering distinct conversation IDs, resume and same-chat denial"
+        },
+        {
+          "criterion_id": "AC_GRANULAR_LOCKS",
+          "title": "Disjoint NON file/module scopes can be claimed concurrently; overlapping scopes and repository-exclusive locks conflict deterministically and atomically",
+          "evidence_requirement": "Table-driven conflict tests and N-worker concurrency tests"
+        },
+        {
+          "criterion_id": "AC_NON_BOUNDARY",
+          "title": "No blanket NON WRITE_ALLOWED permission is introduced; Issue #51's owner authorization remains exact to that Issue; unknown scope stays READ_ONLY until bounded",
+          "evidence_requirement": "Before/after policy comparison and negative authorization tests"
+        },
+        {
+          "criterion_id": "AC_QUEUE",
+          "title": "Global coordinator serialization is not misrepresented as a project-wide resource lock; delayed/replayed comments are processed idempotently",
+          "evidence_requirement": "Queue/replay tests and workflow evidence"
+        },
+        {
+          "criterion_id": "AC_PROMPT_PARITY",
+          "title": "MASTER-00, dispatch protocol, command guide, catalog and all 17 prompts/bundle are synchronized and independently runnable in any order",
+          "evidence_requirement": "Canonical generation/parity validation and exact-main source read-back"
+        },
+        {
+          "criterion_id": "AC_REGRESSION",
+          "title": "All relevant tests and exact-head CI pass; stale fencing and true resource conflicts still fail closed; limitations of real multi-account E2E are stated honestly",
+          "evidence_requirement": "Named tests, exit codes, exact PR head and CI URLs"
+        },
+        {
+          "criterion_id": "AC_HANDOFF",
+          "title": "A review-ready PR, rollback note, exact SHA and durable checkpoint are available; no unapproved product write, merge or deployment occurs",
+          "evidence_requirement": "PR, checkpoint, branch and change inventory"
+        }
+      ],
+      "priority": 10,
+      "created_at_utc": "2026-11-19T12:40:00Z",
+      "effort_estimate_minutes": 30,
+      "effort_rationale": "یک اصلاح هماهنگ‌کننده حساس شامل مدل هویت نشست، تداخل منابع، سیاست NON، صف پایدار، parity همه پرامپت‌ها و آزمون هم‌زمانی است.",
+      "depth_profile": {
+        "profile_version": "2.0.0",
+        "min_substantive_steps": 7,
+        "min_acceptance_criteria": 5,
+        "min_deliverables": 4,
+        "target_effort_minutes": 30
+      },
+      "deliverables": [
+        {
+          "deliverable_id": "D1",
+          "description": "Baseline and failure-mode matrix for CHAT_ID, resource scope and workflow queue",
+          "evidence_requirement": "Source/test evidence and live state read-back"
+        },
+        {
+          "deliverable_id": "D2",
+          "description": "Implemented granular resource conflict model and safe conversation identity contract",
+          "evidence_requirement": "Code diff and focused regression tests"
+        },
+        {
+          "deliverable_id": "D3",
+          "description": "Synchronized coordinator protocol and all-prompt instructions/bundle",
+          "evidence_requirement": "Canonical generator/parity output and file read-back"
+        },
+        {
+          "deliverable_id": "D4",
+          "description": "Concurrency regression report and review-ready PR with rollback/checkpoint",
+          "evidence_requirement": "Exact-head CI, PR URL/SHA and checkpoint"
+        }
+      ],
+      "operation_scope_version": "1.0",
+      "requested_operations": [
+        "control_plane_write"
+      ],
+      "allocation_provenance": {
+        "allocator_work_item_id": "WI-GOAL-ALLOCATOR-001",
+        "allocator_issue_number": 11,
+        "actor": "a4adelahmadian86-wq",
+        "chat_id": "CHAT-LOCK-SCOPE-REPAIR-20261119-01",
+        "run_id": "RUN-LOCK-SCOPE-REPAIR-20261119-002",
+        "fencing_token": 150,
+        "branch": null,
+        "allocated_at_utc": "2026-11-19T12:45:46Z"
+      },
+      "parent_cp_ids": [
+        "CP-02",
+        "CP-03",
+        "CP-04"
+      ]
     }
   },
   "checkpoints": {
