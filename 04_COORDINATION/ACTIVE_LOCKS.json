@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2828,
+  "revision": 2829,
   "next_fencing_token": 155,
   "locks": [],
   "history": [
@@ -23489,6 +23489,19 @@
       "command": "accept",
       "next_status": null,
       "at_utc": "2026-11-19T13:33:18.156Z"
+    },
+    "7010658690": {
+      "response": "Work Item ACCEPTED: همه گام‌ها و معیارهای اجباری پیش از merge با evidence معتبر پاس شدند؛ PR ادغام‌شده و تمام گیت‌های ماشینی موفق روی SHA دقیق head احراز شد؛ هیچ Review انسانی شرط پذیرش نیست.",
+      "response_posted": false,
+      "issue_number": 100,
+      "actor": "a4adelahmadian86-wq",
+      "command": "accept",
+      "next_status": "done",
+      "pr_url": "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/104",
+      "pr_head_sha": "bad9682c878cceecbaa447b93fdcfdbfde87f6ea",
+      "merge_commit_sha": "34c7a3f8bc656a950e6a6eefdb3728b04d3a3de7",
+      "lineage_mode": "EXACT_REVIEW_BRANCH",
+      "at_utc": "2026-11-19T13:34:20.462Z"
     }
   },
   "work_items": {
@@ -29444,7 +29457,7 @@
       "parent_exp_ids": [
         "EXP-01"
       ],
-      "status": "REVIEW_REQUIRED",
+      "status": "ACCEPTED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "file:.github/scripts/coordinator-core.js",
