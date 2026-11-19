@@ -31,7 +31,10 @@ function resourcesFor(body, issueNumber) {
   const text = body || '';
   const match = text.match(/(?:^|\n)###\s*Resource keys\s*\n([\s\S]*?)(?=\n###|$)/i);
   if (!match) return [];
-  return [...new Set(match[1].split(/[\n,;]+/).map(x => x.trim().replace(/^[-*\s]+/, '').toLowerCase()).filter(Boolean))].sort().map(x => x.replace(/\\/g, '/'));
+  return [...new Set(match[1].split(/[\n,;]+/).map(x => {
+    const raw = x.trim().replace(/^[-*\s]+/, '').replace(/\\/g, '/');
+    return canonicalResourceKey(raw) || raw;
+  }).filter(Boolean))].sort();
 }
 
 function targetRepositoryFor(body) {
@@ -65,10 +68,10 @@ function leaseBlocksClaim(lock, nowMs = Date.now()) {
 
 function canonicalResourceKey(value) {
   if (typeof value !== 'string') return null;
-  const key = value.trim().toLowerCase().replace(/\\/g, '/').replace(/\/+/g, '/');
+  const key = value.trim().replace(/\\/g, '/').replace(/\/+/g, '/');
   const separator = key.indexOf(':');
   if (separator <= 0 || separator === key.length - 1) return null;
-  const type = key.slice(0, separator);
+  const type = key.slice(0, separator).toLowerCase();
   const raw = key.slice(separator + 1);
   if (!/^[a-z][a-z0-9-]*$/.test(type)) return null;
   if (['file', 'doc', 'dir'].includes(type)) {
@@ -77,7 +80,7 @@ function canonicalResourceKey(value) {
     if (!path || segments.some(segment => !segment || segment === '.' || segment === '..')) return null;
     return type + ':' + path;
   }
-  return type + ':' + raw;
+  return type + ':' + raw.toLowerCase();
 }
 
 function parseResourceKey(key) {
@@ -178,9 +181,7 @@ function resolveWritePolicy(liveWorkItem, storedWorkItem) {
     if (storedWorkItem.target_repository && storedWorkItem.target_repository !== liveWorkItem?.target_repository) {
       throw new Error('Registry target_repository differs from live Issue specification; owner refresh required');
     }
-    const normalizeKeys = keys => [...new Set((keys || []).map(x =>
-      String(x).trim().toLowerCase().split(String.fromCharCode(92)).join('/')
-    ))].sort();
+    const normalizeKeys = keys => [...new Set((keys || []).map(canonicalResourceKey))].sort();
     if (JSON.stringify(normalizeKeys(storedWorkItem.resource_keys)) !== JSON.stringify(normalizeKeys(liveWorkItem?.resource_keys))) {
       throw new Error('Registry resource_keys differ from live Issue specification; owner refresh required');
     }
