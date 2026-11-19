@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2802,
+  "revision": 2803,
   "next_fencing_token": 155,
   "locks": [
     {
@@ -23554,6 +23554,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-19T13:23:33.964Z"
+    },
+    "7010369699": {
+      "response": "STEP ثبت شد: S4_QUEUE_SEMANTICS; EXECUTION_PROGRESS=62.5%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=5/8.",
+      "response_posted": false,
+      "issue_number": 100,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-19T13:25:12.720Z"
     }
   },
   "work_items": {
@@ -29593,7 +29602,14 @@
           "required": true,
           "weight": 1,
           "expected_output": "Correct diagnosis and retry/read-back behavior for queued workflow events",
-          "evidence_requirement": "Workflow/inbox tests and exact run evidence where feasible"
+          "evidence_requirement": "Workflow/inbox tests and exact run evidence where feasible",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/104"
+          ],
+          "validated_at_utc": "2026-11-19T13:25:12.720Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S5_PROMPT_PARITY",
