@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2736,
+  "revision": 2737,
   "next_fencing_token": 151,
   "locks": [
     {
@@ -11290,6 +11290,17 @@
       "work_item_id": "WI-LOCK-SCOPE-ISOLATION-001",
       "preserved_steps": 0,
       "at_utc": "2026-11-19T12:48:25.545Z"
+    },
+    {
+      "event": "WORK_ITEM_REFRESHED",
+      "issue_number": 100,
+      "work_item_id": "WI-LOCK-SCOPE-ISOLATION-001",
+      "actor": "a4adelahmadian86-wq",
+      "preserved_steps": 0,
+      "preserved_criteria": 0,
+      "hard_gate_ready": true,
+      "hard_gate_blockers": [],
+      "at_utc": "2026-11-19T12:48:32.205Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -22808,6 +22819,15 @@
       "command": "refresh",
       "next_status": "blocked",
       "at_utc": "2026-11-19T12:47:45.229Z"
+    },
+    "7009551137": {
+      "response": "Work Item specification refreshed from Issue body; preserved_steps=0; preserved_criteria=0; hard_gates=PASS; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%.",
+      "response_posted": false,
+      "issue_number": 100,
+      "actor": "a4adelahmadian86-wq",
+      "command": "refresh",
+      "next_status": "ready",
+      "at_utc": "2026-11-19T12:48:32.205Z"
     }
   },
   "work_items": {
