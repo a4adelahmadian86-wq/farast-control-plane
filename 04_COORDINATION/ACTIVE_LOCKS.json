@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2812,
+  "revision": 2813,
   "next_fencing_token": 155,
   "locks": [
     {
@@ -23599,6 +23599,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-19T13:27:44.322Z"
+    },
+    "7010377145": {
+      "response": "معیار پذیرش ثبت شد: AC_GRANULAR_LOCKS; ACCEPTANCE_PROGRESS=28.57%; OVERALL_COMPLETION=28.57%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 100,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-19T13:28:24.002Z"
     }
   },
   "work_items": {
@@ -29709,7 +29718,14 @@
         {
           "criterion_id": "AC_GRANULAR_LOCKS",
           "title": "Disjoint NON file/module scopes can be claimed concurrently; overlapping scopes and repository-exclusive locks conflict deterministically and atomically",
-          "evidence_requirement": "Table-driven conflict tests and N-worker concurrency tests"
+          "evidence_requirement": "Table-driven conflict tests and N-worker concurrency tests",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44532472401"
+          ],
+          "validated_at_utc": "2026-11-19T13:28:24.001Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_NON_BOUNDARY",
