@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2800,
+  "revision": 2801,
   "next_fencing_token": 155,
   "locks": [
     {
@@ -23545,6 +23545,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-19T13:23:04.060Z"
+    },
+    "7010368749": {
+      "response": "STEP ثبت شد: S3_NON_POLICY; EXECUTION_PROGRESS=50%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=4/8.",
+      "response_posted": false,
+      "issue_number": 100,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-19T13:23:33.964Z"
     }
   },
   "work_items": {
@@ -29569,7 +29578,14 @@
           "required": true,
           "weight": 1,
           "expected_output": "Clear safe path for unrelated NON requests without blanket WRITE_ALLOWED or lock bypass",
-          "evidence_requirement": "Protocol/catalog text and regression tests proving Issue #51 authorization is not broadened"
+          "evidence_requirement": "Protocol/catalog text and regression tests proving Issue #51 authorization is not broadened",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/104"
+          ],
+          "validated_at_utc": "2026-11-19T13:23:33.964Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S4_QUEUE_SEMANTICS",
