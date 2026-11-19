@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2816,
+  "revision": 2817,
   "next_fencing_token": 155,
   "locks": [
     {
@@ -23617,6 +23617,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-19T13:28:51.186Z"
+    },
+    "7010379427": {
+      "response": "معیار پذیرش ثبت شد: AC_QUEUE; ACCEPTANCE_PROGRESS=57.14%; OVERALL_COMPLETION=57.14%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 100,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-19T13:29:14.031Z"
     }
   },
   "work_items": {
@@ -29751,7 +29760,14 @@
         {
           "criterion_id": "AC_QUEUE",
           "title": "Global coordinator serialization is not misrepresented as a project-wide resource lock; delayed/replayed comments are processed idempotently",
-          "evidence_requirement": "Queue/replay tests and workflow evidence"
+          "evidence_requirement": "Queue/replay tests and workflow evidence",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44532472401"
+          ],
+          "validated_at_utc": "2026-11-19T13:29:14.031Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_PROMPT_PARITY",
