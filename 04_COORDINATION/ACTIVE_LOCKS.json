@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2856,
+  "revision": 2857,
   "next_fencing_token": 156,
   "locks": [
     {
@@ -23707,6 +23707,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-20T16:35:22.149Z"
+    },
+    "7044953538": {
+      "response": "STEP ثبت شد: S2_VALIDATE; EXECUTION_PROGRESS=75%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=3/4.",
+      "response_posted": false,
+      "issue_number": 50,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-20T16:35:42.535Z"
     }
   },
   "work_items": {
@@ -25606,8 +25615,13 @@
           "title": "Validate all guide links and version references against files on the proposed branch; run relevant control-plane validation and read back the exact head",
           "required": true,
           "weight": 1,
-          "validation_status": "NOT_RUN",
-          "evidence_refs": []
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44774771817"
+          ],
+          "validated_at_utc": "2026-11-20T16:35:42.534Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S3_HANDOFF",
