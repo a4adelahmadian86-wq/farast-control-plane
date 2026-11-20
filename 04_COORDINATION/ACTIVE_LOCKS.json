@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3005,
+  "revision": 3006,
   "next_fencing_token": 162,
   "locks": [
     {
@@ -25088,6 +25088,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-20T17:35:23.227Z"
+    },
+    "7046309661": {
+      "response": "STEP ثبت شد: S6_HANDOFF; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; verified_steps=7/7.",
+      "response_posted": false,
+      "issue_number": 109,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-20T17:36:07.893Z"
     }
   },
   "work_items": {
@@ -31688,10 +31697,15 @@
           "title": "Open focused PR and record exact head SHA, changed-file list, evidence and limitations",
           "required": true,
           "weight": 1,
-          "validation_status": "NOT_RUN",
-          "evidence_refs": [],
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/110"
+          ],
           "expected_output": "Review-ready PR with exactly the 20 declared prompt artifacts; leave open and unmerged.",
-          "evidence_requirement": "PR URL, exact head SHA, changed-file list, CI checks and issue linkage."
+          "evidence_requirement": "PR URL, exact head SHA, changed-file list, CI checks and issue linkage.",
+          "validated_at_utc": "2026-11-20T17:36:07.893Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "acceptance_criteria": [
