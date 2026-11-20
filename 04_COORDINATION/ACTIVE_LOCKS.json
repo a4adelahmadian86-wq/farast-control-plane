@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2942,
+  "revision": 2943,
   "next_fencing_token": 160,
   "locks": [
     {
@@ -12039,6 +12039,22 @@
       "work_item_id": "WI-NON-PER-REQUEST-AUTH-PROMPT-FIX-002",
       "preserved_steps": 0,
       "at_utc": "2026-11-20T17:17:33.159Z"
+    },
+    {
+      "event": "WORK_ITEM_ALLOCATED",
+      "issue_number": 109,
+      "work_item_id": "WI-NON-PER-REQUEST-AUTH-PROMPT-FIX-003",
+      "allocation_provenance": {
+        "allocator_work_item_id": "WI-GOAL-ALLOCATOR-001",
+        "allocator_issue_number": 11,
+        "actor": "a4adelahmadian86-wq",
+        "chat_id": "CHAT-20261120-PROMPT-FIX-02",
+        "run_id": "RUN-20261120-PROMPT-FIX-ALLOC-001",
+        "fencing_token": 159,
+        "branch": null,
+        "allocated_at_utc": "2026-11-20T17:14:51.973Z"
+      },
+      "at_utc": "2026-11-20T17:18:17.789Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -24317,6 +24333,15 @@
       "command": "refresh",
       "next_status": "blocked",
       "at_utc": "2026-11-20T17:17:54.399Z"
+    },
+    "7045903278": {
+      "response": "فرمان رد شد: WORK_ITEM_ID=WI-NON-PER-REQUEST-AUTH-PROMPT-FIX-003 در Issueهای دیگری نیز ثبت شده است: #108; تا رفع تکرار، هیچ Claim/refresh/unblock/accept مجاز نیست.",
+      "response_posted": false,
+      "issue_number": 109,
+      "actor": "a4adelahmadian86-wq",
+      "command": "refresh",
+      "next_status": "blocked",
+      "at_utc": "2026-11-20T17:18:19.455Z"
     }
   },
   "work_items": {
