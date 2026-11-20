@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2912,
+  "revision": 2913,
   "next_fencing_token": 158,
   "locks": [
     {
@@ -11800,6 +11800,29 @@
       "previous_run_id": null,
       "fencing_token": 157,
       "at_utc": "2026-11-20T16:57:29.054Z"
+    },
+    {
+      "event": "WORK_ITEM_ALLOCATED",
+      "issue_number": 107,
+      "work_item_id": "WI-BLOCKED-WORKITEM-REVALIDATION-001",
+      "allocation_provenance": {
+        "allocator_work_item_id": "WI-GOAL-ALLOCATOR-001",
+        "allocator_issue_number": 11,
+        "actor": "a4adelahmadian86-wq",
+        "chat_id": "CHAT-20261120-GUIDE-SYNC-01",
+        "run_id": "RUN-20261120-DOC-CONSISTENCY-ALLOCATOR-002",
+        "fencing_token": 157,
+        "branch": null,
+        "allocated_at_utc": "2026-11-20T16:57:41Z"
+      },
+      "at_utc": "2026-11-20T16:58:04.946Z"
+    },
+    {
+      "event": "DEPENDENCY_AUTO_UNBLOCKED",
+      "issue_number": 107,
+      "work_item_id": "WI-BLOCKED-WORKITEM-REVALIDATION-001",
+      "preserved_steps": 0,
+      "at_utc": "2026-11-20T16:58:04.947Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -30260,6 +30283,179 @@
         "CP-03",
         "CP-04"
       ]
+    },
+    "107": {
+      "schema_version": "1.0",
+      "write_policy": "WRITE_ALLOWED",
+      "priority_source": "DEFAULT_POLICY",
+      "work_item_id": "WI-BLOCKED-WORKITEM-REVALIDATION-001",
+      "title": "Repair coordinator command replay and revalidation for corrected blocked Work Items",
+      "description": "Diagnose why Issue #106 remains agent:blocked after its Work Item JSON was corrected and owner /farast refresh, status and diagnostic claim comments were posted, without coordinator responses. Trace issue_comment concurrency, durable inbox replay, blocked-issue processing, refresh/unblock flow and allocation provenance validation. Fix only a demonstrated coordinator defect; add regression tests proving corrected blocked Work Items can be safely revalidated and that commands are not silently starved. Do not manually mutate the lock registry, bypass allocator provenance, broaden permissions, change NON product code, or weaken fail-closed behavior.",
+      "parent_goal_ids": [
+        "G-09"
+      ],
+      "parent_exp_ids": [
+        "EXP-01"
+      ],
+      "parent_cp_ids": [
+        "CP-02",
+        "CP-03",
+        "CP-04"
+      ],
+      "status": "READY",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "resource_keys": [
+        "file:.github/workflows/farast-coordinator.yml",
+        "file:.github/scripts/coordinator-core.js",
+        "file:.github/scripts/work-item-core.js",
+        "file:.github/scripts/inbox-scheduler.js",
+        "file:.github/scripts/coordinator-core.test.js",
+        "file:.github/scripts/inbox-scheduler.test.js",
+        "file:.github/scripts/work-item-core.test.js"
+      ],
+      "dependencies": [],
+      "steps": [
+        {
+          "step_id": "S0_REPRODUCE",
+          "title": "Read exact main SHA and inspect Issue #106 body, timestamps, allocator lease, all command comments and coordinator responses; reproduce current blocked state",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Timestamped reproduction and current state evidence",
+          "evidence_requirement": "Issue #106 URL, main SHA, exact comment IDs, current lease status"
+        },
+        {
+          "step_id": "S1_ROOT_CAUSE",
+          "title": "Trace issue_comment and schedule/manual dispatch paths, per-Issue concurrency, processIssue, durable inbox cursor, refresh and allocation provenance gates; identify the exact reason commands are not processed",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Evidence-backed root cause, not a speculative workaround",
+          "evidence_requirement": "Exact source line references and workflow execution evidence"
+        },
+        {
+          "step_id": "S2_MINIMAL_FIX",
+          "title": "Implement the smallest safe correction so a valid corrected blocked Work Item can be revalidated and pending owner commands are eventually processed without bypassing provenance or locks",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Focused implementation preserving fail-closed authorization and per-Issue isolation",
+          "evidence_requirement": "Diff and invariant explanation"
+        },
+        {
+          "step_id": "S3_REGRESSION_TESTS",
+          "title": "Add regression tests for missing-created_at rejection, corrected-body revalidation, blocked issue refresh/status command handling, durable inbox replay and non-starvation under issue-specific concurrency",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Automated tests covering the reproduced failure and recovery",
+          "evidence_requirement": "Named tests and test output"
+        },
+        {
+          "step_id": "S4_VALIDATE",
+          "title": "Run exact-head test suite and control-plane validation; verify no global lock or concurrency regression and only authorized files changed",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Passing CI and scope audit",
+          "evidence_requirement": "Exact head SHA, CI run URL and changed-file list"
+        },
+        {
+          "step_id": "S5_PR_HANDOFF",
+          "title": "Open focused PR, record evidence, rollback and Issue #106 recovery instructions; hand off for independent review without merging",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Review-ready PR and durable checkpoint",
+          "evidence_requirement": "PR URL, head SHA, tests, rollback and next action"
+        }
+      ],
+      "acceptance_criteria": [
+        {
+          "criterion_id": "AC_REVALIDATE",
+          "title": "A corrected blocked Work Item with valid ISO created_at_utc and matching live allocator provenance can be revalidated through the documented owner workflow; Issue #106 reaches READY or receives a precise actionable blocker",
+          "required": true,
+          "validation_status": "NOT_RUN",
+          "evidence_refs": [],
+          "evidence_requirement": "Corrected Issue #106 read-back, valid allocation provenance and coordinator response showing READY or a precise blocker"
+        },
+        {
+          "criterion_id": "AC_COMMAND_REPLAY",
+          "title": "Owner status/refresh and valid command comments on blocked tasks are processed or durably replayed; no silent command starvation",
+          "required": true,
+          "validation_status": "NOT_RUN",
+          "evidence_refs": [],
+          "evidence_requirement": "Issue comment IDs, coordinator response markers and durable inbox processing evidence"
+        },
+        {
+          "criterion_id": "AC_FAIL_CLOSED",
+          "title": "Missing, stale or mismatched allocator provenance remains blocked; no direct registry write or authorization bypass is introduced",
+          "required": true,
+          "validation_status": "NOT_RUN",
+          "evidence_refs": [],
+          "evidence_requirement": "Negative tests for missing/stale/mismatched provenance and no registry bypass"
+        },
+        {
+          "criterion_id": "AC_CONCURRENCY",
+          "title": "Per-Issue workflow concurrency, unique CHAT_ID isolation, resource overlap rules and CAS registry safety from PR #104 remain intact",
+          "required": true,
+          "validation_status": "NOT_RUN",
+          "evidence_refs": [],
+          "evidence_requirement": "Regression test output for independent Issue concurrency, shared-resource denial and CAS fencing"
+        },
+        {
+          "criterion_id": "AC_TESTS",
+          "title": "Regression tests and exact-head CI pass, including durable inbox recovery and blocked-task revalidation",
+          "required": true,
+          "validation_status": "NOT_RUN",
+          "evidence_refs": [],
+          "evidence_requirement": "Exact-head CI run URL and named passing regression tests"
+        },
+        {
+          "criterion_id": "AC_SCOPE_HANDOFF",
+          "title": "Only the seven authorized coordinator/work-item/test files change; PR is review-ready and remains unmerged",
+          "required": true,
+          "validation_status": "NOT_RUN",
+          "evidence_refs": [],
+          "evidence_requirement": "PR changed-file list, PR URL/head SHA and confirmation no merge/deploy"
+        }
+      ],
+      "priority": 10,
+      "effort_estimate_minutes": 25,
+      "effort_rationale": "Focused coordinator reliability repair driven by a live reproducible blocked Work Item and regression-test requirements.",
+      "depth_profile": {
+        "profile_version": "2.0.0",
+        "min_substantive_steps": 6,
+        "min_acceptance_criteria": 4,
+        "min_deliverables": 3,
+        "target_effort_minutes": 25
+      },
+      "deliverables": [
+        {
+          "deliverable_id": "D1",
+          "description": "Reproducible failure and evidence-backed root cause",
+          "evidence_requirement": "Issue/comment IDs, main SHA and source references"
+        },
+        {
+          "deliverable_id": "D2",
+          "description": "Minimal coordinator recovery fix with regression tests",
+          "evidence_requirement": "Focused diff and passing test output"
+        },
+        {
+          "deliverable_id": "D3",
+          "description": "Validated review-ready PR and recovery instructions for Issue #106",
+          "evidence_requirement": "CI run, changed files, PR URL/head SHA and rollback note"
+        }
+      ],
+      "operation_scope_version": "1.0",
+      "requested_operations": [
+        "control_plane_write"
+      ],
+      "created_at_utc": "2026-11-20T16:55:59Z",
+      "allocation_provenance": {
+        "allocator_work_item_id": "WI-GOAL-ALLOCATOR-001",
+        "allocator_issue_number": 11,
+        "actor": "a4adelahmadian86-wq",
+        "chat_id": "CHAT-20261120-GUIDE-SYNC-01",
+        "run_id": "RUN-20261120-DOC-CONSISTENCY-ALLOCATOR-002",
+        "fencing_token": 157,
+        "branch": null,
+        "allocated_at_utc": "2026-11-20T16:57:41Z"
+      }
     }
   },
   "checkpoints": {
