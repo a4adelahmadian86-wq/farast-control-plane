@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2947,
+  "revision": 2948,
   "next_fencing_token": 160,
   "locks": [
     {
@@ -12062,6 +12062,17 @@
       "work_item_id": "WI-NON-PER-REQUEST-AUTH-PROMPT-FIX-002",
       "preserved_steps": 0,
       "at_utc": "2026-11-20T17:19:45.360Z"
+    },
+    {
+      "event": "WORK_ITEM_REFRESHED",
+      "issue_number": 109,
+      "work_item_id": "WI-NON-PER-REQUEST-AUTH-PROMPT-FIX-002",
+      "actor": "a4adelahmadian86-wq",
+      "preserved_steps": 0,
+      "preserved_criteria": 0,
+      "hard_gate_ready": true,
+      "hard_gate_blockers": [],
+      "at_utc": "2026-11-20T17:19:53.296Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -24358,6 +24369,15 @@
       "command": "refresh",
       "next_status": null,
       "at_utc": "2026-11-20T17:19:27.801Z"
+    },
+    "7045937036": {
+      "response": "Work Item specification refreshed from Issue body; preserved_steps=0; preserved_criteria=0; hard_gates=PASS; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%.",
+      "response_posted": false,
+      "issue_number": 109,
+      "actor": "a4adelahmadian86-wq",
+      "command": "refresh",
+      "next_status": "ready",
+      "at_utc": "2026-11-20T17:19:53.296Z"
     }
   },
   "work_items": {
