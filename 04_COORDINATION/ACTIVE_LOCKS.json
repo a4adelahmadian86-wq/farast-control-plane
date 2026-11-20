@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2868,
+  "revision": 2869,
   "next_fencing_token": 156,
   "locks": [
     {
@@ -23773,6 +23773,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-20T16:36:39.682Z"
+    },
+    "7044975303": {
+      "response": "معیار پذیرش ثبت شد: AC_SCOPE; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; can_accept=true.",
+      "response_posted": false,
+      "issue_number": 50,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-20T16:36:48.104Z"
     }
   },
   "work_items": {
@@ -25629,7 +25638,7 @@
       "parent_exp_ids": [
         "EXP-01"
       ],
-      "status": "IN_PROGRESS",
+      "status": "REVIEW_REQUIRED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "doc:EXECUTION_START_GUIDE_FA.md"
@@ -25735,8 +25744,13 @@
           "criterion_id": "AC_SCOPE",
           "title": "Only EXECUTION_START_GUIDE_FA.md is changed; product repository non remains READ_ONLY; PR is not merged by the worker",
           "required": true,
-          "validation_status": "NOT_RUN",
-          "evidence_refs": []
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/105/files"
+          ],
+          "validated_at_utc": "2026-11-20T16:36:48.103Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "priority": 50,
