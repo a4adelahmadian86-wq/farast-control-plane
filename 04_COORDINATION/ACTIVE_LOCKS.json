@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2934,
+  "revision": 2935,
   "next_fencing_token": 160,
   "locks": [
     {
@@ -24270,7 +24270,7 @@
     },
     "7045833737": {
       "response": "فرمان رد شد: تخصیص این Work Item با lease معتبر Issue #11 قابل اثبات نیست؛ work_item_spec_missing. ابتدا فقط از مسیر allocator مجاز و با provenance دقیق اقدام کنید.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 109,
       "actor": "a4adelahmadian86-wq",
       "command": "claim",
