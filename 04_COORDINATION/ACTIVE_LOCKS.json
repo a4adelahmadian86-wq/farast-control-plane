@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2917,
+  "revision": 2918,
   "next_fencing_token": 158,
   "locks": [
     {
@@ -11823,6 +11823,17 @@
       "work_item_id": "WI-BLOCKED-WORKITEM-REVALIDATION-001",
       "preserved_steps": 0,
       "at_utc": "2026-11-20T16:58:04.947Z"
+    },
+    {
+      "event": "WORK_ITEM_REFRESHED",
+      "issue_number": 107,
+      "work_item_id": "WI-BLOCKED-WORKITEM-REVALIDATION-001",
+      "actor": "a4adelahmadian86-wq",
+      "preserved_steps": 0,
+      "preserved_criteria": 0,
+      "hard_gate_ready": true,
+      "hard_gate_blockers": [],
+      "at_utc": "2026-11-20T16:58:31.468Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -24029,6 +24040,15 @@
       "command": "claim",
       "next_status": null,
       "at_utc": "2026-11-20T16:58:20.218Z"
+    },
+    "7045457852": {
+      "response": "Work Item specification refreshed from Issue body; preserved_steps=0; preserved_criteria=0; hard_gates=PASS; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%.",
+      "response_posted": false,
+      "issue_number": 107,
+      "actor": "a4adelahmadian86-wq",
+      "command": "refresh",
+      "next_status": "ready",
+      "at_utc": "2026-11-20T16:58:31.468Z"
     }
   },
   "work_items": {
