@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3003,
+  "revision": 3004,
   "next_fencing_token": 162,
   "locks": [
     {
@@ -25079,6 +25079,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-20T17:35:15.985Z"
+    },
+    "7046291442": {
+      "response": "معیار پذیرش ثبت شد: AC_SAFE_HANDOFF; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=85.71%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 109,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-20T17:35:23.227Z"
     }
   },
   "work_items": {
@@ -31755,9 +31764,14 @@
           "criterion_id": "AC_SAFE_HANDOFF",
           "title": "Focused PR contains only the 20 declared files, relevant validation passes, PR remains open/unmerged, and exact head SHA is recorded",
           "required": true,
-          "validation_status": "NOT_RUN",
-          "evidence_refs": [],
-          "evidence_requirement": "PR URL, exact head SHA, changed-file list and CI results."
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/110"
+          ],
+          "evidence_requirement": "PR URL, exact head SHA, changed-file list and CI results.",
+          "validated_at_utc": "2026-11-20T17:35:23.227Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "priority": 5,
