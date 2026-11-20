@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3006,
+  "revision": 3007,
   "next_fencing_token": 162,
   "locks": [
     {
@@ -25091,7 +25091,7 @@
     },
     "7046309661": {
       "response": "STEP ثبت شد: S6_HANDOFF; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; verified_steps=7/7.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 109,
       "actor": "a4adelahmadian86-wq",
       "command": "step",
