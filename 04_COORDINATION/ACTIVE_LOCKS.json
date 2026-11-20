@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2909,
+  "revision": 2910,
   "next_fencing_token": 157,
   "locks": [],
   "history": [
@@ -31017,8 +31017,8 @@
       },
       "107": {
         "reason": "Invalid Work item specification JSON in Issue #107: deep Work Item criteria need evidence_requirement",
-        "count": 2,
-        "last_seen_at_utc": "2026-11-20T16:56:34.792Z"
+        "count": 3,
+        "last_seen_at_utc": "2026-11-20T16:57:14.881Z"
       }
     }
   }
