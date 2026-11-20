@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2864,
+  "revision": 2865,
   "next_fencing_token": 156,
   "locks": [
     {
@@ -23755,6 +23755,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-20T16:36:15.849Z"
+    },
+    "7044972536": {
+      "response": "معیار پذیرش ثبت شد: AC_LINKS; ACCEPTANCE_PROGRESS=50%; OVERALL_COMPLETION=50%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 50,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-20T16:36:32.298Z"
     }
   },
   "work_items": {
@@ -25693,8 +25702,13 @@
           "criterion_id": "AC_LINKS",
           "title": "All prompt catalog, MASTER-00, specialist prompt and multi-chat readiness links resolve to the canonical paths on main",
           "required": true,
-          "validation_status": "NOT_RUN",
-          "evidence_refs": []
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/105"
+          ],
+          "validated_at_utc": "2026-11-20T16:36:32.297Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_EVIDENCE",
