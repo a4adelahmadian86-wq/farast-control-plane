@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2938,
+  "revision": 2939,
   "next_fencing_token": 160,
   "locks": [
     {
@@ -24299,6 +24299,15 @@
       "command": "claim",
       "next_status": "blocked",
       "at_utc": "2026-11-20T17:15:19.137Z"
+    },
+    "7045878559": {
+      "response": "فرمان رد شد: WORK_ITEM_ID=WI-NON-PER-REQUEST-AUTH-PROMPT-FIX-002 در Issueهای دیگری نیز ثبت شده است: #108; تا رفع تکرار، هیچ Claim/refresh/unblock/accept مجاز نیست.",
+      "response_posted": false,
+      "issue_number": 109,
+      "actor": "a4adelahmadian86-wq",
+      "command": "refresh",
+      "next_status": "blocked",
+      "at_utc": "2026-11-20T17:17:41.941Z"
     }
   },
   "work_items": {
