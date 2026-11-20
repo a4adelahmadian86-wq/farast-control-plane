@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2985,
+  "revision": 2986,
   "next_fencing_token": 162,
   "locks": [
     {
@@ -24998,6 +24998,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-20T17:32:50.558Z"
+    },
+    "7046233398": {
+      "response": "STEP ثبت شد: S2_SPECIALISTS; EXECUTION_PROGRESS=42.85%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=3/7.",
+      "response_posted": false,
+      "issue_number": 109,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-20T17:32:58.799Z"
     }
   },
   "work_items": {
@@ -31538,10 +31547,15 @@
           "title": "Synchronize the shared authorization contract in all 17 standalone specialist prompts",
           "required": true,
           "weight": 1,
-          "validation_status": "NOT_RUN",
-          "evidence_refs": [],
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/b457f9c351f9f3e371007b196704a0563ea47732"
+          ],
           "expected_output": "Every PR-01 through PR-17 can independently recognize an explicit bounded NON implementation request without treating a missing pre-existing Work Item as a global lock.",
-          "evidence_requirement": "Read-back and per-file hash/list for all 17 specialist prompt sources; zero stale legacy wording."
+          "evidence_requirement": "Read-back and per-file hash/list for all 17 specialist prompt sources; zero stale legacy wording.",
+          "validated_at_utc": "2026-11-20T17:32:58.799Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S3_CATALOG",
