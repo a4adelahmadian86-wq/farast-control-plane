@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2953,
+  "revision": 2954,
   "next_fencing_token": 161,
   "locks": [
     {
@@ -129,54 +129,6 @@
       "heartbeat_at_utc": "2026-11-20T17:13:56.540Z",
       "lease_expires_at_utc": "2026-11-20T17:43:56.540Z",
       "fencing_token": 159,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "module:prompt-catalog",
-      "issue_number": 109,
-      "task_id": "GH-109",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "CHAT-20261120-NON-PROMPT-WORKER-01",
-      "chat_id": "CHAT-20261120-NON-PROMPT-WORKER-01",
-      "run_id": "RUN-20261120-NON-PROMPT-WORKER-001",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": "work/GH-109-RUN-20261120-NON-PROMPT-WORKER-001",
-      "acquired_at_utc": "2026-11-20T17:20:16.671Z",
-      "heartbeat_at_utc": "2026-11-20T17:20:59.906Z",
-      "lease_expires_at_utc": "2026-11-20T17:50:59.906Z",
-      "fencing_token": 160,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "module:prompt-executable-bundle",
-      "issue_number": 109,
-      "task_id": "GH-109",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "CHAT-20261120-NON-PROMPT-WORKER-01",
-      "chat_id": "CHAT-20261120-NON-PROMPT-WORKER-01",
-      "run_id": "RUN-20261120-NON-PROMPT-WORKER-001",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": "work/GH-109-RUN-20261120-NON-PROMPT-WORKER-001",
-      "acquired_at_utc": "2026-11-20T17:20:16.671Z",
-      "heartbeat_at_utc": "2026-11-20T17:20:59.906Z",
-      "lease_expires_at_utc": "2026-11-20T17:50:59.906Z",
-      "fencing_token": 160,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "module:prompt-master-contract",
-      "issue_number": 109,
-      "task_id": "GH-109",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "CHAT-20261120-NON-PROMPT-WORKER-01",
-      "chat_id": "CHAT-20261120-NON-PROMPT-WORKER-01",
-      "run_id": "RUN-20261120-NON-PROMPT-WORKER-001",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": "work/GH-109-RUN-20261120-NON-PROMPT-WORKER-001",
-      "acquired_at_utc": "2026-11-20T17:20:16.671Z",
-      "heartbeat_at_utc": "2026-11-20T17:20:59.906Z",
-      "lease_expires_at_utc": "2026-11-20T17:50:59.906Z",
-      "fencing_token": 160,
       "status": "ACTIVE"
     }
   ],
@@ -12152,6 +12104,17 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "lease_expires_at_utc": "2026-11-20T17:50:59.906Z",
       "at_utc": "2026-11-20T17:20:59.906Z"
+    },
+    {
+      "event": "RELEASE",
+      "issue_number": 109,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-20261120-NON-PROMPT-WORKER-01",
+      "run_id": "RUN-20261120-NON-PROMPT-WORKER-001",
+      "fencing_token": 160,
+      "branch": "work/GH-109-RUN-20261120-NON-PROMPT-WORKER-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "at_utc": "2026-11-20T17:22:13.500Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -24475,6 +24438,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-20T17:20:59.906Z"
+    },
+    "7045989450": {
+      "response": "Lease آزاد شد؛ وظیفه تکمیل‌شده محسوب نمی‌شود.",
+      "response_posted": false,
+      "issue_number": 109,
+      "actor": "a4adelahmadian86-wq",
+      "command": "release",
+      "next_status": "ready",
+      "at_utc": "2026-11-20T17:22:13.501Z"
     }
   },
   "work_items": {
@@ -30954,7 +30926,7 @@
         "branch": null,
         "allocated_at_utc": "2026-11-20T17:14:51.973Z"
       },
-      "status": "CLAIMED",
+      "status": "READY",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "module:prompt-master-contract",
