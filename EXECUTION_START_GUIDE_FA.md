@@ -63,7 +63,7 @@
 
 PR-01 → PR-02 → PR-03 → PR-04 → PR-05 → PR-06 → PR-07 → PR-08 → PR-09 → PR-10 → PR-11 → PR-12 → PR-13 → PR-14 → PR-15 → PR-16 → PR-17.
 
-این ترتیب فقط اولویت برنامه‌ریزی و تخصیص است. **هر پرامپت را می‌توان مستقل و با هر ترتیب اجرا کرد.** شماره کوچک‌تر، به‌تنهایی dependency یا مانع اجرای شماره بزرگ‌تر نیست. فقط dependency سخت واقعی در `01_STRATEGY/DEPENDENCY_GRAPH.json`، قفل منبع، مجوز نوشتن و hard gateهای همان Work Item می‌توانند اجرا را متوقف کنند. برای ترتیب دقیق و نگاشت EXPها، [OWNER_APPROVED_PROMPT_PRIORITY_ORDER.md](05_PROMPT_LIBRARY/OWNER_APPROVED_PROMPT_PRIORITY_ORDER.md) و [EXECUTION_DECOMPOSITION_17x27.md](../01_STRATEGY/EXECUTION_DECOMPOSITION_17x27.md) را بخوانید.
+این ترتیب فقط اولویت برنامه‌ریزی و تخصیص است. **هر پرامپت را می‌توان مستقل و با هر ترتیب اجرا کرد.** شماره کوچک‌تر، به‌تنهایی dependency یا مانع اجرای شماره بزرگ‌تر نیست. فقط dependency سخت واقعی در `01_STRATEGY/DEPENDENCY_GRAPH.json`، قفل منبع، مجوز نوشتن و hard gateهای همان Work Item می‌توانند اجرا را متوقف کنند. برای ترتیب دقیق و نگاشت EXPها، [OWNER_APPROVED_PROMPT_PRIORITY_ORDER.md](05_PROMPT_LIBRARY/OWNER_APPROVED_PROMPT_PRIORITY_ORDER.md) و [EXECUTION_DECOMPOSITION_17x27.md](01_STRATEGY/EXECUTION_DECOMPOSITION_17x27.md) را بخوانید.
 
 برای یک مأموریت تخصصی، فقط همان PR prompt را کپی کنید؛ لازم نیست MASTER-00 را جداگانه به آن بچسبانید. هر پرامپت تخصصی باید دروازه مشترک و خواندن اسناد canonical را خودش اجرا کند. برای هماهنگی عمومی یا درخواست جدیدی که پرامپت تخصصی مشخصی ندارد، از MASTER-00 استفاده کنید.
 
