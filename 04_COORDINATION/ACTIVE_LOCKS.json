@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2852,
+  "revision": 2853,
   "next_fencing_token": 156,
   "locks": [
     {
@@ -23677,6 +23677,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-20T16:34:10.872Z"
+    },
+    "7044927144": {
+      "response": "STEP ثبت شد: S1_SYNC; EXECUTION_PROGRESS=50%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=2/4.",
+      "response_posted": false,
+      "issue_number": 50,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-20T16:34:30.841Z"
     }
   },
   "work_items": {
@@ -25563,8 +25572,13 @@
           "title": "Update the guide's canonical bundle version, prompt-library entrypoint links, and status statements only from accepted/live evidence",
           "required": true,
           "weight": 1,
-          "validation_status": "NOT_RUN",
-          "evidence_refs": []
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/00f89846dc226ec287721c888d59ac0c19c87f97"
+          ],
+          "validated_at_utc": "2026-11-20T16:34:30.840Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S2_VALIDATE",
