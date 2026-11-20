@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2858,
+  "revision": 2859,
   "next_fencing_token": 156,
   "locks": [
     {
@@ -23716,6 +23716,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-20T16:35:42.535Z"
+    },
+    "7044954597": {
+      "response": "STEP ثبت شد: S3_HANDOFF; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=4/4.",
+      "response_posted": false,
+      "issue_number": 50,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-20T16:35:51.133Z"
     }
   },
   "work_items": {
@@ -25628,8 +25637,13 @@
           "title": "Open a focused PR, document evidence and residual multi-account limitations, and hand off for independent review without merging",
           "required": true,
           "weight": 1,
-          "validation_status": "NOT_RUN",
-          "evidence_refs": []
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/105"
+          ],
+          "validated_at_utc": "2026-11-20T16:35:51.133Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "acceptance_criteria": [
