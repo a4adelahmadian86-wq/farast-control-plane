@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2993,
+  "revision": 2994,
   "next_fencing_token": 162,
   "locks": [
     {
@@ -25034,6 +25034,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-20T17:33:43.809Z"
+    },
+    "7046273703": {
+      "response": "معیار پذیرش ثبت شد: AC_EXPLICIT_REQUEST; ACCEPTANCE_PROGRESS=16.66%; OVERALL_COMPLETION=16.66%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 109,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-20T17:34:30.615Z"
     }
   },
   "work_items": {
@@ -31645,9 +31654,14 @@
           "criterion_id": "AC_EXPLICIT_REQUEST",
           "title": "Explicit task-specific owner instructions to implement a bounded NON change create/resume a per-request owner-authorized Work Item; discussion, analysis-only and ambiguous requests remain READ_ONLY",
           "required": true,
-          "validation_status": "NOT_RUN",
-          "evidence_refs": [],
-          "evidence_requirement": "Canonical text and positive/negative scenario test results."
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/b457f9c351f9f3e371007b196704a0563ea47732"
+          ],
+          "evidence_requirement": "Canonical text and positive/negative scenario test results.",
+          "validated_at_utc": "2026-11-20T17:34:30.614Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_ISSUE_BOUNDARY",
