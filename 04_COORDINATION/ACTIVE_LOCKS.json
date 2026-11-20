@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2866,
+  "revision": 2867,
   "next_fencing_token": 156,
   "locks": [
     {
@@ -23764,6 +23764,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-20T16:36:32.298Z"
+    },
+    "7044973835": {
+      "response": "معیار پذیرش ثبت شد: AC_EVIDENCE; ACCEPTANCE_PROGRESS=75%; OVERALL_COMPLETION=75%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 50,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-20T16:36:39.682Z"
     }
   },
   "work_items": {
@@ -25714,8 +25723,13 @@
           "criterion_id": "AC_EVIDENCE",
           "title": "Operational status, CI evidence, branch-protection facts and multi-account E2E limitations are current, dated and supported by read-back evidence",
           "required": true,
-          "validation_status": "NOT_RUN",
-          "evidence_refs": []
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44774771817"
+          ],
+          "validated_at_utc": "2026-11-20T16:36:39.682Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_SCOPE",
