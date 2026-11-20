@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3007,
+  "revision": 3008,
   "next_fencing_token": 162,
   "locks": [
     {
@@ -25097,6 +25097,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-20T17:36:07.893Z"
+    },
+    "7046324435": {
+      "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-NON-PER-REQUEST-AUTH-PROMPT-FIX-002; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=PR #110 is open for CI/review handoff; do not merge under current Work Item scope. Await owner merge decision, then resume only if explicitly authorized.; remaining_steps=.",
+      "response_posted": false,
+      "issue_number": 109,
+      "actor": "a4adelahmadian86-wq",
+      "command": "checkpoint",
+      "next_status": null,
+      "at_utc": "2026-11-20T17:36:45.542Z"
     }
   },
   "work_items": {
@@ -32594,6 +32603,52 @@
         "lease_expires_at_utc": "2026-11-19T13:40:30.682Z"
       },
       "next_action": "CI exposed a stale static assertion in control-plane-validation.yml that still requires the old global concurrency group. Release token 153; add that validation workflow to resource keys; refresh; reclaim from the current branch head; update assertion to per-Issue group; rerun exact-head CI."
+    },
+    "109": {
+      "work_item_id": "WI-NON-PER-REQUEST-AUTH-PROMPT-FIX-002",
+      "run_id": "RUN-20261120-NON-PROMPT-WORKER-004",
+      "checkpoint_version": 1,
+      "created_at_utc": "2026-11-20T17:36:45.541Z",
+      "last_verified_step_id": "S6_HANDOFF",
+      "current_step_id": "S6_HANDOFF",
+      "completed_step_ids": [
+        "S0_AUDIT",
+        "S1_MASTER",
+        "S2_SPECIALISTS",
+        "S3_CATALOG",
+        "S4_BUNDLE",
+        "S5_TEST",
+        "S6_HANDOFF"
+      ],
+      "remaining_step_ids": [],
+      "progress_percentage": 100,
+      "execution_progress_percentage": 100,
+      "acceptance_progress_percentage": 100,
+      "overall_completion_percentage": 100,
+      "progress_calculation_version": "PROGRESS_V2",
+      "required_step_counts": {
+        "pass": 7,
+        "fail": 0,
+        "blocked": 0,
+        "unknown": 0,
+        "not_run": 0
+      },
+      "acceptance_criteria_counts": {
+        "pass": 6,
+        "fail": 0,
+        "blocked": 0,
+        "unknown": 0,
+        "not_run": 0
+      },
+      "evidence_refs": [],
+      "blockers": [],
+      "owner": {
+        "actor": "a4adelahmadian86-wq",
+        "chat_id": "CHAT-20261120-NON-PROMPT-WORKER-01",
+        "fencing_token": 161,
+        "lease_expires_at_utc": "2026-11-20T18:01:02.401Z"
+      },
+      "next_action": "PR #110 is open for CI/review handoff; do not merge under current Work Item scope. Await owner merge decision, then resume only if explicitly authorized."
     }
   },
   "inbox_scheduler": {
