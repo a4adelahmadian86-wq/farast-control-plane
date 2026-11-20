@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2961,
+  "revision": 2962,
   "next_fencing_token": 161,
   "locks": [
     {
@@ -31906,9 +31906,9 @@
         "last_seen_at_utc": "2026-11-20T17:12:33.292Z"
       },
       "109": {
-        "reason": "Invalid Work item specification JSON in Issue #109: Resource keys do not match JSON",
-        "count": 2,
-        "last_seen_at_utc": "2026-11-20T17:17:16.672Z"
+        "reason": "Invalid Work item specification JSON in Issue #109: Target focused effort does not match JSON",
+        "count": 1,
+        "last_seen_at_utc": "2026-11-20T17:23:48.752Z"
       }
     }
   }
