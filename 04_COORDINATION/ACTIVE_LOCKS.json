@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2995,
+  "revision": 2996,
   "next_fencing_token": 162,
   "locks": [
     {
@@ -25043,6 +25043,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-20T17:34:30.615Z"
+    },
+    "7046274493": {
+      "response": "معیار پذیرش ثبت شد: AC_ISSUE_BOUNDARY; ACCEPTANCE_PROGRESS=33.33%; OVERALL_COMPLETION=33.33%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 109,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-20T17:34:39.053Z"
     }
   },
   "work_items": {
@@ -31667,9 +31676,14 @@
           "criterion_id": "AC_ISSUE_BOUNDARY",
           "title": "Every NON product write has a separate owner-authored WRITE_ALLOWED Work Item, exact owner_approval_ref, product_implementation operation scope, fresh claim and registry read-back; Issue #51 is unchanged",
           "required": true,
-          "validation_status": "NOT_RUN",
-          "evidence_refs": [],
-          "evidence_requirement": "Prompt contract and coordinator validation evidence."
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/109"
+          ],
+          "evidence_requirement": "Prompt contract and coordinator validation evidence.",
+          "validated_at_utc": "2026-11-20T17:34:39.053Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_GRANULAR_LOCK",
