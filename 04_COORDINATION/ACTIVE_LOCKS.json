@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2991,
+  "revision": 2992,
   "next_fencing_token": 162,
   "locks": [
     {
@@ -25025,6 +25025,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-20T17:33:35.747Z"
+    },
+    "7046252027": {
+      "response": "STEP ثبت شد: S5_TEST; EXECUTION_PROGRESS=85.71%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=6/7.",
+      "response_posted": false,
+      "issue_number": 109,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-20T17:33:43.809Z"
     }
   },
   "work_items": {
@@ -31610,10 +31619,15 @@
           "title": "Run schema, authorization, resource-lock, source-count, link and repository CI checks",
           "required": true,
           "weight": 1,
-          "validation_status": "NOT_RUN",
-          "evidence_refs": [],
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44784210947"
+          ],
           "expected_output": "Validation passes for positive and negative scenarios and all 20 canonical artifacts.",
-          "evidence_requirement": "Named tests and CI run tied to exact branch head; list any untestable E2E conditions."
+          "evidence_requirement": "Named tests and CI run tied to exact branch head; list any untestable E2E conditions.",
+          "validated_at_utc": "2026-11-20T17:33:43.809Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S6_HANDOFF",
