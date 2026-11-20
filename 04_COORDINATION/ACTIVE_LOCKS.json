@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2962,
+  "revision": 2963,
   "next_fencing_token": 161,
   "locks": [
     {
@@ -12110,6 +12110,17 @@
       "branch": null,
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "at_utc": "2026-11-20T17:22:36.727Z"
+    },
+    {
+      "event": "WORK_ITEM_REFRESHED",
+      "issue_number": 109,
+      "work_item_id": "WI-NON-PER-REQUEST-AUTH-PROMPT-FIX-002",
+      "actor": "a4adelahmadian86-wq",
+      "preserved_steps": 0,
+      "preserved_criteria": 0,
+      "hard_gate_ready": true,
+      "hard_gate_blockers": [],
+      "at_utc": "2026-11-20T17:24:04.428Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -24469,6 +24480,15 @@
       "command": "refresh",
       "next_status": "blocked",
       "at_utc": "2026-11-20T17:23:27.910Z"
+    },
+    "7046036690": {
+      "response": "Work Item specification refreshed from Issue body; preserved_steps=0; preserved_criteria=0; hard_gates=PASS; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%.",
+      "response_posted": false,
+      "issue_number": 109,
+      "actor": "a4adelahmadian86-wq",
+      "command": "refresh",
+      "next_status": "ready",
+      "at_utc": "2026-11-20T17:24:04.428Z"
     }
   },
   "work_items": {
@@ -30951,109 +30971,144 @@
       "status": "READY",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
-        "module:prompt-master-contract",
+        "module:prompt-catalog",
         "module:prompt-executable-bundle",
-        "module:prompt-catalog"
+        "module:prompt-master-contract",
+        "module:prompt-pr-01-baseline",
+        "module:prompt-pr-02-recovery",
+        "module:prompt-pr-03-capability-discovery",
+        "module:prompt-pr-04-traceability",
+        "module:prompt-pr-05-user-scenarios",
+        "module:prompt-pr-06-evidence-testing",
+        "module:prompt-pr-07-gap-root-cause",
+        "module:prompt-pr-08-commerce",
+        "module:prompt-pr-09-ai-services",
+        "module:prompt-pr-10-arch-data",
+        "module:prompt-pr-11-authorization",
+        "module:prompt-pr-12-security-privacy-audit",
+        "module:prompt-pr-13-target-arch",
+        "module:prompt-pr-14-hosting-operations",
+        "module:prompt-pr-15-prioritization",
+        "module:prompt-pr-16-implementation",
+        "module:prompt-pr-17-acceptance-release"
       ],
       "dependencies": [],
       "steps": [
         {
           "step_id": "S0_AUDIT",
-          "title": "Audit current main, prompt sources, bundle generator, current Issues/PRs and exact file overlap",
+          "title": "Audit all 20 canonical prompt artifacts, current main, active PR overlap and generator/source manifest",
           "required": true,
           "weight": 1,
           "validation_status": "NOT_RUN",
           "evidence_refs": [],
-          "expected_output": "A verified baseline identifying the exact stale authorization wording and canonical source/generation path.",
-          "evidence_requirement": "Current main SHAs, source paths, PR overlap query and concise audit record."
+          "expected_output": "Verified baseline for MASTER-00, catalog, bundle and each of the 17 standalone specialist prompt sources.",
+          "evidence_requirement": "Current file SHAs, source manifest, open PR overlap and stale authorization wording inventory."
         },
         {
           "step_id": "S1_MASTER",
-          "title": "Correct MASTER-00 authorization semantics and new-task dispatch",
+          "title": "Correct MASTER-00 task-specific owner authorization and NON dispatch contract",
           "required": true,
           "weight": 1,
           "validation_status": "NOT_RUN",
           "evidence_refs": [],
-          "expected_output": "Explicit positive/negative request classification, owner-created per-task Work Item flow, exact approval reference, granular locks and mandatory fresh claim/read-back.",
-          "evidence_requirement": "Focused diff and tests covering explicit implementation request versus discussion/analysis/ambiguous request."
+          "expected_output": "Precise positive/negative classification, per-request owner Work Item creation/resume, exact approval reference, granular resources and fresh claim/read-back rules.",
+          "evidence_requirement": "Focused diff and test cases for implementation request, analysis-only request, discussion, ambiguity and sensitive operations."
         },
         {
-          "step_id": "S2_CATALOG",
-          "title": "Synchronize prompt catalog metadata and version",
+          "step_id": "S2_SPECIALISTS",
+          "title": "Synchronize the shared authorization contract in all 17 standalone specialist prompts",
           "required": true,
           "weight": 1,
           "validation_status": "NOT_RUN",
           "evidence_refs": [],
-          "expected_output": "Catalog references the corrected master and exact current bundle version.",
-          "evidence_requirement": "Catalog diff and consistency check."
+          "expected_output": "Every PR-01 through PR-17 can independently recognize an explicit bounded NON implementation request without treating a missing pre-existing Work Item as a global lock.",
+          "evidence_requirement": "Read-back and per-file hash/list for all 17 specialist prompt sources; zero stale legacy wording."
         },
         {
-          "step_id": "S3_BUNDLE",
-          "title": "Regenerate the executable prompt bundle from canonical master plus all 17 specialist prompts",
+          "step_id": "S3_CATALOG",
+          "title": "Synchronize catalog version, standalone prompt usage instructions and source manifest",
           "required": true,
           "weight": 1,
           "validation_status": "NOT_RUN",
           "evidence_refs": [],
-          "expected_output": "One generated bundle with exactly 18 source components and no omitted or stale specialist prompt.",
-          "evidence_requirement": "Generator output, component/path manifest and bundle read-back."
+          "expected_output": "Catalog documents the per-request authorization flow and exact current bundle version.",
+          "evidence_requirement": "Catalog diff and source/version consistency check."
         },
         {
-          "step_id": "S4_TEST",
-          "title": "Run schema, prompt, source-count, link, authorization and repository CI validations",
+          "step_id": "S4_BUNDLE",
+          "title": "Regenerate executable bundle from canonical MASTER-00 plus all 17 updated specialist sources",
           "required": true,
           "weight": 1,
           "validation_status": "NOT_RUN",
           "evidence_refs": [],
-          "expected_output": "Validation evidence for positive and negative authorization cases and exact artifact consistency.",
-          "evidence_requirement": "Named test/CI results on exact branch head and any remaining limitations."
+          "expected_output": "One bundle containing exactly 18 current source components, with no stale copies or omissions.",
+          "evidence_requirement": "Generator or reproducible assembly log, exact SOURCE marker manifest and bundle read-back."
         },
         {
-          "step_id": "S5_HANDOFF",
-          "title": "Open focused PR and record exact head, diff scope, CI evidence and safe handoff",
+          "step_id": "S5_TEST",
+          "title": "Run schema, authorization, resource-lock, source-count, link and repository CI checks",
           "required": true,
           "weight": 1,
           "validation_status": "NOT_RUN",
           "evidence_refs": [],
-          "expected_output": "Review-ready PR limited to the three declared files; do not merge.",
-          "evidence_requirement": "PR URL, head SHA, changed-file list, CI checks and issue linkage."
+          "expected_output": "Validation passes for positive and negative scenarios and all 20 canonical artifacts.",
+          "evidence_requirement": "Named tests and CI run tied to exact branch head; list any untestable E2E conditions."
+        },
+        {
+          "step_id": "S6_HANDOFF",
+          "title": "Open focused PR and record exact head SHA, changed-file list, evidence and limitations",
+          "required": true,
+          "weight": 1,
+          "validation_status": "NOT_RUN",
+          "evidence_refs": [],
+          "expected_output": "Review-ready PR with exactly the 20 declared prompt artifacts; leave open and unmerged.",
+          "evidence_requirement": "PR URL, exact head SHA, changed-file list, CI checks and issue linkage."
         }
       ],
       "acceptance_criteria": [
         {
           "criterion_id": "AC_EXPLICIT_REQUEST",
-          "title": "Explicit task-specific owner implementation requests are recognized; discussion, analysis-only and ambiguous requests remain READ_ONLY",
+          "title": "Explicit task-specific owner instructions to implement a bounded NON change create/resume a per-request owner-authorized Work Item; discussion, analysis-only and ambiguous requests remain READ_ONLY",
           "required": true,
           "validation_status": "NOT_RUN",
           "evidence_refs": [],
-          "evidence_requirement": "Prompt contract plus positive and negative scenario test evidence."
+          "evidence_requirement": "Canonical text and positive/negative scenario test results."
         },
         {
           "criterion_id": "AC_ISSUE_BOUNDARY",
-          "title": "Every NON write has its own owner-authored WRITE_ALLOWED Work Item with exact owner_approval_ref and fresh claim/read-back; Issue #51 remains unchanged",
+          "title": "Every NON product write has a separate owner-authored WRITE_ALLOWED Work Item, exact owner_approval_ref, product_implementation operation scope, fresh claim and registry read-back; Issue #51 is unchanged",
           "required": true,
           "validation_status": "NOT_RUN",
           "evidence_refs": [],
-          "evidence_requirement": "Prompt contract and read-back of Issue #51 and new Work Item authorization."
+          "evidence_requirement": "Prompt contract and coordinator validation evidence."
         },
         {
           "criterion_id": "AC_GRANULAR_LOCK",
-          "title": "New NON requests never default to repo:non:controlled-implementation; independent resources can proceed concurrently and genuine overlapping resources serialize",
+          "title": "All 17 prompts use stable granular module/file/directory resource scopes and never default to repo:non:controlled-implementation; only true overlaps serialize",
           "required": true,
           "validation_status": "NOT_RUN",
           "evidence_refs": [],
-          "evidence_requirement": "Prompt text and representative independent/overlap coordinator tests."
+          "evidence_requirement": "Resource mapping manifest plus independent/overlap test evidence."
+        },
+        {
+          "criterion_id": "AC_SPECIALIST_SYNC",
+          "title": "Each of the 17 standalone PR prompts contains the same current shared authorization contract with no stale blanket READ_ONLY wording",
+          "required": true,
+          "validation_status": "NOT_RUN",
+          "evidence_refs": [],
+          "evidence_requirement": "Per-source SHA/read-back and stale-text scan."
         },
         {
           "criterion_id": "AC_BUNDLE_SYNC",
-          "title": "Master, catalog and generated bundle agree on one version; bundle includes canonical master plus all 17 specialist prompts",
+          "title": "Catalog and generated bundle match one version; bundle contains canonical MASTER-00 and exactly all 17 synchronized specialist sources",
           "required": true,
           "validation_status": "NOT_RUN",
           "evidence_refs": [],
-          "evidence_requirement": "Exact source manifest, generator/validator output and artifact hashes."
+          "evidence_requirement": "Source manifest, generator/validator output and exact artifact hashes."
         },
         {
           "criterion_id": "AC_SAFE_HANDOFF",
-          "title": "Focused PR contains only the three declared files, passes relevant validation, remains open/unmerged, and records exact head SHA",
+          "title": "Focused PR contains only the 20 declared files, relevant validation passes, PR remains open/unmerged, and exact head SHA is recorded",
           "required": true,
           "validation_status": "NOT_RUN",
           "evidence_refs": [],
@@ -31062,14 +31117,14 @@
       ],
       "priority": 5,
       "created_at_utc": "2026-11-20T17:14:19Z",
-      "effort_estimate_minutes": 25,
-      "effort_rationale": "This is a tightly bounded prompt-contract correction across three canonical documentation artifacts. The work requires a short source audit, one authoritative wording change, regeneration, positive/negative scenario checks, and a focused PR; 25 minutes is a realistic focused execution target without expanding into product implementation.",
+      "effort_estimate_minutes": 30,
+      "effort_rationale": "The task synchronizes one shared authorization contract across MASTER-00 and all 17 standalone specialist prompts, then updates the catalog and generated bundle and validates exact source composition plus positive/negative authorization cases. The 30-minute target is a focused batch edit with scripted consistency checks; no product implementation is included.",
       "depth_profile": {
         "profile_version": "2.0.0",
         "min_substantive_steps": 6,
-        "min_acceptance_criteria": 5,
+        "min_acceptance_criteria": 4,
         "min_deliverables": 3,
-        "target_effort_minutes": 25
+        "target_effort_minutes": 30
       },
       "deliverables": [
         {
