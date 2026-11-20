@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2850,
+  "revision": 2851,
   "next_fencing_token": 156,
   "locks": [
     {
@@ -23668,6 +23668,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-20T16:34:00.107Z"
+    },
+    "7044921803": {
+      "response": "STEP ثبت شد: S0_AUDIT; EXECUTION_PROGRESS=25%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=1/4.",
+      "response_posted": false,
+      "issue_number": 50,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-20T16:34:10.872Z"
     }
   },
   "work_items": {
@@ -25524,7 +25533,7 @@
       "parent_exp_ids": [
         "EXP-01"
       ],
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "doc:EXECUTION_START_GUIDE_FA.md"
@@ -25541,8 +25550,13 @@
           "title": "After dependency acceptance, read back main, accepted bundle/catalog and current execution guide; record exact SHA and stale claims",
           "required": true,
           "weight": 1,
-          "validation_status": "NOT_RUN",
-          "evidence_refs": []
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/18bac691cf08b44d60c416f976478bcb8c9e3dd5"
+          ],
+          "validated_at_utc": "2026-11-20T16:34:10.871Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S1_SYNC",
