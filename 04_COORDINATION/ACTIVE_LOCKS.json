@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2946,
+  "revision": 2947,
   "next_fencing_token": 160,
   "locks": [
     {
@@ -12055,6 +12055,13 @@
         "allocated_at_utc": "2026-11-20T17:14:51.973Z"
       },
       "at_utc": "2026-11-20T17:18:17.789Z"
+    },
+    {
+      "event": "DEPENDENCY_AUTO_UNBLOCKED",
+      "issue_number": 109,
+      "work_item_id": "WI-NON-PER-REQUEST-AUTH-PROMPT-FIX-002",
+      "preserved_steps": 0,
+      "at_utc": "2026-11-20T17:19:45.360Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
