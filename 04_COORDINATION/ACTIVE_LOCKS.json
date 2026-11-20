@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2945,
+  "revision": 2946,
   "next_fencing_token": 160,
   "locks": [
     {
@@ -24345,7 +24345,7 @@
     },
     "7045926963": {
       "response": "Refresh رد شد: WORK_ITEM_ID تغییر کرده است؛ شناسه پایدار را عوض نکن.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 109,
       "actor": "a4adelahmadian86-wq",
       "command": "refresh",
