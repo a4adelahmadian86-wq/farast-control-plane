@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "revision": 2949,
-  "next_fencing_token": 160,
+  "revision": 2950,
+  "next_fencing_token": 161,
   "locks": [
     {
       "resource_key": "file:.github/scripts/coordinator-core.js",
@@ -129,6 +129,54 @@
       "heartbeat_at_utc": "2026-11-20T17:13:56.540Z",
       "lease_expires_at_utc": "2026-11-20T17:43:56.540Z",
       "fencing_token": 159,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "module:prompt-catalog",
+      "issue_number": 109,
+      "task_id": "GH-109",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-20261120-NON-PROMPT-WORKER-01",
+      "chat_id": "CHAT-20261120-NON-PROMPT-WORKER-01",
+      "run_id": "RUN-20261120-NON-PROMPT-WORKER-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-109-RUN-20261120-NON-PROMPT-WORKER-001",
+      "acquired_at_utc": "2026-11-20T17:20:16.671Z",
+      "heartbeat_at_utc": "2026-11-20T17:20:16.671Z",
+      "lease_expires_at_utc": "2026-11-20T17:50:16.671Z",
+      "fencing_token": 160,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "module:prompt-executable-bundle",
+      "issue_number": 109,
+      "task_id": "GH-109",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-20261120-NON-PROMPT-WORKER-01",
+      "chat_id": "CHAT-20261120-NON-PROMPT-WORKER-01",
+      "run_id": "RUN-20261120-NON-PROMPT-WORKER-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-109-RUN-20261120-NON-PROMPT-WORKER-001",
+      "acquired_at_utc": "2026-11-20T17:20:16.671Z",
+      "heartbeat_at_utc": "2026-11-20T17:20:16.671Z",
+      "lease_expires_at_utc": "2026-11-20T17:50:16.671Z",
+      "fencing_token": 160,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "module:prompt-master-contract",
+      "issue_number": 109,
+      "task_id": "GH-109",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-20261120-NON-PROMPT-WORKER-01",
+      "chat_id": "CHAT-20261120-NON-PROMPT-WORKER-01",
+      "run_id": "RUN-20261120-NON-PROMPT-WORKER-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-109-RUN-20261120-NON-PROMPT-WORKER-001",
+      "acquired_at_utc": "2026-11-20T17:20:16.671Z",
+      "heartbeat_at_utc": "2026-11-20T17:20:16.671Z",
+      "lease_expires_at_utc": "2026-11-20T17:50:16.671Z",
+      "fencing_token": 160,
       "status": "ACTIVE"
     }
   ],
@@ -12073,6 +12121,25 @@
       "hard_gate_ready": true,
       "hard_gate_blockers": [],
       "at_utc": "2026-11-20T17:19:53.296Z"
+    },
+    {
+      "event": "ACQUIRED",
+      "issue_number": 109,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-20261120-NON-PROMPT-WORKER-01",
+      "run_id": "RUN-20261120-NON-PROMPT-WORKER-001",
+      "resource_keys": [
+        "module:prompt-catalog",
+        "module:prompt-executable-bundle",
+        "module:prompt-master-contract"
+      ],
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-109-RUN-20261120-NON-PROMPT-WORKER-001",
+      "previous_branch": null,
+      "previous_target_repository": null,
+      "previous_run_id": null,
+      "fencing_token": 160,
+      "at_utc": "2026-11-20T17:20:16.671Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -24378,6 +24445,15 @@
       "command": "refresh",
       "next_status": "ready",
       "at_utc": "2026-11-20T17:19:53.296Z"
+    },
+    "7045942685": {
+      "response": "CLAIM GRANTED. TASK=GH-109; WORK_ITEM_ID=WI-NON-PER-REQUEST-AUTH-PROMPT-FIX-002; verified_steps=; remaining_steps=S0_AUDIT,S1_MASTER,S2_CATALOG,S3_BUNDLE,S4_TEST,S5_HANDOFF; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; actor=@a4adelahmadian86-wq; chat=CHAT-20261120-NON-PROMPT-WORKER-01; run=RUN-20261120-NON-PROMPT-WORKER-001; resource_keys=module:prompt-catalog,module:prompt-executable-bundle,module:prompt-master-contract; target_repository=a4adelahmadian86-wq/farast-control-plane; write_policy=WRITE_ALLOWED; branch=work/GH-109-RUN-20261120-NON-PROMPT-WORKER-001; previous_run=none; fencing_token=160; lease_expires=2026-11-20T17:50:16.671Z. این Work Item با سیاست WRITE_ALLOWED است؛ branch را فقط در target_repository ثبت‌شده بساز و قبل از هر write heartbeat/token را دوباره تأیید کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز و branch قبلی را تغییر نده.",
+      "response_posted": false,
+      "issue_number": 109,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "locked",
+      "at_utc": "2026-11-20T17:20:16.674Z"
     }
   },
   "work_items": {
@@ -30857,7 +30933,7 @@
         "branch": null,
         "allocated_at_utc": "2026-11-20T17:14:51.973Z"
       },
-      "status": "READY",
+      "status": "CLAIMED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "module:prompt-master-contract",
