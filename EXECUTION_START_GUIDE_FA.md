@@ -1,132 +1,129 @@
-# راهنمای شروع اجرای FARAST — نسخه تأییدشده برای شروع کنترل‌شده
+# راهنمای شروع اجرای FARAST — وضعیت تأییدشده تا 2026-11-20
 
-آخرین بازبینی: 2026-11-15  
-مرجع: شاخه `main`؛ پیش از هر اجرا SHA زنده را از GitHub بخوانید.
+آخرین بازبینی: 2026-11-20  
+مرجع حقیقت: شاخه پیش‌فرض `main` مخزن [farast-control-plane](https://github.com/a4adelahmadian86-wq/farast-control-plane). پیش از هر اجرا، SHA زنده `main`، Issueها، PRها، dependencyها و وضعیت lease را دوباره بخوانید.
 
 ## 1) حکم آمادگی
 
-**آماده برای شروع تحلیل و کشف کنترل‌شده (READ_ONLY): بله.**  
-**آماده برای ادعای اجرای کامل چندحسابی یا پخش یک پرامپت واحد میان چند چت: خیر؛ هر دو هنوز تأیید نشده‌اند.**
+**آماده برای اجرای کنترل‌شده و کارهای READ_ONLY: بله.**  
+**آماده برای ادعای تأیید کامل چندحسابی/چندنشستی یا تضمین «بدون هیچ اختلال»: خیر؛ این ادعا هنوز با E2E واقعی دو حساب مستقل اثبات نشده است.**
 
-شواهد فعلی:
-- PR #1 کنترل‌پلین ادغام شده و workflow فرمانی `issue_comment` روی `main` در آزمون زنده موفق بوده است.
-- آزمون زنده تک‌حسابی: یک Work Item منبع مشترک را claim کرد، Work Item دوم برای همان منبع رد شد و Work Item مستقل هم‌زمان lease گرفت.
-- CI هسته: coordinator برابر 14/14 و Work Item برابر 20/20؛ آخرین run باید هنگام اجرا دوباره از GitHub خوانده شود.
-- 27 Work Item متناظر با EXP-01 تا EXP-27 در Issueهای مستقل وجود دارد؛ 27 شناسه یکتا، JSON معتبر و تطبیق header/schema بررسی شد. همه آن‌ها `agent:ready` هستند.
-- Work Itemهای محصول `a4adelahmadian86-wq/non` با سیاست `READ_ONLY` تعریف شده‌اند. هیچ فایل، branch، PR یا داده محصول با این آماده‌سازی تغییر نکرده است.
+وضعیت فنی تأییدشده در این بازبینی:
 
-موارد اثبات‌نشده:
-- آزمون دو حساب GitHub مستقل در دو نشست ChatGPT مستقل و قطع/بازگشت واقعی نشست.
-- takeover پس از expiry و رد write عامل قدیمی در E2E دوحسابی.
-- schedule پنج‌دقیقه‌ای و workflow_dispatch با run زنده.
-- branch protection: read-back فعلی `main.protected=false` و repository rulesets برابر `[]` بوده است.
-- secret لازم برای بررسی پذیرش PRهای cross-repository از این اتصال قابل مشاهده نیست.
+- PR #104 با merge commit برابر `18bac691cf08b44d60c416f976478bcb8c9e3dd5` روی `main` ادغام شده است. این اصلاح، گروه هم‌زمانی Actions را به‌ازای هر Issue جدا می‌کند، نوشتن رجیستری مشترک را با fast-forward CAS و `force=false` محافظت می‌کند و فرمان‌های معوق را از inbox پایدار replay می‌کند.
+- Issue #100 / `WI-LOCK-SCOPE-ISOLATION-001` پس از عبور از گیت‌های پذیرش، پذیرفته و بسته شده است. دامنه قفل‌های `repo:`، `dir:`، `file:`/`doc:` و کلیدهای منطقی تفکیک شده‌اند؛ کلید repository-wide فقط در همان مخزن انحصاری است.
+- CI دقیق head مربوط به PR #104، یعنی `bad9682c878cceecbaa447b93fdcfdbfde87f6ea`، در run [44532472401](https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44532472401) با نتیجه `success` پایان یافته است.
+- آزمون زنده هماهنگ‌کننده با یک هویت GitHub، claim موفق برای منبع مشترک در Issue #7، رد claim رقیب همان منبع در Issue #8 و claim موفق منبع مستقل در Issue #9 را نشان داده است. این آزمون، آزمون دو حساب مستقل ChatGPT/GitHub نیست.
+- PR #96 و Issue #47 نیز ادغام/پذیرفته شده‌اند و قرارداد عمق مأموریت، انتخاب خودکار برگ‌های اجرایی، مسیر READ_ONLY و پذیرش ماشینی را به main افزوده‌اند.
+- Bundle تجمیعی فعلی نسخه **2.0.1** است و شامل MASTER-00 و ۱۷ پرامپت تخصصی است.
 
-بنابراین هیچ تضمین «صفر خطا» یا آمادگی کامل چندحسابی داده نمی‌شود. این نسخه برای آغاز مرحله کشف READ_ONLY با توقف امن هنگام ابهام آماده است.
+**مواردی که همچنان NOT VERIFIED هستند:**
 
-## 2) نقطه شروع پیشنهادی
+1. اجرای هم‌زمان واقعی با دو حساب مستقل GitHub و دو نشست مستقل ChatGPT.
+2. takeover واقعی پس از انقضای lease و اثبات رد write عامل قدیمی در E2E دوحسابی.
+3. اینکه هر تعداد دلخواه چت، بدون محدودیت quota، Actions یا دسترسی، همواره بی‌وقفه پیش بروند.
+4. وضعیت فعلی branch protection/rulesets و تنظیمات سراسری Actions از این بازبینی قابل read-back قطعی نبود؛ بنابراین فعال یا غیرفعال بودن آن‌ها را حدس نزنید.
 
-برای اولین اجرا، فقط این پرامپت را در یک چت ارسال کنید:
+بنابراین این زیرساخت برای اجرای کنترل‌شده با شواهد و توقف امن آماده است؛ اما نباید آن را چندحسابیِ کاملاً اثبات‌شده یا مصون از هر خطا معرفی کرد.
 
-- [PR-01 — خط مبنا و موجودی محیط](05_PROMPT_LIBRARY/PR-01_BASELINE.md)
+## 2) نقطه شروع و کتابخانه رسمی
 
-این پرامپت باید Work Item واقعی `EXP-01` را در Issueها پیدا کند (اکنون Issue #13 / `WI-EXP01-BASELINE-001`)؛ شناسه جدید نسازد؛ مخزن محصول را فقط بخواند؛ و گزارش/شواهد را با checkpoint ثبت کند.
+نسخه canonical و کامل برای کپی یکجا:
 
-پس از آن، بسته به dependency واقعی و وضعیت Work Itemها:
-- [PR-02 — بکاپ و بازیابی](05_PROMPT_LIBRARY/PR-02_RECOVERY.md)
-- [PR-03 — کاتالوگ قابلیت‌ها](05_PROMPT_LIBRARY/PR-03_CAPABILITY_DISCOVERY.md)
-- [PR-04 — ردیابی نیازمندی‌ها](05_PROMPT_LIBRARY/PR-04_TRACEABILITY.md)
-- [PR-05 — سناریوهای کاربر](05_PROMPT_LIBRARY/PR-05_USER_SCENARIOS.md)
-- [PR-06 — آزمون و شواهد](05_PROMPT_LIBRARY/PR-06_EVIDENCE_TESTING.md)
-- [PR-07 — شکاف و علت ریشه‌ای](05_PROMPT_LIBRARY/PR-07_GAP_ROOT_CAUSE.md)
-
-برای هر مأموریت تخصصی فقط همان PR prompt را کپی کنید؛ لازم نیست MASTER-00 را جداگانه به آن بچسبانید. پرامپت‌های مستقل، دروازه مشترک و الزام خواندن MASTER-00 را در خود دارند.
-
-## 3) اجرای یک پرامپت واحد در چند چت
-برای اصل «یک متن واحد به چند چت»، MASTER-00 را بدون تغییر در تمام چت‌های موردنظر ارسال کنید. هر چت باید از صف مشترک GitHub یک برگ مستقل claim کند؛ در تعارض، claim بازنده پس از read-back به برگ بعدی می‌رود. پیش‌نیاز اتصال هر حساب و مجوز collaborator/member در [SINGLE_PROMPT_MULTI_CHAT_DISPATCH.md] آمده است. جزئیات و معیارهای آزمون در [SINGLE_PROMPT_MULTI_CHAT_DISPATCH.md](04_COORDINATION/SINGLE_PROMPT_MULTI_CHAT_DISPATCH.md) است. این رفتار تا اجرای E2E دو حساب مستقل NOT VERIFIED است.
-
-## 4) کتابخانه کامل پرامپت‌ها
-
-- [فهرست و نگاشت 17 پرامپت](05_PROMPT_LIBRARY/PROMPT_CATALOG.md)
+- [FARAST_EXECUTABLE_PROMPTS_COMPLETE.md — نسخه 2.0.1](05_PROMPT_LIBRARY/FARAST_EXECUTABLE_PROMPTS_COMPLETE.md)
+- [PROMPT_CATALOG.md — فهرست و نگاشت پرامپت‌ها](05_PROMPT_LIBRARY/PROMPT_CATALOG.md)
 - [MASTER-00 — هماهنگی، بازیابی و تداوم](05_PROMPT_LIBRARY/MASTER-00.md)
-- [Bundle کامل نسخه 1.8.0](05_PROMPT_LIBRARY/FARAST_EXECUTABLE_PROMPTS_COMPLETE.md)
+- [پروتکل پخش یک پرامپت واحد میان چند چت](04_COORDINATION/SINGLE_PROMPT_MULTI_CHAT_DISPATCH.md)
+- [ارزیابی آمادگی چندچتی و محدودیت‌های اثبات](04_COORDINATION/MULTI_CHAT_READINESS.md)
+- [START_HERE — دروازه اجباری ورود عامل‌ها](START_HERE.md)
 
-پرامپت‌های تخصصی:
-- [PR-01 Baseline](05_PROMPT_LIBRARY/PR-01_BASELINE.md)
-- [PR-02 Recovery](05_PROMPT_LIBRARY/PR-02_RECOVERY.md)
-- [PR-03 Capability Discovery](05_PROMPT_LIBRARY/PR-03_CAPABILITY_DISCOVERY.md)
-- [PR-04 Traceability](05_PROMPT_LIBRARY/PR-04_TRACEABILITY.md)
-- [PR-05 User Scenarios](05_PROMPT_LIBRARY/PR-05_USER_SCENARIOS.md)
-- [PR-06 Evidence Testing](05_PROMPT_LIBRARY/PR-06_EVIDENCE_TESTING.md)
-- [PR-07 Gap Root Cause](05_PROMPT_LIBRARY/PR-07_GAP_ROOT_CAUSE.md)
-- [PR-08 Commerce](05_PROMPT_LIBRARY/PR-08_COMMERCE.md)
-- [PR-09 AI Services](05_PROMPT_LIBRARY/PR-09_AI_SERVICES.md)
-- [PR-10 Architecture and Data](05_PROMPT_LIBRARY/PR-10_ARCH_DATA.md)
-- [PR-11 Authorization](05_PROMPT_LIBRARY/PR-11_AUTHORIZATION.md)
-- [PR-12 Security, Privacy and Audit](05_PROMPT_LIBRARY/PR-12_SECURITY_PRIVACY_AUDIT.md)
-- [PR-13 Target Architecture](05_PROMPT_LIBRARY/PR-13_TARGET_ARCH.md)
-- [PR-14 Hosting and Operations](05_PROMPT_LIBRARY/PR-14_HOSTING_OPERATIONS.md)
-- [PR-15 Prioritization](05_PROMPT_LIBRARY/PR-15_PRIORITIZATION.md)
-- [PR-16 Controlled Implementation](05_PROMPT_LIBRARY/PR-16_IMPLEMENTATION.md)
-- [PR-17 Acceptance and Release](05_PROMPT_LIBRARY/PR-17_ACCEPTANCE_RELEASE.md)
+پرامپت‌های تخصصی مستقل:
 
-## 5) قواعد اجرای بدون تداخل
+1. [PR-01 — خط مبنا](05_PROMPT_LIBRARY/PR-01_BASELINE.md)
+2. [PR-02 — بکاپ و بازیابی](05_PROMPT_LIBRARY/PR-02_RECOVERY.md)
+3. [PR-03 — کشف قابلیت‌ها](05_PROMPT_LIBRARY/PR-03_CAPABILITY_DISCOVERY.md)
+4. [PR-04 — ردیابی نیازمندی‌ها](05_PROMPT_LIBRARY/PR-04_TRACEABILITY.md)
+5. [PR-05 — سناریوهای کاربر](05_PROMPT_LIBRARY/PR-05_USER_SCENARIOS.md)
+6. [PR-06 — آزمون و شواهد](05_PROMPT_LIBRARY/PR-06_EVIDENCE_TESTING.md)
+7. [PR-07 — تحلیل شکاف و علت ریشه‌ای](05_PROMPT_LIBRARY/PR-07_GAP_ROOT_CAUSE.md)
+8. [PR-08 — تجارت](05_PROMPT_LIBRARY/PR-08_COMMERCE.md)
+9. [PR-09 — خدمات هوشمند](05_PROMPT_LIBRARY/PR-09_AI_SERVICES.md)
+10. [PR-10 — معماری و داده](05_PROMPT_LIBRARY/PR-10_ARCH_DATA.md)
+11. [PR-11 — هویت و مجوزها](05_PROMPT_LIBRARY/PR-11_AUTHORIZATION.md)
+12. [PR-12 — امنیت، حریم خصوصی و ممیزی](05_PROMPT_LIBRARY/PR-12_SECURITY_PRIVACY_AUDIT.md)
+13. [PR-13 — معماری هدف](05_PROMPT_LIBRARY/PR-13_TARGET_ARCH.md)
+14. [PR-14 — میزبانی و عملیات](05_PROMPT_LIBRARY/PR-14_HOSTING_OPERATIONS.md)
+15. [PR-15 — اولویت‌بندی](05_PROMPT_LIBRARY/PR-15_PRIORITIZATION.md)
+16. [PR-16 — پیاده‌سازی کنترل‌شده](05_PROMPT_LIBRARY/PR-16_IMPLEMENTATION.md)
+17. [PR-17 — پذیرش و انتشار](05_PROMPT_LIBRARY/PR-17_ACCEPTANCE_RELEASE.md)
 
-1. پیش از هر اجرا، `START_HERE.md`، این راهنما، `MULTI_CHAT_READINESS.md` و پروتکل interruption را از SHA زنده `main` بخوانید.
-2. فقط Work Item واقعی متناظر با EXP را ادامه دهید؛ عنوان، شناسه یا Issue تکراری نسازید.
-3. قبل از هر write به کنترل‌پلین، claim را از طریق Issue و فرمان `/farast claim` انجام دهید. فقط CLAIM GRANTED همراه read-back رجیستری مجوز است.
-4. قبل از هر write/checkpoint heartbeat معتبر بگیرید. timeout، خطا یا نتیجه مبهم یعنی STOP WRITES.
-5. رجیستری `coordination/locks` را مستقیم تغییر ندهید؛ فقط workflow مرکزی نویسنده آن است.
-6. چند چت فقط وقتی موازی کار کنند که claimهای جداگانه موفق، resource keys مستقل و dependencyهای حل‌شده داشته باشند.
-7. GitHub هویت واقعی ChatGPT chat را تصدیق نمی‌کند؛ CHAT_ID/RUN_ID شناسه‌های metadata خوداظهاری‌اند. آزمون دوحسابی هنوز انجام نشده است.
-8. `a4adelahmadian86-wq/non` فقط READ_ONLY است. هیچ branch، فایل، PR، migration یا deploy در محصول نسازید/تغییر ندهید مگر مالک یک Work Item جدید با مجوز صریح و policy مناسب تصویب کند.
-9. هرگز secret، token، PII، داده مشتری یا اطلاعات محرمانه را در مخزن عمومی، Issue، comment یا log ثبت نکنید.
-10. پایان هر نشست باید checkpoint، شواهد، اقدام بعدی و وضعیت قفل را در GitHub ثبت کند.
+## 3) ترتیب اجرا: اولویت است، نه زنجیره اجباری
 
-## 6) وضعیت منابع و قفل allocator
+ترتیب اولویت مورد تأیید مالک:
 
-در snapshot قبلی، Issue #11 با Work Item ID برابر `WI-GOAL-ALLOCATOR-001` lease با انقضای `2026-11-14T17:54:45Z` داشت؛ این زمان در آخرین بازبینی از زمان جاری گذشته بود، بنابراین آن lease را فعال فرض نکنید و برای هر allocation جدید وضعیت را از رجیستری زنده بخوانید. چون 27 برگ EXP از قبل ساخته شده‌اند، برای شروع EXP-01 تا EXP-27 نیازی به ساخت برگ جدید یا تصاحب allocator نیست.
+PR-01 → PR-02 → PR-03 → PR-04 → PR-05 → PR-06 → PR-07 → PR-08 → PR-09 → PR-10 → PR-11 → PR-12 → PR-13 → PR-14 → PR-15 → PR-16 → PR-17.
 
-## 7) معیار اعلام پایان
+این ترتیب فقط اولویت برنامه‌ریزی و تخصیص است. **هر پرامپت را می‌توان مستقل و با هر ترتیب اجرا کرد.** شماره کوچک‌تر، به‌تنهایی dependency یا مانع اجرای شماره بزرگ‌تر نیست. فقط dependency سخت واقعی در `01_STRATEGY/DEPENDENCY_GRAPH.json`، قفل منبع، مجوز نوشتن و hard gateهای همان Work Item می‌توانند اجرا را متوقف کنند. برای ترتیب دقیق و نگاشت EXPها، [OWNER_APPROVED_PROMPT_PRIORITY_ORDER.md](05_PROMPT_LIBRARY/OWNER_APPROVED_PROMPT_PRIORITY_ORDER.md) و [EXECUTION_DECOMPOSITION_17x27.md](../01_STRATEGY/EXECUTION_DECOMPOSITION_17x27.md) را بخوانید.
 
-هیچ Work Item را صرفاً به دلیل تولید فایل یا CI سبز DONE_VERIFIED نکنید. فقط با acceptance criteria کامل، شواهد قابل بازبینی، تست‌های لازم، dependencyهای پذیرفته‌شده و checkpoint معتبر می‌توان آن را تکمیل‌شده اعلام کرد. release/merge/deploy همچنان نیازمند تأیید صریح مالک است.
+برای یک مأموریت تخصصی، فقط همان PR prompt را کپی کنید؛ لازم نیست MASTER-00 را جداگانه به آن بچسبانید. هر پرامپت تخصصی باید دروازه مشترک و خواندن اسناد canonical را خودش اجرا کند. برای هماهنگی عمومی یا درخواست جدیدی که پرامپت تخصصی مشخصی ندارد، از MASTER-00 استفاده کنید.
 
-## آخرین اعتبارسنجی کنترل‌پلین
+## 4) یک پرامپت واحد در چند چت
 
-- آخرین اجرای کامل CI روی SHA `d3329b278666844d7658a228f99314445ad75475` موفق شد: [GitHub Actions run 43624231414](https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/43624231414).
-- این run آزمون‌های contention/fencing، پیشرفت و resume، اعتبارسنجی JSON، قراردادهای ۱۷ پرامپت و تطبیق دقیق bundle با ۱۸ منبع را با موفقیت گذراند.
-- هر تغییر بعدی در مخزن run جدید ایجاد می‌کند؛ پیش از اجرا، وضعیت آخرین SHA و CI را دوباره بخوانید.
+اگر می‌خواهید یک متن یکسان را به چند چت بدهید، فقط MASTER-00 را بدون تغییر در همه چت‌ها ارسال کنید. هر چت باید به‌طور مستقل:
 
-## مراجع وضعیت
+1. CHAT_ID تصادفی و یکتا برای همان مکالمه تولید کند (ترجیحاً UUID v4) و آن را تا پایان همان مکالمه ثابت نگه دارد.
+2. برای هر اجرای جدید RUN_ID یکتا بسازد؛ در resume همان Work Item و checkpoint را حفظ کند.
+3. وضعیت زنده GitHub، dependencyها، Work Itemهای آماده، PRها و leaseها را بخواند.
+4. فقط یک leaf واجد شرایط را claim کند؛ claim موفق یک چت نباید مانع انتخاب leaf مستقل توسط چت دیگر شود.
+5. اگر یک claim به علت تعارض منبع یا رقابت رد شد، علت را از پاسخ coordinator و read-back تشخیص دهد و نامزد مستقل بعدی را بررسی کند؛ رد یک نامزد به معنی قفل کل پروژه نیست.
+6. اگر فرمان در صف Actions یا inbox معوق است، آن را قفل منبع گزارش نکند. پاسخ همان comment ID، وضعیت coordinator و snapshot معتبر lease را بررسی کند؛ فرمان تکراری نسازد.
+7. پیش از هر write/checkpoint، heartbeat معتبر و fencing token جاری را بررسی کند.
+8. پیش از توقف یا handoff، checkpoint پایدار و NEXT_ACTION دقیق ثبت کند.
 
-- [آمادگی چندچتی](04_COORDINATION/MULTI_CHAT_READINESS.md)
-- [پروتکل فرمان‌ها](04_COORDINATION/COORDINATOR_COMMANDS.md)
-- [راهنمای تنظیمات دستی GitHub](04_COORDINATION/MANUAL_GITHUB_SETTINGS.md)
-- [گزارش آزمون رقابت و قفل](08_REPORTS/MULTI_CHAT_CONCURRENCY_SMOKE_2026-11-14.md)
-- [شروع اجباری عامل‌ها](START_HERE.md)
+**مهم:** GitHub میان چت‌های ChatGPT پیام مستقیم منتقل نمی‌کند؛ GitHub Issueها، branchها، checkpointها و رجیستری، حافظه مشترک تیم هستند. هر حساب GitHub باید جداگانه مجوز و اتصال معتبر داشته باشد. شناسه CHAT_ID/RUN_ID شناسه‌های metadata خوداظهاری‌اند و هویت واقعی حساب را اثبات نمی‌کنند. شرایط دقیق در [SINGLE_PROMPT_MULTI_CHAT_DISPATCH.md](04_COORDINATION/SINGLE_PROMPT_MULTI_CHAT_DISPATCH.md) آمده است.
 
+## 5) قواعد قفل و جلوگیری از توقف اشتباه
 
-## وضعیت پس از ادغام پروتکل پخش — 2026-11-15
+- `repo:label`: قفل انحصاری کل مخزن هدف؛ فقط برای عملیات واقعاً repository-wide.
+- `dir:path`: با تمام فایل‌ها و زیرپوشه‌های همان مسیر تعارض دارد.
+- `file:path` و `doc:path`: برای مسیر یکسان با هم تعارض دارند.
+- `module:id` و کلیدهای منطقی: فقط با همان نوع و شناسه منطقی تعارض دارند.
+- منابع در دو target repository متفاوت، مستقل‌اند.
+- برای درخواست جدید NON، ابتدا READ_ONLY discovery انجام دهید و فایل/ماژول‌های واقعی را تعیین کنید؛ سپس resource key دقیق بسازید. کلید legacy `repo:non:controlled-implementation` قفل انحصاری کل NON است و نباید کلید پیش‌فرض درخواست‌های جدید باشد.
+- دامنه نامعلوم یا غیرقابل‌تقسیم = READ_ONLY؛ قفل عمومی یا مجوز نوشتن را حدس نزنید.
+- یک CHAT_ID فقط یک lease فعال دارد؛ این محدودیت فقط همان مکالمه است، نه همه چت‌ها یا کل پروژه.
+- نبود پاسخ، pending بودن workflow یا خطای موقت ابزار به‌تنهایی اثبات قفل نیست. وضعیت را تازه بخوانید و فقط علت صریح coordinator را مبنا قرار دهید.
+- workerها حق تغییر مستقیم `04_COORDINATION/ACTIVE_LOCKS.json` یا branch `coordination/locks` را ندارند؛ workflow مرکزی تنها نویسنده رجیستری است.
 
-PR #40 ادغام شده است و MASTER-00 نسخه 1.8.0 روی main قرار دارد. CI روی head نهایی PR در run `43729840131` موفق شد: https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/43729840131 . این نتیجه صحت قراردادها، اسناد، schemaها و fixtureهای موجود را تأیید می‌کند؛ جای آزمون واقعی دو حساب مستقل را نمی‌گیرد. تا وقتی دو حساب ChatGPT مستقل به GitHub مجاز وصل نشده و سناریوی BROADCAST به‌صورت E2E ثبت نشده، چندحسابی و ارسال یک پرامپت واحد «تأیید نهایی» ندارند.
+## 6) مجوز نوشتن روی NON و مخازن دیگر
 
+سیاست پیش‌فرض Work Itemهای محصول `a4adelahmadian86-wq/non` برابر **READ_ONLY** است. درخواست جدید—even اگر مالک در مکالمه اجازه کلی داده باشد—تا وقتی Issue مستقل و معتبر با `WRITE_ALLOWED`، مرجع تأیید مالک و claim تازه نداشته باشد، اجازه تغییر کد ندارد.
 
----
+Issue #51 یک استثنای محدود و مشخص برای همان Work Item است؛ مجوز آن به Issueهای دیگر، درخواست‌های تازه یا کل مخزن NON منتقل نمی‌شود. برای هر write:
+- target repository و resource keys باید با Issue زنده و JSON آن منطبق باشند.
+- پاسخ `CLAIM GRANTED`، read-back lease و fencing token لازم است.
+- branch فقط همان branch صادرشده برای RUN باشد.
+- پیش از write و checkpoint، heartbeat و token دوباره بررسی شوند.
+- هیچ merge، deploy، release، migration مخرب، تغییر مالی/امنیتی/حقوقی یا حذف داده بدون مجوز جداگانه انجام نشود.
 
-## بازبینی زنده 2026-11-15 — وضعیت مرجع فعلی
+## 7) بازیابی پس از قطع یا تغییر چت
 
-آخرین snapshot بررسی‌شده:
-- `main`: `84fd40403f8b0f4bfb9695b6be7c7bad44b6e0f6`
-- CI روی همین SHA: run `43730243174` — success
-- coordinator روی همین SHA: run `43730884158` — success
-- schedule پنج‌دقیقه‌ای: run `43726463983` — success
-- registry branch: revision `113`، بدون lease فعال، next fencing token برابر `57`.
+1. از آخرین checkpoint معتبر و commit تأییدشده در GitHub شروع کنید، نه از حافظه یا خلاصه چت.
+2. همان TASK/WORK_ITEM_ID را بازیابی کنید؛ Issue، branch یا خروجی تکراری نسازید.
+3. اگر lease قبلی منقضی شده، claim جدید با RUN_ID جدید بگیرید؛ branch قبلی را بدون بررسی lineage تغییر ندهید.
+4. اگر وضعیت ابزار یا workflow مبهم است، STOP WRITES؛ ابتدا اثر واقعی فرمان قبلی را در GitHub بررسی کنید.
+5. اگر dependency یا منبعی مسدود است، blocker را ثبت کنید و فقط کار مستقل و مجاز دیگری را ادامه دهید.
 
-در نتیجه موارد قدیمی‌تر این راهنما که schedule را هنوز تأییدنشده می‌دانند، با شواهد بالا به‌روز می‌شوند. با این حال، این موارد هنوز مانع اعلام آمادگی کامل چندحسابی‌اند:
-1. branch protection شاخه `main` فعال نیست (`protected=false` و rulesets خالی).
-2. آزمون E2E واقعی با دو حساب GitHub مستقل و دو نشست ChatGPT مستقل انجام نشده است.
-3. takeover واقعی و رد token قدیمی بین دو حساب هنوز اثبات نشده است.
-4. تنظیم سراسری Actions write permission از اتصال فعلی read-back نشده؛ فقط موفقیت اجرای workflow زنده مشاهده شده است.
-5. Issue #11 معیارها و پنج گام ثبت‌شده دارد، اما هنوز ACCEPTED نیست؛ branchهای lineage اخیر آن موجود نیستند و نباید حدسی بازسازی شوند.
+مراجع اجباری: [INTERRUPTION_RECOVERY_PROTOCOL.md](04_COORDINATION/INTERRUPTION_RECOVERY_PROTOCOL.md)، [WORK_ITEM_EXECUTION_PROTOCOL.md](04_COORDINATION/WORK_ITEM_EXECUTION_PROTOCOL.md)، [COORDINATOR_COMMANDS.md](04_COORDINATION/COORDINATOR_COMMANDS.md)، [ACCEPTANCE_FRAMEWORK.md](04_COORDINATION/ACCEPTANCE_FRAMEWORK.md).
 
-**حکم:** برای تحلیل و کشف READ_ONLY و اجرای کنترل‌شده single-account، شواهد عملیاتی موجود است. برای پخش یک MASTER-00 واحد در چند حساب مستقل، هنوز تأیید نهایی صادر نمی‌شود. مخزن محصول `a4adelahmadian86-wq/non` همچنان READ_ONLY است.
+## 8) شواهد، محدودیت‌ها و معیار اعلام پایان
+
+- اصلاح چندچتی و قفل granular: [PR #104](https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/104)، [Issue #100](https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/100).
+- CI دقیق head اصلاح: [run 44532472401](https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44532472401).
+- ادغام deep prompt / READ_ONLY routing / autonomous selection: [PR #96](https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/96)، [Issue #47](https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/47).
+- آزمون‌های مدل و registry، آزمون واقعی چند حساب مستقل نیستند. هر گزارش باید این دو را صریحاً تفکیک کند.
+- branch protection، مجوزهای کامل Actions و E2E واقعی دو حساب مستقل فقط پس از read-back و اجرای واقعی قابل علامت‌گذاری PASS هستند.
+- هیچ‌کس نباید «صفر خطا»، «تعداد نامحدود چت» یا «چندحسابی کاملاً تأییدشده» را ادعا کند مگر شواهد دقیق آن موجود باشد.
+- هر Work Item فقط پس از عبور تمام گام‌ها، معیارهای پذیرش، dependencyها، تست‌های لازم و ثبت checkpoint معتبر پذیرفته می‌شود. Claim یا پیشرفت 100% به‌تنهایی پذیرش نیست.
+
+**قاعده نهایی:** هر چت باید مستقل، با هر ترتیب و بدون تخصیص دستی شروع کند؛ اما هرگز نباید برای پیشروی، قفل واقعی، dependency، مجوز یا شواهد را دور بزند.
