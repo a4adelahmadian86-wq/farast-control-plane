@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2983,
+  "revision": 2984,
   "next_fencing_token": 162,
   "locks": [
     {
@@ -24989,6 +24989,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-20T17:32:42.231Z"
+    },
+    "7046232573": {
+      "response": "STEP ثبت شد: S1_MASTER; EXECUTION_PROGRESS=28.57%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=2/7.",
+      "response_posted": false,
+      "issue_number": 109,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-20T17:32:50.558Z"
     }
   },
   "work_items": {
@@ -31514,10 +31523,15 @@
           "title": "Correct MASTER-00 task-specific owner authorization and NON dispatch contract",
           "required": true,
           "weight": 1,
-          "validation_status": "NOT_RUN",
-          "evidence_refs": [],
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/b457f9c351f9f3e371007b196704a0563ea47732"
+          ],
           "expected_output": "Precise positive/negative classification, per-request owner Work Item creation/resume, exact approval reference, granular resources and fresh claim/read-back rules.",
-          "evidence_requirement": "Focused diff and test cases for implementation request, analysis-only request, discussion, ambiguity and sensitive operations."
+          "evidence_requirement": "Focused diff and test cases for implementation request, analysis-only request, discussion, ambiguity and sensitive operations.",
+          "validated_at_utc": "2026-11-20T17:32:50.558Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S2_SPECIALISTS",
