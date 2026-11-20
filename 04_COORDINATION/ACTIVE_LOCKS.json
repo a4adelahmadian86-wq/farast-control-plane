@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3008,
+  "revision": 3009,
   "next_fencing_token": 162,
   "locks": [
     {
@@ -25100,7 +25100,7 @@
     },
     "7046324435": {
       "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-NON-PER-REQUEST-AUTH-PROMPT-FIX-002; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=PR #110 is open for CI/review handoff; do not merge under current Work Item scope. Await owner merge decision, then resume only if explicitly authorized.; remaining_steps=.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 109,
       "actor": "a4adelahmadian86-wq",
       "command": "checkpoint",
