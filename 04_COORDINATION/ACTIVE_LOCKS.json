@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2862,
+  "revision": 2863,
   "next_fencing_token": 156,
   "locks": [
     {
@@ -23746,6 +23746,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-20T16:36:09.145Z"
+    },
+    "7044971342": {
+      "response": "معیار پذیرش ثبت شد: AC_VERSION; ACCEPTANCE_PROGRESS=25%; OVERALL_COMPLETION=25%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 50,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-20T16:36:15.849Z"
     }
   },
   "work_items": {
@@ -25672,8 +25681,13 @@
           "criterion_id": "AC_VERSION",
           "title": "The official guide identifies the exact accepted bundle version 1.9.0 and links to the canonical bundle file present on main",
           "required": true,
-          "validation_status": "NOT_RUN",
-          "evidence_refs": []
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/05_PROMPT_LIBRARY/FARAST_EXECUTABLE_PROMPTS_COMPLETE.md"
+          ],
+          "validated_at_utc": "2026-11-20T16:36:15.848Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_LINKS",
