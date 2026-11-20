@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2880,
+  "revision": 2881,
   "next_fencing_token": 157,
   "locks": [
     {
@@ -30944,8 +30944,8 @@
       },
       "106": {
         "reason": "Invalid Work item specification JSON in Issue #106: created_at_utc must be an ISO timestamp",
-        "count": 1,
-        "last_seen_at_utc": "2026-11-20T16:39:30.682Z"
+        "count": 2,
+        "last_seen_at_utc": "2026-11-20T16:39:45.304Z"
       }
     }
   }
