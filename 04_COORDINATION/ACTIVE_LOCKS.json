@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3010,
+  "revision": 3011,
   "next_fencing_token": 162,
   "locks": [],
   "history": [
@@ -24799,7 +24799,7 @@
     },
     "7046337584": {
       "response": "پیاده‌سازی برای اجرای گیت‌های ماشینی و پذیرش خودکار تحویل شد؛ این فرمان به‌تنهایی پذیرش نیست.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 109,
       "actor": "a4adelahmadian86-wq",
       "command": "review",
