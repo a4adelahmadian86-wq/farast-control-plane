@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2835,
+  "revision": 2836,
   "next_fencing_token": 155,
   "locks": [],
   "history": [
@@ -23505,7 +23505,7 @@
     },
     "7044760263": {
       "response": "Claim رد شد: اختلاف یا نقص در Work Item زنده/رجیستری؛ هیچ branch تخصیص داده نشد. Invalid Work item specification JSON in Issue #50: Resource keys do not match JSON",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 50,
       "actor": "a4adelahmadian86-wq",
       "command": "claim",
