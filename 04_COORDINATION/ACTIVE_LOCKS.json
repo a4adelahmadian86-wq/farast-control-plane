@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2915,
+  "revision": 2916,
   "next_fencing_token": 158,
   "locks": [
     {
@@ -24020,6 +24020,15 @@
       "command": "status",
       "next_status": null,
       "at_utc": "2026-11-20T16:58:12.559Z"
+    },
+    "7045439400": {
+      "response": "Claim رد شد: chat_id=CHAT-20261120-GUIDE-SYNC-01 هم‌اکنون lease فعال روی Issue #11 / run=RUN-20261120-DOC-CONSISTENCY-ALLOCATOR-002 تا 2026-11-20T17:27:29.054Z UTC دارد؛ یک چت نمی‌تواند هم‌زمان Work Item دومی را حتی با منابع مجزا claim کند.",
+      "response_posted": false,
+      "issue_number": 107,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": null,
+      "at_utc": "2026-11-20T16:58:20.218Z"
     }
   },
   "work_items": {
