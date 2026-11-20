@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 2965,
+  "revision": 2966,
   "next_fencing_token": 162,
   "locks": [
     {
@@ -24848,7 +24848,7 @@
     },
     "7046047360": {
       "response": "CLAIM GRANTED. TASK=GH-109; WORK_ITEM_ID=WI-NON-PER-REQUEST-AUTH-PROMPT-FIX-002; verified_steps=; remaining_steps=S0_AUDIT,S1_MASTER,S2_SPECIALISTS,S3_CATALOG,S4_BUNDLE,S5_TEST,S6_HANDOFF; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; actor=@a4adelahmadian86-wq; chat=CHAT-20261120-NON-PROMPT-WORKER-01; run=RUN-20261120-NON-PROMPT-WORKER-004; resource_keys=module:prompt-catalog,module:prompt-executable-bundle,module:prompt-master-contract,module:prompt-pr-01-baseline,module:prompt-pr-02-recovery,module:prompt-pr-03-capability-discovery,module:prompt-pr-04-traceability,module:prompt-pr-05-user-scenarios,module:prompt-pr-06-evidence-testing,module:prompt-pr-07-gap-root-cause,module:prompt-pr-08-commerce,module:prompt-pr-09-ai-services,module:prompt-pr-10-arch-data,module:prompt-pr-11-authorization,module:prompt-pr-12-security-privacy-audit,module:prompt-pr-13-target-arch,module:prompt-pr-14-hosting-operations,module:prompt-pr-15-prioritization,module:prompt-pr-16-implementation,module:prompt-pr-17-acceptance-release; target_repository=a4adelahmadian86-wq/farast-control-plane; write_policy=WRITE_ALLOWED; branch=work/GH-109-RUN-20261120-NON-PROMPT-WORKER-004; previous_run=RUN-20261120-NON-PROMPT-WORKER-001; previous_target_repository=a4adelahmadian86-wq/farast-control-plane; previous_branch=work/GH-109-RUN-20261120-NON-PROMPT-WORKER-001; fencing_token=161; lease_expires=2026-11-20T17:54:32.575Z. این Work Item با سیاست WRITE_ALLOWED است؛ branch را فقط در target_repository ثبت‌شده بساز و قبل از هر write heartbeat/token را دوباره تأیید کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز و branch قبلی را تغییر نده.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 109,
       "actor": "a4adelahmadian86-wq",
       "command": "claim",
