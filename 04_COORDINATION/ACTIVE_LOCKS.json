@@ -1,8 +1,25 @@
 {
   "schema_version": "1.0",
-  "revision": 3231,
-  "next_fencing_token": 168,
-  "locks": [],
+  "revision": 3232,
+  "next_fencing_token": 169,
+  "locks": [
+    {
+      "resource_key": "analysis:exp-04",
+      "issue_number": 16,
+      "task_id": "GH-16",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "chat-farast-main-audit-20261121",
+      "chat_id": "chat-farast-main-audit-20261121",
+      "run_id": "RUN-20261121-EXP04-TRACE-01",
+      "target_repository": "a4adelahmadian86-wq/non",
+      "branch": null,
+      "acquired_at_utc": "2026-11-21T10:26:23.295Z",
+      "heartbeat_at_utc": "2026-11-21T10:26:23.295Z",
+      "lease_expires_at_utc": "2026-11-21T10:56:23.295Z",
+      "fencing_token": 168,
+      "status": "ACTIVE"
+    }
+  ],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -12924,6 +12941,23 @@
       "branch": null,
       "target_repository": "a4adelahmadian86-wq/non",
       "at_utc": "2026-11-21T10:25:09.106Z"
+    },
+    {
+      "event": "ACQUIRED",
+      "issue_number": 16,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "chat-farast-main-audit-20261121",
+      "run_id": "RUN-20261121-EXP04-TRACE-01",
+      "resource_keys": [
+        "analysis:exp-04"
+      ],
+      "target_repository": "a4adelahmadian86-wq/non",
+      "branch": null,
+      "previous_branch": null,
+      "previous_target_repository": null,
+      "previous_run_id": null,
+      "fencing_token": 168,
+      "at_utc": "2026-11-21T10:26:23.295Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -26456,6 +26490,15 @@
       "command": "review",
       "next_status": "review",
       "at_utc": "2026-11-21T10:25:09.107Z"
+    },
+    "7061232460": {
+      "response": "CLAIM GRANTED. TASK=GH-16; WORK_ITEM_ID=WI-EXP04-REQUIREMENT-TRACE-001; verified_steps=; remaining_steps=S1_DISCOVER,S2_MAP,S3_ANALYZE,S4_CROSSCHECK,S5_ASSESS,S6_REPORT,S7_VERIFY; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; actor=@a4adelahmadian86-wq; chat=chat-farast-main-audit-20261121; run=RUN-20261121-EXP04-TRACE-01; resource_keys=analysis:exp-04; target_repository=a4adelahmadian86-wq/non; write_policy=READ_ONLY; branch=none; previous_run=none; fencing_token=168; lease_expires=2026-11-21T10:56:23.295Z. این Work Item با سیاست READ_ONLY است؛ در target_repository هیچ branch، file، commit یا PR ایجاد/تغییر نده. شواهد را فقط در Issue thread یا محل مجاز control-plane ثبت کن؛ برای WRITE_REQUIRES_OWNER_APPROVAL فقط proposal ارائه بده.",
+      "response_posted": false,
+      "issue_number": 16,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "locked",
+      "at_utc": "2026-11-21T10:26:23.300Z"
     }
   },
   "work_items": {
@@ -27209,6 +27252,140 @@
         {
           "deliverable_id": "D3",
           "description": "capability evidence matrix.",
+          "evidence_requirement": "مسیر فایل یا URL GitHub به خروجی و read-back آن"
+        }
+      ]
+    },
+    "16": {
+      "schema_version": "1.0",
+      "write_policy": "READ_ONLY",
+      "priority_source": "DEFAULT_POLICY",
+      "work_item_id": "WI-EXP04-REQUIREMENT-TRACE-001",
+      "title": "EXP-04 Requirement-to-capability traceability",
+      "parent_goal_ids": [
+        "G-01"
+      ],
+      "parent_exp_ids": [
+        "EXP-04"
+      ],
+      "status": "CLAIMED",
+      "target_repository": "a4adelahmadian86-wq/non",
+      "resource_keys": [
+        "analysis:exp-04"
+      ],
+      "dependencies": [],
+      "steps": [
+        {
+          "step_id": "S1_DISCOVER",
+          "title": "استخراج نیازمندی‌های مصوب از منابع معتبر و تعیین نسخه/مرجع هرکدام.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "خروجی قابل بازبینی برای مرحله: استخراج نیازمندی‌های مصوب از منابع معتبر و تعیین نسخه/مرجع هرکدام.",
+          "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S2_MAP",
+          "title": "تخصیص ID پایدار و حفظ متن اصلی/تاریخچه تغییرات.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "خروجی قابل بازبینی برای مرحله: تخصیص ID پایدار و حفظ متن اصلی/تاریخچه تغییرات.",
+          "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S3_ANALYZE",
+          "title": "اتصال نیازمندی به هدف، سناریو، قابلیت و نقش ذی‌نفع.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "خروجی قابل بازبینی برای مرحله: اتصال نیازمندی به هدف، سناریو، قابلیت و نقش ذی‌نفع.",
+          "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S4_CROSSCHECK",
+          "title": "اتصال capability به route/API/service/model و مسیرهای واقعی اجرا.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "خروجی قابل بازبینی برای مرحله: اتصال capability به route/API/service/model و مسیرهای واقعی اجرا.",
+          "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S5_ASSESS",
+          "title": "اتصال مسیر اجرایی به تست، نتیجه تست و شواهد مشاهده‌پذیر.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "خروجی قابل بازبینی برای مرحله: اتصال مسیر اجرایی به تست، نتیجه تست و شواهد مشاهده‌پذیر.",
+          "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S6_REPORT",
+          "title": "علامت‌گذاری requirementهای بدون پیاده‌سازی، بدون تست، متناقض یا فاقد مالک.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "خروجی قابل بازبینی برای مرحله: علامت‌گذاری requirementهای بدون پیاده‌سازی، بدون تست، متناقض یا فاقد مالک.",
+          "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S7_VERIFY",
+          "title": "بازبینی traceability دوطرفه و گزارش coverage با مخرج شفاف.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "خروجی قابل بازبینی برای مرحله: بازبینی traceability دوطرفه و گزارش coverage با مخرج شفاف.",
+          "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
+          "estimate_minutes": 4
+        }
+      ],
+      "acceptance_criteria": [
+        {
+          "criterion_id": "AC_SCOPE",
+          "title": "تمام 7 مرحله تخصصی EXP-04 اجرا یا با blocker مستند متوقف شده‌اند",
+          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion."
+        },
+        {
+          "criterion_id": "AC_EVIDENCE",
+          "title": "تمام ادعاهای factual دارای evidence ref مستقیم و قابل بازبینی هستند",
+          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion."
+        },
+        {
+          "criterion_id": "AC_OUTPUT",
+          "title": "خروجی‌های تخصصی EXP-04 تولید و read-back شده‌اند: requirement register، traceability matrix، orphan/contradiction report.",
+          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion."
+        },
+        {
+          "criterion_id": "AC_ACCEPTANCE",
+          "title": "هیچ requirement حذف نشده؛ لینک دوطرفه قابل ردیابی؛ پوشش با مخرج مشخص؛ وضعیت بدون شاهد UNKNOWN است.",
+          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion."
+        }
+      ],
+      "priority": 50,
+      "created_at_utc": "2026-11-14T17:25:21.957Z",
+      "effort_estimate_minutes": 25,
+      "effort_rationale": "حدود ۲۵ دقیقه کار تخصصی شامل discovery، cross-check، تحلیل، تولید artifact و read-back؛ زمان واقعی ثبت شود و کار مصنوعی ممنوع است.",
+      "depth_profile": {
+        "profile_version": "2.0.0",
+        "min_substantive_steps": 6,
+        "min_acceptance_criteria": 4,
+        "min_deliverables": 3,
+        "target_effort_minutes": 25
+      },
+      "deliverables": [
+        {
+          "deliverable_id": "D1",
+          "description": "requirement register",
+          "evidence_requirement": "مسیر فایل یا URL GitHub به خروجی و read-back آن"
+        },
+        {
+          "deliverable_id": "D2",
+          "description": "traceability matrix",
+          "evidence_requirement": "مسیر فایل یا URL GitHub به خروجی و read-back آن"
+        },
+        {
+          "deliverable_id": "D3",
+          "description": "orphan/contradiction report.",
           "evidence_requirement": "مسیر فایل یا URL GitHub به خروجی و read-back آن"
         }
       ]
