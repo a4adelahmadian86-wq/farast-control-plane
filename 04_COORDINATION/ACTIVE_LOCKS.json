@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3285,
+  "revision": 3286,
   "next_fencing_token": 170,
   "locks": [
     {
@@ -26934,6 +26934,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-21T11:43:40.587Z"
+    },
+    "7062084220": {
+      "response": "معیار پذیرش ثبت شد: AC_OUTPUT; ACCEPTANCE_PROGRESS=75%; OVERALL_COMPLETION=75%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 20,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-21T11:43:48.735Z"
     }
   },
   "work_items": {
@@ -28196,7 +28205,14 @@
         {
           "criterion_id": "AC_OUTPUT",
           "title": "خروجی‌های تخصصی EXP-08 تولید و read-back شده‌اند: commerce sequence/state diagrams، payment-delivery matrix، risk register.",
-          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion."
+          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion.",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/20#issuecomment-7062069270"
+          ],
+          "validated_at_utc": "2026-11-21T11:43:48.734Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_ACCEPTANCE",
