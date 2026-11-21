@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3080,
+  "revision": 3081,
   "next_fencing_token": 165,
   "locks": [
     {
@@ -25303,6 +25303,15 @@
       "command": "claim",
       "next_status": "locked",
       "at_utc": "2026-11-21T04:45:45.888Z"
+    },
+    "7057483192": {
+      "response": "وظیفه blocked نیست.",
+      "response_posted": false,
+      "issue_number": 113,
+      "actor": "a4adelahmadian86-wq",
+      "command": "unblock",
+      "next_status": null,
+      "at_utc": "2026-11-21T04:47:38.355Z"
     }
   },
   "work_items": {
