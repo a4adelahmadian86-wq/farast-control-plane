@@ -1,8 +1,73 @@
 {
   "schema_version": "1.0",
-  "revision": 3507,
-  "next_fencing_token": 179,
-  "locks": [],
+  "revision": 3508,
+  "next_fencing_token": 180,
+  "locks": [
+    {
+      "resource_key": "file:.github/scripts/coordinator-core.test.js",
+      "issue_number": 119,
+      "task_id": "GH-119",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-20261121-READINESS-02",
+      "chat_id": "CHAT-20261121-READINESS-02",
+      "run_id": "RUN-20261121-STAGED-ACCEPTANCE-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-119-RUN-20261121-STAGED-ACCEPTANCE-001",
+      "acquired_at_utc": "2026-11-21T19:03:45.709Z",
+      "heartbeat_at_utc": "2026-11-21T19:03:45.709Z",
+      "lease_expires_at_utc": "2026-11-21T19:33:45.709Z",
+      "fencing_token": 179,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "file:.github/scripts/work-item-core.js",
+      "issue_number": 119,
+      "task_id": "GH-119",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-20261121-READINESS-02",
+      "chat_id": "CHAT-20261121-READINESS-02",
+      "run_id": "RUN-20261121-STAGED-ACCEPTANCE-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-119-RUN-20261121-STAGED-ACCEPTANCE-001",
+      "acquired_at_utc": "2026-11-21T19:03:45.709Z",
+      "heartbeat_at_utc": "2026-11-21T19:03:45.709Z",
+      "lease_expires_at_utc": "2026-11-21T19:33:45.709Z",
+      "fencing_token": 179,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "file:.github/scripts/work-item-core.test.js",
+      "issue_number": 119,
+      "task_id": "GH-119",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-20261121-READINESS-02",
+      "chat_id": "CHAT-20261121-READINESS-02",
+      "run_id": "RUN-20261121-STAGED-ACCEPTANCE-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-119-RUN-20261121-STAGED-ACCEPTANCE-001",
+      "acquired_at_utc": "2026-11-21T19:03:45.709Z",
+      "heartbeat_at_utc": "2026-11-21T19:03:45.709Z",
+      "lease_expires_at_utc": "2026-11-21T19:33:45.709Z",
+      "fencing_token": 179,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "file:.github/workflows/farast-coordinator.yml",
+      "issue_number": 119,
+      "task_id": "GH-119",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-20261121-READINESS-02",
+      "chat_id": "CHAT-20261121-READINESS-02",
+      "run_id": "RUN-20261121-STAGED-ACCEPTANCE-001",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-119-RUN-20261121-STAGED-ACCEPTANCE-001",
+      "acquired_at_utc": "2026-11-21T19:03:45.709Z",
+      "heartbeat_at_utc": "2026-11-21T19:03:45.709Z",
+      "lease_expires_at_utc": "2026-11-21T19:33:45.709Z",
+      "fencing_token": 179,
+      "status": "ACTIVE"
+    }
+  ],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -13900,6 +13965,26 @@
       "branch": null,
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "at_utc": "2026-11-21T19:03:17.282Z"
+    },
+    {
+      "event": "ACQUIRED",
+      "issue_number": 119,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-20261121-READINESS-02",
+      "run_id": "RUN-20261121-STAGED-ACCEPTANCE-001",
+      "resource_keys": [
+        "file:.github/scripts/coordinator-core.test.js",
+        "file:.github/scripts/work-item-core.js",
+        "file:.github/scripts/work-item-core.test.js",
+        "file:.github/workflows/farast-coordinator.yml"
+      ],
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-119-RUN-20261121-STAGED-ACCEPTANCE-001",
+      "previous_branch": null,
+      "previous_target_repository": null,
+      "previous_run_id": null,
+      "fencing_token": 179,
+      "at_utc": "2026-11-21T19:03:45.709Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -28637,6 +28722,15 @@
       "command": "release",
       "next_status": "ready",
       "at_utc": "2026-11-21T19:03:17.283Z"
+    },
+    "7067729030": {
+      "response": "CLAIM GRANTED. TASK=GH-119; WORK_ITEM_ID=WI-COORDINATOR-STAGED-ACCEPTANCE-BOOTSTRAP-001; verified_steps=; remaining_steps=S0_REPRODUCE_DEADLOCK,S1_DEFINE_STAGED_MODEL,S2_IMPLEMENT_GATE,S3_RULESET_READ,S4_REGRESSION_TESTS,S5_VALIDATE_SCOPE,S6_PR_HANDOFF; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; actor=@a4adelahmadian86-wq; chat=CHAT-20261121-READINESS-02; run=RUN-20261121-STAGED-ACCEPTANCE-001; resource_keys=file:.github/scripts/coordinator-core.test.js,file:.github/scripts/work-item-core.js,file:.github/scripts/work-item-core.test.js,file:.github/workflows/farast-coordinator.yml; target_repository=a4adelahmadian86-wq/farast-control-plane; write_policy=WRITE_ALLOWED; branch=work/GH-119-RUN-20261121-STAGED-ACCEPTANCE-001; previous_run=none; fencing_token=179; lease_expires=2026-11-21T19:33:45.709Z. این Work Item با سیاست WRITE_ALLOWED است؛ branch را فقط در target_repository ثبت‌شده بساز و قبل از هر write heartbeat/token را دوباره تأیید کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز و branch قبلی را تغییر نده.",
+      "response_posted": false,
+      "issue_number": 119,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "locked",
+      "at_utc": "2026-11-21T19:03:45.716Z"
     }
   },
   "work_items": {
@@ -36901,6 +36995,168 @@
           "evidence_requirement": "Updated documentation links"
         }
       ]
+    },
+    "119": {
+      "schema_version": "1.0",
+      "write_policy": "WRITE_ALLOWED",
+      "priority_source": "DEFAULT_POLICY",
+      "work_item_id": "WI-COORDINATOR-STAGED-ACCEPTANCE-BOOTSTRAP-001",
+      "title": "Bootstrap two-phase coordinator acceptance and least-privilege ruleset verification",
+      "description": "Fix the coordinator's self-referential acceptance deadlock: a required live verification that can only occur after merge must not prevent the PR that enables that verification from merging. Introduce explicit PRE_MERGE and POST_MERGE acceptance stages. PR merge remains gated by all required steps, all PRE_MERGE criteria, dependencies, exact-head checks, branch lineage, active PR-only rules and a verifiably empty bypass list. POST_MERGE criteria remain required for final ACCEPTED status; after merge the Work Item must remain REVIEW_REQUIRED until they have real evidence. Preserve REVIEW_REQUIRED during refresh when can_merge is true but can_accept is false. Add a dedicated Administration:read ruleset-read client using FARAST_RULESET_READ_TOKEN; if absent or unreadable, remain fail-closed. No criterion may be waived, auto-passed, or converted to optional to make the PR merge.",
+      "parent_goal_ids": [
+        "G-09"
+      ],
+      "parent_exp_ids": [
+        "EXP-01"
+      ],
+      "parent_cp_ids": [
+        "CP-02",
+        "CP-03",
+        "CP-04"
+      ],
+      "status": "CLAIMED",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "resource_keys": [
+        "file:.github/scripts/work-item-core.js",
+        "file:.github/scripts/work-item-core.test.js",
+        "file:.github/scripts/coordinator-core.test.js",
+        "file:.github/workflows/farast-coordinator.yml"
+      ],
+      "dependencies": [],
+      "steps": [
+        {
+          "step_id": "S0_REPRODUCE_DEADLOCK",
+          "title": "Read exact main SHA, Issue #107 Work Item criteria, PR #118, latest coordinator accept response and effective ruleset read-back; reproduce both acceptance blockers",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Evidence-backed reproduction of post-merge criterion deadlock and missing ruleset bypass visibility",
+          "evidence_requirement": "Exact Issue/PR URLs, main/head SHAs, coordinator response marker and ruleset API read-back"
+        },
+        {
+          "step_id": "S1_DEFINE_STAGED_MODEL",
+          "title": "Specify explicit PRE_MERGE and POST_MERGE criterion semantics, progress fields and legal state transitions without weakening final acceptance",
+          "required": true,
+          "weight": 1,
+          "expected_output": "A documented-in-code two-phase state model with merge eligibility distinct from final acceptance",
+          "evidence_requirement": "Focused code design and named invariants"
+        },
+        {
+          "step_id": "S2_IMPLEMENT_GATE",
+          "title": "Implement can_merge versus can_accept, defer POST_MERGE evidence until after merge, preserve REVIEW_REQUIRED on refresh, and keep final acceptance blocked until all POST_MERGE criteria pass",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Coordinator merges only when all pre-merge gates pass and never marks accepted before post-merge criteria pass",
+          "evidence_requirement": "Focused diff and coordinator flow evidence"
+        },
+        {
+          "step_id": "S3_RULESET_READ",
+          "title": "Use a dedicated FARAST_RULESET_READ_TOKEN client for effective rules and ruleset details; fail closed if Administration:read is absent or bypass_actors cannot be read",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Least-privilege ruleset read path without adding any write permissions or bypass",
+          "evidence_requirement": "Workflow diff, explicit missing-token fail-closed test and documented secret permission boundary"
+        },
+        {
+          "step_id": "S4_REGRESSION_TESTS",
+          "title": "Add tests proving PRE_MERGE gates block merge, POST_MERGE gates allow only merge but block final acceptance, refresh preserves review, and missing ruleset visibility blocks acceptance",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Regression coverage for the deadlock and all fail-closed invariants",
+          "evidence_requirement": "Named tests and exact test output"
+        },
+        {
+          "step_id": "S5_VALIDATE_SCOPE",
+          "title": "Run exact-head control-plane validation and verify only the four authorized files changed",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Passing CI, focused diff and no unrelated changes",
+          "evidence_requirement": "Exact head SHA, CI URL and changed-file list"
+        },
+        {
+          "step_id": "S6_PR_HANDOFF",
+          "title": "Open a focused PR, record recovery and rollback instructions, and hand off through the coordinator review/acceptance path",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Review-ready PR with no manual merge or acceptance bypass",
+          "evidence_requirement": "PR URL, head SHA, CI and handoff response"
+        }
+      ],
+      "acceptance_criteria": [
+        {
+          "criterion_id": "AC_TWO_PHASE",
+          "title": "A required POST_MERGE criterion never blocks the PR merge once all PRE_MERGE criteria pass, but prevents final ACCEPTED status until real evidence is recorded",
+          "required": true,
+          "validation_status": "NOT_RUN",
+          "evidence_refs": [],
+          "evidence_requirement": "Passing unit/integration tests for can_merge true and can_accept false before post-merge evidence, then can_accept true only after evidence"
+        },
+        {
+          "criterion_id": "AC_REFRESH_STATE",
+          "title": "Refresh preserves REVIEW_REQUIRED when can_merge is true but can_accept is false",
+          "required": true,
+          "validation_status": "NOT_RUN",
+          "evidence_refs": [],
+          "evidence_requirement": "Named refreshedStatus regression test and exact test output"
+        },
+        {
+          "criterion_id": "AC_RULESET_FAIL_CLOSED",
+          "title": "Ruleset bypass actors are read using the dedicated least-privilege token; absent token, hidden bypass actors or any bypass actor blocks merge",
+          "required": true,
+          "validation_status": "NOT_RUN",
+          "evidence_refs": [],
+          "evidence_requirement": "Exact workflow test, live owner-side ruleset read-back and explicit fail-closed behavior"
+        },
+        {
+          "criterion_id": "AC_SCOPE_CI",
+          "title": "Only four authorized files change and exact-head CI passes",
+          "required": true,
+          "validation_status": "NOT_RUN",
+          "evidence_refs": [],
+          "evidence_requirement": "PR file list, exact head SHA and successful CI run"
+        }
+      ],
+      "priority": 8,
+      "effort_estimate_minutes": 25,
+      "effort_rationale": "A focused bootstrap fix to remove a proven circular acceptance gate and restore verifiable least-privilege ruleset reads.",
+      "depth_profile": {
+        "profile_version": "2.0.0",
+        "min_substantive_steps": 6,
+        "min_acceptance_criteria": 4,
+        "min_deliverables": 3,
+        "target_effort_minutes": 25
+      },
+      "deliverables": [
+        {
+          "deliverable_id": "D1",
+          "description": "Evidence-backed two-phase acceptance design and reproduced blocker",
+          "evidence_requirement": "Source references, issue/PR evidence and acceptance-flow trace"
+        },
+        {
+          "deliverable_id": "D2",
+          "description": "Staged acceptance and least-privilege ruleset read implementation with regression tests",
+          "evidence_requirement": "Focused four-file diff and passing exact-head tests"
+        },
+        {
+          "deliverable_id": "D3",
+          "description": "Validated PR and coordinator handoff",
+          "evidence_requirement": "PR URL, CI, changed-file list, rollback and handoff evidence"
+        }
+      ],
+      "operation_scope_version": "1.0",
+      "requested_operations": [
+        "control_plane_write"
+      ],
+      "created_at_utc": "2026-11-21T19:02:00.684Z",
+      "allocation_provenance": {
+        "allocator_work_item_id": "WI-GOAL-ALLOCATOR-001",
+        "allocator_issue_number": 11,
+        "actor": "a4adelahmadian86-wq",
+        "chat_id": "CHAT-20261121-READINESS-02",
+        "run_id": "RUN-20261121-BOOTSTRAP-ALLOC-001",
+        "fencing_token": 178,
+        "branch": null,
+        "allocated_at_utc": "2026-11-21T19:00:57.360Z"
+      }
     }
   },
   "checkpoints": {
