@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3172,
+  "revision": 3173,
   "next_fencing_token": 167,
   "locks": [
     {
@@ -26005,6 +26005,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-21T10:11:35.767Z"
+    },
+    "7061069266": {
+      "response": "معیار پذیرش ثبت شد: AC_ACCEPTANCE; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; can_accept=true.",
+      "response_posted": false,
+      "issue_number": 19,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-21T10:12:03.307Z"
     }
   },
   "work_items": {
@@ -26563,7 +26572,7 @@
       "parent_exp_ids": [
         "EXP-07"
       ],
-      "status": "IN_PROGRESS",
+      "status": "REVIEW_REQUIRED",
       "target_repository": "a4adelahmadian86-wq/non",
       "resource_keys": [
         "analysis:exp-07"
@@ -26723,7 +26732,14 @@
         {
           "criterion_id": "AC_ACCEPTANCE",
           "title": "علت ریشه‌ای از علامت جدا؛ هر نتیجه evidence؛ فرضیه ردنشده مشخص؛ راهکار به نیازمندی متصل.",
-          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion."
+          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion.",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/19#issuecomment-7060987294"
+          ],
+          "validated_at_utc": "2026-11-21T10:12:03.307Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "priority": 50,
