@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3047,
+  "revision": 3048,
   "next_fencing_token": 164,
   "locks": [
     {
@@ -25075,6 +25075,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-21T04:38:57.255Z"
+    },
+    "7057394476": {
+      "response": "STEP ثبت شد: S4_ADD_DRIFT_REGRESSION; EXECUTION_PROGRESS=57.14%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=4/7.",
+      "response_posted": false,
+      "issue_number": 111,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-21T04:39:14.705Z"
     }
   },
   "work_items": {
@@ -31893,7 +31902,14 @@
           "weight": 1,
           "estimate_minutes": 4,
           "expected_output": "Focused test that fails on missing permission documentation or unexpected endpoint scope",
-          "evidence_requirement": "Test diff and reproducible command/output"
+          "evidence_requirement": "Test diff and reproducible command/output",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/4761266ab6ccf2e2ffcaeb2ca8f1cafe78327886/.github/scripts/coordinator-core.test.js"
+          ],
+          "validated_at_utc": "2026-11-21T04:39:14.704Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S5_VALIDATE",
