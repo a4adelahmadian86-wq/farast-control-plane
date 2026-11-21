@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3474,
+  "revision": 3475,
   "next_fencing_token": 177,
   "locks": [],
   "history": [
@@ -13763,6 +13763,17 @@
       "branch": "work/GH-107-RUN-20261121-RULESET-READ-003",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "at_utc": "2026-11-21T18:54:49.641Z"
+    },
+    {
+      "event": "WORK_ITEM_REFRESHED",
+      "issue_number": 107,
+      "work_item_id": "WI-BLOCKED-WORKITEM-REVALIDATION-001",
+      "actor": "a4adelahmadian86-wq",
+      "preserved_steps": 6,
+      "preserved_criteria": 5,
+      "hard_gate_ready": true,
+      "hard_gate_blockers": [],
+      "at_utc": "2026-11-21T18:55:24.716Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -28356,6 +28367,15 @@
       "command": "review",
       "next_status": "review",
       "at_utc": "2026-11-21T18:54:49.642Z"
+    },
+    "7067613860": {
+      "response": "Work Item specification refreshed from Issue body; preserved_steps=6; preserved_criteria=5; hard_gates=PASS; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=83.33%; OVERALL_COMPLETION=83.33%.",
+      "response_posted": false,
+      "issue_number": 107,
+      "actor": "a4adelahmadian86-wq",
+      "command": "refresh",
+      "next_status": "ready",
+      "at_utc": "2026-11-21T18:55:24.721Z"
     }
   },
   "work_items": {
@@ -35623,7 +35643,7 @@
         "CP-03",
         "CP-04"
       ],
-      "status": "REVIEW_REQUIRED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "file:.github/workflows/farast-coordinator.yml",
@@ -35738,6 +35758,7 @@
       "acceptance_criteria": [
         {
           "criterion_id": "AC_REVALIDATE",
+          "validation_stage": "POST_MERGE",
           "title": "A corrected blocked Work Item with valid ISO created_at_utc and matching live allocator provenance can be revalidated through the documented owner workflow; Issue #106 reaches READY or receives a precise actionable blocker",
           "required": true,
           "validation_status": "BLOCKED",
