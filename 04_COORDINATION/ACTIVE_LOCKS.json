@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3094,
+  "revision": 3095,
   "next_fencing_token": 166,
   "locks": [
     {
@@ -25430,6 +25430,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-21T04:52:38.845Z"
+    },
+    "7057537105": {
+      "response": "STEP ثبت شد: S2_DEFINE_FAIL_CLOSED_POLICY; EXECUTION_PROGRESS=28.57%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=2/7.",
+      "response_posted": false,
+      "issue_number": 113,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-21T04:52:47.612Z"
     }
   },
   "work_items": {
@@ -32456,7 +32465,14 @@
           "weight": 1,
           "estimate_minutes": 3,
           "expected_output": "Explicit deterministic policy for PR-only, no-force-push, no-deletion and no bypass",
-          "evidence_requirement": "Policy matrix and source references"
+          "evidence_requirement": "Policy matrix and source references",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/114"
+          ],
+          "validated_at_utc": "2026-11-21T04:52:47.612Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S3_IMPLEMENT_RULESET_GATE",
