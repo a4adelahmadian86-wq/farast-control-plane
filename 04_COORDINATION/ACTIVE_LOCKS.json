@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3254,
+  "revision": 3255,
   "next_fencing_token": 170,
   "locks": [
     {
@@ -26703,6 +26703,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-21T11:39:08.662Z"
+    },
+    "7062035299": {
+      "response": "STEP ثبت شد: S3_ANALYZE; EXECUTION_PROGRESS=42.85%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=3/7.",
+      "response_posted": false,
+      "issue_number": 20,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-21T11:39:32.247Z"
     }
   },
   "work_items": {
@@ -27863,7 +27872,14 @@
           "weight": 1,
           "expected_output": "خروجی قابل بازبینی برای مرحله: ردیابی payment intent، callback/webhook، idempotency و تطبیق تراکنش.",
           "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/non/blob/90c5d6b0546f9026b401901399ffde3f3106c305/app/Http/Controllers/Concerns/PaysWithZarinpal.php"
+          ],
+          "validated_at_utc": "2026-11-21T11:39:32.247Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S4_CROSSCHECK",
