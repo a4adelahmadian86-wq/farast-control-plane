@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3422,
+  "revision": 3423,
   "next_fencing_token": 176,
   "locks": [
     {
@@ -28138,6 +28138,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-21T18:32:35.658Z"
+    },
+    "7067334632": {
+      "response": "معیار پذیرش ثبت شد: AC_CONCURRENCY; ACCEPTANCE_PROGRESS=50%; OVERALL_COMPLETION=50%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 107,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-21T18:33:03.390Z"
     }
   },
   "work_items": {
@@ -35558,9 +35567,15 @@
           "criterion_id": "AC_CONCURRENCY",
           "title": "Per-Issue workflow concurrency, unique CHAT_ID isolation, resource overlap rules and CAS registry safety from PR #104 remain intact",
           "required": true,
-          "validation_status": "NOT_RUN",
-          "evidence_refs": [],
-          "evidence_requirement": "Regression test output for independent Issue concurrency, shared-resource denial and CAS fencing"
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44935805639",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/116"
+          ],
+          "evidence_requirement": "Regression test output for independent Issue concurrency, shared-resource denial and CAS fencing",
+          "validated_at_utc": "2026-11-21T18:33:03.389Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_TESTS",
