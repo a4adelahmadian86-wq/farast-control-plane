@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3185,
+  "revision": 3186,
   "next_fencing_token": 168,
   "locks": [
     {
@@ -26123,6 +26123,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-21T10:16:22.619Z"
+    },
+    "7061122616": {
+      "response": "STEP ثبت شد: S1_DISCOVER; EXECUTION_PROGRESS=14.28%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=1/7.",
+      "response_posted": false,
+      "issue_number": 15,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-21T10:16:44.299Z"
     }
   },
   "work_items": {
@@ -26681,7 +26690,7 @@
       "parent_exp_ids": [
         "EXP-03"
       ],
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/non",
       "resource_keys": [
         "analysis:exp-03"
@@ -26695,7 +26704,14 @@
           "weight": 1,
           "expected_output": "خروجی قابل بازبینی برای مرحله: تعیین روش کشف و مرز مخزن/نسخه مورد بررسی.",
           "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/non/commit/90c5d6b0546f9026b401901399ffde3f3106c305"
+          ],
+          "validated_at_utc": "2026-11-21T10:16:44.298Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S2_MAP",
