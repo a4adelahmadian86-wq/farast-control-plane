@@ -324,22 +324,25 @@ jobs:
                 let duplicateCheckError = '';
                 let candidateWorkItemId = '';
                 let candidateWorkItem = null;
+                let candidateWorkItemError = '';
                 if (['claim','refresh','unblock','reopen','accept'].includes(command)) {
-                  let candidate = null;
-                  try { candidate = workItemSpecFor(issue); } catch (_) {}
-                  if (candidate) {
-                    candidateWorkItem = candidate;
-                    candidateWorkItemId = candidate.work_item_id;
+                  const candidateResult = coordinatorCore.captureWorkItemSpec(() => workItemSpecFor(issue));
+                  candidateWorkItem = candidateResult.item;
+                  candidateWorkItemError = candidateResult.error || '';
+                  if (candidateWorkItem) {
+                    candidateWorkItemId = candidateWorkItem.work_item_id;
                     try {
                       taskIssuesSnapshot = await allTaskIssues();
-                      duplicateWorkItemIds = await findDuplicateWorkItemIdIssuesForIssue(issue, candidate, state, taskIssuesSnapshot);
+                      duplicateWorkItemIds = await findDuplicateWorkItemIdIssuesForIssue(issue, candidateWorkItem, state, taskIssuesSnapshot);
                     } catch (error) {
                       duplicateCheckError = String(error.message || error).slice(0, 240);
                     }
                   }
                 }
                 const allocationGate = ['claim','refresh','unblock','reopen','accept'].includes(command)
-                  ? ensureAllocationProvenance(issue, candidateWorkItem, state)
+                  ? (candidateWorkItemError
+                    ? { ok:false, reason:candidateWorkItemError }
+                    : ensureAllocationProvenance(issue, candidateWorkItem, state))
                   : { ok:true };
                 if (!allocationGate.ok) {
                   nextStatus = 'blocked';
@@ -718,10 +721,18 @@ jobs:
                 return !Number.isFinite(expiry) || expiry > Date.now();
               });
               if (issue.state === 'open' && labelsOf(issue).includes('agent:blocked') && activeLocksForIssue.length === 0) {
-                const fresh = workItemSpecFor(issue), previous = snapshot.state.work_items?.[issue.number];
-                const allocationGate = fresh
-                  ? ensureAllocationProvenance(issue, fresh, snapshot.state)
-                  : { ok:false, reason:'work_item_spec_missing' };
+                // A malformed blocked Work Item must not abort this Issue's durable command inbox.
+                // Capture schema/provenance failures, leave the task blocked, and continue to pending commands.
+                const revalidation = coordinatorCore.captureWorkItemSpec(() => workItemSpecFor(issue));
+                const fresh = revalidation.item, previous = snapshot.state.work_items?.[issue.number];
+                let allocationGate = { ok:false, reason:revalidation.error || 'work_item_spec_missing' };
+                if (fresh) {
+                  try {
+                    allocationGate = ensureAllocationProvenance(issue, fresh, snapshot.state);
+                  } catch (error) {
+                    allocationGate = { ok:false, reason:String(error.message || error).slice(0, 300) };
+                  }
+                }
                 if (fresh && allocationGate.ok && (!previous || previous.work_item_id === fresh.work_item_id)) {
                   const oldSteps = new Map((previous?.steps || []).map(x => [x.step_id, x]));
                   const oldCriteria = new Map((previous?.acceptance_criteria || []).map(x => [x.criterion_id, x]));
