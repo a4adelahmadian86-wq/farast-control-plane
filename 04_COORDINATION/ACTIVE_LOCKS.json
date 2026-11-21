@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3068,
+  "revision": 3069,
   "next_fencing_token": 164,
   "locks": [
     {
@@ -25204,7 +25204,7 @@
     },
     "7057435773": {
       "response": "معیار پذیرش ثبت شد: AC_SAFE_HANDOFF; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; can_accept=true.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 111,
       "actor": "a4adelahmadian86-wq",
       "command": "criterion",
