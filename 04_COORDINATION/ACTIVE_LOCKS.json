@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3246,
+  "revision": 3247,
   "next_fencing_token": 170,
   "locks": [
     {
@@ -26643,6 +26643,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-21T11:38:20.284Z"
+    },
+    "7062028437": {
+      "response": "STEP ثبت شد: S1_DISCOVER; EXECUTION_PROGRESS=14.28%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=1/7.",
+      "response_posted": false,
+      "issue_number": 20,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-21T11:38:28.561Z"
     }
   },
   "work_items": {
@@ -27757,7 +27766,7 @@
       "parent_exp_ids": [
         "EXP-08"
       ],
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/non",
       "resource_keys": [
         "analysis:exp-08"
@@ -27771,7 +27780,14 @@
           "weight": 1,
           "expected_output": "خروجی قابل بازبینی برای مرحله: ترسیم catalog/product/price/plan و قواعد تخفیف/اعتبار.",
           "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/non/blob/90c5d6b0546f9026b401901399ffde3f3106c305/app/Models/StoreProduct.php"
+          ],
+          "validated_at_utc": "2026-11-21T11:38:28.560Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S2_MAP",
