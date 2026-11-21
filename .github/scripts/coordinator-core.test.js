@@ -945,7 +945,11 @@ test('owner runbook documents active main rulesets, zero approvals and an empty 
     assert.match(text, /non_fast_forward/);
     assert.match(text, /deletion/);
     assert.match(text, /bypass_actors/);
-    assert.match(text, /approval.{0,40}(0|صفر)|(0|صفر).{0,40}approval/i);
+  }
+  assert.match(manual, /approval.{0,40}(0|صفر)/i);
+  assert.match(commands, /required_approving_review_count=0/);
+  assert.match(readiness, /approval.{0,40}(0|صفر)/i);
+  for (const text of [manual,commands,readiness]) {
   }
   assert.match(manual, /farast-control-plane/);
   assert.match(manual, /a4adelahmadian86-wq\/non/);
