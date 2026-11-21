@@ -694,11 +694,15 @@ test('Work Item acceptance progress is checked before any PR merge', () => {
   const workflow = fs.readFileSync('.github/workflows/farast-coordinator.yml', 'utf8');
   const start = workflow.indexOf('const mergeOperation =');
   const progress = workflow.indexOf('const acceptanceProgress = acceptanceItem ? workItemCore.calculateProgress(acceptanceItem)', start);
-  const rejection = workflow.indexOf('else if (acceptanceItem && !acceptanceProgress.can_accept)', start);
+  const rejection = workflow.indexOf('else if (acceptanceItem && !acceptanceProgress.can_merge)', start);
   const merge = workflow.indexOf('prClient.rest.pulls.merge', start);
+  const finalAcceptance = workflow.indexOf('if (acceptanceProgress.can_accept)', merge);
+  const pendingPostMerge = workflow.indexOf('معیارهای POST_MERGE باید پس از ادغام', finalAcceptance);
   assert.ok(start >= 0);
   assert.ok(progress > start && progress < merge);
   assert.ok(rejection > progress && rejection < merge);
+  assert.ok(finalAcceptance > merge);
+  assert.ok(pendingPostMerge > finalAcceptance);
 });
 
 
