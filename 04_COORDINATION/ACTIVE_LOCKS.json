@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3063,
+  "revision": 3064,
   "next_fencing_token": 164,
   "locks": [
     {
@@ -25171,6 +25171,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-21T04:42:29.613Z"
+    },
+    "7057427994": {
+      "response": "STEP ثبت شد: S7_EVIDENCE_RELEASE; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=75%; OVERALL_COMPLETION=75%; verified_steps=7/7.",
+      "response_posted": false,
+      "issue_number": 111,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-21T04:42:37.423Z"
     }
   },
   "work_items": {
@@ -32037,7 +32046,14 @@
           "weight": 1,
           "estimate_minutes": 2,
           "expected_output": "Durable handoff record and no active lease",
-          "evidence_requirement": "Checkpoint/evidence URLs and successful release response"
+          "evidence_requirement": "Checkpoint/evidence URLs and successful release response",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/112"
+          ],
+          "validated_at_utc": "2026-11-21T04:42:37.423Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "acceptance_criteria": [
