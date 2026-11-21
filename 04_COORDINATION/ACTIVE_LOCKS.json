@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3436,
+  "revision": 3437,
   "next_fencing_token": 176,
   "locks": [],
   "history": [
@@ -28099,6 +28099,15 @@
       "command": "claim",
       "next_status": null,
       "at_utc": "2026-11-21T18:44:13.232Z"
+    },
+    "7067495172": {
+      "response": "پذیرش رد شد: لینک PR باید هم در بدنه Issue ثبت شده باشد و هم با pr= به فرمان accept داده شود؛ فقط READ_ONLY بدون PR از مسیر شواهد ماشینی استفاده می‌کند.",
+      "response_posted": false,
+      "issue_number": 107,
+      "actor": "a4adelahmadian86-wq",
+      "command": "accept",
+      "next_status": null,
+      "at_utc": "2026-11-21T18:46:07.395Z"
     }
   },
   "work_items": {
