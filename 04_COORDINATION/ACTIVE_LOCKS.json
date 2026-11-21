@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3061,
+  "revision": 3062,
   "next_fencing_token": 164,
   "locks": [
     {
@@ -25162,6 +25162,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-21T04:42:21.349Z"
+    },
+    "7057427651": {
+      "response": "معیار پذیرش ثبت شد: AC_DRIFT_TEST; ACCEPTANCE_PROGRESS=75%; OVERALL_COMPLETION=75%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 111,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-21T04:42:29.613Z"
     }
   },
   "work_items": {
@@ -32065,7 +32074,14 @@
           "title": "Automated regression coverage detects mismatch between workflow cross-repo API calls and documented permissions",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "Focused test source and successful exact-head test output"
+          "evidence_requirement": "Focused test source and successful exact-head test output",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44867200632"
+          ],
+          "validated_at_utc": "2026-11-21T04:42:29.613Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_SAFE_HANDOFF",
