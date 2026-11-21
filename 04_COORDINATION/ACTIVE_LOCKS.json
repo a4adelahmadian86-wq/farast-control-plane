@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3517,
+  "revision": 3518,
   "next_fencing_token": 180,
   "locks": [
     {
@@ -28803,6 +28803,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-21T19:05:59.846Z"
+    },
+    "7067758777": {
+      "response": "STEP ثبت شد: S1_DEFINE_STAGED_MODEL; EXECUTION_PROGRESS=28.57%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=2/7.",
+      "response_posted": false,
+      "issue_number": 119,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-21T19:06:16.724Z"
     }
   },
   "work_items": {
@@ -37118,7 +37127,14 @@
           "required": true,
           "weight": 1,
           "expected_output": "A documented-in-code two-phase state model with merge eligibility distinct from final acceptance",
-          "evidence_requirement": "Focused code design and named invariants"
+          "evidence_requirement": "Focused code design and named invariants",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/120"
+          ],
+          "validated_at_utc": "2026-11-21T19:06:16.723Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S2_IMPLEMENT_GATE",
