@@ -340,6 +340,47 @@ function hasSuccessfulChecks(checkRuns, combinedStatus) {
     statusChecksPassed;
 }
 
+function evaluateBranchRules(effectiveRules, rulesetDetails = []) {
+  const blockers = [];
+  const requiredTypes = ['pull_request', 'non_fast_forward', 'deletion'];
+  const rules = Array.isArray(effectiveRules) ? effectiveRules : [];
+  const details = Array.isArray(rulesetDetails) ? rulesetDetails : [];
+
+  for (const type of requiredTypes) {
+    if (!rules.some(rule => rule && rule.type === type)) blockers.push('missing_effective_rule:' + type);
+  }
+
+  const pullRequestRules = rules.filter(rule => rule && rule.type === 'pull_request');
+  if (pullRequestRules.some(rule => rule.parameters?.required_approving_review_count !== 0)) {
+    blockers.push('human_approval_required_or_unverified');
+  }
+
+  const rulesetIds = [...new Set(rules.map(rule => rule?.ruleset_id).filter(id => id !== undefined && id !== null).map(String))];
+  if (!rules.length || !rulesetIds.length) blockers.push('effective_repository_ruleset_missing');
+  if (rules.some(rule => !rule?.ruleset_id || rule.ruleset_source_type !== 'Repository')) {
+    blockers.push('unknown_or_unsupported_ruleset_source');
+  }
+
+  for (const id of rulesetIds) {
+    const detail = details.find(item => String(item?.id) === id);
+    if (!detail) {
+      blockers.push('ruleset_detail_missing:' + id);
+      continue;
+    }
+    if (detail.source_type !== 'Repository') blockers.push('ruleset_source_not_repository:' + id);
+    if (detail.enforcement !== 'active') blockers.push('ruleset_not_active:' + id);
+    if (!Array.isArray(detail.bypass_actors)) blockers.push('ruleset_bypass_actors_not_visible:' + id);
+    else if (detail.bypass_actors.length > 0) blockers.push('ruleset_has_bypass_actors:' + id);
+  }
+
+  return {
+    ready: blockers.length === 0,
+    blockers,
+    required_rule_types: requiredTypes,
+    ruleset_ids: rulesetIds
+  };
+}
+
 const FARAST_COMMAND_RE = /^\s*\/farast\s+(claim|heartbeat|release|status|progress|step|criterion|checkpoint|block|unblock|review|reopen|accept|refresh)\b/i;
 
 function pendingCommandComments(comments, processedOperations = {}) {
@@ -367,6 +408,6 @@ function responseMarker(operationId) {
 module.exports = {
   isSafeRunId, roleForActor, isWithinDelegatedScope, isCommandAllowed, resourcesFor, targetRepositoryFor, branchForWritePolicy, resolveWritePolicy, expireLocks, activeForIssue,
   claimResources, renewLease, ownsLease, latestTaskStatus, matchesReviewLease, hasSuccessfulChecks,
-  validateAllocationProvenance, hasVerifiedAllocationProvenance, recordAllocationProvenance,
+  validateAllocationProvenance, hasVerifiedAllocationProvenance, recordAllocationProvenance, evaluateBranchRules,
   pendingCommandComments, pendingResponseOperations, responseMarker
 };
