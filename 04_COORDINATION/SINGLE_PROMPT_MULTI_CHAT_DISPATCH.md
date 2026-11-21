@@ -18,7 +18,7 @@
 
 ## پیش‌نیاز پذیرش PR در مخزن دیگر
 
-برای مخزن عمومی مقصد مانند `a4adelahmadian86-wq/non`، در مخزن کنترل‌پلین Secret با نام `FARAST_GITHUB_TOKEN` تعریف شود. Fine-grained PAT فقط به مخزن مقصد محدود و با Pull requests:write، Commit statuses:read و Contents:read (فقط برای Compare ancestry در مسیر جایگزین) تنظیم شود؛ Metadata:read پیش‌فرض است. Check Runهای مخزن عمومی با درخواست بدون احراز هویت خوانده می‌شوند، چون Fine-grained PAT در مستندات جاری برای Checks API پشتیبانی‌شده فهرست نشده است. مخزن خصوصی تا پیاده‌سازی GitHub App installation-token با Checks:read پشتیبانی نمی‌شود و پذیرش fail-closed است. Secret یا token را در prompt، Issue، comment، فایل یا log قرار ندهید. وجود/مقدار Secret از اتصال چت قابل تأیید نیست.
+برای مخزن عمومی مقصد مانند `a4adelahmadian86-wq/non`، در مخزن کنترل‌پلین Secret با نام `FARAST_GITHUB_TOKEN` تعریف شود. Fine-grained PAT فقط به مخزن مقصد محدود و با Pull requests:read، Contents:write (الزام API ادغام PR و پوشش‌دهنده Compare) و Commit statuses:read تنظیم شود؛ Metadata:read پیش‌فرض است. Contents:write امکان نوشتن مستقیم محتوا را نیز می‌دهد؛ پیش از تعریف Secret باید branch protection/ruleset شاخه پیش‌فرض مقصد فعال و read-back شده باشد. Check Runهای مخزن عمومی با درخواست بدون احراز هویت خوانده می‌شوند، چون Fine-grained PAT در مستندات جاری برای Checks API پشتیبانی‌شده فهرست نشده است. مخزن خصوصی تا پیاده‌سازی GitHub App installation-token با Checks:read پشتیبانی نمی‌شود و پذیرش fail-closed است. Coordinator مقدار protected بودن شاخه مقصد را نیز بررسی می‌کند و بدون حفاظت فعال merge نمی‌کند. با توجه به snapshot فعلی `non/main.protected=false`، تا زمان اعمال حفاظت Secret را تنظیم نکنید. Secret یا token را در prompt، Issue، comment، فایل یا log قرار ندهید. وجود/مقدار Secret از اتصال چت قابل تأیید نیست.
 
 ## حالت BROADCAST
 
