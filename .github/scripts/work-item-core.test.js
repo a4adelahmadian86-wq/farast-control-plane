@@ -594,6 +594,13 @@ test('Work Item refresh preserves accepted terminal status while deriving non-te
  assert.equal(wi.refreshedStatus('READY',complete,false),'BLOCKED');
 });
 
+test('refresh preserves REVIEW_REQUIRED when only POST_MERGE criteria remain',()=>{
+ const progress={can_merge:true,can_accept:false,verified_steps:6};
+ assert.equal(wi.refreshedStatus('REVIEW_REQUIRED',progress,true),'REVIEW_REQUIRED');
+ assert.equal(wi.refreshedStatus('READY',progress,true),'REVIEW_REQUIRED');
+ assert.equal(wi.refreshedStatus('IN_PROGRESS',progress,true),'REVIEW_REQUIRED');
+});
+
 test('legacy bootstrap Work Items receive only exact enumerated operation scopes',()=>{
  const x=item({work_item_id:'WI-PR16-SPEC-REPAIR-001',target_repository:'a4adelahmadian86-wq/farast-control-plane',write_policy:'WRITE_ALLOWED'});
  const allocator=item({work_item_id:'WI-GOAL-ALLOCATOR-001',target_repository:'a4adelahmadian86-wq/farast-control-plane',write_policy:'WRITE_ALLOWED'});
