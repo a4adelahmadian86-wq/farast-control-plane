@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3529,
+  "revision": 3530,
   "next_fencing_token": 180,
   "locks": [
     {
@@ -28857,6 +28857,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-21T19:07:02.127Z"
+    },
+    "7067762602": {
+      "response": "معیار پذیرش ثبت شد: AC_TWO_PHASE; ACCEPTANCE_PROGRESS=25%; OVERALL_COMPLETION=25%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 119,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-21T19:07:40.213Z"
     }
   },
   "work_items": {
@@ -37263,9 +37272,15 @@
           "criterion_id": "AC_TWO_PHASE",
           "title": "A required POST_MERGE criterion never blocks the PR merge once all PRE_MERGE criteria pass, but prevents final ACCEPTED status until real evidence is recorded",
           "required": true,
-          "validation_status": "NOT_RUN",
-          "evidence_refs": [],
-          "evidence_requirement": "Passing unit/integration tests for can_merge true and can_accept false before post-merge evidence, then can_accept true only after evidence"
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44939011753",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/120"
+          ],
+          "evidence_requirement": "Passing unit/integration tests for can_merge true and can_accept false before post-merge evidence, then can_accept true only after evidence",
+          "validated_at_utc": "2026-11-21T19:07:40.212Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_REFRESH_STATE",
