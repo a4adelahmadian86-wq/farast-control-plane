@@ -1,8 +1,25 @@
 {
   "schema_version": "1.0",
-  "revision": 3084,
-  "next_fencing_token": 165,
-  "locks": [],
+  "revision": 3085,
+  "next_fencing_token": 166,
+  "locks": [
+    {
+      "resource_key": "repo:farast-control-plane",
+      "issue_number": 113,
+      "task_id": "GH-113",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-20261121-READINESS-01",
+      "chat_id": "CHAT-20261121-READINESS-01",
+      "run_id": "RUN-20261121-RULESET-GATE-002",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-113-RUN-20261121-RULESET-GATE-002",
+      "acquired_at_utc": "2026-11-21T04:48:23.481Z",
+      "heartbeat_at_utc": "2026-11-21T04:48:23.481Z",
+      "lease_expires_at_utc": "2026-11-21T05:18:23.481Z",
+      "fencing_token": 165,
+      "status": "ACTIVE"
+    }
+  ],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -12444,6 +12461,23 @@
       "branch": null,
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "at_utc": "2026-11-21T04:48:01.802Z"
+    },
+    {
+      "event": "ACQUIRED",
+      "issue_number": 113,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-20261121-READINESS-01",
+      "run_id": "RUN-20261121-RULESET-GATE-002",
+      "resource_keys": [
+        "repo:farast-control-plane"
+      ],
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-113-RUN-20261121-RULESET-GATE-002",
+      "previous_branch": null,
+      "previous_target_repository": null,
+      "previous_run_id": null,
+      "fencing_token": 165,
+      "at_utc": "2026-11-21T04:48:23.481Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -25315,6 +25349,15 @@
       "command": "release",
       "next_status": "ready",
       "at_utc": "2026-11-21T04:48:01.804Z"
+    },
+    "7057491670": {
+      "response": "CLAIM GRANTED. TASK=GH-113; WORK_ITEM_ID=WI-CP-BRANCH-RULESET-GATE-001; verified_steps=; remaining_steps=S1_VERIFY_RULES_API,S2_DEFINE_FAIL_CLOSED_POLICY,S3_IMPLEMENT_RULESET_GATE,S4_ADD_REGRESSION_FIXTURES,S5_DOCUMENT_OWNER_RUNBOOK,S6_VALIDATE_AND_PR,S7_REVIEW_RELEASE; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; actor=@a4adelahmadian86-wq; chat=CHAT-20261121-READINESS-01; run=RUN-20261121-RULESET-GATE-002; resource_keys=repo:farast-control-plane; target_repository=a4adelahmadian86-wq/farast-control-plane; write_policy=WRITE_ALLOWED; branch=work/GH-113-RUN-20261121-RULESET-GATE-002; previous_run=none; fencing_token=165; lease_expires=2026-11-21T05:18:23.481Z. این Work Item با سیاست WRITE_ALLOWED است؛ branch را فقط در target_repository ثبت‌شده بساز و قبل از هر write heartbeat/token را دوباره تأیید کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز و branch قبلی را تغییر نده.",
+      "response_posted": false,
+      "issue_number": 113,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "locked",
+      "at_utc": "2026-11-21T04:48:23.486Z"
     }
   },
   "work_items": {
@@ -32276,6 +32319,169 @@
           "deliverable_id": "D3",
           "description": "Automated documentation/workflow permission drift regression",
           "evidence_requirement": "Test source and passing exact-head CI result"
+        }
+      ]
+    },
+    "113": {
+      "schema_version": "1.0",
+      "operation_scope_version": "1.0",
+      "requested_operations": [
+        "control_plane_write",
+        "control_plane_merge"
+      ],
+      "write_policy": "WRITE_ALLOWED",
+      "priority_source": "DEFAULT_POLICY",
+      "work_item_id": "WI-CP-BRANCH-RULESET-GATE-001",
+      "title": "Require active PR-only rulesets and no bypass before coordinator merge",
+      "description": "Replace coarse protected=true acceptance with effective GitHub Rules API verification of required rules and empty bypass actors; document exact owner setup without mutating repository settings.",
+      "parent_goal_ids": [
+        "G-09"
+      ],
+      "parent_exp_ids": [
+        "EXP-01"
+      ],
+      "parent_cp_ids": [
+        "CP-03"
+      ],
+      "parent_work_item_id": "WI-GOAL-ALLOCATOR-001",
+      "allocation_provenance": {
+        "allocator_work_item_id": "WI-GOAL-ALLOCATOR-001",
+        "allocator_issue_number": 11,
+        "actor": "a4adelahmadian86-wq",
+        "chat_id": "CHAT-20261121-READINESS-01",
+        "run_id": "RUN-20261121-RULESET-HARDENING-001",
+        "fencing_token": 164,
+        "branch": null,
+        "allocated_at_utc": "2026-11-21T04:45:45.881Z"
+      },
+      "status": "CLAIMED",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "resource_keys": [
+        "repo:farast-control-plane"
+      ],
+      "dependencies": [],
+      "steps": [
+        {
+          "step_id": "S1_VERIFY_RULES_API",
+          "title": "Verify Rules API response shape and Octokit methods for effective branch rules and ruleset details",
+          "required": true,
+          "weight": 1,
+          "estimate_minutes": 3,
+          "expected_output": "Verified endpoint/method and response schema",
+          "evidence_requirement": "Official GitHub docs and current Octokit method reference"
+        },
+        {
+          "step_id": "S2_DEFINE_FAIL_CLOSED_POLICY",
+          "title": "Define required active rule types and no-bypass policy",
+          "required": true,
+          "weight": 1,
+          "estimate_minutes": 3,
+          "expected_output": "Explicit deterministic policy for PR-only, no-force-push, no-deletion and no bypass",
+          "evidence_requirement": "Policy matrix and source references"
+        },
+        {
+          "step_id": "S3_IMPLEMENT_RULESET_GATE",
+          "title": "Enforce effective branch rules and inspect all applicable repository rulesets before merge",
+          "required": true,
+          "weight": 1,
+          "estimate_minutes": 5,
+          "expected_output": "Coordinator rejects absent, incomplete, unreadable or bypassable rulesets",
+          "evidence_requirement": "Exact workflow/core diff and read-back"
+        },
+        {
+          "step_id": "S4_ADD_REGRESSION_FIXTURES",
+          "title": "Add positive and negative fixtures for each required rule and bypass condition",
+          "required": true,
+          "weight": 1,
+          "estimate_minutes": 4,
+          "expected_output": "Automated fixtures for valid and invalid effective rulesets",
+          "evidence_requirement": "Test diff and exact CI output"
+        },
+        {
+          "step_id": "S5_DOCUMENT_OWNER_RUNBOOK",
+          "title": "Document exact owner-created ruleset configuration and verification for both repositories",
+          "required": true,
+          "weight": 1,
+          "estimate_minutes": 4,
+          "expected_output": "Repeatable settings runbook without secrets or human-review dependency",
+          "evidence_requirement": "Read-back links for operator documents"
+        },
+        {
+          "step_id": "S6_VALIDATE_AND_PR",
+          "title": "Run full control-plane validation and open focused exact-head PR",
+          "required": true,
+          "weight": 1,
+          "estimate_minutes": 4,
+          "expected_output": "Passing exact-head CI and linked PR",
+          "evidence_requirement": "Actions URL, PR URL, SHA and changed-file list"
+        },
+        {
+          "step_id": "S7_REVIEW_RELEASE",
+          "title": "Record review handoff and release exact lease",
+          "required": true,
+          "weight": 1,
+          "estimate_minutes": 2,
+          "expected_output": "No active lease and durable handoff",
+          "evidence_requirement": "Review/release responses and registry read-back"
+        }
+      ],
+      "acceptance_criteria": [
+        {
+          "criterion_id": "AC_RULES_ENFORCED",
+          "title": "Coordinator accepts only when active effective rules include pull_request, non_fast_forward and deletion",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Positive/negative tests and exact workflow gate"
+        },
+        {
+          "criterion_id": "AC_NO_BYPASS",
+          "title": "Every applicable repository ruleset is readable and has no bypass actors; unknown sources fail closed",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Tests for empty/nonempty bypass and unreadable ruleset"
+        },
+        {
+          "criterion_id": "AC_OWNER_RUNBOOK",
+          "title": "Both repositories have an exact owner runbook for active main rulesets with no bypass actors and zero required human approvals",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Read-back of updated manual and readiness docs"
+        },
+        {
+          "criterion_id": "AC_SAFE_HANDOFF",
+          "title": "Exact-head CI passes, PR is linked, no repository settings or secrets were changed, and lease is released",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "PR/CI links, diff review and release evidence"
+        }
+      ],
+      "priority": 35,
+      "created_at_utc": "2026-11-21T04:45:45.881Z",
+      "ready_at_utc": "2026-11-21T04:45:45.881Z",
+      "effort_estimate_minutes": 25,
+      "effort_rationale": "Focused Rules API verification, deterministic gate, regression fixtures, owner runbook, CI and handoff.",
+      "depth_profile": {
+        "profile_version": "2.0.0",
+        "min_substantive_steps": 6,
+        "min_acceptance_criteria": 4,
+        "min_deliverables": 3,
+        "target_effort_minutes": 25
+      },
+      "deliverables": [
+        {
+          "deliverable_id": "D1",
+          "description": "Effective ruleset acceptance gate",
+          "evidence_requirement": "Code and test links"
+        },
+        {
+          "deliverable_id": "D2",
+          "description": "Ruleset positive/negative regression fixtures",
+          "evidence_requirement": "Test output on exact PR head"
+        },
+        {
+          "deliverable_id": "D3",
+          "description": "Owner runbook for both repository rulesets",
+          "evidence_requirement": "Updated documentation links"
         }
       ]
     }
