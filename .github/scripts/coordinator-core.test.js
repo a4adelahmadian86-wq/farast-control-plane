@@ -892,6 +892,16 @@ test('cross-repository acceptance uses anonymous Checks reads for public targets
 });
 
 
+test('invalid blocked Work Item specifications are captured without aborting inbox processing', () => {
+  const valid = { work_item_id: 'WI-VALID-001' };
+  assert.deepEqual(core.captureWorkItemSpec(() => valid), { ok: true, item: valid, error: null });
+  assert.deepEqual(core.captureWorkItemSpec(() => null), { ok: false, item: null, error: 'work_item_spec_missing' });
+  const invalid = core.captureWorkItemSpec(() => { throw new Error('deep Work Item criteria need evidence_requirement'); });
+  assert.equal(invalid.ok, false);
+  assert.equal(invalid.item, null);
+  assert.equal(invalid.error, 'deep Work Item criteria need evidence_requirement');
+});
+
 test('branch ruleset gate requires active PR-only, non-fast-forward, deletion rules and no bypass actors', () => {
   const validRules = [
     {type:'pull_request',ruleset_id:17,ruleset_source_type:'Repository',parameters:{required_approving_review_count:0}},
