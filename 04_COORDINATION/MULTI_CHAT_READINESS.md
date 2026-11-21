@@ -40,7 +40,7 @@ PR #1 ادغام شده و workflow فرمانی `issue_comment` روی `main` �
 3. branch protection / ruleset شاخه `main` از طریق اتصال فعلی تأیید نشده است.
 4. تنظیم GitHub Actions برای اجازه write در مخزن باید توسط مالک بررسی شود.
 5. آزمون دو حساب GitHub مستقل در دو نشست ChatGPT، claim هم‌زمان، منبع مشترک و disjoint، قطع اتصال، expiry/takeover و رد token قدیمی هنوز **NOT_RUN** است.
-6. برای بررسی PR در مخزن محصول `non`، Secret با نام `FARAST_GITHUB_TOKEN` و مجوز حداقلی read به Pull requests و Metadata لازم است.
+6. برای پذیرش PR در مخزن عمومی `non`، Secret با نام `FARAST_GITHUB_TOKEN` باید یک Fine-grained PAT محدود به همان مخزن باشد: Pull requests:read، Contents:write (الزام endpoint ادغام PR و همچنین پوشش‌دهنده Compare) و Commit statuses:read؛ Metadata:read پیش‌فرض است. Contents:write امکان نوشتن مستقیم محتوا را هم می‌دهد؛ قبل از تعریف Secret باید branch protection/ruleset شاخه پیش‌فرض مقصد فعال و read-back شده باشد. Check Runهای مخزن عمومی بدون احراز هویت خوانده می‌شوند، چون Fine-grained PAT در مستندات فعلی برای Checks API پشتیبانی‌شده فهرست نشده است. مخزن خصوصی تا افزودن GitHub App installation-token با Checks:read پشتیبانی نمی‌شود. چون `non/main.protected=false` است، فعلاً Secret را تنظیم نکنید و پذیرش cross-repository fail-closed می‌ماند. وجود/مقدار Secret از اتصال فعلی قابل تأیید نیست.
 7. مخزن کنترل‌پلین فعلاً PUBLIC می‌ماند؛ فقط اطلاعات عمومی و غیرمحرمانه مجاز است.
 
 ## وضعیت پس از ادغام PR #1
@@ -293,3 +293,23 @@ MASTER-00 یک فرمان ثابت برای تمام چت‌هاست؛ هر چت
 - نتیجه: **AC_GLOBAL_REPLAY = PASS** برای replay زنده بین دو Issue در یک مخزن و با یک هویت GitHub. اجرای محرک #9 فرمان pending #7 را پس از لغو run اولیه #7 بازیابی کرد؛ این دیگر صرفاً fixture یا simulation نیست.
 
 **محدودیت اثبات:** این نتیجه، E2E چند حساب مستقل ChatGPT/GitHub، takeover واقعی بین دو نشست، hard-fencing direct-write یا throughput نامحدود را اثبات نمی‌کند؛ آن موارد همچنان NOT VERIFIED هستند.
+
+
+---
+
+## بازبینی زنده و اصلاح قرارداد cross-repository — 2026-11-21
+
+- شاخه `main` کنترل‌پلین روی `5b10556a20477a02dc2db741f655d875a6f78d5f` است؛ PR #110 ادغام شده و پذیرش رسمی آن با workflow موفق بوده است.
+- workflow مرکزی در اجراهای زنده `issue_comment` موفق بوده و schedule پنج‌دقیقه‌ای نیز در run `44857534954` موفق ثبت شده است.
+- بررسی GitHub branches API نشان داد `main.protected=false` در هر دو مخزن `farast-control-plane` و `non`؛ Rulesets هر دو مخزن نیز `[]` هستند. اتصال فعلی مجوز خواندن endpoint جزئیات Branch Protection را ندارد. تا فعال‌سازی و read-back قواعد، hard-fencing ادعا نمی‌شود.
+- لاگ workflow run `44866549873` مقدار محیطی `FARAST_GITHUB_TOKEN` را خالی نشان داد؛ بنابراین Secret در آن اجرا در دسترس workflow نبوده است. این مشاهده جای بررسی Settings را نمی‌گیرد، اما پذیرش cross-repository در آن اجرا آماده نبوده است.
+- قرارداد cross-repository اصلاح‌شده: Fine-grained PAT برای مخزن عمومی مقصد با Pull requests:read، Contents:write (الزام endpoint ادغام PR و پوشش‌دهنده Compare) و Commit statuses:read؛ Metadata:read پیش‌فرض. Check Runهای مخزن عمومی با client بدون احراز هویت خوانده می‌شوند. GitHub در مستندات جاری List check runs، Fine-grained PAT را در فهرست token typeهای پشتیبانی‌شده نمی‌آورد؛ برای مخزن خصوصی به GitHub App installation-token با Checks:read نیاز است و تا آن زمان پذیرش private cross-repo fail-closed است. Contents:write گسترده است؛ coordinator اکنون `protected=true` بودن شاخه مقصد را قبل از پذیرش بررسی می‌کند. چون `non/main.protected=false` است، Secret را تا فعال‌سازی و read-back حفاظت شاخه پیش‌فرض تنظیم نکنید.
+- آزمون واقعی دو حساب مستقل GitHub در دو نشست ChatGPT، قطع اتصال/takeover و رد token قدیمی همچنان **NOT VERIFIED** است. این موارد با CI یا شبیه‌سازی ۲۵ worker اثبات نمی‌شوند.
+- هیچ Secret یا token value در این سند ثبت نشده است. وجود و مقدار Secret فقط در GitHub Settings قابل بررسی است.
+
+
+### اصلاح تکمیلی قرارداد توکن و حفاظت مقصد — 2026-11-21
+
+- مستندات رسمی جاری GitHub برای `PUT /repos/{owner}/{repo}/pulls/{pull_number}/merge` مجوز **Contents: write** را لازم می‌دانند، نه Pull requests:write. برای خواندن PR، Pull requests:read کافی است؛ برای combined commit status، Commit statuses:read لازم است؛ برای Compare ancestry، Contents:read لازم است که Contents:write آن را پوشش می‌دهد. Metadata:read پیش‌فرض است.
+- این سطح Contents:write وسیع است و قابلیت نوشتن مستقیم محتوا نیز دارد. به همین دلیل، coordinator اکنون پیش از پذیرش PR مقدار `protected=true` شاخه مقصد را بررسی می‌کند و اگر حفاظت فعال/قابل‌خواندن نباشد، fail-closed می‌شود.
+- وضعیت زنده هر دو مخزن در بازبینی: `farast-control-plane/main.protected=false` و `non/main.protected=false`. بنابراین تا فعال‌سازی و read-back Branch protection/ruleset شاخه‌های پیش‌فرض، Secret cross-repository را تنظیم نکنید.

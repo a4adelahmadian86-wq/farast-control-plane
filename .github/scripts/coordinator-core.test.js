@@ -859,3 +859,34 @@ test('case-sensitive file paths remain independently lockable in the same reposi
   assert.equal(upper.ok, true);
   assert.equal(lower.ok, true);
 });
+
+
+test('cross-repository acceptance uses anonymous Checks reads for public targets and least-privilege PAT permissions', () => {
+  const workflow = fs.readFileSync('.github/workflows/farast-coordinator.yml', 'utf8');
+  const docs = [
+    fs.readFileSync('04_COORDINATION/MANUAL_GITHUB_SETTINGS.md', 'utf8'),
+    fs.readFileSync('04_COORDINATION/COORDINATOR_COMMANDS.md', 'utf8'),
+    fs.readFileSync('04_COORDINATION/MULTI_CHAT_READINESS.md', 'utf8'),
+    fs.readFileSync('04_COORDINATION/SINGLE_PROMPT_MULTI_CHAT_DISPATCH.md', 'utf8')
+  ];
+
+  // Fine-grained PATs are used for PR/status/compare operations, not the Checks API.
+  assert.ok(workflow.includes('const crossRepoGithub = process.env.FARAST_GITHUB_TOKEN'));
+  assert.ok(workflow.includes('const crossRepoChecksGithub = new github.constructor();'));
+  assert.ok(workflow.includes('const checkRunsClient = (prOwner === owner && prRepo === repo) ? prClient : crossRepoChecksGithub;'));
+  assert.ok(workflow.includes('let checkRunsError ='));
+  assert.ok(workflow.includes('if (checkRunsError) response ='));
+  assert.ok(/private targets fail closed/i.test(workflow));
+  assert.ok(workflow.includes('baseBranchInfo.data.protected !== true'));
+  assert.ok(workflow.includes('baseBranchProtectionError'));
+
+  for (const doc of docs) {
+    assert.match(doc, /Pull requests:\s*read/i);
+    assert.match(doc, /Commit statuses:\s*read/i);
+    assert.match(doc, /Contents:\s*write/i);
+    assert.match(doc, /branch protection|ruleset/i);
+    assert.match(doc, /Metadata:\s*read/i);
+    assert.match(doc, /Checks API/i);
+    assert.match(doc, /Fine-grained PAT/i);
+  }
+});
