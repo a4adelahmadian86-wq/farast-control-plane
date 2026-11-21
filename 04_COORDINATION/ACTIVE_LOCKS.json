@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3023,
+  "revision": 3024,
   "next_fencing_token": 163,
   "locks": [
     {
@@ -12271,6 +12271,29 @@
       "work_item_id": null,
       "reason": "work_item_spec_missing",
       "at_utc": "2026-11-21T04:31:25.264Z"
+    },
+    {
+      "event": "WORK_ITEM_ALLOCATED",
+      "issue_number": 111,
+      "work_item_id": "WI-CP-CROSSREPO-TOKEN-SCOPE-001",
+      "allocation_provenance": {
+        "allocator_work_item_id": "WI-GOAL-ALLOCATOR-001",
+        "allocator_issue_number": 11,
+        "actor": "a4adelahmadian86-wq",
+        "chat_id": "CHAT-20261121-READINESS-01",
+        "run_id": "RUN-20261121-CROSSREPO-DOCS-001",
+        "fencing_token": 162,
+        "branch": null,
+        "allocated_at_utc": "2026-11-21T04:30:01.972Z"
+      },
+      "at_utc": "2026-11-21T04:32:58.824Z"
+    },
+    {
+      "event": "DEPENDENCY_AUTO_UNBLOCKED",
+      "issue_number": 111,
+      "work_item_id": "WI-CP-CROSSREPO-TOKEN-SCOPE-001",
+      "preserved_steps": 0,
+      "at_utc": "2026-11-21T04:32:58.826Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -31599,6 +31622,169 @@
       "operation_scope_version": "1.0",
       "requested_operations": [
         "control_plane_write"
+      ]
+    },
+    "111": {
+      "schema_version": "1.0",
+      "operation_scope_version": "1.0",
+      "requested_operations": [
+        "control_plane_write",
+        "control_plane_merge"
+      ],
+      "write_policy": "WRITE_ALLOWED",
+      "priority_source": "DEFAULT_POLICY",
+      "work_item_id": "WI-CP-CROSSREPO-TOKEN-SCOPE-001",
+      "title": "Correct and regression-test cross-repository PR acceptance token permissions",
+      "description": "Align cross-repository token instructions with the actual GitHub API calls made by the coordinator and prevent future documentation drift. Control-plane only; do not read, set, rotate or expose secret values.",
+      "parent_goal_ids": [
+        "G-09"
+      ],
+      "parent_exp_ids": [
+        "EXP-01"
+      ],
+      "parent_cp_ids": [
+        "CP-03"
+      ],
+      "parent_work_item_id": "WI-GOAL-ALLOCATOR-001",
+      "allocation_provenance": {
+        "allocator_work_item_id": "WI-GOAL-ALLOCATOR-001",
+        "allocator_issue_number": 11,
+        "actor": "a4adelahmadian86-wq",
+        "chat_id": "CHAT-20261121-READINESS-01",
+        "run_id": "RUN-20261121-CROSSREPO-DOCS-001",
+        "fencing_token": 162,
+        "branch": null,
+        "allocated_at_utc": "2026-11-21T04:30:01.972Z"
+      },
+      "status": "READY",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "resource_keys": [
+        "repo:farast-control-plane"
+      ],
+      "dependencies": [],
+      "steps": [
+        {
+          "step_id": "S1_AUDIT_CALLS",
+          "title": "Enumerate all live cross-repository API calls and their conditional branches",
+          "required": true,
+          "weight": 1,
+          "estimate_minutes": 3,
+          "expected_output": "Exact endpoint/method inventory from current workflow source",
+          "evidence_requirement": "Workflow source URL and exact main SHA"
+        },
+        {
+          "step_id": "S2_VERIFY_GITHUB_PERMISSIONS",
+          "title": "Verify least-privilege fine-grained PAT permissions for every endpoint against official GitHub docs",
+          "required": true,
+          "weight": 1,
+          "estimate_minutes": 4,
+          "expected_output": "Endpoint-to-permission matrix with always-used and conditional permissions distinguished",
+          "evidence_requirement": "Official GitHub documentation URLs and endpoint names"
+        },
+        {
+          "step_id": "S3_FIX_OPERATOR_DOCS",
+          "title": "Correct all four operator-facing documents and explicitly state secret-verification limitations",
+          "required": true,
+          "weight": 1,
+          "estimate_minutes": 5,
+          "expected_output": "Consistent, actionable, least-privilege instructions",
+          "evidence_requirement": "Exact changed paths and read-back links"
+        },
+        {
+          "step_id": "S4_ADD_DRIFT_REGRESSION",
+          "title": "Add automated regression assertions that detect drift between workflow API calls and documented permissions",
+          "required": true,
+          "weight": 1,
+          "estimate_minutes": 4,
+          "expected_output": "Focused test that fails on missing permission documentation or unexpected endpoint scope",
+          "evidence_requirement": "Test diff and reproducible command/output"
+        },
+        {
+          "step_id": "S5_VALIDATE",
+          "title": "Run focused tests and full control-plane validation; inspect scope and secret-safety",
+          "required": true,
+          "weight": 1,
+          "estimate_minutes": 4,
+          "expected_output": "Passing exact-scope test and full CI evidence, or a precise blocker",
+          "evidence_requirement": "Commands, exit codes, exact-head CI URL and changed-file list"
+        },
+        {
+          "step_id": "S6_HANDOFF",
+          "title": "Create a focused review-ready PR linked to this Issue without bypassing coordinator acceptance",
+          "required": true,
+          "weight": 1,
+          "estimate_minutes": 3,
+          "expected_output": "PR URL, dedicated branch and exact head SHA",
+          "evidence_requirement": "PR metadata, branch ref and Issue linkage"
+        },
+        {
+          "step_id": "S7_EVIDENCE_RELEASE",
+          "title": "Read back handoff evidence, checkpoint and release the exact lease",
+          "required": true,
+          "weight": 1,
+          "estimate_minutes": 2,
+          "expected_output": "Durable handoff record and no active lease",
+          "evidence_requirement": "Checkpoint/evidence URLs and successful release response"
+        }
+      ],
+      "acceptance_criteria": [
+        {
+          "criterion_id": "AC_PERMISSION_ACCURACY",
+          "title": "Every cross-repository API call is mapped to the minimum correct fine-grained token permissions, including conditional fallback calls",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Endpoint-to-permission matrix citing official GitHub documentation"
+        },
+        {
+          "criterion_id": "AC_DOC_CONSISTENCY",
+          "title": "All four operator documents give the same accurate instructions and clearly distinguish token scope from secret presence/configuration",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Read-back of all four files at the exact PR head"
+        },
+        {
+          "criterion_id": "AC_DRIFT_TEST",
+          "title": "Automated regression coverage detects mismatch between workflow cross-repo API calls and documented permissions",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Focused test source and successful exact-head test output"
+        },
+        {
+          "criterion_id": "AC_SAFE_HANDOFF",
+          "title": "Only scoped control-plane files changed; no secret/token values included; exact-head CI passes; PR is linked and lease released",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Changed-file list, secret-safety diff review, exact-head CI, PR URL and release evidence"
+        }
+      ],
+      "priority": 40,
+      "created_at_utc": "2026-11-21T04:30:01.972Z",
+      "ready_at_utc": "2026-11-21T04:30:01.972Z",
+      "effort_estimate_minutes": 25,
+      "effort_rationale": "Focused source audit, official permission verification, four-document correction, one drift regression, full validation and evidence handoff; target effort 25 minutes.",
+      "depth_profile": {
+        "profile_version": "2.0.0",
+        "min_substantive_steps": 6,
+        "min_acceptance_criteria": 4,
+        "min_deliverables": 3,
+        "target_effort_minutes": 25
+      },
+      "deliverables": [
+        {
+          "deliverable_id": "D1",
+          "description": "Endpoint-to-permission matrix for cross-repository acceptance",
+          "evidence_requirement": "Markdown table with official documentation references"
+        },
+        {
+          "deliverable_id": "D2",
+          "description": "Consistent operator-facing documentation for cross-repository token setup",
+          "evidence_requirement": "Read-back URLs for all four corrected documents"
+        },
+        {
+          "deliverable_id": "D3",
+          "description": "Automated documentation/workflow permission drift regression",
+          "evidence_requirement": "Test source and passing exact-head CI result"
+        }
       ]
     }
   },
