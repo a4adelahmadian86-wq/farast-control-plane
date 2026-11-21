@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3095,
+  "revision": 3096,
   "next_fencing_token": 166,
   "locks": [
     {
@@ -25433,7 +25433,7 @@
     },
     "7057537105": {
       "response": "STEP ثبت شد: S2_DEFINE_FAIL_CLOSED_POLICY; EXECUTION_PROGRESS=28.57%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=2/7.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 113,
       "actor": "a4adelahmadian86-wq",
       "command": "step",
