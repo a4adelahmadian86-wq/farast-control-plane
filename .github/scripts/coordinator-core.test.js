@@ -902,6 +902,13 @@ test('invalid blocked Work Item specifications are captured without aborting inb
   assert.equal(invalid.error, 'deep Work Item criteria need evidence_requirement');
 });
 
+test('blocked issue revalidation errors do not short-circuit the durable command inbox', () => {
+  const workflow = fs.readFileSync('.github/workflows/farast-coordinator.yml', 'utf8');
+  assert.ok(workflow.includes('coordinatorCore.captureWorkItemSpec(() => workItemSpecFor(issue))'));
+  assert.ok(workflow.includes('candidateWorkItemError'));
+  assert.ok(workflow.includes('continue to pending commands'));
+});
+
 test('branch ruleset gate requires active PR-only, non-fast-forward, deletion rules and no bypass actors', () => {
   const validRules = [
     {type:'pull_request',ruleset_id:17,ruleset_source_type:'Repository',parameters:{required_approving_review_count:0}},
