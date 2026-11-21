@@ -84,7 +84,7 @@ GitHub هویت واقعی ChatGPT chat را تأیید نمی‌کند. CHAT_ID
 
 
 ## پیش‌نیاز پذیرش PR در مخزن دیگر
-اگر PR مرتبط در مخزنی غیر از farast-control-plane (مانند مخزن محصول non) قرار دارد، در تنظیمات Actions مخزن کنترل‌پلین یک Repository Secret با نام FARAST_GITHUB_TOKEN تعریف کنید. توکن باید فقط دسترسی read به Pull requests و metadata مخزن هدف را داشته باشد. مقدار توکن هرگز در Issue یا فایل مخزن نوشته نشود. بدون این Secret، پذیرش cross-repository عمداً رد می‌شود؛ پس از تنظیم Secret یک فرمان accept جدید ثبت کنید.
+اگر PR در مخزنی غیر از farast-control-plane (مانند مخزن عمومی `non`) است، در Settings → Secrets and variables → Actions مخزن کنترل‌پلین یک Repository Secret با نام `FARAST_GITHUB_TOKEN` تعریف کنید. برای Fine-grained PAT محدود به مخزن مقصد، مجوزهای لازم عبارت‌اند از **Pull requests: write**، **Commit statuses: read** و **Contents: read** (فقط برای Compare ancestry در مسیر جایگزین)؛ **Metadata: read** پیش‌فرض است. Check Runهای مخزن عمومی از طریق درخواست بدون احراز هویت خوانده می‌شوند؛ Fine-grained PAT برای Checks API در مستندات فعلی GitHub به‌عنوان نوع توکن پشتیبانی‌شده فهرست نشده است. مخزن خصوصی تا افزودن GitHub App installation-token با Checks:read پشتیبانی نمی‌شود و fail-closed می‌ماند. مجوزهای Contents/Issues/Actions/Workflows/Administration write به PAT ندهید. مقدار توکن را هرگز در Issue، فایل، چت یا log ثبت نکنید. وجود یا مقدار Secret از اتصال فعلی قابل تأیید نیست. پس از تنظیم Secret، یک فرمان `/farast accept` جدید ثبت کنید.
 
 
 ## Branch وظیفه
