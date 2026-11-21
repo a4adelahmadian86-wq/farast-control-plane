@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3136,
+  "revision": 3137,
   "next_fencing_token": 167,
   "locks": [
     {
@@ -25735,6 +25735,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-21T10:05:00.628Z"
+    },
+    "7060997029": {
+      "response": "STEP ثبت شد: S2_MAP; EXECUTION_PROGRESS=28.57%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=2/7.",
+      "response_posted": false,
+      "issue_number": 19,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-21T10:05:19.016Z"
     }
   },
   "work_items": {
@@ -26323,7 +26332,14 @@
           "weight": 1,
           "expected_output": "خروجی قابل بازبینی برای مرحله: مقایسه رفتار واقعی با انتظار مصوب و ثبت دقیق نقطه اختلاف.",
           "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/non/blob/90c5d6b0546f9026b401901399ffde3f3106c305/routes/web.php"
+          ],
+          "validated_at_utc": "2026-11-21T10:05:19.015Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S3_ANALYZE",
