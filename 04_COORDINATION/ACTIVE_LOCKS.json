@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3410,
+  "revision": 3411,
   "next_fencing_token": 176,
   "locks": [
     {
@@ -28084,6 +28084,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-21T18:29:06.708Z"
+    },
+    "7067301495": {
+      "response": "STEP ثبت شد: S2_MINIMAL_FIX; EXECUTION_PROGRESS=50%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=3/6.",
+      "response_posted": false,
+      "issue_number": 107,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-21T18:30:23.983Z"
     }
   },
   "work_items": {
@@ -35405,7 +35414,14 @@
           "required": true,
           "weight": 1,
           "expected_output": "Focused implementation preserving fail-closed authorization and per-Issue isolation",
-          "evidence_requirement": "Diff and invariant explanation"
+          "evidence_requirement": "Diff and invariant explanation",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/116"
+          ],
+          "validated_at_utc": "2026-11-21T18:30:23.983Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S3_REGRESSION_TESTS",
