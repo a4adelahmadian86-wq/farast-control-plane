@@ -1,25 +1,8 @@
 {
   "schema_version": "1.0",
-  "revision": 3351,
+  "revision": 3352,
   "next_fencing_token": 171,
-  "locks": [
-    {
-      "resource_key": "analysis:exp-09",
-      "issue_number": 21,
-      "task_id": "GH-21",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "chat-farast-main-audit-20261121",
-      "chat_id": "chat-farast-main-audit-20261121",
-      "run_id": "RUN-20261121-EXP09-AI-01",
-      "target_repository": "a4adelahmadian86-wq/non",
-      "branch": null,
-      "acquired_at_utc": "2026-11-21T11:48:05.954Z",
-      "heartbeat_at_utc": "2026-11-21T12:08:43.759Z",
-      "lease_expires_at_utc": "2026-11-21T12:38:43.759Z",
-      "fencing_token": 170,
-      "status": "ACTIVE"
-    }
-  ],
+  "locks": [],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -13400,6 +13383,17 @@
       "target_repository": "a4adelahmadian86-wq/non",
       "lease_expires_at_utc": "2026-11-21T12:38:43.759Z",
       "at_utc": "2026-11-21T12:08:43.759Z"
+    },
+    {
+      "event": "RELEASE",
+      "issue_number": 21,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "chat-farast-main-audit-20261121",
+      "run_id": "RUN-20261121-EXP09-AI-01",
+      "fencing_token": 170,
+      "branch": null,
+      "target_repository": "a4adelahmadian86-wq/non",
+      "at_utc": "2026-11-21T12:09:06.716Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -27454,6 +27448,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-21T12:08:43.759Z"
+    },
+    "7062362334": {
+      "response": "Lease آزاد شد؛ وظیفه تکمیل‌شده محسوب نمی‌شود.",
+      "response_posted": false,
+      "issue_number": 21,
+      "actor": "a4adelahmadian86-wq",
+      "command": "release",
+      "next_status": "ready",
+      "at_utc": "2026-11-21T12:09:06.718Z"
     }
   },
   "work_items": {
