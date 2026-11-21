@@ -381,6 +381,22 @@ function evaluateBranchRules(effectiveRules, rulesetDetails = []) {
   };
 }
 
+function captureWorkItemSpec(readWorkItemSpec) {
+  if (typeof readWorkItemSpec !== 'function') throw new Error('readWorkItemSpec must be a function');
+  try {
+    const item = readWorkItemSpec();
+    return item
+      ? { ok: true, item, error: null }
+      : { ok: false, item: null, error: 'work_item_spec_missing' };
+  } catch (error) {
+    return {
+      ok: false,
+      item: null,
+      error: String(error?.message || error || 'invalid_work_item_specification').slice(0, 300)
+    };
+  }
+}
+
 const FARAST_COMMAND_RE = /^\s*\/farast\s+(claim|heartbeat|release|status|progress|step|criterion|checkpoint|block|unblock|review|reopen|accept|refresh)\b/i;
 
 function pendingCommandComments(comments, processedOperations = {}) {
@@ -409,5 +425,5 @@ module.exports = {
   isSafeRunId, roleForActor, isWithinDelegatedScope, isCommandAllowed, resourcesFor, targetRepositoryFor, branchForWritePolicy, resolveWritePolicy, expireLocks, activeForIssue,
   claimResources, renewLease, ownsLease, latestTaskStatus, matchesReviewLease, hasSuccessfulChecks,
   validateAllocationProvenance, hasVerifiedAllocationProvenance, recordAllocationProvenance, evaluateBranchRules,
-  pendingCommandComments, pendingResponseOperations, responseMarker
+  pendingCommandComments, pendingResponseOperations, responseMarker, captureWorkItemSpec
 };
