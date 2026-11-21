@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3179,
+  "revision": 3180,
   "next_fencing_token": 168,
   "locks": [
     {
@@ -26075,7 +26075,7 @@
     },
     "7061085978": {
       "response": "CLAIM GRANTED. TASK=GH-15; WORK_ITEM_ID=WI-EXP03-CAPABILITY-CATALOG-001; verified_steps=; remaining_steps=S1_DISCOVER,S2_MAP,S3_ANALYZE,S4_CROSSCHECK,S5_ASSESS,S6_REPORT,S7_VERIFY; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; actor=@a4adelahmadian86-wq; chat=chat-farast-main-audit-20261121; run=RUN-20261121-EXP03-CAPCAT-01; resource_keys=analysis:exp-03; target_repository=a4adelahmadian86-wq/non; write_policy=READ_ONLY; branch=none; previous_run=none; fencing_token=167; lease_expires=2026-11-21T10:43:31.237Z. این Work Item با سیاست READ_ONLY است؛ در target_repository هیچ branch، file، commit یا PR ایجاد/تغییر نده. شواهد را فقط در Issue thread یا محل مجاز control-plane ثبت کن؛ برای WRITE_REQUIRES_OWNER_APPROVAL فقط proposal ارائه بده.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 15,
       "actor": "a4adelahmadian86-wq",
       "command": "claim",
