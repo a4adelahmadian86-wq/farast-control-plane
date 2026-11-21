@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3501,
+  "revision": 3502,
   "next_fencing_token": 179,
   "locks": [
     {
@@ -28591,7 +28591,7 @@
     },
     "7067689714": {
       "response": "CLAIM GRANTED. TASK=GH-11; WORK_ITEM_ID=WI-GOAL-ALLOCATOR-001; verified_steps=S1_SCAN,S2_DECOMPOSE,S3_CREATE,S4_VERIFY,S5_RELEASE; remaining_steps=; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; actor=@a4adelahmadian86-wq; chat=CHAT-20261121-READINESS-02; run=RUN-20261121-BOOTSTRAP-ALLOC-001; resource_keys=coordination:work-item-allocation; target_repository=a4adelahmadian86-wq/farast-control-plane; write_policy=WRITE_ALLOWED; branch=none; previous_run=none; fencing_token=178; lease_expires=2026-11-21T19:30:57.360Z. این Work Item فقط مجاز به عملیات Issue/metadata صریحاً تعریف‌شده در دامنه خودش است؛ branch، file، commit یا PR ایجاد نکن و هیچ کد یا رجیستری را تغییر نده.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 11,
       "actor": "a4adelahmadian86-wq",
       "command": "claim",
