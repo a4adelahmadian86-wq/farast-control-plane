@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3273,
+  "revision": 3274,
   "next_fencing_token": 170,
   "locks": [
     {
@@ -26844,6 +26844,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-21T11:42:16.115Z"
+    },
+    "7062073905": {
+      "response": "STEP ثبت شد: S7_VERIFY; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=7/7.",
+      "response_posted": false,
+      "issue_number": 20,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-21T11:42:36.591Z"
     }
   },
   "work_items": {
@@ -28068,7 +28077,14 @@
           "weight": 1,
           "expected_output": "خروجی قابل بازبینی برای مرحله: ساخت state transition map و فهرست نقاط کنترل/تست.",
           "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/20#issuecomment-7062069270"
+          ],
+          "validated_at_utc": "2026-11-21T11:42:36.591Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "acceptance_criteria": [
