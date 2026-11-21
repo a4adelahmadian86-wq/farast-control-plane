@@ -877,11 +877,14 @@ test('cross-repository acceptance uses anonymous Checks reads for public targets
   assert.ok(workflow.includes('let checkRunsError ='));
   assert.ok(workflow.includes('if (checkRunsError) response ='));
   assert.ok(/private targets fail closed/i.test(workflow));
+  assert.ok(workflow.includes('baseBranchInfo.data.protected !== true'));
+  assert.ok(workflow.includes('baseBranchProtectionError'));
 
   for (const doc of docs) {
-    assert.match(doc, /Pull requests:\s*write/i);
+    assert.match(doc, /Pull requests:\s*read/i);
     assert.match(doc, /Commit statuses:\s*read/i);
-    assert.match(doc, /Contents:\s*read/i);
+    assert.match(doc, /Contents:\s*write/i);
+    assert.match(doc, /branch protection|ruleset/i);
     assert.match(doc, /Metadata:\s*read/i);
     assert.match(doc, /Checks API/i);
     assert.match(doc, /Fine-grained PAT/i);
