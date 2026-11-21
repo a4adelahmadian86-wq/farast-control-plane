@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3104,
+  "revision": 3105,
   "next_fencing_token": 166,
   "locks": [
     {
@@ -25487,6 +25487,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-21T04:53:50.951Z"
+    },
+    "7057548845": {
+      "response": "معیار پذیرش ثبت شد: AC_RULES_ENFORCED; ACCEPTANCE_PROGRESS=25%; OVERALL_COMPLETION=25%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 113,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-21T04:53:57.636Z"
     }
   },
   "work_items": {
@@ -32595,7 +32604,14 @@
           "title": "Coordinator accepts only when active effective rules include pull_request, non_fast_forward and deletion",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "Positive/negative tests and exact workflow gate"
+          "evidence_requirement": "Positive/negative tests and exact workflow gate",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44868124200"
+          ],
+          "validated_at_utc": "2026-11-21T04:53:57.636Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_NO_BYPASS",
