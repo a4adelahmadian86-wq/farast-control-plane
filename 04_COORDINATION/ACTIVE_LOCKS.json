@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3531,
+  "revision": 3532,
   "next_fencing_token": 180,
   "locks": [
     {
@@ -28866,6 +28866,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-21T19:07:40.213Z"
+    },
+    "7067763201": {
+      "response": "معیار پذیرش ثبت شد: AC_REFRESH_STATE; ACCEPTANCE_PROGRESS=50%; OVERALL_COMPLETION=50%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 119,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-21T19:07:46.351Z"
     }
   },
   "work_items": {
@@ -37286,9 +37295,15 @@
           "criterion_id": "AC_REFRESH_STATE",
           "title": "Refresh preserves REVIEW_REQUIRED when can_merge is true but can_accept is false",
           "required": true,
-          "validation_status": "NOT_RUN",
-          "evidence_refs": [],
-          "evidence_requirement": "Named refreshedStatus regression test and exact test output"
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44939011753",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/120"
+          ],
+          "evidence_requirement": "Named refreshedStatus regression test and exact test output",
+          "validated_at_utc": "2026-11-21T19:07:46.351Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_RULESET_FAIL_CLOSED",
