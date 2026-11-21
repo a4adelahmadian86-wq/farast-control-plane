@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3404,
+  "revision": 3405,
   "next_fencing_token": 176,
   "locks": [
     {
@@ -28033,6 +28033,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-21T18:26:16.086Z"
+    },
+    "7067262401": {
+      "response": "STEP ثبت شد: S1_ROOT_CAUSE; EXECUTION_PROGRESS=33.33%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=2/6.",
+      "response_posted": false,
+      "issue_number": 107,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-21T18:27:14.914Z"
     }
   },
   "work_items": {
@@ -35336,7 +35345,17 @@
           "required": true,
           "weight": 1,
           "expected_output": "Evidence-backed root cause, not a speculative workaround",
-          "evidence_requirement": "Exact source line references and workflow execution evidence"
+          "evidence_requirement": "Exact source line references and workflow execution evidence",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/.github/workflows/farast-coordinator.yml",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/.github/scripts/work-item-core.js",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/.github/scripts/inbox-scheduler.js",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/106"
+          ],
+          "validated_at_utc": "2026-11-21T18:27:14.913Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S2_MINIMAL_FIX",
