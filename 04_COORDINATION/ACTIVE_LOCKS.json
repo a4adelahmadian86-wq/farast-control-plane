@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3420,
+  "revision": 3421,
   "next_fencing_token": 176,
   "locks": [
     {
@@ -28129,6 +28129,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-21T18:32:13.216Z"
+    },
+    "7067328946": {
+      "response": "معیار پذیرش ثبت شد: AC_FAIL_CLOSED; ACCEPTANCE_PROGRESS=33.33%; OVERALL_COMPLETION=33.33%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 107,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-21T18:32:35.658Z"
     }
   },
   "work_items": {
@@ -35535,9 +35544,15 @@
           "criterion_id": "AC_FAIL_CLOSED",
           "title": "Missing, stale or mismatched allocator provenance remains blocked; no direct registry write or authorization bypass is introduced",
           "required": true,
-          "validation_status": "NOT_RUN",
-          "evidence_refs": [],
-          "evidence_requirement": "Negative tests for missing/stale/mismatched provenance and no registry bypass"
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/116",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44935805639"
+          ],
+          "evidence_requirement": "Negative tests for missing/stale/mismatched provenance and no registry bypass",
+          "validated_at_utc": "2026-11-21T18:32:35.657Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_CONCURRENCY",
