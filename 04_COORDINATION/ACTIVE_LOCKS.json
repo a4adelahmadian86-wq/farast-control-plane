@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3543,
+  "revision": 3544,
   "next_fencing_token": 180,
   "locks": [],
   "history": [
@@ -28866,6 +28866,19 @@
       "command": "review",
       "next_status": "review",
       "at_utc": "2026-11-21T19:09:00.797Z"
+    },
+    "7067803224": {
+      "response": "ادغام متوقف شد: قواعد مؤثر شاخه مقصد ناقص، غیرقابل‌خواندن یا قابل دور زدن است؛ پذیرش fail-closed شد: ruleset_bypass_actors_not_visible:27803824",
+      "response_posted": false,
+      "issue_number": 119,
+      "actor": "a4adelahmadian86-wq",
+      "command": "accept",
+      "next_status": null,
+      "pr_url": "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/120",
+      "pr_head_sha": "de496e7f4fb8ab3cc0360c4d9e157fc44c523c22",
+      "merge_commit_sha": "197b64aee087e2ed86e3a0a340d592c44b9337fb",
+      "lineage_mode": "EXACT_REVIEW_BRANCH",
+      "at_utc": "2026-11-21T19:09:35.321Z"
     }
   },
   "work_items": {
