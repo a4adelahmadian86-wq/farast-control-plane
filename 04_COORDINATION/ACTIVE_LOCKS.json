@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3020,
+  "revision": 3021,
   "next_fencing_token": 163,
   "locks": [
     {
@@ -12264,6 +12264,13 @@
       "previous_run_id": null,
       "fencing_token": 162,
       "at_utc": "2026-11-21T04:30:01.972Z"
+    },
+    {
+      "event": "WORK_ITEM_ALLOCATION_REJECTED",
+      "issue_number": 111,
+      "work_item_id": null,
+      "reason": "work_item_spec_missing",
+      "at_utc": "2026-11-21T04:31:25.264Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
