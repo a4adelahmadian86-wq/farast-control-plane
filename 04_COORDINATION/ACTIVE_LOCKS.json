@@ -1,25 +1,8 @@
 {
   "schema_version": "1.0",
-  "revision": 3229,
+  "revision": 3230,
   "next_fencing_token": 168,
-  "locks": [
-    {
-      "resource_key": "analysis:exp-03",
-      "issue_number": 15,
-      "task_id": "GH-15",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "chat-farast-main-audit-20261121",
-      "chat_id": "chat-farast-main-audit-20261121",
-      "run_id": "RUN-20261121-EXP03-CAPCAT-01",
-      "target_repository": "a4adelahmadian86-wq/non",
-      "branch": null,
-      "acquired_at_utc": "2026-11-21T10:13:31.237Z",
-      "heartbeat_at_utc": "2026-11-21T10:24:40.843Z",
-      "lease_expires_at_utc": "2026-11-21T10:54:40.843Z",
-      "fencing_token": 167,
-      "status": "ACTIVE"
-    }
-  ],
+  "locks": [],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -12930,6 +12913,17 @@
       "target_repository": "a4adelahmadian86-wq/non",
       "lease_expires_at_utc": "2026-11-21T10:54:40.843Z",
       "at_utc": "2026-11-21T10:24:40.843Z"
+    },
+    {
+      "event": "REVIEW",
+      "issue_number": 15,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "chat-farast-main-audit-20261121",
+      "run_id": "RUN-20261121-EXP03-CAPCAT-01",
+      "fencing_token": 167,
+      "branch": null,
+      "target_repository": "a4adelahmadian86-wq/non",
+      "at_utc": "2026-11-21T10:25:09.106Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -26453,6 +26447,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-21T10:24:40.843Z"
+    },
+    "7061218458": {
+      "response": "پیاده‌سازی برای اجرای گیت‌های ماشینی و پذیرش خودکار تحویل شد؛ این فرمان به‌تنهایی پذیرش نیست.",
+      "response_posted": false,
+      "issue_number": 15,
+      "actor": "a4adelahmadian86-wq",
+      "command": "review",
+      "next_status": "review",
+      "at_utc": "2026-11-21T10:25:09.107Z"
     }
   },
   "work_items": {
