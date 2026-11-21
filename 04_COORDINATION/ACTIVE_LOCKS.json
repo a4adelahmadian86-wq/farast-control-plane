@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3014,
+  "revision": 3015,
   "next_fencing_token": 162,
   "locks": [],
   "history": [
@@ -32383,8 +32383,8 @@
       },
       "106": {
         "reason": "Invalid Work item specification JSON in Issue #106: deep Work Item criteria need evidence_requirement",
-        "count": 16,
-        "last_seen_at_utc": "2026-11-20T16:52:24.456Z"
+        "count": 17,
+        "last_seen_at_utc": "2026-11-21T02:45:08.586Z"
       },
       "107": {
         "reason": "registry_cas_conflict: another Issue advanced the shared registry; this command remains durable and must be replayed. latest=5b25e6f54704dac434efa2c07526f01f97d43133; cause=Update is not a fast forward",
