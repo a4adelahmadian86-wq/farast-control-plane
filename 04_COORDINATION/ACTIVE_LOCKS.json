@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3394,
+  "revision": 3395,
   "next_fencing_token": 175,
   "locks": [],
   "history": [
@@ -27836,6 +27836,15 @@
       "command": "release",
       "next_status": "ready",
       "at_utc": "2026-11-21T16:38:37.862Z"
+    },
+    "7067183607": {
+      "response": "Claim رد شد: وضعیت وظیفه blocked/review/done است؛ ابتدا تصمیم مجاز لازم است.",
+      "response_posted": false,
+      "issue_number": 113,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": null,
+      "at_utc": "2026-11-21T18:20:46.013Z"
     }
   },
   "work_items": {
