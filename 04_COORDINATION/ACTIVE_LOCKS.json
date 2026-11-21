@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3537,
+  "revision": 3538,
   "next_fencing_token": 180,
   "locks": [
     {
@@ -28893,6 +28893,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-21T19:08:21.921Z"
+    },
+    "7067779629": {
+      "response": "وضعیت: LOCKED؛ مالک @a4adelahmadian86-wq؛ chat=CHAT-20261121-READINESS-02؛ run=RUN-20261121-STAGED-ACCEPTANCE-001؛ token=179؛ expiry=2026-11-21T19:35:52.441Z",
+      "response_posted": false,
+      "issue_number": 119,
+      "actor": "a4adelahmadian86-wq",
+      "command": "status",
+      "next_status": null,
+      "at_utc": "2026-11-21T19:08:29.136Z"
     }
   },
   "work_items": {
