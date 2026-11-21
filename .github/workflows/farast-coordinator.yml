@@ -568,10 +568,30 @@ jobs:
                             owner: prOwner, repo: prRepo, branch: pr.base.ref
                           });
                           if (baseBranchInfo.data.protected !== true) {
-                            baseBranchProtectionError = 'شاخه مقصد ' + pr.base.ref + ' محافظت‌شده نیست؛ تا فعال‌سازی branch protection/ruleset پذیرش و merge ممنوع است.';
+                            baseBranchProtectionError = 'شاخه مقصد ' + pr.base.ref + ' protected=false است؛ پذیرش و merge ممنوع است.';
+                          } else {
+                            const effectiveBranchRules = (await prClient.request(
+                              'GET /repos/{owner}/{repo}/rules/branches/{branch}',
+                              { owner: prOwner, repo: prRepo, branch: pr.base.ref, per_page: 100 }
+                            )).data;
+                            const repositoryRuleIds = [...new Set((Array.isArray(effectiveBranchRules) ? effectiveBranchRules : [])
+                              .filter(rule => rule?.ruleset_source_type === 'Repository' && rule?.ruleset_id)
+                              .map(rule => String(rule.ruleset_id)))];
+                            const applicableRuleSets = [];
+                            for (const rulesetId of repositoryRuleIds) {
+                              const detail = await prClient.request(
+                                'GET /repos/{owner}/{repo}/rulesets/{ruleset_id}',
+                                { owner: prOwner, repo: prRepo, ruleset_id: Number(rulesetId) }
+                              );
+                              applicableRuleSets.push(detail.data);
+                            }
+                            const branchRulesGate = coordinatorCore.evaluateBranchRules(effectiveBranchRules, applicableRuleSets);
+                            if (!branchRulesGate.ready) {
+                              baseBranchProtectionError = 'قواعد مؤثر شاخه مقصد ناقص، غیرقابل‌خواندن یا قابل دور زدن است؛ پذیرش fail-closed شد: ' + branchRulesGate.blockers.join(',');
+                            }
                           }
                         } catch (protectionError) {
-                          baseBranchProtectionError = 'وضعیت branch protection قابل تأیید نیست؛ پذیرش fail-closed شد: ' + String(protectionError.message || protectionError).slice(0, 180);
+                          baseBranchProtectionError = 'وضعیت ruleset شاخه مقصد قابل تأیید نیست؛ پذیرش fail-closed شد: ' + String(protectionError.message || protectionError).slice(0, 180);
                         }
                         const reviewEvent = [...state.history].reverse().find(x => x.issue_number === issue.number && x.event === 'REVIEW');
                         const branchBound = coordinatorCore.matchesReviewLease(pr, reviewEvent);
