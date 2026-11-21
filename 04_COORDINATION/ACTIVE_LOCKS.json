@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3110,
+  "revision": 3111,
   "next_fencing_token": 166,
   "locks": [
     {
@@ -25526,6 +25526,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-21T04:54:39.216Z"
+    },
+    "7057558999": {
+      "response": "معیار پذیرش ثبت شد: AC_NO_BYPASS; ACCEPTANCE_PROGRESS=50%; OVERALL_COMPLETION=50%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 113,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-21T04:54:45.646Z"
     }
   },
   "work_items": {
@@ -32655,7 +32664,14 @@
           "title": "Every applicable repository ruleset is readable and has no bypass actors; unknown sources fail closed",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "Tests for empty/nonempty bypass and unreadable ruleset"
+          "evidence_requirement": "Tests for empty/nonempty bypass and unreadable ruleset",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44868124200"
+          ],
+          "validated_at_utc": "2026-11-21T04:54:45.645Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_OWNER_RUNBOOK",
