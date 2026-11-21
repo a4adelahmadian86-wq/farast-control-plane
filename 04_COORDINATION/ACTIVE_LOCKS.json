@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3168,
+  "revision": 3169,
   "next_fencing_token": 167,
   "locks": [
     {
@@ -25975,6 +25975,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-21T10:10:54.076Z"
+    },
+    "7061059924": {
+      "response": "معیار پذیرش ثبت شد: AC_OUTPUT; ACCEPTANCE_PROGRESS=75%; OVERALL_COMPLETION=75%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 19,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-21T10:11:13.170Z"
     }
   },
   "work_items": {
@@ -26681,7 +26690,14 @@
         {
           "criterion_id": "AC_OUTPUT",
           "title": "خروجی‌های تخصصی EXP-07 تولید و read-back شده‌اند: gap register، root-cause tree، remediation options.",
-          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion."
+          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion.",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/19#issuecomment-7060987294"
+          ],
+          "validated_at_utc": "2026-11-21T10:11:13.169Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_ACCEPTANCE",
