@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3055,
+  "revision": 3056,
   "next_fencing_token": 164,
   "locks": [
     {
@@ -25123,6 +25123,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-21T04:41:36.827Z"
+    },
+    "7057417874": {
+      "response": "معیار پذیرش ثبت شد: AC_PERMISSION_ACCURACY; ACCEPTANCE_PROGRESS=25%; OVERALL_COMPLETION=25%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 111,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-21T04:41:44.413Z"
     }
   },
   "work_items": {
@@ -31998,7 +32007,14 @@
           "title": "Every cross-repository API call is mapped to the minimum correct fine-grained token permissions, including conditional fallback calls",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "Endpoint-to-permission matrix citing official GitHub documentation"
+          "evidence_requirement": "Endpoint-to-permission matrix citing official GitHub documentation",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://docs.github.com/en/rest/pulls/pulls#merge-a-pull-request"
+          ],
+          "validated_at_utc": "2026-11-21T04:41:44.413Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_DOC_CONSISTENCY",
