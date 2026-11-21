@@ -313,3 +313,10 @@ MASTER-00 یک فرمان ثابت برای تمام چت‌هاست؛ هر چت
 - مستندات رسمی جاری GitHub برای `PUT /repos/{owner}/{repo}/pulls/{pull_number}/merge` مجوز **Contents: write** را لازم می‌دانند، نه Pull requests:write. برای خواندن PR، Pull requests:read کافی است؛ برای combined commit status، Commit statuses:read لازم است؛ برای Compare ancestry، Contents:read لازم است که Contents:write آن را پوشش می‌دهد. Metadata:read پیش‌فرض است.
 - این سطح Contents:write وسیع است و قابلیت نوشتن مستقیم محتوا نیز دارد. به همین دلیل، coordinator اکنون پیش از پذیرش PR مقدار `protected=true` شاخه مقصد را بررسی می‌کند و اگر حفاظت فعال/قابل‌خواندن نباشد، fail-closed می‌شود.
 - وضعیت زنده هر دو مخزن در بازبینی: `farast-control-plane/main.protected=false` و `non/main.protected=false`. بنابراین تا فعال‌سازی و read-back Branch protection/ruleset شاخه‌های پیش‌فرض، Secret cross-repository را تنظیم نکنید.
+
+
+### گیت قواعد مؤثر شاخه — بازبینی 2026-11-21
+
+- `protected=true` به‌تنهایی اثبات نمی‌کند که direct push ممنوع است. گیت جدید پیش از پذیرش، Rules API را بررسی می‌کند: ruleهای `pull_request`، `non_fast_forward` و `deletion` باید فعال باشند؛ تعداد approval انسانی باید صفر باشد؛ جزئیات ruleset باید `enforcement=active` و `bypass_actors=[]` را به‌صورت قابل‌مشاهده برگرداند.
+- اگر bypass actors پنهان، ruleset غیرقابل‌خواندن، source سازمانی/ناشناخته یا rule ناقص باشد، merge fail-closed می‌شود.
+- راهنمای دقیق owner برای ساخت ruleset فعال روی `main` هر دو مخزن در [MANUAL_GITHUB_SETTINGS.md](MANUAL_GITHUB_SETTINGS.md) قرار دارد. این تنظیمات را ابزار متصل نمی‌تواند تغییر دهد.

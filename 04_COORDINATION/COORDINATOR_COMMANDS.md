@@ -148,3 +148,8 @@ Coordinator فقط برای `write_policy=WRITE_ALLOWED` مقدار branch را 
 - برای درخواست جدید NON، ابتدا discovery را READ_ONLY انجام بده و فایل‌ها/ماژول‌های واقعی درگیر را مشخص کن؛ سپس فقط همان file/dir/module keys را claim کن. کلید repo-wide را فقط برای migration یا تغییر واقعاً سراسری و غیرقابل‌تقسیم بگیر. اگر دامنه هنوز معلوم نیست، READ_ONLY بمان؛ از کلید عمومی repo:non برای همه درخواست‌ها استفاده نکن.
 - Concurrency برای هر Issue جداست؛ رویدادهای Issueهای مستقل می‌توانند هم‌زمان اجرا شوند. چون ACTIVE_LOCKS.json یک ref مشترک دارد، هر save با fast-forward CAS و force=false انجام می‌شود؛ فقط یکی از writerهایی که از یک snapshot شروع کرده‌اند می‌تواند ref را جلو ببرد. writer بازنده باید fail closed کند و فرمان را processed علامت نزند تا inbox پایدار در sweep بعدی replay کند. برای هر Issue در هر pass حداکثر ۳ فرمان قدیمی‌تر pending پردازش می‌شود. بعد از ثبت فرمان، پاسخ همان comment ID و وضعیت run را بررسی کن؛ فرمان‌های تکراری نفرست. نبود پاسخ یا run در صف به معنی resource lock نیست؛ فقط پاسخ صریح coordinator وضعیت LOCKED/CONFLICT را ثابت می‌کند.
 
+
+
+## گیت نهایی حفاظت شاخه مقصد
+
+پیش از پذیرش هر PR، Coordinator باید علاوه بر `protected=true`، از GitHub Rules API قواعد مؤثر شاخه مقصد را بخواند و وجود `pull_request`، `non_fast_forward` و `deletion` را احراز کند. قانون PR باید `required_approving_review_count=0` داشته باشد تا بازبین انسانی دوم لازم نباشد. سپس جزئیات تمام rulesetهای مؤثر repository-level را می‌خواند و فقط وقتی ادامه می‌دهد که `enforcement=active` و `bypass_actors=[]` قابل مشاهده باشند. نبود rule، منبع ناشناخته/سازمانی، ruleset غیر فعال، فیلد bypass پنهان یا هر bypass actor یعنی رد پذیرش. قواعد owner setup در [MANUAL_GITHUB_SETTINGS.md](MANUAL_GITHUB_SETTINGS.md) آمده است.

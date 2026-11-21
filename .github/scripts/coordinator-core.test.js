@@ -890,3 +890,66 @@ test('cross-repository acceptance uses anonymous Checks reads for public targets
     assert.match(doc, /Fine-grained PAT/i);
   }
 });
+
+
+test('branch ruleset gate requires active PR-only, non-fast-forward, deletion rules and no bypass actors', () => {
+  const validRules = [
+    {type:'pull_request',ruleset_id:17,ruleset_source_type:'Repository',parameters:{required_approving_review_count:0}},
+    {type:'non_fast_forward',ruleset_id:17,ruleset_source_type:'Repository'},
+    {type:'deletion',ruleset_id:17,ruleset_source_type:'Repository'}
+  ];
+  const validDetails = [{
+    id:17,source_type:'Repository',enforcement:'active',bypass_actors:[],
+    rules:[{type:'pull_request',parameters:{required_approving_review_count:0}},{type:'non_fast_forward'},{type:'deletion'}]
+  }];
+  assert.equal(core.evaluateBranchRules(validRules, validDetails).ready, true);
+
+  for (const missingType of ['pull_request','non_fast_forward','deletion']) {
+    const result = core.evaluateBranchRules(validRules.filter(rule=>rule.type!==missingType), validDetails);
+    assert.equal(result.ready, false);
+    assert.ok(result.blockers.includes('missing_effective_rule:' + missingType));
+  }
+
+  const approvalRequired = validRules.map(rule=>rule.type==='pull_request'
+    ? {...rule,parameters:{required_approving_review_count:1}} : rule);
+  assert.ok(core.evaluateBranchRules(approvalRequired, validDetails).blockers.includes('human_approval_required_or_unverified'));
+
+  const bypassed = [{...validDetails[0],bypass_actors:[{actor_id:123,actor_type:'User',bypass_mode:'always'}]}];
+  assert.ok(core.evaluateBranchRules(validRules,bypassed).blockers.includes('ruleset_has_bypass_actors:17'));
+
+  const hiddenBypassActors = [{id:17,source_type:'Repository',enforcement:'active'}];
+  assert.ok(core.evaluateBranchRules(validRules,hiddenBypassActors).blockers.includes('ruleset_bypass_actors_not_visible:17'));
+
+  const inactive = [{...validDetails[0],enforcement:'evaluate'}];
+  assert.ok(core.evaluateBranchRules(validRules,inactive).blockers.includes('ruleset_not_active:17'));
+
+  const unsupportedSource = validRules.map(rule=>({...rule,ruleset_source_type:'Organization'}));
+  assert.ok(core.evaluateBranchRules(unsupportedSource,validDetails).blockers.includes('unknown_or_unsupported_ruleset_source'));
+});
+
+test('coordinator acceptance fetches effective branch rules and fails closed through the ruleset evaluator', () => {
+  const workflow = fs.readFileSync('.github/workflows/farast-coordinator.yml','utf8');
+  assert.ok(workflow.includes('GET /repos/{owner}/{repo}/rules/branches/{branch}'));
+  assert.ok(workflow.includes('GET /repos/{owner}/{repo}/rulesets/{ruleset_id}'));
+  assert.ok(workflow.includes('coordinatorCore.evaluateBranchRules(effectiveBranchRules, applicableRuleSets)'));
+  assert.ok(workflow.includes('branchRulesGate.blockers.join'));
+});
+
+
+test('owner runbook documents active main rulesets, zero approvals and an empty bypass list for both repositories', () => {
+  const manual = fs.readFileSync('04_COORDINATION/MANUAL_GITHUB_SETTINGS.md','utf8');
+  const commands = fs.readFileSync('04_COORDINATION/COORDINATOR_COMMANDS.md','utf8');
+  const readiness = fs.readFileSync('04_COORDINATION/MULTI_CHAT_READINESS.md','utf8');
+  for (const text of [manual,commands,readiness]) {
+    assert.match(text, /pull_request/);
+    assert.match(text, /non_fast_forward/);
+    assert.match(text, /deletion/);
+    assert.match(text, /bypass_actors/);
+  }
+  assert.match(manual, /approval.{0,40}(0|صفر)/i);
+  assert.match(commands, /required_approving_review_count=0/);
+  assert.match(readiness, /approval.{0,40}(0|صفر)/i);
+  assert.match(manual, /farast-control-plane/);
+  assert.match(manual, /a4adelahmadian86-wq\/non/);
+  assert.match(manual, /Bypass list/);
+});

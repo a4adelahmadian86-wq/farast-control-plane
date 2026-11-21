@@ -62,3 +62,27 @@ Branch `coordination/locks` منبع registry است. حذف تصادفی آن �
 
 ## تفویض اختیار فرمان‌های چندچتی
 سیاست فعال در `04_COORDINATION/ACTOR_AUTHORIZATION.json` اعمال می‌شود: OWNER همه فرمان‌ها را دارد؛ COLLABORATOR/MEMBER به‌صورت پیش‌فرض نقش WORKER می‌گیرند (claim/heartbeat/release/status/block/review) و حق unblock/reopen/accept ندارند. نقش SENIOR_MANAGER تمام فرمان‌ها را فقط پس از درج دقیق GitHub login در `actor_roles` و تعیین دقیق `repositories` و `resource_key_prefixes` در `actor_scopes`، با تأیید مالک دریافت می‌کند؛ خارج از آن scope فرمان رد می‌شود. READ_ONLY فقط status دارد. `actor_roles` فعلاً خالی است؛ بنابراین هیچ مدیر ارشدی به‌صورت حدسی مجاز نشده است. تغییر این فایل باید از PR و با تأیید مالک انجام شود.
+
+
+## قواعد الزامی Ruleset برای شاخه main — قبل از فعال‌سازی توکن
+
+این تنظیم باید جداگانه در هر دو مخزن `a4adelahmadian86-wq/farast-control-plane` و `a4adelahmadian86-wq/non` انجام شود. ابزار متصل فعلی فقط خواندن GitHub را در این endpointها پشتیبانی می‌کند؛ بنابراین خودکار تغییرش نمی‌دهیم.
+
+1. وارد **Settings → Rules → Rulesets → New branch ruleset** شوید.
+2. نامی مانند `FARAST-main-protection` انتخاب کنید و **Enforcement status = Active** بگذارید.
+3. Target را روی Branches قرار دهید و فقط `main` را هدف بگیرید.
+4. این Ruleها را فعال کنید:
+   - **Require a pull request before merging**؛ تعداد approval اجباری را **0** بگذارید تا به بازبین انسانی دوم وابسته نشوید.
+   - **Block force pushes**.
+   - **Restrict deletions**.
+5. بخش **Bypass list** باید کاملاً خالی باشد؛ هیچ User، Team، Role یا Integration را اضافه نکنید.
+6. Ruleset را ذخیره کنید. هیچ توکن یا secret در این صفحه یا Issue ثبت نکنید.
+7. read-back را انجام دهید:
+   - Branch API باید `protected=true` برگرداند.
+   - Rules for a branch باید rule typeهای `pull_request`، `non_fast_forward` و `deletion` را برگرداند.
+   - جزئیات ruleset باید `enforcement=active` و `bypass_actors=[]` را نشان دهد.
+8. همین مراحل را برای مخزن دوم نیز انجام دهید.
+
+Coordinator فقط به `protected=true` اکتفا نمی‌کند؛ اکنون ruleهای مؤثر، تعداد approval صفر، فعال بودن ruleset و خالی بودن bypass actors را بررسی می‌کند. اگر GitHub فیلد `bypass_actors` را به‌دلیل نداشتن دسترسی مشاهده‌کننده برنگرداند، پذیرش fail-closed می‌شود. برای عبور از این گیت، سطح Administration:write را صرفاً برای دور زدن خطا به PAT اضافه نکنید؛ ابتدا باید دسترسی امن و read-only لازم برای مشاهده تنظیمات ruleset مشخص شود.
+
+تا وقتی این read-back برای هر دو مخزن موفق نشده، `FARAST_GITHUB_TOKEN` را تنظیم نکنید. این توکن به Contents:write نیاز دارد و بدون قواعد PR-only می‌تواند محتوای شاخه اصلی را مستقیماً تغییر دهد.
