@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3189,
+  "revision": 3190,
   "next_fencing_token": 168,
   "locks": [
     {
@@ -26153,6 +26153,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-21T10:17:05.203Z"
+    },
+    "7061130961": {
+      "response": "STEP ثبت شد: S2_MAP; EXECUTION_PROGRESS=28.57%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=2/7.",
+      "response_posted": false,
+      "issue_number": 15,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-21T10:17:23.672Z"
     }
   },
   "work_items": {
@@ -26741,7 +26750,14 @@
           "weight": 1,
           "expected_output": "خروجی قابل بازبینی برای مرحله: کشف entry pointهای UI، route، controller، API و commandها.",
           "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/non/blob/90c5d6b0546f9026b401901399ffde3f3106c305/routes/web_core_part1.php"
+          ],
+          "validated_at_utc": "2026-11-21T10:17:23.672Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S3_ANALYZE",
