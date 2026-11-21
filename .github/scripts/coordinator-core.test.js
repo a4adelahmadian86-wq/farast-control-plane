@@ -934,3 +934,20 @@ test('coordinator acceptance fetches effective branch rules and fails closed thr
   assert.ok(workflow.includes('coordinatorCore.evaluateBranchRules(effectiveBranchRules, applicableRuleSets)'));
   assert.ok(workflow.includes('branchRulesGate.blockers.join'));
 });
+
+
+test('owner runbook documents active main rulesets, zero approvals and an empty bypass list for both repositories', () => {
+  const manual = fs.readFileSync('04_COORDINATION/MANUAL_GITHUB_SETTINGS.md','utf8');
+  const commands = fs.readFileSync('04_COORDINATION/COORDINATOR_COMMANDS.md','utf8');
+  const readiness = fs.readFileSync('04_COORDINATION/MULTI_CHAT_READINESS.md','utf8');
+  for (const text of [manual,commands,readiness]) {
+    assert.match(text, /pull_request/);
+    assert.match(text, /non_fast_forward/);
+    assert.match(text, /deletion/);
+    assert.match(text, /bypass_actors/);
+    assert.match(text, /approval.{0,40}0|0.{0,40}approval/i);
+  }
+  assert.match(manual, /farast-control-plane/);
+  assert.match(manual, /a4adelahmadian86-wq\/non/);
+  assert.match(manual, /Bypass list/);
+});
