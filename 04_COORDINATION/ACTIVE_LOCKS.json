@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3418,
+  "revision": 3419,
   "next_fencing_token": 176,
   "locks": [
     {
@@ -28120,6 +28120,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-21T18:31:42.333Z"
+    },
+    "7067324559": {
+      "response": "معیار پذیرش ثبت شد: AC_COMMAND_REPLAY; ACCEPTANCE_PROGRESS=16.66%; OVERALL_COMPLETION=16.66%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 107,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-21T18:32:13.216Z"
     }
   },
   "work_items": {
@@ -35512,9 +35521,15 @@
           "criterion_id": "AC_COMMAND_REPLAY",
           "title": "Owner status/refresh and valid command comments on blocked tasks are processed or durably replayed; no silent command starvation",
           "required": true,
-          "validation_status": "NOT_RUN",
-          "evidence_refs": [],
-          "evidence_requirement": "Issue comment IDs, coordinator response markers and durable inbox processing evidence"
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/116",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44935805639"
+          ],
+          "evidence_requirement": "Issue comment IDs, coordinator response markers and durable inbox processing evidence",
+          "validated_at_utc": "2026-11-21T18:32:13.215Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_FAIL_CLOSED",
