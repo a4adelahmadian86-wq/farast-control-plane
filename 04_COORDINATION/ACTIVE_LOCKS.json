@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3402,
+  "revision": 3403,
   "next_fencing_token": 176,
   "locks": [
     {
@@ -28024,6 +28024,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-21T18:26:08.092Z"
+    },
+    "7067251163": {
+      "response": "STEP ثبت شد: S0_REPRODUCE; EXECUTION_PROGRESS=16.66%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=1/6.",
+      "response_posted": false,
+      "issue_number": 107,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-21T18:26:16.086Z"
     }
   },
   "work_items": {
@@ -35291,7 +35300,7 @@
         "CP-03",
         "CP-04"
       ],
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "file:.github/workflows/farast-coordinator.yml",
@@ -35310,7 +35319,16 @@
           "required": true,
           "weight": 1,
           "expected_output": "Timestamped reproduction and current state evidence",
-          "evidence_requirement": "Issue #106 URL, main SHA, exact comment IDs, current lease status"
+          "evidence_requirement": "Issue #106 URL, main SHA, exact comment IDs, current lease status",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/106",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/107",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/04_COORDINATION/ACTIVE_LOCKS.json"
+          ],
+          "validated_at_utc": "2026-11-21T18:26:16.085Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S1_ROOT_CAUSE",
