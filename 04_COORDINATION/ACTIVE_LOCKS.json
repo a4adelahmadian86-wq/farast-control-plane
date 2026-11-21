@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3258,
+  "revision": 3259,
   "next_fencing_token": 170,
   "locks": [
     {
@@ -26733,6 +26733,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-21T11:39:40.442Z"
+    },
+    "7062045251": {
+      "response": "STEP ثبت شد: S4_CROSSCHECK; EXECUTION_PROGRESS=57.14%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=4/7.",
+      "response_posted": false,
+      "issue_number": 20,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-21T11:40:01.858Z"
     }
   },
   "work_items": {
@@ -27909,7 +27918,14 @@
           "weight": 1,
           "expected_output": "خروجی قابل بازبینی برای مرحله: بررسی delivery/entitlement/access grant و رابطه آن با پرداخت موفق/ناموفق.",
           "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/non/blob/90c5d6b0546f9026b401901399ffde3f3106c305/app/Services/StoreCourseEnrollmentService.php"
+          ],
+          "validated_at_utc": "2026-11-21T11:40:01.858Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S5_ASSESS",
