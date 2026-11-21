@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3123,
+  "revision": 3124,
   "next_fencing_token": 166,
   "locks": [],
   "history": [
@@ -25589,7 +25589,7 @@
     },
     "7057573124": {
       "response": "ادغام متوقف شد: شاخه مقصد main محافظت‌شده نیست؛ تا فعال‌سازی branch protection/ruleset پذیرش و merge ممنوع است.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 113,
       "actor": "a4adelahmadian86-wq",
       "command": "accept",
