@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3067,
+  "revision": 3068,
   "next_fencing_token": 164,
   "locks": [
     {
@@ -25201,6 +25201,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-21T04:42:55.968Z"
+    },
+    "7057435773": {
+      "response": "معیار پذیرش ثبت شد: AC_SAFE_HANDOFF; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; can_accept=true.",
+      "response_posted": false,
+      "issue_number": 111,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-21T04:43:11.454Z"
     }
   },
   "work_items": {
@@ -31957,7 +31966,7 @@
         "branch": null,
         "allocated_at_utc": "2026-11-21T04:30:01.972Z"
       },
-      "status": "IN_PROGRESS",
+      "status": "REVIEW_REQUIRED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "repo:farast-control-plane"
@@ -32125,7 +32134,14 @@
           "title": "Only scoped control-plane files changed; no secret/token values included; exact-head CI passes; PR is linked and lease released",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "Changed-file list, secret-safety diff review, exact-head CI, PR URL and release evidence"
+          "evidence_requirement": "Changed-file list, secret-safety diff review, exact-head CI, PR URL and release evidence",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/112"
+          ],
+          "validated_at_utc": "2026-11-21T04:43:11.454Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "priority": 40,
