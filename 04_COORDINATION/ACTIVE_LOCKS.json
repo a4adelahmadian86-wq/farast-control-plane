@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3225,
+  "revision": 3226,
   "next_fencing_token": 168,
   "locks": [
     {
@@ -26423,6 +26423,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-21T10:23:53.976Z"
+    },
+    "7061208620": {
+      "response": "معیار پذیرش ثبت شد: AC_ACCEPTANCE; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; can_accept=true.",
+      "response_posted": false,
+      "issue_number": 15,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-21T10:24:21.220Z"
     }
   },
   "work_items": {
@@ -26981,7 +26990,7 @@
       "parent_exp_ids": [
         "EXP-03"
       ],
-      "status": "IN_PROGRESS",
+      "status": "REVIEW_REQUIRED",
       "target_repository": "a4adelahmadian86-wq/non",
       "resource_keys": [
         "analysis:exp-03"
@@ -27141,7 +27150,14 @@
         {
           "criterion_id": "AC_ACCEPTANCE",
           "title": "هر قابلیت شناسه و منبع دارد؛ وضعیت با evidence؛ قابلیت‌های پنهان/غیرفعال تفکیک؛ ادعای پوشش کامل بدون روش کشف ممنوع.",
-          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion."
+          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion.",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/15#issuecomment-7061118490"
+          ],
+          "validated_at_utc": "2026-11-21T10:24:21.219Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "priority": 50,
