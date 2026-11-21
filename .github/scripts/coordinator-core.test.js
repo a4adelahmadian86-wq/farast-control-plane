@@ -902,6 +902,14 @@ test('invalid blocked Work Item specifications are captured without aborting inb
   assert.equal(invalid.error, 'deep Work Item criteria need evidence_requirement');
 });
 
+test('ruleset bypass actor verification uses a dedicated Administration-read token and fails closed without it', () => {
+  const workflow = fs.readFileSync('.github/workflows/farast-coordinator.yml', 'utf8');
+  assert.ok(workflow.includes('FARAST_RULESET_READ_TOKEN: ${{ secrets.FARAST_RULESET_READ_TOKEN }}'));
+  assert.ok(workflow.includes('const rulesetReadGithub = process.env.FARAST_RULESET_READ_TOKEN'));
+  assert.ok(workflow.includes('rulesetReadGithub.request('));
+  assert.ok(workflow.includes('ruleset_bypass_actors_not_visible'));
+});
+
 test('blocked issue revalidation errors do not short-circuit the durable command inbox', () => {
   const workflow = fs.readFileSync('.github/workflows/farast-coordinator.yml', 'utf8');
   assert.ok(workflow.includes('coordinatorCore.captureWorkItemSpec(() => workItemSpecFor(issue))'));
