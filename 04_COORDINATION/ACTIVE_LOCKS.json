@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3412,
+  "revision": 3413,
   "next_fencing_token": 176,
   "locks": [
     {
@@ -28093,6 +28093,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-21T18:30:23.983Z"
+    },
+    "7067307049": {
+      "response": "STEP ثبت شد: S3_REGRESSION_TESTS; EXECUTION_PROGRESS=66.66%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=4/6.",
+      "response_posted": false,
+      "issue_number": 107,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-21T18:30:46.655Z"
     }
   },
   "work_items": {
@@ -35429,7 +35438,15 @@
           "required": true,
           "weight": 1,
           "expected_output": "Automated tests covering the reproduced failure and recovery",
-          "evidence_requirement": "Named tests and test output"
+          "evidence_requirement": "Named tests and test output",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44935805639",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/116"
+          ],
+          "validated_at_utc": "2026-11-21T18:30:46.654Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S4_VALIDATE",
