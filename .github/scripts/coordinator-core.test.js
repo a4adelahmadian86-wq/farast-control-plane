@@ -879,10 +879,10 @@ test('cross-repository acceptance uses anonymous Checks reads for public targets
   assert.ok(workflow.includes('private targets fail closed'));
 
   for (const doc of docs) {
-    assert.match(doc, /Pull requests:\\s*write/i);
-    assert.match(doc, /Commit statuses:\\s*read/i);
-    assert.match(doc, /Contents:\\s*read/i);
-    assert.match(doc, /Metadata:\\s*read/i);
+    assert.match(doc, /Pull requests:\s*write/i);
+    assert.match(doc, /Commit statuses:\s*read/i);
+    assert.match(doc, /Contents:\s*read/i);
+    assert.match(doc, /Metadata:\s*read/i);
     assert.match(doc, /Checks API/i);
     assert.match(doc, /Fine-grained PAT/i);
   }
