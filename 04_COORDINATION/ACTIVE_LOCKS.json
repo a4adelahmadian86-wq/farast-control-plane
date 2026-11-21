@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3428,
+  "revision": 3429,
   "next_fencing_token": 176,
   "locks": [
     {
@@ -28165,6 +28165,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-21T18:33:56.938Z"
+    },
+    "7067350972": {
+      "response": "معیار پذیرش ثبت شد: AC_REVALIDATE; ACCEPTANCE_PROGRESS=83.33%; OVERALL_COMPLETION=83.33%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 107,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-21T18:34:20.437Z"
     }
   },
   "work_items": {
@@ -35549,9 +35558,15 @@
           "criterion_id": "AC_REVALIDATE",
           "title": "A corrected blocked Work Item with valid ISO created_at_utc and matching live allocator provenance can be revalidated through the documented owner workflow; Issue #106 reaches READY or receives a precise actionable blocker",
           "required": true,
-          "validation_status": "NOT_RUN",
-          "evidence_refs": [],
-          "evidence_requirement": "Corrected Issue #106 read-back, valid allocation provenance and coordinator response showing READY or a precise blocker"
+          "validation_status": "BLOCKED",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/106",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/116"
+          ],
+          "evidence_requirement": "Corrected Issue #106 read-back, valid allocation provenance and coordinator response showing READY or a precise blocker",
+          "validated_at_utc": "2026-11-21T18:34:20.436Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Issue 106 still has missing deep-criterion evidence_requirement and stale allocator token 156. Live refresh verification must wait until PR 116 is merged; Issue 106 body and provenance were not changed."
         },
         {
           "criterion_id": "AC_COMMAND_REPLAY",
