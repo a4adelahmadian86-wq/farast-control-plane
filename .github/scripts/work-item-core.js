@@ -173,7 +173,8 @@ function evidenceVerified(record) {
 function refreshedStatus(previousStatus, progress, hardGatesReady) {
   if (TERMINAL.has(previousStatus)) return previousStatus;
   if (!hardGatesReady) return 'BLOCKED';
-  if (progress.can_accept) return 'REVIEW_REQUIRED';
+  // A Work Item with only POST_MERGE criteria still needs PR review/merge; do not downgrade it to READY after refresh.
+  if (progress.can_merge || progress.can_accept) return 'REVIEW_REQUIRED';
   return progress.verified_steps > 0 ? 'IN_PROGRESS' : 'READY';
 }
 
