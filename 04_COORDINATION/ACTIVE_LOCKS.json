@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3103,
+  "revision": 3104,
   "next_fencing_token": 166,
   "locks": [
     {
@@ -25481,7 +25481,7 @@
     },
     "7057548560": {
       "response": "STEP ثبت شد: S5_DOCUMENT_OWNER_RUNBOOK; EXECUTION_PROGRESS=71.42%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=5/7.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 113,
       "actor": "a4adelahmadian86-wq",
       "command": "step",
