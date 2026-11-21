@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3521,
+  "revision": 3522,
   "next_fencing_token": 180,
   "locks": [
     {
@@ -28821,6 +28821,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-21T19:06:23.522Z"
+    },
+    "7067759677": {
+      "response": "STEP ثبت شد: S3_RULESET_READ; EXECUTION_PROGRESS=57.14%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=4/7.",
+      "response_posted": false,
+      "issue_number": 119,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-21T19:06:30.979Z"
     }
   },
   "work_items": {
@@ -37166,7 +37175,14 @@
           "required": true,
           "weight": 1,
           "expected_output": "Least-privilege ruleset read path without adding any write permissions or bypass",
-          "evidence_requirement": "Workflow diff, explicit missing-token fail-closed test and documented secret permission boundary"
+          "evidence_requirement": "Workflow diff, explicit missing-token fail-closed test and documented secret permission boundary",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/120"
+          ],
+          "validated_at_utc": "2026-11-21T19:06:30.979Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S4_REGRESSION_TESTS",
