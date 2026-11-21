@@ -694,11 +694,15 @@ test('Work Item acceptance progress is checked before any PR merge', () => {
   const workflow = fs.readFileSync('.github/workflows/farast-coordinator.yml', 'utf8');
   const start = workflow.indexOf('const mergeOperation =');
   const progress = workflow.indexOf('const acceptanceProgress = acceptanceItem ? workItemCore.calculateProgress(acceptanceItem)', start);
-  const rejection = workflow.indexOf('else if (acceptanceItem && !acceptanceProgress.can_accept)', start);
+  const rejection = workflow.indexOf('else if (acceptanceItem && !acceptanceProgress.can_merge)', start);
   const merge = workflow.indexOf('prClient.rest.pulls.merge', start);
+  const finalAcceptance = workflow.indexOf('if (acceptanceProgress.can_accept)', merge);
+  const pendingPostMerge = workflow.indexOf('معیارهای POST_MERGE باید پس از ادغام', finalAcceptance);
   assert.ok(start >= 0);
   assert.ok(progress > start && progress < merge);
   assert.ok(rejection > progress && rejection < merge);
+  assert.ok(finalAcceptance > merge);
+  assert.ok(pendingPostMerge > finalAcceptance);
 });
 
 
@@ -891,6 +895,15 @@ test('cross-repository acceptance uses anonymous Checks reads for public targets
   }
 });
 
+
+test('ruleset bypass actor verification uses a dedicated Administration-read token and fails closed without it', () => {
+  const workflow = fs.readFileSync('.github/workflows/farast-coordinator.yml', 'utf8');
+  const coreSource = fs.readFileSync('.github/scripts/coordinator-core.js', 'utf8');
+  assert.ok(workflow.includes('FARAST_RULESET_READ_TOKEN: ${{ secrets.FARAST_RULESET_READ_TOKEN }}'));
+  assert.ok(workflow.includes('const rulesetReadGithub = process.env.FARAST_RULESET_READ_TOKEN'));
+  assert.ok(workflow.includes('rulesetReadGithub.request('));
+  assert.ok(coreSource.includes('ruleset_bypass_actors_not_visible'));
+});
 
 test('branch ruleset gate requires active PR-only, non-fast-forward, deletion rules and no bypass actors', () => {
   const validRules = [
