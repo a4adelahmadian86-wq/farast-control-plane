@@ -1,8 +1,25 @@
 {
   "schema_version": "1.0",
-  "revision": 3031,
-  "next_fencing_token": 163,
-  "locks": [],
+  "revision": 3032,
+  "next_fencing_token": 164,
+  "locks": [
+    {
+      "resource_key": "repo:farast-control-plane",
+      "issue_number": 111,
+      "task_id": "GH-111",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-20261121-READINESS-01",
+      "chat_id": "CHAT-20261121-READINESS-01",
+      "run_id": "RUN-20261121-CROSSREPO-TOKEN-SCOPE-002",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-111-RUN-20261121-CROSSREPO-TOKEN-SCOPE-002",
+      "acquired_at_utc": "2026-11-21T04:33:58.484Z",
+      "heartbeat_at_utc": "2026-11-21T04:33:58.484Z",
+      "lease_expires_at_utc": "2026-11-21T05:03:58.484Z",
+      "fencing_token": 163,
+      "status": "ACTIVE"
+    }
+  ],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -12288,6 +12305,23 @@
       "branch": null,
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "at_utc": "2026-11-21T04:33:41.466Z"
+    },
+    {
+      "event": "ACQUIRED",
+      "issue_number": 111,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-20261121-READINESS-01",
+      "run_id": "RUN-20261121-CROSSREPO-TOKEN-SCOPE-002",
+      "resource_keys": [
+        "repo:farast-control-plane"
+      ],
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-111-RUN-20261121-CROSSREPO-TOKEN-SCOPE-002",
+      "previous_branch": null,
+      "previous_target_repository": null,
+      "previous_run_id": null,
+      "fencing_token": 163,
+      "at_utc": "2026-11-21T04:33:58.484Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -24921,6 +24955,15 @@
       "command": "release",
       "next_status": "ready",
       "at_utc": "2026-11-21T04:33:41.467Z"
+    },
+    "7057338056": {
+      "response": "CLAIM GRANTED. TASK=GH-111; WORK_ITEM_ID=WI-CP-CROSSREPO-TOKEN-SCOPE-001; verified_steps=; remaining_steps=S1_AUDIT_CALLS,S2_VERIFY_GITHUB_PERMISSIONS,S3_FIX_OPERATOR_DOCS,S4_ADD_DRIFT_REGRESSION,S5_VALIDATE,S6_HANDOFF,S7_EVIDENCE_RELEASE; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; actor=@a4adelahmadian86-wq; chat=CHAT-20261121-READINESS-01; run=RUN-20261121-CROSSREPO-TOKEN-SCOPE-002; resource_keys=repo:farast-control-plane; target_repository=a4adelahmadian86-wq/farast-control-plane; write_policy=WRITE_ALLOWED; branch=work/GH-111-RUN-20261121-CROSSREPO-TOKEN-SCOPE-002; previous_run=none; fencing_token=163; lease_expires=2026-11-21T05:03:58.484Z. این Work Item با سیاست WRITE_ALLOWED است؛ branch را فقط در target_repository ثبت‌شده بساز و قبل از هر write heartbeat/token را دوباره تأیید کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز و branch قبلی را تغییر نده.",
+      "response_posted": false,
+      "issue_number": 111,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "locked",
+      "at_utc": "2026-11-21T04:33:58.489Z"
     }
   },
   "work_items": {
@@ -31677,7 +31720,7 @@
         "branch": null,
         "allocated_at_utc": "2026-11-21T04:30:01.972Z"
       },
-      "status": "READY",
+      "status": "CLAIMED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "repo:farast-control-plane"
