@@ -1,25 +1,8 @@
 {
   "schema_version": "1.0",
-  "revision": 3069,
+  "revision": 3070,
   "next_fencing_token": 164,
-  "locks": [
-    {
-      "resource_key": "repo:farast-control-plane",
-      "issue_number": 111,
-      "task_id": "GH-111",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "CHAT-20261121-READINESS-01",
-      "chat_id": "CHAT-20261121-READINESS-01",
-      "run_id": "RUN-20261121-CROSSREPO-TOKEN-SCOPE-002",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": "work/GH-111-RUN-20261121-CROSSREPO-TOKEN-SCOPE-002",
-      "acquired_at_utc": "2026-11-21T04:33:58.484Z",
-      "heartbeat_at_utc": "2026-11-21T04:42:55.968Z",
-      "lease_expires_at_utc": "2026-11-21T05:12:55.968Z",
-      "fencing_token": 163,
-      "status": "ACTIVE"
-    }
-  ],
+  "locks": [],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -12406,6 +12389,17 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "lease_expires_at_utc": "2026-11-21T05:12:55.968Z",
       "at_utc": "2026-11-21T04:42:55.968Z"
+    },
+    {
+      "event": "REVIEW",
+      "issue_number": 111,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-20261121-READINESS-01",
+      "run_id": "RUN-20261121-CROSSREPO-TOKEN-SCOPE-002",
+      "fencing_token": 163,
+      "branch": "work/GH-111-RUN-20261121-CROSSREPO-TOKEN-SCOPE-002",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "at_utc": "2026-11-21T04:43:17.805Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -25210,6 +25204,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-21T04:43:11.454Z"
+    },
+    "7057436128": {
+      "response": "پیاده‌سازی برای اجرای گیت‌های ماشینی و پذیرش خودکار تحویل شد؛ این فرمان به‌تنهایی پذیرش نیست.",
+      "response_posted": false,
+      "issue_number": 111,
+      "actor": "a4adelahmadian86-wq",
+      "command": "review",
+      "next_status": "review",
+      "at_utc": "2026-11-21T04:43:17.805Z"
     }
   },
   "work_items": {
