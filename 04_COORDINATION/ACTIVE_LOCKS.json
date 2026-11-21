@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3424,
+  "revision": 3425,
   "next_fencing_token": 176,
   "locks": [
     {
@@ -28147,6 +28147,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-21T18:33:03.390Z"
+    },
+    "7067341259": {
+      "response": "معیار پذیرش ثبت شد: AC_TESTS; ACCEPTANCE_PROGRESS=66.66%; OVERALL_COMPLETION=66.66%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 107,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-21T18:33:34.702Z"
     }
   },
   "work_items": {
@@ -35581,9 +35590,15 @@
           "criterion_id": "AC_TESTS",
           "title": "Regression tests and exact-head CI pass, including durable inbox recovery and blocked-task revalidation",
           "required": true,
-          "validation_status": "NOT_RUN",
-          "evidence_refs": [],
-          "evidence_requirement": "Exact-head CI run URL and named passing regression tests"
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44935805639",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/116"
+          ],
+          "evidence_requirement": "Exact-head CI run URL and named passing regression tests",
+          "validated_at_utc": "2026-11-21T18:33:34.701Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_SCOPE_HANDOFF",
