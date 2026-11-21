@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3148,
+  "revision": 3149,
   "next_fencing_token": 167,
   "locks": [
     {
@@ -25825,6 +25825,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-21T10:07:05.484Z"
+    },
+    "7061020417": {
+      "response": "STEP ثبت شد: S5_ASSESS; EXECUTION_PROGRESS=71.42%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=5/7.",
+      "response_posted": false,
+      "issue_number": 19,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-21T10:07:32.131Z"
     }
   },
   "work_items": {
@@ -26461,7 +26470,14 @@
           "weight": 1,
           "expected_output": "خروجی قابل بازبینی برای مرحله: شناسایی عوامل مشارکت‌کننده، اثر جانبی، دامنه کاربران و شدت ریسک.",
           "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/19#issuecomment-7060987294"
+          ],
+          "validated_at_utc": "2026-11-21T10:07:32.131Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S6_REPORT",
