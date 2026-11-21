@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3118,
+  "revision": 3119,
   "next_fencing_token": 166,
   "locks": [
     {
@@ -25574,6 +25574,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-21T04:55:22.634Z"
+    },
+    "7057567129": {
+      "response": "معیار پذیرش ثبت شد: AC_SAFE_HANDOFF; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; can_accept=true.",
+      "response_posted": false,
+      "issue_number": 113,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-21T04:55:29.527Z"
     }
   },
   "work_items": {
@@ -32570,7 +32579,7 @@
         "branch": null,
         "allocated_at_utc": "2026-11-21T04:45:45.881Z"
       },
-      "status": "IN_PROGRESS",
+      "status": "REVIEW_REQUIRED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "repo:farast-control-plane"
@@ -32738,7 +32747,14 @@
           "title": "Exact-head CI passes, PR is linked, no repository settings or secrets were changed, and lease is released",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "PR/CI links, diff review and release evidence"
+          "evidence_requirement": "PR/CI links, diff review and release evidence",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/114"
+          ],
+          "validated_at_utc": "2026-11-21T04:55:29.526Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "priority": 35,
