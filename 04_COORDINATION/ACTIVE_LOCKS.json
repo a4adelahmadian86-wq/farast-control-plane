@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3519,
+  "revision": 3520,
   "next_fencing_token": 180,
   "locks": [
     {
@@ -28812,6 +28812,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-21T19:06:16.724Z"
+    },
+    "7067759225": {
+      "response": "STEP ثبت شد: S2_IMPLEMENT_GATE; EXECUTION_PROGRESS=42.85%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=3/7.",
+      "response_posted": false,
+      "issue_number": 119,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-21T19:06:23.522Z"
     }
   },
   "work_items": {
@@ -37142,7 +37151,14 @@
           "required": true,
           "weight": 1,
           "expected_output": "Coordinator merges only when all pre-merge gates pass and never marks accepted before post-merge criteria pass",
-          "evidence_requirement": "Focused diff and coordinator flow evidence"
+          "evidence_requirement": "Focused diff and coordinator flow evidence",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/120"
+          ],
+          "validated_at_utc": "2026-11-21T19:06:23.521Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S3_RULESET_READ",
