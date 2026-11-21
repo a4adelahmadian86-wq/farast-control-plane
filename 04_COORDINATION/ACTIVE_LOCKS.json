@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3043,
+  "revision": 3044,
   "next_fencing_token": 164,
   "locks": [
     {
@@ -25057,6 +25057,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-21T04:38:41.971Z"
+    },
+    "7057389761": {
+      "response": "STEP ثبت شد: S2_VERIFY_GITHUB_PERMISSIONS; EXECUTION_PROGRESS=28.57%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=2/7.",
+      "response_posted": false,
+      "issue_number": 111,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-21T04:38:49.870Z"
     }
   },
   "work_items": {
@@ -31843,7 +31852,14 @@
           "weight": 1,
           "estimate_minutes": 4,
           "expected_output": "Endpoint-to-permission matrix with always-used and conditional permissions distinguished",
-          "evidence_requirement": "Official GitHub documentation URLs and endpoint names"
+          "evidence_requirement": "Official GitHub documentation URLs and endpoint names",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://docs.github.com/en/rest/authentication/permissions-required-for-fine-grained-personal-access-tokens"
+          ],
+          "validated_at_utc": "2026-11-21T04:38:49.870Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S3_FIX_OPERATOR_DOCS",
