@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3290,
+  "revision": 3291,
   "next_fencing_token": 170,
   "locks": [
     {
@@ -26964,6 +26964,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-21T11:43:57.080Z"
+    },
+    "7062087490": {
+      "response": "معیار پذیرش ثبت شد: AC_ACCEPTANCE; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; can_accept=true.",
+      "response_posted": false,
+      "issue_number": 20,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-21T11:46:54.129Z"
     }
   },
   "work_items": {
@@ -28078,7 +28087,7 @@
       "parent_exp_ids": [
         "EXP-08"
       ],
-      "status": "IN_PROGRESS",
+      "status": "REVIEW_REQUIRED",
       "target_repository": "a4adelahmadian86-wq/non",
       "resource_keys": [
         "analysis:exp-08"
@@ -28238,7 +28247,14 @@
         {
           "criterion_id": "AC_ACCEPTANCE",
           "title": "چرخه انتهابه‌انتها مستند؛ stateها و transitions evidence-backed؛ پرداخت از تحویل تفکیک؛ no live payment action.",
-          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion."
+          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion.",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/20#issuecomment-7062069270"
+          ],
+          "validated_at_utc": "2026-11-21T11:46:54.128Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "priority": 50,
