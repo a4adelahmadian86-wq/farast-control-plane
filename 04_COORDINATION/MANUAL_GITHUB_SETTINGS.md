@@ -41,6 +41,14 @@ Branch `coordination/locks` منبع registry است. حذف تصادفی آن �
 - [Fine-grained PAT permissions by REST endpoint](https://docs.github.com/en/rest/authentication/permissions-required-for-fine-grained-personal-access-tokens)
 - [Checks API — List check runs for a Git reference](https://docs.github.com/en/rest/checks/runs#list-check-runs-for-a-git-reference)
 - [Commit statuses API](https://docs.github.com/en/rest/commits/statuses#get-the-combined-status-for-a-specific-reference)
+- [Pull requests API — Get a pull request and merge a pull request](https://docs.github.com/en/rest/pulls/pulls)
+- [Compare two commits](https://docs.github.com/en/rest/commits/commits#compare-two-commits)
+- [Get a branch](https://docs.github.com/en/rest/branches/branches#get-a-branch)
+
+مراجع رسمی GitHub:
+- [Fine-grained PAT permissions by REST endpoint](https://docs.github.com/en/rest/authentication/permissions-required-for-fine-grained-personal-access-tokens)
+- [Checks API — List check runs for a Git reference](https://docs.github.com/en/rest/checks/runs#list-check-runs-for-a-git-reference)
+- [Commit statuses API](https://docs.github.com/en/rest/commits/statuses#get-the-combined-status-for-a-specific-reference)
 - [Pull requests API](https://docs.github.com/en/rest/pulls/pulls)
 - [Compare two commits](https://docs.github.com/en/rest/commits/commits#compare-two-commits)
 - هر حساب/کارمند/چت باید دسترسی GitHub مستقل و مجاز داشته باشد. نقش GitHub actor و author_association در coordinator بررسی می‌شود؛ CHAT_ID و RUN_ID فقط metadata خوداظهاری‌اند.
