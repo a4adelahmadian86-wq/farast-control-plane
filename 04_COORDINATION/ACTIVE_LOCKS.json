@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3092,
+  "revision": 3093,
   "next_fencing_token": 166,
   "locks": [
     {
@@ -25421,6 +25421,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-21T04:52:20.256Z"
+    },
+    "7057536749": {
+      "response": "STEP ثبت شد: S1_VERIFY_RULES_API; EXECUTION_PROGRESS=14.28%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=1/7.",
+      "response_posted": false,
+      "issue_number": 113,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-21T04:52:38.845Z"
     }
   },
   "work_items": {
@@ -32417,7 +32426,7 @@
         "branch": null,
         "allocated_at_utc": "2026-11-21T04:45:45.881Z"
       },
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "repo:farast-control-plane"
@@ -32431,7 +32440,14 @@
           "weight": 1,
           "estimate_minutes": 3,
           "expected_output": "Verified endpoint/method and response schema",
-          "evidence_requirement": "Official GitHub docs and current Octokit method reference"
+          "evidence_requirement": "Official GitHub docs and current Octokit method reference",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://docs.github.com/en/rest/repos/rules"
+          ],
+          "validated_at_utc": "2026-11-21T04:52:38.844Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S2_DEFINE_FAIL_CLOSED_POLICY",
