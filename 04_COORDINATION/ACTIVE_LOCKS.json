@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3484,
+  "revision": 3485,
   "next_fencing_token": 178,
   "locks": [
     {
@@ -28584,6 +28584,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-21T18:57:47.382Z"
+    },
+    "7067648432": {
+      "response": "STEP ثبت شد: S2_MINIMAL_FIX; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=83.33%; OVERALL_COMPLETION=83.33%; verified_steps=6/6.",
+      "response_posted": false,
+      "issue_number": 107,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-21T18:57:56.355Z"
     }
   },
   "work_items": {
@@ -35851,7 +35860,7 @@
         "CP-03",
         "CP-04"
       ],
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "file:.github/workflows/farast-coordinator.yml",
