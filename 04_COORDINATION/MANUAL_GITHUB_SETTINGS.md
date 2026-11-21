@@ -30,12 +30,12 @@ Branch `coordination/locks` منبع registry است. حذف تصادفی آن �
 ## 5. هماهنگ‌کننده چندچتی و دسترسی cross-repository
 - workflow مرکزی `.github/workflows/farast-coordinator.yml` پس از ادغام PR #1 اکنون روی `main` فعال است و اجرای زنده `issue_comment` موفق بوده است. اجرای schedule پنج‌دقیقه‌ای و `workflow_dispatch` هنوز جداگانه باید با run زنده تأیید شود.
 - برای پذیرش PR در مخزن عمومی محصول `non`، در مخزن کنترل‌پلین از مسیر Settings → Secrets and variables → Actions یک Repository Secret با نام `FARAST_GITHUB_TOKEN` تعریف کن. مقدار آن یک Fine-grained PAT محدود به همان مخزن مقصد باشد؛ حداقل مجوزها:
-  - **Pull requests: write** — خواندن PR و ادغام PR با SHA دقیق head.
+  - **Pull requests: read** — خواندن مشخصات PR مقصد.
   - **Commit statuses: read** — خواندن وضعیت‌های commit روی SHA دقیق.
-  - **Contents: read** — فقط برای مسیر جایگزین بررسی ancestry با Compare API.
+  - **Contents: write** — GitHub برای endpoint رسمی Merge a pull request این سطح را لازم می‌داند؛ همین سطح Compare ancestry را نیز پوشش می‌دهد.
   - **Metadata: read** — به‌صورت پیش‌فرض برای Fine-grained PAT فراهم است.
   - **Checks:read را به این PAT اضافه نکن**؛ مستندات فعلی GitHub برای List check runs، Fine-grained PAT را به‌عنوان نوع توکن پشتیبانی‌شده فهرست نمی‌کنند. Coordinator برای مخزن cross-repo عمومی Check Runها را بدون احراز هویت می‌خواند. مخزن خصوصی تا پیاده‌سازی GitHub App installation-token با Checks:read عمداً پشتیبانی نمی‌شود و پذیرش آن fail-closed می‌ماند.
-- PAT را فقط به مخزن هدف بده؛ Contents write، Actions، Workflows، Administration، Secrets و Issues لازم نیستند. هرگز مقدار توکن را در Issue، فایل، خروجی چت یا log وارد نکن. وجود/مقدار Secret از اتصال فعلی قابل خواندن یا تأیید نیست.
+- PAT را فقط به مخزن هدف بده؛ Pull requests:write، Actions، Workflows، Administration، Secrets و Issues لازم نیستند. توجه: Contents:write مجوز گسترده‌ای است و امکان نوشتن مستقیم محتوا را هم می‌دهد؛ این سطح را فقط پس از فعال‌سازی و read-back branch protection/ruleset روی شاخه پیش‌فرض مقصد به Secret بده. چون در snapshot زنده `non/main.protected=false` است، تا زمان محافظت شاخه main، Secret را نساز/تنظیم نکن و پذیرش cross-repository را غیرفعال نگه دار. هرگز مقدار توکن را در Issue، فایل، خروجی چت یا log وارد نکن. وجود/مقدار Secret از اتصال فعلی قابل خواندن یا تأیید نیست.
 
 مراجع رسمی GitHub:
 - [Fine-grained PAT permissions by REST endpoint](https://docs.github.com/en/rest/authentication/permissions-required-for-fine-grained-personal-access-tokens)
