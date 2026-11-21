@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3533,
+  "revision": 3534,
   "next_fencing_token": 180,
   "locks": [
     {
@@ -28875,6 +28875,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-21T19:07:46.351Z"
+    },
+    "7067763903": {
+      "response": "معیار پذیرش ثبت شد: AC_RULESET_FAIL_CLOSED; ACCEPTANCE_PROGRESS=50%; OVERALL_COMPLETION=50%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 119,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-21T19:07:52.904Z"
     }
   },
   "work_items": {
@@ -37309,9 +37318,15 @@
           "criterion_id": "AC_RULESET_FAIL_CLOSED",
           "title": "Ruleset bypass actors are read using the dedicated least-privilege token; absent token, hidden bypass actors or any bypass actor blocks merge",
           "required": true,
-          "validation_status": "NOT_RUN",
-          "evidence_refs": [],
-          "evidence_requirement": "Exact workflow test, live owner-side ruleset read-back and explicit fail-closed behavior"
+          "validation_status": "BLOCKED",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/107#issuecomment-7067508227",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/120"
+          ],
+          "evidence_requirement": "Exact workflow test, live owner-side ruleset read-back and explicit fail-closed behavior",
+          "validated_at_utc": "2026-11-21T19:07:52.904Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Owner-side ruleset read-back shows empty bypass list, but the workflow's GITHUB_TOKEN cannot read Administration ruleset details. FARAST_RULESET_READ_TOKEN has not yet been configured; merge remains fail-closed."
         },
         {
           "criterion_id": "AC_SCOPE_CI",
