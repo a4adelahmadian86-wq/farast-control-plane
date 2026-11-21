@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3259,
+  "revision": 3260,
   "next_fencing_token": 170,
   "locks": [
     {
@@ -35496,6 +35496,11 @@
         "reason": "registry_cas_conflict: another Issue advanced the shared registry; this command remains durable and must be replayed. latest=797d2f7988c60cf1190ea2c3092dacff314708b5; cause=Update is not a fast forward",
         "count": 1,
         "last_seen_at_utc": "2026-11-21T04:33:28.286Z"
+      },
+      "20": {
+        "reason": "Object does not exist",
+        "count": 1,
+        "last_seen_at_utc": "2026-11-21T11:40:10.883Z"
       },
       "90": {
         "reason": "unknown_step_id",
