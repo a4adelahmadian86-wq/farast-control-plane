@@ -649,7 +649,7 @@ jobs:
                         else if (baseBranchProtectionError) response = 'ادغام متوقف شد: ' + baseBranchProtectionError;
                         else if (checkRunsError) response = 'پذیرش خودکار متوقف شد: خواندن Check Runها ممکن نشد. مخزن هدف باید public باشد تا Checks API بدون احراز هویت خوانده شود؛ برای مخزن private، GitHub App installation token با Checks:read لازم است. جزئیات: ' + checkRunsError;
                         else if (!automatedChecksPassed) response = 'پذیرش خودکار رد شد: تمام Check Runها و Commit Statusهای SHA دقیق head باید با conclusion/state برابر success تکمیل شده باشند؛ بازبین انسانی دوم لازم نیست.';
-                        else if (acceptanceItem && !acceptanceProgress.can_accept) response = 'ادغام متوقف شد: پیش از merge همه گام‌ها، معیارهای پذیرش و dependencyها باید با evidence معتبر PASS باشند؛ EXECUTION_PROGRESS=' + acceptanceProgress.execution_percentage + '%; ACCEPTANCE_PROGRESS=' + (acceptanceProgress.acceptance_percentage === null ? 'N/A' : acceptanceProgress.acceptance_percentage + '%') + '; OVERALL_COMPLETION=' + (acceptanceProgress.overall_completion_percentage === null ? 'N/A' : acceptanceProgress.overall_completion_percentage + '%') + '.';
+                        else if (acceptanceItem && !acceptanceProgress.can_merge) response = 'ادغام متوقف شد: پیش از merge همه گام‌ها، معیارهای PRE_MERGE و dependencyها باید با evidence معتبر PASS باشند؛ EXECUTION_PROGRESS=' + acceptanceProgress.execution_percentage + '%; ACCEPTANCE_PROGRESS=' + (acceptanceProgress.acceptance_percentage === null ? 'N/A' : acceptanceProgress.acceptance_percentage + '%') + '; OVERALL_COMPLETION=' + (acceptanceProgress.overall_completion_percentage === null ? 'N/A' : acceptanceProgress.overall_completion_percentage + '%') + '.';
                         else {
                           let mergeConfirmed = pr.merged;
                           if (!mergeConfirmed) {
@@ -666,9 +666,15 @@ jobs:
                             if (acceptanceItem) {
                               state.work_items ||= {};
                               state.work_items[issue.number] ||= acceptanceItem;
-                              state.work_items[issue.number].status = 'ACCEPTED';
-                              nextStatus = 'done';
-                              response = 'Work Item ACCEPTED: همه گام‌ها و معیارهای اجباری پیش از merge با evidence معتبر پاس شدند؛ PR ادغام‌شده و تمام گیت‌های ماشینی موفق روی SHA دقیق head احراز شد؛ هیچ Review انسانی شرط پذیرش نیست.' + (acceptanceLineageMode === 'MERGED_REPLACEMENT_ANCESTOR' ? ' lineage از طریق PR جایگزین ادغام‌شده و ancestry تأییدشده احراز شد.' : '');
+                              if (acceptanceProgress.can_accept) {
+                                state.work_items[issue.number].status = 'ACCEPTED';
+                                nextStatus = 'done';
+                                response = 'Work Item ACCEPTED: همه گام‌ها و معیارهای اجباری، از جمله معیارهای POST_MERGE، با evidence معتبر پاس شدند؛ PR ادغام‌شده و تمام گیت‌های ماشینی موفق روی SHA دقیق head احراز شد؛ هیچ Review انسانی شرط پذیرش نیست.' + (acceptanceLineageMode === 'MERGED_REPLACEMENT_ANCESTOR' ? ' lineage از طریق PR جایگزین ادغام‌شده و ancestry تأییدشده احراز شد.' : '');
+                              } else {
+                                state.work_items[issue.number].status = 'REVIEW_REQUIRED';
+                                nextStatus = 'review';
+                                response = 'PR ادغام شد، اما Work Item هنوز ACCEPTED نیست؛ معیارهای POST_MERGE باید پس از ادغام با evidence معتبر PASS شوند. وضعیت review حفظ شد و پذیرش نهایی تا تکمیل آن معیارها ممنوع است.';
+                              }
                             } else {
                               nextStatus = 'done';
                               response = 'پذیرش تأیید شد: PR به‌صورت خودکار ادغام شد و تمام گیت‌های ماشینی موفق روی SHA دقیق head احراز شد؛ هیچ Review انسانی شرط پذیرش نیست.';
