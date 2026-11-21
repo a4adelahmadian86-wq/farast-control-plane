@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3535,
+  "revision": 3536,
   "next_fencing_token": 180,
   "locks": [
     {
@@ -28884,6 +28884,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-21T19:07:52.904Z"
+    },
+    "7067764472": {
+      "response": "معیار پذیرش ثبت شد: AC_SCOPE_CI; ACCEPTANCE_PROGRESS=75%; OVERALL_COMPLETION=75%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 119,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-21T19:08:21.921Z"
     }
   },
   "work_items": {
@@ -37332,9 +37341,15 @@
           "criterion_id": "AC_SCOPE_CI",
           "title": "Only four authorized files change and exact-head CI passes",
           "required": true,
-          "validation_status": "NOT_RUN",
-          "evidence_refs": [],
-          "evidence_requirement": "PR file list, exact head SHA and successful CI run"
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44939011753",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/120"
+          ],
+          "evidence_requirement": "PR file list, exact head SHA and successful CI run",
+          "validated_at_utc": "2026-11-21T19:08:21.920Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "priority": 8,
