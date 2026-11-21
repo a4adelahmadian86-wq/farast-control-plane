@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3326,
+  "revision": 3327,
   "next_fencing_token": 171,
   "locks": [
     {
@@ -27262,6 +27262,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-21T12:00:26.924Z"
+    },
+    "7062263810": {
+      "response": "STEP ثبت شد: S7_VERIFY; EXECUTION_PROGRESS=85.71%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=6/7.",
+      "response_posted": false,
+      "issue_number": 21,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-21T12:00:32.436Z"
     }
   },
   "work_items": {
@@ -28690,7 +28699,14 @@
           "weight": 1,
           "expected_output": "خروجی قابل بازبینی برای مرحله: ساخت sequence map، failure matrix و سناریوهای تست.",
           "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/21#issuecomment-7062257129"
+          ],
+          "validated_at_utc": "2026-11-21T12:00:32.436Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "acceptance_criteria": [
