@@ -1,8 +1,25 @@
 {
   "schema_version": "1.0",
-  "revision": 3240,
-  "next_fencing_token": 169,
-  "locks": [],
+  "revision": 3241,
+  "next_fencing_token": 170,
+  "locks": [
+    {
+      "resource_key": "analysis:exp-08",
+      "issue_number": 20,
+      "task_id": "GH-20",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "chat-farast-main-audit-20261121",
+      "chat_id": "chat-farast-main-audit-20261121",
+      "run_id": "RUN-20261121-EXP08-COMMERCE-01",
+      "target_repository": "a4adelahmadian86-wq/non",
+      "branch": null,
+      "acquired_at_utc": "2026-11-21T11:36:07.609Z",
+      "heartbeat_at_utc": "2026-11-21T11:36:07.609Z",
+      "lease_expires_at_utc": "2026-11-21T12:06:07.609Z",
+      "fencing_token": 169,
+      "status": "ACTIVE"
+    }
+  ],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -12990,6 +13007,23 @@
       "branch": null,
       "target_repository": "a4adelahmadian86-wq/non",
       "at_utc": "2026-11-21T11:36:03.000Z"
+    },
+    {
+      "event": "ACQUIRED",
+      "issue_number": 20,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "chat-farast-main-audit-20261121",
+      "run_id": "RUN-20261121-EXP08-COMMERCE-01",
+      "resource_keys": [
+        "analysis:exp-08"
+      ],
+      "target_repository": "a4adelahmadian86-wq/non",
+      "branch": null,
+      "previous_branch": null,
+      "previous_target_repository": null,
+      "previous_run_id": null,
+      "fencing_token": 169,
+      "at_utc": "2026-11-21T11:36:07.609Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -26558,6 +26592,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-21T10:31:39.198Z"
+    },
+    "7062000383": {
+      "response": "CLAIM GRANTED. TASK=GH-20; WORK_ITEM_ID=WI-EXP08-COMMERCE-CYCLE-001; verified_steps=; remaining_steps=S1_DISCOVER,S2_MAP,S3_ANALYZE,S4_CROSSCHECK,S5_ASSESS,S6_REPORT,S7_VERIFY; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; actor=@a4adelahmadian86-wq; chat=chat-farast-main-audit-20261121; run=RUN-20261121-EXP08-COMMERCE-01; resource_keys=analysis:exp-08; target_repository=a4adelahmadian86-wq/non; write_policy=READ_ONLY; branch=none; previous_run=none; fencing_token=169; lease_expires=2026-11-21T12:06:07.609Z. این Work Item با سیاست READ_ONLY است؛ در target_repository هیچ branch، file، commit یا PR ایجاد/تغییر نده. شواهد را فقط در Issue thread یا محل مجاز control-plane ثبت کن؛ برای WRITE_REQUIRES_OWNER_APPROVAL فقط proposal ارائه بده.",
+      "response_posted": false,
+      "issue_number": 20,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "locked",
+      "at_utc": "2026-11-21T11:36:07.610Z"
     }
   },
   "work_items": {
@@ -27656,6 +27699,140 @@
         {
           "deliverable_id": "D3",
           "description": "remediation options.",
+          "evidence_requirement": "مسیر فایل یا URL GitHub به خروجی و read-back آن"
+        }
+      ]
+    },
+    "20": {
+      "schema_version": "1.0",
+      "write_policy": "READ_ONLY",
+      "priority_source": "DEFAULT_POLICY",
+      "work_item_id": "WI-EXP08-COMMERCE-CYCLE-001",
+      "title": "EXP-08 Commerce, payment and delivery lifecycle",
+      "parent_goal_ids": [
+        "G-04"
+      ],
+      "parent_exp_ids": [
+        "EXP-08"
+      ],
+      "status": "CLAIMED",
+      "target_repository": "a4adelahmadian86-wq/non",
+      "resource_keys": [
+        "analysis:exp-08"
+      ],
+      "dependencies": [],
+      "steps": [
+        {
+          "step_id": "S1_DISCOVER",
+          "title": "ترسیم catalog/product/price/plan و قواعد تخفیف/اعتبار.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "خروجی قابل بازبینی برای مرحله: ترسیم catalog/product/price/plan و قواعد تخفیف/اعتبار.",
+          "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S2_MAP",
+          "title": "ردیابی cart/order/checkout و lifecycle stateهای سفارش.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "خروجی قابل بازبینی برای مرحله: ردیابی cart/order/checkout و lifecycle stateهای سفارش.",
+          "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S3_ANALYZE",
+          "title": "ردیابی payment intent، callback/webhook، idempotency و تطبیق تراکنش.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "خروجی قابل بازبینی برای مرحله: ردیابی payment intent، callback/webhook، idempotency و تطبیق تراکنش.",
+          "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S4_CROSSCHECK",
+          "title": "بررسی delivery/entitlement/access grant و رابطه آن با پرداخت موفق/ناموفق.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "خروجی قابل بازبینی برای مرحله: بررسی delivery/entitlement/access grant و رابطه آن با پرداخت موفق/ناموفق.",
+          "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S5_ASSESS",
+          "title": "بررسی refund/cancel/chargeback/expiry و اثر بر دسترسی و حسابداری.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "خروجی قابل بازبینی برای مرحله: بررسی refund/cancel/chargeback/expiry و اثر بر دسترسی و حسابداری.",
+          "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S6_REPORT",
+          "title": "تحلیل race condition، duplicate callback، retry و وضعیت‌های نیمه‌تمام.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "خروجی قابل بازبینی برای مرحله: تحلیل race condition، duplicate callback، retry و وضعیت‌های نیمه‌تمام.",
+          "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S7_VERIFY",
+          "title": "ساخت state transition map و فهرست نقاط کنترل/تست.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "خروجی قابل بازبینی برای مرحله: ساخت state transition map و فهرست نقاط کنترل/تست.",
+          "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
+          "estimate_minutes": 4
+        }
+      ],
+      "acceptance_criteria": [
+        {
+          "criterion_id": "AC_SCOPE",
+          "title": "تمام 7 مرحله تخصصی EXP-08 اجرا یا با blocker مستند متوقف شده‌اند",
+          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion."
+        },
+        {
+          "criterion_id": "AC_EVIDENCE",
+          "title": "تمام ادعاهای factual دارای evidence ref مستقیم و قابل بازبینی هستند",
+          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion."
+        },
+        {
+          "criterion_id": "AC_OUTPUT",
+          "title": "خروجی‌های تخصصی EXP-08 تولید و read-back شده‌اند: commerce sequence/state diagrams، payment-delivery matrix، risk register.",
+          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion."
+        },
+        {
+          "criterion_id": "AC_ACCEPTANCE",
+          "title": "چرخه انتهابه‌انتها مستند؛ stateها و transitions evidence-backed؛ پرداخت از تحویل تفکیک؛ no live payment action.",
+          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion."
+        }
+      ],
+      "priority": 50,
+      "created_at_utc": "2026-11-14T17:25:43.534Z",
+      "effort_estimate_minutes": 25,
+      "effort_rationale": "حدود ۲۵ دقیقه کار تخصصی شامل discovery، cross-check، تحلیل، تولید artifact و read-back؛ زمان واقعی ثبت شود و کار مصنوعی ممنوع است.",
+      "depth_profile": {
+        "profile_version": "2.0.0",
+        "min_substantive_steps": 6,
+        "min_acceptance_criteria": 4,
+        "min_deliverables": 3,
+        "target_effort_minutes": 25
+      },
+      "deliverables": [
+        {
+          "deliverable_id": "D1",
+          "description": "commerce sequence/state diagrams",
+          "evidence_requirement": "مسیر فایل یا URL GitHub به خروجی و read-back آن"
+        },
+        {
+          "deliverable_id": "D2",
+          "description": "payment-delivery matrix",
+          "evidence_requirement": "مسیر فایل یا URL GitHub به خروجی و read-back آن"
+        },
+        {
+          "deliverable_id": "D3",
+          "description": "risk register.",
           "evidence_requirement": "مسیر فایل یا URL GitHub به خروجی و read-back آن"
         }
       ]
