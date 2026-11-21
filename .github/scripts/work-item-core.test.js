@@ -219,6 +219,28 @@ test('versioned acceptance weighting is applied independently from execution wei
  assert.equal(p.overall_completion_percentage,0);
 });
 
+test('POST_MERGE criteria do not block PR merge but still block final acceptance',()=>{
+ const x=item({acceptance_criteria:[
+  {criterion_id:'AC_PRE',title:'Pre-merge criterion'},
+  {criterion_id:'AC_POST',title:'Post-merge criterion',validation_stage:'POST_MERGE'}
+ ]});
+ for(const step of x.steps) wi.recordStepEvidence(x,{...input(step.step_id)});
+ wi.recordCriterionEvidence(x,{lease,actor:'alice',chat_id:'chat-a',run_id:'run-a',fencing_token:7,criterion_id:'AC_PRE',validation_status:'PASS',evidence_refs:['evidence:pre-merge'],nowMs:Date.parse('2026-01-01T00:30:00Z')});
+ let progress=wi.calculateProgress(x);
+ assert.equal(progress.can_merge,true);
+ assert.equal(progress.can_accept,false);
+ assert.equal(progress.acceptance_percentage,50);
+ wi.recordCriterionEvidence(x,{lease,actor:'alice',chat_id:'chat-a',run_id:'run-a',fencing_token:7,criterion_id:'AC_POST',validation_status:'PASS',evidence_refs:['evidence:post-merge'],nowMs:Date.parse('2026-01-01T00:30:00Z')});
+ progress=wi.calculateProgress(x);
+ assert.equal(progress.can_merge,true);
+ assert.equal(progress.can_accept,true);
+});
+
+test('acceptance criteria reject unknown validation stages',()=>{
+ const x=item({acceptance_criteria:[{criterion_id:'AC1',title:'Criterion',validation_stage:'AFTER_MERGE_MAYBE'}]});
+ assert.throws(()=>wi.calculateProgress(x),/invalid criterion validation_stage/);
+});
+
 test('deep profile rejects a Work Item without substantive depth metadata',()=>{
  const x=item({
   effort_estimate_minutes:25,
