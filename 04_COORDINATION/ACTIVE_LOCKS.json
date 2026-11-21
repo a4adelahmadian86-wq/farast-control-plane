@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3357,
+  "revision": 3358,
   "next_fencing_token": 172,
   "locks": [
     {
@@ -13440,6 +13440,13 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "lease_expires_at_utc": "2026-11-21T12:41:13.605Z",
       "at_utc": "2026-11-21T12:11:13.605Z"
+    },
+    {
+      "event": "WORK_ITEM_ALLOCATION_REJECTED",
+      "issue_number": 115,
+      "work_item_id": null,
+      "reason": "work_item_spec_missing",
+      "at_utc": "2026-11-21T12:12:59.244Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
