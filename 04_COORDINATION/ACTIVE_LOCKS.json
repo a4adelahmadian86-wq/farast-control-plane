@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3289,
+  "revision": 3290,
   "next_fencing_token": 170,
   "locks": [
     {
@@ -35762,9 +35762,9 @@
         "last_seen_at_utc": "2026-11-21T04:33:28.286Z"
       },
       "20": {
-        "reason": "Object does not exist",
+        "reason": "tree.sha 5400cf3081fc93f2de005d3979ca67763b1b1594 is not a valid blob",
         "count": 1,
-        "last_seen_at_utc": "2026-11-21T11:40:10.883Z"
+        "last_seen_at_utc": "2026-11-21T11:44:17.018Z"
       },
       "90": {
         "reason": "unknown_step_id",
