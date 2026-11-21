@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3132,
+  "revision": 3133,
   "next_fencing_token": 167,
   "locks": [
     {
@@ -25705,6 +25705,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-21T10:04:27.964Z"
+    },
+    "7060990618": {
+      "response": "STEP ثبت شد: S1_DISCOVER; EXECUTION_PROGRESS=14.28%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=1/7.",
+      "response_posted": false,
+      "issue_number": 19,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-21T10:04:45.606Z"
     }
   },
   "work_items": {
@@ -26263,7 +26272,7 @@
       "parent_exp_ids": [
         "EXP-07"
       ],
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/non",
       "resource_keys": [
         "analysis:exp-07"
@@ -26277,7 +26286,14 @@
           "weight": 1,
           "expected_output": "خروجی قابل بازبینی برای مرحله: تثبیت baseline و نیازمندی مرجع برای هر شکاف.",
           "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/non/commit/90c5d6b0546f9026b401901399ffde3f3106c305"
+          ],
+          "validated_at_utc": "2026-11-21T10:04:45.605Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S2_MAP",
