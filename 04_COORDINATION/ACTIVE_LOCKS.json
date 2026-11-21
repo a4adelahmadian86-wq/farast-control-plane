@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3045,
+  "revision": 3046,
   "next_fencing_token": 164,
   "locks": [
     {
@@ -25066,6 +25066,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-21T04:38:49.870Z"
+    },
+    "7057390044": {
+      "response": "STEP ثبت شد: S3_FIX_OPERATOR_DOCS; EXECUTION_PROGRESS=42.85%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=3/7.",
+      "response_posted": false,
+      "issue_number": 111,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-21T04:38:57.255Z"
     }
   },
   "work_items": {
@@ -31868,7 +31877,14 @@
           "weight": 1,
           "estimate_minutes": 5,
           "expected_output": "Consistent, actionable, least-privilege instructions",
-          "evidence_requirement": "Exact changed paths and read-back links"
+          "evidence_requirement": "Exact changed paths and read-back links",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/4761266ab6ccf2e2ffcaeb2ca8f1cafe78327886"
+          ],
+          "validated_at_utc": "2026-11-21T04:38:57.255Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S4_ADD_DRIFT_REGRESSION",
