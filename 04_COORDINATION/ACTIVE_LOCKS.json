@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3096,
+  "revision": 3097,
   "next_fencing_token": 166,
   "locks": [
     {
@@ -25439,6 +25439,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-21T04:52:47.612Z"
+    },
+    "7057537482": {
+      "response": "STEP ثبت شد: S3_IMPLEMENT_RULESET_GATE; EXECUTION_PROGRESS=42.85%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=3/7.",
+      "response_posted": false,
+      "issue_number": 113,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-21T04:52:55.728Z"
     }
   },
   "work_items": {
@@ -32481,7 +32490,14 @@
           "weight": 1,
           "estimate_minutes": 5,
           "expected_output": "Coordinator rejects absent, incomplete, unreadable or bypassable rulesets",
-          "evidence_requirement": "Exact workflow/core diff and read-back"
+          "evidence_requirement": "Exact workflow/core diff and read-back",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/1849f7d50c1349f8e3c47e967da4770a3b4ad68d/.github/workflows/farast-coordinator.yml"
+          ],
+          "validated_at_utc": "2026-11-21T04:52:55.727Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S4_ADD_REGRESSION_FIXTURES",
