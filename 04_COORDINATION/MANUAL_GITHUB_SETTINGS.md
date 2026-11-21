@@ -36,6 +36,13 @@ Branch `coordination/locks` منبع registry است. حذف تصادفی آن �
   - **Metadata: read** — به‌صورت پیش‌فرض برای Fine-grained PAT فراهم است.
   - **Checks:read را به این PAT اضافه نکن**؛ مستندات فعلی GitHub برای List check runs، Fine-grained PAT را به‌عنوان نوع توکن پشتیبانی‌شده فهرست نمی‌کنند. Coordinator برای مخزن cross-repo عمومی Check Runها را بدون احراز هویت می‌خواند. مخزن خصوصی تا پیاده‌سازی GitHub App installation-token با Checks:read عمداً پشتیبانی نمی‌شود و پذیرش آن fail-closed می‌ماند.
 - PAT را فقط به مخزن هدف بده؛ Contents write، Actions، Workflows، Administration، Secrets و Issues لازم نیستند. هرگز مقدار توکن را در Issue، فایل، خروجی چت یا log وارد نکن. وجود/مقدار Secret از اتصال فعلی قابل خواندن یا تأیید نیست.
+
+مراجع رسمی GitHub:
+- [Fine-grained PAT permissions by REST endpoint](https://docs.github.com/en/rest/authentication/permissions-required-for-fine-grained-personal-access-tokens)
+- [Checks API — List check runs for a Git reference](https://docs.github.com/en/rest/checks/runs#list-check-runs-for-a-git-reference)
+- [Commit statuses API](https://docs.github.com/en/rest/commits/statuses#get-the-combined-status-for-a-specific-reference)
+- [Pull requests API](https://docs.github.com/en/rest/pulls/pulls)
+- [Compare two commits](https://docs.github.com/en/rest/commits/commits#compare-two-commits)
 - هر حساب/کارمند/چت باید دسترسی GitHub مستقل و مجاز داشته باشد. نقش GitHub actor و author_association در coordinator بررسی می‌شود؛ CHAT_ID و RUN_ID فقط metadata خوداظهاری‌اند.
 - برای branch `coordination/locks` هیچ workflow یا عامل دیگری را به‌عنوان writer فعال نکن. workflow مرکزی تنها writer مجاز است؛ تغییر دستی registry ممنوع.
 - پیش از استفاده واقعی، آزمون‌های `04_COORDINATION/COORDINATOR_TEST_PLAN.md` را اجرا و نتایج را در GitHub ثبت کن. حداقل دو حساب مستقل برای اثبات contention و takeover لازم است.
