@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3108,
+  "revision": 3109,
   "next_fencing_token": 166,
   "locks": [
     {
@@ -25517,6 +25517,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-21T04:54:24.157Z"
+    },
+    "7057558612": {
+      "response": "STEP ثبت شد: S6_VALIDATE_AND_PR; EXECUTION_PROGRESS=85.71%; ACCEPTANCE_PROGRESS=25%; OVERALL_COMPLETION=25%; verified_steps=6/7.",
+      "response_posted": false,
+      "issue_number": 113,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-21T04:54:39.216Z"
     }
   },
   "work_items": {
@@ -32607,7 +32616,14 @@
           "weight": 1,
           "estimate_minutes": 4,
           "expected_output": "Passing exact-head CI and linked PR",
-          "evidence_requirement": "Actions URL, PR URL, SHA and changed-file list"
+          "evidence_requirement": "Actions URL, PR URL, SHA and changed-file list",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44868124200"
+          ],
+          "validated_at_utc": "2026-11-21T04:54:39.215Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S7_REVIEW_RELEASE",
