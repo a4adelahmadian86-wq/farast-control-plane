@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3100,
+  "revision": 3101,
   "next_fencing_token": 166,
   "locks": [
     {
@@ -25469,6 +25469,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-21T04:53:26.571Z"
+    },
+    "7057548291": {
+      "response": "STEP ثبت شد: S4_ADD_REGRESSION_FIXTURES; EXECUTION_PROGRESS=57.14%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=4/7.",
+      "response_posted": false,
+      "issue_number": 113,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-21T04:53:44.075Z"
     }
   },
   "work_items": {
@@ -32527,7 +32536,14 @@
           "weight": 1,
           "estimate_minutes": 4,
           "expected_output": "Automated fixtures for valid and invalid effective rulesets",
-          "evidence_requirement": "Test diff and exact CI output"
+          "evidence_requirement": "Test diff and exact CI output",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44868124200"
+          ],
+          "validated_at_utc": "2026-11-21T04:53:44.075Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S5_DOCUMENT_OWNER_RUNBOOK",
