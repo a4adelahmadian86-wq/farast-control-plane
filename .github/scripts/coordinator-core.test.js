@@ -876,7 +876,7 @@ test('cross-repository acceptance uses anonymous Checks reads for public targets
   assert.ok(workflow.includes('const checkRunsClient = (prOwner === owner && prRepo === repo) ? prClient : crossRepoChecksGithub;'));
   assert.ok(workflow.includes('let checkRunsError ='));
   assert.ok(workflow.includes('if (checkRunsError) response ='));
-  assert.ok(workflow.includes('private targets fail closed'));
+  assert.ok(/private targets fail closed/i.test(workflow));
 
   for (const doc of docs) {
     assert.match(doc, /Pull requests:\s*write/i);
