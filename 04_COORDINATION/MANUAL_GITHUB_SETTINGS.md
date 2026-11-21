@@ -29,14 +29,20 @@ Branch `coordination/locks` منبع registry است. حذف تصادفی آن �
 
 ## 5. هماهنگ‌کننده چندچتی و دسترسی cross-repository
 - workflow مرکزی `.github/workflows/farast-coordinator.yml` پس از ادغام PR #1 اکنون روی `main` فعال است و اجرای زنده `issue_comment` موفق بوده است. اجرای schedule پنج‌دقیقه‌ای و `workflow_dispatch` هنوز جداگانه باید با run زنده تأیید شود.
-- اگر پذیرش باید PRهای مخزن محصول `non` را بررسی کند، در Settings → Secrets and variables → Actions یک Repository Secret با نام `FARAST_GITHUB_TOKEN` تعریف کن. از Fine-grained PAT با دسترسی فقط read به Pull requests و Metadata در مخزن هدف استفاده کن. توکن را در Issue، فایل، خروجی چت یا log وارد نکن.
+- برای پذیرش PR در مخزن عمومی محصول `non`، در مخزن کنترل‌پلین از مسیر Settings → Secrets and variables → Actions یک Repository Secret با نام `FARAST_GITHUB_TOKEN` تعریف کن. مقدار آن یک Fine-grained PAT محدود به همان مخزن مقصد باشد؛ حداقل مجوزها:
+  - **Pull requests: write** — خواندن PR و ادغام PR با SHA دقیق head.
+  - **Commit statuses: read** — خواندن وضعیت‌های commit روی SHA دقیق.
+  - **Contents: read** — فقط برای مسیر جایگزین بررسی ancestry با Compare API.
+  - **Metadata: read** — به‌صورت پیش‌فرض برای Fine-grained PAT فراهم است.
+  - **Checks:read را به این PAT اضافه نکن**؛ مستندات فعلی GitHub برای List check runs، Fine-grained PAT را به‌عنوان نوع توکن پشتیبانی‌شده فهرست نمی‌کنند. Coordinator برای مخزن cross-repo عمومی Check Runها را بدون احراز هویت می‌خواند. مخزن خصوصی تا پیاده‌سازی GitHub App installation-token با Checks:read عمداً پشتیبانی نمی‌شود و پذیرش آن fail-closed می‌ماند.
+- PAT را فقط به مخزن هدف بده؛ Contents write، Actions، Workflows، Administration، Secrets و Issues لازم نیستند. هرگز مقدار توکن را در Issue، فایل، خروجی چت یا log وارد نکن. وجود/مقدار Secret از اتصال فعلی قابل خواندن یا تأیید نیست.
 - هر حساب/کارمند/چت باید دسترسی GitHub مستقل و مجاز داشته باشد. نقش GitHub actor و author_association در coordinator بررسی می‌شود؛ CHAT_ID و RUN_ID فقط metadata خوداظهاری‌اند.
 - برای branch `coordination/locks` هیچ workflow یا عامل دیگری را به‌عنوان writer فعال نکن. workflow مرکزی تنها writer مجاز است؛ تغییر دستی registry ممنوع.
 - پیش از استفاده واقعی، آزمون‌های `04_COORDINATION/COORDINATOR_TEST_PLAN.md` را اجرا و نتایج را در GitHub ثبت کن. حداقل دو حساب مستقل برای اثبات contention و takeover لازم است.
 
 
 ## 6. اجازه نوشتن برای GitHub Actions
-در Settings → Actions → General → Workflow permissions بررسی کن که GitHub Actions اجازه write به محتوا و Issueها داشته باشد؛ workflow خودش دسترسی‌ها را به contents:write و issues:write و pull-requests:read محدود کرده است. اگر policy مخزن/سازمان write را ممنوع کند، coordinator نمی‌تواند registry یا Issue comments را به‌روزرسانی کند و باید read-only/STOP WRITES بماند.
+در Settings → Actions → General → Workflow permissions بررسی کن که GitHub Actions اجازه write داشته باشد. workflow مرکزی در کنترل‌پلین به contents:write، issues:write و pull-requests:write و به checks:read و statuses:read نیاز دارد؛ این مجوزهای workflow در مخزن کنترل‌پلین جدا از مجوزهای Fine-grained PAT مخزن مقصد هستند. اگر policy مخزن/سازمان write را ممنوع کند، coordinator نمی‌تواند registry یا Issue comments را به‌روزرسانی کند و باید read-only/STOP WRITES بماند.
 
 
 ## تفویض اختیار فرمان‌های چندچتی
