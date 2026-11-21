@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3411,
+  "revision": 3412,
   "next_fencing_token": 176,
   "locks": [
     {
@@ -28087,7 +28087,7 @@
     },
     "7067301495": {
       "response": "STEP ثبت شد: S2_MINIMAL_FIX; EXECUTION_PROGRESS=50%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=3/6.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 107,
       "actor": "a4adelahmadian86-wq",
       "command": "step",
