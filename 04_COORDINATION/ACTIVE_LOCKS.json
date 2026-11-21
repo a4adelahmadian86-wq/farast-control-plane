@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3515,
+  "revision": 3516,
   "next_fencing_token": 180,
   "locks": [
     {
@@ -28794,6 +28794,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-21T19:05:52.441Z"
+    },
+    "7067758228": {
+      "response": "STEP ثبت شد: S0_REPRODUCE_DEADLOCK; EXECUTION_PROGRESS=14.28%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=1/7.",
+      "response_posted": false,
+      "issue_number": 119,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-21T19:05:59.846Z"
     }
   },
   "work_items": {
@@ -37077,7 +37086,7 @@
         "CP-03",
         "CP-04"
       ],
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "file:.github/scripts/work-item-core.js",
@@ -37093,7 +37102,15 @@
           "required": true,
           "weight": 1,
           "expected_output": "Evidence-backed reproduction of post-merge criterion deadlock and missing ruleset bypass visibility",
-          "evidence_requirement": "Exact Issue/PR URLs, main/head SHAs, coordinator response marker and ruleset API read-back"
+          "evidence_requirement": "Exact Issue/PR URLs, main/head SHAs, coordinator response marker and ruleset API read-back",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/107",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/120"
+          ],
+          "validated_at_utc": "2026-11-21T19:05:59.845Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S1_DEFINE_STAGED_MODEL",
