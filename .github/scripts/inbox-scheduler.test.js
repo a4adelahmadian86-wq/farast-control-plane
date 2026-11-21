@@ -130,6 +130,21 @@ test('a bounded issue page lets other Issues progress despite a noisy command so
   ]);
 });
 
+test('cancelled per-Issue runs leave the remaining durable commands eligible for the next replay', () => {
+  const comments = Array.from({ length: 5 }, (_, index) => ({
+    id: 100 + index,
+    body: '/farast status'
+  }));
+  const firstBatch = inbox.selectPendingCommandComments(comments, {}, inbox.MAX_COMMANDS_PER_ISSUE);
+  assert.deepEqual(firstBatch.map(x => x.id), [100, 101, 102]);
+  const committed = Object.fromEntries(firstBatch.map(comment => [String(comment.id), {
+    response_posted: true,
+    issue_number: 106
+  }]));
+  const replayBatch = inbox.selectPendingCommandComments(comments, committed, inbox.MAX_COMMANDS_PER_ISSUE);
+  assert.deepEqual(replayBatch.map(x => x.id), [103, 104]);
+});
+
 test('a command on another Issue is included when a different Issue triggers reconciliation', () => {
   const selected = inbox.selectIssueBatch({
     eventIssue: task(90),
