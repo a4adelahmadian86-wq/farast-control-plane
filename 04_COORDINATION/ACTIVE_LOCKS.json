@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3523,
+  "revision": 3524,
   "next_fencing_token": 180,
   "locks": [
     {
@@ -28830,6 +28830,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-21T19:06:30.979Z"
+    },
+    "7067760195": {
+      "response": "STEP ثبت شد: S4_REGRESSION_TESTS; EXECUTION_PROGRESS=71.42%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=5/7.",
+      "response_posted": false,
+      "issue_number": 119,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-21T19:06:48.101Z"
     }
   },
   "work_items": {
@@ -37190,7 +37199,14 @@
           "required": true,
           "weight": 1,
           "expected_output": "Regression coverage for the deadlock and all fail-closed invariants",
-          "evidence_requirement": "Named tests and exact test output"
+          "evidence_requirement": "Named tests and exact test output",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44939011753"
+          ],
+          "validated_at_utc": "2026-11-21T19:06:48.100Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S5_VALIDATE_SCOPE",
