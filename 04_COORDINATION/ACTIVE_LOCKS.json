@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3414,
+  "revision": 3415,
   "next_fencing_token": 176,
   "locks": [
     {
@@ -28102,6 +28102,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-21T18:30:46.655Z"
+    },
+    "7067311310": {
+      "response": "STEP ثبت شد: S4_VALIDATE; EXECUTION_PROGRESS=83.33%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=5/6.",
+      "response_posted": false,
+      "issue_number": 107,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-21T18:31:10.809Z"
     }
   },
   "work_items": {
@@ -35454,7 +35463,15 @@
           "required": true,
           "weight": 1,
           "expected_output": "Passing CI and scope audit",
-          "evidence_requirement": "Exact head SHA, CI run URL and changed-file list"
+          "evidence_requirement": "Exact head SHA, CI run URL and changed-file list",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44935805639",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/116"
+          ],
+          "validated_at_utc": "2026-11-21T18:31:10.808Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S5_PR_HANDOFF",
