@@ -1,25 +1,8 @@
 {
   "schema_version": "1.0",
-  "revision": 3176,
+  "revision": 3177,
   "next_fencing_token": 167,
-  "locks": [
-    {
-      "resource_key": "analysis:exp-07",
-      "issue_number": 19,
-      "task_id": "GH-19",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "chat-farast-main-audit-20261121",
-      "chat_id": "chat-farast-main-audit-20261121",
-      "run_id": "RUN-20261121-EXP07-GAP-02",
-      "target_repository": "a4adelahmadian86-wq/non",
-      "branch": null,
-      "acquired_at_utc": "2026-11-21T10:01:29.234Z",
-      "heartbeat_at_utc": "2026-11-21T10:12:30.284Z",
-      "lease_expires_at_utc": "2026-11-21T10:42:30.284Z",
-      "fencing_token": 166,
-      "status": "ACTIVE"
-    }
-  ],
+  "locks": [],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -12746,6 +12729,17 @@
       "target_repository": "a4adelahmadian86-wq/non",
       "lease_expires_at_utc": "2026-11-21T10:42:30.284Z",
       "at_utc": "2026-11-21T10:12:30.284Z"
+    },
+    {
+      "event": "REVIEW",
+      "issue_number": 19,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "chat-farast-main-audit-20261121",
+      "run_id": "RUN-20261121-EXP07-GAP-02",
+      "fencing_token": 166,
+      "branch": null,
+      "target_repository": "a4adelahmadian86-wq/non",
+      "at_utc": "2026-11-21T10:12:49.913Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -26035,6 +26029,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-21T10:12:30.284Z"
+    },
+    "7061078896": {
+      "response": "پیاده‌سازی برای اجرای گیت‌های ماشینی و پذیرش خودکار تحویل شد؛ این فرمان به‌تنهایی پذیرش نیست.",
+      "response_posted": false,
+      "issue_number": 19,
+      "actor": "a4adelahmadian86-wq",
+      "command": "review",
+      "next_status": "review",
+      "at_utc": "2026-11-21T10:12:49.914Z"
     }
   },
   "work_items": {
