@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3392,
+  "revision": 3393,
   "next_fencing_token": 175,
   "locks": [],
   "history": [
@@ -36893,6 +36893,11 @@
         "reason": "Invalid Work item specification JSON in Issue #111: Resource keys do not match JSON",
         "count": 2,
         "last_seen_at_utc": "2026-11-21T04:32:15.923Z"
+      },
+      "115": {
+        "reason": "Invalid Work item specification JSON in Issue #115: Unexpected non-whitespace character after JSON at position 7244 (line 154 column 1)",
+        "count": 1,
+        "last_seen_at_utc": "2026-11-21T17:36:27.832Z"
       }
     }
   }
