@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3074,
+  "revision": 3075,
   "next_fencing_token": 164,
   "locks": [],
   "history": [
@@ -25225,7 +25225,7 @@
     },
     "7057444359": {
       "response": "پذیرش رد شد: لینک PR باید هم در بدنه Issue ثبت شده باشد و هم با pr= به فرمان accept داده شود؛ فقط READ_ONLY بدون PR از مسیر شواهد ماشینی استفاده می‌کند.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 111,
       "actor": "a4adelahmadian86-wq",
       "command": "accept",
