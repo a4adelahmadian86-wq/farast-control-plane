@@ -40,7 +40,7 @@ PR #1 ادغام شده و workflow فرمانی `issue_comment` روی `main` �
 3. branch protection / ruleset شاخه `main` از طریق اتصال فعلی تأیید نشده است.
 4. تنظیم GitHub Actions برای اجازه write در مخزن باید توسط مالک بررسی شود.
 5. آزمون دو حساب GitHub مستقل در دو نشست ChatGPT، claim هم‌زمان، منبع مشترک و disjoint، قطع اتصال، expiry/takeover و رد token قدیمی هنوز **NOT_RUN** است.
-6. برای پذیرش PR در مخزن عمومی `non`، Secret با نام `FARAST_GITHUB_TOKEN` باید یک Fine-grained PAT محدود به همان مخزن باشد: Pull requests:write، Commit statuses:read و Contents:read (فقط برای Compare ancestry در مسیر جایگزین)؛ Metadata:read پیش‌فرض است. Check Runهای مخزن عمومی بدون احراز هویت خوانده می‌شوند، چون Fine-grained PAT در مستندات فعلی برای Checks API پشتیبانی‌شده فهرست نشده است. مخزن خصوصی تا افزودن GitHub App installation-token با Checks:read پشتیبانی نمی‌شود. وجود/مقدار Secret از اتصال فعلی قابل تأیید نیست.
+6. برای پذیرش PR در مخزن عمومی `non`، Secret با نام `FARAST_GITHUB_TOKEN` باید یک Fine-grained PAT محدود به همان مخزن باشد: Pull requests:read، Contents:write (الزام endpoint ادغام PR و همچنین پوشش‌دهنده Compare) و Commit statuses:read؛ Metadata:read پیش‌فرض است. Contents:write امکان نوشتن مستقیم محتوا را هم می‌دهد؛ قبل از تعریف Secret باید branch protection/ruleset شاخه پیش‌فرض مقصد فعال و read-back شده باشد. Check Runهای مخزن عمومی بدون احراز هویت خوانده می‌شوند، چون Fine-grained PAT در مستندات فعلی برای Checks API پشتیبانی‌شده فهرست نشده است. مخزن خصوصی تا افزودن GitHub App installation-token با Checks:read پشتیبانی نمی‌شود. چون `non/main.protected=false` است، فعلاً Secret را تنظیم نکنید و پذیرش cross-repository fail-closed می‌ماند. وجود/مقدار Secret از اتصال فعلی قابل تأیید نیست.
 7. مخزن کنترل‌پلین فعلاً PUBLIC می‌ماند؛ فقط اطلاعات عمومی و غیرمحرمانه مجاز است.
 
 ## وضعیت پس از ادغام PR #1
@@ -306,3 +306,10 @@ MASTER-00 یک فرمان ثابت برای تمام چت‌هاست؛ هر چت
 - قرارداد cross-repository اصلاح‌شده: Fine-grained PAT برای مخزن عمومی مقصد با Pull requests:write، Commit statuses:read و Contents:read فقط برای مسیر Compare؛ Metadata:read پیش‌فرض. Check Runهای مخزن عمومی با client بدون احراز هویت خوانده می‌شوند. GitHub در مستندات جاری List check runs، Fine-grained PAT را در فهرست token typeهای پشتیبانی‌شده نمی‌آورد؛ برای مخزن خصوصی به GitHub App installation-token با Checks:read نیاز است و تا آن زمان پذیرش private cross-repo fail-closed است.
 - آزمون واقعی دو حساب مستقل GitHub در دو نشست ChatGPT، قطع اتصال/takeover و رد token قدیمی همچنان **NOT VERIFIED** است. این موارد با CI یا شبیه‌سازی ۲۵ worker اثبات نمی‌شوند.
 - هیچ Secret یا token value در این سند ثبت نشده است. وجود و مقدار Secret فقط در GitHub Settings قابل بررسی است.
+
+
+### اصلاح تکمیلی قرارداد توکن و حفاظت مقصد — 2026-11-21
+
+- مستندات رسمی جاری GitHub برای `PUT /repos/{owner}/{repo}/pulls/{pull_number}/merge` مجوز **Contents: write** را لازم می‌دانند، نه Pull requests:write. برای خواندن PR، Pull requests:read کافی است؛ برای combined commit status، Commit statuses:read لازم است؛ برای Compare ancestry، Contents:read لازم است که Contents:write آن را پوشش می‌دهد. Metadata:read پیش‌فرض است.
+- این سطح Contents:write وسیع است و قابلیت نوشتن مستقیم محتوا نیز دارد. به همین دلیل، coordinator اکنون پیش از پذیرش PR مقدار `protected=true` شاخه مقصد را بررسی می‌کند و اگر حفاظت فعال/قابل‌خواندن نباشد، fail-closed می‌شود.
+- وضعیت زنده هر دو مخزن در بازبینی: `farast-control-plane/main.protected=false` و `non/main.protected=false`. بنابراین تا فعال‌سازی و read-back Branch protection/ruleset شاخه‌های پیش‌فرض، Secret cross-repository را تنظیم نکنید.
