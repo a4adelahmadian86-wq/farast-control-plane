@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3345,
+  "revision": 3346,
   "next_fencing_token": 171,
   "locks": [
     {
@@ -27403,6 +27403,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-21T12:05:34.011Z"
+    },
+    "7062319556": {
+      "response": "معیار پذیرش ثبت شد: AC_OUTPUT; ACCEPTANCE_PROGRESS=75%; OVERALL_COMPLETION=75%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 21,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-21T12:05:41.769Z"
     }
   },
   "work_items": {
@@ -28876,7 +28885,14 @@
         {
           "criterion_id": "AC_OUTPUT",
           "title": "خروجی‌های تخصصی EXP-09 تولید و read-back شده‌اند: AI service map، quota/cost model، file lifecycle matrix، failure cases.",
-          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion."
+          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion.",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/21#issuecomment-7062299842"
+          ],
+          "validated_at_utc": "2026-11-21T12:05:41.769Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_ACCEPTANCE",
