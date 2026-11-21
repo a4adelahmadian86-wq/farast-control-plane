@@ -1,121 +1,8 @@
 {
   "schema_version": "1.0",
-  "revision": 3498,
+  "revision": 3499,
   "next_fencing_token": 178,
-  "locks": [
-    {
-      "resource_key": "file:.github/scripts/coordinator-core.js",
-      "issue_number": 107,
-      "task_id": "GH-107",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "CHAT-20261121-READINESS-02",
-      "chat_id": "CHAT-20261121-READINESS-02",
-      "run_id": "RUN-20261121-RULESET-READ-004",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": "work/GH-107-RUN-20261121-RULESET-READ-004",
-      "acquired_at_utc": "2026-11-21T18:56:12.575Z",
-      "heartbeat_at_utc": "2026-11-21T18:57:47.381Z",
-      "lease_expires_at_utc": "2026-11-21T19:27:47.381Z",
-      "fencing_token": 177,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "file:.github/scripts/coordinator-core.test.js",
-      "issue_number": 107,
-      "task_id": "GH-107",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "CHAT-20261121-READINESS-02",
-      "chat_id": "CHAT-20261121-READINESS-02",
-      "run_id": "RUN-20261121-RULESET-READ-004",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": "work/GH-107-RUN-20261121-RULESET-READ-004",
-      "acquired_at_utc": "2026-11-21T18:56:12.575Z",
-      "heartbeat_at_utc": "2026-11-21T18:57:47.381Z",
-      "lease_expires_at_utc": "2026-11-21T19:27:47.381Z",
-      "fencing_token": 177,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "file:.github/scripts/inbox-scheduler.js",
-      "issue_number": 107,
-      "task_id": "GH-107",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "CHAT-20261121-READINESS-02",
-      "chat_id": "CHAT-20261121-READINESS-02",
-      "run_id": "RUN-20261121-RULESET-READ-004",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": "work/GH-107-RUN-20261121-RULESET-READ-004",
-      "acquired_at_utc": "2026-11-21T18:56:12.575Z",
-      "heartbeat_at_utc": "2026-11-21T18:57:47.381Z",
-      "lease_expires_at_utc": "2026-11-21T19:27:47.381Z",
-      "fencing_token": 177,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "file:.github/scripts/inbox-scheduler.test.js",
-      "issue_number": 107,
-      "task_id": "GH-107",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "CHAT-20261121-READINESS-02",
-      "chat_id": "CHAT-20261121-READINESS-02",
-      "run_id": "RUN-20261121-RULESET-READ-004",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": "work/GH-107-RUN-20261121-RULESET-READ-004",
-      "acquired_at_utc": "2026-11-21T18:56:12.575Z",
-      "heartbeat_at_utc": "2026-11-21T18:57:47.381Z",
-      "lease_expires_at_utc": "2026-11-21T19:27:47.381Z",
-      "fencing_token": 177,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "file:.github/scripts/work-item-core.js",
-      "issue_number": 107,
-      "task_id": "GH-107",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "CHAT-20261121-READINESS-02",
-      "chat_id": "CHAT-20261121-READINESS-02",
-      "run_id": "RUN-20261121-RULESET-READ-004",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": "work/GH-107-RUN-20261121-RULESET-READ-004",
-      "acquired_at_utc": "2026-11-21T18:56:12.575Z",
-      "heartbeat_at_utc": "2026-11-21T18:57:47.381Z",
-      "lease_expires_at_utc": "2026-11-21T19:27:47.381Z",
-      "fencing_token": 177,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "file:.github/scripts/work-item-core.test.js",
-      "issue_number": 107,
-      "task_id": "GH-107",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "CHAT-20261121-READINESS-02",
-      "chat_id": "CHAT-20261121-READINESS-02",
-      "run_id": "RUN-20261121-RULESET-READ-004",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": "work/GH-107-RUN-20261121-RULESET-READ-004",
-      "acquired_at_utc": "2026-11-21T18:56:12.575Z",
-      "heartbeat_at_utc": "2026-11-21T18:57:47.381Z",
-      "lease_expires_at_utc": "2026-11-21T19:27:47.381Z",
-      "fencing_token": 177,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "file:.github/workflows/farast-coordinator.yml",
-      "issue_number": 107,
-      "task_id": "GH-107",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "CHAT-20261121-READINESS-02",
-      "chat_id": "CHAT-20261121-READINESS-02",
-      "run_id": "RUN-20261121-RULESET-READ-004",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": "work/GH-107-RUN-20261121-RULESET-READ-004",
-      "acquired_at_utc": "2026-11-21T18:56:12.575Z",
-      "heartbeat_at_utc": "2026-11-21T18:57:47.381Z",
-      "lease_expires_at_utc": "2026-11-21T19:27:47.381Z",
-      "fencing_token": 177,
-      "status": "ACTIVE"
-    }
-  ],
+  "locks": [],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -13946,6 +13833,17 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "lease_expires_at_utc": "2026-11-21T19:27:47.381Z",
       "at_utc": "2026-11-21T18:57:47.381Z"
+    },
+    {
+      "event": "REVIEW",
+      "issue_number": 107,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-20261121-READINESS-02",
+      "run_id": "RUN-20261121-RULESET-READ-004",
+      "fencing_token": 177,
+      "branch": "work/GH-107-RUN-20261121-RULESET-READ-004",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "at_utc": "2026-11-21T19:00:20.164Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -28647,6 +28545,15 @@
       "command": "status",
       "next_status": null,
       "at_utc": "2026-11-21T18:59:28.409Z"
+    },
+    "7067682007": {
+      "response": "پیاده‌سازی برای اجرای گیت‌های ماشینی و پذیرش خودکار تحویل شد؛ این فرمان به‌تنهایی پذیرش نیست.",
+      "response_posted": false,
+      "issue_number": 107,
+      "actor": "a4adelahmadian86-wq",
+      "command": "review",
+      "next_status": "review",
+      "at_utc": "2026-11-21T19:00:20.165Z"
     }
   },
   "work_items": {
@@ -35914,7 +35821,7 @@
         "CP-03",
         "CP-04"
       ],
-      "status": "IN_PROGRESS",
+      "status": "REVIEW_REQUIRED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "file:.github/workflows/farast-coordinator.yml",
