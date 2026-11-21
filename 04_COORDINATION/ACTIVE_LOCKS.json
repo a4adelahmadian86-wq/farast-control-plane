@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3059,
+  "revision": 3060,
   "next_fencing_token": 164,
   "locks": [
     {
@@ -25153,6 +25153,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-21T04:42:03.308Z"
+    },
+    "7057427181": {
+      "response": "معیار پذیرش ثبت شد: AC_DOC_CONSISTENCY; ACCEPTANCE_PROGRESS=50%; OVERALL_COMPLETION=50%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 111,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-21T04:42:21.349Z"
     }
   },
   "work_items": {
@@ -32042,7 +32051,14 @@
           "title": "All four operator documents give the same accurate instructions and clearly distinguish token scope from secret presence/configuration",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "Read-back of all four files at the exact PR head"
+          "evidence_requirement": "Read-back of all four files at the exact PR head",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/cfcabe8f66dd80dcb14f5903d90f5a50f155d1f9"
+          ],
+          "validated_at_utc": "2026-11-21T04:42:21.348Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_DRIFT_TEST",
