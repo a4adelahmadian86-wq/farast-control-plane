@@ -559,9 +559,20 @@ jobs:
                       const [__, prOwner, prRepo, prNumber] = prMatch;
                       const prClient = (prOwner === owner && prRepo === repo) ? github : crossRepoGithub;
                       if (!prClient) {
-                        response = 'پذیرش انجام نشد: Secret با نام FARAST_GITHUB_TOKEN برای PRهای مخزن دیگر لازم است؛ روی مخزن مقصد Pull requests:write، Commit statuses:read و Contents:read (فقط برای مقایسه ancestry در مسیر جایگزین) لازم است؛ Metadata:read به‌صورت پیش‌فرض فراهم است. Check Run مخزن عمومی بدون احراز هویت خوانده می‌شود؛ مخزن خصوصی تا افزودن GitHub App token پشتیبانی نمی‌شود.';
+                        response = 'پذیرش انجام نشد: Secret با نام FARAST_GITHUB_TOKEN لازم است؛ Fine-grained PAT مقصد باید Contents:write (برای endpoint ادغام PR و Compare)، Pull requests:read و Commit statuses:read داشته باشد؛ Metadata:read پیش‌فرض است. پیش از تنظیم Secret، شاخه مقصد باید protected باشد. Check Run مخزن عمومی بدون احراز هویت خوانده می‌شود؛ مخزن خصوصی تا افزودن GitHub App installation-token پشتیبانی نمی‌شود.';
                       } else {
                         const pr = (await prClient.rest.pulls.get({ owner: prOwner, repo: prRepo, pull_number: Number(prNumber) })).data;
+                        let baseBranchProtectionError = '';
+                        try {
+                          const baseBranchInfo = await prClient.rest.repos.getBranch({
+                            owner: prOwner, repo: prRepo, branch: pr.base.ref
+                          });
+                          if (baseBranchInfo.data.protected !== true) {
+                            baseBranchProtectionError = 'شاخه مقصد ' + pr.base.ref + ' محافظت‌شده نیست؛ تا فعال‌سازی branch protection/ruleset پذیرش و merge ممنوع است.';
+                          }
+                        } catch (protectionError) {
+                          baseBranchProtectionError = 'وضعیت branch protection قابل تأیید نیست؛ پذیرش fail-closed شد: ' + String(protectionError.message || protectionError).slice(0, 180);
+                        }
                         const reviewEvent = [...state.history].reverse().find(x => x.issue_number === issue.number && x.event === 'REVIEW');
                         const branchBound = coordinatorCore.matchesReviewLease(pr, reviewEvent);
                         let mergedReplacementBound = false;
@@ -606,6 +617,7 @@ jobs:
                         if (!lineageBound) response = 'پذیرش رد شد: PR باید از branch و target repository ثبت‌شده در آخرین handoff همان lease ساخته شده باشد؛ استثنا فقط PR ادغام‌شده با merge commit اثبات‌شده به‌عنوان ancestor شاخه پیش‌فرض همان مخزن است.';
                         else if (!hardGate.ready) response = 'پذیرش خودکار رد شد: گیت سخت/عملیات درخواست‌شده حل‌نشده یا پاس‌نشده است: ' + hardGate.blockers.join(',') + '.';
                         else if (!mergeGate.ready) response = 'ادغام رد شد: گیت عملیات merge پاس نشده است: ' + mergeGate.blockers.join(',') + '.';
+                        else if (baseBranchProtectionError) response = 'ادغام متوقف شد: ' + baseBranchProtectionError;
                         else if (checkRunsError) response = 'پذیرش خودکار متوقف شد: خواندن Check Runها ممکن نشد. مخزن هدف باید public باشد تا Checks API بدون احراز هویت خوانده شود؛ برای مخزن private، GitHub App installation token با Checks:read لازم است. جزئیات: ' + checkRunsError;
                         else if (!automatedChecksPassed) response = 'پذیرش خودکار رد شد: تمام Check Runها و Commit Statusهای SHA دقیق head باید با conclusion/state برابر success تکمیل شده باشند؛ بازبین انسانی دوم لازم نیست.';
                         else if (acceptanceItem && !acceptanceProgress.can_accept) response = 'ادغام متوقف شد: پیش از merge همه گام‌ها، معیارهای پذیرش و dependencyها باید با evidence معتبر PASS باشند؛ EXECUTION_PROGRESS=' + acceptanceProgress.execution_percentage + '%; ACCEPTANCE_PROGRESS=' + (acceptanceProgress.acceptance_percentage === null ? 'N/A' : acceptanceProgress.acceptance_percentage + '%') + '; OVERALL_COMPLETION=' + (acceptanceProgress.overall_completion_percentage === null ? 'N/A' : acceptanceProgress.overall_completion_percentage + '%') + '.';
