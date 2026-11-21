@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3313,
+  "revision": 3314,
   "next_fencing_token": 171,
   "locks": [
     {
@@ -27154,7 +27154,7 @@
     },
     "7062214476": {
       "response": "فرمان رد شد: lease معتبر نیست.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 21,
       "actor": "a4adelahmadian86-wq",
       "command": "step",
