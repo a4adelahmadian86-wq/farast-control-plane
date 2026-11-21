@@ -38,6 +38,7 @@ jobs:
         uses: actions/github-script@v7
         env:
           FARAST_GITHUB_TOKEN: ${{ secrets.FARAST_GITHUB_TOKEN }}
+          FARAST_RULESET_READ_TOKEN: ${{ secrets.FARAST_RULESET_READ_TOKEN }}
         with:
           script: |
             const owner = context.repo.owner;
@@ -49,6 +50,11 @@ jobs:
             const authorizationPolicy = require(process.env.GITHUB_WORKSPACE + '/04_COORDINATION/ACTOR_AUTHORIZATION.json');
             const registryBranch = 'coordination/locks';
             const crossRepoGithub = process.env.FARAST_GITHUB_TOKEN ? new github.constructor({ auth: process.env.FARAST_GITHUB_TOKEN }) : null;
+            // GITHUB_TOKEN has no Administration:read scope. Read bypass actors with a
+            // dedicated least-privilege token; without it, ruleset validation stays fail-closed.
+            const rulesetReadGithub = process.env.FARAST_RULESET_READ_TOKEN
+              ? new github.constructor({ auth: process.env.FARAST_RULESET_READ_TOKEN })
+              : github;
             // Fine-grained PATs do not authenticate the Checks API. For cross-repository
             // acceptance, read check runs anonymously only when the target repository is
             // public. Private targets fail closed here and require a future GitHub App
@@ -567,13 +573,13 @@ jobs:
                         const pr = (await prClient.rest.pulls.get({ owner: prOwner, repo: prRepo, pull_number: Number(prNumber) })).data;
                         let baseBranchProtectionError = '';
                         try {
-                          const baseBranchInfo = await prClient.rest.repos.getBranch({
+                          const baseBranchInfo = await rulesetReadGithub.rest.repos.getBranch({
                             owner: prOwner, repo: prRepo, branch: pr.base.ref
                           });
                           if (baseBranchInfo.data.protected !== true) {
                             baseBranchProtectionError = 'شاخه مقصد ' + pr.base.ref + ' protected=false است؛ پذیرش و merge ممنوع است.';
                           } else {
-                            const effectiveBranchRules = (await prClient.request(
+                            const effectiveBranchRules = (await rulesetReadGithub.request(
                               'GET /repos/{owner}/{repo}/rules/branches/{branch}',
                               { owner: prOwner, repo: prRepo, branch: pr.base.ref, per_page: 100 }
                             )).data;
@@ -582,7 +588,7 @@ jobs:
                               .map(rule => String(rule.ruleset_id)))];
                             const applicableRuleSets = [];
                             for (const rulesetId of repositoryRuleIds) {
-                              const detail = await prClient.request(
+                              const detail = await rulesetReadGithub.request(
                                 'GET /repos/{owner}/{repo}/rulesets/{ruleset_id}',
                                 { owner: prOwner, repo: prRepo, ruleset_id: Number(rulesetId) }
                               );
