@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3332,
+  "revision": 3333,
   "next_fencing_token": 171,
   "locks": [
     {
@@ -27313,6 +27313,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-21T12:03:32.816Z"
+    },
+    "7062303713": {
+      "response": "STEP ثبت شد: S6_REPORT; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=7/7.",
+      "response_posted": false,
+      "issue_number": 21,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-21T12:03:52.153Z"
     }
   },
   "work_items": {
@@ -28732,7 +28741,14 @@
           "weight": 1,
           "expected_output": "خروجی قابل بازبینی برای مرحله: بررسی privacy، prompt/file exposure، provider boundaries و هزینه.",
           "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/21#issuecomment-7062257129"
+          ],
+          "validated_at_utc": "2026-11-21T12:03:52.153Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S7_VERIFY",
