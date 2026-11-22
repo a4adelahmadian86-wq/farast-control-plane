@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3584,
+  "revision": 3585,
   "next_fencing_token": 182,
   "locks": [],
   "history": [
@@ -29066,19 +29066,6 @@
       "command": "review",
       "next_status": "review",
       "at_utc": "2026-11-22T12:07:41.664Z"
-    },
-    "7078897156": {
-      "response": "ادغام متوقف شد: قواعد مؤثر شاخه مقصد ناقص، غیرقابل‌خواندن یا قابل دور زدن است؛ پذیرش fail-closed شد: ruleset_bypass_actors_not_visible:27803824",
-      "response_posted": true,
-      "issue_number": 119,
-      "actor": "a4adelahmadian86-wq",
-      "command": "accept",
-      "next_status": null,
-      "pr_url": "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/122",
-      "pr_head_sha": "277cf36b319e61c9c7a644ffb91325fee4f6aa22",
-      "merge_commit_sha": "703ae88a7f1f8330bd32236fe62fe8d147ffe32a",
-      "lineage_mode": "EXACT_REVIEW_BRANCH",
-      "at_utc": "2026-11-22T12:08:12.601Z"
     }
   },
   "work_items": {
@@ -38481,6 +38468,22 @@
       "lineage_mode": "EXACT_REVIEW_BRANCH",
       "at_utc": "2026-11-22T11:56:53.651Z",
       "replayed_at_utc": "2026-11-22T12:00:12.481Z",
+      "replayed_by": "a4adelahmadian86-wq",
+      "reason": "owner-triggered exact-branch recovery after privileged ruleset-read workflow was installed"
+    },
+    "7078897156": {
+      "response": "ادغام متوقف شد: قواعد مؤثر شاخه مقصد ناقص، غیرقابل‌خواندن یا قابل دور زدن است؛ پذیرش fail-closed شد: ruleset_bypass_actors_not_visible:27803824",
+      "response_posted": true,
+      "issue_number": 119,
+      "actor": "a4adelahmadian86-wq",
+      "command": "accept",
+      "next_status": null,
+      "pr_url": "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/122",
+      "pr_head_sha": "277cf36b319e61c9c7a644ffb91325fee4f6aa22",
+      "merge_commit_sha": "703ae88a7f1f8330bd32236fe62fe8d147ffe32a",
+      "lineage_mode": "EXACT_REVIEW_BRANCH",
+      "at_utc": "2026-11-22T12:08:12.601Z",
+      "replayed_at_utc": "2026-11-22T12:12:17.091Z",
       "replayed_by": "a4adelahmadian86-wq",
       "reason": "owner-triggered exact-branch recovery after privileged ruleset-read workflow was installed"
     }
