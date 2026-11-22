@@ -905,6 +905,14 @@ test('ruleset bypass actor verification uses a dedicated Administration-read tok
   assert.ok(coreSource.includes('ruleset_bypass_actors_not_visible'));
 });
 
+test('manual workflow dispatch can reconcile one exact Issue without relying on the global inbox page cursor', () => {
+  const workflow = fs.readFileSync('.github/workflows/farast-coordinator.yml', 'utf8');
+  assert.match(workflow, /workflow_dispatch:\\n    inputs:\\n      issue_number:/);
+  assert.ok(workflow.includes('context.payload.inputs?.issue_number'));
+  assert.ok(workflow.includes('github.rest.issues.get({'));
+  assert.ok(workflow.includes('await safelyProcessIssue(targetedIssue)'));
+});
+
 test('branch ruleset gate requires active PR-only, non-fast-forward, deletion rules and no bypass actors', () => {
   const validRules = [
     {type:'pull_request',ruleset_id:17,ruleset_source_type:'Repository',parameters:{required_approving_review_count:0}},
