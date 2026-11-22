@@ -188,7 +188,7 @@ jobs:
                 const formEffort = formEffortRaw ? Number(formEffortRaw) : Number.NaN;
                 const formWritePolicy = scalar('Write policy');
                 const formPrioritySource = scalar('Priority source');
-                const specResources = [...new Set((item.resource_keys || []).map(x => String(x).trim().toLowerCase().replace(/\\/g, '/')))].sort();
+                const specResources = [...new Set((item.resource_keys || []).map(x => coordinatorCore.canonicalResourceKey(x) || String(x).trim().replace(/\\/g, '/')))].sort();
                 if (formId && formId !== item.work_item_id) throw new Error('Stable Work Item ID does not match JSON');
                 if (formTarget && formTarget !== item.target_repository) throw new Error('Target repository does not match JSON');
                 if (JSON.stringify(formResources) !== JSON.stringify(specResources)) throw new Error('Resource keys do not match JSON');

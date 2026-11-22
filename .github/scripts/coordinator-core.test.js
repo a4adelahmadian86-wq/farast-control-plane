@@ -940,6 +940,20 @@ test('blocked issue revalidation errors do not short-circuit the durable command
   assert.ok(workflow.includes('continue to pending commands'));
 });
 
+test('canonical resource keys preserve case-sensitive paths and normalize logical identifiers', () => {
+  assert.equal(core.canonicalResourceKey('file:04_COORDINATION/COORDINATOR_COMMANDS.md'), 'file:04_COORDINATION/COORDINATOR_COMMANDS.md');
+  assert.equal(core.canonicalResourceKey('doc:05_PROMPT_LIBRARY/PROMPT_CATALOG.md'), 'doc:05_PROMPT_LIBRARY/PROMPT_CATALOG.md');
+  assert.equal(core.canonicalResourceKey('MODULE:Identity'), 'module:identity');
+  const form = core.resourcesFor('### Resource keys\nfile:04_COORDINATION/COORDINATOR_COMMANDS.md\n');
+  const spec = ['file:04_COORDINATION/COORDINATOR_COMMANDS.md'].map(x => core.canonicalResourceKey(x)).sort();
+  assert.deepEqual(form, spec);
+});
+
+test('Work Item resource-key form comparison uses canonical path-aware normalization', () => {
+  const workflow = fs.readFileSync('.github/workflows/farast-coordinator.yml', 'utf8');
+  assert.ok(workflow.includes('coordinatorCore.canonicalResourceKey(x)'));
+});
+
 test('branch ruleset gate requires active PR-only, non-fast-forward, deletion rules and no bypass actors', () => {
   const validRules = [
     {type:'pull_request',ruleset_id:17,ruleset_source_type:'Repository',parameters:{required_approving_review_count:0}},
