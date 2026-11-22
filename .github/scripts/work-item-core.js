@@ -111,6 +111,7 @@ function validateWorkItem(item) {
     criterionIds.add(criterion.criterion_id);
     assert(VALIDATION.has(criterion.validation_status || 'NOT_RUN'), 'invalid criterion validation_status');
     assert(criterion.required === undefined || typeof criterion.required === 'boolean', 'criterion required must be boolean');
+    assert(criterion.validation_stage === undefined || ['PRE_MERGE','POST_MERGE'].includes(criterion.validation_stage), 'invalid criterion validation_stage');
   }
   if (item.weighting) {
     assert(typeof item.weighting.version === 'string' && item.weighting.version.trim(), 'weighting version is required');
@@ -172,7 +173,8 @@ function evidenceVerified(record) {
 function refreshedStatus(previousStatus, progress, hardGatesReady) {
   if (TERMINAL.has(previousStatus)) return previousStatus;
   if (!hardGatesReady) return 'BLOCKED';
-  if (progress.can_accept) return 'REVIEW_REQUIRED';
+  // A Work Item with only POST_MERGE criteria still needs PR review/merge; do not downgrade it to READY after refresh.
+  if (progress.can_merge || progress.can_accept) return 'REVIEW_REQUIRED';
   return progress.verified_steps > 0 ? 'IN_PROGRESS' : 'READY';
 }
 
@@ -185,11 +187,13 @@ function calculateProgress(item) {
   const executionPercentage = total === 0 ? 0 : Math.floor((verified / total) * 10000) / 100;
 
   const requiredCriteria = item.acceptance_criteria.filter(c => c.required !== false);
+  const preMergeCriteria = requiredCriteria.filter(c => c.validation_stage !== 'POST_MERGE');
   const acceptanceWeighted = !!item.acceptance_weighting;
   const criteriaTotal = requiredCriteria.reduce((sum, c) => sum + (acceptanceWeighted ? c.weight : 1), 0);
   const criteriaVerified = requiredCriteria.reduce((sum, c) => sum + (evidenceVerified(c) ? (acceptanceWeighted ? c.weight : 1) : 0), 0);
   const acceptancePercentage = criteriaTotal === 0 ? null : Math.floor((criteriaVerified / criteriaTotal) * 10000) / 100;
   const criteriaPassed = requiredCriteria.length > 0 && requiredCriteria.every(evidenceVerified);
+  const preMergeCriteriaPassed = preMergeCriteria.length > 0 && preMergeCriteria.every(evidenceVerified);
   const allStepsVerified = steps.every(evidenceVerified);
   const dependenciesAccepted = (item.dependencies || []).every(d => d.status === 'ACCEPTED');
   const overallCompletion = acceptancePercentage === null ? null : Math.min(executionPercentage, acceptancePercentage);
@@ -215,7 +219,9 @@ function calculateProgress(item) {
     acceptance_criteria_counts: countStates(requiredCriteria),
     all_steps_verified: allStepsVerified,
     all_required_criteria_passed: criteriaPassed,
+    pre_merge_criteria_passed: preMergeCriteriaPassed,
     dependencies_accepted: dependenciesAccepted,
+    can_merge: allStepsVerified && preMergeCriteriaPassed && dependenciesAccepted,
     can_accept: allStepsVerified && criteriaPassed && dependenciesAccepted
   };
 }

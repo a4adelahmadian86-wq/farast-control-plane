@@ -8,6 +8,15 @@ on:
   schedule:
     - cron: "*/5 * * * *"
   workflow_dispatch:
+    inputs:
+      issue_number:
+        description: 'Optional exact Issue number to reconcile instead of scanning one inbox page'
+        required: false
+        type: string
+      retry_comment_id:
+        description: 'Owner-only replay of a previously blocked /farast accept comment; requires its exact comment ID'
+        required: false
+        type: string
 
 # Serialize events for the same Issue, but let unrelated Issues reconcile in parallel.
 # The shared registry is protected by a non-force fast-forward compare-and-swap:
@@ -38,6 +47,7 @@ jobs:
         uses: actions/github-script@v7
         env:
           FARAST_GITHUB_TOKEN: ${{ secrets.FARAST_GITHUB_TOKEN }}
+          FARAST_RULESET_READ_TOKEN: ${{ secrets.FARAST_RULESET_READ_TOKEN }}
         with:
           script: |
             const owner = context.repo.owner;
@@ -49,6 +59,11 @@ jobs:
             const authorizationPolicy = require(process.env.GITHUB_WORKSPACE + '/04_COORDINATION/ACTOR_AUTHORIZATION.json');
             const registryBranch = 'coordination/locks';
             const crossRepoGithub = process.env.FARAST_GITHUB_TOKEN ? new github.constructor({ auth: process.env.FARAST_GITHUB_TOKEN }) : null;
+            // GITHUB_TOKEN has no Administration:read scope. Read bypass actors with a
+            // dedicated least-privilege token; without it, ruleset validation stays fail-closed.
+            const rulesetReadGithub = process.env.FARAST_RULESET_READ_TOKEN
+              ? new github.constructor({ auth: process.env.FARAST_RULESET_READ_TOKEN })
+              : github;
             // Fine-grained PATs do not authenticate the Checks API. For cross-repository
             // acceptance, read check runs anonymously only when the target repository is
             // public. Private targets fail closed here and require a future GitHub App
@@ -564,13 +579,13 @@ jobs:
                         const pr = (await prClient.rest.pulls.get({ owner: prOwner, repo: prRepo, pull_number: Number(prNumber) })).data;
                         let baseBranchProtectionError = '';
                         try {
-                          const baseBranchInfo = await prClient.rest.repos.getBranch({
+                          const baseBranchInfo = await rulesetReadGithub.rest.repos.getBranch({
                             owner: prOwner, repo: prRepo, branch: pr.base.ref
                           });
                           if (baseBranchInfo.data.protected !== true) {
                             baseBranchProtectionError = 'شاخه مقصد ' + pr.base.ref + ' protected=false است؛ پذیرش و merge ممنوع است.';
                           } else {
-                            const effectiveBranchRules = (await prClient.request(
+                            const effectiveBranchRules = (await rulesetReadGithub.request(
                               'GET /repos/{owner}/{repo}/rules/branches/{branch}',
                               { owner: prOwner, repo: prRepo, branch: pr.base.ref, per_page: 100 }
                             )).data;
@@ -579,7 +594,7 @@ jobs:
                               .map(rule => String(rule.ruleset_id)))];
                             const applicableRuleSets = [];
                             for (const rulesetId of repositoryRuleIds) {
-                              const detail = await prClient.request(
+                              const detail = await rulesetReadGithub.request(
                                 'GET /repos/{owner}/{repo}/rulesets/{ruleset_id}',
                                 { owner: prOwner, repo: prRepo, ruleset_id: Number(rulesetId) }
                               );
@@ -631,6 +646,9 @@ jobs:
                           checkRunsError = String(checkError.message || checkError).slice(0, 240);
                         }
                         const combinedStatus = await prClient.rest.repos.getCombinedStatusForRef({ owner: prOwner, repo: prRepo, ref: pr.head.sha });
+                        checkRuns = checkRuns.filter(run =>
+                          !String(run?.details_url || '').includes('/actions/runs/' + context.runId + '/')
+                        );
                         const automatedChecksPassed = !checkRunsError && coordinatorCore.hasSuccessfulChecks(checkRuns, combinedStatus.data);
                         const acceptanceProgress = acceptanceItem ? workItemCore.calculateProgress(acceptanceItem) : { can_accept: false, execution_percentage: 0, acceptance_percentage: 0, overall_completion_percentage: 0 };
                         acceptanceAudit = { pr_url: prUrl, pr_head_sha: pr.head.sha, merge_commit_sha: pr.merge_commit_sha || null, lineage_mode: acceptanceLineageMode };
@@ -640,7 +658,7 @@ jobs:
                         else if (baseBranchProtectionError) response = 'ادغام متوقف شد: ' + baseBranchProtectionError;
                         else if (checkRunsError) response = 'پذیرش خودکار متوقف شد: خواندن Check Runها ممکن نشد. مخزن هدف باید public باشد تا Checks API بدون احراز هویت خوانده شود؛ برای مخزن private، GitHub App installation token با Checks:read لازم است. جزئیات: ' + checkRunsError;
                         else if (!automatedChecksPassed) response = 'پذیرش خودکار رد شد: تمام Check Runها و Commit Statusهای SHA دقیق head باید با conclusion/state برابر success تکمیل شده باشند؛ بازبین انسانی دوم لازم نیست.';
-                        else if (acceptanceItem && !acceptanceProgress.can_accept) response = 'ادغام متوقف شد: پیش از merge همه گام‌ها، معیارهای پذیرش و dependencyها باید با evidence معتبر PASS باشند؛ EXECUTION_PROGRESS=' + acceptanceProgress.execution_percentage + '%; ACCEPTANCE_PROGRESS=' + (acceptanceProgress.acceptance_percentage === null ? 'N/A' : acceptanceProgress.acceptance_percentage + '%') + '; OVERALL_COMPLETION=' + (acceptanceProgress.overall_completion_percentage === null ? 'N/A' : acceptanceProgress.overall_completion_percentage + '%') + '.';
+                        else if (acceptanceItem && !acceptanceProgress.can_merge) response = 'ادغام متوقف شد: پیش از merge همه گام‌ها، معیارهای PRE_MERGE و dependencyها باید با evidence معتبر PASS باشند؛ EXECUTION_PROGRESS=' + acceptanceProgress.execution_percentage + '%; ACCEPTANCE_PROGRESS=' + (acceptanceProgress.acceptance_percentage === null ? 'N/A' : acceptanceProgress.acceptance_percentage + '%') + '; OVERALL_COMPLETION=' + (acceptanceProgress.overall_completion_percentage === null ? 'N/A' : acceptanceProgress.overall_completion_percentage + '%') + '.';
                         else {
                           let mergeConfirmed = pr.merged;
                           if (!mergeConfirmed) {
@@ -657,9 +675,15 @@ jobs:
                             if (acceptanceItem) {
                               state.work_items ||= {};
                               state.work_items[issue.number] ||= acceptanceItem;
-                              state.work_items[issue.number].status = 'ACCEPTED';
-                              nextStatus = 'done';
-                              response = 'Work Item ACCEPTED: همه گام‌ها و معیارهای اجباری پیش از merge با evidence معتبر پاس شدند؛ PR ادغام‌شده و تمام گیت‌های ماشینی موفق روی SHA دقیق head احراز شد؛ هیچ Review انسانی شرط پذیرش نیست.' + (acceptanceLineageMode === 'MERGED_REPLACEMENT_ANCESTOR' ? ' lineage از طریق PR جایگزین ادغام‌شده و ancestry تأییدشده احراز شد.' : '');
+                              if (acceptanceProgress.can_accept) {
+                                state.work_items[issue.number].status = 'ACCEPTED';
+                                nextStatus = 'done';
+                                response = 'Work Item ACCEPTED: همه گام‌ها و معیارهای اجباری، از جمله معیارهای POST_MERGE، با evidence معتبر پاس شدند؛ PR ادغام‌شده و تمام گیت‌های ماشینی موفق روی SHA دقیق head احراز شد؛ هیچ Review انسانی شرط پذیرش نیست.' + (acceptanceLineageMode === 'MERGED_REPLACEMENT_ANCESTOR' ? ' lineage از طریق PR جایگزین ادغام‌شده و ancestry تأییدشده احراز شد.' : '');
+                              } else {
+                                state.work_items[issue.number].status = 'REVIEW_REQUIRED';
+                                nextStatus = 'review';
+                                response = 'PR ادغام شد، اما Work Item هنوز ACCEPTED نیست؛ معیارهای POST_MERGE باید پس از ادغام با evidence معتبر PASS شوند. وضعیت review حفظ شد و پذیرش نهایی تا تکمیل آن معیارها ممنوع است.';
+                              }
                             } else {
                               nextStatus = 'done';
                               response = 'پذیرش تأیید شد: PR به‌صورت خودکار ادغام شد و تمام گیت‌های ماشینی موفق روی SHA دقیق head احراز شد؛ هیچ Review انسانی شرط پذیرش نیست.';
@@ -842,10 +866,45 @@ jobs:
             // Comment/open/reopen events process only their own Issue. A global page sweep is
             // reserved for scheduled/manual recovery so command bursts do not exhaust the installation API quota.
             const eventIssue = context.payload.issue || null;
-            const shouldSweepInbox = ['schedule','workflow_dispatch'].includes(context.eventName);
-            if (eventIssue && !shouldSweepInbox) {
+            const dispatchIssueNumber = context.eventName === 'workflow_dispatch'
+              ? Number(context.payload.inputs?.issue_number || 0)
+              : 0;
+            if (dispatchIssueNumber > 0) {
+              const retryCommentId = String(context.payload.inputs?.retry_comment_id || '').trim();
+              if (retryCommentId) {
+                if (context.actor !== owner) throw new Error('Exact command replay is owner-only');
+                const commentId = Number(retryCommentId);
+                if (!Number.isSafeInteger(commentId) || commentId <= 0) throw new Error('Invalid retry_comment_id');
+                const comment = (await github.rest.issues.getComment({ owner, repo, comment_id: commentId })).data;
+                if (comment.user?.login !== owner || !comment.body?.match(/^\s*\/farast\s+accept\b/i)) {
+                  throw new Error('Replay requires an existing owner-authored /farast accept comment');
+                }
+                if (!comment.issue_url?.endsWith('/issues/' + dispatchIssueNumber)) {
+                  throw new Error('Replay comment does not belong to the targeted Issue');
+                }
+                const replaySnapshot = await getRegistry();
+                const previous = replaySnapshot.state.processed_operations?.[retryCommentId];
+                if (!previous || previous.issue_number !== dispatchIssueNumber || previous.command !== 'accept' ||
+                    !String(previous.response || '').includes('ruleset_bypass_actors_not_visible')) {
+                  throw new Error('Replay is allowed only for the exact previously blocked ruleset-visibility acceptance');
+                }
+                replaySnapshot.state.replayed_operations ||= {};
+                replaySnapshot.state.replayed_operations[retryCommentId] = {
+                  ...previous,
+                  replayed_at_utc: new Date().toISOString(),
+                  replayed_by: context.actor,
+                  reason: 'owner-triggered exact-branch recovery after privileged ruleset-read workflow was installed'
+                };
+                delete replaySnapshot.state.processed_operations[retryCommentId];
+                await saveRegistry(replaySnapshot.state, replaySnapshot, 'FARAST coordinator: archive blocked acceptance before owner-authorized replay');
+              }
+              const targetedIssue = (await github.rest.issues.get({
+                owner, repo, issue_number: dispatchIssueNumber
+              })).data;
+              await safelyProcessIssue(targetedIssue);
+            } else if (eventIssue && context.eventName !== 'schedule') {
               await safelyProcessIssue(eventIssue);
-            } else if (shouldSweepInbox) {
+            } else if (context.eventName === 'schedule' || context.eventName === 'workflow_dispatch') {
               try {
                 const cursorSnapshot = await getRegistry();
                 const inboxPage = inboxScheduler.getCursorPage(cursorSnapshot.state);

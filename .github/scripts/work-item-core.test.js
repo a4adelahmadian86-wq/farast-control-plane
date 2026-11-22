@@ -219,6 +219,28 @@ test('versioned acceptance weighting is applied independently from execution wei
  assert.equal(p.overall_completion_percentage,0);
 });
 
+test('POST_MERGE criteria do not block PR merge but still block final acceptance',()=>{
+ const x=item({acceptance_criteria:[
+  {criterion_id:'AC_PRE',title:'Pre-merge criterion'},
+  {criterion_id:'AC_POST',title:'Post-merge criterion',validation_stage:'POST_MERGE'}
+ ]});
+ for(const step of x.steps) wi.recordStepEvidence(x,{...input(step.step_id)});
+ wi.recordCriterionEvidence(x,{lease,actor:'alice',chat_id:'chat-a',run_id:'run-a',fencing_token:7,criterion_id:'AC_PRE',validation_status:'PASS',evidence_refs:['evidence:pre-merge'],nowMs:Date.parse('2026-01-01T00:30:00Z')});
+ let progress=wi.calculateProgress(x);
+ assert.equal(progress.can_merge,true);
+ assert.equal(progress.can_accept,false);
+ assert.equal(progress.acceptance_percentage,50);
+ wi.recordCriterionEvidence(x,{lease,actor:'alice',chat_id:'chat-a',run_id:'run-a',fencing_token:7,criterion_id:'AC_POST',validation_status:'PASS',evidence_refs:['evidence:post-merge'],nowMs:Date.parse('2026-01-01T00:30:00Z')});
+ progress=wi.calculateProgress(x);
+ assert.equal(progress.can_merge,true);
+ assert.equal(progress.can_accept,true);
+});
+
+test('acceptance criteria reject unknown validation stages',()=>{
+ const x=item({acceptance_criteria:[{criterion_id:'AC1',title:'Criterion',validation_stage:'AFTER_MERGE_MAYBE'}]});
+ assert.throws(()=>wi.calculateProgress(x),/invalid criterion validation_stage/);
+});
+
 test('deep profile rejects a Work Item without substantive depth metadata',()=>{
  const x=item({
   effort_estimate_minutes:25,
@@ -553,6 +575,13 @@ test('Work Item refresh preserves accepted terminal status while deriving non-te
  assert.equal(wi.refreshedStatus('IN_PROGRESS',{can_accept:false,verified_steps:2},true),'IN_PROGRESS');
  assert.equal(wi.refreshedStatus('READY',{can_accept:false,verified_steps:0},true),'READY');
  assert.equal(wi.refreshedStatus('READY',complete,false),'BLOCKED');
+});
+
+test('refresh preserves REVIEW_REQUIRED when only POST_MERGE criteria remain',()=>{
+ const progress={can_merge:true,can_accept:false,verified_steps:6};
+ assert.equal(wi.refreshedStatus('REVIEW_REQUIRED',progress,true),'REVIEW_REQUIRED');
+ assert.equal(wi.refreshedStatus('READY',progress,true),'REVIEW_REQUIRED');
+ assert.equal(wi.refreshedStatus('IN_PROGRESS',progress,true),'REVIEW_REQUIRED');
 });
 
 test('legacy bootstrap Work Items receive only exact enumerated operation scopes',()=>{
