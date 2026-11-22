@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3558,
+  "revision": 3559,
   "next_fencing_token": 180,
   "locks": [],
   "history": [
@@ -28904,7 +28904,7 @@
     },
     "7078736100": {
       "response": "وظیفه به ready بازگشت؛ گیت‌های سخت پاس شده‌اند و برای شروع دوباره claim لازم است.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 119,
       "actor": "a4adelahmadian86-wq",
       "command": "reopen",
