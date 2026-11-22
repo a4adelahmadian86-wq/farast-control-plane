@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3583,
+  "revision": 3584,
   "next_fencing_token": 182,
   "locks": [],
   "history": [
@@ -29069,7 +29069,7 @@
     },
     "7078897156": {
       "response": "ادغام متوقف شد: قواعد مؤثر شاخه مقصد ناقص، غیرقابل‌خواندن یا قابل دور زدن است؛ پذیرش fail-closed شد: ruleset_bypass_actors_not_visible:27803824",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 119,
       "actor": "a4adelahmadian86-wq",
       "command": "accept",
