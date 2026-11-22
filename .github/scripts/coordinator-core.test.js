@@ -911,6 +911,11 @@ test('manual workflow dispatch can reconcile one exact Issue without relying on 
   assert.ok(workflow.includes('context.payload.inputs?.issue_number'));
   assert.ok(workflow.includes('github.rest.issues.get({'));
   assert.ok(workflow.includes('await safelyProcessIssue(targetedIssue)'));
+  assert.ok(workflow.includes('context.payload.inputs?.retry_comment_id'));
+  assert.ok(workflow.includes('Exact command replay is owner-only'));
+  assert.ok(workflow.includes('comment.user?.login !== owner'));
+  assert.ok(workflow.includes('ruleset_bypass_actors_not_visible'));
+  assert.ok(workflow.includes('replayed_operations[retryCommentId]'));
 });
 
 test('branch ruleset gate requires active PR-only, non-fast-forward, deletion rules and no bypass actors', () => {
