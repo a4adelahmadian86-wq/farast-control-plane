@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3678,
+  "revision": 3679,
   "next_fencing_token": 184,
   "locks": [],
   "history": [
@@ -14305,6 +14305,17 @@
       "branch": "work/GH-107-RUN-20261122-PR118-REBASE-01",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "at_utc": "2026-11-22T13:03:06.595Z"
+    },
+    {
+      "event": "WORK_ITEM_REFRESHED",
+      "issue_number": 107,
+      "work_item_id": "WI-BLOCKED-WORKITEM-REVALIDATION-001",
+      "actor": "a4adelahmadian86-wq",
+      "preserved_steps": 6,
+      "preserved_criteria": 5,
+      "hard_gate_ready": true,
+      "hard_gate_blockers": [],
+      "at_utc": "2026-11-22T13:04:25.173Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -29772,6 +29783,15 @@
       "command": "status",
       "next_status": null,
       "at_utc": "2026-11-22T13:03:26.144Z"
+    },
+    "7079546031": {
+      "response": "Work Item specification refreshed from Issue body; preserved_steps=6; preserved_criteria=5; hard_gates=PASS; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=83.33%; OVERALL_COMPLETION=83.33%.",
+      "response_posted": false,
+      "issue_number": 107,
+      "actor": "a4adelahmadian86-wq",
+      "command": "refresh",
+      "next_status": "review",
+      "at_utc": "2026-11-22T13:04:25.176Z"
     }
   },
   "work_items": {
