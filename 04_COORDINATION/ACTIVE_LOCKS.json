@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3708,
+  "revision": 3709,
   "next_fencing_token": 185,
   "locks": [
     {
@@ -30153,6 +30153,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-22T13:16:18.020Z"
+    },
+    "7079693239": {
+      "response": "معیار پذیرش ثبت شد: AC_RESOURCE_KEY_CASE; ACCEPTANCE_PROGRESS=85.71%; OVERALL_COMPLETION=85.71%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 107,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-22T13:16:50.034Z"
     }
   },
   "work_items": {
@@ -37636,9 +37645,15 @@
           "criterion_id": "AC_RESOURCE_KEY_CASE",
           "title": "Case-sensitive file/doc/dir resource paths are normalized consistently between the Issue form and Work Item JSON; logical resource identifiers remain case-insensitive",
           "required": true,
-          "validation_status": "NOT_RUN",
-          "evidence_refs": [],
-          "evidence_requirement": "Regression test and source read-back showing path case preservation and logical-key normalization"
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/125",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/45026457662"
+          ],
+          "evidence_requirement": "Regression test and source read-back showing path case preservation and logical-key normalization",
+          "validated_at_utc": "2026-11-22T13:16:50.034Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "priority": 10,
