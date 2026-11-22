@@ -646,10 +646,10 @@ jobs:
                           checkRunsError = String(checkError.message || checkError).slice(0, 240);
                         }
                         const combinedStatus = await prClient.rest.repos.getCombinedStatusForRef({ owner: prOwner, repo: prRepo, ref: pr.head.sha });
-                        const acceptanceCheckRuns = checkRuns.filter(run =>
+                        checkRuns = checkRuns.filter(run =>
                           !String(run?.details_url || '').includes('/actions/runs/' + context.runId + '/')
                         );
-                        const automatedChecksPassed = !checkRunsError && coordinatorCore.hasSuccessfulChecks(acceptanceCheckRuns, combinedStatus.data);
+                        const automatedChecksPassed = !checkRunsError && coordinatorCore.hasSuccessfulChecks(checkRuns, combinedStatus.data);
                         const acceptanceProgress = acceptanceItem ? workItemCore.calculateProgress(acceptanceItem) : { can_accept: false, execution_percentage: 0, acceptance_percentage: 0, overall_completion_percentage: 0 };
                         acceptanceAudit = { pr_url: prUrl, pr_head_sha: pr.head.sha, merge_commit_sha: pr.merge_commit_sha || null, lineage_mode: acceptanceLineageMode };
                         if (!lineageBound) response = 'پذیرش رد شد: PR باید از branch و target repository ثبت‌شده در آخرین handoff همان lease ساخته شده باشد؛ استثنا فقط PR ادغام‌شده با merge commit اثبات‌شده به‌عنوان ancestor شاخه پیش‌فرض همان مخزن است.';
