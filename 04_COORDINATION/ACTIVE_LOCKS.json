@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3680,
+  "revision": 3681,
   "next_fencing_token": 184,
   "locks": [],
   "history": [
@@ -29792,6 +29792,19 @@
       "command": "refresh",
       "next_status": "review",
       "at_utc": "2026-11-22T13:04:25.176Z"
+    },
+    "7079552477": {
+      "response": "PR ادغام شد، اما Work Item هنوز ACCEPTED نیست؛ معیارهای POST_MERGE باید پس از ادغام با evidence معتبر PASS شوند. وضعیت review حفظ شد و پذیرش نهایی تا تکمیل آن معیارها ممنوع است.",
+      "response_posted": false,
+      "issue_number": 107,
+      "actor": "a4adelahmadian86-wq",
+      "command": "accept",
+      "next_status": "review",
+      "pr_url": "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/124",
+      "pr_head_sha": "d60bfd51bce7b377970aebcf33565206f76f9c5a",
+      "merge_commit_sha": "4e849fa4ffcbf55cba8079d88a8bfe2083173016",
+      "lineage_mode": "EXACT_REVIEW_BRANCH",
+      "at_utc": "2026-11-22T13:04:59.696Z"
     }
   },
   "work_items": {
