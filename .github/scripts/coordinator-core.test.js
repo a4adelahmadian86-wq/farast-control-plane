@@ -24,8 +24,9 @@ test('automated acceptance requires all check runs and any reported commit statu
   assert.equal(core.hasSuccessfulChecks(successRun, {state:'failure',statuses:[{state:'failure'}]}), false);
   assert.equal(core.hasSuccessfulChecks(successRun, {state:'pending',statuses:[{state:'pending'}]}), false);
   const workflow = fs.readFileSync('.github/workflows/farast-coordinator.yml', 'utf8');
+  assert.ok(workflow.includes("checkRuns = checkRuns.filter(run =>"));
   assert.ok(workflow.includes("!String(run?.details_url || '').includes('/actions/runs/' + context.runId + '/')"));
-  assert.ok(workflow.includes('coordinatorCore.hasSuccessfulChecks(acceptanceCheckRuns, combinedStatus.data)'));
+  assert.ok(workflow.includes('coordinatorCore.hasSuccessfulChecks(checkRuns, combinedStatus.data)'));
 });
 
 test('same resource across different Issues grants only one owner', () => {
