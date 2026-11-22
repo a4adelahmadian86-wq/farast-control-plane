@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3664,
+  "revision": 3665,
   "next_fencing_token": 184,
   "locks": [
     {
@@ -29787,6 +29787,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-22T13:01:10.934Z"
+    },
+    "7079512141": {
+      "response": "معیار پذیرش ثبت شد: AC_TESTS; ACCEPTANCE_PROGRESS=83.33%; OVERALL_COMPLETION=83.33%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 107,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-22T13:01:31.657Z"
     }
   },
   "work_items": {
@@ -37230,10 +37239,10 @@
           "required": true,
           "validation_status": "PASS",
           "evidence_refs": [
-            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44938268332"
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/45025029043"
           ],
           "evidence_requirement": "Exact-head CI run URL and named passing regression tests",
-          "validated_at_utc": "2026-11-21T18:58:37.515Z",
+          "validated_at_utc": "2026-11-22T13:01:31.656Z",
           "validated_by": "a4adelahmadian86-wq",
           "validation_note": ""
         },
