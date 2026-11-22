@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3736,
+  "revision": 3737,
   "next_fencing_token": 185,
   "locks": [],
   "history": [
@@ -30252,6 +30252,15 @@
       "merge_commit_sha": "7f88127abf86179b590864ffb672e1e9119f0ff9",
       "lineage_mode": "EXACT_REVIEW_BRANCH",
       "at_utc": "2026-11-22T13:23:26.093Z"
+    },
+    "7045091265": {
+      "response": "وضعیت: بدون lease فعال.",
+      "response_posted": false,
+      "issue_number": 106,
+      "actor": "a4adelahmadian86-wq",
+      "command": "status",
+      "next_status": null,
+      "at_utc": "2026-11-22T13:24:00.323Z"
     }
   },
   "work_items": {
