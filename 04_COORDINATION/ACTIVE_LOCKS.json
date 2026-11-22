@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3592,
+  "revision": 3593,
   "next_fencing_token": 182,
   "locks": [],
   "history": [
@@ -14029,6 +14029,17 @@
       "branch": "work/GH-119-RUN-20261122-COMMIT-STATUS-FIX-02",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "at_utc": "2026-11-22T12:07:41.663Z"
+    },
+    {
+      "event": "WORK_ITEM_REFRESHED",
+      "issue_number": 50,
+      "work_item_id": "WI-PROMPT-ENTRY-GUIDE-SYNC-001",
+      "actor": "a4adelahmadian86-wq",
+      "preserved_steps": 4,
+      "preserved_criteria": 4,
+      "hard_gate_ready": true,
+      "hard_gate_blockers": [],
+      "at_utc": "2026-11-22T12:17:27.058Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -29097,6 +29108,15 @@
       "command": "claim",
       "next_status": null,
       "at_utc": "2026-11-22T12:15:30.591Z"
+    },
+    "7078989357": {
+      "response": "Work Item specification refreshed from Issue body; preserved_steps=4; preserved_criteria=4; hard_gates=PASS; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%.",
+      "response_posted": false,
+      "issue_number": 50,
+      "actor": "a4adelahmadian86-wq",
+      "command": "refresh",
+      "next_status": "review",
+      "at_utc": "2026-11-22T12:17:27.061Z"
     }
   },
   "work_items": {
@@ -31921,7 +31941,7 @@
       "write_policy": "WRITE_ALLOWED",
       "priority_source": "DEFAULT_POLICY",
       "work_item_id": "WI-PROMPT-ENTRY-GUIDE-SYNC-001",
-      "title": "Synchronize the official FARAST execution start guide with the canonical executable prompt bundle 1.9.0",
+      "title": "Synchronize the official FARAST execution start guide with the canonical executable prompt bundle 2.0.1",
       "description": "Update only after WI-PROMPT-INTEGRATION-001 is accepted and its integration is present on main. Reconcile guide version references, entrypoint links, tested operational facts, and multi-account limitations with live main and the accepted prompt bundle.",
       "parent_goal_ids": [
         "G-09"
@@ -31929,10 +31949,10 @@
       "parent_exp_ids": [
         "EXP-01"
       ],
-      "status": "READY",
+      "status": "REVIEW_REQUIRED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
-        "doc:EXECUTION_START_GUIDE_FA.md"
+        "doc:execution_start_guide_fa.md"
       ],
       "dependencies": [
         {
@@ -31997,7 +32017,7 @@
       "acceptance_criteria": [
         {
           "criterion_id": "AC_VERSION",
-          "title": "The official guide identifies the exact accepted bundle version 1.9.0 and links to the canonical bundle file present on main",
+          "title": "The official guide identifies the exact accepted bundle version 2.0.1 and links to the canonical bundle file present on main",
           "required": true,
           "validation_status": "PASS",
           "evidence_refs": [
