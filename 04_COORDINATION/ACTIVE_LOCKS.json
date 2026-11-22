@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3699,
+  "revision": 3700,
   "next_fencing_token": 185,
   "locks": [
     {
@@ -30075,7 +30075,7 @@
     },
     "7079656934": {
       "response": "Lease تمدید شد تا 2026-11-22T13:43:46.622Z UTC؛ fencing_token=184.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 107,
       "actor": "a4adelahmadian86-wq",
       "command": "heartbeat",
