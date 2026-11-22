@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3576,
+  "revision": 3577,
   "next_fencing_token": 181,
   "locks": [],
   "history": [
@@ -29008,6 +29008,15 @@
       "command": "claim",
       "next_status": null,
       "at_utc": "2026-11-22T12:01:49.042Z"
+    },
+    "7078831672": {
+      "response": "وظیفه به ready بازگشت؛ گیت‌های سخت پاس شده‌اند و برای شروع دوباره claim لازم است.",
+      "response_posted": false,
+      "issue_number": 119,
+      "actor": "a4adelahmadian86-wq",
+      "command": "reopen",
+      "next_status": "ready",
+      "at_utc": "2026-11-22T12:02:28.277Z"
     }
   },
   "work_items": {
@@ -37291,7 +37300,7 @@
         "CP-03",
         "CP-04"
       ],
-      "status": "REVIEW_REQUIRED",
+      "status": "READY",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "file:.github/scripts/work-item-core.js",
