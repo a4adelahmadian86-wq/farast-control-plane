@@ -706,15 +706,16 @@ test('Work Item acceptance progress is checked before any PR merge', () => {
 });
 
 
-test('comment events process their Issue without sweeping the global inbox', () => {
+test('comment events and exact manual dispatch target Issues without relying on the global inbox cursor', () => {
   const workflow = fs.readFileSync('.github/workflows/farast-coordinator.yml', 'utf8');
-  const sweepGuard = workflow.indexOf("const shouldSweepInbox = ['schedule','workflow_dispatch'].includes(context.eventName);");
-  const eventOnly = workflow.indexOf('if (eventIssue && !shouldSweepInbox)', sweepGuard);
-  const scheduledSweep = workflow.indexOf('else if (shouldSweepInbox)', sweepGuard);
+  const targetedDispatch = workflow.indexOf('if (dispatchIssueNumber > 0)');
+  const eventOnly = workflow.indexOf('else if (eventIssue && context.eventName !== \'schedule\')', targetedDispatch);
+  const scheduledSweep = workflow.indexOf("else if (context.eventName === 'schedule' || context.eventName === 'workflow_dispatch')", eventOnly);
   const listIssues = workflow.indexOf('github.rest.issues.listForRepo', scheduledSweep);
-  assert.ok(sweepGuard >= 0);
-  assert.ok(eventOnly > sweepGuard && eventOnly < scheduledSweep);
+  assert.ok(targetedDispatch >= 0);
+  assert.ok(eventOnly > targetedDispatch && eventOnly < scheduledSweep);
   assert.ok(scheduledSweep > eventOnly && listIssues > scheduledSweep);
+  assert.ok(workflow.includes('context.payload.inputs?.issue_number'));
   assert.ok(workflow.includes('Leave the command in the durable inbox; the next scheduled sweep will retry it.'));
   assert.ok(workflow.includes('FARAST scheduled inbox sweep deferred; the durable cursor is unchanged and the next schedule will retry:'));
   assert.ok(workflow.includes('FARAST issue-opened processing deferred; the durable inbox will retry:'));
