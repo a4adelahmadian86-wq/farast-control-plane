@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3622,
+  "revision": 3623,
   "next_fencing_token": 183,
   "locks": [],
   "history": [
@@ -29310,6 +29310,19 @@
       "merge_commit_sha": "9ed8394e3619218e7fc9612195d56b88c8b8d783",
       "lineage_mode": "EXACT_REVIEW_BRANCH",
       "at_utc": "2026-11-22T12:25:31.780Z"
+    },
+    "7079121319": {
+      "response": "Work Item ACCEPTED: همه گام‌ها و معیارهای اجباری، از جمله معیارهای POST_MERGE، با evidence معتبر پاس شدند؛ PR ادغام‌شده و تمام گیت‌های ماشینی موفق روی SHA دقیق head احراز شد؛ هیچ Review انسانی شرط پذیرش نیست.",
+      "response_posted": false,
+      "issue_number": 50,
+      "actor": "a4adelahmadian86-wq",
+      "command": "accept",
+      "next_status": "done",
+      "pr_url": "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/123",
+      "pr_head_sha": "1dfa4bc3416edf7d58806c7bea62c261d4a070d4",
+      "merge_commit_sha": "9ed8394e3619218e7fc9612195d56b88c8b8d783",
+      "lineage_mode": "EXACT_REVIEW_BRANCH",
+      "at_utc": "2026-11-22T12:27:40.079Z"
     }
   },
   "work_items": {
@@ -32142,7 +32155,7 @@
       "parent_exp_ids": [
         "EXP-01"
       ],
-      "status": "REVIEW_REQUIRED",
+      "status": "ACCEPTED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "doc:execution_start_guide_fa.md"
