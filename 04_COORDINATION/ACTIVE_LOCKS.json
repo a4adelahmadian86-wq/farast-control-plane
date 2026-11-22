@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3589,
+  "revision": 3590,
   "next_fencing_token": 182,
   "locks": [],
   "history": [
@@ -29088,6 +29088,15 @@
       "command": "reopen",
       "next_status": "ready",
       "at_utc": "2026-11-22T12:15:07.101Z"
+    },
+    "7078981235": {
+      "response": "Claim رد شد: اختلاف یا نقص در Work Item زنده/رجیستری؛ هیچ branch تخصیص داده نشد. Registry resource_keys differ from live Issue specification; owner refresh required",
+      "response_posted": false,
+      "issue_number": 50,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": null,
+      "at_utc": "2026-11-22T12:15:30.591Z"
     }
   },
   "work_items": {
