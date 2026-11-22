@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3606,
+  "revision": 3607,
   "next_fencing_token": 183,
   "locks": [
     {
@@ -29240,6 +29240,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-22T12:21:40.659Z"
+    },
+    "7079069885": {
+      "response": "STEP ثبت شد: S1_SYNC; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; verified_steps=4/4.",
+      "response_posted": false,
+      "issue_number": 50,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-22T12:23:07.436Z"
     }
   },
   "work_items": {
@@ -32072,7 +32081,7 @@
       "parent_exp_ids": [
         "EXP-01"
       ],
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "doc:execution_start_guide_fa.md"
