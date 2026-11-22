@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3681,
+  "revision": 3682,
   "next_fencing_token": 184,
   "locks": [],
   "history": [
@@ -29795,7 +29795,7 @@
     },
     "7079552477": {
       "response": "PR ادغام شد، اما Work Item هنوز ACCEPTED نیست؛ معیارهای POST_MERGE باید پس از ادغام با evidence معتبر PASS شوند. وضعیت review حفظ شد و پذیرش نهایی تا تکمیل آن معیارها ممنوع است.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 107,
       "actor": "a4adelahmadian86-wq",
       "command": "accept",
