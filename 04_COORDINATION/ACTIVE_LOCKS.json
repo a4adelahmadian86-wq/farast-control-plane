@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3590,
+  "revision": 3591,
   "next_fencing_token": 182,
   "locks": [],
   "history": [
@@ -29091,7 +29091,7 @@
     },
     "7078981235": {
       "response": "Claim رد شد: اختلاف یا نقص در Work Item زنده/رجیستری؛ هیچ branch تخصیص داده نشد. Registry resource_keys differ from live Issue specification; owner refresh required",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 50,
       "actor": "a4adelahmadian86-wq",
       "command": "claim",
