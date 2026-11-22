@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3625,
+  "revision": 3626,
   "next_fencing_token": 183,
   "locks": [],
   "history": [
@@ -29326,7 +29326,7 @@
     },
     "7079340419": {
       "response": "ادغام خودکار انجام نشد؛ GitHub merge را رد کرد: Pull Request has merge conflicts",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 107,
       "actor": "a4adelahmadian86-wq",
       "command": "accept",
