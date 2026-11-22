@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3630,
+  "revision": 3631,
   "next_fencing_token": 183,
   "locks": [],
   "history": [
@@ -29354,6 +29354,15 @@
       "command": "claim",
       "next_status": null,
       "at_utc": "2026-11-22T12:47:52.111Z"
+    },
+    "7079362691": {
+      "response": "Claim رد شد. قالب: /farast claim chat=شناسه run=شناسه lease=30 (۵ تا ۱۲۰ دقیقه).",
+      "response_posted": false,
+      "issue_number": 107,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": null,
+      "at_utc": "2026-11-22T12:48:28.212Z"
     }
   },
   "work_items": {
