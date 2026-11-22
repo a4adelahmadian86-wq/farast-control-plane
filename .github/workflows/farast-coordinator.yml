@@ -8,6 +8,11 @@ on:
   schedule:
     - cron: "*/5 * * * *"
   workflow_dispatch:
+    inputs:
+      issue_number:
+        description: 'Optional exact Issue number to reconcile instead of scanning one inbox page'
+        required: false
+        type: string
 
 # Serialize events for the same Issue, but let unrelated Issues reconcile in parallel.
 # The shared registry is protected by a non-force fast-forward compare-and-swap:
@@ -854,10 +859,17 @@ jobs:
             // Comment/open/reopen events process only their own Issue. A global page sweep is
             // reserved for scheduled/manual recovery so command bursts do not exhaust the installation API quota.
             const eventIssue = context.payload.issue || null;
-            const shouldSweepInbox = ['schedule','workflow_dispatch'].includes(context.eventName);
-            if (eventIssue && !shouldSweepInbox) {
+            const dispatchIssueNumber = context.eventName === 'workflow_dispatch'
+              ? Number(context.payload.inputs?.issue_number || 0)
+              : 0;
+            if (dispatchIssueNumber > 0) {
+              const targetedIssue = (await github.rest.issues.get({
+                owner, repo, issue_number: dispatchIssueNumber
+              })).data;
+              await safelyProcessIssue(targetedIssue);
+            } else if (eventIssue && context.eventName !== 'schedule') {
               await safelyProcessIssue(eventIssue);
-            } else if (shouldSweepInbox) {
+            } else if (context.eventName === 'schedule' || context.eventName === 'workflow_dispatch') {
               try {
                 const cursorSnapshot = await getRegistry();
                 const inboxPage = inboxScheduler.getCursorPage(cursorSnapshot.state);
