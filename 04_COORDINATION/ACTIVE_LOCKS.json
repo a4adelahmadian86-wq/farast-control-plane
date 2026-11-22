@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3572,
+  "revision": 3573,
   "next_fencing_token": 181,
   "locks": [],
   "history": [
@@ -28986,6 +28986,19 @@
       "command": "review",
       "next_status": null,
       "at_utc": "2026-11-22T11:56:33.663Z"
+    },
+    "7078769303": {
+      "response": "پذیرش خودکار رد شد: تمام Check Runها و Commit Statusهای SHA دقیق head باید با conclusion/state برابر success تکمیل شده باشند؛ بازبین انسانی دوم لازم نیست.",
+      "response_posted": false,
+      "issue_number": 119,
+      "actor": "a4adelahmadian86-wq",
+      "command": "accept",
+      "next_status": null,
+      "pr_url": "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/121",
+      "pr_head_sha": "f5711d5e1f15babeaa41559fd1aad10aa061dc59",
+      "merge_commit_sha": "8d604973b1319f6a84d662174b88960f0e79fa7d",
+      "lineage_mode": "EXACT_REVIEW_BRANCH",
+      "at_utc": "2026-11-22T12:00:19.715Z"
     }
   },
   "work_items": {
