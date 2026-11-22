@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3620,
+  "revision": 3621,
   "next_fencing_token": 183,
   "locks": [],
   "history": [
@@ -29297,6 +29297,19 @@
       "command": "review",
       "next_status": "review",
       "at_utc": "2026-11-22T12:25:00.141Z"
+    },
+    "7079097629": {
+      "response": "پذیرش خودکار رد شد: گیت سخت/عملیات درخواست‌شده حل‌نشده یا پاس‌نشده است: explicit_dependency_not_accepted:WI-PROMPT-INTEGRATION-001:INVALID.",
+      "response_posted": false,
+      "issue_number": 50,
+      "actor": "a4adelahmadian86-wq",
+      "command": "accept",
+      "next_status": null,
+      "pr_url": "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/123",
+      "pr_head_sha": "1dfa4bc3416edf7d58806c7bea62c261d4a070d4",
+      "merge_commit_sha": "9ed8394e3619218e7fc9612195d56b88c8b8d783",
+      "lineage_mode": "EXACT_REVIEW_BRANCH",
+      "at_utc": "2026-11-22T12:25:31.780Z"
     }
   },
   "work_items": {
