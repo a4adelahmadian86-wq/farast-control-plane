@@ -1,6 +1,7 @@
-# راهنمای شروع اجرای FARAST — وضعیت تأییدشده تا 2026-11-20
+# راهنمای شروع اجرای FARAST — وضعیت تأییدشده تا 2026-11-22
 
-آخرین بازبینی: 2026-11-20  
+آخرین بازبینی: 2026-11-22  
+SHA زنده `main` در این بازبینی: `61efcd827bcb867902597538023b64e1908c17b7`  
 مرجع حقیقت: شاخه پیش‌فرض `main` مخزن [farast-control-plane](https://github.com/a4adelahmadian86-wq/farast-control-plane). پیش از هر اجرا، SHA زنده `main`، Issueها، PRها، dependencyها و وضعیت lease را دوباره بخوانید.
 
 ## 1) حکم آمادگی
@@ -15,6 +16,9 @@
 - CI دقیق head مربوط به PR #104، یعنی `bad9682c878cceecbaa447b93fdcfdbfde87f6ea`، در run [44532472401](https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44532472401) با نتیجه `success` پایان یافته است.
 - آزمون زنده هماهنگ‌کننده با یک هویت GitHub، claim موفق برای منبع مشترک در Issue #7، رد claim رقیب همان منبع در Issue #8 و claim موفق منبع مستقل در Issue #9 را نشان داده است. این آزمون، آزمون دو حساب مستقل ChatGPT/GitHub نیست.
 - PR #96 و Issue #47 نیز ادغام/پذیرفته شده‌اند و قرارداد عمق مأموریت، انتخاب خودکار برگ‌های اجرایی، مسیر READ_ONLY و پذیرش ماشینی را به main افزوده‌اند.
+- PR #122 با commit `277cf36b319e61c9c7a644ffb91325fee4f6aa22` در merge commit `61efcd827bcb867902597538023b64e1908c17b7` ادغام شده و Issue #119 / `WI-COORDINATOR-STAGED-ACCEPTANCE-BOOTSTRAP-001` در 2026-11-22 با تمام ۷ گام و ۴ معیار پذیرش ACCEPTED شده است. این اصلاح، پذیرش دو مرحله‌ای PRE_MERGE/POST_MERGE و خواندن قواعد با `FARAST_RULESET_READ_TOKEN` را فعال می‌کند.
+- Ruleset با نام `main-security-gate` در هر دو مخزن FARAST و NON فعال است؛ هر دو شامل قواعد `pull_request`، `deletion` و `non_fast_forward` هستند و read-back زنده `bypass_actors=[]` را نشان داده است. این facts جایگزین تأیید مستقل branch-protection endpoint یا آزمون دوحسابی نیستند.
+- اجرای دستی workflow روی شاخه اصلاحی در run [45021053278](https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/45021053278) با نتیجه `success` پایان یافت؛ Check Runهای دقیق head PR #122 نیز `validate` و `coordinate` هر دو `success` هستند.
 - Bundle تجمیعی فعلی نسخه **2.0.1** است و شامل MASTER-00 و ۱۷ پرامپت تخصصی است.
 
 **مواردی که همچنان NOT VERIFIED هستند:**
@@ -22,7 +26,7 @@
 1. اجرای هم‌زمان واقعی با دو حساب مستقل GitHub و دو نشست مستقل ChatGPT.
 2. takeover واقعی پس از انقضای lease و اثبات رد write عامل قدیمی در E2E دوحسابی.
 3. اینکه هر تعداد دلخواه چت، بدون محدودیت quota، Actions یا دسترسی، همواره بی‌وقفه پیش بروند.
-4. وضعیت فعلی branch protection/rulesets و تنظیمات سراسری Actions از این بازبینی قابل read-back قطعی نبود؛ بنابراین فعال یا غیرفعال بودن آن‌ها را حدس نزنید.
+4. E2E واقعی با دو حساب مستقل ChatGPT/GitHub و دو نشست مستقل هنوز اجرا نشده است؛ بنابراین رفتار هم‌زمان چندحسابی و takeover بین دو حساب NOT VERIFIED باقی می‌ماند.
 
 بنابراین این زیرساخت برای اجرای کنترل‌شده با شواهد و توقف امن آماده است؛ اما نباید آن را چندحسابیِ کاملاً اثبات‌شده یا مصون از هر خطا معرفی کرد.
 
@@ -121,8 +125,9 @@ Issue #51 یک استثنای محدود و مشخص برای همان Work Item
 - اصلاح چندچتی و قفل granular: [PR #104](https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/104)، [Issue #100](https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/100).
 - CI دقیق head اصلاح: [run 44532472401](https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/44532472401).
 - ادغام deep prompt / READ_ONLY routing / autonomous selection: [PR #96](https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/96)، [Issue #47](https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/47).
+- اصلاح پذیرش دو مرحله‌ای و قواعد کم‌دسترسی: [PR #122](https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/122)، [Issue #119](https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/119)، [run 45021053278](https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/45021053278).
 - آزمون‌های مدل و registry، آزمون واقعی چند حساب مستقل نیستند. هر گزارش باید این دو را صریحاً تفکیک کند.
-- branch protection، مجوزهای کامل Actions و E2E واقعی دو حساب مستقل فقط پس از read-back و اجرای واقعی قابل علامت‌گذاری PASS هستند.
+- branch protection endpoint از اتصال فعلی مجوز read-back نداد؛ بنابراین درباره وضعیت مستقل آن ادعایی نمی‌کنیم. Rulesetهای فعال و بدون bypass در هر دو مخزن مستقیماً read-back شده‌اند. E2E واقعی دو حساب مستقل همچنان فقط پس از اجرای واقعی قابل علامت‌گذاری PASS است.
 - هیچ‌کس نباید «صفر خطا»، «تعداد نامحدود چت» یا «چندحسابی کاملاً تأییدشده» را ادعا کند مگر شواهد دقیق آن موجود باشد.
 - هر Work Item فقط پس از عبور تمام گام‌ها، معیارهای پذیرش، dependencyها، تست‌های لازم و ثبت checkpoint معتبر پذیرفته می‌شود. Claim یا پیشرفت 100% به‌تنهایی پذیرش نیست.
 
