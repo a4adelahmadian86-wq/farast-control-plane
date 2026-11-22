@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3621,
+  "revision": 3622,
   "next_fencing_token": 183,
   "locks": [],
   "history": [
@@ -29300,7 +29300,7 @@
     },
     "7079097629": {
       "response": "پذیرش خودکار رد شد: گیت سخت/عملیات درخواست‌شده حل‌نشده یا پاس‌نشده است: explicit_dependency_not_accepted:WI-PROMPT-INTEGRATION-001:INVALID.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 50,
       "actor": "a4adelahmadian86-wq",
       "command": "accept",
