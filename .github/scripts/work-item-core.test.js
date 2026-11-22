@@ -255,6 +255,23 @@ test('deep profile rejects a Work Item without substantive depth metadata',()=>{
  assert.throws(()=>wi.validateWorkItem(x),/deep Work Item steps need evidence_requirement/);
 });
 
+test('deep Work Item schema rejects missing creation timestamps and criterion evidence',()=>{
+ const missingTimestamp=item();
+ delete missingTimestamp.created_at_utc;
+ assert.throws(()=>wi.validateWorkItem(missingTimestamp),/created_at_utc must be an ISO timestamp/);
+
+ const deep=item({
+  effort_estimate_minutes:25,
+  effort_rationale:'Focused discovery and cross-check.',
+  depth_profile:{profile_version:'2.0.0',min_substantive_steps:6,min_acceptance_criteria:4,min_deliverables:3,target_effort_minutes:25},
+  steps:Array.from({length:6},(_,i)=>({step_id:'S'+i,title:'Step '+i,expected_output:'Output '+i,evidence_requirement:'Evidence '+i})),
+  acceptance_criteria:Array.from({length:4},(_,i)=>({criterion_id:'AC'+i,title:'Criterion '+i,evidence_requirement:'Evidence '+i})),
+  deliverables:Array.from({length:3},(_,i)=>({deliverable_id:'D'+i,description:'Deliverable '+i,evidence_requirement:'Evidence '+i}))
+ });
+ delete deep.acceptance_criteria[0].evidence_requirement;
+ assert.throws(()=>wi.validateWorkItem(deep),/deep Work Item criteria need evidence_requirement/);
+});
+
 test('checkpoint stores all three progress dimensions and state counts',()=>{
  const x=item();
  const cp=wi.createCheckpoint(x,{lease,actor:'alice',chat_id:'chat-a',run_id:'run-a',fencing_token:7,nowMs:Date.parse('2026-01-01T00:30:00Z')});

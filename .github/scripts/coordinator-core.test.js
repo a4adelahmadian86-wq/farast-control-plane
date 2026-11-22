@@ -923,6 +923,23 @@ test('manual workflow dispatch can reconcile one exact Issue without relying on 
   assert.ok(workflow.includes('replayed_operations[retryCommentId]'));
 });
 
+test('invalid blocked Work Item specifications are captured without aborting inbox processing', () => {
+  const valid = { work_item_id: 'WI-VALID-001' };
+  assert.deepEqual(core.captureWorkItemSpec(() => valid), { ok: true, item: valid, error: null });
+  assert.deepEqual(core.captureWorkItemSpec(() => null), { ok: false, item: null, error: 'work_item_spec_missing' });
+  const invalid = core.captureWorkItemSpec(() => { throw new Error('deep Work Item criteria need evidence_requirement'); });
+  assert.equal(invalid.ok, false);
+  assert.equal(invalid.item, null);
+  assert.equal(invalid.error, 'deep Work Item criteria need evidence_requirement');
+});
+
+test('blocked issue revalidation errors do not short-circuit the durable command inbox', () => {
+  const workflow = fs.readFileSync('.github/workflows/farast-coordinator.yml', 'utf8');
+  assert.ok(workflow.includes('coordinatorCore.captureWorkItemSpec(() => workItemSpecFor(issue))'));
+  assert.ok(workflow.includes('candidateWorkItemError'));
+  assert.ok(workflow.includes('continue to pending commands'));
+});
+
 test('branch ruleset gate requires active PR-only, non-fast-forward, deletion rules and no bypass actors', () => {
   const validRules = [
     {type:'pull_request',ruleset_id:17,ruleset_source_type:'Repository',parameters:{required_approving_review_count:0}},
