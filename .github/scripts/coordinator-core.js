@@ -329,13 +329,8 @@ function matchesReviewLease(pr, reviewEvent) {
     pr.base?.repo?.full_name === target;
 }
 
-function hasSuccessfulChecks(checkRuns, combinedStatus, options = {}) {
-  const excludedWorkflowRunId = String(options.excludeWorkflowRunId || '').trim();
-  const runs = (Array.isArray(checkRuns) ? checkRuns : []).filter(run => {
-    if (!excludedWorkflowRunId) return true;
-    const detailsUrl = String(run?.details_url || '');
-    return !detailsUrl.includes('/actions/runs/' + excludedWorkflowRunId + '/');
-  });
+function hasSuccessfulChecks(checkRuns, combinedStatus) {
+  const runs = Array.isArray(checkRuns) ? checkRuns : [];
   const statuses = Array.isArray(combinedStatus?.statuses) ? combinedStatus.statuses : [];
   const statusChecksPassed = statuses.length === 0
     ? ['success', 'pending'].includes(combinedStatus?.state)
