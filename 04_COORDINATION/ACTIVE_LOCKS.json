@@ -1,121 +1,8 @@
 {
   "schema_version": "1.0",
-  "revision": 3728,
+  "revision": 3729,
   "next_fencing_token": 185,
-  "locks": [
-    {
-      "resource_key": "file:.github/scripts/coordinator-core.js",
-      "issue_number": 107,
-      "task_id": "GH-107",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "CHAT-20261122-SECURITY-01",
-      "chat_id": "CHAT-20261122-SECURITY-01",
-      "run_id": "RUN-20261122-RESOURCE-KEY-CASE-01",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": "work/GH-107-RUN-20261122-RESOURCE-KEY-CASE-01",
-      "acquired_at_utc": "2026-11-22T13:11:14.211Z",
-      "heartbeat_at_utc": "2026-11-22T13:21:13.529Z",
-      "lease_expires_at_utc": "2026-11-22T13:51:13.529Z",
-      "fencing_token": 184,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "file:.github/scripts/coordinator-core.test.js",
-      "issue_number": 107,
-      "task_id": "GH-107",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "CHAT-20261122-SECURITY-01",
-      "chat_id": "CHAT-20261122-SECURITY-01",
-      "run_id": "RUN-20261122-RESOURCE-KEY-CASE-01",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": "work/GH-107-RUN-20261122-RESOURCE-KEY-CASE-01",
-      "acquired_at_utc": "2026-11-22T13:11:14.211Z",
-      "heartbeat_at_utc": "2026-11-22T13:21:13.529Z",
-      "lease_expires_at_utc": "2026-11-22T13:51:13.529Z",
-      "fencing_token": 184,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "file:.github/scripts/inbox-scheduler.js",
-      "issue_number": 107,
-      "task_id": "GH-107",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "CHAT-20261122-SECURITY-01",
-      "chat_id": "CHAT-20261122-SECURITY-01",
-      "run_id": "RUN-20261122-RESOURCE-KEY-CASE-01",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": "work/GH-107-RUN-20261122-RESOURCE-KEY-CASE-01",
-      "acquired_at_utc": "2026-11-22T13:11:14.211Z",
-      "heartbeat_at_utc": "2026-11-22T13:21:13.529Z",
-      "lease_expires_at_utc": "2026-11-22T13:51:13.529Z",
-      "fencing_token": 184,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "file:.github/scripts/inbox-scheduler.test.js",
-      "issue_number": 107,
-      "task_id": "GH-107",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "CHAT-20261122-SECURITY-01",
-      "chat_id": "CHAT-20261122-SECURITY-01",
-      "run_id": "RUN-20261122-RESOURCE-KEY-CASE-01",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": "work/GH-107-RUN-20261122-RESOURCE-KEY-CASE-01",
-      "acquired_at_utc": "2026-11-22T13:11:14.211Z",
-      "heartbeat_at_utc": "2026-11-22T13:21:13.529Z",
-      "lease_expires_at_utc": "2026-11-22T13:51:13.529Z",
-      "fencing_token": 184,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "file:.github/scripts/work-item-core.js",
-      "issue_number": 107,
-      "task_id": "GH-107",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "CHAT-20261122-SECURITY-01",
-      "chat_id": "CHAT-20261122-SECURITY-01",
-      "run_id": "RUN-20261122-RESOURCE-KEY-CASE-01",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": "work/GH-107-RUN-20261122-RESOURCE-KEY-CASE-01",
-      "acquired_at_utc": "2026-11-22T13:11:14.211Z",
-      "heartbeat_at_utc": "2026-11-22T13:21:13.529Z",
-      "lease_expires_at_utc": "2026-11-22T13:51:13.529Z",
-      "fencing_token": 184,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "file:.github/scripts/work-item-core.test.js",
-      "issue_number": 107,
-      "task_id": "GH-107",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "CHAT-20261122-SECURITY-01",
-      "chat_id": "CHAT-20261122-SECURITY-01",
-      "run_id": "RUN-20261122-RESOURCE-KEY-CASE-01",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": "work/GH-107-RUN-20261122-RESOURCE-KEY-CASE-01",
-      "acquired_at_utc": "2026-11-22T13:11:14.211Z",
-      "heartbeat_at_utc": "2026-11-22T13:21:13.529Z",
-      "lease_expires_at_utc": "2026-11-22T13:51:13.529Z",
-      "fencing_token": 184,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "file:.github/workflows/farast-coordinator.yml",
-      "issue_number": 107,
-      "task_id": "GH-107",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "CHAT-20261122-SECURITY-01",
-      "chat_id": "CHAT-20261122-SECURITY-01",
-      "run_id": "RUN-20261122-RESOURCE-KEY-CASE-01",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": "work/GH-107-RUN-20261122-RESOURCE-KEY-CASE-01",
-      "acquired_at_utc": "2026-11-22T13:11:14.211Z",
-      "heartbeat_at_utc": "2026-11-22T13:21:13.529Z",
-      "lease_expires_at_utc": "2026-11-22T13:51:13.529Z",
-      "fencing_token": 184,
-      "status": "ACTIVE"
-    }
-  ],
+  "locks": [],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -14607,6 +14494,17 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "lease_expires_at_utc": "2026-11-22T13:51:13.529Z",
       "at_utc": "2026-11-22T13:21:13.529Z"
+    },
+    {
+      "event": "REVIEW",
+      "issue_number": 107,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-20261122-SECURITY-01",
+      "run_id": "RUN-20261122-RESOURCE-KEY-CASE-01",
+      "fencing_token": 184,
+      "branch": "work/GH-107-RUN-20261122-RESOURCE-KEY-CASE-01",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "at_utc": "2026-11-22T13:21:38.302Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -30303,6 +30201,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-22T13:21:13.530Z"
+    },
+    "7079750547": {
+      "response": "پیاده‌سازی برای اجرای گیت‌های ماشینی و پذیرش خودکار تحویل شد؛ این فرمان به‌تنهایی پذیرش نیست.",
+      "response_posted": false,
+      "issue_number": 107,
+      "actor": "a4adelahmadian86-wq",
+      "command": "review",
+      "next_status": "review",
+      "at_utc": "2026-11-22T13:21:38.303Z"
     }
   },
   "work_items": {
@@ -37570,7 +37477,7 @@
         "CP-03",
         "CP-04"
       ],
-      "status": "IN_PROGRESS",
+      "status": "REVIEW_REQUIRED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "file:.github/workflows/farast-coordinator.yml",
