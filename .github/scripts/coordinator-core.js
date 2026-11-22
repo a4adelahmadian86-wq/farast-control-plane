@@ -425,5 +425,5 @@ module.exports = {
   isSafeRunId, roleForActor, isWithinDelegatedScope, isCommandAllowed, resourcesFor, targetRepositoryFor, branchForWritePolicy, resolveWritePolicy, expireLocks, activeForIssue,
   claimResources, renewLease, ownsLease, latestTaskStatus, matchesReviewLease, hasSuccessfulChecks,
   validateAllocationProvenance, hasVerifiedAllocationProvenance, recordAllocationProvenance, evaluateBranchRules,
-  pendingCommandComments, pendingResponseOperations, responseMarker, captureWorkItemSpec
+  pendingCommandComments, pendingResponseOperations, responseMarker, captureWorkItemSpec, canonicalResourceKey
 };
