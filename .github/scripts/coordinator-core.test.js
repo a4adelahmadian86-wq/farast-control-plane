@@ -907,7 +907,7 @@ test('ruleset bypass actor verification uses a dedicated Administration-read tok
 
 test('manual workflow dispatch can reconcile one exact Issue without relying on the global inbox page cursor', () => {
   const workflow = fs.readFileSync('.github/workflows/farast-coordinator.yml', 'utf8');
-  assert.match(workflow, /workflow_dispatch:\\n    inputs:\\n      issue_number:/);
+  assert.ok(workflow.includes("workflow_dispatch:\n    inputs:\n      issue_number:"));
   assert.ok(workflow.includes('context.payload.inputs?.issue_number'));
   assert.ok(workflow.includes('github.rest.issues.get({'));
   assert.ok(workflow.includes('await safelyProcessIssue(targetedIssue)'));
