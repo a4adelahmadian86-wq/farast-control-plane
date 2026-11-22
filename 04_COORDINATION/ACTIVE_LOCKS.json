@@ -1,8 +1,25 @@
 {
   "schema_version": "1.0",
-  "revision": 3600,
-  "next_fencing_token": 182,
-  "locks": [],
+  "revision": 3601,
+  "next_fencing_token": 183,
+  "locks": [
+    {
+      "resource_key": "doc:execution_start_guide_fa.md",
+      "issue_number": 50,
+      "task_id": "GH-50",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-20261122-AUTO-GUIDE-SYNC-01",
+      "chat_id": "CHAT-20261122-AUTO-GUIDE-SYNC-01",
+      "run_id": "RUN-20261122-GUIDE-SYNC-RECONCILE-03",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-50-RUN-20261122-GUIDE-SYNC-RECONCILE-03",
+      "acquired_at_utc": "2026-11-22T12:19:16.454Z",
+      "heartbeat_at_utc": "2026-11-22T12:19:16.454Z",
+      "lease_expires_at_utc": "2026-11-22T12:49:16.454Z",
+      "fencing_token": 182,
+      "status": "ACTIVE"
+    }
+  ],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -14051,6 +14068,23 @@
       "hard_gate_ready": true,
       "hard_gate_blockers": [],
       "at_utc": "2026-11-22T12:17:39.286Z"
+    },
+    {
+      "event": "ACQUIRED",
+      "issue_number": 50,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-20261122-AUTO-GUIDE-SYNC-01",
+      "run_id": "RUN-20261122-GUIDE-SYNC-RECONCILE-03",
+      "resource_keys": [
+        "doc:execution_start_guide_fa.md"
+      ],
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-50-RUN-20261122-GUIDE-SYNC-RECONCILE-03",
+      "previous_branch": "work/GH-50-RUN-20261120-GUIDE-SYNC-002",
+      "previous_target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "previous_run_id": "RUN-20261120-GUIDE-SYNC-002",
+      "fencing_token": 182,
+      "at_utc": "2026-11-22T12:19:16.454Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -29155,6 +29189,15 @@
       "command": "reopen",
       "next_status": "ready",
       "at_utc": "2026-11-22T12:18:47.546Z"
+    },
+    "7079025160": {
+      "response": "CLAIM GRANTED. TASK=GH-50; WORK_ITEM_ID=WI-PROMPT-ENTRY-GUIDE-SYNC-001; verified_steps=S0_AUDIT,S1_SYNC,S2_VALIDATE,S3_HANDOFF; remaining_steps=; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; actor=@a4adelahmadian86-wq; chat=CHAT-20261122-AUTO-GUIDE-SYNC-01; run=RUN-20261122-GUIDE-SYNC-RECONCILE-03; resource_keys=doc:execution_start_guide_fa.md; target_repository=a4adelahmadian86-wq/farast-control-plane; write_policy=WRITE_ALLOWED; branch=work/GH-50-RUN-20261122-GUIDE-SYNC-RECONCILE-03; previous_run=RUN-20261120-GUIDE-SYNC-002; previous_target_repository=a4adelahmadian86-wq/farast-control-plane; previous_branch=work/GH-50-RUN-20261120-GUIDE-SYNC-002; fencing_token=182; lease_expires=2026-11-22T12:49:16.454Z. این Work Item با سیاست WRITE_ALLOWED است؛ branch را فقط در target_repository ثبت‌شده بساز و قبل از هر write heartbeat/token را دوباره تأیید کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز و branch قبلی را تغییر نده.",
+      "response_posted": false,
+      "issue_number": 50,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "locked",
+      "at_utc": "2026-11-22T12:19:16.461Z"
     }
   },
   "work_items": {
@@ -31987,7 +32030,7 @@
       "parent_exp_ids": [
         "EXP-01"
       ],
-      "status": "READY",
+      "status": "CLAIMED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "doc:execution_start_guide_fa.md"
