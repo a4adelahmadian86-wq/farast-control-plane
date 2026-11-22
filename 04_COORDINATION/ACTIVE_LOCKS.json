@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3597,
+  "revision": 3598,
   "next_fencing_token": 182,
   "locks": [],
   "history": [
@@ -29140,7 +29140,7 @@
     },
     "7079012819": {
       "response": "Claim رد شد: وضعیت وظیفه blocked/review/done است؛ ابتدا تصمیم مجاز لازم است.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 50,
       "actor": "a4adelahmadian86-wq",
       "command": "claim",
