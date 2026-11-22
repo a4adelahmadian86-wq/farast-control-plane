@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3573,
+  "revision": 3574,
   "next_fencing_token": 181,
   "locks": [],
   "history": [
@@ -28989,7 +28989,7 @@
     },
     "7078769303": {
       "response": "پذیرش خودکار رد شد: تمام Check Runها و Commit Statusهای SHA دقیق head باید با conclusion/state برابر success تکمیل شده باشند؛ بازبین انسانی دوم لازم نیست.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 119,
       "actor": "a4adelahmadian86-wq",
       "command": "accept",
