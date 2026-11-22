@@ -873,7 +873,7 @@ jobs:
                 const commentId = Number(retryCommentId);
                 if (!Number.isSafeInteger(commentId) || commentId <= 0) throw new Error('Invalid retry_comment_id');
                 const comment = (await github.rest.issues.getComment({ owner, repo, comment_id: commentId })).data;
-                if (comment.user?.login !== owner || !comment.body?.match(/^\\s*\\/farast\\s+accept\\b/i)) {
+                if (comment.user?.login !== owner || !comment.body?.match(/^\s*\/farast\s+accept\b/i)) {
                   throw new Error('Replay requires an existing owner-authored /farast accept comment');
                 }
                 if (!comment.issue_url?.endsWith('/issues/' + dispatchIssueNumber)) {
