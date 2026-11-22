@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3738,
+  "revision": 3739,
   "next_fencing_token": 185,
   "locks": [],
   "history": [
@@ -30261,6 +30261,15 @@
       "command": "status",
       "next_status": null,
       "at_utc": "2026-11-22T13:24:00.323Z"
+    },
+    "7045124137": {
+      "response": "فرمان رد شد: تخصیص این Work Item با lease معتبر Issue #11 قابل اثبات نیست؛ allocator_lease_mismatch_or_expired. ابتدا فقط از مسیر allocator مجاز و با provenance دقیق اقدام کنید.",
+      "response_posted": false,
+      "issue_number": 106,
+      "actor": "a4adelahmadian86-wq",
+      "command": "refresh",
+      "next_status": "blocked",
+      "at_utc": "2026-11-22T13:24:10.407Z"
     }
   },
   "work_items": {
