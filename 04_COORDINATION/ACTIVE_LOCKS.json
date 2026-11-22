@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3686,
+  "revision": 3687,
   "next_fencing_token": 184,
   "locks": [],
   "history": [
@@ -29823,6 +29823,15 @@
       "command": "refresh",
       "next_status": "blocked",
       "at_utc": "2026-11-22T13:08:31.676Z"
+    },
+    "7045085370": {
+      "response": "فرمان رد شد: تخصیص این Work Item با lease معتبر Issue #11 قابل اثبات نیست؛ Invalid Work item specification JSON in Issue #106: Resource keys do not match JSON. ابتدا فقط از مسیر allocator مجاز و با provenance دقیق اقدام کنید.",
+      "response_posted": false,
+      "issue_number": 106,
+      "actor": "a4adelahmadian86-wq",
+      "command": "refresh",
+      "next_status": "blocked",
+      "at_utc": "2026-11-22T13:08:40.675Z"
     }
   },
   "work_items": {
