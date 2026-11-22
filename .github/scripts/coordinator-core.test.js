@@ -23,6 +23,10 @@ test('automated acceptance requires all check runs and any reported commit statu
   assert.equal(core.hasSuccessfulChecks(successRun, {state:'success',statuses:[{state:'success'}]}), true);
   assert.equal(core.hasSuccessfulChecks(successRun, {state:'failure',statuses:[{state:'failure'}]}), false);
   assert.equal(core.hasSuccessfulChecks(successRun, {state:'pending',statuses:[{state:'pending'}]}), false);
+  const workflow = fs.readFileSync('.github/workflows/farast-coordinator.yml', 'utf8');
+  assert.ok(workflow.includes("checkRuns = checkRuns.filter(run =>"));
+  assert.ok(workflow.includes("!String(run?.details_url || '').includes('/actions/runs/' + context.runId + '/')"));
+  assert.ok(workflow.includes('coordinatorCore.hasSuccessfulChecks(checkRuns, combinedStatus.data)'));
 });
 
 test('same resource across different Issues grants only one owner', () => {
@@ -706,15 +710,16 @@ test('Work Item acceptance progress is checked before any PR merge', () => {
 });
 
 
-test('comment events process their Issue without sweeping the global inbox', () => {
+test('comment events and exact manual dispatch target Issues without relying on the global inbox cursor', () => {
   const workflow = fs.readFileSync('.github/workflows/farast-coordinator.yml', 'utf8');
-  const sweepGuard = workflow.indexOf("const shouldSweepInbox = ['schedule','workflow_dispatch'].includes(context.eventName);");
-  const eventOnly = workflow.indexOf('if (eventIssue && !shouldSweepInbox)', sweepGuard);
-  const scheduledSweep = workflow.indexOf('else if (shouldSweepInbox)', sweepGuard);
+  const targetedDispatch = workflow.indexOf('if (dispatchIssueNumber > 0)');
+  const eventOnly = workflow.indexOf('else if (eventIssue && context.eventName !== \'schedule\')', targetedDispatch);
+  const scheduledSweep = workflow.indexOf("else if (context.eventName === 'schedule' || context.eventName === 'workflow_dispatch')", eventOnly);
   const listIssues = workflow.indexOf('github.rest.issues.listForRepo', scheduledSweep);
-  assert.ok(sweepGuard >= 0);
-  assert.ok(eventOnly > sweepGuard && eventOnly < scheduledSweep);
+  assert.ok(targetedDispatch >= 0);
+  assert.ok(eventOnly > targetedDispatch && eventOnly < scheduledSweep);
   assert.ok(scheduledSweep > eventOnly && listIssues > scheduledSweep);
+  assert.ok(workflow.includes('context.payload.inputs?.issue_number'));
   assert.ok(workflow.includes('Leave the command in the durable inbox; the next scheduled sweep will retry it.'));
   assert.ok(workflow.includes('FARAST scheduled inbox sweep deferred; the durable cursor is unchanged and the next schedule will retry:'));
   assert.ok(workflow.includes('FARAST issue-opened processing deferred; the durable inbox will retry:'));
@@ -896,6 +901,28 @@ test('cross-repository acceptance uses anonymous Checks reads for public targets
 });
 
 
+test('ruleset bypass actor verification uses a dedicated Administration-read token and fails closed without it', () => {
+  const workflow = fs.readFileSync('.github/workflows/farast-coordinator.yml', 'utf8');
+  const coreSource = fs.readFileSync('.github/scripts/coordinator-core.js', 'utf8');
+  assert.ok(workflow.includes('FARAST_RULESET_READ_TOKEN: ${{ secrets.FARAST_RULESET_READ_TOKEN }}'));
+  assert.ok(workflow.includes('const rulesetReadGithub = process.env.FARAST_RULESET_READ_TOKEN'));
+  assert.ok(workflow.includes('rulesetReadGithub.request('));
+  assert.ok(coreSource.includes('ruleset_bypass_actors_not_visible'));
+});
+
+test('manual workflow dispatch can reconcile one exact Issue without relying on the global inbox page cursor', () => {
+  const workflow = fs.readFileSync('.github/workflows/farast-coordinator.yml', 'utf8');
+  assert.ok(workflow.includes("workflow_dispatch:\n    inputs:\n      issue_number:"));
+  assert.ok(workflow.includes('context.payload.inputs?.issue_number'));
+  assert.ok(workflow.includes('github.rest.issues.get({'));
+  assert.ok(workflow.includes('await safelyProcessIssue(targetedIssue)'));
+  assert.ok(workflow.includes('context.payload.inputs?.retry_comment_id'));
+  assert.ok(workflow.includes('Exact command replay is owner-only'));
+  assert.ok(workflow.includes('comment.user?.login !== owner'));
+  assert.ok(workflow.includes('ruleset_bypass_actors_not_visible'));
+  assert.ok(workflow.includes('replayed_operations[retryCommentId]'));
+});
+
 test('invalid blocked Work Item specifications are captured without aborting inbox processing', () => {
   const valid = { work_item_id: 'WI-VALID-001' };
   assert.deepEqual(core.captureWorkItemSpec(() => valid), { ok: true, item: valid, error: null });
@@ -904,15 +931,6 @@ test('invalid blocked Work Item specifications are captured without aborting inb
   assert.equal(invalid.ok, false);
   assert.equal(invalid.item, null);
   assert.equal(invalid.error, 'deep Work Item criteria need evidence_requirement');
-});
-
-test('ruleset bypass actor verification uses a dedicated Administration-read token and fails closed without it', () => {
-  const workflow = fs.readFileSync('.github/workflows/farast-coordinator.yml', 'utf8');
-  const coreSource = fs.readFileSync('.github/scripts/coordinator-core.js', 'utf8');
-  assert.ok(workflow.includes('FARAST_RULESET_READ_TOKEN: ${{ secrets.FARAST_RULESET_READ_TOKEN }}'));
-  assert.ok(workflow.includes('const rulesetReadGithub = process.env.FARAST_RULESET_READ_TOKEN'));
-  assert.ok(workflow.includes('rulesetReadGithub.request('));
-  assert.ok(coreSource.includes('ruleset_bypass_actors_not_visible'));
 });
 
 test('blocked issue revalidation errors do not short-circuit the durable command inbox', () => {

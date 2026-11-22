@@ -1,683 +1,413 @@
 'use strict';
 
-const STATUSES = Object.freeze([
-  'BACKLOG','READY','CLAIMED','IN_PROGRESS','BLOCKED','REVIEW_REQUIRED',
-  'PARTIALLY_ACCEPTED','ACCEPTED','REJECTED','CANCELLED'
-]);
-const TERMINAL = new Set(['ACCEPTED','REJECTED','CANCELLED']);
-const VALIDATION = new Set(['NOT_RUN','PASS','FAIL','BLOCKED','UNKNOWN']);
-const PRODUCT_REPOSITORY = 'a4adelahmadian86-wq/non';
-const CONTROL_PLANE_REPOSITORY = 'a4adelahmadian86-wq/farast-control-plane';
-const BASE_OPERATIONS = new Set(['analysis','proposal_only']);
-const ACTION_OPERATIONS = new Set(['control_plane_write','control_plane_merge','control_plane_authorization_change','repository_write','product_implementation','destructive_data_change','database_migration','authorization_change','security_sensitive_change','audit_log_change','architecture_implementation','hosting_deployment','legal_policy_change','merge','acceptance','security_acceptance','production_release']);
-const ALL_OPERATIONS = new Set([...BASE_OPERATIONS, ...ACTION_OPERATIONS]);
-const LEGACY_WRITE_OPERATION_SCOPES = Object.freeze({
- 'WI-GOAL-ALLOCATOR-001':{target_repository:CONTROL_PLANE_REPOSITORY,operations:['control_plane_write'],branchless:true},
- 'WI-NON-IMPLEMENTATION-VERTICAL-SLICE-001':{target_repository:PRODUCT_REPOSITORY,operations:['product_implementation']},
- 'WI-NON-WRITE-POLICY-COORDINATOR-001':{target_repository:CONTROL_PLANE_REPOSITORY,operations:['control_plane_write']},
- 'WI-PR16-SPEC-REPAIR-001':{target_repository:CONTROL_PLANE_REPOSITORY,operations:['control_plane_write'],branchless:true},
- 'WI-OPERATION-GATE-MODEL-001':{target_repository:CONTROL_PLANE_REPOSITORY,operations:['control_plane_write']},
- 'WI-READONLY-EVIDENCE-ACCEPTANCE-001':{target_repository:CONTROL_PLANE_REPOSITORY,operations:['control_plane_write']},
-});
-
-function assert(condition, message) {
-  if (!condition) throw new Error(message);
+function isSafeRunId(value) {
+  return typeof value === 'string' && /^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$/.test(value);
 }
-function unique(values) { return [...new Set(values || [])]; }
-function isIso(value) { return typeof value === 'string' && Number.isFinite(Date.parse(value)); }
 
-function validateWorkItem(item) {
-  assert(item && typeof item === 'object', 'work item must be an object');
-  assert(typeof item.work_item_id === 'string' && /^[A-Z0-9][A-Z0-9._-]{2,63}$/.test(item.work_item_id), 'invalid stable work_item_id');
-  assert(item.schema_version === '1.0', 'unsupported schema_version');
-  assert(typeof item.title === 'string' && item.title.trim(), 'title is required');
-  assert(Array.isArray(item.parent_goal_ids) && item.parent_goal_ids.length > 0, 'parent_goal_ids are required');
-  assert(Array.isArray(item.parent_exp_ids) && item.parent_exp_ids.length > 0, 'parent_exp_ids are required');
-  if (item.parent_cp_ids !== undefined) {
-    assert(Array.isArray(item.parent_cp_ids) && item.parent_cp_ids.length > 0, 'parent_cp_ids must be a non-empty array');
-    assert(item.parent_cp_ids.every(x => typeof x === 'string' && /^[A-Z0-9][A-Z0-9._-]{1,63}$/.test(x)), 'invalid parent_cp_ids');
-    assert(new Set(item.parent_cp_ids).size === item.parent_cp_ids.length, 'parent_cp_ids must be unique');
+function roleForActor(policy, actor, association) {
+  const role = policy?.actor_roles?.[actor] || policy?.default_association_roles?.[association] || null;
+  return Object.prototype.hasOwnProperty.call(policy?.roles || {}, role) ? role : null;
+}
+
+function isWithinDelegatedScope(policy, actor, role, targetRepository, resourceKeys) {
+  if (role !== 'SENIOR_MANAGER') return true;
+  const scope = policy?.actor_scopes?.[actor];
+  if (!scope || !Array.isArray(scope.repositories) || !Array.isArray(scope.resource_key_prefixes)) return false;
+  if (!scope.repositories.includes(targetRepository)) return false;
+  const keys = resourceKeys || [];
+  if (!keys.length || !scope.resource_key_prefixes.length) return false;
+  return keys.every(key => scope.resource_key_prefixes.some(prefix =>
+    key === prefix || key.startsWith(prefix + '/') || key.startsWith(prefix + ':')
+  ));
+}
+
+function isCommandAllowed(policy, actor, association, command, context = {}) {
+  const role = roleForActor(policy, actor, association);
+  if (!role || !Array.isArray(policy.roles[role]) || !policy.roles[role].includes(String(command).toLowerCase())) return false;
+  return isWithinDelegatedScope(policy, actor, role, context.targetRepository, context.resourceKeys);
+}
+
+function resourcesFor(body, issueNumber) {
+  const text = body || '';
+  const match = text.match(/(?:^|\n)###\s*Resource keys\s*\n([\s\S]*?)(?=\n###|$)/i);
+  if (!match) return [];
+  return [...new Set(match[1].split(/[\n,;]+/).map(x => {
+    const raw = x.trim().replace(/^[-*\s]+/, '').replace(/\\/g, '/');
+    return canonicalResourceKey(raw) || raw;
+  }).filter(Boolean))].sort();
+}
+
+function targetRepositoryFor(body) {
+  const match = (body || '').match(/(?:^|\n)###\s*Target repository(?: \(owner\/name\))?\s*\n([\s\S]*?)(?=\n###|$)/i);
+  const value = match ? match[1].trim().split(/\s+/)[0] : '';
+  return /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(value) ? value : '';
+}
+
+function leaseExpiryState(lock, nowMs = Date.now()) {
+  const rawExpiry = lock?.lease_expires_at_utc;
+  if (typeof rawExpiry !== 'string') return 'INVALID';
+  const match = rawExpiry.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.(\d{1,3}))?Z$/);
+  if (!match) return 'INVALID';
+  const expiryMs = Date.parse(rawExpiry);
+  if (!Number.isFinite(expiryMs)) return 'INVALID';
+  const fraction = (match[7] || '').padEnd(3, '0');
+  const canonical = match[1] + '-' + match[2] + '-' + match[3] + 'T' +
+    match[4] + ':' + match[5] + ':' + match[6] + '.' + fraction + 'Z';
+  // Date.parse normalizes some invalid calendar dates (for example Feb 30);
+  // require the parsed value to round-trip to the exact UTC timestamp.
+  if (new Date(expiryMs).toISOString() !== canonical) return 'INVALID';
+  return expiryMs <= nowMs ? 'EXPIRED' : 'ACTIVE';
+}
+
+function leaseBlocksClaim(lock, nowMs = Date.now()) {
+  // Invalid/missing expiry on a lock in the active registry is never evidence
+  // that the lease ended. Keep it blocking until its owner renews/releases it
+  // with the matching actor/chat/run/fencing token or it is audited manually.
+  return leaseExpiryState(lock, nowMs) !== 'EXPIRED';
+}
+
+function canonicalResourceKey(value) {
+  if (typeof value !== 'string') return null;
+  const key = value.trim().replace(/\\/g, '/').replace(/\/+/g, '/');
+  const separator = key.indexOf(':');
+  if (separator <= 0 || separator === key.length - 1) return null;
+  const type = key.slice(0, separator).toLowerCase();
+  const raw = key.slice(separator + 1);
+  if (!/^[a-z][a-z0-9-]*$/.test(type)) return null;
+  if (['file', 'doc', 'dir'].includes(type)) {
+    const path = raw.replace(/^\/+|\/+$/g,'');
+    const segments = path.split('/');
+    if (!path || segments.some(segment => !segment || segment === '.' || segment === '..')) return null;
+    return type + ':' + path;
   }
-  if (item.allocation_provenance !== undefined) {
-    const provenance = item.allocation_provenance;
-    const fields = ['allocator_work_item_id','allocator_issue_number','actor','chat_id','run_id','fencing_token','branch','allocated_at_utc'];
-    assert(provenance && typeof provenance === 'object' && !Array.isArray(provenance), 'allocation_provenance must be an object');
-    assert(fields.every(key => Object.prototype.hasOwnProperty.call(provenance, key)) &&
-      Object.keys(provenance).every(key => fields.includes(key)), 'invalid allocation_provenance fields');
-    assert(provenance.allocator_work_item_id === 'WI-GOAL-ALLOCATOR-001', 'invalid allocation_provenance allocator_work_item_id');
-    assert(provenance.allocator_issue_number === 11, 'invalid allocation_provenance allocator_issue_number');
-    assert(typeof provenance.actor === 'string' && /^[A-Za-z0-9-]{1,39}$/.test(provenance.actor), 'invalid allocation_provenance actor');
-    assert(typeof provenance.chat_id === 'string' && /^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$/.test(provenance.chat_id), 'invalid allocation_provenance chat_id');
-    assert(typeof provenance.run_id === 'string' && /^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$/.test(provenance.run_id), 'invalid allocation_provenance run_id');
-    assert(Number.isInteger(provenance.fencing_token) && provenance.fencing_token > 0, 'invalid allocation_provenance fencing_token');
-    assert(provenance.branch === null || (typeof provenance.branch === 'string' && provenance.branch.trim()), 'invalid allocation_provenance branch');
-    assert(isIso(provenance.allocated_at_utc), 'allocation_provenance allocated_at_utc must be an ISO timestamp');
+  return type + ':' + raw.toLowerCase();
+}
+
+function parseResourceKey(key) {
+  const canonical = canonicalResourceKey(key);
+  if (!canonical) return null;
+  const separator = canonical.indexOf(':');
+  const type = canonical.slice(0, separator);
+  const value = canonical.slice(separator + 1);
+  if (type === 'repo') return { type, value };
+  if (['file', 'doc', 'dir'].includes(type)) return { type, path: value };
+  return { type, value };
+}
+
+function pathIsWithin(path, directory) {
+  return path === directory || path.startsWith(directory + '/');
+}
+
+function resourceKeysConflict(leftKey, rightKey, leftRepository, rightRepository) {
+  // A missing repository identity on either live lock is ambiguous: fail closed.
+  if (!leftRepository || !rightRepository) return true;
+  if (String(leftRepository).toLowerCase() !== String(rightRepository).toLowerCase()) return false;
+  const left = parseResourceKey(leftKey);
+  const right = parseResourceKey(rightKey);
+  if (!left || !right) return true;
+  // Any repo: key is a repository-wide exclusive lock, including legacy
+  // repo:non:controlled-implementation keys. It is scoped by target_repository.
+  if (left.type === 'repo' || right.type === 'repo') return true;
+  const pathTypes = new Set(['file', 'doc', 'dir']);
+  if (pathTypes.has(left.type) && pathTypes.has(right.type)) {
+    if (left.type === 'dir' && pathIsWithin(right.path, left.path)) return true;
+    if (right.type === 'dir' && pathIsWithin(left.path, right.path)) return true;
+    return left.path === right.path;
   }
-  if (item.parent_work_item_id !== undefined && item.parent_work_item_id !== null) assert(typeof item.parent_work_item_id === 'string' && /^[A-Z0-9][A-Z0-9._-]{2,63}$/.test(item.parent_work_item_id) && item.parent_work_item_id !== item.work_item_id, 'invalid parent_work_item_id');
-  assert(Number.isInteger(item.priority) && item.priority >= 0 && item.priority <= 100, 'priority must be an integer from 0 to 100');
-  assert(isIso(item.created_at_utc), 'created_at_utc must be an ISO timestamp');
-  assert(STATUSES.includes(item.status), 'invalid work item status');
-  assert(typeof item.target_repository === 'string' && /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(item.target_repository), 'invalid target_repository');
-  assert(['READ_ONLY','WRITE_REQUIRES_OWNER_APPROVAL','WRITE_ALLOWED'].includes(item.write_policy), 'invalid write_policy');
-  assert(['OWNER_ASSIGNED','DEFAULT_POLICY'].includes(item.priority_source), 'invalid priority_source');
-  if (item.target_repository === PRODUCT_REPOSITORY && item.write_policy === 'WRITE_ALLOWED') assert(typeof item.owner_approval_ref === 'string' && item.owner_approval_ref.trim(), 'owner_approval_ref is required for NON WRITE_ALLOWED');
-  if (item.write_policy === 'WRITE_REQUIRES_OWNER_APPROVAL') assert(typeof item.owner_approval_ref === 'string' && item.owner_approval_ref.trim(), 'owner_approval_ref is required for approval-gated writes');
-  const hasOperationScopeVersion = item.operation_scope_version !== undefined;
-  const hasRequestedOperations = item.requested_operations !== undefined;
-  assert(hasOperationScopeVersion === hasRequestedOperations, 'operation_scope_version and requested_operations must be supplied together');
-  if (hasOperationScopeVersion) {
-    assert(item.operation_scope_version === '1.0', 'unsupported operation_scope_version');
-    assert(Array.isArray(item.requested_operations) && item.requested_operations.length > 0, 'versioned operation scope requires requested_operations');
-  }
-  if (item.write_policy === 'WRITE_ALLOWED') {
-    const legacyScope = LEGACY_WRITE_OPERATION_SCOPES[item.work_item_id];
-    if (legacyScope) assert(item.target_repository === legacyScope.target_repository, 'legacy write exception target mismatch');
-    else assert(hasOperationScopeVersion && hasRequestedOperations, 'new WRITE_ALLOWED Work Items require operation_scope_version=1.0 and requested_operations');
-  }
-  if (item.requested_operations !== undefined) {
-    assert(Array.isArray(item.requested_operations) && item.requested_operations.length > 0, 'requested_operations must be a non-empty array');
-    assert(item.requested_operations.every(x => typeof x === 'string' && x.trim()), 'requested_operations must contain non-empty strings');
-    assert(new Set(item.requested_operations).size === item.requested_operations.length, 'requested_operations must be unique');
-    if (item.write_policy === 'READ_ONLY') assert(item.requested_operations.every(x => x === 'analysis'), 'READ_ONLY Work Items may request analysis only');
-    if (item.write_policy === 'WRITE_REQUIRES_OWNER_APPROVAL') assert(item.requested_operations.every(x => x === 'proposal_only'), 'approval-pending Work Items may request proposal_only only');
-    if (item.write_policy === 'WRITE_ALLOWED') {
-      assert(!item.requested_operations.some(x => x === 'analysis' || x === 'proposal_only'), 'WRITE_ALLOWED Work Items cannot request analysis/proposal-only as their write scope');
-      assert(item.requested_operations.some(operation => ACTION_OPERATIONS.has(operation)), 'WRITE_ALLOWED Work Items must declare at least one write/action operation');
-      if (item.target_repository === PRODUCT_REPOSITORY) assert(item.requested_operations.includes('product_implementation'), 'NON WRITE_ALLOWED Work Items must include product_implementation as their base write scope');
-      else if (item.target_repository === CONTROL_PLANE_REPOSITORY) assert(item.requested_operations.includes('control_plane_write'), 'control-plane Work Items must include control_plane_write as their base write scope');
-      else assert(item.requested_operations.includes('repository_write'), 'other repository Work Items must include repository_write as their base write scope');
+  // Logical resources (module:, schema:, analysis:, coordination:, etc.) are
+  // atomic identifiers and conflict only with the same canonical identifier.
+  return left.type === right.type && left.value === right.value;
+}
+
+function expireLocks(state, nowMs = Date.now()) {
+  const expired = [];
+  const retained = [];
+  const invalid = [];
+  for (const lock of Array.isArray(state.locks) ? state.locks : []) {
+    const leaseState = leaseExpiryState(lock, nowMs);
+    if (leaseState === 'EXPIRED') expired.push(lock);
+    else {
+      retained.push(lock);
+      if (leaseState === 'INVALID') invalid.push(lock);
     }
   }
-  assert(Array.isArray(item.resource_keys) && item.resource_keys.length > 0, 'resource_keys are required');
-  assert(Array.isArray(item.dependencies || []), 'dependencies must be an array');
-  assert(Array.isArray(item.steps) && item.steps.length > 0, 'at least one atomic step is required');
-  assert(Array.isArray(item.acceptance_criteria) && item.acceptance_criteria.length > 0, 'acceptance criteria are required');
-  const ids = new Set();
-  assert(item.steps.some(s => s.required !== false), 'at least one required step is needed');
-  for (const step of item.steps) {
-    assert(typeof step.step_id === 'string' && step.step_id.trim(), 'step_id is required');
-    assert(!ids.has(step.step_id), 'duplicate step_id: ' + step.step_id);
-    ids.add(step.step_id);
-    assert(typeof step.title === 'string' && step.title.trim(), 'step title is required');
-    assert(step.required === undefined || typeof step.required === 'boolean', 'step required must be boolean');
-    assert(step.validation_status === undefined || VALIDATION.has(step.validation_status), 'invalid step validation_status');
-    if (step.weight !== undefined) assert(Number.isFinite(step.weight) && step.weight > 0, 'step weight must be positive');
-  }
-  const criterionIds = new Set();
-  assert(item.acceptance_criteria.some(c => c.required !== false), 'at least one required acceptance criterion is needed');
-  for (const criterion of item.acceptance_criteria) {
-    assert(typeof criterion.criterion_id === 'string' && criterion.criterion_id.trim(), 'criterion_id is required');
-    assert(!criterionIds.has(criterion.criterion_id), 'duplicate criterion_id: ' + criterion.criterion_id);
-    criterionIds.add(criterion.criterion_id);
-    assert(VALIDATION.has(criterion.validation_status || 'NOT_RUN'), 'invalid criterion validation_status');
-    assert(criterion.required === undefined || typeof criterion.required === 'boolean', 'criterion required must be boolean');
-    assert(criterion.validation_stage === undefined || ['PRE_MERGE','POST_MERGE'].includes(criterion.validation_stage), 'invalid criterion validation_stage');
-  }
-  if (item.weighting) {
-    assert(typeof item.weighting.version === 'string' && item.weighting.version.trim(), 'weighting version is required');
-    assert(item.steps.filter(s => s.required !== false).every(s => Number.isFinite(s.weight) && s.weight > 0), 'all required steps need positive weights when weighting is enabled');
-  }
-  if (item.acceptance_weighting) {
-    assert(typeof item.acceptance_weighting.version === 'string' && item.acceptance_weighting.version.trim(), 'acceptance weighting version is required');
-    assert(item.acceptance_criteria.filter(c => c.required !== false).every(c => Number.isFinite(c.weight) && c.weight > 0), 'all required criteria need positive weights when acceptance weighting is enabled');
-  }
-  if (item.depth_profile) {
-    const depth = item.depth_profile;
-    assert(Number.isInteger(item.effort_estimate_minutes) && item.effort_estimate_minutes >= 20 && item.effort_estimate_minutes <= 30, 'deep Work Items need 20-30 minute effort_estimate_minutes');
-    assert(typeof item.effort_rationale === 'string' && item.effort_rationale.trim(), 'deep Work Items need effort_rationale');
-    assert(typeof depth.profile_version === 'string' && depth.profile_version.trim(), 'depth profile version is required');
-    assert(Number.isInteger(depth.min_substantive_steps) && depth.min_substantive_steps >= 6, 'deep Work Items require at least six substantive steps');
-    assert(Number.isInteger(depth.min_acceptance_criteria) && depth.min_acceptance_criteria >= 4, 'deep Work Items require at least four acceptance criteria');
-    assert(Number.isInteger(depth.min_deliverables) && depth.min_deliverables >= 3, 'deep Work Items require at least three deliverables');
-    assert(Number.isInteger(depth.target_effort_minutes) && depth.target_effort_minutes >= 20 && depth.target_effort_minutes <= 30, 'depth target effort must be 20-30 minutes');
-    assert(item.steps.filter(s => s.required !== false).length >= depth.min_substantive_steps, 'deep Work Item has too few required steps');
-    assert(item.acceptance_criteria.filter(c => c.required !== false).length >= depth.min_acceptance_criteria, 'deep Work Item has too few required acceptance criteria');
-    assert(Array.isArray(item.deliverables) && item.deliverables.length >= depth.min_deliverables, 'deep Work Item has too few deliverables');
-    for (const step of item.steps.filter(s => s.required !== false)) {
-      assert(typeof step.expected_output === 'string' && step.expected_output.trim(), 'deep Work Item steps need expected_output');
-      assert(typeof step.evidence_requirement === 'string' && step.evidence_requirement.trim(), 'deep Work Item steps need evidence_requirement');
-    }
-    for (const criterion of item.acceptance_criteria.filter(c => c.required !== false)) {
-      assert(typeof criterion.evidence_requirement === 'string' && criterion.evidence_requirement.trim(), 'deep Work Item criteria need evidence_requirement');
-    }
-    for (const deliverable of item.deliverables) {
-      assert(typeof deliverable.deliverable_id === 'string' && deliverable.deliverable_id.trim(), 'deliverable_id is required');
-      assert(typeof deliverable.description === 'string' && deliverable.description.trim(), 'deliverable description is required');
-      assert(typeof deliverable.evidence_requirement === 'string' && deliverable.evidence_requirement.trim(), 'deliverable evidence_requirement is required');
-    }
-  }
-  return true;
-}
-
-function validateProductWriteAuthorization(item, context = {}) {
-  validateWorkItem(item);
-  if (item.target_repository !== PRODUCT_REPOSITORY || item.write_policy !== 'WRITE_ALLOWED') return false;
-  assert(typeof context.repository_owner === 'string' && context.repository_owner.trim(), 'repository_owner is required');
-  assert(context.issue_author === context.repository_owner, 'NON WRITE_ALLOWED requires an owner-authored Issue');
-  assert(typeof context.issue_url === 'string' && context.issue_url.trim() && item.owner_approval_ref === context.issue_url,
-    'owner_approval_ref must exactly reference the owner-created Issue');
-  const approvalText = String(context.issue_body || '').replace(/[`*]/g, '').toLowerCase();
-  assert(approvalText.includes('owner decision') &&
-    approvalText.includes('explicitly approved write_allowed') &&
-    approvalText.includes(PRODUCT_REPOSITORY),
-    'explicit owner approval statement is missing');
-  return true;
-}
-
-function evidenceVerified(record) {
-  return record && record.validation_status === 'PASS' &&
-    Array.isArray(record.evidence_refs) && record.evidence_refs.length > 0 &&
-    record.evidence_refs.every(x => typeof x === 'string' && x.trim());
-}
-
-function refreshedStatus(previousStatus, progress, hardGatesReady) {
-  if (TERMINAL.has(previousStatus)) return previousStatus;
-  if (!hardGatesReady) return 'BLOCKED';
-  // A Work Item with only POST_MERGE criteria still needs PR review/merge; do not downgrade it to READY after refresh.
-  if (progress.can_merge || progress.can_accept) return 'REVIEW_REQUIRED';
-  return progress.verified_steps > 0 ? 'IN_PROGRESS' : 'READY';
-}
-
-function calculateProgress(item) {
-  validateWorkItem(item);
-  const steps = item.steps.filter(s => s.required !== false);
-  const weighted = !!item.weighting;
-  const total = steps.reduce((sum, s) => sum + (weighted ? s.weight : 1), 0);
-  const verified = steps.reduce((sum, s) => sum + (evidenceVerified(s) ? (weighted ? s.weight : 1) : 0), 0);
-  const executionPercentage = total === 0 ? 0 : Math.floor((verified / total) * 10000) / 100;
-
-  const requiredCriteria = item.acceptance_criteria.filter(c => c.required !== false);
-  const preMergeCriteria = requiredCriteria.filter(c => c.validation_stage !== 'POST_MERGE');
-  const acceptanceWeighted = !!item.acceptance_weighting;
-  const criteriaTotal = requiredCriteria.reduce((sum, c) => sum + (acceptanceWeighted ? c.weight : 1), 0);
-  const criteriaVerified = requiredCriteria.reduce((sum, c) => sum + (evidenceVerified(c) ? (acceptanceWeighted ? c.weight : 1) : 0), 0);
-  const acceptancePercentage = criteriaTotal === 0 ? null : Math.floor((criteriaVerified / criteriaTotal) * 10000) / 100;
-  const criteriaPassed = requiredCriteria.length > 0 && requiredCriteria.every(evidenceVerified);
-  const preMergeCriteriaPassed = preMergeCriteria.length > 0 && preMergeCriteria.every(evidenceVerified);
-  const allStepsVerified = steps.every(evidenceVerified);
-  const dependenciesAccepted = (item.dependencies || []).every(d => d.status === 'ACCEPTED');
-  const overallCompletion = acceptancePercentage === null ? null : Math.min(executionPercentage, acceptancePercentage);
-  const countStates = records => Object.fromEntries(['PASS','FAIL','BLOCKED','UNKNOWN','NOT_RUN'].map(status => [
-    status.toLowerCase(), records.filter(x => (x.validation_status || 'NOT_RUN') === status && (status !== 'PASS' || evidenceVerified(x))).length
-  ]));
-  return {
-    percentage: executionPercentage,
-    execution_percentage: executionPercentage,
-    acceptance_percentage: acceptancePercentage,
-    overall_completion_percentage: overallCompletion,
-    verified_steps: steps.filter(evidenceVerified).length,
-    total_steps: steps.length,
-    verified_criteria: requiredCriteria.filter(evidenceVerified).length,
-    total_criteria: requiredCriteria.length,
-    verified_weight: verified,
-    total_weight: total,
-    verified_criteria_weight: criteriaVerified,
-    total_criteria_weight: criteriaTotal,
-    weighting_version: weighted ? item.weighting.version : 'EQUAL_STEPS_V1',
-    acceptance_weighting_version: acceptanceWeighted ? item.acceptance_weighting.version : 'EQUAL_CRITERIA_V1',
-    required_step_counts: countStates(steps),
-    acceptance_criteria_counts: countStates(requiredCriteria),
-    all_steps_verified: allStepsVerified,
-    all_required_criteria_passed: criteriaPassed,
-    pre_merge_criteria_passed: preMergeCriteriaPassed,
-    dependencies_accepted: dependenciesAccepted,
-    can_merge: allStepsVerified && preMergeCriteriaPassed && dependenciesAccepted,
-    can_accept: allStepsVerified && criteriaPassed && dependenciesAccepted
-  };
-}
-
-function validateLease(lease, actor, chatId, runId, token, nowMs = Date.now()) {
-  return !!lease && lease.status === 'ACTIVE' && Date.parse(lease.lease_expires_at_utc) > nowMs &&
-    lease.actor === actor && lease.chat_id === chatId && lease.run_id === runId &&
-    Number(lease.fencing_token) === Number(token) && Number(token) > 0;
-}
-
-function recordStepEvidence(item, input) {
-  validateWorkItem(item);
-  assert(validateLease(input.lease, input.actor, input.chat_id, input.run_id, input.fencing_token, input.nowMs), 'stale_or_invalid_fencing_token');
-  const step = item.steps.find(s => s.step_id === input.step_id);
-  assert(step, 'unknown_step_id');
-  assert(input.validation_status === 'PASS' || input.validation_status === 'FAIL' || input.validation_status === 'BLOCKED', 'invalid_validation_status');
-  assert(Array.isArray(input.evidence_refs) && input.evidence_refs.length > 0 && input.evidence_refs.every(x => typeof x === 'string' && x.trim()), 'evidence_refs_required');
-  if (step.validation_status === 'PASS' && evidenceVerified(step)) {
-    return { changed: false, reason: 'already_verified', progress: calculateProgress(item) };
-  }
-  step.validation_status = input.validation_status;
-  step.evidence_refs = unique(input.evidence_refs);
-  step.validated_at_utc = new Date(input.nowMs ?? Date.now()).toISOString();
-  step.validated_by = input.actor;
-  step.validation_note = input.note || '';
-  return { changed: true, progress: calculateProgress(item) };
-}
-
-function recordCriterionEvidence(item, input) {
-  validateWorkItem(item);
-  assert(validateLease(input.lease, input.actor, input.chat_id, input.run_id, input.fencing_token, input.nowMs), 'stale_or_invalid_fencing_token');
-  const criterion = item.acceptance_criteria.find(c => c.criterion_id === input.criterion_id);
-  assert(criterion, 'unknown_criterion_id');
-  assert(input.validation_status === 'PASS' || input.validation_status === 'FAIL' || input.validation_status === 'BLOCKED', 'invalid_validation_status');
-  assert(Array.isArray(input.evidence_refs) && input.evidence_refs.length > 0 && input.evidence_refs.every(x => typeof x === 'string' && x.trim()), 'evidence_refs_required');
-  criterion.validation_status = input.validation_status;
-  criterion.evidence_refs = unique(input.evidence_refs);
-  criterion.validated_at_utc = new Date(input.nowMs ?? Date.now()).toISOString();
-  criterion.validated_by = input.actor;
-  criterion.validation_note = input.note || '';
-  const progress = calculateProgress(item);
-  if (progress.can_accept) item.status = 'REVIEW_REQUIRED';
-  return { progress };
-}
-
-function primaryExpId(item) {
-  const match = /^WI-EXP([0-9]{2})-/i.exec(String(item?.work_item_id || ''));
-  if (match) return 'EXP-' + match[1];
-  const parentExpIds = [...new Set((item?.parent_exp_ids || []).map(String))];
-  return parentExpIds[0] || null;
-}
-
-function evaluateChildCompletion(parent, workItems = []) {
-  const blockers = [], seen = new Set([parent.work_item_id]);
-  const queue = workItems.filter(x => x.parent_work_item_id === parent.work_item_id);
-  for (let index = 0; index < queue.length; index++) {
-    const child = queue[index], id = String(child.work_item_id || '');
-    if (!id || seen.has(id)) { blockers.push('child_work_item_cycle_or_duplicate:' + id); continue; }
-    seen.add(id);
-    if (child.status !== 'ACCEPTED') blockers.push('child_work_item_not_accepted:' + id + ':' + String(child.status || 'UNKNOWN'));
-    for (const nested of workItems) if (nested.parent_work_item_id === id) queue.push(nested);
-  }
-  return { ready: blockers.length === 0, blockers, descendant_count: seen.size - 1 };
-}
-const SEMANTIC_CANONICAL_ALIASES = Object.freeze({
-  'WI-EXP02-BACKUP-RESTORE-001': 'WI-EXP02-BACKUP-RECOVERY-001'
-});
-const SEMANTIC_STOPWORDS = new Set(['a','an','and','or','the','for','to','of','in','on','with','from','by','is','are','assessment','readiness','task','work','item']);
-
-function semanticTokens(value) {
-  return [...new Set(String(value || '').toLowerCase().normalize('NFKD')
-    .replace(/[^a-z0-9]+/g, ' ').trim().split(/\s+/)
-    .filter(token => token.length > 1 && !SEMANTIC_STOPWORDS.has(token)))];
-}
-
-function tokenSimilarity(left, right) {
-  const a = new Set(semanticTokens(left)), b = new Set(semanticTokens(right));
-  if (!a.size || !b.size) return 0;
-  const intersection = [...a].filter(token => b.has(token)).length;
-  return intersection / new Set([...a, ...b]).size;
-}
-
-function intersection(left, right, normalizeValue = value => String(value)) {
-  const values = new Set((right || []).map(normalizeValue));
-  return [...new Set((left || []).map(normalizeValue))].filter(value => values.has(value));
-}
-
-function evidenceScore(item) {
-  const steps = (item?.steps || []).filter(step => step.validation_status === 'PASS' && (step.evidence_refs || []).length).length;
-  const criteria = (item?.acceptance_criteria || []).filter(criterion => criterion.validation_status === 'PASS' && (criterion.evidence_refs || []).length).length;
-  return steps + criteria;
-}
-
-function canonicalWorkItem(left, right) {
-  if (left?.status === 'ACCEPTED' && right?.status !== 'ACCEPTED') return left;
-  if (right?.status === 'ACCEPTED' && left?.status !== 'ACCEPTED') return right;
-  const scoreLeft = evidenceScore(left), scoreRight = evidenceScore(right);
-  if (scoreLeft !== scoreRight) return scoreLeft > scoreRight ? left : right;
-  const timeLeft = Date.parse(left?.created_at_utc || '') || Number.MAX_SAFE_INTEGER;
-  const timeRight = Date.parse(right?.created_at_utc || '') || Number.MAX_SAFE_INTEGER;
-  if (timeLeft !== timeRight) return timeLeft < timeRight ? left : right;
-  return String(left?.work_item_id || '').localeCompare(String(right?.work_item_id || '')) <= 0 ? left : right;
-}
-
-function findSemanticDuplicateWorkItems(candidate, records = []) {
-  if (!candidate?.work_item_id) return [];
-  const candidateId = String(candidate.work_item_id);
-  const duplicates = [];
-  for (const record of records || []) {
-    if (!record?.work_item_id || record.work_item_id === candidateId) continue;
-    const recordId = String(record.work_item_id);
-    const explicitCanonical = SEMANTIC_CANONICAL_ALIASES[candidateId];
-    if (explicitCanonical && recordId === explicitCanonical) {
-      duplicates.push({
-        issue_number: Number(record.issue_number ?? record.number),
-        work_item_id: recordId,
-        canonical_work_item_id: explicitCanonical,
-        reason: 'explicit_canonical_alias',
-        status: 'SUPERSEDED',
-        superseded: true
-      });
-      continue;
-    }
-    if (SEMANTIC_CANONICAL_ALIASES[recordId] === candidateId) continue;
-    const sharedExp = intersection(candidate.parent_exp_ids, record.parent_exp_ids);
-    const sharedGoals = intersection(candidate.parent_goal_ids, record.parent_goal_ids);
-    const sharedResources = intersection(candidate.resource_keys, record.resource_keys, value => String(value).trim().toLowerCase().replace(/\\/g, '/'));
-    // deliverable_id values such as D1/D2 are local to one Work Item, not global identities.
-    // Only descriptive deliverable text can corroborate semantic overlap.
-    const deliverableDescriptions = item => (item.deliverables || [])
-      .map(deliverable => String(deliverable.description || '').trim().toLowerCase())
-      .filter(Boolean);
-    const leftDeliverables = deliverableDescriptions(candidate);
-    const rightDeliverables = deliverableDescriptions(record);
-    const sharedDeliverables = intersection(leftDeliverables, rightDeliverables);
-    const titleSimilarity = tokenSimilarity(candidate.title, record.title);
-    const sameParent = sharedExp.length > 0 || sharedGoals.length > 0;
-    const materiallyOverlaps = sameParent && (
-      titleSimilarity >= 0.85 ||
-      (titleSimilarity >= 0.35 && (sharedResources.length > 0 || sharedDeliverables.length > 0)) ||
-      (sharedResources.length > 0 && sharedDeliverables.length > 0)
+  state.locks = retained;
+  state.history ||= [];
+  for (const x of expired) state.history.push({
+    event: 'LEASE_EXPIRED', issue_number: x.issue_number, resource_key: x.resource_key,
+    task_id: x.task_id, run_id: x.run_id, fencing_token: x.fencing_token,
+    actor: x.actor, chat_id: x.chat_id, branch: x.branch, target_repository: x.target_repository,
+    at_utc: new Date(nowMs).toISOString()
+  });
+  for (const lock of invalid) {
+    const alreadyRecorded = state.history.some(event =>
+      event.event === 'LEASE_INVALID' &&
+      Number(event.issue_number) === Number(lock.issue_number) &&
+      event.resource_key === lock.resource_key &&
+      String(event.run_id ?? '') === String(lock.run_id ?? '') &&
+      String(event.fencing_token ?? '') === String(lock.fencing_token ?? '')
     );
-    if (!materiallyOverlaps) continue;
-    const canonical = canonicalWorkItem(candidate, record);
-    if (canonical.work_item_id !== candidateId) {
-      duplicates.push({
-        issue_number: Number(record.issue_number ?? record.number),
-        work_item_id: recordId,
-        canonical_work_item_id: canonical.work_item_id,
-        reason: 'semantic_scope_resource_deliverable_overlap',
-        shared_exp_ids: sharedExp,
-        shared_goal_ids: sharedGoals,
-        shared_resource_keys: sharedResources,
-        shared_deliverables: sharedDeliverables,
-        title_similarity: titleSimilarity
-      });
+    if (!alreadyRecorded) state.history.push({
+      event: 'LEASE_INVALID', issue_number: lock.issue_number, resource_key: lock.resource_key,
+      task_id: lock.task_id, run_id: lock.run_id, fencing_token: lock.fencing_token,
+      actor: lock.actor, chat_id: lock.chat_id, branch: lock.branch,
+      target_repository: lock.target_repository,
+      lease_expires_at_utc: lock.lease_expires_at_utc ?? null,
+      at_utc: new Date(nowMs).toISOString()
+    });
+  }
+  return expired;
+}
+
+function activeForIssue(state, issueNumber, nowMs = Date.now()) {
+  return state.locks.filter(x => x.issue_number === issueNumber && leaseBlocksClaim(x, nowMs));
+}
+
+function branchForWritePolicy(issueNumber, runId, writePolicy) {
+  if (!isSafeRunId(runId)) throw new Error('Invalid RUN_ID for branch allocation');
+  if (writePolicy === 'WRITE_ALLOWED') return 'work/GH-' + issueNumber + '-' + runId.replace(/[^A-Za-z0-9._-]/g, '-');
+  if (writePolicy === 'READ_ONLY' || writePolicy === 'WRITE_REQUIRES_OWNER_APPROVAL') return null;
+  throw new Error('Unknown write_policy; refusing branch allocation');
+}
+
+function resolveWritePolicy(liveWorkItem, storedWorkItem) {
+  const policy = liveWorkItem?.write_policy || 'READ_ONLY';
+  if (!['READ_ONLY', 'WRITE_REQUIRES_OWNER_APPROVAL', 'WRITE_ALLOWED'].includes(policy)) {
+    throw new Error('Unknown live write_policy; refusing write authorization');
+  }
+  if (storedWorkItem) {
+    const storedPolicy = storedWorkItem.write_policy || 'READ_ONLY';
+    if (storedPolicy !== policy) throw new Error('Registry write_policy differs from live Issue specification; owner refresh required');
+    if (storedWorkItem.target_repository && storedWorkItem.target_repository !== liveWorkItem?.target_repository) {
+      throw new Error('Registry target_repository differs from live Issue specification; owner refresh required');
+    }
+    const normalizeKeys = keys => [...new Set((keys || []).map(canonicalResourceKey))].sort();
+    if (JSON.stringify(normalizeKeys(storedWorkItem.resource_keys)) !== JSON.stringify(normalizeKeys(liveWorkItem?.resource_keys))) {
+      throw new Error('Registry resource_keys differ from live Issue specification; owner refresh required');
     }
   }
-  return duplicates.filter(item => Number.isInteger(item.issue_number) && item.issue_number > 0)
-    .sort((a, b) => a.issue_number - b.issue_number);
+  return policy;
 }
 
-function findDuplicateWorkItemIdIssues(currentIssueNumber, item, issueRecords = [], registryRecords = []) {
-  const conflicts = new Set(), current = Number(currentIssueNumber);
-  const records = [...issueRecords, ...registryRecords];
-  for (const record of records) {
-    if (!record || record.work_item_id !== item?.work_item_id) continue;
-    const issueNumber = Number(record.issue_number ?? record.number);
-    if (Number.isInteger(issueNumber) && issueNumber > 0 && issueNumber !== current) conflicts.add(issueNumber);
+function validateAllocationProvenance(state, item, issueNumber, issueCreatedAt, nowMs = Date.now()) {
+  const provenance = item?.allocation_provenance;
+  if (!provenance) return { ok: false, reason: 'missing_allocation_provenance' };
+  if (provenance.allocator_work_item_id !== 'WI-GOAL-ALLOCATOR-001' ||
+      Number(provenance.allocator_issue_number) !== 11) {
+    return { ok: false, reason: 'wrong_allocator' };
   }
-  for (const duplicate of findSemanticDuplicateWorkItems(item, records)) {
-    if (duplicate.issue_number !== current) conflicts.add(duplicate.issue_number);
+  if (!isSafeRunId(provenance.chat_id) || !isSafeRunId(provenance.run_id) ||
+      typeof provenance.actor !== 'string' || !/^[A-Za-z0-9-]{1,39}$/.test(provenance.actor) ||
+      !Number.isInteger(provenance.fencing_token) || provenance.fencing_token < 1 ||
+      !(provenance.branch === null || (typeof provenance.branch === 'string' && provenance.branch.trim()))) {
+    return { ok: false, reason: 'invalid_allocation_provenance' };
   }
-  return [...conflicts].sort((a,b)=>a-b);
+  const allocatedAt = Date.parse(provenance.allocated_at_utc);
+  const issueCreated = Date.parse(issueCreatedAt);
+  if (!Number.isFinite(allocatedAt) || !Number.isFinite(issueCreated) ||
+      allocatedAt > nowMs || Math.abs(allocatedAt - issueCreated) > 5 * 60 * 1000) {
+    return { ok: false, reason: 'invalid_allocation_timestamp' };
+  }
+  const lock = (state.locks || []).find(candidate =>
+    Number(candidate.issue_number) === 11 &&
+    candidate.task_id === 'GH-11' &&
+    candidate.resource_key === 'coordination:work-item-allocation' &&
+    candidate.actor === provenance.actor &&
+    candidate.chat_id === provenance.chat_id &&
+    candidate.run_id === provenance.run_id &&
+    Number(candidate.fencing_token) === provenance.fencing_token &&
+    (candidate.branch ?? null) === provenance.branch &&
+    leaseExpiryState(candidate, nowMs) === 'ACTIVE'
+  );
+  if (!lock) return { ok: false, reason: 'allocator_lease_mismatch_or_expired' };
+  const acquiredAt = Date.parse(lock.acquired_at_utc);
+  const expiresAt = Date.parse(lock.lease_expires_at_utc);
+  if (!Number.isFinite(acquiredAt) || !Number.isFinite(expiresAt) ||
+      allocatedAt < acquiredAt || allocatedAt > expiresAt) {
+    return { ok: false, reason: 'allocation_outside_allocator_lease' };
+  }
+  return { ok: true, lock, provenance };
 }
 
-function defaultRequestedOperations(item) {
-  if (Array.isArray(item?.requested_operations)) return item.requested_operations;
-  if (item?.write_policy === 'READ_ONLY') return ['analysis'];
-  if (item?.write_policy === 'WRITE_REQUIRES_OWNER_APPROVAL') return ['proposal_only'];
-  const legacyScope = LEGACY_WRITE_OPERATION_SCOPES[item?.work_item_id];
-  if (item?.write_policy === 'WRITE_ALLOWED' && legacyScope && item?.target_repository === legacyScope.target_repository) return [...legacyScope.operations];
-  return [];
+function hasVerifiedAllocationProvenance(state, issueNumber, item) {
+  const provenance = item?.allocation_provenance;
+  if (!provenance) return false;
+  const fields = ['allocator_work_item_id','allocator_issue_number','actor','chat_id','run_id','fencing_token','branch','allocated_at_utc'];
+  return (state.history || []).some(entry =>
+    entry.event === 'WORK_ITEM_ALLOCATED' &&
+    Number(entry.issue_number) === Number(issueNumber) &&
+    entry.work_item_id === item.work_item_id &&
+    fields.every(key => (entry.allocation_provenance?.[key] ?? null) === (provenance[key] ?? null))
+  );
 }
 
-function validateDependencyGraph(graph) {
-  const errors = [], operationErrors = [];
-  if (!graph || typeof graph !== 'object' || !Array.isArray(graph.nodes)) return {valid:false,exp_valid:false,operation_errors:[],errors:['dependency_graph_nodes_required']};
-  const nodeIds = new Set();
-  for (const node of graph.nodes) {
-    if (!node || typeof node !== 'object' || !/^EXP-[0-9]{2}$/.test(String(node.id || ''))) { errors.push('invalid_exp_node_id'); continue; }
-    if (nodeIds.has(node.id)) errors.push('duplicate_exp_node:' + node.id);
-    nodeIds.add(node.id);
-    if (!Array.isArray(node.hard_gates)) errors.push('hard_gates_must_be_array:' + node.id);
-    else for (const gate of node.hard_gates) if (typeof gate !== 'string' || !/^EXP-[0-9]{2}$/.test(gate)) errors.push('non_exp_hard_gate:' + node.id + ':' + String(gate));
-    if (node.soft_inputs !== undefined && (!Array.isArray(node.soft_inputs) || !node.soft_inputs.every(x => typeof x === 'string' && /^EXP-[0-9]{2}$/.test(x)))) errors.push('invalid_soft_inputs:' + node.id);
-  }
-  for (const node of graph.nodes) for (const ref of [...(Array.isArray(node.hard_gates)?node.hard_gates:[]),...(Array.isArray(node.soft_inputs)?node.soft_inputs:[])]) if (!nodeIds.has(ref)) errors.push('unknown_exp_reference:'+node.id+':'+ref);
-  if (!Array.isArray(graph.operation_gates)) operationErrors.push('operation_gates_must_be_array');
-  const gateIds = new Set();
-  for (const gate of Array.isArray(graph.operation_gates)?graph.operation_gates:[]) {
-    if (!gate || !ACTION_OPERATIONS.has(gate.id)) { operationErrors.push('unknown_operation_gate:'+String(gate?.id)); continue; }
-    if (gateIds.has(gate.id)) operationErrors.push('duplicate_operation_gate:'+gate.id);
-    gateIds.add(gate.id);
-    if (!Array.isArray(gate.required_work_item_ids) || !gate.required_work_item_ids.every(x=>typeof x==='string'&&/^[A-Z0-9][A-Z0-9._-]{2,63}$/.test(x))) operationErrors.push('invalid_required_work_item_ids:'+gate.id);
-    if (gate.applies_to_exp_ids!==undefined&&(!Array.isArray(gate.applies_to_exp_ids)||!gate.applies_to_exp_ids.every(x=>typeof x==='string'&&/^EXP-[0-9]{2}$/.test(x)))) operationErrors.push('invalid_operation_exp_scope:'+gate.id);
-    if (gate.applies_to_target_repositories!==undefined&&(!Array.isArray(gate.applies_to_target_repositories)||!gate.applies_to_target_repositories.every(x=>typeof x==='string'&&x.includes('/')))) operationErrors.push('invalid_operation_repository_scope:'+gate.id);
-    if (typeof gate.owner_authorization_required!=='boolean') operationErrors.push('owner_authorization_required_missing:'+gate.id);
-    if (!Array.isArray(gate.evidence_requirements)||!gate.evidence_requirements.length||!gate.evidence_requirements.every(x=>typeof x==='string'&&x.trim())) operationErrors.push('evidence_requirements_missing:'+gate.id);
-  }
-  for (const op of ACTION_OPERATIONS) if (!(Array.isArray(graph.operation_gates)?graph.operation_gates:[]).some(g=>g?.id===op)) operationErrors.push('operation_gate_definition_missing:'+op);
-  return {valid:errors.length===0&&operationErrors.length===0,exp_valid:errors.length===0,operation_errors:operationErrors,errors:[...errors,...operationErrors]};
+function recordAllocationProvenance(state, issueNumber, item, nowMs = Date.now()) {
+  if (hasVerifiedAllocationProvenance(state, issueNumber, item)) return false;
+  state.history ||= [];
+  state.history.push({
+    event: 'WORK_ITEM_ALLOCATED',
+    issue_number: Number(issueNumber),
+    work_item_id: item.work_item_id,
+    allocation_provenance: { ...item.allocation_provenance },
+    at_utc: new Date(nowMs).toISOString()
+  });
+  return true;
 }
 
-function evaluateOperationGates(item, graph, workItems = [], options = {}) {
-  const requested = options.requestedOperations || defaultRequestedOperations(item);
+function claimResources(state, args) {
+  const nowMs = args.nowMs ?? Date.now();
+  const rawKeys = [...new Set(args.resourceKeys || [])];
+  if (!rawKeys.length) return { ok: false, reason: 'missing_resources' };
+  const keys = rawKeys.map(canonicalResourceKey);
+  if (keys.some(key => !key)) return { ok: false, reason: 'invalid_resource_key' };
+  keys.sort();
+  if (!isSafeRunId(args.chatId)) return { ok: false, reason: 'missing_chat' };
+  const taskConflict = state.locks.find(x => x.issue_number === args.issueNumber && leaseBlocksClaim(x, nowMs));
+  if (taskConflict) return { ok: false, reason: 'task_already_claimed', conflict: taskConflict };
+  const chatConflict = state.locks.find(x => leaseBlocksClaim(x, nowMs) && (!isSafeRunId(x.chat_id) || x.chat_id === args.chatId));
+  if (chatConflict) return { ok: false, reason: 'chat_conflict', conflict: chatConflict };
+  const branchUsed = !!args.branch && (state.history || []).some(x => x.event === 'ACQUIRED' && x.issue_number === args.issueNumber && x.branch === args.branch);
+  if (branchUsed) return { ok: false, reason: 'branch_reuse' };
+  // A branchless claim is READ_ONLY or approval-pending: never inherit an old target-repository branch.
+  const previousRun = args.branch ? [...(state.history || [])].reverse().find(x => x.issue_number === args.issueNumber && ['RELEASE','REVIEW','BLOCK','LEASE_EXPIRED'].includes(x.event) && x.branch) : null;
+  const conflict = state.locks.find(x =>
+    leaseBlocksClaim(x, nowMs) &&
+    keys.some(key => resourceKeysConflict(key, x.resource_key, args.targetRepository, x.target_repository))
+  );
+  if (conflict) return { ok: false, reason: 'resource_conflict', conflict };
+  const fencingToken = state.next_fencing_token++;
+  const acquiredAt = new Date(nowMs).toISOString();
+  const expiresAt = new Date(nowMs + args.leaseMinutes * 60000).toISOString();
+  for (const key of keys) state.locks.push({
+    resource_key: key, issue_number: args.issueNumber, task_id: args.taskId,
+    actor: args.actor, agent_alias: args.chatId || args.actor, chat_id: args.chatId,
+    run_id: args.runId, target_repository: args.targetRepository, branch: args.branch,
+    acquired_at_utc: acquiredAt, heartbeat_at_utc: acquiredAt,
+    lease_expires_at_utc: expiresAt, fencing_token: fencingToken, status: 'ACTIVE'
+  });
+  state.history.push({
+    event: 'ACQUIRED', issue_number: args.issueNumber, actor: args.actor,
+    chat_id: args.chatId, run_id: args.runId, resource_keys: keys,
+    target_repository: args.targetRepository, branch: args.branch,
+    previous_branch: previousRun?.branch || null,
+    previous_target_repository: previousRun?.target_repository || null,
+    previous_run_id: previousRun?.run_id || null,
+    fencing_token: fencingToken, at_utc: acquiredAt
+  });
+  return { ok: true, fencingToken, expiresAt, resourceKeys: keys, previousRun: previousRun ? { branch: previousRun.branch, targetRepository: previousRun.target_repository, runId: previousRun.run_id } : null };
+}
+
+function renewLease(currentLocks, leaseMinutes, nowMs = Date.now()) {
+  if (!currentLocks.length) return { ok: false };
+  const heartbeatAt = new Date(nowMs).toISOString();
+  const expiresAt = new Date(nowMs + leaseMinutes * 60000).toISOString();
+  for (const lock of currentLocks) {
+    lock.heartbeat_at_utc = heartbeatAt;
+    lock.lease_expires_at_utc = expiresAt;
+  }
+  return { ok: true, heartbeatAt, expiresAt };
+}
+
+function ownsLease(currentLocks, actor, chatId, runId, token) {
+  return currentLocks.length > 0 && Number(token) > 0 &&
+    currentLocks.every(x => x.actor === actor && x.chat_id === chatId &&
+      x.run_id === runId && x.fencing_token === Number(token));
+}
+
+function latestTaskStatus(processedOperations, issueNumber) {
+  const transitions = Object.values(processedOperations || {})
+    .filter(op => op.issue_number === issueNumber && op.next_status)
+    .sort((a, b) => Date.parse(a.at_utc) - Date.parse(b.at_utc));
+  return transitions.length ? transitions[transitions.length - 1].next_status : null;
+}
+
+function matchesReviewLease(pr, reviewEvent) {
+  const target = reviewEvent?.target_repository;
+  return !!target &&
+    reviewEvent.branch === pr.head?.ref &&
+    pr.head?.repo?.full_name === target &&
+    pr.base?.repo?.full_name === target;
+}
+
+function hasSuccessfulChecks(checkRuns, combinedStatus) {
+  const runs = Array.isArray(checkRuns) ? checkRuns : [];
+  const statuses = Array.isArray(combinedStatus?.statuses) ? combinedStatus.statuses : [];
+  const statusChecksPassed = statuses.length === 0
+    ? ['success', 'pending'].includes(combinedStatus?.state)
+    : combinedStatus?.state === 'success' && statuses.every(status => status.state === 'success');
+  return runs.length > 0 &&
+    runs.every(run => run.status === 'completed' && run.conclusion === 'success') &&
+    statusChecksPassed;
+}
+
+function evaluateBranchRules(effectiveRules, rulesetDetails = []) {
   const blockers = [];
-  if (!Array.isArray(requested) || requested.length === 0) blockers.push('requested_operations_required_for_write');
-  const graphCheck = validateDependencyGraph(graph);
-  for (const operation of requested) {
-    if (!ALL_OPERATIONS.has(operation)) { blockers.push('unknown_requested_operation:' + operation); continue; }
-    if (BASE_OPERATIONS.has(operation)) {
-      if (operation === 'analysis' && item.write_policy !== 'READ_ONLY') blockers.push('analysis_operation_requires_read_only:' + operation);
-      if (operation === 'proposal_only' && item.write_policy !== 'WRITE_REQUIRES_OWNER_APPROVAL') blockers.push('proposal_operation_policy_mismatch');
+  const requiredTypes = ['pull_request', 'non_fast_forward', 'deletion'];
+  const rules = Array.isArray(effectiveRules) ? effectiveRules : [];
+  const details = Array.isArray(rulesetDetails) ? rulesetDetails : [];
+
+  for (const type of requiredTypes) {
+    if (!rules.some(rule => rule && rule.type === type)) blockers.push('missing_effective_rule:' + type);
+  }
+
+  const pullRequestRules = rules.filter(rule => rule && rule.type === 'pull_request');
+  if (pullRequestRules.some(rule => rule.parameters?.required_approving_review_count !== 0)) {
+    blockers.push('human_approval_required_or_unverified');
+  }
+
+  const rulesetIds = [...new Set(rules.map(rule => rule?.ruleset_id).filter(id => id !== undefined && id !== null).map(String))];
+  if (!rules.length || !rulesetIds.length) blockers.push('effective_repository_ruleset_missing');
+  if (rules.some(rule => !rule?.ruleset_id || rule.ruleset_source_type !== 'Repository')) {
+    blockers.push('unknown_or_unsupported_ruleset_source');
+  }
+
+  for (const id of rulesetIds) {
+    const detail = details.find(item => String(item?.id) === id);
+    if (!detail) {
+      blockers.push('ruleset_detail_missing:' + id);
       continue;
     }
-    if (operation === 'control_plane_write' && (item.target_repository !== CONTROL_PLANE_REPOSITORY || item.write_policy !== 'WRITE_ALLOWED')) blockers.push('control_plane_write_scope_mismatch');
-    if (operation === 'control_plane_merge' && item.target_repository !== CONTROL_PLANE_REPOSITORY) blockers.push('control_plane_merge_scope_mismatch');
-    if (operation === 'control_plane_authorization_change' && (item.target_repository !== CONTROL_PLANE_REPOSITORY || item.write_policy !== 'WRITE_ALLOWED')) blockers.push('control_plane_authorization_scope_mismatch');
-    if (operation === 'repository_write' && (item.target_repository === PRODUCT_REPOSITORY || item.target_repository === CONTROL_PLANE_REPOSITORY || item.write_policy !== 'WRITE_ALLOWED')) blockers.push('repository_write_scope_mismatch');
-    if (operation === 'product_implementation' && (item.target_repository !== PRODUCT_REPOSITORY || item.write_policy !== 'WRITE_ALLOWED')) blockers.push('product_implementation_scope_mismatch');
-    const gate = (Array.isArray(graph.operation_gates) ? graph.operation_gates : []).find(g => g.id === operation);
-    const relevantErrors = (graphCheck.operation_errors || []).filter(error => error === 'operation_gates_must_be_array' || error.endsWith(':' + operation));
-    if (relevantErrors.length) blockers.push(...relevantErrors.map(error => 'invalid_operation_gate_definition:' + operation + ':' + error));
-    if (!gate) { blockers.push('operation_gate_definition_missing:' + operation); continue; }
-    const repoApplies = !Array.isArray(gate.applies_to_target_repositories) || gate.applies_to_target_repositories.includes(item.target_repository);
-    const itemExpIds = new Set((item.parent_exp_ids || [primaryExpId(item)]).map(String));
-    const expApplies = !Array.isArray(gate.applies_to_exp_ids) || gate.applies_to_exp_ids.some(id => itemExpIds.has(id));
-    if (!repoApplies) { blockers.push('operation_target_scope_mismatch:' + operation + ':' + item.target_repository); continue; }
-    if (!expApplies) { blockers.push('operation_scope_mismatch:' + operation + ':' + [...itemExpIds].join(',')); continue; }
-    if (Array.isArray(gate.applies_to_work_item_ids) && !gate.applies_to_work_item_ids.includes(item.work_item_id)) {
-      blockers.push('operation_work_item_scope_mismatch:' + operation + ':' + item.work_item_id); continue;
-    }
-    if (gate.owner_authorization_required && (item.write_policy !== 'WRITE_ALLOWED' || !String(item.owner_approval_ref || '').trim())) blockers.push('owner_authorization_required:' + operation);
-    for (const id of gate.required_work_item_ids) {
-      if (id === item.work_item_id) { blockers.push('operation_prerequisite_self_reference:' + operation + ':' + id); continue; }
-      const matches = workItems.filter(x => x.work_item_id === id);
-      if (matches.length !== 1) blockers.push((matches.length ? 'ambiguous' : 'missing') + '_operation_prerequisite:' + operation + ':' + id);
-      else if (matches[0].status !== 'ACCEPTED') blockers.push('operation_prerequisite_not_accepted:' + operation + ':' + id + ':' + matches[0].status);
-    }
+    if (detail.source_type !== 'Repository') blockers.push('ruleset_source_not_repository:' + id);
+    if (detail.enforcement !== 'active') blockers.push('ruleset_not_active:' + id);
+    if (!Array.isArray(detail.bypass_actors)) blockers.push('ruleset_bypass_actors_not_visible:' + id);
+    else if (detail.bypass_actors.length > 0) blockers.push('ruleset_has_bypass_actors:' + id);
   }
-  return {ready:blockers.length===0,blockers,requested_operations:requested};
-}
 
-function evaluateHardGates(item, graph, workItems = [], options = {}) {
-  const checked = validateDependencyGraph(graph);
-  if (!checked.exp_valid) {
-    const structuralErrors = checked.errors.filter(x => !(checked.operation_errors || []).includes(x));
-    return {ready:false,exp_id:primaryExpId(item),blockers:structuralErrors.map(x=>'invalid_dependency_graph:'+x),dependency_blockers:structuralErrors,operation_blockers:[]};
-  }
-  const expId = primaryExpId(item);
-  const expIds = unique([...(item.parent_exp_ids || []).map(String), expId].filter(Boolean));
-  if (!expIds.length) return {ready:false,exp_id:null,blockers:['primary_exp_unresolved'],dependency_blockers:['primary_exp_unresolved'],operation_blockers:[]};
-  const nodes = [], dependencyBlockers = [];
-  for (const id of expIds) {
-    const node = graph.nodes.find(x=>x.id===id);
-    if (!node || !Array.isArray(node.hard_gates)) dependencyBlockers.push('missing_or_invalid_graph_node:' + id);
-    else nodes.push(node);
-  }
-  for (const dependency of item.dependencies || []) {
-    const id = dependency.work_item_id, matches = workItems.filter(candidate=>candidate.work_item_id===id);
-    if (matches.length!==1) dependencyBlockers.push((matches.length?'ambiguous':'unresolved')+'_explicit_dependency:'+id);
-    else if (matches[0].status!=='ACCEPTED') dependencyBlockers.push('explicit_dependency_not_accepted:'+id+':'+matches[0].status);
-  }
-  for (const gate of unique(nodes.flatMap(node=>node.hard_gates))) {
-    // EXP completion is represented by its unique top-level Work Item. Child tasks roll up to that parent; secondary EXP tags do not complete another EXP.
-    const matches = workItems.filter(x=>x.work_item_id!==item.work_item_id && !x.parent_work_item_id && primaryExpId(x)===gate);
-    if (matches.length!==1) dependencyBlockers.push((matches.length?'ambiguous':'unresolved')+'_hard_gate:'+gate);
-    else if (matches[0].status!=='ACCEPTED') dependencyBlockers.push('hard_gate_not_accepted:'+gate+':'+matches[0].status);
-  }
-  for (const gate of unique(nodes.flatMap(node=>node.hard_gates))) {
-    const matches = workItems.filter(x=>x.work_item_id!==item.work_item_id && !x.parent_work_item_id && primaryExpId(x)===gate);
-    if (matches.length !== 1) continue;
-    const children = evaluateChildCompletion(matches[0], workItems);
-    if (!children.ready) dependencyBlockers.push(...children.blockers.map(x=>'hard_gate_'+x));
-  }
-  if (options.requireChildrenAccepted === true) {
-    const children = evaluateChildCompletion(item, workItems);
-    if (!children.ready) dependencyBlockers.push(...children.blockers);
-  }
-  const operations=evaluateOperationGates(item,graph,workItems,options);
-  const blockers=[...dependencyBlockers,...operations.blockers];
-  return {ready:blockers.length===0,exp_id:expId,exp_ids:expIds,blockers,dependency_blockers:dependencyBlockers,operation_blockers:operations.blockers,requested_operations:operations.requested_operations,soft_inputs_ignored:unique(nodes.flatMap(node=>node.soft_inputs||[]))};
-}
-
-function matchesMergedReplacementLineage(pr, targetRepository, defaultBranch, comparison) {
-  const target = String(targetRepository || '').trim().toLowerCase();
-  const mergeSha = String(pr?.merge_commit_sha || '').trim().toLowerCase();
-  const baseSha = String(comparison?.base_commit?.sha || '').trim().toLowerCase();
-  const mergeBaseSha = String(comparison?.merge_base_commit?.sha || '').trim().toLowerCase();
-  const baseRepository = String(pr?.base?.repo?.full_name || '').trim().toLowerCase();
-  const headRepository = String(pr?.head?.repo?.full_name || '').trim().toLowerCase();
-  const ancestryVerified = !!mergeSha && baseSha === mergeSha && mergeBaseSha === mergeSha &&
-    Number(comparison?.behind_by) === 0 &&
-    ['ahead', 'identical'].includes(String(comparison?.status || '').toLowerCase());
-  return pr?.state === 'closed' && pr?.merged === true && !!target && !!defaultBranch &&
-    baseRepository === target && headRepository === target &&
-    String(pr?.base?.ref || '') === String(defaultBranch) &&
-    ancestryVerified;
-}
-
-function isBranchlessControlPlaneWorkItem(item) {
-  const legacy = LEGACY_WRITE_OPERATION_SCOPES[item?.work_item_id];
-  return !!legacy?.branchless && item?.write_policy === 'WRITE_ALLOWED' &&
-    item?.target_repository === CONTROL_PLANE_REPOSITORY &&
-    JSON.stringify(defaultRequestedOperations(item)) === JSON.stringify(['control_plane_write']);
-}
-
-function evaluateBranchlessMetadataAcceptance(item, options = {}) {
-  const blockers = [];
-  try { validateWorkItem(item); }
-  catch (error) { return {ready:false,blockers:['invalid_work_item:' + String(error.message || error)],progress:null}; }
-  const requested = defaultRequestedOperations(item);
-  if (!isBranchlessControlPlaneWorkItem(item) || requested.length !== 1 || requested[0] !== 'control_plane_write') {
-    blockers.push('not_authorized_for_branchless_control_plane_acceptance');
-  }
-  if (options.hasActiveLease === true) blockers.push('active_lease');
-  if (options.hardGatesReady !== true) blockers.push('hard_gates_not_satisfied');
-  const handoff = options.reviewEvent;
-  if (!handoff || handoff.event !== 'REVIEW') blockers.push('missing_review_handoff');
-  else {
-    if (Number(handoff.issue_number) !== Number(options.issueNumber)) blockers.push('review_handoff_issue_mismatch');
-    if (handoff.target_repository !== item.target_repository) blockers.push('review_handoff_target_mismatch');
-    if (handoff.branch !== null && handoff.branch !== undefined) blockers.push('branchless_metadata_handoff_must_not_have_branch');
-  }
-  const progress = calculateProgress(item);
-  if (!progress.can_accept) blockers.push('required_evidence_incomplete');
-  return {ready:blockers.length===0,blockers,progress};
-}
-
-function evaluateReadOnlyAcceptance(item, options = {}) {
-  const blockers = [];
-  try {
-    validateWorkItem(item);
-  } catch (error) {
-    return { ready: false, blockers: ['invalid_work_item:' + String(error.message || error)], progress: null };
-  }
-  if (item.write_policy !== 'READ_ONLY') blockers.push('write_policy_not_read_only');
-  if (options.hasActiveLease === true) blockers.push('active_lease');
-  if (options.hardGatesReady !== true) blockers.push('hard_gates_not_satisfied');
-  const handoff = options.reviewEvent;
-  if (!handoff || handoff.event !== 'REVIEW') blockers.push('missing_review_handoff');
-  else {
-    if (Number(handoff.issue_number) !== Number(options.issueNumber)) blockers.push('review_handoff_issue_mismatch');
-    if (handoff.target_repository !== item.target_repository) blockers.push('review_handoff_target_mismatch');
-    if (handoff.branch !== null && handoff.branch !== undefined) blockers.push('read_only_handoff_must_not_have_branch');
-  }
-  const progress = calculateProgress(item);
-  if (!progress.can_accept) blockers.push('required_evidence_incomplete');
-  return { ready: blockers.length === 0, blockers, progress };
-}
-
-function dependencyReady(item, byId, dependencyGraph) {
-  const explicitDependenciesReady = (item.dependencies || []).every(dep => {
-    const value = byId.get(dep.work_item_id);
-    const matches = Array.isArray(value) ? value : value ? [value] : [];
-    return matches.length === 1 && matches[0].status === 'ACCEPTED';
-  });
-  if (!explicitDependenciesReady) return false;
-  const allItems = [...byId.values()].flatMap(value => Array.isArray(value) ? value : value ? [value] : []);
-  if (!dependencyGraph) return false;
-  return evaluateHardGates(item, dependencyGraph, allItems).ready;
-}
-
-function selectNextWorkItem(items, options = {}) {
-  const nowMs = options.nowMs ?? Date.now();
-  const locks = options.activeLocks || [];
-  const byId = new Map();
-  for (const candidate of items) {
-    const matches = byId.get(candidate.work_item_id) || [];
-    matches.push(candidate);
-    byId.set(candidate.work_item_id, matches);
-  }
-  const eligible = items.filter(item => {
-    validateWorkItem(item);
-    if (TERMINAL.has(item.status) || item.status === 'BLOCKED' || item.status === 'REVIEW_REQUIRED') return false;
-    if (!dependencyReady(item, byId, options.dependencyGraph)) return false;
-    const lease = options.leasesByWorkItem?.[item.work_item_id];
-    if (lease && lease.status === 'ACTIVE') {
-      const expiry = Date.parse(lease.lease_expires_at_utc);
-      if (!Number.isFinite(expiry) || expiry > nowMs) return false;
-    }
-    const keys = new Set(item.resource_keys);
-    if (locks.some(lock => {
-      if (!keys.has(lock.resource_key)) return false;
-      const expiry = Date.parse(lock.lease_expires_at_utc);
-      return !Number.isFinite(expiry) || expiry > nowMs;
-    })) return false;
-    return item.status === 'READY' || item.status === 'BACKLOG' || item.status === 'CLAIMED' || item.status === 'IN_PROGRESS' || item.status === 'PARTIALLY_ACCEPTED';
-  });
-  const ageHours = item => Math.max(0, (nowMs - Date.parse(item.ready_at_utc || item.created_at_utc || new Date(nowMs).toISOString())) / 3600000);
-  const effectivePriority = item => Math.max(0, Number(item.priority ?? 50) - Math.floor(ageHours(item) / 24));
-  eligible.sort((a, b) =>
-    effectivePriority(a) - effectivePriority(b) ||
-    Date.parse(a.ready_at_utc || a.created_at_utc || 0) - Date.parse(b.ready_at_utc || b.created_at_utc || 0) ||
-    a.work_item_id.localeCompare(b.work_item_id)
-  );
-  return eligible[0] || null;
-}
-
-function resumePlan(item) {
-  validateWorkItem(item);
-  const progress = calculateProgress(item);
   return {
-    work_item_id: item.work_item_id,
-    completed_step_ids: item.steps.filter(evidenceVerified).map(s => s.step_id),
-    remaining_step_ids: item.steps.filter(s => s.required !== false && !evidenceVerified(s)).map(s => s.step_id),
-    percentage: progress.percentage,
-    execution_progress_percentage: progress.execution_percentage,
-    acceptance_progress_percentage: progress.acceptance_percentage,
-    overall_completion_percentage: progress.overall_completion_percentage,
-    required_step_counts: progress.required_step_counts,
-    acceptance_criteria_counts: progress.acceptance_criteria_counts,
-    next_action: item.steps.find(s => s.required !== false && !evidenceVerified(s))?.step_id || 'verify_acceptance_criteria'
+    ready: blockers.length === 0,
+    blockers,
+    required_rule_types: requiredTypes,
+    ruleset_ids: rulesetIds
   };
 }
 
-function createCheckpoint(item, input) {
-  validateWorkItem(item);
-  assert(validateLease(input.lease, input.actor, input.chat_id, input.run_id, input.fencing_token, input.nowMs), 'stale_or_invalid_fencing_token');
-  const plan = resumePlan(item);
-  return {
-    work_item_id: item.work_item_id,
-    run_id: input.run_id,
-    checkpoint_version: 1,
-    created_at_utc: new Date(input.nowMs ?? Date.now()).toISOString(),
-    last_verified_step_id: plan.completed_step_ids.at(-1) || null,
-    current_step_id: input.current_step_id || plan.next_action,
-    completed_step_ids: plan.completed_step_ids,
-    remaining_step_ids: plan.remaining_step_ids,
-    progress_percentage: plan.percentage,
-    execution_progress_percentage: plan.execution_progress_percentage,
-    acceptance_progress_percentage: plan.acceptance_progress_percentage,
-    overall_completion_percentage: plan.overall_completion_percentage,
-    progress_calculation_version: 'PROGRESS_V2',
-    required_step_counts: plan.required_step_counts,
-    acceptance_criteria_counts: plan.acceptance_criteria_counts,
-    evidence_refs: unique(input.evidence_refs || []),
-    blockers: input.blockers || [],
-    owner: { actor: input.actor, chat_id: input.chat_id, fencing_token: input.fencing_token, lease_expires_at_utc: input.lease.lease_expires_at_utc },
-    next_action: input.next_action || plan.next_action
-  };
+const FARAST_COMMAND_RE = /^\s*\/farast\s+(claim|heartbeat|release|status|progress|step|criterion|checkpoint|block|unblock|review|reopen|accept|refresh)\b/i;
+
+function pendingCommandComments(comments, processedOperations = {}) {
+  const seen = new Set();
+  return (comments || []).filter(comment => {
+    const id = String(comment?.id ?? '').trim();
+    if (!id || seen.has(id) || processedOperations[id]) return false;
+    if (!FARAST_COMMAND_RE.test(String(comment?.body || ''))) return false;
+    seen.add(id);
+    return true;
+  }).sort((a, b) => Number(a.id) - Number(b.id) || String(a.id).localeCompare(String(b.id)));
+}
+
+function pendingResponseOperations(processedOperations = {}, issueNumber) {
+  return Object.entries(processedOperations || {})
+    .filter(([, operation]) => operation && operation.response_posted !== true &&
+      (issueNumber === undefined || Number(operation.issue_number) === Number(issueNumber)))
+    .sort((a, b) => Number(a[0]) - Number(b[0]));
+}
+
+function responseMarker(operationId) {
+  return '<!-- FARAST_OP_RESPONSE:' + String(operationId) + ' -->';
 }
 
 module.exports = {
-  STATUSES, validateWorkItem, validateProductWriteAuthorization, evidenceVerified, calculateProgress, validateLease,
-  recordStepEvidence, recordCriterionEvidence, primaryExpId, defaultRequestedOperations, findSemanticDuplicateWorkItems, SEMANTIC_CANONICAL_ALIASES, validateDependencyGraph, evaluateOperationGates, evaluateHardGates, evaluateReadOnlyAcceptance, evaluateBranchlessMetadataAcceptance, matchesMergedReplacementLineage, isBranchlessControlPlaneWorkItem, dependencyReady, selectNextWorkItem,
-  resumePlan, createCheckpoint, refreshedStatus, evaluateChildCompletion, findDuplicateWorkItemIdIssues
+  isSafeRunId, roleForActor, isWithinDelegatedScope, isCommandAllowed, resourcesFor, targetRepositoryFor, branchForWritePolicy, resolveWritePolicy, expireLocks, activeForIssue,
+  claimResources, renewLease, ownsLease, latestTaskStatus, matchesReviewLease, hasSuccessfulChecks,
+  validateAllocationProvenance, hasVerifiedAllocationProvenance, recordAllocationProvenance, evaluateBranchRules,
+  pendingCommandComments, pendingResponseOperations, responseMarker
 };

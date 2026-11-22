@@ -8,6 +8,15 @@ on:
   schedule:
     - cron: "*/5 * * * *"
   workflow_dispatch:
+    inputs:
+      issue_number:
+        description: 'Optional exact Issue number to reconcile instead of scanning one inbox page'
+        required: false
+        type: string
+      retry_comment_id:
+        description: 'Owner-only replay of a previously blocked /farast accept comment; requires its exact comment ID'
+        required: false
+        type: string
 
 # Serialize events for the same Issue, but let unrelated Issues reconcile in parallel.
 # The shared registry is protected by a non-force fast-forward compare-and-swap:
@@ -640,6 +649,9 @@ jobs:
                           checkRunsError = String(checkError.message || checkError).slice(0, 240);
                         }
                         const combinedStatus = await prClient.rest.repos.getCombinedStatusForRef({ owner: prOwner, repo: prRepo, ref: pr.head.sha });
+                        checkRuns = checkRuns.filter(run =>
+                          !String(run?.details_url || '').includes('/actions/runs/' + context.runId + '/')
+                        );
                         const automatedChecksPassed = !checkRunsError && coordinatorCore.hasSuccessfulChecks(checkRuns, combinedStatus.data);
                         const acceptanceProgress = acceptanceItem ? workItemCore.calculateProgress(acceptanceItem) : { can_accept: false, execution_percentage: 0, acceptance_percentage: 0, overall_completion_percentage: 0 };
                         acceptanceAudit = { pr_url: prUrl, pr_head_sha: pr.head.sha, merge_commit_sha: pr.merge_commit_sha || null, lineage_mode: acceptanceLineageMode };
@@ -865,10 +877,45 @@ jobs:
             // Comment/open/reopen events process only their own Issue. A global page sweep is
             // reserved for scheduled/manual recovery so command bursts do not exhaust the installation API quota.
             const eventIssue = context.payload.issue || null;
-            const shouldSweepInbox = ['schedule','workflow_dispatch'].includes(context.eventName);
-            if (eventIssue && !shouldSweepInbox) {
+            const dispatchIssueNumber = context.eventName === 'workflow_dispatch'
+              ? Number(context.payload.inputs?.issue_number || 0)
+              : 0;
+            if (dispatchIssueNumber > 0) {
+              const retryCommentId = String(context.payload.inputs?.retry_comment_id || '').trim();
+              if (retryCommentId) {
+                if (context.actor !== owner) throw new Error('Exact command replay is owner-only');
+                const commentId = Number(retryCommentId);
+                if (!Number.isSafeInteger(commentId) || commentId <= 0) throw new Error('Invalid retry_comment_id');
+                const comment = (await github.rest.issues.getComment({ owner, repo, comment_id: commentId })).data;
+                if (comment.user?.login !== owner || !comment.body?.match(/^\s*\/farast\s+accept\b/i)) {
+                  throw new Error('Replay requires an existing owner-authored /farast accept comment');
+                }
+                if (!comment.issue_url?.endsWith('/issues/' + dispatchIssueNumber)) {
+                  throw new Error('Replay comment does not belong to the targeted Issue');
+                }
+                const replaySnapshot = await getRegistry();
+                const previous = replaySnapshot.state.processed_operations?.[retryCommentId];
+                if (!previous || previous.issue_number !== dispatchIssueNumber || previous.command !== 'accept' ||
+                    !String(previous.response || '').includes('ruleset_bypass_actors_not_visible')) {
+                  throw new Error('Replay is allowed only for the exact previously blocked ruleset-visibility acceptance');
+                }
+                replaySnapshot.state.replayed_operations ||= {};
+                replaySnapshot.state.replayed_operations[retryCommentId] = {
+                  ...previous,
+                  replayed_at_utc: new Date().toISOString(),
+                  replayed_by: context.actor,
+                  reason: 'owner-triggered exact-branch recovery after privileged ruleset-read workflow was installed'
+                };
+                delete replaySnapshot.state.processed_operations[retryCommentId];
+                await saveRegistry(replaySnapshot.state, replaySnapshot, 'FARAST coordinator: archive blocked acceptance before owner-authorized replay');
+              }
+              const targetedIssue = (await github.rest.issues.get({
+                owner, repo, issue_number: dispatchIssueNumber
+              })).data;
+              await safelyProcessIssue(targetedIssue);
+            } else if (eventIssue && context.eventName !== 'schedule') {
               await safelyProcessIssue(eventIssue);
-            } else if (shouldSweepInbox) {
+            } else if (context.eventName === 'schedule' || context.eventName === 'workflow_dispatch') {
               try {
                 const cursorSnapshot = await getRegistry();
                 const inboxPage = inboxScheduler.getCursorPage(cursorSnapshot.state);
