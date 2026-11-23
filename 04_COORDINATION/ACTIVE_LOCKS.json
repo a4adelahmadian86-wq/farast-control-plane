@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3805,
+  "revision": 3806,
   "next_fencing_token": 188,
   "locks": [
     {
@@ -14714,6 +14714,17 @@
       "work_item_id": "WI-EXP02-BACKUP-RECOVERY-001",
       "preserved_steps": 0,
       "at_utc": "2026-11-23T16:43:10.404Z"
+    },
+    {
+      "event": "WORK_ITEM_REFRESHED",
+      "issue_number": 66,
+      "work_item_id": "WI-EXP02-BACKUP-RECOVERY-001",
+      "actor": "a4adelahmadian86-wq",
+      "preserved_steps": 0,
+      "preserved_criteria": 0,
+      "hard_gate_ready": true,
+      "hard_gate_blockers": [],
+      "at_utc": "2026-11-23T16:43:19.991Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -30738,6 +30749,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-23T16:42:58.065Z"
+    },
+    "7107561059": {
+      "response": "Work Item specification refreshed from Issue body; preserved_steps=0; preserved_criteria=0; hard_gates=PASS; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%.",
+      "response_posted": false,
+      "issue_number": 66,
+      "actor": "a4adelahmadian86-wq",
+      "command": "refresh",
+      "next_status": "ready",
+      "at_utc": "2026-11-23T16:43:19.991Z"
     }
   },
   "work_items": {
