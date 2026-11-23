@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3900,
+  "revision": 3901,
   "next_fencing_token": 190,
   "locks": [
     {
@@ -31484,6 +31484,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-23T16:59:22.515Z"
+    },
+    "7107980765": {
+      "response": "معیار پذیرش ثبت شد: AC_INTEGRITY; ACCEPTANCE_PROGRESS=40%; OVERALL_COMPLETION=40%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 66,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-23T16:59:31.493Z"
     }
   },
   "work_items": {
@@ -36201,7 +36210,14 @@
           "title": "Encryption, manifest integrity, checksums, destination read-back and replica behavior are accurately classified",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "Implementation references and test assertions; distinguish code-level controls from live operational verification"
+          "evidence_requirement": "Implementation references and test assertions; distinguish code-level controls from live operational verification",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/66#issuecomment-7107715055"
+          ],
+          "validated_at_utc": "2026-11-23T16:59:31.492Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_RETENTION_FAILURE",
