@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4013,
+  "revision": 4014,
   "next_fencing_token": 191,
   "locks": [
     {
@@ -17,22 +17,6 @@
       "heartbeat_at_utc": "2026-11-23T17:12:23.942Z",
       "lease_expires_at_utc": "2026-11-23T17:42:23.942Z",
       "fencing_token": 186,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "analysis:exp-05",
-      "issue_number": 17,
-      "task_id": "GH-17",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "CHAT-PR05-EXP05-20261123-1707Z-01",
-      "chat_id": "CHAT-PR05-EXP05-20261123-1707Z-01",
-      "run_id": "RUN-PR05-EXP05-20261123-1707Z-01",
-      "target_repository": "a4adelahmadian86-wq/non",
-      "branch": null,
-      "acquired_at_utc": "2026-11-23T17:07:14.879Z",
-      "heartbeat_at_utc": "2026-11-23T17:20:34.647Z",
-      "lease_expires_at_utc": "2026-11-23T17:50:34.647Z",
-      "fencing_token": 190,
       "status": "ACTIVE"
     }
   ],
@@ -15413,6 +15397,17 @@
       "target_repository": "a4adelahmadian86-wq/non",
       "lease_expires_at_utc": "2026-11-23T17:50:34.647Z",
       "at_utc": "2026-11-23T17:20:34.647Z"
+    },
+    {
+      "event": "REVIEW",
+      "issue_number": 17,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-PR05-EXP05-20261123-1707Z-01",
+      "run_id": "RUN-PR05-EXP05-20261123-1707Z-01",
+      "fencing_token": 190,
+      "branch": null,
+      "target_repository": "a4adelahmadian86-wq/non",
+      "at_utc": "2026-11-23T17:20:54.305Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -32292,6 +32287,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-23T17:20:34.647Z"
+    },
+    "7108521798": {
+      "response": "پیاده‌سازی برای اجرای گیت‌های ماشینی و پذیرش خودکار تحویل شد؛ این فرمان به‌تنهایی پذیرش نیست.",
+      "response_posted": false,
+      "issue_number": 17,
+      "actor": "a4adelahmadian86-wq",
+      "command": "review",
+      "next_status": "review",
+      "at_utc": "2026-11-23T17:20:54.306Z"
     }
   },
   "work_items": {
