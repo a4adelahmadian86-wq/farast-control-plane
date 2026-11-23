@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3782,
+  "revision": 3783,
   "next_fencing_token": 186,
   "locks": [],
   "history": [
@@ -30505,6 +30505,15 @@
       "command": "refresh",
       "next_status": "blocked",
       "at_utc": "2026-11-23T16:34:53.856Z"
+    },
+    "7107406119": {
+      "response": "Work item specification JSON معتبر در Issue ثبت نشده است.",
+      "response_posted": false,
+      "issue_number": 66,
+      "actor": "a4adelahmadian86-wq",
+      "command": "progress",
+      "next_status": null,
+      "at_utc": "2026-11-23T16:37:09.536Z"
     }
   },
   "work_items": {
