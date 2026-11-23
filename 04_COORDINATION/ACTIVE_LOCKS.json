@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3944,
+  "revision": 3945,
   "next_fencing_token": 191,
   "locks": [
     {
@@ -41634,6 +41634,11 @@
         "reason": "registry_cas_conflict: another Issue advanced the shared registry; this command remains durable and must be replayed. latest=81efdc6d5696af49ae692a2be3d2e91d05105139; cause=Update is not a fast forward",
         "count": 1,
         "last_seen_at_utc": "2026-11-23T17:07:21.551Z"
+      },
+      "17": {
+        "reason": "registry_cas_conflict: another Issue advanced the shared registry; this command remains durable and must be replayed. latest=0cba36ee8ac7a8599664d61966b7713adbe792dd; cause=Update is not a fast forward",
+        "count": 1,
+        "last_seen_at_utc": "2026-11-23T17:07:26.841Z"
       },
       "20": {
         "reason": "tree.sha 5400cf3081fc93f2de005d3979ca67763b1b1594 is not a valid blob",
