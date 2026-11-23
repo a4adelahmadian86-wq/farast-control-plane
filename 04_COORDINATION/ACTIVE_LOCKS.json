@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3804,
+  "revision": 3805,
   "next_fencing_token": 188,
   "locks": [
     {
@@ -14707,6 +14707,13 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "lease_expires_at_utc": "2026-11-23T17:12:58.065Z",
       "at_utc": "2026-11-23T16:42:58.065Z"
+    },
+    {
+      "event": "DEPENDENCY_AUTO_UNBLOCKED",
+      "issue_number": 66,
+      "work_item_id": "WI-EXP02-BACKUP-RECOVERY-001",
+      "preserved_steps": 0,
+      "at_utc": "2026-11-23T16:43:10.404Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -35229,6 +35236,168 @@
       ],
       "priority": 25,
       "created_at_utc": "2026-11-17T10:00:00Z"
+    },
+    "66": {
+      "schema_version": "1.0",
+      "work_item_id": "WI-EXP02-BACKUP-RECOVERY-001",
+      "title": "EXP-02 backup, data durability and disaster-recovery assessment",
+      "description": "A read-only assessment of the product's implemented backup, verification, retention, recovery and operational readiness. This is a non-overlapping EXP-02 deliverable: Issue #64 handles cross-EXP/action-gate semantics, while this Work Item assesses backup/recovery implementation and evidence.",
+      "parent_goal_ids": [
+        "G-01",
+        "G-07"
+      ],
+      "parent_exp_ids": [
+        "EXP-02"
+      ],
+      "status": "READY",
+      "target_repository": "a4adelahmadian86-wq/non",
+      "resource_keys": [
+        "analysis:exp-02-backup-recovery"
+      ],
+      "dependencies": [
+        {
+          "work_item_id": "WI-OPERATION-GATE-MODEL-001",
+          "status": "ACCEPTED"
+        }
+      ],
+      "write_policy": "READ_ONLY",
+      "priority_source": "DEFAULT_POLICY",
+      "priority": 50,
+      "effort_estimate_minutes": 25,
+      "effort_rationale": "Focused source inspection, evidence classification, recovery-safety analysis, restore-test planning and source read-back; no production execution or forced waiting.",
+      "depth_profile": {
+        "profile_version": "2.0.0",
+        "min_substantive_steps": 7,
+        "min_acceptance_criteria": 5,
+        "min_deliverables": 4,
+        "target_effort_minutes": 25
+      },
+      "steps": [
+        {
+          "step_id": "S0_SCOPE",
+          "title": "Confirm EXP-02 scope, dependencies, repository refs and non-overlap with EXP-17",
+          "required": true,
+          "weight": 1,
+          "expected_output": "A scope/dependency map and immutable product/control-plane starting refs",
+          "evidence_requirement": "Current dependency graph SHA, EXP-02/EXP-17 definitions, Issue #64 and product main SHA; distinguish current facts from historical evidence",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S1_BACKUP_CONFIG",
+          "title": "Audit backup configuration, key handling, destinations, scheduling and queue execution",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Configuration matrix for encryption key presence requirement, backup targets, optional replica, scheduler and worker model",
+          "evidence_requirement": "Exact config, env example, scheduler, command and deployment documentation paths; never read or expose secret values; live runtime settings remain UNKNOWN unless directly observable",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S2_BACKUP_COVERAGE",
+          "title": "Trace backup contents, database export, managed files, manifest and integrity controls",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Data coverage inventory for DB, local private/public files, staging and remote managed objects",
+          "evidence_requirement": "StorageBackupService implementation, manifest format, checksum/HMAC/encryption behavior and exact source refs",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S3_DURABILITY_FAILURES",
+          "title": "Assess destinations, replicas, retention, capacity, stale-run recovery and failure paths",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Threat/failure matrix covering missing destinations, partial replicas, capacity limits, worker timeout, checksum failure and retention",
+          "evidence_requirement": "Storage volume selection, backup run state transitions, recovery command, scheduler and retention implementation; classify configured versus runtime-verified",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S4_RESTORE_SAFETY",
+          "title": "Review restore preconditions, isolation, destructive effects, rollback and post-restore validation",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Restore safety analysis and a non-production restore runbook",
+          "evidence_requirement": "Restore command safeguards, archive path validation, DB driver checks, maintenance mode, replacement semantics, remote-file staging and cleanup behavior",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S5_TEST_EVIDENCE",
+          "title": "Inspect automated backup/restore tests and define a safe proof plan",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Test coverage matrix and a staged restore-verification procedure with explicit NOT_RUN/UNKNOWN states",
+          "evidence_requirement": "Named tests and assertions, available CI evidence, required isolated environment and machine-verifiable success criteria; do not run production restore or claim an unexecuted test as PASS",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S6_REPORT_VERIFY",
+          "title": "Publish and read back the assessment, RPO/RTO unknowns and exact next actions",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Four deliverables with evidence-linked status and a READY/BLOCKED verdict",
+          "evidence_requirement": "Issue comment/report links, source read-back, no-secret check, product ref comparison and explicit RPO/RTO values only if owner-approved/evidenced",
+          "estimate_minutes": 3
+        }
+      ],
+      "acceptance_criteria": [
+        {
+          "criterion_id": "AC_COVERAGE",
+          "title": "Backup coverage and exclusions are mapped to concrete source paths and data classes",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Evidence-backed data coverage matrix for database, local files, managed remote files and staging"
+        },
+        {
+          "criterion_id": "AC_INTEGRITY",
+          "title": "Encryption, manifest integrity, checksums, destination read-back and replica behavior are accurately classified",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Implementation references and test assertions; distinguish code-level controls from live operational verification"
+        },
+        {
+          "criterion_id": "AC_RETENTION_FAILURE",
+          "title": "Retention, destination health/capacity, scheduler/worker reliability and stale-run recovery are assessed without unsupported claims",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Configuration and implementation references plus explicit UNKNOWN/PARTIAL/VERIFIED classification"
+        },
+        {
+          "criterion_id": "AC_RESTORE_SAFETY",
+          "title": "Restore risks and non-production validation plan are documented; no production restore is performed",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Restore code analysis, isolation/rollback checklist and explicit NOT_RUN status for any restore not actually executed"
+        },
+        {
+          "criterion_id": "AC_READ_ONLY",
+          "title": "No product repository, production data, secrets or live backup state is modified or exposed",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Product refs before/after, changed-file/branch comparison and report review confirming no secret/PII disclosure"
+        }
+      ],
+      "deliverables": [
+        {
+          "deliverable_id": "D1",
+          "description": "Backup architecture and data-coverage assessment",
+          "evidence_requirement": "Issue report section with exact code/config paths and status per data class"
+        },
+        {
+          "deliverable_id": "D2",
+          "description": "Integrity, retention, destination and failure-mode matrix",
+          "evidence_requirement": "Evidence-linked control matrix with configured/running/verified/unknown distinctions"
+        },
+        {
+          "deliverable_id": "D3",
+          "description": "Isolated restore runbook and validation checklist",
+          "evidence_requirement": "Preconditions, separate target, checksum/DB/file validation, application smoke checks, rollback and cleanup; no production execution"
+        },
+        {
+          "deliverable_id": "D4",
+          "description": "RPO/RTO and operational gap register with next actions",
+          "evidence_requirement": "Explicitly unknown values where no owner decision or measured evidence exists; prioritized follow-up actions"
+        }
+      ],
+      "next_action": "Wait until WI-OPERATION-GATE-MODEL-001 (Issue #64) is ACCEPTED and the live dependency graph is re-read. Then re-evaluate EXP-02 hard gates and resource locks, claim this Issue with a fresh RUN_ID, and execute the read-only assessment. Do not run a live restore without explicit owner approval and an isolated non-production target.",
+      "created_at_utc": "2026-11-17T10:20:00Z"
     },
     "67": {
       "schema_version": "1.0",
