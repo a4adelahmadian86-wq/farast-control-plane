@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3993,
+  "revision": 3994,
   "next_fencing_token": 191,
   "locks": [
     {
@@ -32142,6 +32142,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-23T17:16:32.154Z"
+    },
+    "7108421693": {
+      "response": "معیار پذیرش ثبت شد: AC_SCOPE; ACCEPTANCE_PROGRESS=25%; OVERALL_COMPLETION=25%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 17,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-23T17:16:50.969Z"
     }
   },
   "work_items": {
@@ -33246,7 +33255,14 @@
         {
           "criterion_id": "AC_SCOPE",
           "title": "تمام 7 مرحله تخصصی EXP-05 اجرا یا با blocker مستند متوقف شده‌اند",
-          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion."
+          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion.",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/17#issuecomment-7108245126"
+          ],
+          "validated_at_utc": "2026-11-23T17:16:50.968Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_EVIDENCE",
