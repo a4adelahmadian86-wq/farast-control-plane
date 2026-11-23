@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "revision": 3942,
-  "next_fencing_token": 190,
+  "revision": 3943,
+  "next_fencing_token": 191,
   "locks": [
     {
       "resource_key": "analysis:exp-04",
@@ -17,6 +17,22 @@
       "heartbeat_at_utc": "2026-11-23T17:06:43.994Z",
       "lease_expires_at_utc": "2026-11-23T17:36:43.994Z",
       "fencing_token": 186,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "analysis:exp-05",
+      "issue_number": 17,
+      "task_id": "GH-17",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-PR05-EXP05-20261123-1707Z-01",
+      "chat_id": "CHAT-PR05-EXP05-20261123-1707Z-01",
+      "run_id": "RUN-PR05-EXP05-20261123-1707Z-01",
+      "target_repository": "a4adelahmadian86-wq/non",
+      "branch": null,
+      "acquired_at_utc": "2026-11-23T17:07:14.879Z",
+      "heartbeat_at_utc": "2026-11-23T17:07:14.879Z",
+      "lease_expires_at_utc": "2026-11-23T17:37:14.879Z",
+      "fencing_token": 190,
       "status": "ACTIVE"
     }
   ],
@@ -15164,6 +15180,23 @@
       "target_repository": "a4adelahmadian86-wq/non",
       "lease_expires_at_utc": "2026-11-23T17:36:43.994Z",
       "at_utc": "2026-11-23T17:06:43.994Z"
+    },
+    {
+      "event": "ACQUIRED",
+      "issue_number": 17,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-PR05-EXP05-20261123-1707Z-01",
+      "run_id": "RUN-PR05-EXP05-20261123-1707Z-01",
+      "resource_keys": [
+        "analysis:exp-05"
+      ],
+      "target_repository": "a4adelahmadian86-wq/non",
+      "branch": null,
+      "previous_branch": null,
+      "previous_target_repository": null,
+      "previous_run_id": null,
+      "fencing_token": 190,
+      "at_utc": "2026-11-23T17:07:14.879Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -31737,6 +31770,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-23T17:06:43.995Z"
+    },
+    "7108172240": {
+      "response": "CLAIM GRANTED. TASK=GH-17; WORK_ITEM_ID=WI-EXP05-USER-SCENARIOS-001; verified_steps=; remaining_steps=S1_DISCOVER,S2_MAP,S3_ANALYZE,S4_CROSSCHECK,S5_ASSESS,S6_REPORT,S7_VERIFY; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; actor=@a4adelahmadian86-wq; chat=CHAT-PR05-EXP05-20261123-1707Z-01; run=RUN-PR05-EXP05-20261123-1707Z-01; resource_keys=analysis:exp-05; target_repository=a4adelahmadian86-wq/non; write_policy=READ_ONLY; branch=none; previous_run=none; fencing_token=190; lease_expires=2026-11-23T17:37:14.879Z. این Work Item با سیاست READ_ONLY است؛ در target_repository هیچ branch، file، commit یا PR ایجاد/تغییر نده. شواهد را فقط در Issue thread یا محل مجاز control-plane ثبت کن؛ برای WRITE_REQUIRES_OWNER_APPROVAL فقط proposal ارائه بده.",
+      "response_posted": false,
+      "issue_number": 17,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "locked",
+      "at_utc": "2026-11-23T17:07:14.880Z"
     }
   },
   "work_items": {
@@ -32680,6 +32722,140 @@
         {
           "deliverable_id": "D3",
           "description": "orphan/contradiction report.",
+          "evidence_requirement": "مسیر فایل یا URL GitHub به خروجی و read-back آن"
+        }
+      ]
+    },
+    "17": {
+      "schema_version": "1.0",
+      "write_policy": "READ_ONLY",
+      "priority_source": "DEFAULT_POLICY",
+      "work_item_id": "WI-EXP05-USER-SCENARIOS-001",
+      "title": "EXP-05 Real user scenarios and end-to-end flows",
+      "parent_goal_ids": [
+        "G-02"
+      ],
+      "parent_exp_ids": [
+        "EXP-05"
+      ],
+      "status": "CLAIMED",
+      "target_repository": "a4adelahmadian86-wq/non",
+      "resource_keys": [
+        "analysis:exp-05"
+      ],
+      "dependencies": [],
+      "steps": [
+        {
+          "step_id": "S1_DISCOVER",
+          "title": "استخراج actorها و نقش‌ها از نیازمندی و شواهد موجود، بدون فرض‌کردن نقش جدید.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "خروجی قابل بازبینی برای مرحله: استخراج actorها و نقش‌ها از نیازمندی و شواهد موجود، بدون فرض‌کردن نقش جدید.",
+          "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S2_MAP",
+          "title": "تعریف هدف، trigger، پیش‌شرط، داده ورودی و نتیجه مطلوب هر سناریو.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "خروجی قابل بازبینی برای مرحله: تعریف هدف، trigger، پیش‌شرط، داده ورودی و نتیجه مطلوب هر سناریو.",
+          "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S3_ANALYZE",
+          "title": "ترسیم مسیر عادی از ورود تا تکمیل کار و خروجی قابل مشاهده.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "خروجی قابل بازبینی برای مرحله: ترسیم مسیر عادی از ورود تا تکمیل کار و خروجی قابل مشاهده.",
+          "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S4_CROSSCHECK",
+          "title": "افزودن شاخه‌های خطا، لغو، timeout، retry، دسترسی ناکافی و بازیابی.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "خروجی قابل بازبینی برای مرحله: افزودن شاخه‌های خطا، لغو، timeout، retry، دسترسی ناکافی و بازیابی.",
+          "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S5_ASSESS",
+          "title": "مشخص‌کردن نقاط handoff بین کاربر، مدیر اصلی، مدیر ارشد، کارمند و سرویس‌ها.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "خروجی قابل بازبینی برای مرحله: مشخص‌کردن نقاط handoff بین کاربر، مدیر اصلی، مدیر ارشد، کارمند و سرویس‌ها.",
+          "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S6_REPORT",
+          "title": "تعیین معیار موفقیت، داده قابل مشاهده و کنترل‌های حریم خصوصی در هر گام.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "خروجی قابل بازبینی برای مرحله: تعیین معیار موفقیت، داده قابل مشاهده و کنترل‌های حریم خصوصی در هر گام.",
+          "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S7_VERIFY",
+          "title": "اولویت‌بندی سناریوها و اتصال به requirement/capability IDs.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "خروجی قابل بازبینی برای مرحله: اولویت‌بندی سناریوها و اتصال به requirement/capability IDs.",
+          "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
+          "estimate_minutes": 4
+        }
+      ],
+      "acceptance_criteria": [
+        {
+          "criterion_id": "AC_SCOPE",
+          "title": "تمام 7 مرحله تخصصی EXP-05 اجرا یا با blocker مستند متوقف شده‌اند",
+          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion."
+        },
+        {
+          "criterion_id": "AC_EVIDENCE",
+          "title": "تمام ادعاهای factual دارای evidence ref مستقیم و قابل بازبینی هستند",
+          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion."
+        },
+        {
+          "criterion_id": "AC_OUTPUT",
+          "title": "خروجی‌های تخصصی EXP-05 تولید و read-back شده‌اند: scenario catalog، journey maps، exception-flow matrix.",
+          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion."
+        },
+        {
+          "criterion_id": "AC_ACCEPTANCE",
+          "title": "actorها مستند؛ happy path و failure path؛ نتیجه قابل سنجش؛ traceability کامل.",
+          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion."
+        }
+      ],
+      "priority": 50,
+      "created_at_utc": "2026-11-14T17:25:24.204Z",
+      "effort_estimate_minutes": 25,
+      "effort_rationale": "حدود ۲۵ دقیقه کار تخصصی شامل discovery، cross-check، تحلیل، تولید artifact و read-back؛ زمان واقعی ثبت شود و کار مصنوعی ممنوع است.",
+      "depth_profile": {
+        "profile_version": "2.0.0",
+        "min_substantive_steps": 6,
+        "min_acceptance_criteria": 4,
+        "min_deliverables": 3,
+        "target_effort_minutes": 25
+      },
+      "deliverables": [
+        {
+          "deliverable_id": "D1",
+          "description": "scenario catalog",
+          "evidence_requirement": "مسیر فایل یا URL GitHub به خروجی و read-back آن"
+        },
+        {
+          "deliverable_id": "D2",
+          "description": "journey maps",
+          "evidence_requirement": "مسیر فایل یا URL GitHub به خروجی و read-back آن"
+        },
+        {
+          "deliverable_id": "D3",
+          "description": "exception-flow matrix.",
           "evidence_requirement": "مسیر فایل یا URL GitHub به خروجی و read-back آن"
         }
       ]
