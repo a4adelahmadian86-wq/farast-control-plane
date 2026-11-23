@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3906,
+  "revision": 3907,
   "next_fencing_token": 190,
   "locks": [
     {
@@ -31514,6 +31514,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-23T17:00:08.894Z"
+    },
+    "7107996636": {
+      "response": "معیار پذیرش ثبت شد: AC_RETENTION_FAILURE; ACCEPTANCE_PROGRESS=60%; OVERALL_COMPLETION=60%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 66,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-23T17:00:20.255Z"
     }
   },
   "work_items": {
@@ -36245,7 +36254,14 @@
           "title": "Retention, destination health/capacity, scheduler/worker reliability and stale-run recovery are assessed without unsupported claims",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "Configuration and implementation references plus explicit UNKNOWN/PARTIAL/VERIFIED classification"
+          "evidence_requirement": "Configuration and implementation references plus explicit UNKNOWN/PARTIAL/VERIFIED classification",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/66#issuecomment-7107715055"
+          ],
+          "validated_at_utc": "2026-11-23T17:00:20.255Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_RESTORE_SAFETY",
