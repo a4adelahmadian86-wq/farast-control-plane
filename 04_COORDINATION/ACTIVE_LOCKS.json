@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3809,
+  "revision": 3810,
   "next_fencing_token": 188,
   "locks": [
     {
@@ -17,22 +17,6 @@
       "heartbeat_at_utc": "2026-11-23T16:43:32.495Z",
       "lease_expires_at_utc": "2026-11-23T17:13:32.495Z",
       "fencing_token": 186,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "coordination:work-item-allocation",
-      "issue_number": 11,
-      "task_id": "GH-11",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "CHAT-PR02-3c6b3913411ffb557e5ff0cb9819f46d",
-      "chat_id": "CHAT-PR02-3c6b3913411ffb557e5ff0cb9819f46d",
-      "run_id": "RUN-PR02-ALLOC-835917f3b664cf4a1d39784f",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": null,
-      "acquired_at_utc": "2026-11-23T16:38:57.899Z",
-      "heartbeat_at_utc": "2026-11-23T16:42:58.065Z",
-      "lease_expires_at_utc": "2026-11-23T17:12:58.065Z",
-      "fencing_token": 187,
       "status": "ACTIVE"
     }
   ],
@@ -14737,6 +14721,17 @@
       "target_repository": "a4adelahmadian86-wq/non",
       "lease_expires_at_utc": "2026-11-23T17:13:32.495Z",
       "at_utc": "2026-11-23T16:43:32.495Z"
+    },
+    {
+      "event": "RELEASE",
+      "issue_number": 11,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-PR02-3c6b3913411ffb557e5ff0cb9819f46d",
+      "run_id": "RUN-PR02-ALLOC-835917f3b664cf4a1d39784f",
+      "fencing_token": 187,
+      "branch": null,
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "at_utc": "2026-11-23T16:43:51.245Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -30779,6 +30774,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-23T16:43:32.495Z"
+    },
+    "7107575420": {
+      "response": "Lease آزاد شد؛ وظیفه تکمیل‌شده محسوب نمی‌شود.",
+      "response_posted": false,
+      "issue_number": 11,
+      "actor": "a4adelahmadian86-wq",
+      "command": "release",
+      "next_status": "ready",
+      "at_utc": "2026-11-23T16:43:51.246Z"
     }
   },
   "work_items": {
@@ -30942,7 +30946,7 @@
       "parent_exp_ids": [
         "EXP-01"
       ],
-      "status": "CLAIMED",
+      "status": "READY",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "coordination:work-item-allocation"
