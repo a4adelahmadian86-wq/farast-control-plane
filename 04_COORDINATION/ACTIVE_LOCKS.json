@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3914,
+  "revision": 3915,
   "next_fencing_token": 190,
   "locks": [
     {
@@ -31574,6 +31574,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-23T17:01:26.924Z"
+    },
+    "7108036153": {
+      "response": "معیار پذیرش ثبت شد: AC_READ_ONLY; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; can_accept=true.",
+      "response_posted": false,
+      "issue_number": 66,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-23T17:01:46.917Z"
     }
   },
   "work_items": {
@@ -36134,7 +36143,7 @@
       "parent_exp_ids": [
         "EXP-02"
       ],
-      "status": "IN_PROGRESS",
+      "status": "REVIEW_REQUIRED",
       "target_repository": "a4adelahmadian86-wq/non",
       "resource_keys": [
         "analysis:exp-02-backup-recovery"
@@ -36333,7 +36342,14 @@
           "title": "No product repository, production data, secrets or live backup state is modified or exposed",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "Product refs before/after, changed-file/branch comparison and report review confirming no secret/PII disclosure"
+          "evidence_requirement": "Product refs before/after, changed-file/branch comparison and report review confirming no secret/PII disclosure",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/66#issuecomment-7107715055"
+          ],
+          "validated_at_utc": "2026-11-23T17:01:46.916Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "deliverables": [
