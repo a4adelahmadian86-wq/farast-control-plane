@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3929,
+  "revision": 3930,
   "next_fencing_token": 190,
   "locks": [
     {
@@ -31667,7 +31667,7 @@
     },
     "7108092696": {
       "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-EXP02-BACKUP-RECOVERY-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=Owner decides RPO/RTO and separately authorizes an isolated non-production restore exercise; create a distinct owner-approved Work Item with explicit destructive_data_change scope and required operation gate. Keep actual restore UNKNOWN; do not touch Production.; remaining_steps=.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 66,
       "actor": "a4adelahmadian86-wq",
       "command": "checkpoint",
