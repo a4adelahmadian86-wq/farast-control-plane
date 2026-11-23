@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3769,
+  "revision": 3770,
   "next_fencing_token": 186,
   "locks": [
     {
@@ -30439,7 +30439,7 @@
     },
     "7106935204": {
       "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-EXP01-BASELINE-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=Baseline delta D1-D4 and JSON are recorded and read back at https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/13#issuecomment-7106909444; run /farast review then /farast accept under READ_ONLY; do not create any NON branch, file, commit or PR.; remaining_steps=.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 13,
       "actor": "a4adelahmadian86-wq",
       "command": "checkpoint",
