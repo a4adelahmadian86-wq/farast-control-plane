@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4010,
+  "revision": 4011,
   "next_fencing_token": 191,
   "locks": [
     {
@@ -32265,7 +32265,7 @@
     },
     "7108504110": {
       "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-EXP05-USER-SCENARIOS-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=ثبت /farast review برای آزادسازی lease؛ سپس /farast accept فقط از مسیر evidence-only برای READ_ONLY؛ در صورت رد، blockerها را read-back و ثبت کن؛ هیچ branch یا PR محصول نساز; remaining_steps=.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 17,
       "actor": "a4adelahmadian86-wq",
       "command": "checkpoint",
