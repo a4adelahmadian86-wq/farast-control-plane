@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3783,
+  "revision": 3784,
   "next_fencing_token": 186,
   "locks": [],
   "history": [
@@ -30508,7 +30508,7 @@
     },
     "7107406119": {
       "response": "Work item specification JSON معتبر در Issue ثبت نشده است.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 66,
       "actor": "a4adelahmadian86-wq",
       "command": "progress",
