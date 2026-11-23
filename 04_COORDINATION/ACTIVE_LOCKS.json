@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3850,
+  "revision": 3851,
   "next_fencing_token": 190,
   "locks": [
     {
@@ -31141,7 +31141,7 @@
     },
     "7107754663": {
       "response": "STEP ثبت شد: S2_BACKUP_COVERAGE; EXECUTION_PROGRESS=42.85%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=3/7.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 66,
       "actor": "a4adelahmadian86-wq",
       "command": "step",
