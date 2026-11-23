@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3928,
+  "revision": 3929,
   "next_fencing_token": 190,
   "locks": [
     {
@@ -31664,6 +31664,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-23T17:03:49.673Z"
+    },
+    "7108092696": {
+      "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-EXP02-BACKUP-RECOVERY-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=Owner decides RPO/RTO and separately authorizes an isolated non-production restore exercise; create a distinct owner-approved Work Item with explicit destructive_data_change scope and required operation gate. Keep actual restore UNKNOWN; do not touch Production.; remaining_steps=.",
+      "response_posted": false,
+      "issue_number": 66,
+      "actor": "a4adelahmadian86-wq",
+      "command": "checkpoint",
+      "next_status": null,
+      "at_utc": "2026-11-23T17:04:11.889Z"
     }
   },
   "work_items": {
@@ -41119,6 +41128,52 @@
         "lease_expires_at_utc": "2026-11-17T17:13:59.883Z"
       },
       "next_action": "Review and machine-accept PR #76 on exact head 1bdfbf3d7ca94979f58411c9055c26b49f48873f; verify merge and Issue #64 acceptance; close superseded PRs #73 and #75; record final evidence."
+    },
+    "66": {
+      "work_item_id": "WI-EXP02-BACKUP-RECOVERY-001",
+      "run_id": "RUN-PR02-BACKUP-617bd7754aac403a2407d427",
+      "checkpoint_version": 1,
+      "created_at_utc": "2026-11-23T17:04:11.888Z",
+      "last_verified_step_id": "S6_REPORT_VERIFY",
+      "current_step_id": "S6_REPORT_VERIFY",
+      "completed_step_ids": [
+        "S0_SCOPE",
+        "S1_BACKUP_CONFIG",
+        "S2_BACKUP_COVERAGE",
+        "S3_DURABILITY_FAILURES",
+        "S4_RESTORE_SAFETY",
+        "S5_TEST_EVIDENCE",
+        "S6_REPORT_VERIFY"
+      ],
+      "remaining_step_ids": [],
+      "progress_percentage": 100,
+      "execution_progress_percentage": 100,
+      "acceptance_progress_percentage": 100,
+      "overall_completion_percentage": 100,
+      "progress_calculation_version": "PROGRESS_V2",
+      "required_step_counts": {
+        "pass": 7,
+        "fail": 0,
+        "blocked": 0,
+        "unknown": 0,
+        "not_run": 0
+      },
+      "acceptance_criteria_counts": {
+        "pass": 5,
+        "fail": 0,
+        "blocked": 0,
+        "unknown": 0,
+        "not_run": 0
+      },
+      "evidence_refs": [],
+      "blockers": [],
+      "owner": {
+        "actor": "a4adelahmadian86-wq",
+        "chat_id": "CHAT-PR02-3c6b3913411ffb557e5ff0cb9819f46d",
+        "fencing_token": 188,
+        "lease_expires_at_utc": "2026-11-23T17:33:37.875Z"
+      },
+      "next_action": "Owner decides RPO/RTO and separately authorizes an isolated non-production restore exercise; create a distinct owner-approved Work Item with explicit destructive_data_change scope and required operation gate. Keep actual restore UNKNOWN; do not touch Production."
     },
     "77": {
       "work_item_id": "WI-LEGACY-WRITE-SCOPE-COMPAT-001",
