@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3819,
+  "revision": 3820,
   "next_fencing_token": 189,
   "locks": [
     {
@@ -30867,6 +30867,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-23T16:45:59.517Z"
+    },
+    "7107634719": {
+      "response": "STEP ثبت شد: S1_DISCOVER; EXECUTION_PROGRESS=14.28%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=1/7.",
+      "response_posted": false,
+      "issue_number": 16,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-23T16:46:11.922Z"
     }
   },
   "work_items": {
@@ -31636,7 +31645,7 @@
       "parent_exp_ids": [
         "EXP-04"
       ],
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/non",
       "resource_keys": [
         "analysis:exp-04"
@@ -31650,7 +31659,14 @@
           "weight": 1,
           "expected_output": "خروجی قابل بازبینی برای مرحله: استخراج نیازمندی‌های مصوب از منابع معتبر و تعیین نسخه/مرجع هرکدام.",
           "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/f50f6b184e1baa61fd4a5bafc4f020b495b3ff88/00_PROJECT_FOUNDATION/SOURCE_REQUIREMENTS_v2.md"
+          ],
+          "validated_at_utc": "2026-11-23T16:46:11.922Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S2_MAP",
