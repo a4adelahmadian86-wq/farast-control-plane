@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3935,
+  "revision": 3936,
   "next_fencing_token": 190,
   "locks": [
     {
@@ -17,22 +17,6 @@
       "heartbeat_at_utc": "2026-11-23T17:02:26.695Z",
       "lease_expires_at_utc": "2026-11-23T17:32:26.695Z",
       "fencing_token": 186,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "analysis:exp-02-backup-recovery",
-      "issue_number": 66,
-      "task_id": "GH-66",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "CHAT-PR02-3c6b3913411ffb557e5ff0cb9819f46d",
-      "chat_id": "CHAT-PR02-3c6b3913411ffb557e5ff0cb9819f46d",
-      "run_id": "RUN-PR02-BACKUP-617bd7754aac403a2407d427",
-      "target_repository": "a4adelahmadian86-wq/non",
-      "branch": null,
-      "acquired_at_utc": "2026-11-23T16:44:27.587Z",
-      "heartbeat_at_utc": "2026-11-23T17:05:06.200Z",
-      "lease_expires_at_utc": "2026-11-23T17:35:06.200Z",
-      "fencing_token": 188,
       "status": "ACTIVE"
     }
   ],
@@ -15157,6 +15141,17 @@
       "target_repository": "a4adelahmadian86-wq/non",
       "lease_expires_at_utc": "2026-11-23T17:35:06.200Z",
       "at_utc": "2026-11-23T17:05:06.200Z"
+    },
+    {
+      "event": "REVIEW",
+      "issue_number": 66,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-PR02-3c6b3913411ffb557e5ff0cb9819f46d",
+      "run_id": "RUN-PR02-BACKUP-617bd7754aac403a2407d427",
+      "fencing_token": 188,
+      "branch": null,
+      "target_repository": "a4adelahmadian86-wq/non",
+      "at_utc": "2026-11-23T17:05:15.753Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -31703,6 +31698,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-23T17:05:06.200Z"
+    },
+    "7108124262": {
+      "response": "پیاده‌سازی برای اجرای گیت‌های ماشینی و پذیرش خودکار تحویل شد؛ این فرمان به‌تنهایی پذیرش نیست.",
+      "response_posted": false,
+      "issue_number": 66,
+      "actor": "a4adelahmadian86-wq",
+      "command": "review",
+      "next_status": "review",
+      "at_utc": "2026-11-23T17:05:15.754Z"
     }
   },
   "work_items": {
