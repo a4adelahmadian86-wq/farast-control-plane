@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3888,
+  "revision": 3889,
   "next_fencing_token": 190,
   "locks": [
     {
@@ -41094,6 +41094,11 @@
         "reason": "Invalid Work item specification JSON in Issue #115: Unexpected non-whitespace character after JSON at position 7244 (line 154 column 1)",
         "count": 3,
         "last_seen_at_utc": "2026-11-22T11:43:39.492Z"
+      },
+      "126": {
+        "reason": "registry_cas_conflict: another Issue advanced the shared registry; this command remains durable and must be replayed. latest=d66a4ba20de394468f5fbde6ceb73ef20f403590; cause=Update is not a fast forward",
+        "count": 1,
+        "last_seen_at_utc": "2026-11-23T16:57:43.789Z"
       }
     }
   },
