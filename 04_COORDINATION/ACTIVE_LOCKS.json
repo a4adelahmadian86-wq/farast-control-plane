@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3760,
+  "revision": 3761,
   "next_fencing_token": 185,
   "locks": [],
   "history": [
@@ -30342,6 +30342,15 @@
       "command": "status",
       "next_status": null,
       "at_utc": "2026-11-23T16:00:21.540Z"
+    },
+    "7106832660": {
+      "response": "وظیفه به ready بازگشت؛ گیت‌های سخت پاس شده‌اند و برای شروع دوباره claim لازم است.",
+      "response_posted": false,
+      "issue_number": 13,
+      "actor": "a4adelahmadian86-wq",
+      "command": "reopen",
+      "next_status": "ready",
+      "at_utc": "2026-11-23T16:14:54.052Z"
     }
   },
   "work_items": {
@@ -30631,7 +30640,7 @@
       "parent_exp_ids": [
         "EXP-01"
       ],
-      "status": "ACCEPTED",
+      "status": "READY",
       "target_repository": "a4adelahmadian86-wq/non",
       "resource_keys": [
         "analysis:exp-01"
