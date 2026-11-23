@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3768,
+  "revision": 3769,
   "next_fencing_token": 186,
   "locks": [
     {
@@ -30436,6 +30436,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-23T16:18:20.199Z"
+    },
+    "7106935204": {
+      "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-EXP01-BASELINE-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=Baseline delta D1-D4 and JSON are recorded and read back at https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/13#issuecomment-7106909444; run /farast review then /farast accept under READ_ONLY; do not create any NON branch, file, commit or PR.; remaining_steps=.",
+      "response_posted": false,
+      "issue_number": 13,
+      "actor": "a4adelahmadian86-wq",
+      "command": "checkpoint",
+      "next_status": null,
+      "at_utc": "2026-11-23T16:18:49.548Z"
     }
   },
   "work_items": {
@@ -39041,9 +39050,9 @@
     },
     "13": {
       "work_item_id": "WI-EXP01-BASELINE-001",
-      "run_id": "RUN-20261117-PR01-BASELINE-001",
+      "run_id": "RUN-20261123-PR01-BASELINE-5e92c90412322010",
       "checkpoint_version": 1,
-      "created_at_utc": "2026-11-17T09:47:17.850Z",
+      "created_at_utc": "2026-11-23T16:18:49.547Z",
       "last_verified_step_id": "S6_VERIFY",
       "current_step_id": "S6_VERIFY",
       "completed_step_ids": [
@@ -39075,17 +39084,15 @@
         "unknown": 0,
         "not_run": 0
       },
-      "evidence_refs": [
-        "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/13#issuecomment-6944359408"
-      ],
+      "evidence_refs": [],
       "blockers": [],
       "owner": {
         "actor": "a4adelahmadian86-wq",
-        "chat_id": "CHAT-PR01-BASELINE-20261117",
-        "fencing_token": 81,
-        "lease_expires_at_utc": "2026-11-17T10:03:33.852Z"
+        "chat_id": "CHAT-20261123-PR01-BASELINE-9b875dad823c6c7af298fe3ccb1397b1",
+        "fencing_token": 185,
+        "lease_expires_at_utc": "2026-11-23T16:48:20.199Z"
       },
-      "next_action": "READ_ONLY baseline is fully evidenced (7/7 steps, 5/5 criteria, JSON valid). Coordinator currently moves it to REVIEW_REQUIRED but accept path demands a merged PR and branch-bound REVIEW event, impossible under this READ_ONLY claim (branch=none). After WI-READONLY-EVIDENCE-ACCEPTANCE-001 in Issue #62 is implemented, merged and tested, start a fresh RUN_ID, claim Issue #13, re-read the evidence and complete machine-only acceptance without any NON write."
+      "next_action": "Baseline delta D1-D4 and JSON are recorded and read back at https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/13#issuecomment-7106909444; run /farast review then /farast accept under READ_ONLY; do not create any NON branch, file, commit or PR."
     },
     "33": {
       "work_item_id": "WI-EXP21-CHANGE-PACKAGE-001",
