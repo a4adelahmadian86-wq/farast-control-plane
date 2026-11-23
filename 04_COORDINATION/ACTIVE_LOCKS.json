@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3910,
+  "revision": 3911,
   "next_fencing_token": 190,
   "locks": [
     {
@@ -31544,6 +31544,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-23T17:00:43.831Z"
+    },
+    "7108019259": {
+      "response": "معیار پذیرش ثبت شد: AC_RESTORE_SAFETY; ACCEPTANCE_PROGRESS=80%; OVERALL_COMPLETION=80%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 66,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-23T17:01:05.564Z"
     }
   },
   "work_items": {
@@ -36289,7 +36298,14 @@
           "title": "Restore risks and non-production validation plan are documented; no production restore is performed",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "Restore code analysis, isolation/rollback checklist and explicit NOT_RUN status for any restore not actually executed"
+          "evidence_requirement": "Restore code analysis, isolation/rollback checklist and explicit NOT_RUN status for any restore not actually executed",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/66#issuecomment-7107715055"
+          ],
+          "validated_at_utc": "2026-11-23T17:01:05.563Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_READ_ONLY",
