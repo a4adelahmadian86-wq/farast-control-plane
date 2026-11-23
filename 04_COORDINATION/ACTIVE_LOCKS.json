@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3849,
+  "revision": 3850,
   "next_fencing_token": 190,
   "locks": [
     {
@@ -31138,6 +31138,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-23T16:50:35.605Z"
+    },
+    "7107754663": {
+      "response": "STEP ثبت شد: S2_BACKUP_COVERAGE; EXECUTION_PROGRESS=42.85%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=3/7.",
+      "response_posted": false,
+      "issue_number": 66,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-23T16:50:44.114Z"
     }
   },
   "work_items": {
@@ -35733,7 +35742,14 @@
           "weight": 1,
           "expected_output": "Data coverage inventory for DB, local private/public files, staging and remote managed objects",
           "evidence_requirement": "StorageBackupService implementation, manifest format, checksum/HMAC/encryption behavior and exact source refs",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/66#issuecomment-7107715055"
+          ],
+          "validated_at_utc": "2026-11-23T16:50:44.113Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S3_DURABILITY_FAILURES",
