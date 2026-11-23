@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 3835,
+  "revision": 3836,
   "next_fencing_token": 190,
   "locks": [
     {
@@ -14,8 +14,8 @@
       "target_repository": "a4adelahmadian86-wq/non",
       "branch": null,
       "acquired_at_utc": "2026-11-23T16:38:40.971Z",
-      "heartbeat_at_utc": "2026-11-23T16:47:46.014Z",
-      "lease_expires_at_utc": "2026-11-23T17:17:46.014Z",
+      "heartbeat_at_utc": "2026-11-23T16:48:46.588Z",
+      "lease_expires_at_utc": "2026-11-23T17:18:46.588Z",
       "fencing_token": 186,
       "status": "ACTIVE"
     },
@@ -14858,6 +14858,18 @@
       "target_repository": "a4adelahmadian86-wq/non",
       "lease_expires_at_utc": "2026-11-23T17:17:46.014Z",
       "at_utc": "2026-11-23T16:47:46.014Z"
+    },
+    {
+      "event": "HEARTBEAT",
+      "issue_number": 16,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "0ce2e25d-f520-4273-b3e1-eab7b2df056e",
+      "run_id": "RUN-20261123-PR04-TRACE-e05ee6a7-e24b-42c2-b58b-7f0cd1c146bb",
+      "fencing_token": 186,
+      "branch": null,
+      "target_repository": "a4adelahmadian86-wq/non",
+      "lease_expires_at_utc": "2026-11-23T17:18:46.588Z",
+      "at_utc": "2026-11-23T16:48:46.588Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -31008,6 +31020,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-23T16:48:17.733Z"
+    },
+    "7107703412": {
+      "response": "Lease تمدید شد تا 2026-11-23T17:18:46.588Z UTC؛ fencing_token=186.",
+      "response_posted": false,
+      "issue_number": 16,
+      "actor": "a4adelahmadian86-wq",
+      "command": "heartbeat",
+      "next_status": null,
+      "at_utc": "2026-11-23T16:48:46.588Z"
     }
   },
   "work_items": {
