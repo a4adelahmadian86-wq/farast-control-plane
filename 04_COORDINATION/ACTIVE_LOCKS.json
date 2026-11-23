@@ -1,25 +1,8 @@
 {
   "schema_version": "1.0",
-  "revision": 3772,
+  "revision": 3773,
   "next_fencing_token": 186,
-  "locks": [
-    {
-      "resource_key": "analysis:exp-01",
-      "issue_number": 13,
-      "task_id": "GH-13",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "CHAT-20261123-PR01-BASELINE-9b875dad823c6c7af298fe3ccb1397b1",
-      "chat_id": "CHAT-20261123-PR01-BASELINE-9b875dad823c6c7af298fe3ccb1397b1",
-      "run_id": "RUN-20261123-PR01-BASELINE-5e92c90412322010",
-      "target_repository": "a4adelahmadian86-wq/non",
-      "branch": null,
-      "acquired_at_utc": "2026-11-23T16:15:45.717Z",
-      "heartbeat_at_utc": "2026-11-23T16:19:22.100Z",
-      "lease_expires_at_utc": "2026-11-23T16:49:22.100Z",
-      "fencing_token": 185,
-      "status": "ACTIVE"
-    }
-  ],
+  "locks": [],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -14586,6 +14569,17 @@
       "target_repository": "a4adelahmadian86-wq/non",
       "lease_expires_at_utc": "2026-11-23T16:49:22.100Z",
       "at_utc": "2026-11-23T16:19:22.100Z"
+    },
+    {
+      "event": "REVIEW",
+      "issue_number": 13,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-20261123-PR01-BASELINE-9b875dad823c6c7af298fe3ccb1397b1",
+      "run_id": "RUN-20261123-PR01-BASELINE-5e92c90412322010",
+      "fencing_token": 185,
+      "branch": null,
+      "target_repository": "a4adelahmadian86-wq/non",
+      "at_utc": "2026-11-23T16:19:49.303Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -30466,6 +30460,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-23T16:19:22.100Z"
+    },
+    "7106961960": {
+      "response": "پیاده‌سازی برای اجرای گیت‌های ماشینی و پذیرش خودکار تحویل شد؛ این فرمان به‌تنهایی پذیرش نیست.",
+      "response_posted": false,
+      "issue_number": 13,
+      "actor": "a4adelahmadian86-wq",
+      "command": "review",
+      "next_status": "review",
+      "at_utc": "2026-11-23T16:19:49.304Z"
     }
   },
   "work_items": {
@@ -30755,7 +30758,7 @@
       "parent_exp_ids": [
         "EXP-01"
       ],
-      "status": "CLAIMED",
+      "status": "REVIEW_REQUIRED",
       "target_repository": "a4adelahmadian86-wq/non",
       "resource_keys": [
         "analysis:exp-01"
