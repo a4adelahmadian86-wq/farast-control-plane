@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4061,
+  "revision": 4062,
   "next_fencing_token": 193,
   "locks": [
     {
@@ -32742,6 +32742,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-24T10:37:57.937Z"
+    },
+    "7129036085": {
+      "response": "STEP ثبت شد: S4_COMPONENT_AND_PERMISSION_TRACE; EXECUTION_PROGRESS=57.14%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=4/7.",
+      "response_posted": false,
+      "issue_number": 126,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-24T10:38:07.779Z"
     }
   },
   "work_items": {
@@ -41886,7 +41895,14 @@
           "weight": 1,
           "expected_output": "A route-to-service/data/permission map for every supplemental capability, with gaps and parallel/legacy implementations identified.",
           "evidence_requirement": "Direct links to route registration, handler, authorization middleware/policy, backend component, data schema and relevant tests; missing links marked UNKNOWN.",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-126-RUN-PR03-EXP03-CATALOG-20261124-01/03_PROJECT_STATE/CAPABILITY_REGISTER.csv"
+          ],
+          "validated_at_utc": "2026-11-24T10:38:07.778Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S5_EVIDENCE_STATUS_CLASSIFICATION",
