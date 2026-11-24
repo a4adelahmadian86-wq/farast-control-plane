@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4074,
+  "revision": 4075,
   "next_fencing_token": 193,
   "locks": [
     {
@@ -32823,7 +32823,7 @@
     },
     "7129065046": {
       "response": "WORK_ITEM=WI-EXP03-CATALOG-ARTIFACT-REMEDIATION-001; EXECUTION_PROGRESS=85.71%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=6/7; verified_criteria=0/4; step_weighting=EQUAL_STEPS_V1; criteria_weighting=EQUAL_CRITERIA_V1; dependencies=PASS; can_accept=false. claim/lease مستقل از درصد است.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 126,
       "actor": "a4adelahmadian86-wq",
       "command": "progress",
