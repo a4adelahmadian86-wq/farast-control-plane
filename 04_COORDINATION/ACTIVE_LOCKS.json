@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4188,
+  "revision": 4189,
   "next_fencing_token": 197,
   "locks": [
     {
@@ -33632,6 +33632,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-24T11:26:26.384Z"
+    },
+    "7130053384": {
+      "response": "معیار پذیرش ثبت شد: AC_ACCEPTANCE; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; can_accept=true.",
+      "response_posted": false,
+      "issue_number": 18,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-24T11:26:37.715Z"
     }
   },
   "work_items": {
@@ -34823,7 +34832,7 @@
       "parent_exp_ids": [
         "EXP-06"
       ],
-      "status": "IN_PROGRESS",
+      "status": "REVIEW_REQUIRED",
       "target_repository": "a4adelahmadian86-wq/non",
       "resource_keys": [
         "analysis:exp-06"
@@ -34983,7 +34992,14 @@
         {
           "criterion_id": "AC_ACCEPTANCE",
           "title": "هر PASS به run/log متصل؛ تست اجرا نشده هرگز PASS نیست؛ محیط و commit مشخص؛ داده حساس افشا نشده.",
-          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion."
+          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion.",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/non/actions/runs/45212841711"
+          ],
+          "validated_at_utc": "2026-11-24T11:26:37.715Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "priority": 50,
