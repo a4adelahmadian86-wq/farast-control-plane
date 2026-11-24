@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "revision": 4268,
-  "next_fencing_token": 199,
+  "revision": 4269,
+  "next_fencing_token": 200,
   "locks": [
     {
       "resource_key": "file:.github/scripts/goal-progress-core.js",
@@ -49,6 +49,22 @@
       "heartbeat_at_utc": "2026-11-24T12:09:35.138Z",
       "lease_expires_at_utc": "2026-11-24T12:39:35.138Z",
       "fencing_token": 198,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "analysis:exp-07",
+      "issue_number": 19,
+      "task_id": "GH-19",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-PR07-EXP07-20261124-01",
+      "chat_id": "CHAT-PR07-EXP07-20261124-01",
+      "run_id": "RUN-PR07-EXP07-RESUME-20261124-01",
+      "target_repository": "a4adelahmadian86-wq/non",
+      "branch": null,
+      "acquired_at_utc": "2026-11-24T12:12:28.468Z",
+      "heartbeat_at_utc": "2026-11-24T12:12:28.468Z",
+      "lease_expires_at_utc": "2026-11-24T12:42:28.468Z",
+      "fencing_token": 199,
       "status": "ACTIVE"
     }
   ],
@@ -16304,6 +16320,23 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "lease_expires_at_utc": "2026-11-24T12:39:35.138Z",
       "at_utc": "2026-11-24T12:09:35.138Z"
+    },
+    {
+      "event": "ACQUIRED",
+      "issue_number": 19,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-PR07-EXP07-20261124-01",
+      "run_id": "RUN-PR07-EXP07-RESUME-20261124-01",
+      "resource_keys": [
+        "analysis:exp-07"
+      ],
+      "target_repository": "a4adelahmadian86-wq/non",
+      "branch": null,
+      "previous_branch": null,
+      "previous_target_repository": null,
+      "previous_run_id": null,
+      "fencing_token": 199,
+      "at_utc": "2026-11-24T12:12:28.468Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -34254,6 +34287,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-24T12:12:14.035Z"
+    },
+    "7131109537": {
+      "response": "CLAIM GRANTED. TASK=GH-19; WORK_ITEM_ID=WI-EXP07-GAP-ROOT-CAUSE-001; verified_steps=S1_DISCOVER,S2_MAP,S3_ANALYZE,S4_CROSSCHECK,S5_ASSESS,S6_REPORT,S7_VERIFY; remaining_steps=; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; actor=@a4adelahmadian86-wq; chat=CHAT-PR07-EXP07-20261124-01; run=RUN-PR07-EXP07-RESUME-20261124-01; resource_keys=analysis:exp-07; target_repository=a4adelahmadian86-wq/non; write_policy=READ_ONLY; branch=none; previous_run=none; fencing_token=199; lease_expires=2026-11-24T12:42:28.468Z. این Work Item با سیاست READ_ONLY است؛ در target_repository هیچ branch، file، commit یا PR ایجاد/تغییر نده. شواهد را فقط در Issue thread یا محل مجاز control-plane ثبت کن؛ برای WRITE_REQUIRES_OWNER_APPROVAL فقط proposal ارائه بده.",
+      "response_posted": false,
+      "issue_number": 19,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "locked",
+      "at_utc": "2026-11-24T12:12:28.468Z"
     }
   },
   "work_items": {
@@ -35656,7 +35698,7 @@
       "parent_exp_ids": [
         "EXP-07"
       ],
-      "status": "READY",
+      "status": "CLAIMED",
       "target_repository": "a4adelahmadian86-wq/non",
       "resource_keys": [
         "analysis:exp-07"
