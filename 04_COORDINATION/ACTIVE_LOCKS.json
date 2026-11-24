@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4173,
+  "revision": 4174,
   "next_fencing_token": 197,
   "locks": [
     {
@@ -33569,6 +33569,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-24T11:24:11.032Z"
+    },
+    "7130047480": {
+      "response": "STEP ثبت شد: S4_CROSSCHECK; EXECUTION_PROGRESS=57.14%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=4/7.",
+      "response_posted": false,
+      "issue_number": 18,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-24T11:24:21.854Z"
     }
   },
   "work_items": {
@@ -34822,7 +34831,14 @@
           "weight": 1,
           "expected_output": "خروجی قابل بازبینی برای مرحله: اجرای تست فقط در محیط مجاز و ثبت command، commit، زمان، exit code و logs.",
           "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/non/actions/runs/45212841711"
+          ],
+          "validated_at_utc": "2026-11-24T11:24:21.853Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S5_ASSESS",
