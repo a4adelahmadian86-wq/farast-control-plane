@@ -1,56 +1,8 @@
 {
   "schema_version": "1.0",
-  "revision": 4130,
+  "revision": 4131,
   "next_fencing_token": 196,
   "locks": [
-    {
-      "resource_key": "file:03_PROJECT_STATE/CAPABILITY_REGISTER.csv",
-      "issue_number": 126,
-      "task_id": "GH-126",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "CHAT-PR03-EXP03-CATALOG-20261124-01",
-      "chat_id": "CHAT-PR03-EXP03-CATALOG-20261124-01",
-      "run_id": "RUN-PR03-EXP03-CATALOG-20261124-02",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": "work/GH-126-RUN-PR03-EXP03-CATALOG-20261124-02",
-      "acquired_at_utc": "2026-11-24T11:00:09.152Z",
-      "heartbeat_at_utc": "2026-11-24T11:10:20.840Z",
-      "lease_expires_at_utc": "2026-11-24T11:40:20.840Z",
-      "fencing_token": 193,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "file:08_REPORTS/CAPABILITY_DISCOVERY.md",
-      "issue_number": 126,
-      "task_id": "GH-126",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "CHAT-PR03-EXP03-CATALOG-20261124-01",
-      "chat_id": "CHAT-PR03-EXP03-CATALOG-20261124-01",
-      "run_id": "RUN-PR03-EXP03-CATALOG-20261124-02",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": "work/GH-126-RUN-PR03-EXP03-CATALOG-20261124-02",
-      "acquired_at_utc": "2026-11-24T11:00:09.152Z",
-      "heartbeat_at_utc": "2026-11-24T11:10:20.840Z",
-      "lease_expires_at_utc": "2026-11-24T11:40:20.840Z",
-      "fencing_token": 193,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "module:capability-catalog-artifact-remediation",
-      "issue_number": 126,
-      "task_id": "GH-126",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "CHAT-PR03-EXP03-CATALOG-20261124-01",
-      "chat_id": "CHAT-PR03-EXP03-CATALOG-20261124-01",
-      "run_id": "RUN-PR03-EXP03-CATALOG-20261124-02",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": "work/GH-126-RUN-PR03-EXP03-CATALOG-20261124-02",
-      "acquired_at_utc": "2026-11-24T11:00:09.152Z",
-      "heartbeat_at_utc": "2026-11-24T11:10:20.840Z",
-      "lease_expires_at_utc": "2026-11-24T11:40:20.840Z",
-      "fencing_token": 193,
-      "status": "ACTIVE"
-    },
     {
       "resource_key": "analysis:cp-07-goal-progress-aggregation",
       "issue_number": 128,
@@ -15932,6 +15884,17 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "lease_expires_at_utc": "2026-11-24T11:40:20.840Z",
       "at_utc": "2026-11-24T11:10:20.840Z"
+    },
+    {
+      "event": "REVIEW",
+      "issue_number": 126,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-PR03-EXP03-CATALOG-20261124-01",
+      "run_id": "RUN-PR03-EXP03-CATALOG-20261124-02",
+      "fencing_token": 193,
+      "branch": "work/GH-126-RUN-PR03-EXP03-CATALOG-20261124-02",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "at_utc": "2026-11-24T11:10:30.674Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -33288,6 +33251,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-24T11:10:20.840Z"
+    },
+    "7129749347": {
+      "response": "پیاده‌سازی برای اجرای گیت‌های ماشینی و پذیرش خودکار تحویل شد؛ این فرمان به‌تنهایی پذیرش نیست.",
+      "response_posted": false,
+      "issue_number": 126,
+      "actor": "a4adelahmadian86-wq",
+      "command": "review",
+      "next_status": "review",
+      "at_utc": "2026-11-24T11:10:30.675Z"
     }
   },
   "work_items": {
