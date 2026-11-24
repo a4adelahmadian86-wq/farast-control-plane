@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4339,
+  "revision": 4340,
   "next_fencing_token": 201,
   "locks": [
     {
@@ -34885,6 +34885,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-24T12:39:45.185Z"
+    },
+    "7131761374": {
+      "response": "معیار پذیرش ثبت شد: AC_BLOCKER_DENOMINATOR; ACCEPTANCE_PROGRESS=50%; OVERALL_COMPLETION=50%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 130,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-24T12:40:31.457Z"
     }
   },
   "work_items": {
@@ -44809,7 +44818,14 @@
           "criterion_id": "AC_BLOCKER_DENOMINATOR",
           "title": "Blocked and incomplete in-scope leaves remain in the denominator; cancelled or superseded leaves are excluded only with explicit approved disposition and rationale",
           "required": true,
-          "evidence_requirement": "Tests and a reproducible inclusion/exclusion matrix with status, reason and denominator"
+          "evidence_requirement": "Tests and a reproducible inclusion/exclusion matrix with status, reason and denominator",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/130#issuecomment-7131375634"
+          ],
+          "validated_at_utc": "2026-11-24T12:40:31.456Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "BLOCKED/incomplete leaves remain in the equal/weighted denominator; CANCELLED/SUPERSEDED exclusion requires approved=true, rationale and HTTP(S) approval reference, otherwise they remain included with warning."
         },
         {
           "criterion_id": "AC_DETERMINISTIC_OUTPUT",
