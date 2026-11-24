@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "revision": 4126,
-  "next_fencing_token": 195,
+  "revision": 4127,
+  "next_fencing_token": 196,
   "locks": [
     {
       "resource_key": "file:03_PROJECT_STATE/CAPABILITY_REGISTER.csv",
@@ -49,6 +49,22 @@
       "heartbeat_at_utc": "2026-11-24T11:06:51.343Z",
       "lease_expires_at_utc": "2026-11-24T11:36:51.343Z",
       "fencing_token": 193,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "analysis:cp-07-goal-progress-aggregation",
+      "issue_number": 128,
+      "task_id": "GH-128",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-PR05-G09-20261124-01",
+      "chat_id": "CHAT-PR05-G09-20261124-01",
+      "run_id": "RUN-PR05-G09-CP07-AUDIT-20261124-01",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": null,
+      "acquired_at_utc": "2026-11-24T11:09:56.984Z",
+      "heartbeat_at_utc": "2026-11-24T11:09:56.984Z",
+      "lease_expires_at_utc": "2026-11-24T11:39:56.984Z",
+      "fencing_token": 195,
       "status": "ACTIVE"
     }
   ],
@@ -15887,6 +15903,23 @@
       "branch": null,
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "at_utc": "2026-11-24T11:08:03.864Z"
+    },
+    {
+      "event": "ACQUIRED",
+      "issue_number": 128,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-PR05-G09-20261124-01",
+      "run_id": "RUN-PR05-G09-CP07-AUDIT-20261124-01",
+      "resource_keys": [
+        "analysis:cp-07-goal-progress-aggregation"
+      ],
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": null,
+      "previous_branch": null,
+      "previous_target_repository": null,
+      "previous_run_id": null,
+      "fencing_token": 195,
+      "at_utc": "2026-11-24T11:09:56.984Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -33225,6 +33258,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-24T11:08:38.294Z"
+    },
+    "7129709018": {
+      "response": "CLAIM GRANTED. TASK=GH-128; WORK_ITEM_ID=WI-CP07-GOAL-PROGRESS-AGGREGATION-001; verified_steps=; remaining_steps=S0_BASELINE,S1_CANONICAL_INVENTORY,S2_LEAF_PROGRESS,S3_PARENT_AGGREGATION,S4_STATUS_DRIFT,S5_GAP_RISK,S6_REPORT_VERIFY; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; actor=@a4adelahmadian86-wq; chat=CHAT-PR05-G09-20261124-01; run=RUN-PR05-G09-CP07-AUDIT-20261124-01; resource_keys=analysis:cp-07-goal-progress-aggregation; target_repository=a4adelahmadian86-wq/farast-control-plane; write_policy=READ_ONLY; branch=none; previous_run=none; fencing_token=195; lease_expires=2026-11-24T11:39:56.984Z. این Work Item با سیاست READ_ONLY است؛ در target_repository هیچ branch، file، commit یا PR ایجاد/تغییر نده. شواهد را فقط در Issue thread یا محل مجاز control-plane ثبت کن؛ برای WRITE_REQUIRES_OWNER_APPROVAL فقط proposal ارائه بده.",
+      "response_posted": false,
+      "issue_number": 128,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "locked",
+      "at_utc": "2026-11-24T11:09:56.985Z"
     }
   },
   "work_items": {
@@ -42525,6 +42567,171 @@
         "fencing_token": 189,
         "branch": null,
         "allocated_at_utc": "2026-11-23T16:49:28Z"
+      }
+    },
+    "128": {
+      "schema_version": "1.0",
+      "operation_scope_version": "1.0",
+      "requested_operations": [
+        "analysis"
+      ],
+      "write_policy": "READ_ONLY",
+      "priority_source": "DEFAULT_POLICY",
+      "work_item_id": "WI-CP07-GOAL-PROGRESS-AGGREGATION-001",
+      "title": "Audit CP-07 goal hierarchy and evidence-backed progress aggregation",
+      "description": "Read-only audit of whether FARAST's goal tree and parent-level progress reporting are complete, evidence-backed, internally consistent and reproducible from canonical leaf Work Items. Identify only demonstrable gaps; do not modify source files or status registers.",
+      "parent_goal_ids": [
+        "G-09"
+      ],
+      "parent_exp_ids": [
+        "EXP-01"
+      ],
+      "parent_cp_ids": [
+        "CP-07"
+      ],
+      "status": "CLAIMED",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "resource_keys": [
+        "analysis:cp-07-goal-progress-aggregation"
+      ],
+      "dependencies": [],
+      "effort_estimate_minutes": 25,
+      "effort_rationale": "A focused 25-minute audit of canonical CP-07 requirements, live Work Item/checkpoint evidence, parent aggregation semantics and status drift; no forced waiting and no implementation.",
+      "depth_profile": {
+        "profile_version": "2.0.0",
+        "min_substantive_steps": 6,
+        "min_acceptance_criteria": 4,
+        "min_deliverables": 3,
+        "target_effort_minutes": 25
+      },
+      "steps": [
+        {
+          "step_id": "S0_BASELINE",
+          "title": "Freeze the current control-plane baseline and enumerate authoritative CP-07 sources",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Timestamped source inventory tied to one main SHA",
+          "evidence_requirement": "Main branch SHA, CP-07 requirement, Goal Tree, progress protocol, schema, coordinator source and relevant issue/PR URLs",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S1_CANONICAL_INVENTORY",
+          "title": "Inventory all G-09/CP-07 parent goals, canonical leaf Work Items, dependencies, checkpoints and current statuses",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Complete goal-to-leaf inventory with canonical WORK_ITEM_IDs and disposition of duplicates/superseded items",
+          "evidence_requirement": "Live Issue bodies and labels, registry/checkpoint read-back, dependency graph and relevant PR links; open and closed Issues included",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S2_LEAF_PROGRESS",
+          "title": "Independently validate leaf execution, acceptance and overall progress from required evidence",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Per-leaf three-metric verification matrix with PASS/UNKNOWN/BLOCKED distinctions",
+          "evidence_requirement": "Required step/criterion definitions, evidence references, versioned weights where present and checkpoint/source read-back",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S3_PARENT_AGGREGATION",
+          "title": "Verify parent-goal aggregation includes every in-scope child and handles weighting, blockers and accepted/superseded states correctly",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Reproducible parent aggregation calculation and explicit child inclusion/exclusion rationale",
+          "evidence_requirement": "Protocol formula, complete child inventory, calculation inputs and reproducible arithmetic; no percentages inferred from commits/files",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S4_STATUS_DRIFT",
+          "title": "Cross-check Goal Tree, TASK_INDEX, MASTER_STATUS, Issue labels, checkpoints, PRs and registry for stale or contradictory status",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Status-drift matrix separating current facts from historical text",
+          "evidence_requirement": "Exact file refs/SHAs, Issue URLs, registry snapshot SHA and current PR/Actions evidence",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S5_GAP_RISK",
+          "title": "Classify CP-07 coverage, unknowns, risks and smallest non-overlapping follow-up work if gaps remain",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Evidence-backed CP-07 coverage verdict and bounded follow-up proposal without creating duplicate tasks",
+          "evidence_requirement": "Each gap linked to a source and existing-task duplicate/dependency/resource search; unavailable evidence marked UNKNOWN",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S6_REPORT_VERIFY",
+          "title": "Publish the audit package in the Issue thread and independently read it back",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Four deliverables with exact next action and reproducible source links",
+          "evidence_requirement": "Issue-thread evidence URLs, read-back confirmation, snapshot SHA and explicit READ_ONLY boundary verification",
+          "estimate_minutes": 3
+        }
+      ],
+      "acceptance_criteria": [
+        {
+          "criterion_id": "AC_SOURCE_INVENTORY",
+          "title": "All authoritative CP-07 requirements and relevant open/closed Work Items, checkpoints, dependencies and PRs are inventoried",
+          "evidence_requirement": "Source inventory with exact URLs, SHAs and UTC observation time; no guessed or omitted child records"
+        },
+        {
+          "criterion_id": "AC_LEAF_PROGRESS",
+          "title": "Each in-scope leaf's execution, acceptance and overall progress is reproducible from required evidence",
+          "evidence_requirement": "Three-metric matrix showing required counts, valid evidence references and explicit UNKNOWN/BLOCKED cases"
+        },
+        {
+          "criterion_id": "AC_PARENT_AGGREGATION",
+          "title": "Parent goal aggregation follows the versioned protocol and retains blocked/incomplete in-scope children in the denominator",
+          "evidence_requirement": "Reproducible calculation with every child, weight, status and inclusion/exclusion rationale"
+        },
+        {
+          "criterion_id": "AC_STATUS_CONSISTENCY",
+          "title": "Current Goal Tree, TASK_INDEX, MASTER_STATUS, Issues, checkpoints and registry discrepancies are explicitly reconciled without rewriting history",
+          "evidence_requirement": "Drift matrix with exact source refs and clear current-vs-historical classification"
+        },
+        {
+          "criterion_id": "AC_READONLY",
+          "title": "No repository file, branch, commit, PR, product data or registry is modified by this audit",
+          "evidence_requirement": "Claim branch=none, unchanged main SHA and confirmation that all output is confined to the Issue thread"
+        }
+      ],
+      "deliverables": [
+        {
+          "deliverable_id": "D1",
+          "description": "CP-07 canonical goal and Work Item inventory",
+          "evidence_requirement": "Issue-thread table with source URLs, SHAs, statuses, dependencies and duplicate dispositions"
+        },
+        {
+          "deliverable_id": "D2",
+          "description": "Evidence-backed leaf progress verification matrix",
+          "evidence_requirement": "Per-leaf execution/acceptance/overall values, counts, weights and evidence references"
+        },
+        {
+          "deliverable_id": "D3",
+          "description": "Parent aggregation and cross-register drift report",
+          "evidence_requirement": "Reproducible calculations and Goal Tree/TASK_INDEX/MASTER_STATUS/registry reconciliation"
+        },
+        {
+          "deliverable_id": "D4",
+          "description": "CP-07 gap, risk, UNKNOWN and follow-up register",
+          "evidence_requirement": "Each gap tied to evidence and existing-task search; deterministic next action without duplicate creation"
+        }
+      ],
+      "weighting": {
+        "version": "1.0"
+      },
+      "priority": 50,
+      "created_at_utc": "2026-11-24T11:06:18.000Z",
+      "allocation_provenance": {
+        "allocator_work_item_id": "WI-GOAL-ALLOCATOR-001",
+        "allocator_issue_number": 11,
+        "actor": "a4adelahmadian86-wq",
+        "chat_id": "CHAT-PR05-G09-20261124-01",
+        "run_id": "RUN-PR05-G09-ALLOCATOR-20261124-01",
+        "fencing_token": 194,
+        "branch": null,
+        "allocated_at_utc": "2026-11-24T11:06:18.000Z"
       }
     }
   },
