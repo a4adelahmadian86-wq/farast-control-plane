@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4092,
+  "revision": 4093,
   "next_fencing_token": 193,
   "locks": [
     {
@@ -32937,6 +32937,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-24T10:41:59.921Z"
+    },
+    "7129109681": {
+      "response": "معیار پذیرش ثبت شد: AC_ARTIFACT_PUBLICATION; ACCEPTANCE_PROGRESS=75%; OVERALL_COMPLETION=75%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 126,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-24T10:42:21.040Z"
     }
   },
   "work_items": {
@@ -42183,7 +42192,14 @@
           "criterion_id": "AC_ARTIFACT_PUBLICATION",
           "title": "Both required artifacts exist, are populated and read back from the dedicated branch; NON product files remain unchanged.",
           "required": true,
-          "evidence_requirement": "Exact commit and file URLs for both artifacts plus NON baseline comparison showing no product modifications."
+          "evidence_requirement": "Exact commit and file URLs for both artifacts plus NON baseline comparison showing no product modifications.",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/127"
+          ],
+          "validated_at_utc": "2026-11-24T10:42:21.040Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "priority": 50,
