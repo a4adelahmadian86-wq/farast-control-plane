@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4055,
+  "revision": 4056,
   "next_fencing_token": 193,
   "locks": [
     {
@@ -32703,6 +32703,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-24T10:37:04.800Z"
+    },
+    "7129021025": {
+      "response": "WORK_ITEM=WI-EXP03-CATALOG-ARTIFACT-REMEDIATION-001; EXECUTION_PROGRESS=28.57%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=2/7; verified_criteria=0/4; step_weighting=EQUAL_STEPS_V1; criteria_weighting=EQUAL_CRITERIA_V1; dependencies=PASS; can_accept=false. claim/lease مستقل از درصد است.",
+      "response_posted": false,
+      "issue_number": 126,
+      "actor": "a4adelahmadian86-wq",
+      "command": "progress",
+      "next_status": null,
+      "at_utc": "2026-11-24T10:37:26.513Z"
     }
   },
   "work_items": {
