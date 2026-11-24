@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4266,
+  "revision": 4267,
   "next_fencing_token": 199,
   "locks": [
     {
@@ -34245,6 +34245,15 @@
       "command": "reopen",
       "next_status": "ready",
       "at_utc": "2026-11-24T12:11:43.314Z"
+    },
+    "7131103544": {
+      "response": "STEP ثبت شد: S0_BASELINE; EXECUTION_PROGRESS=14.28%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=1/7.",
+      "response_posted": false,
+      "issue_number": 130,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-24T12:12:14.035Z"
     }
   },
   "work_items": {
@@ -44027,7 +44036,7 @@
       "parent_cp_ids": [
         "CP-07"
       ],
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "module:goal-progress-aggregation",
@@ -44051,7 +44060,14 @@
           "title": "Freeze the current control-plane baseline and verify the CP-07 aggregation gap against canonical requirements and implementation",
           "required": true,
           "expected_output": "A baseline map proving which leaf metrics exist and which parent-goal/CP aggregation paths are absent",
-          "evidence_requirement": "Exact main SHA, CP-07 requirement lines, progress protocol, work-item-core/coordinator/dispatch source refs, Issue #128 and open PR/Issue overlap search"
+          "evidence_requirement": "Exact main SHA, CP-07 requirement lines, progress protocol, work-item-core/coordinator/dispatch source refs, Issue #128 and open PR/Issue overlap search",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/130#issuecomment-7131039784"
+          ],
+          "validated_at_utc": "2026-11-24T12:12:14.035Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S1_CONTRACT",
