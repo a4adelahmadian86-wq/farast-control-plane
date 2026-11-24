@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4307,
+  "revision": 4308,
   "next_fencing_token": 201,
   "locks": [
     {
@@ -34630,6 +34630,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-24T12:23:50.979Z"
+    },
+    "7131393280": {
+      "response": "STEP ثبت شد: S4_CROSSCHECK; EXECUTION_PROGRESS=57.14%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=4/7.",
+      "response_posted": false,
+      "issue_number": 130,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-24T12:24:35.839Z"
     }
   },
   "work_items": {
@@ -44485,7 +44494,14 @@
           "title": "Cross-check aggregation outputs against independently calculated fixtures and the progress protocol",
           "required": true,
           "expected_output": "Reproducible comparison matrix for representative goal and CP trees with all denominators and weights shown",
-          "evidence_requirement": "Fixture inputs, manual arithmetic, engine outputs and PASS/FAIL/UNKNOWN disposition"
+          "evidence_requirement": "Fixture inputs, manual arithmetic, engine outputs and PASS/FAIL/UNKNOWN disposition",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/130#issuecomment-7131375634"
+          ],
+          "validated_at_utc": "2026-11-24T12:24:35.838Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S5_SCOPE_AUDIT",
