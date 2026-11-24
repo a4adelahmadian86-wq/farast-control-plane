@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4250,
+  "revision": 4251,
   "next_fencing_token": 198,
   "locks": [
     {
@@ -45111,9 +45111,9 @@
         "last_seen_at_utc": "2026-11-24T11:04:00.703Z"
       },
       "128": {
-        "reason": "registry_cas_conflict: another Issue advanced the shared registry; this command remains durable and must be replayed. latest=3c0733204c74dd5b6c982435f6a3f317037fe61d; cause=Update is not a fast forward",
+        "reason": "registry_cas_conflict: another Issue advanced the shared registry; this command remains durable and must be replayed. latest=026ac48f011d31bd0771aaed2577b5f7a3569850; cause=Update is not a fast forward",
         "count": 1,
-        "last_seen_at_utc": "2026-11-24T11:25:40.225Z"
+        "last_seen_at_utc": "2026-11-24T12:05:38.373Z"
       }
     }
   },
