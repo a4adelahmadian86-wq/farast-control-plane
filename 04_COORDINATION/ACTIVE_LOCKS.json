@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4213,
+  "revision": 4214,
   "next_fencing_token": 197,
   "locks": [
     {
@@ -33771,6 +33771,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-24T11:57:17.333Z"
+    },
+    "7130160026": {
+      "response": "معیار پذیرش ثبت شد: AC_LEAF_PROGRESS; ACCEPTANCE_PROGRESS=40%; OVERALL_COMPLETION=40%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 128,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-24T11:57:26.869Z"
     }
   },
   "work_items": {
@@ -43449,7 +43458,14 @@
         {
           "criterion_id": "AC_LEAF_PROGRESS",
           "title": "Each in-scope leaf's execution, acceptance and overall progress is reproducible from required evidence",
-          "evidence_requirement": "Three-metric matrix showing required counts, valid evidence references and explicit UNKNOWN/BLOCKED cases"
+          "evidence_requirement": "Three-metric matrix showing required counts, valid evidence references and explicit UNKNOWN/BLOCKED cases",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/128#issuecomment-7129861550"
+          ],
+          "validated_at_utc": "2026-11-24T11:57:26.868Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_PARENT_AGGREGATION",
