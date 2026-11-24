@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4363,
+  "revision": 4364,
   "next_fencing_token": 201,
   "locks": [
     {
@@ -35077,6 +35077,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-24T12:48:12.788Z"
+    },
+    "7131951699": {
+      "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-EXP07-GAP-ROOT-CAUSE-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=review; remaining_steps=.",
+      "response_posted": false,
+      "issue_number": 19,
+      "actor": "a4adelahmadian86-wq",
+      "command": "checkpoint",
+      "next_status": null,
+      "at_utc": "2026-11-24T12:48:58.160Z"
     }
   },
   "work_items": {
@@ -45234,6 +45243,54 @@
         "lease_expires_at_utc": "2026-11-23T17:49:52.502Z"
       },
       "next_action": "ثبت /farast review برای آزادسازی lease؛ سپس /farast accept فقط از مسیر evidence-only برای READ_ONLY؛ در صورت رد، blockerها را read-back و ثبت کن؛ هیچ branch یا PR محصول نساز"
+    },
+    "19": {
+      "work_item_id": "WI-EXP07-GAP-ROOT-CAUSE-001",
+      "run_id": "RUN-PR07-EXP07-RESUME-20261124-02",
+      "checkpoint_version": 1,
+      "created_at_utc": "2026-11-24T12:48:58.159Z",
+      "last_verified_step_id": "S7_VERIFY",
+      "current_step_id": "S7_VERIFY",
+      "completed_step_ids": [
+        "S1_DISCOVER",
+        "S2_MAP",
+        "S3_ANALYZE",
+        "S4_CROSSCHECK",
+        "S5_ASSESS",
+        "S6_REPORT",
+        "S7_VERIFY"
+      ],
+      "remaining_step_ids": [],
+      "progress_percentage": 100,
+      "execution_progress_percentage": 100,
+      "acceptance_progress_percentage": 100,
+      "overall_completion_percentage": 100,
+      "progress_calculation_version": "PROGRESS_V2",
+      "required_step_counts": {
+        "pass": 7,
+        "fail": 0,
+        "blocked": 0,
+        "unknown": 0,
+        "not_run": 0
+      },
+      "acceptance_criteria_counts": {
+        "pass": 4,
+        "fail": 0,
+        "blocked": 0,
+        "unknown": 0,
+        "not_run": 0
+      },
+      "evidence_refs": [
+        "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/19#issuecomment-7131851028"
+      ],
+      "blockers": [],
+      "owner": {
+        "actor": "a4adelahmadian86-wq",
+        "chat_id": "b7da9133-367a-46e5-9340-17b8ae9cbe7f",
+        "fencing_token": 200,
+        "lease_expires_at_utc": "2026-11-24T13:18:12.788Z"
+      },
+      "next_action": "review"
     },
     "33": {
       "work_item_id": "WI-EXP21-CHANGE-PACKAGE-001",
