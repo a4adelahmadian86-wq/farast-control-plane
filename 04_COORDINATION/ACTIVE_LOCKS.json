@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4331,
+  "revision": 4332,
   "next_fencing_token": 201,
   "locks": [
     {
@@ -34825,6 +34825,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-24T12:36:32.232Z"
+    },
+    "7131689645": {
+      "response": "معیار پذیرش ثبت شد: AC_PARENT_MEMBERSHIP; ACCEPTANCE_PROGRESS=16.66%; OVERALL_COMPLETION=16.66%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 130,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-24T12:37:21.946Z"
     }
   },
   "work_items": {
@@ -44723,7 +44732,14 @@
           "criterion_id": "AC_PARENT_MEMBERSHIP",
           "title": "Parent goal and CP membership is derived from canonical parent_goal_ids and parent_cp_ids, including multi-parent children without double-counting within one parent",
           "required": true,
-          "evidence_requirement": "Automated tests and fixture output for one/multiple goals, one/multiple CPs and duplicate references"
+          "evidence_requirement": "Automated tests and fixture output for one/multiple goals, one/multiple CPs and duplicate references",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/130#issuecomment-7131375634"
+          ],
+          "validated_at_utc": "2026-11-24T12:37:21.946Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Exact parent_goal_ids/parent_cp_ids intersection, multi-parent inclusion once per parent, duplicate goal reference and unclassified CP mapping are covered by automated fixtures."
         },
         {
           "criterion_id": "AC_EVIDENCE_WEIGHTING",
