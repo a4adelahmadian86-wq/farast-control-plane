@@ -3,11 +3,18 @@
 **Work Item:** `WI-EXP03-CATALOG-ARTIFACT-REMEDIATION-001` (control-plane Issue [#126](https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/126))  
 **Prompt:** `PR-03_CAPABILITY_DISCOVERY`  
 **Target product:** `a4adelahmadian86-wq/non`  
-**NON source snapshot:** `main` at `6d87b16018621a14ab5d6f1375939cbfda58390c`  
-**Control-plane source snapshot:** `main` at `f50f6b184e1baa61fd4a5bafc4f020b495b3ff88`  
+**NON source snapshot:** [`main` at `6d87b16018621a14ab5d6f1375939cbfda58390c`](https://github.com/a4adelahmadian86-wq/non/commit/6d87b16018621a14ab5d6f1375939cbfda58390c)  
+**Control-plane source snapshot:** [`main` at `f50f6b184e1baa61fd4a5bafc4f020b495b3ff88`](https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/f50f6b184e1baa61fd4a5bafc4f020b495b3ff88)  
 **Observed:** 2026-11-24 10:30:42 UTC  
 **Execution branch:** `work/GH-126-RUN-PR03-EXP03-CATALOG-20261124-01`  
 **Execution policy:** product repository READ_ONLY; only this control-plane artifact Work Item has WRITE_ALLOWED.
+
+
+## 0. Prior-artifact baseline and lineage
+
+- [Issue #15 draft comment](https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/15#issuecomment-7061118490) contained the earlier 15-capability non-Reader draft at NON SHA `90c5d6b0546f9026b401901399ffde3f3106c305`; this remediation rechecked those business families against the newer pinned main SHA above and added the excluded Reader plus other omitted families.
+- [Prior CSV on control-plane main](https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/03_PROJECT_STATE/CAPABILITY_REGISTER.csv) was header-only at baseline.
+- [Prior report path on control-plane main](https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/08_REPORTS/CAPABILITY_DISCOVERY.md) was absent (404) at baseline; this branch now creates the report.
 
 ## 1. Executive result
 
