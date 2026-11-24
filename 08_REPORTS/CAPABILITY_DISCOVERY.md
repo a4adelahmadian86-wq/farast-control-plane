@@ -18,7 +18,7 @@
 
 ## 1. Executive result
 
-The earlier register contained only a header and the prior discovery draft did not include several current route families. This revision replaces the empty register with **26 stable CAP_ID records**, each with actor, inputs/outputs, UI/API route references, server-side authorization, backend components, data references, dependencies, test-source pointers, an allowed evidence status, and source evidence links.
+The earlier register contained only a header and the prior discovery draft did not include several current route families. This revision replaces the empty register with **27 stable CAP_ID records**, each with actor, inputs/outputs, UI/API route references, server-side authorization, backend components, data references, dependencies, test-source pointers, an allowed evidence status, and source evidence links.
 
 The route-led inventory inspected all route modules loaded by the current `routes/web.php` entrypoint:
 
@@ -37,7 +37,7 @@ The route-led inventory inspected all route modules loaded by the current `route
 
 The current repository has no `routes/api.php` at the inspected ref (the path lookup returned 404); JSON endpoints are registered in the web route modules. This is not evidence that the application has no APIs.
 
-The register currently classifies 21 capabilities as `PRESENT_CODE_ONLY` and 5 as `PARTIAL`. No capability is marked `TESTED_IN_SCOPE` or `VERIFIED_RUNTIME`, because a passing test run or live runtime observation on the current `main` SHA was not established.
+After the complete tree and CI evidence pass, the register classifies **19 capabilities as `TESTED_IN_SCOPE`**, **5 as `PARTIAL`**, and **3 as `PRESENT_CODE_ONLY`**. No capability is marked `VERIFIED_RUNTIME`; a successful CI test run is not a substitute for an externally configured production runtime journey.
 
 ## 2. Method and evidence rules
 
@@ -105,7 +105,7 @@ Additional supplemental rows beyond the legacy 15 are therefore explicit, not si
 | CAP-PRODUCT-012 | Product files, ingestion, AI review, publication and retry | `/admin/store*`, `/admin/store/operations` | AdminStoreController; AdminProductSupervisorController; AdminProductOperationsController; ProcessProductDocument; ProductSupervisorClient | AdminStoreProductWorkflowTest; ProductPublicationReviewLifecycleTest; ProductLifecycleHealthTest; ProductInfrastructureHealthTest | PRESENT_CODE_ONLY |
 | CAP-PRICE-013 | Product price proposal and margin-safe acceptance | `/admin/store/price-proposals`, `/store/price-proposals/*` | StorePriceProposalController; StorePriceProposalService; StoreCouponMarginPolicy; audit/notification services | Dedicated test source not verified | PRESENT_CODE_ONLY |
 | CAP-CANVA-014 | Canva OAuth, design listing/create, import and export | `/canva/*`, `/integrations/canva/*` | CanvaController; CanvaService; CanvaConnection; SiteSetting | Canva-specific test source not verified | PARTIAL |
-| CAP-WORKSPACE-015 | Workspace documents/folders, sharing, workflows and OCR | `/workspace/documents`, `/workspace/workflows`, `/workspace/ocr` | PlatformCompletionController; EditorDocumentService; WorkflowEngine; workspace document/share/workflow data | PlatformCompletionTest; ProjectWorkflowTest | PRESENT_CODE_ONLY |
+| CAP-WORKSPACE-015 | Workspace documents/folders, sharing and OCR | `/workspace/documents`, `/workspace/folders`, `/workspace/ocr` | PlatformCompletionController document/share actions; EditorDocumentService; workspace document/share data | PlatformCompletionTest; WorkspaceDocumentManagementIntegrityTest; WorkspaceModuleAccessAndBillingIntegrityTest | TESTED_IN_SCOPE |
 | CAP-RBAC-016 | Roles, permissions and scoped access | `/admin/access-control/*` | AdminAccessController; AuthorizationService; AdminConsoleService; ResolveAdminScope; Role/Permission/Team/Organization | UnifiedAuthorizationTest; SupportTicketScopedAgentAccessTest | PRESENT_CODE_ONLY |
 | CAP-ADMIN-017 | Unified admin console, finance, settings, integrations and audit | `/admin/*` | AdminController; AdminConsoleService; CapabilityService; settings, wallet and user-capability data | UnifiedAuthorizationTest | PRESENT_CODE_ONLY |
 | CAP-SUPPORT-018 | Guest/customer tickets, attachments, SLA and CSAT | `/support/*`, `/admin/communications`, `/admin/support-report` | SupportController; SupportTicketService; SupportSlaService; Ticket/TicketMessage | SupportTicketAtomicWorkflowTest; SupportTicketScopedAgentAccessTest | PRESENT_CODE_ONLY |
@@ -115,9 +115,38 @@ Additional supplemental rows beyond the legacy 15 are therefore explicit, not si
 | CAP-ANNOUNCE-022 | Scheduled announcements and social links | `/announcements`, `/admin/announcements`, `/social` | AnnouncementController; SocialController; AnnouncementService; Announcement/SiteSetting | Dedicated test source not verified | PRESENT_CODE_ONLY |
 | CAP-USERFILES-023 | Customer file upload/list/select/delete | `/editor/files` | UserFileController; StorageManager; UserFile/private file metadata | Dedicated test source not verified | PRESENT_CODE_ONLY |
 | CAP-STORAGE-024 | Managed storage, volumes, backup and recovery | `/storage/*`, `/admin/storage*` | StorageManager; StorageBackupService; S3CompatibleAdapter; StorageManagedFile/StorageVolume/StorageBackupRun | StorageBackupRecoveryTest; StorageBackupRestoreIntegrationTest | PRESENT_CODE_ONLY |
-| CAP-OPS-025 | Observability, readiness and scheduled/queue operations | `/up`, `/ready`, `/observability`, product operations | FarastObservability; console commands; product operations and scheduled jobs | ProductInfrastructureHealthTest | PARTIAL |
+| CAP-OPS-025 | Observability, readiness and scheduled/queue operations | `/up`, `/ready`, `/observability`, product operations | FarastObservability; console commands; product operations and scheduled jobs | ProductInfrastructureHealthTest; FarastObservabilityTest; ReadinessCheckTest | PARTIAL |
+| CAP-WORKFLOW-027 | User-configurable workflow automation and event processing | `/workspace/workflows`; event outbox and scheduled retry | PlatformCompletionController; WorkflowEngine; farast_workflow_events and event-workflow mapping | WorkflowEventDispatchTest; DocumentQueueWorkerScheduleTest | TESTED_IN_SCOPE |
 
-The CSV is the field-complete machine-readable record for all 26 IDs. The table above is a navigation summary; consult the CSV for full input/output, route, permission, dependency, test-source and evidence-pointer fields.
+The CSV is the field-complete machine-readable record for all 27 IDs. The table above is a navigation summary; consult the CSV for full input/output, route, permission, dependency, test-source and evidence-pointer fields.
+
+
+
+## 3B. Recursive current-main source inventory and route-less capabilities
+
+The Git tree API was read recursively at NON `main` commit `6d87b16018621a14ab5d6f1375939cbfda58390c`. GitHub returned `truncated=false`.
+
+| Source area | Inventory result | Interpretation |
+|---|---:|---|
+| Complete tree | 1,341 entries; 1,226 blobs | Full path inventory returned without truncation |
+| `app/Jobs/` | 4 classes | All four queued jobs are mapped to owning capability rows |
+| `app/Events/` and `app/Listeners/` | No such directories | No conventional PHP event/listener classes were present in this tree |
+| `database/migrations/` | 134 migrations | Schema evidence; migration presence is not proof that a deployed database has applied them |
+| `app/Models/` | 107 model files | Model ownership and data boundaries cross-reference the architecture inventory |
+| `docs/` | 40 files | Includes capability, route, controller, model, migration and service architecture inventories plus product/operations documentation |
+| `app/Console/` | 23 files | Commands and scheduled operations are separate from HTTP route inventory |
+| `app/Services/` | 123 files | Service layer inventory |
+| `app/Http/Controllers/` | 56 files | Controller surface inventory |
+
+The four jobs and their capability ownership are:
+- `DeliverFarastEmail` → `CAP-COMMS-019` (durable email delivery).
+- `GenerateProductDocumentAudio` → `CAP-READER-010` (Reader synchronized audio generation).
+- `ProcessProductDocument` → `CAP-PRODUCT-012` (product-document ingestion/review pipeline).
+- `RunStorageBackupJob` → `CAP-STORAGE-024` (managed storage backup execution).
+
+The workflow journey is not merely document management: `/workspace/workflows` has its own owner-scoped CRUD/run actions and `workflows.view` / `workflows.manage` authorization; `WorkflowEngine` persists supported business events with idempotency keys and retries unfinished workflow mappings through a scheduled Artisan command. It is therefore separated from `CAP-WORKSPACE-015` as `CAP-WORKFLOW-027`. Test source and current-main PHPUnit execution are linked in the CSV.
+
+Primary evidence: [Git tree at pinned SHA](https://api.github.com/repos/a4adelahmadian86-wq/non/git/trees/6d87b16018621a14ab5d6f1375939cbfda58390c?recursive=1), [WorkflowEngine.php](https://github.com/a4adelahmadian86-wq/non/blob/6d87b16018621a14ab5d6f1375939cbfda58390c/app/Services/WorkflowEngine.php), [PlatformCompletionController.php](https://github.com/a4adelahmadian86-wq/non/blob/6d87b16018621a14ab5d6f1375939cbfda58390c/app/Http/Controllers/PlatformCompletionController.php), [WorkflowEventDispatchTest.php](https://github.com/a4adelahmadian86-wq/non/blob/6d87b16018621a14ab5d6f1375939cbfda58390c/tests/Feature/WorkflowEventDispatchTest.php), [routes/console.php](https://github.com/a4adelahmadian86-wq/non/blob/6d87b16018621a14ab5d6f1375939cbfda58390c/routes/console.php).
 
 ## 4. Server authorization and role/scope map
 
@@ -149,10 +178,12 @@ Evidence: [bootstrap/app.php](https://github.com/a4adelahmadian86-wq/non/blob/6d
 
 ### Evidence gaps
 
-- No passing test execution for the current NON `main` commit was returned. Test files are source pointers only. The commit-workflow-run lookup returned no PR-triggered run for this commit, and combined status did not provide a passing current-main check; this is **not** a test failure.
+- Passing CI evidence exists on the exact NON main SHA `6d87b16018621a14ab5d6f1375939cbfda58390c`: run [#45212841665](https://github.com/a4adelahmadian86-wq/non/actions/runs/45212841665) executed `php artisan test --colors=never` successfully; run [#45212841711](https://github.com/a4adelahmadian86-wq/non/actions/runs/45212841711) passed Laravel unit and feature suites, focused MySQL audit/feedback/ledger/product-document tests, admin-product browser E2E, reader browser regression, voice-service contract tests and document-audio smoke. Run [#45212841708](https://github.com/a4adelahmadian86-wq/non/actions/runs/45212841708) passed `FarastEditorAgentTest` and its browser journey. The voice-model smoke job in #45212841711 was **skipped**. The latest check [#45337974958](https://github.com/a4adelahmadian86-wq/non/actions/runs/45337974958) passed Render health/CORS and WebSocket handshake checks on the same SHA; it is not a full application test.
 - No browser/runtime session, production-like database, queue worker, scheduler/cron, private storage volume, email/SMS provider, payment gateway, AI provider, voice gateway or Canva OAuth credentials were available for verification.
-- The GitHub connector did not expose a recursive repository tree or code-search index for a complete enumeration of route-less Jobs, Events, Listeners, Migrations, Models and documentation. The 346 route declarations are fully enumerated for the route modules loaded by `routes/web.php`, but the route-less/background inventory is not yet exhaustive. This remains the principal blocker to claiming the whole product capability universe is complete.
-- Dedicated test sources were not located for editor agent, feedback pipeline, library/download, reader, price proposals, Canva, announcements/social and user-file management in the inspected paths. This is recorded as unknown test coverage, not as proof that no tests exist anywhere.
+- A recursive Git tree read at the pinned NON SHA completed with `truncated=false`: 1,341 entries / 1,226 blobs. The bounded source inventory contains 4 `app/Jobs` classes, no `app/Events` or `app/Listeners` directories, 134 migrations, 107 model files, 40 `docs/` files, 23 `app/Console/` files, 123 service files and 56 controller files. The 346 route declarations remain separately enumerated across route modules loaded by `routes/web.php`.
+- The four queued jobs are now mapped to their owning capabilities: `DeliverFarastEmail` → communications; `GenerateProductDocumentAudio` → Reader/audio; `ProcessProductDocument` → product ingestion; `RunStorageBackupJob` → managed storage/backup. `routes/console.php` registers the scheduler and worker/retry commands. No event/listener PHP classes exist under the conventional directories; the workflow event pipeline is implemented through `WorkflowEngine` and durable database outbox tables, and is now separately catalogued as `CAP-WORKFLOW-027`.
+- This is a complete recursive path inventory, not a claim that every line of all 1,226 source files was manually reviewed. Route-less domain mapping is based on the existing architecture inventories plus targeted inspection of job, workflow, migration, model and documentation evidence. No NON source files were changed.
+- The recursive test-path scan corrected several earlier false negatives: `FarastEditorAgentTest`, `FeedbackPipelineSchemaTest` / `FarastFeedbackEvidenceSchemaTest`, `StoreWishlistLibraryExperienceTest`, `StoreDownloadEntitlementIntegrityTest`, `StoreReaderAccessTest`, `StorePriceProposalWorkflowTest` and `CanvaServiceTest` exist. `UploadSecurityServiceTest` and `EnsurePrivateStorageDiskTest` cover shared upload/storage security, but do not by themselves prove the complete user-file journey. No dedicated announcement/social test filename was found in the bounded `tests/` tree.
 
 ## 6. Evidence-status policy
 
@@ -169,11 +200,11 @@ Evidence: [bootstrap/app.php](https://github.com/a4adelahmadian86-wq/non/blob/6d
 
 ## 7. Deliverables and validation
 
-- [CAPABILITY_REGISTER.csv](../03_PROJECT_STATE/CAPABILITY_REGISTER.csv) — 26 unique IDs, 20 columns, all rows have evidence pointers, and all statuses use the permitted vocabulary.
+- [CAPABILITY_REGISTER.csv](../03_PROJECT_STATE/CAPABILITY_REGISTER.csv) — 27 unique IDs, 20 columns, all rows have evidence pointers, and all statuses use the permitted vocabulary; current counts are 19 `TESTED_IN_SCOPE`, 5 `PARTIAL`, 3 `PRESENT_CODE_ONLY`.
 - [This report](./CAPABILITY_DISCOVERY.md) — method, route inventory, module map, permissions, findings and unresolved evidence gaps.
 - No code, migration, product data, NON branch, deployment or release was changed.
 - `03_PROJECT_STATE/TASK_INDEX.md` and `03_PROJECT_STATE/MASTER_STATUS.md` were not modified: they are outside this Work Item's exact `resource_keys` (which authorize only the CSV, this report and the capability-catalog artifact module). Updating those aggregate files requires a separately scoped lease; the canonical Issue/PR remain the evidence for this leaf.
-- No claim is made that all capabilities are runtime verified. The route-led register is usable as a discovery baseline, but the exhaustive route-less background inventory and runtime/test evidence remain open work.
+- No claim is made that all capabilities are runtime verified. The recursive tree inventory is complete for the pinned commit and the focused CI results are now attached to applicable rows; configured third-party provider journeys, production scheduler/worker operation and full end-user workflows outside CI remain unverified.
 
 ## 7A. Control-plane artifact validation CI
 
@@ -183,4 +214,4 @@ This CI validates the control-plane artifact branch only. It does **not** establ
 
 ## 8. Acceptance decision
 
-**Not ACCEPTED / not DONE_VERIFIED.** Artifact publication and row-level structural validation can pass, but the completeness criterion remains open until the remaining Jobs/Events/Listeners/Migrations/Models/documentation inventory is enumerated and the required runtime/test evidence is supplied. Do not infer acceptance from 100% step execution or from the presence of the two files.
+**Not ACCEPTED / not DONE_VERIFIED yet.** The recursive path inventory and current-main CI evidence close the previously documented discovery blocker, and a distinct workflow automation capability is now included. Final acceptance still requires read-back validation of the revised 27-row register/report and confirmation that the complete source-to-capability map has no additional distinct user-facing journeys. Do not infer `VERIFIED_RUNTIME` from CI, or infer acceptance from 100% step execution.
