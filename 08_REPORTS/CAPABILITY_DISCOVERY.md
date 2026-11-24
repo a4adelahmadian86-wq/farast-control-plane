@@ -62,6 +62,30 @@ Primary route and middleware evidence:
 - [bootstrap/app.php](https://github.com/a4adelahmadian86-wq/non/blob/6d87b16018621a14ab5d6f1375939cbfda58390c/bootstrap/app.php)
 - [routes/console.php](https://github.com/a4adelahmadian86-wq/non/blob/6d87b16018621a14ab5d6f1375939cbfda58390c/routes/console.php)
 
+## 2A. Disposition of the 15 legacy draft rows
+
+Each prior Issue #15 capability ID was retained as a business capability and remapped to current stable IDs. Where a prior row bundled multiple journeys, it is deliberately split rather than duplicated.
+
+| Legacy CAP_ID | Current CAP_ID(s) | Disposition |
+|---|---|---|
+| CAP-AUTH-01 | CAP-AUTH-001 | Retained; current auth routes/controller/test source rechecked. |
+| CAP-SEC-02 | CAP-SECURITY-002 | Retained; account security and 2FA routes/controller/test source rechecked. |
+| CAP-EDITOR-03 | CAP-EDITOR-004; CAP-EDITOR-AGENT-005; CAP-FEEDBACK-026 | Retained and split into editor/document lifecycle, task agent and feedback evidence pipeline; AI assist remains separately represented by CAP-AI-006. |
+| CAP-COMMERCE-04 | CAP-STORE-008; CAP-LIBRARY-009; CAP-READER-010; CAP-COURSE-011 | Retained and split into commerce transaction, purchased library/download, reader and course learning journeys. Reader was excluded from the prior draft and is added here. |
+| CAP-PRODUCT-05 | CAP-PRODUCT-012; CAP-PRICE-013 | Retained and split into product intake/review/publication operations and price proposal/margin decision. |
+| CAP-WORKSPACE-06 | CAP-WORKSPACE-015 | Retained; canonical workspace documents, sharing, workflows and OCR surfaces rechecked. |
+| CAP-RBAC-07 | CAP-RBAC-016; CAP-ADMIN-017 | Retained and split into authorization/scope enforcement and unified administration console. |
+| CAP-SUPPORT-08 | CAP-SUPPORT-018 | Retained; ticket/SLA/CSAT and scoped-agent paths rechecked. |
+| CAP-COMMS-09 | CAP-COMMS-019 | Retained; messenger and notification journeys rechecked. |
+| CAP-STORAGE-10 | CAP-STORAGE-024; CAP-USERFILES-023 | Retained and split into managed storage/backup operations and customer editor-file management. |
+| CAP-AI-11 | CAP-AI-006 | Retained; global/editor AI, quota/privacy and product context rechecked. Product content/supervisor functions also appear in CAP-PRODUCT-012. |
+| CAP-VOICE-12 | CAP-VOICE-007 | Retained; voice routes, provider router and test-source pointers rechecked. |
+| CAP-CRM-13 | CAP-CRM-020 | Retained; customer, follow-up, project and marketing routes/services/test sources rechecked. |
+| CAP-CONTENT-14 | CAP-CONTENT-021; CAP-ANNOUNCE-022 | Retained and split into blog/community/discussion and scheduled announcements/social links. |
+| CAP-OPS-15 | CAP-OPS-025 | Retained; observability, readiness and scheduler/queue source rechecked. |
+
+Additional supplemental rows beyond the legacy 15 are therefore explicit, not silent replacements: CAP-CANVA-014, CAP-PRICE-013, CAP-READER-010, CAP-COURSE-011, CAP-EDITOR-AGENT-005, CAP-FEEDBACK-026, CAP-USERFILES-023 and CAP-ADMIN-017. Their separate journeys are represented in the register with current-main evidence and test/runtime unknowns preserved.
+
 ## 3. Capability catalog and module map
 
 | CAP_ID | Capability / business journey | UI and API surface | Main backend and data | Test source | Status |
