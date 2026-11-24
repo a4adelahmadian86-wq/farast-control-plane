@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4276,
+  "revision": 4277,
   "next_fencing_token": 200,
   "locks": [
     {
@@ -34359,6 +34359,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-24T12:15:30.756Z"
+    },
+    "7131194629": {
+      "response": "STEP ثبت شد: S1_CONTRACT; EXECUTION_PROGRESS=28.57%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=2/7.",
+      "response_posted": false,
+      "issue_number": 130,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-24T12:15:56.100Z"
     }
   },
   "work_items": {
@@ -44179,7 +44188,14 @@
           "title": "Specify the pure parent aggregation contract for parent_goal_ids and parent_cp_ids, including weights, evidence validity, status and N/A behavior",
           "required": true,
           "expected_output": "A deterministic input/output contract and explicit inclusion/exclusion rules for every child leaf",
-          "evidence_requirement": "Versioned aggregation contract linked to CP-07 and PROGRESS_REPORTING_PROTOCOL v2.0.0; worked examples for equal and weighted aggregation"
+          "evidence_requirement": "Versioned aggregation contract linked to CP-07 and PROGRESS_REPORTING_PROTOCOL v2.0.0; worked examples for equal and weighted aggregation",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/130#issuecomment-7131180678"
+          ],
+          "validated_at_utc": "2026-11-24T12:15:56.099Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S2_ENGINE",
