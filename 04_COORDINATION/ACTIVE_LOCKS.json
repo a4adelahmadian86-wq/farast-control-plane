@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4199,
+  "revision": 4200,
   "next_fencing_token": 197,
   "locks": [
     {
@@ -33701,6 +33701,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-24T11:27:43.016Z"
+    },
+    "7130134159": {
+      "response": "معیار پذیرش ثبت شد: AC_SOURCE_INVENTORY; ACCEPTANCE_PROGRESS=20%; OVERALL_COMPLETION=20%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 128,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-24T11:28:14.300Z"
     }
   },
   "work_items": {
@@ -43367,7 +43376,14 @@
         {
           "criterion_id": "AC_SOURCE_INVENTORY",
           "title": "All authoritative CP-07 requirements and relevant open/closed Work Items, checkpoints, dependencies and PRs are inventoried",
-          "evidence_requirement": "Source inventory with exact URLs, SHAs and UTC observation time; no guessed or omitted child records"
+          "evidence_requirement": "Source inventory with exact URLs, SHAs and UTC observation time; no guessed or omitted child records",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/128#issuecomment-7129861550"
+          ],
+          "validated_at_utc": "2026-11-24T11:28:14.300Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_LEAF_PROGRESS",
