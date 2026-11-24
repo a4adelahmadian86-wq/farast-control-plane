@@ -210,7 +210,7 @@ Evidence: [bootstrap/app.php](https://github.com/a4adelahmadian86-wq/non/blob/6d
 
 The control-plane PR head `a8da2829bff57bd3ecde767c8c8a1193ddde5d38` completed [Control Plane Validation run #45376890057](https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/45376890057) with conclusion **success**. Its completed job included required-file checks, durable inbox scheduler regression fixtures, multi-chat contention/fencing fixtures, hierarchical progress/fairness/resume fixtures, specialist prompt dispatch fixtures, and JSON/bootstrap contract validation.
 
-This CI validates the control-plane artifact branch only. It does **not** establish that NON's application tests ran or that any NON capability works at runtime.
+This CI validates the control-plane artifact branch only. NON application test and browser evidence is separately recorded in §5 and in the CSV `Test_Run_Evidence` column; neither CI family alone proves persistent production runtime or external-provider configuration.
 
 ## 8. Acceptance decision
 
