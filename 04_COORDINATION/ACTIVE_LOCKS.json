@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4144,
+  "revision": 4145,
   "next_fencing_token": 196,
   "locks": [
     {
@@ -33362,6 +33362,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-24T11:17:00.832Z"
+    },
+    "7129904651": {
+      "response": "STEP ثبت شد: S1_CANONICAL_INVENTORY; EXECUTION_PROGRESS=28.57%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=2/7.",
+      "response_posted": false,
+      "issue_number": 128,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-24T11:17:37.044Z"
     }
   },
   "work_items": {
@@ -42723,7 +42732,14 @@
           "weight": 1,
           "expected_output": "Complete goal-to-leaf inventory with canonical WORK_ITEM_IDs and disposition of duplicates/superseded items",
           "evidence_requirement": "Live Issue bodies and labels, registry/checkpoint read-back, dependency graph and relevant PR links; open and closed Issues included",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/128#issuecomment-7129861550"
+          ],
+          "validated_at_utc": "2026-11-24T11:17:37.044Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S2_LEAF_PROGRESS",
