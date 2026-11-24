@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4332,
+  "revision": 4333,
   "next_fencing_token": 201,
   "locks": [
     {
@@ -34828,7 +34828,7 @@
     },
     "7131689645": {
       "response": "معیار پذیرش ثبت شد: AC_PARENT_MEMBERSHIP; ACCEPTANCE_PROGRESS=16.66%; OVERALL_COMPLETION=16.66%; can_accept=false.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 130,
       "actor": "a4adelahmadian86-wq",
       "command": "criterion",
