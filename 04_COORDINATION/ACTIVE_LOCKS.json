@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4053,
+  "revision": 4054,
   "next_fencing_token": 193,
   "locks": [
     {
@@ -32694,6 +32694,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-24T10:36:45.595Z"
+    },
+    "7129012298": {
+      "response": "STEP ثبت شد: S2_EXISTING_ROW_REVALIDATION; EXECUTION_PROGRESS=28.57%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=2/7.",
+      "response_posted": false,
+      "issue_number": 126,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-24T10:37:04.800Z"
     }
   },
   "work_items": {
@@ -41806,7 +41815,14 @@
           "weight": 1,
           "expected_output": "A row-by-row disposition of retained, corrected or unsupported existing capabilities, with current-SHA evidence.",
           "evidence_requirement": "Exact source and test/run URLs for each retained or corrected row; unsupported claims explicitly UNKNOWN.",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-126-RUN-PR03-EXP03-CATALOG-20261124-01/03_PROJECT_STATE/CAPABILITY_REGISTER.csv"
+          ],
+          "validated_at_utc": "2026-11-24T10:37:04.799Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S3_MISSING_CAPABILITY_DISCOVERY",
