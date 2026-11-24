@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4315,
+  "revision": 4316,
   "next_fencing_token": 201,
   "locks": [
     {
@@ -34702,6 +34702,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-24T12:28:18.266Z"
+    },
+    "7131499408": {
+      "response": "STEP ثبت شد: S3_TESTS; EXECUTION_PROGRESS=71.42%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=5/7.",
+      "response_posted": false,
+      "issue_number": 130,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-24T12:29:05.831Z"
     }
   },
   "work_items": {
@@ -44550,7 +44559,14 @@
           "title": "Add focused automated tests in .github/scripts/goal-progress-core.test.js for aggregation correctness and fail-closed edge cases",
           "required": true,
           "expected_output": "Regression suite covering parent membership, multiple parents, weighting, missing evidence, N/A, blockers, duplicate IDs and deterministic results",
-          "evidence_requirement": "Test command, exact-head CI log, assertions and test summary"
+          "evidence_requirement": "Test command, exact-head CI log, assertions and test summary",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/130#issuecomment-7131480197"
+          ],
+          "validated_at_utc": "2026-11-24T12:29:05.830Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S4_CROSSCHECK",
