@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4246,
+  "revision": 4247,
   "next_fencing_token": 198,
   "locks": [
     {
@@ -16183,6 +16183,17 @@
         "allocated_at_utc": "2026-11-24T12:01:20.214Z"
       },
       "at_utc": "2026-11-24T12:04:17.183Z"
+    },
+    {
+      "event": "WORK_ITEM_REFRESHED",
+      "issue_number": 130,
+      "work_item_id": "WI-CP07-PARENT-AGGREGATION-ENGINE-001",
+      "actor": "a4adelahmadian86-wq",
+      "preserved_steps": 0,
+      "preserved_criteria": 0,
+      "hard_gate_ready": true,
+      "hard_gate_blockers": [],
+      "at_utc": "2026-11-24T12:04:45.010Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -34043,6 +34054,15 @@
       "command": "block",
       "next_status": "blocked",
       "at_utc": "2026-11-24T12:04:02.164Z"
+    },
+    "7130926239": {
+      "response": "Work Item specification refreshed from Issue body; preserved_steps=0; preserved_criteria=0; hard_gates=PASS; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%.",
+      "response_posted": false,
+      "issue_number": 130,
+      "actor": "a4adelahmadian86-wq",
+      "command": "refresh",
+      "next_status": "ready",
+      "at_utc": "2026-11-24T12:04:45.010Z"
     }
   },
   "work_items": {
@@ -43804,6 +43824,168 @@
         "branch": null,
         "allocated_at_utc": "2026-11-24T11:06:18.000Z"
       }
+    },
+    "130": {
+      "schema_version": "1.0",
+      "operation_scope_version": "1.0",
+      "requested_operations": [
+        "control_plane_write"
+      ],
+      "write_policy": "WRITE_ALLOWED",
+      "priority_source": "DEFAULT_POLICY",
+      "work_item_id": "WI-CP07-PARENT-AGGREGATION-ENGINE-001",
+      "title": "Implement an isolated evidence-backed parent goal and CP aggregation engine",
+      "description": "Implement and test a deterministic, evidence-backed aggregation engine for CP-07. The current main computes leaf Work Item progress but does not aggregate parent_goal_ids or parent_cp_ids. This Work Item deliberately creates an isolated pure module and tests only; integration into coordinator commands, existing core files, dashboards or status registers is out of scope and must be separately allocated after review.",
+      "parent_goal_ids": [
+        "G-09"
+      ],
+      "parent_exp_ids": [
+        "EXP-01"
+      ],
+      "parent_cp_ids": [
+        "CP-07"
+      ],
+      "status": "READY",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "resource_keys": [
+        "module:goal-progress-aggregation",
+        "file:.github/scripts/goal-progress-core.js",
+        "file:.github/scripts/goal-progress-core.test.js"
+      ],
+      "dependencies": [],
+      "hard_gates": [],
+      "effort_estimate_minutes": 25,
+      "effort_rationale": "A bounded 25-minute implementation of one isolated aggregation engine and its regression suite. Existing coordinator/work-item files remain untouched to avoid overlap with Issue #107's post-merge review and the active read-only audit in Issue #128.",
+      "depth_profile": {
+        "profile_version": "2.0.0",
+        "min_substantive_steps": 6,
+        "min_acceptance_criteria": 4,
+        "min_deliverables": 3,
+        "target_effort_minutes": 25
+      },
+      "steps": [
+        {
+          "step_id": "S0_BASELINE",
+          "title": "Freeze the current control-plane baseline and verify the CP-07 aggregation gap against canonical requirements and implementation",
+          "required": true,
+          "expected_output": "A baseline map proving which leaf metrics exist and which parent-goal/CP aggregation paths are absent",
+          "evidence_requirement": "Exact main SHA, CP-07 requirement lines, progress protocol, work-item-core/coordinator/dispatch source refs, Issue #128 and open PR/Issue overlap search"
+        },
+        {
+          "step_id": "S1_CONTRACT",
+          "title": "Specify the pure parent aggregation contract for parent_goal_ids and parent_cp_ids, including weights, evidence validity, status and N/A behavior",
+          "required": true,
+          "expected_output": "A deterministic input/output contract and explicit inclusion/exclusion rules for every child leaf",
+          "evidence_requirement": "Versioned aggregation contract linked to CP-07 and PROGRESS_REPORTING_PROTOCOL v2.0.0; worked examples for equal and weighted aggregation"
+        },
+        {
+          "step_id": "S2_ENGINE",
+          "title": "Implement the isolated pure aggregation engine in .github/scripts/goal-progress-core.js without editing existing coordinator or Work Item core files",
+          "required": true,
+          "expected_output": "A pure module that groups canonical Work Items by goal/CP and returns evidence-backed execution, acceptance and overall metrics plus counts/blockers",
+          "evidence_requirement": "Exact branch commit diff and source read-back showing only the new module is added"
+        },
+        {
+          "step_id": "S3_TESTS",
+          "title": "Add focused automated tests in .github/scripts/goal-progress-core.test.js for aggregation correctness and fail-closed edge cases",
+          "required": true,
+          "expected_output": "Regression suite covering parent membership, multiple parents, weighting, missing evidence, N/A, blockers, duplicate IDs and deterministic results",
+          "evidence_requirement": "Test command, exact-head CI log, assertions and test summary"
+        },
+        {
+          "step_id": "S4_CROSSCHECK",
+          "title": "Cross-check aggregation outputs against independently calculated fixtures and the progress protocol",
+          "required": true,
+          "expected_output": "Reproducible comparison matrix for representative goal and CP trees with all denominators and weights shown",
+          "evidence_requirement": "Fixture inputs, manual arithmetic, engine outputs and PASS/FAIL/UNKNOWN disposition"
+        },
+        {
+          "step_id": "S5_SCOPE_AUDIT",
+          "title": "Audit the final diff for resource isolation, compatibility and forbidden side effects",
+          "required": true,
+          "expected_output": "Scope manifest confirming no changes to coordinator-core, work-item-core, workflows, status registers or NON",
+          "evidence_requirement": "Changed-file list, resource-key read-back, exact-head tests and repository comparison"
+        },
+        {
+          "step_id": "S6_HANDOFF",
+          "title": "Publish a review-ready PR and checkpoint the remaining integration work without merging",
+          "required": true,
+          "expected_output": "Review-ready PR, durable checkpoint and precise integration handoff for a separately scoped follow-up",
+          "evidence_requirement": "PR URL/head SHA, successful required checks, checkpoint URL and explicit no-merge confirmation"
+        }
+      ],
+      "acceptance_criteria": [
+        {
+          "criterion_id": "AC_PARENT_MEMBERSHIP",
+          "title": "Parent goal and CP membership is derived from canonical parent_goal_ids and parent_cp_ids, including multi-parent children without double-counting within one parent",
+          "required": true,
+          "evidence_requirement": "Automated tests and fixture output for one/multiple goals, one/multiple CPs and duplicate references"
+        },
+        {
+          "criterion_id": "AC_EVIDENCE_WEIGHTING",
+          "title": "Parent execution, acceptance and overall metrics use only verified PASS records with evidence and valid versioned weights or equal weighting fallback; undefined metrics remain N/A",
+          "required": true,
+          "evidence_requirement": "Tests for PASS without evidence, NOT_RUN/UNKNOWN/FAIL/BLOCKED, explicit weights, equal fallback and N/A cases"
+        },
+        {
+          "criterion_id": "AC_BLOCKER_DENOMINATOR",
+          "title": "Blocked and incomplete in-scope leaves remain in the denominator; cancelled or superseded leaves are excluded only with explicit approved disposition and rationale",
+          "required": true,
+          "evidence_requirement": "Tests and a reproducible inclusion/exclusion matrix with status, reason and denominator"
+        },
+        {
+          "criterion_id": "AC_DETERMINISTIC_OUTPUT",
+          "title": "Aggregation is deterministic, detects duplicate/cyclic hierarchy inputs and never fabricates a parent percentage from commits, files or labels",
+          "required": true,
+          "evidence_requirement": "Repeated fixture tests, duplicate/cycle negative tests and exact implementation assertions"
+        },
+        {
+          "criterion_id": "AC_TEST_COVERAGE",
+          "title": "Focused automated tests pass on the exact PR head and cover all required aggregation cases",
+          "required": true,
+          "evidence_requirement": "Exact-head CI run URL, job conclusion and test output"
+        },
+        {
+          "criterion_id": "AC_SCOPE_ISOLATION",
+          "title": "Only the two isolated aggregation module/test files are changed; no coordinator integration, existing core files, status registers, NON files, merge or deployment occurs",
+          "required": true,
+          "evidence_requirement": "PR changed-file list, diff review and repository/branch verification"
+        }
+      ],
+      "deliverables": [
+        {
+          "deliverable_id": "D1",
+          "description": "CP-07 parent aggregation contract and algorithm specification",
+          "evidence_requirement": "Versioned contract with formulas, parent membership, weight handling, N/A and status semantics"
+        },
+        {
+          "deliverable_id": "D2",
+          "description": "Isolated deterministic goal/CP aggregation module",
+          "evidence_requirement": "Exact source path, commit SHA and read-back"
+        },
+        {
+          "deliverable_id": "D3",
+          "description": "Automated regression suite and exact-head CI evidence",
+          "evidence_requirement": "Test file, command, CI URL, assertions and results"
+        },
+        {
+          "deliverable_id": "D4",
+          "description": "Integration handoff and known-gap register",
+          "evidence_requirement": "PR summary, remaining coordinator integration boundary and next Work Item proposal"
+        }
+      ],
+      "allocation_provenance": {
+        "allocator_work_item_id": "WI-GOAL-ALLOCATOR-001",
+        "allocator_issue_number": 11,
+        "actor": "a4adelahmadian86-wq",
+        "chat_id": "CHAT-PR06-G09-20261124-02",
+        "run_id": "RUN-PR06-G09-ALLOCATE-CP07-20261124-01",
+        "fencing_token": 197,
+        "branch": null,
+        "allocated_at_utc": "2026-11-24T12:01:20.214Z"
+      },
+      "priority": 50,
+      "created_at_utc": "2026-11-24T12:04:02.892Z"
     }
   },
   "checkpoints": {
