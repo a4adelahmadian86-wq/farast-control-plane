@@ -233,6 +233,44 @@ test('PASS without evidence contributes no verified progress', () => {
   assert.equal(result.unverified_pass_counts.required_steps, 1);
 });
 
+test('FAIL, UNKNOWN, BLOCKED and NOT_RUN validation states are counted but never treated as PASS', () => {
+  const mixed = item('WI-TEST-VALIDATION-STATES-001', {
+    steps: [
+      { step_id: 'S1', title: 'Pass', validation_status: 'PASS', evidence_refs: [EVIDENCE] },
+      { step_id: 'S2', title: 'Fail', validation_status: 'FAIL', evidence_refs: [EVIDENCE] },
+      { step_id: 'S3', title: 'Unknown', validation_status: 'UNKNOWN', evidence_refs: [EVIDENCE] },
+      { step_id: 'S4', title: 'Blocked', validation_status: 'BLOCKED', evidence_refs: [EVIDENCE] },
+      { step_id: 'S5', title: 'Not run', validation_status: 'NOT_RUN', evidence_refs: [] }
+    ],
+    acceptance_criteria: [
+      { criterion_id: 'AC1', title: 'Pass', validation_status: 'PASS', evidence_refs: [EVIDENCE] },
+      { criterion_id: 'AC2', title: 'Fail', validation_status: 'FAIL', evidence_refs: [EVIDENCE] },
+      { criterion_id: 'AC3', title: 'Unknown', validation_status: 'UNKNOWN', evidence_refs: [EVIDENCE] },
+      { criterion_id: 'AC4', title: 'Blocked', validation_status: 'BLOCKED', evidence_refs: [EVIDENCE] },
+      { criterion_id: 'AC5', title: 'Not run', validation_status: 'NOT_RUN', evidence_refs: [] }
+    ]
+  });
+  const result = aggregate([mixed]);
+  assert.equal(result.progress.execution_percentage, 20);
+  assert.equal(result.progress.acceptance_percentage, 20);
+  assert.equal(result.progress.overall_completion_percentage, 20);
+  assert.deepEqual(result.required_step_counts, { pass: 1, fail: 1, blocked: 1, unknown: 1, not_run: 1 });
+  assert.deepEqual(result.acceptance_criteria_counts, { pass: 1, fail: 1, blocked: 1, unknown: 1, not_run: 1 });
+});
+
+test('commit counts, file counts and labels cannot influence parent percentages', () => {
+  const baseline = item('WI-TEST-NO-FABRICATION-001');
+  const decorated = item('WI-TEST-NO-FABRICATION-001', {
+    commit_count: 99999,
+    changed_file_count: 99999,
+    labels: ['agent:done', 'priority:critical']
+  });
+  const baselineResult = aggregate([baseline]);
+  const decoratedResult = aggregate([decorated]);
+  assert.deepEqual(decoratedResult.progress, baselineResult.progress);
+  assert.deepEqual(decoratedResult.included_work_item_ids, baselineResult.included_work_item_ids);
+});
+
 test('malformed leaf with no required acceptance criterion fails closed to N/A', () => {
   const noCriteria = item('WI-TEST-NO-CRITERIA-001', { acceptance_criteria: [] });
   const result = aggregate([noCriteria]);
