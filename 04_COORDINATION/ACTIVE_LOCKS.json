@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4023,
+  "revision": 4024,
   "next_fencing_token": 192,
   "locks": [
     {
@@ -42527,10 +42527,10 @@
   },
   "inbox_scheduler": {
     "version": 1,
-    "last_page": 1,
-    "last_page_count": 25,
-    "page": 2,
-    "updated_at_utc": "2026-11-24T00:10:21.529Z",
+    "last_page": 2,
+    "last_page_count": 12,
+    "page": 1,
+    "updated_at_utc": "2026-11-24T09:48:12.313Z",
     "issue_errors": {
       "11": {
         "reason": "registry_cas_conflict: another Issue advanced the shared registry; this command remains durable and must be replayed. latest=ad6e5c9bc6d908d5264c95a20cd7205d6873cfc3; cause=Update is not a fast forward",
