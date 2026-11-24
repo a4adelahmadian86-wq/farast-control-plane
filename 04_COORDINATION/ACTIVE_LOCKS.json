@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4167,
+  "revision": 4168,
   "next_fencing_token": 197,
   "locks": [
     {
@@ -33542,6 +33542,15 @@
       "command": "status",
       "next_status": null,
       "at_utc": "2026-11-24T11:22:27.416Z"
+    },
+    "7130034193": {
+      "response": "STEP ثبت شد: S1_DISCOVER; EXECUTION_PROGRESS=14.28%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=1/7.",
+      "response_posted": false,
+      "issue_number": 18,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-24T11:23:29.052Z"
     }
   },
   "work_items": {
@@ -34733,7 +34742,7 @@
       "parent_exp_ids": [
         "EXP-06"
       ],
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/non",
       "resource_keys": [
         "analysis:exp-06"
@@ -34747,7 +34756,14 @@
           "weight": 1,
           "expected_output": "خروجی قابل بازبینی برای مرحله: کشف frameworkها، test suites، fixtures، CI workflows و محیط‌های قابل اجرا.",
           "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/18#issuecomment-7130031310"
+          ],
+          "validated_at_utc": "2026-11-24T11:23:29.052Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S2_MAP",
