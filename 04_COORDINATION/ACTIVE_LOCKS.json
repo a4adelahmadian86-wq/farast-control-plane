@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4194,
+  "revision": 4195,
   "next_fencing_token": 197,
   "locks": [
     {
@@ -33671,6 +33671,15 @@
       "command": "progress",
       "next_status": null,
       "at_utc": "2026-11-24T11:27:05.788Z"
+    },
+    "7130105315": {
+      "response": "STEP ثبت شد: S6_REPORT_VERIFY; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=7/7.",
+      "response_posted": false,
+      "issue_number": 128,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-24T11:27:14.564Z"
     }
   },
   "work_items": {
@@ -43323,7 +43332,14 @@
           "weight": 1,
           "expected_output": "Four deliverables with exact next action and reproducible source links",
           "evidence_requirement": "Issue-thread evidence URLs, read-back confirmation, snapshot SHA and explicit READ_ONLY boundary verification",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/128#issuecomment-7129861550"
+          ],
+          "validated_at_utc": "2026-11-24T11:27:14.563Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "acceptance_criteria": [
