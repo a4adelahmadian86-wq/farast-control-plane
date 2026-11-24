@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4111,
+  "revision": 4112,
   "next_fencing_token": 195,
   "locks": [
     {
@@ -43466,9 +43466,9 @@
         "last_seen_at_utc": "2026-11-22T11:43:39.492Z"
       },
       "126": {
-        "reason": "fetch failed",
+        "reason": "registry_cas_conflict: another Issue advanced the shared registry; this command remains durable and must be replayed. latest=3d09f647a5ac9e2bf3ff5642143caffaf7e0d5ea; cause=Update is not a fast forward",
         "count": 1,
-        "last_seen_at_utc": "2026-11-24T10:41:16.954Z"
+        "last_seen_at_utc": "2026-11-24T11:04:00.703Z"
       }
     }
   },
