@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4343,
+  "revision": 4344,
   "next_fencing_token": 201,
   "locks": [
     {
@@ -34915,6 +34915,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-24T12:41:16.402Z"
+    },
+    "7131798540": {
+      "response": "معیار پذیرش ثبت شد: AC_DETERMINISTIC_OUTPUT; ACCEPTANCE_PROGRESS=66.66%; OVERALL_COMPLETION=66.66%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 130,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-24T12:42:10.370Z"
     }
   },
   "work_items": {
@@ -44852,7 +44861,14 @@
           "criterion_id": "AC_DETERMINISTIC_OUTPUT",
           "title": "Aggregation is deterministic, detects duplicate/cyclic hierarchy inputs and never fabricates a parent percentage from commits, files or labels",
           "required": true,
-          "evidence_requirement": "Repeated fixture tests, duplicate/cycle negative tests and exact implementation assertions"
+          "evidence_requirement": "Repeated fixture tests, duplicate/cycle negative tests and exact implementation assertions",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/130#issuecomment-7131665908"
+          ],
+          "validated_at_utc": "2026-11-24T12:42:10.370Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Sorted deterministic output, duplicate stable-ID and cyclic/missing-parent detection, input immutability, and invariance to commit/file/label metadata are asserted; no repository activity is used as a progress numerator."
         },
         {
           "criterion_id": "AC_TEST_COVERAGE",
