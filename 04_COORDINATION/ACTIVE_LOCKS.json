@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4257,
+  "revision": 4258,
   "next_fencing_token": 199,
   "locks": [
     {
@@ -34167,7 +34167,7 @@
     },
     "7130968038": {
       "response": "Claim رد شد: این TASK هم‌اکنون در اختیار @a4adelahmadian86-wq با run=RUN-PR05-G09-CP07-AGGREGATOR-20261124-01 است؛ برای جلوگیری از دو نویسنده روی یک branch، ابتدا handoff یا انقضای lease لازم است.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 130,
       "actor": "a4adelahmadian86-wq",
       "command": "claim",
