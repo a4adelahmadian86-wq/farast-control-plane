@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4227,
+  "revision": 4228,
   "next_fencing_token": 197,
   "locks": [
     {
@@ -33870,6 +33870,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-24T11:59:36.806Z"
+    },
+    "7130823694": {
+      "response": "معیار پذیرش ثبت شد: AC_STATUS_CONSISTENCY; ACCEPTANCE_PROGRESS=60%; OVERALL_COMPLETION=60%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 128,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-24T12:00:13.345Z"
     }
   },
   "work_items": {
@@ -43572,7 +43581,14 @@
         {
           "criterion_id": "AC_STATUS_CONSISTENCY",
           "title": "Current Goal Tree, TASK_INDEX, MASTER_STATUS, Issues, checkpoints and registry discrepancies are explicitly reconciled without rewriting history",
-          "evidence_requirement": "Drift matrix with exact source refs and clear current-vs-historical classification"
+          "evidence_requirement": "Drift matrix with exact source refs and clear current-vs-historical classification",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/128#issuecomment-7130783728"
+          ],
+          "validated_at_utc": "2026-11-24T12:00:13.345Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Reconciled live Goal Tree, TASK_INDEX, MASTER_STATUS, GOAL_STATUS, EXP ledger, Issues, PRs and current registry; stale and historical states are explicitly distinguished."
         },
         {
           "criterion_id": "AC_READONLY",
