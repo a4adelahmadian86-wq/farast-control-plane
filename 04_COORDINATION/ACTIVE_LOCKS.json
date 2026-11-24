@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4071,
+  "revision": 4072,
   "next_fencing_token": 193,
   "locks": [
     {
@@ -32811,6 +32811,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-24T10:39:19.227Z"
+    },
+    "7129061989": {
+      "response": "STEP ثبت شد: S6_PUBLISH_ARTIFACTS; EXECUTION_PROGRESS=85.71%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=6/7.",
+      "response_posted": false,
+      "issue_number": 126,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-24T10:39:30.730Z"
     }
   },
   "work_items": {
@@ -41987,7 +41996,14 @@
           "weight": 1,
           "expected_output": "Both required artifact files populated, internally consistent and linked from the Work Item.",
           "evidence_requirement": "Exact branch/commit and file URLs for 03_PROJECT_STATE/CAPABILITY_REGISTER.csv and 08_REPORTS/CAPABILITY_DISCOVERY.md.",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/127"
+          ],
+          "validated_at_utc": "2026-11-24T10:39:30.729Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S7_READBACK_AND_VALIDATION",
