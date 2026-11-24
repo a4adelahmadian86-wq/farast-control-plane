@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4335,
+  "revision": 4336,
   "next_fencing_token": 201,
   "locks": [
     {
@@ -34855,6 +34855,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-24T12:38:06.358Z"
+    },
+    "7131727245": {
+      "response": "معیار پذیرش ثبت شد: AC_EVIDENCE_WEIGHTING; ACCEPTANCE_PROGRESS=33.33%; OVERALL_COMPLETION=33.33%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 130,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-24T12:39:01.250Z"
     }
   },
   "work_items": {
@@ -44766,7 +44775,14 @@
           "criterion_id": "AC_EVIDENCE_WEIGHTING",
           "title": "Parent execution, acceptance and overall metrics use only verified PASS records with evidence and valid versioned weights or equal weighting fallback; undefined metrics remain N/A",
           "required": true,
-          "evidence_requirement": "Tests for PASS without evidence, NOT_RUN/UNKNOWN/FAIL/BLOCKED, explicit weights, equal fallback and N/A cases"
+          "evidence_requirement": "Tests for PASS without evidence, NOT_RUN/UNKNOWN/FAIL/BLOCKED, explicit weights, equal fallback and N/A cases",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/130#issuecomment-7131665908"
+          ],
+          "validated_at_utc": "2026-11-24T12:39:01.249Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Leaf metrics are sourced from calculateProgress/evidenceVerified; equal and versioned weights, PASS without evidence, FAIL, UNKNOWN, BLOCKED, NOT_RUN and N/A behavior are covered."
         },
         {
           "criterion_id": "AC_BLOCKER_DENOMINATOR",
