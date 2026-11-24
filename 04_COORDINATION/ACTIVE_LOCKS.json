@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4186,
+  "revision": 4187,
   "next_fencing_token": 197,
   "locks": [
     {
@@ -33623,6 +33623,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-24T11:26:15.673Z"
+    },
+    "7130052664": {
+      "response": "معیار پذیرش ثبت شد: AC_OUTPUT; ACCEPTANCE_PROGRESS=75%; OVERALL_COMPLETION=75%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 18,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-24T11:26:26.384Z"
     }
   },
   "work_items": {
@@ -34962,7 +34971,14 @@
         {
           "criterion_id": "AC_OUTPUT",
           "title": "خروجی‌های تخصصی EXP-06 تولید و read-back شده‌اند: test inventory، execution evidence، coverage/gap report.",
-          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion."
+          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion.",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/18#issuecomment-7130031310"
+          ],
+          "validated_at_utc": "2026-11-24T11:26:26.384Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_ACCEPTANCE",
