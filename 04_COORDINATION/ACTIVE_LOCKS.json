@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4152,
+  "revision": 4153,
   "next_fencing_token": 196,
   "locks": [
     {
@@ -33422,6 +33422,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-24T11:18:57.756Z"
+    },
+    "7129943841": {
+      "response": "STEP ثبت شد: S3_PARENT_AGGREGATION; EXECUTION_PROGRESS=57.14%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=4/7.",
+      "response_posted": false,
+      "issue_number": 128,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-24T11:19:25.336Z"
     }
   },
   "work_items": {
@@ -42815,7 +42824,14 @@
           "weight": 1,
           "expected_output": "Reproducible parent aggregation calculation and explicit child inclusion/exclusion rationale",
           "evidence_requirement": "Protocol formula, complete child inventory, calculation inputs and reproducible arithmetic; no percentages inferred from commits/files",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/128#issuecomment-7129861550"
+          ],
+          "validated_at_utc": "2026-11-24T11:19:25.335Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S4_STATUS_DRIFT",
