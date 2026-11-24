@@ -172,6 +172,7 @@ Evidence: [bootstrap/app.php](https://github.com/a4adelahmadian86-wq/non/blob/6d
 - [CAPABILITY_REGISTER.csv](../03_PROJECT_STATE/CAPABILITY_REGISTER.csv) — 26 unique IDs, 20 columns, all rows have evidence pointers, and all statuses use the permitted vocabulary.
 - [This report](./CAPABILITY_DISCOVERY.md) — method, route inventory, module map, permissions, findings and unresolved evidence gaps.
 - No code, migration, product data, NON branch, deployment or release was changed.
+- `03_PROJECT_STATE/TASK_INDEX.md` and `03_PROJECT_STATE/MASTER_STATUS.md` were not modified: they are outside this Work Item's exact `resource_keys` (which authorize only the CSV, this report and the capability-catalog artifact module). Updating those aggregate files requires a separately scoped lease; the canonical Issue/PR remain the evidence for this leaf.
 - No claim is made that all capabilities are runtime verified. The route-led register is usable as a discovery baseline, but the exhaustive route-less background inventory and runtime/test evidence remain open work.
 
 ## 8. Acceptance decision
