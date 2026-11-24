@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4049,
+  "revision": 4050,
   "next_fencing_token": 193,
   "locks": [
     {
@@ -32664,6 +32664,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-24T10:36:02.109Z"
+    },
+    "7128996235": {
+      "response": "STEP ثبت شد: S1_BASELINE_REVALIDATION; EXECUTION_PROGRESS=14.28%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=1/7.",
+      "response_posted": false,
+      "issue_number": 126,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-24T10:36:22.773Z"
     }
   },
   "work_items": {
@@ -41744,7 +41753,7 @@
       "parent_exp_ids": [
         "EXP-03"
       ],
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "file:03_PROJECT_STATE/CAPABILITY_REGISTER.csv",
@@ -41760,7 +41769,14 @@
           "weight": 1,
           "expected_output": "A reproducible baseline manifest with both repository SHAs, the 15 existing CAP_IDs, and the exact missing/empty artifact findings.",
           "evidence_requirement": "Direct GitHub URLs to both main commits, Issue #15 draft comment, CSV blob and report-path 404/read-back.",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-126-RUN-PR03-EXP03-CATALOG-20261124-01/08_REPORTS/CAPABILITY_DISCOVERY.md"
+          ],
+          "validated_at_utc": "2026-11-24T10:36:22.772Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S2_EXISTING_ROW_REVALIDATION",
