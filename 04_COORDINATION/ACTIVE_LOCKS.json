@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4209,
+  "revision": 4210,
   "next_fencing_token": 197,
   "locks": [
     {
@@ -33741,6 +33741,15 @@
       "command": "status",
       "next_status": null,
       "at_utc": "2026-11-24T11:29:26.754Z"
+    },
+    "7130159825": {
+      "response": "Work Item ACCEPTED: همه گام‌ها، معیارها، شواهد و hard gateها با موفقیت احراز شدند؛ سیاست READ_ONLY است، بنابراین PR/branch محصول لازم نیست؛ هیچ Review انسانی دوم شرط پذیرش نیست.",
+      "response_posted": false,
+      "issue_number": 18,
+      "actor": "a4adelahmadian86-wq",
+      "command": "accept",
+      "next_status": "done",
+      "at_utc": "2026-11-24T11:29:37.289Z"
     }
   },
   "work_items": {
@@ -34932,7 +34941,7 @@
       "parent_exp_ids": [
         "EXP-06"
       ],
-      "status": "REVIEW_REQUIRED",
+      "status": "ACCEPTED",
       "target_repository": "a4adelahmadian86-wq/non",
       "resource_keys": [
         "analysis:exp-06"
