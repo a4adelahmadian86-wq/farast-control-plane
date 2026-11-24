@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4077,
+  "revision": 4078,
   "next_fencing_token": 193,
   "locks": [
     {
@@ -32850,6 +32850,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-24T10:40:02.406Z"
+    },
+    "7129081553": {
+      "response": "STEP ثبت شد: S7_READBACK_AND_VALIDATION; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=7/7.",
+      "response_posted": false,
+      "issue_number": 126,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-24T10:40:22.189Z"
     }
   },
   "work_items": {
@@ -42042,7 +42051,14 @@
           "weight": 1,
           "expected_output": "A reproducible validation record with row counts, duplicate check, missing-evidence count, allowed-status check and exact commit SHA.",
           "evidence_requirement": "Direct GitHub read-back links and machine-readable validation output or test evidence; no chat-only assertion.",
-          "estimate_minutes": 2
+          "estimate_minutes": 2,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-126-RUN-PR03-EXP03-CATALOG-20261124-01/08_REPORTS/CAPABILITY_DISCOVERY.md"
+          ],
+          "validated_at_utc": "2026-11-24T10:40:22.188Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "acceptance_criteria": [
