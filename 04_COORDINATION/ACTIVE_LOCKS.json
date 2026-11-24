@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4278,
+  "revision": 4279,
   "next_fencing_token": 200,
   "locks": [
     {
@@ -49,22 +49,6 @@
       "heartbeat_at_utc": "2026-11-24T12:15:30.756Z",
       "lease_expires_at_utc": "2026-11-24T12:45:30.756Z",
       "fencing_token": 198,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "analysis:exp-07",
-      "issue_number": 19,
-      "task_id": "GH-19",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "CHAT-PR07-EXP07-20261124-01",
-      "chat_id": "CHAT-PR07-EXP07-20261124-01",
-      "run_id": "RUN-PR07-EXP07-RESUME-20261124-01",
-      "target_repository": "a4adelahmadian86-wq/non",
-      "branch": null,
-      "acquired_at_utc": "2026-11-24T12:12:28.468Z",
-      "heartbeat_at_utc": "2026-11-24T12:13:43.906Z",
-      "lease_expires_at_utc": "2026-11-24T12:43:43.906Z",
-      "fencing_token": 199,
       "status": "ACTIVE"
     }
   ],
@@ -16373,6 +16357,17 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "lease_expires_at_utc": "2026-11-24T12:45:30.756Z",
       "at_utc": "2026-11-24T12:15:30.756Z"
+    },
+    {
+      "event": "RELEASE",
+      "issue_number": 19,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-PR07-EXP07-20261124-01",
+      "run_id": "RUN-PR07-EXP07-RESUME-20261124-01",
+      "fencing_token": 199,
+      "branch": null,
+      "target_repository": "a4adelahmadian86-wq/non",
+      "at_utc": "2026-11-24T12:16:26.358Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -34368,6 +34363,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-24T12:15:56.100Z"
+    },
+    "7131201905": {
+      "response": "Lease آزاد شد؛ وظیفه تکمیل‌شده محسوب نمی‌شود.",
+      "response_posted": false,
+      "issue_number": 19,
+      "actor": "a4adelahmadian86-wq",
+      "command": "release",
+      "next_status": "ready",
+      "at_utc": "2026-11-24T12:16:26.359Z"
     }
   },
   "work_items": {
@@ -35770,7 +35774,7 @@
       "parent_exp_ids": [
         "EXP-07"
       ],
-      "status": "CLAIMED",
+      "status": "READY",
       "target_repository": "a4adelahmadian86-wq/non",
       "resource_keys": [
         "analysis:exp-07"
