@@ -11,7 +11,7 @@
 
 ## 1. Executive result
 
-The earlier register contained only a header and the prior discovery draft did not include several current route families. This revision replaces the empty register with **25 stable CAP_ID records**, each with actor, inputs/outputs, UI/API route references, server-side authorization, backend components, data references, dependencies, test-source pointers, an allowed evidence status, and source evidence links.
+The earlier register contained only a header and the prior discovery draft did not include several current route families. This revision replaces the empty register with **26 stable CAP_ID records**, each with actor, inputs/outputs, UI/API route references, server-side authorization, backend components, data references, dependencies, test-source pointers, an allowed evidence status, and source evidence links.
 
 The route-led inventory inspected all route modules loaded by the current `routes/web.php` entrypoint:
 
@@ -30,7 +30,7 @@ The route-led inventory inspected all route modules loaded by the current `route
 
 The current repository has no `routes/api.php` at the inspected ref (the path lookup returned 404); JSON endpoints are registered in the web route modules. This is not evidence that the application has no APIs.
 
-The register currently classifies 20 capabilities as `PRESENT_CODE_ONLY` and 5 as `PARTIAL`. No capability is marked `TESTED_IN_SCOPE` or `VERIFIED_RUNTIME`, because a passing test run or live runtime observation on the current `main` SHA was not established.
+The register currently classifies 21 capabilities as `PRESENT_CODE_ONLY` and 5 as `PARTIAL`. No capability is marked `TESTED_IN_SCOPE` or `VERIFIED_RUNTIME`, because a passing test run or live runtime observation on the current `main` SHA was not established.
 
 ## 2. Method and evidence rules
 
@@ -64,6 +64,7 @@ Primary route and middleware evidence:
 | CAP-TYPING-003 | Project intake, typing estimate, preflight and billing | `/projects/*`, `/editor/preflight/*` | ProjectController; TypingPreflightController; ProjectBillingService; FarastProject, Order | ProjectWorkflowTest; PricingPolicyTest | PARTIAL |
 | CAP-EDITOR-004 | Document editing, save, versions, restore and export | `/editor/*`, `/editor/documents/*` | EditorController; EditorDocumentService; ExportController; TypingDocument, FarastDocument, versions | EditorRuntimeContractTest; EditorExportSmokeTest | PRESENT_CODE_ONLY |
 | CAP-EDITOR-AGENT-005 | AI edit planning, approval, commit and undo | `/editor/agent/*` | EditorAgentController; FarastEditorAgent; FarastAgentTask; tool/validation services | Dedicated test source not verified | PRESENT_CODE_ONLY |
+| CAP-FEEDBACK-026 | Editor feedback and evidence pipeline | `/editor/feedback` | EditorController; FeedbackPipelineService; AiFeedback; FarastFeedbackEvidence; farast_review_cases | Dedicated feedback-pipeline test source not verified | PRESENT_CODE_ONLY |
 | CAP-AI-006 | Global assistant, editor AI, memory/history and product context | `/assistant/*`, `/editor/ai/assist` | GlobalAssistantController; EditorAiAssistService; AiOrchestrator; AiQuotaService; AiPrivacyPolicy; AiProviderRegistry; AiInteraction | EditorAiAssistTest; CommercePhase3Test | PARTIAL |
 | CAP-VOICE-007 | Voice status, transcription, synthesis and streaming | `/assistant/voice/*`, `/assistant/transcribe`, `/editor/voice/*` | VoiceController; VoiceTranscriptionService; VoiceProviderRouter; VoiceQuotaManager; VoiceProviderAccount | GlobalAssistantVoiceTest; VoiceSecurityTest; VoiceProviderDashboardIntegrationTest | PARTIAL |
 | CAP-STORE-008 | Store browse/search, cart, coupon, checkout, wallet and payment | `/store/*`, `/cart/*`, `/checkout/*`, `/wallet/*` | StoreController; StoreCartController; PaymentController; WalletController; StoreCartService; PricingEngine; Order/Payment/Wallet | CommercePhase3Test; PricingPolicyTest | PRESENT_CODE_ONLY |
@@ -85,7 +86,7 @@ Primary route and middleware evidence:
 | CAP-STORAGE-024 | Managed storage, volumes, backup and recovery | `/storage/*`, `/admin/storage*` | StorageManager; StorageBackupService; S3CompatibleAdapter; StorageManagedFile/StorageVolume/StorageBackupRun | StorageBackupRecoveryTest; StorageBackupRestoreIntegrationTest | PRESENT_CODE_ONLY |
 | CAP-OPS-025 | Observability, readiness and scheduled/queue operations | `/up`, `/ready`, `/observability`, product operations | FarastObservability; console commands; product operations and scheduled jobs | ProductInfrastructureHealthTest | PARTIAL |
 
-The CSV is the field-complete machine-readable record for all 25 IDs. The table above is a navigation summary; consult the CSV for full input/output, route, permission, dependency, test-source and evidence-pointer fields.
+The CSV is the field-complete machine-readable record for all 26 IDs. The table above is a navigation summary; consult the CSV for full input/output, route, permission, dependency, test-source and evidence-pointer fields.
 
 ## 4. Server authorization and role/scope map
 
@@ -120,7 +121,7 @@ Evidence: [bootstrap/app.php](https://github.com/a4adelahmadian86-wq/non/blob/6d
 - No passing test execution for the current NON `main` commit was returned. Test files are source pointers only. The commit-workflow-run lookup returned no PR-triggered run for this commit, and combined status did not provide a passing current-main check; this is **not** a test failure.
 - No browser/runtime session, production-like database, queue worker, scheduler/cron, private storage volume, email/SMS provider, payment gateway, AI provider, voice gateway or Canva OAuth credentials were available for verification.
 - The GitHub connector did not expose a recursive repository tree or code-search index for a complete enumeration of route-less Jobs, Events, Listeners, Migrations, Models and documentation. The 346 route declarations are fully enumerated for the route modules loaded by `routes/web.php`, but the route-less/background inventory is not yet exhaustive. This remains the principal blocker to claiming the whole product capability universe is complete.
-- Dedicated test sources were not located for editor agent, library/download, reader, price proposals, Canva, announcements/social and user-file management in the inspected paths. This is recorded as unknown test coverage, not as proof that no tests exist anywhere.
+- Dedicated test sources were not located for editor agent, feedback pipeline, library/download, reader, price proposals, Canva, announcements/social and user-file management in the inspected paths. This is recorded as unknown test coverage, not as proof that no tests exist anywhere.
 
 ## 6. Evidence-status policy
 
@@ -137,7 +138,7 @@ Evidence: [bootstrap/app.php](https://github.com/a4adelahmadian86-wq/non/blob/6d
 
 ## 7. Deliverables and validation
 
-- [CAPABILITY_REGISTER.csv](../03_PROJECT_STATE/CAPABILITY_REGISTER.csv) — 25 unique IDs, 20 columns, all rows have evidence pointers, and all statuses use the permitted vocabulary.
+- [CAPABILITY_REGISTER.csv](../03_PROJECT_STATE/CAPABILITY_REGISTER.csv) — 26 unique IDs, 20 columns, all rows have evidence pointers, and all statuses use the permitted vocabulary.
 - [This report](./CAPABILITY_DISCOVERY.md) — method, route inventory, module map, permissions, findings and unresolved evidence gaps.
 - No code, migration, product data, NON branch, deployment or release was changed.
 - No claim is made that all capabilities are runtime verified. The route-led register is usable as a discovery baseline, but the exhaustive route-less background inventory and runtime/test evidence remain open work.
