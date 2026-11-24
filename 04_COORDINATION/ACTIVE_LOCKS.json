@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4081,
+  "revision": 4082,
   "next_fencing_token": 193,
   "locks": [
     {
@@ -32868,6 +32868,15 @@
       "command": "progress",
       "next_status": null,
       "at_utc": "2026-11-24T10:40:44.811Z"
+    },
+    "7129095407": {
+      "response": "معیار پذیرش ثبت شد: AC_ROW_TRACEABILITY; ACCEPTANCE_PROGRESS=25%; OVERALL_COMPLETION=25%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 126,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-24T10:40:56.057Z"
     }
   },
   "work_items": {
@@ -42081,7 +42090,14 @@
           "criterion_id": "AC_ROW_TRACEABILITY",
           "title": "Every CSV row has stable CAP_ID, name, description, actor, input/output, UI/API path, server permission, backend components, data, dependencies, test evidence, status and source pointer.",
           "required": true,
-          "evidence_requirement": "CSV read-back and report evidence matrix with exact GitHub file/test/run URLs and source SHAs."
+          "evidence_requirement": "CSV read-back and report evidence matrix with exact GitHub file/test/run URLs and source SHAs.",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-126-RUN-PR03-EXP03-CATALOG-20261124-01/03_PROJECT_STATE/CAPABILITY_REGISTER.csv"
+          ],
+          "validated_at_utc": "2026-11-24T10:40:56.056Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_STATUS_AND_UNKNOWNS",
