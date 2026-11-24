@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4088,
+  "revision": 4089,
   "next_fencing_token": 193,
   "locks": [
     {
@@ -32907,6 +32907,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-24T10:41:39.276Z"
+    },
+    "7129106383": {
+      "response": "معیار پذیرش ثبت شد: AC_COMPLETE_COVERAGE; ACCEPTANCE_PROGRESS=50%; OVERALL_COMPLETION=50%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 126,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-24T10:41:49.820Z"
     }
   },
   "work_items": {
@@ -42114,7 +42123,14 @@
           "criterion_id": "AC_COMPLETE_COVERAGE",
           "title": "All 15 existing rows are revalidated and previously omitted evidenced capability families are added without semantic duplication.",
           "required": true,
-          "evidence_requirement": "CSV read-back plus current-main source map showing each retained/added CAP_ID and explicitly recorded UNKNOWN/NOT_FOUND items."
+          "evidence_requirement": "CSV read-back plus current-main source map showing each retained/added CAP_ID and explicitly recorded UNKNOWN/NOT_FOUND items.",
+          "validation_status": "BLOCKED",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-126-RUN-PR03-EXP03-CATALOG-20261124-01/08_REPORTS/CAPABILITY_DISCOVERY.md"
+          ],
+          "validated_at_utc": "2026-11-24T10:41:49.820Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_ROW_TRACEABILITY",
