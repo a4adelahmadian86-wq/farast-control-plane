@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4127,
+  "revision": 4128,
   "next_fencing_token": 196,
   "locks": [
     {
@@ -33261,7 +33261,7 @@
     },
     "7129709018": {
       "response": "CLAIM GRANTED. TASK=GH-128; WORK_ITEM_ID=WI-CP07-GOAL-PROGRESS-AGGREGATION-001; verified_steps=; remaining_steps=S0_BASELINE,S1_CANONICAL_INVENTORY,S2_LEAF_PROGRESS,S3_PARENT_AGGREGATION,S4_STATUS_DRIFT,S5_GAP_RISK,S6_REPORT_VERIFY; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; actor=@a4adelahmadian86-wq; chat=CHAT-PR05-G09-20261124-01; run=RUN-PR05-G09-CP07-AUDIT-20261124-01; resource_keys=analysis:cp-07-goal-progress-aggregation; target_repository=a4adelahmadian86-wq/farast-control-plane; write_policy=READ_ONLY; branch=none; previous_run=none; fencing_token=195; lease_expires=2026-11-24T11:39:56.984Z. این Work Item با سیاست READ_ONLY است؛ در target_repository هیچ branch، file، commit یا PR ایجاد/تغییر نده. شواهد را فقط در Issue thread یا محل مجاز control-plane ثبت کن؛ برای WRITE_REQUIRES_OWNER_APPROVAL فقط proposal ارائه بده.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 128,
       "actor": "a4adelahmadian86-wq",
       "command": "claim",
