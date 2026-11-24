@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4233,
+  "revision": 4234,
   "next_fencing_token": 198,
   "locks": [
     {
@@ -33942,6 +33942,15 @@
       "command": "claim",
       "next_status": "locked",
       "at_utc": "2026-11-24T12:01:20.215Z"
+    },
+    "7130850006": {
+      "response": "معیار پذیرش ثبت شد: AC_READONLY; ACCEPTANCE_PROGRESS=80%; OVERALL_COMPLETION=80%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 128,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-24T12:01:39.072Z"
     }
   },
   "work_items": {
@@ -43656,7 +43665,14 @@
         {
           "criterion_id": "AC_READONLY",
           "title": "No repository file, branch, commit, PR, product data or registry is modified by this audit",
-          "evidence_requirement": "Claim branch=none, unchanged main SHA and confirmation that all output is confined to the Issue thread"
+          "evidence_requirement": "Claim branch=none, unchanged main SHA and confirmation that all output is confined to the Issue thread",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/128#issuecomment-7130783728"
+          ],
+          "validated_at_utc": "2026-11-24T12:01:39.071Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "No source, main branch, NON product, database, deployment or PR was changed; the audit artifact remains in this Issue. branch=none and the main SHA is unchanged. Coordinator-only lease/inbox metadata updates were required by the claim protocol."
         }
       ],
       "deliverables": [
