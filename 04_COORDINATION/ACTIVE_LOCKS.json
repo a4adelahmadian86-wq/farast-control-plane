@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4323,
+  "revision": 4324,
   "next_fencing_token": 201,
   "locks": [
     {
@@ -34753,6 +34753,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-24T12:30:59.204Z"
+    },
+    "7131561800": {
+      "response": "STEP ثبت شد: S5_SCOPE_AUDIT; EXECUTION_PROGRESS=85.71%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=6/7.",
+      "response_posted": false,
+      "issue_number": 130,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-24T12:31:57.008Z"
     }
   },
   "work_items": {
@@ -44629,7 +44638,14 @@
           "title": "Audit the final diff for resource isolation, compatibility and forbidden side effects",
           "required": true,
           "expected_output": "Scope manifest confirming no changes to coordinator-core, work-item-core, workflows, status registers or NON",
-          "evidence_requirement": "Changed-file list, resource-key read-back, exact-head tests and repository comparison"
+          "evidence_requirement": "Changed-file list, resource-key read-back, exact-head tests and repository comparison",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/130#issuecomment-7131542034"
+          ],
+          "validated_at_utc": "2026-11-24T12:31:57.008Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S6_HANDOFF",
