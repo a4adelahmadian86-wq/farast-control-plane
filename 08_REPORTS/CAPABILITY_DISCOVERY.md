@@ -175,6 +175,12 @@ Evidence: [bootstrap/app.php](https://github.com/a4adelahmadian86-wq/non/blob/6d
 - `03_PROJECT_STATE/TASK_INDEX.md` and `03_PROJECT_STATE/MASTER_STATUS.md` were not modified: they are outside this Work Item's exact `resource_keys` (which authorize only the CSV, this report and the capability-catalog artifact module). Updating those aggregate files requires a separately scoped lease; the canonical Issue/PR remain the evidence for this leaf.
 - No claim is made that all capabilities are runtime verified. The route-led register is usable as a discovery baseline, but the exhaustive route-less background inventory and runtime/test evidence remain open work.
 
+## 7A. Control-plane artifact validation CI
+
+The control-plane PR head `6cdc3206c53d7547fdaf7a418f05f2ba6e543062` completed [Control Plane Validation run #45376766633](https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/45376766633) with conclusion **success**. Its completed job included required-file checks, durable inbox scheduler regression fixtures, multi-chat contention/fencing fixtures, hierarchical progress/fairness/resume fixtures, specialist prompt dispatch fixtures, and JSON/bootstrap contract validation.
+
+This CI validates the control-plane artifact branch only. It does **not** establish that NON's application tests ran or that any NON capability works at runtime.
+
 ## 8. Acceptance decision
 
 **Not ACCEPTED / not DONE_VERIFIED.** Artifact publication and row-level structural validation can pass, but the completeness criterion remains open until the remaining Jobs/Events/Listeners/Migrations/Models/documentation inventory is enumerated and the required runtime/test evidence is supplied. Do not infer acceptance from 100% step execution or from the presence of the two files.
