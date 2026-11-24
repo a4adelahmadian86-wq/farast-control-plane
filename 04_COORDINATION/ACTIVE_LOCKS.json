@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4098,
+  "revision": 4099,
   "next_fencing_token": 193,
   "locks": [
     {
@@ -32976,6 +32976,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-24T10:42:51.667Z"
+    },
+    "7129142544": {
+      "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-EXP03-CATALOG-ARTIFACT-REMEDIATION-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=75%; OVERALL_COMPLETION=75%; next_action=Do not repeat S1-S7. Keep PR #127 open and unmerged. The remaining required acceptance item is AC_COMPLETE_COVERAGE: obtain a recursive current-main tree inventory for NON route-less Jobs, Events, Listeners, Migrations, Models and docs (the current GitHub connector exposes no tree/code-search index; web API and network clone attempts were inaccessible), add only genuinely missing CAP_IDs with direct source evidence, then run focused NON tests/runtime journeys on the exact source SHA and resubmit AC_COMPLETE_COVERAGE. Re-read current NON main SHA and control-plane main SHA before resuming. Do not update TASK_INDEX.md or MASTER_STATUS.md without a separately scoped resource lease. No NON write, merge, deployment or release.; remaining_steps=.",
+      "response_posted": false,
+      "issue_number": 126,
+      "actor": "a4adelahmadian86-wq",
+      "command": "checkpoint",
+      "next_status": null,
+      "at_utc": "2026-11-24T10:43:00.999Z"
     }
   },
   "work_items": {
@@ -43189,6 +43198,52 @@
         "lease_expires_at_utc": "2026-11-20T18:01:02.401Z"
       },
       "next_action": "PR #110 is open for CI/review handoff; do not merge under current Work Item scope. Await owner merge decision, then resume only if explicitly authorized."
+    },
+    "126": {
+      "work_item_id": "WI-EXP03-CATALOG-ARTIFACT-REMEDIATION-001",
+      "run_id": "RUN-PR03-EXP03-CATALOG-20261124-01",
+      "checkpoint_version": 1,
+      "created_at_utc": "2026-11-24T10:43:00.998Z",
+      "last_verified_step_id": "S7_READBACK_AND_VALIDATION",
+      "current_step_id": "S7_READBACK_AND_VALIDATION",
+      "completed_step_ids": [
+        "S1_BASELINE_REVALIDATION",
+        "S2_EXISTING_ROW_REVALIDATION",
+        "S3_MISSING_CAPABILITY_DISCOVERY",
+        "S4_COMPONENT_AND_PERMISSION_TRACE",
+        "S5_EVIDENCE_STATUS_CLASSIFICATION",
+        "S6_PUBLISH_ARTIFACTS",
+        "S7_READBACK_AND_VALIDATION"
+      ],
+      "remaining_step_ids": [],
+      "progress_percentage": 100,
+      "execution_progress_percentage": 100,
+      "acceptance_progress_percentage": 75,
+      "overall_completion_percentage": 75,
+      "progress_calculation_version": "PROGRESS_V2",
+      "required_step_counts": {
+        "pass": 7,
+        "fail": 0,
+        "blocked": 0,
+        "unknown": 0,
+        "not_run": 0
+      },
+      "acceptance_criteria_counts": {
+        "pass": 3,
+        "fail": 0,
+        "blocked": 1,
+        "unknown": 0,
+        "not_run": 0
+      },
+      "evidence_refs": [],
+      "blockers": [],
+      "owner": {
+        "actor": "a4adelahmadian86-wq",
+        "chat_id": "CHAT-PR03-EXP03-CATALOG-20261124-01",
+        "fencing_token": 192,
+        "lease_expires_at_utc": "2026-11-24T11:12:51.667Z"
+      },
+      "next_action": "Do not repeat S1-S7. Keep PR #127 open and unmerged. The remaining required acceptance item is AC_COMPLETE_COVERAGE: obtain a recursive current-main tree inventory for NON route-less Jobs, Events, Listeners, Migrations, Models and docs (the current GitHub connector exposes no tree/code-search index; web API and network clone attempts were inaccessible), add only genuinely missing CAP_IDs with direct source evidence, then run focused NON tests/runtime journeys on the exact source SHA and resubmit AC_COMPLETE_COVERAGE. Re-read current NON main SHA and control-plane main SHA before resuming. Do not update TASK_INDEX.md or MASTER_STATUS.md without a separately scoped resource lease. No NON write, merge, deployment or release."
     }
   },
   "inbox_scheduler": {
