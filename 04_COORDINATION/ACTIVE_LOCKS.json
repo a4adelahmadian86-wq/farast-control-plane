@@ -1,8 +1,57 @@
 {
   "schema_version": "1.0",
-  "revision": 4021,
-  "next_fencing_token": 191,
-  "locks": [],
+  "revision": 4022,
+  "next_fencing_token": 192,
+  "locks": [
+    {
+      "resource_key": "file:03_PROJECT_STATE/CAPABILITY_REGISTER.csv",
+      "issue_number": 126,
+      "task_id": "GH-126",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-PR03-EXP03-READER-20261123-1646Z-01",
+      "chat_id": "CHAT-PR03-EXP03-READER-20261123-1646Z-01",
+      "run_id": "RUN-PR03-EXP03-CATALOG-REMEDIATION-20261123-1655Z-01",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-126-RUN-PR03-EXP03-CATALOG-REMEDIATION-20261123-1655Z-01",
+      "acquired_at_utc": "2026-11-24T09:47:59.631Z",
+      "heartbeat_at_utc": "2026-11-24T09:47:59.631Z",
+      "lease_expires_at_utc": "2026-11-24T10:17:59.631Z",
+      "fencing_token": 191,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "file:08_REPORTS/CAPABILITY_DISCOVERY.md",
+      "issue_number": 126,
+      "task_id": "GH-126",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-PR03-EXP03-READER-20261123-1646Z-01",
+      "chat_id": "CHAT-PR03-EXP03-READER-20261123-1646Z-01",
+      "run_id": "RUN-PR03-EXP03-CATALOG-REMEDIATION-20261123-1655Z-01",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-126-RUN-PR03-EXP03-CATALOG-REMEDIATION-20261123-1655Z-01",
+      "acquired_at_utc": "2026-11-24T09:47:59.631Z",
+      "heartbeat_at_utc": "2026-11-24T09:47:59.631Z",
+      "lease_expires_at_utc": "2026-11-24T10:17:59.631Z",
+      "fencing_token": 191,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "module:capability-catalog-artifact-remediation",
+      "issue_number": 126,
+      "task_id": "GH-126",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-PR03-EXP03-READER-20261123-1646Z-01",
+      "chat_id": "CHAT-PR03-EXP03-READER-20261123-1646Z-01",
+      "run_id": "RUN-PR03-EXP03-CATALOG-REMEDIATION-20261123-1655Z-01",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-126-RUN-PR03-EXP03-CATALOG-REMEDIATION-20261123-1655Z-01",
+      "acquired_at_utc": "2026-11-24T09:47:59.631Z",
+      "heartbeat_at_utc": "2026-11-24T09:47:59.631Z",
+      "lease_expires_at_utc": "2026-11-24T10:17:59.631Z",
+      "fencing_token": 191,
+      "status": "ACTIVE"
+    }
+  ],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -15404,6 +15453,25 @@
       "branch": null,
       "target_repository": "a4adelahmadian86-wq/non",
       "at_utc": "2026-11-24T00:09:30.379Z"
+    },
+    {
+      "event": "ACQUIRED",
+      "issue_number": 126,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-PR03-EXP03-READER-20261123-1646Z-01",
+      "run_id": "RUN-PR03-EXP03-CATALOG-REMEDIATION-20261123-1655Z-01",
+      "resource_keys": [
+        "file:03_PROJECT_STATE/CAPABILITY_REGISTER.csv",
+        "file:08_REPORTS/CAPABILITY_DISCOVERY.md",
+        "module:capability-catalog-artifact-remediation"
+      ],
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-126-RUN-PR03-EXP03-CATALOG-REMEDIATION-20261123-1655Z-01",
+      "previous_branch": null,
+      "previous_target_repository": null,
+      "previous_run_id": null,
+      "fencing_token": 191,
+      "at_utc": "2026-11-24T09:47:59.631Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -32310,6 +32378,15 @@
       "command": "progress",
       "next_status": null,
       "at_utc": "2026-11-24T00:09:44.458Z"
+    },
+    "7107875997": {
+      "response": "CLAIM GRANTED. TASK=GH-126; WORK_ITEM_ID=WI-EXP03-CATALOG-ARTIFACT-REMEDIATION-001; verified_steps=; remaining_steps=S1_BASELINE_REVALIDATION,S2_EXISTING_ROW_REVALIDATION,S3_MISSING_CAPABILITY_DISCOVERY,S4_COMPONENT_AND_PERMISSION_TRACE,S5_EVIDENCE_STATUS_CLASSIFICATION,S6_PUBLISH_ARTIFACTS,S7_READBACK_AND_VALIDATION; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; actor=@a4adelahmadian86-wq; chat=CHAT-PR03-EXP03-READER-20261123-1646Z-01; run=RUN-PR03-EXP03-CATALOG-REMEDIATION-20261123-1655Z-01; resource_keys=file:03_PROJECT_STATE/CAPABILITY_REGISTER.csv,file:08_REPORTS/CAPABILITY_DISCOVERY.md,module:capability-catalog-artifact-remediation; target_repository=a4adelahmadian86-wq/farast-control-plane; write_policy=WRITE_ALLOWED; branch=work/GH-126-RUN-PR03-EXP03-CATALOG-REMEDIATION-20261123-1655Z-01; previous_run=none; fencing_token=191; lease_expires=2026-11-24T10:17:59.631Z. این Work Item با سیاست WRITE_ALLOWED است؛ branch را فقط در target_repository ثبت‌شده بساز و قبل از هر write heartbeat/token را دوباره تأیید کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز و branch قبلی را تغییر نده.",
+      "response_posted": false,
+      "issue_number": 126,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "locked",
+      "at_utc": "2026-11-24T09:47:59.636Z"
     }
   },
   "work_items": {
@@ -41375,6 +41452,164 @@
         "fencing_token": 178,
         "branch": null,
         "allocated_at_utc": "2026-11-21T19:00:57.360Z"
+      }
+    },
+    "126": {
+      "schema_version": "1.0",
+      "write_policy": "WRITE_ALLOWED",
+      "priority_source": "DEFAULT_POLICY",
+      "work_item_id": "WI-EXP03-CATALOG-ARTIFACT-REMEDIATION-001",
+      "title": "EXP-03 Capability catalog artifact remediation and completeness",
+      "description": "Revalidate the existing non-Reader draft from Issue #15, add only previously omitted capability families, and publish the required CSV and Markdown artifacts in the control-plane repository. No NON product source changes.",
+      "parent_goal_ids": [
+        "G-01"
+      ],
+      "parent_exp_ids": [
+        "EXP-03"
+      ],
+      "status": "CLAIMED",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "resource_keys": [
+        "file:03_PROJECT_STATE/CAPABILITY_REGISTER.csv",
+        "file:08_REPORTS/CAPABILITY_DISCOVERY.md",
+        "module:capability-catalog-artifact-remediation"
+      ],
+      "dependencies": [],
+      "steps": [
+        {
+          "step_id": "S1_BASELINE_REVALIDATION",
+          "title": "Pin current NON main and control-plane main; read Issue #15 draft, current CSV and report-path state.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "A reproducible baseline manifest with both repository SHAs, the 15 existing CAP_IDs, and the exact missing/empty artifact findings.",
+          "evidence_requirement": "Direct GitHub URLs to both main commits, Issue #15 draft comment, CSV blob and report-path 404/read-back.",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S2_EXISTING_ROW_REVALIDATION",
+          "title": "Revalidate each of the 15 existing catalog rows against current route, controller, service, data and test sources.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "A row-by-row disposition of retained, corrected or unsupported existing capabilities, with current-SHA evidence.",
+          "evidence_requirement": "Exact source and test/run URLs for each retained or corrected row; unsupported claims explicitly UNKNOWN.",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S3_MISSING_CAPABILITY_DISCOVERY",
+          "title": "Discover only omitted capability families, including Reader, course learning, Canva, price proposals, dashboards/admin, product ingestion/operations, feedback and other evidenced gaps.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "A non-overlapping supplemental capability list with stable proposed CAP_IDs and actor/journey boundaries.",
+          "evidence_requirement": "Exact current-main route, view, controller, service, model/migration, job/command or test URLs for every added row.",
+          "estimate_minutes": 5
+        },
+        {
+          "step_id": "S4_COMPONENT_AND_PERMISSION_TRACE",
+          "title": "Trace each supplemental capability through UI/API, server-side permission, backend, data, dependencies and tests.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "A route-to-service/data/permission map for every supplemental capability, with gaps and parallel/legacy implementations identified.",
+          "evidence_requirement": "Direct links to route registration, handler, authorization middleware/policy, backend component, data schema and relevant tests; missing links marked UNKNOWN.",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S5_EVIDENCE_STATUS_CLASSIFICATION",
+          "title": "Classify all retained and added rows using only the exact PR-03 status vocabulary and separate source/test evidence from runtime proof.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "A complete evidence matrix with one allowed status per CAP_ID and explicit runtime/configuration unknowns.",
+          "evidence_requirement": "Each row has a direct evidence pointer and one of PRESENT_CODE_ONLY, UI_ONLY, PARTIAL, TESTED_IN_SCOPE, VERIFIED_RUNTIME, BROKEN, NOT_FOUND or UNKNOWN.",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S6_PUBLISH_ARTIFACTS",
+          "title": "Publish the complete CSV register and Markdown discovery report on this Work Item's dedicated control-plane branch.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Both required artifact files populated, internally consistent and linked from the Work Item.",
+          "evidence_requirement": "Exact branch/commit and file URLs for 03_PROJECT_STATE/CAPABILITY_REGISTER.csv and 08_REPORTS/CAPABILITY_DISCOVERY.md.",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S7_READBACK_AND_VALIDATION",
+          "title": "Read back both artifacts and validate unique IDs, required columns, evidence pointers, status vocabulary, route map coverage and absence of NON changes.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "A reproducible validation record with row counts, duplicate check, missing-evidence count, allowed-status check and exact commit SHA.",
+          "evidence_requirement": "Direct GitHub read-back links and machine-readable validation output or test evidence; no chat-only assertion.",
+          "estimate_minutes": 2
+        }
+      ],
+      "acceptance_criteria": [
+        {
+          "criterion_id": "AC_COMPLETE_COVERAGE",
+          "title": "All 15 existing rows are revalidated and previously omitted evidenced capability families are added without semantic duplication.",
+          "required": true,
+          "evidence_requirement": "CSV read-back plus current-main source map showing each retained/added CAP_ID and explicitly recorded UNKNOWN/NOT_FOUND items."
+        },
+        {
+          "criterion_id": "AC_ROW_TRACEABILITY",
+          "title": "Every CSV row has stable CAP_ID, name, description, actor, input/output, UI/API path, server permission, backend components, data, dependencies, test evidence, status and source pointer.",
+          "required": true,
+          "evidence_requirement": "CSV read-back and report evidence matrix with exact GitHub file/test/run URLs and source SHAs."
+        },
+        {
+          "criterion_id": "AC_STATUS_AND_UNKNOWNS",
+          "title": "Every status is exactly one of the eight required PR-03 values; runtime is not inferred from code or CI alone; unknowns and gaps remain visible.",
+          "required": true,
+          "evidence_requirement": "Automated or reproducible CSV validation showing allowed status set, unique IDs, nonempty evidence fields and explicit UNKNOWN rows."
+        },
+        {
+          "criterion_id": "AC_ARTIFACT_PUBLICATION",
+          "title": "Both required artifacts exist, are populated and read back from the dedicated branch; NON product files remain unchanged.",
+          "required": true,
+          "evidence_requirement": "Exact commit and file URLs for both artifacts plus NON baseline comparison showing no product modifications."
+        }
+      ],
+      "priority": 50,
+      "created_at_utc": "2026-11-23T16:49:28Z",
+      "effort_estimate_minutes": 25,
+      "effort_rationale": "A focused 25-minute remediation/publication leaf: revalidate the existing 15 rows, discover omitted capability families, trace permissions/backend/data/tests, classify evidence, publish two control-plane artifacts and read them back. This is separate from Issue #15's completed draft discovery pass because the missing artifact publication and excluded capability slice are independently verifiable outputs.",
+      "depth_profile": {
+        "profile_version": "2.0.0",
+        "min_substantive_steps": 6,
+        "min_acceptance_criteria": 4,
+        "min_deliverables": 3,
+        "target_effort_minutes": 25
+      },
+      "deliverables": [
+        {
+          "deliverable_id": "D1",
+          "description": "Complete capability register CSV with stable CAP_IDs and all required columns.",
+          "artifact_path": "03_PROJECT_STATE/CAPABILITY_REGISTER.csv",
+          "evidence_requirement": "File exists on the dedicated branch, is populated, parses as CSV, has unique IDs and exact allowed statuses."
+        },
+        {
+          "deliverable_id": "D2",
+          "description": "Capability discovery report with scope, methodology, gaps, limitations and current-main evidence.",
+          "artifact_path": "08_REPORTS/CAPABILITY_DISCOVERY.md",
+          "evidence_requirement": "File exists on the dedicated branch and is read back with exact source links and baseline SHAs."
+        },
+        {
+          "deliverable_id": "D3",
+          "description": "Route-to-service and capability evidence matrix included as a report section and linked to every CSV CAP_ID.",
+          "artifact_path": "08_REPORTS/CAPABILITY_DISCOVERY.md",
+          "evidence_requirement": "Read-back report section maps each CAP_ID to route/UI, permission, backend/data, tests and evidence status."
+        }
+      ],
+      "operation_scope_version": "1.0",
+      "requested_operations": [
+        "control_plane_write"
+      ],
+      "allocation_provenance": {
+        "allocator_work_item_id": "WI-GOAL-ALLOCATOR-001",
+        "allocator_issue_number": 11,
+        "actor": "a4adelahmadian86-wq",
+        "chat_id": "CHAT-PR03-EXP03-READER-20261123-1646Z-01",
+        "run_id": "RUN-PR03-EXP03-READER-20261123-1646Z-01",
+        "fencing_token": 189,
+        "branch": null,
+        "allocated_at_utc": "2026-11-23T16:49:28Z"
       }
     }
   },
