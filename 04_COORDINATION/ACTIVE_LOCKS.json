@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4221,
+  "revision": 4222,
   "next_fencing_token": 197,
   "locks": [
     {
@@ -33831,6 +33831,15 @@
       "command": "status",
       "next_status": null,
       "at_utc": "2026-11-24T11:58:34.070Z"
+    },
+    "7130796322": {
+      "response": "معیار پذیرش ثبت شد: AC_PARENT_AGGREGATION; ACCEPTANCE_PROGRESS=40%; OVERALL_COMPLETION=40%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 128,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-24T11:58:55.893Z"
     }
   },
   "work_items": {
@@ -43521,7 +43530,14 @@
         {
           "criterion_id": "AC_PARENT_AGGREGATION",
           "title": "Parent goal aggregation follows the versioned protocol and retains blocked/incomplete in-scope children in the denominator",
-          "evidence_requirement": "Reproducible calculation with every child, weight, status and inclusion/exclusion rationale"
+          "evidence_requirement": "Reproducible calculation with every child, weight, status and inclusion/exclusion rationale",
+          "validation_status": "FAIL",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/128#issuecomment-7130783728"
+          ],
+          "validated_at_utc": "2026-11-24T11:58:55.892Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Verified gap: main has leaf progress only and no parent_goal_ids/parent_cp_ids aggregator; parent progress remains N/A."
         },
         {
           "criterion_id": "AC_STATUS_CONSISTENCY",
