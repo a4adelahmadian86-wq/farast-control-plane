@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4169,
+  "revision": 4170,
   "next_fencing_token": 197,
   "locks": [
     {
@@ -33551,6 +33551,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-24T11:23:29.052Z"
+    },
+    "7130038237": {
+      "response": "STEP ثبت شد: S2_MAP; EXECUTION_PROGRESS=28.57%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=2/7.",
+      "response_posted": false,
+      "issue_number": 18,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-24T11:23:50.115Z"
     }
   },
   "work_items": {
@@ -34772,7 +34781,14 @@
           "weight": 1,
           "expected_output": "خروجی قابل بازبینی برای مرحله: ساخت test inventory و نگاشت تست به سناریو/نیازمندی/قابلیت.",
           "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/18#issuecomment-7130031310"
+          ],
+          "validated_at_utc": "2026-11-24T11:23:50.115Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S3_ANALYZE",
