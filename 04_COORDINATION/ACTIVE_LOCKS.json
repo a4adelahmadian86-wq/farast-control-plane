@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4057,
+  "revision": 4058,
   "next_fencing_token": 193,
   "locks": [
     {
@@ -32712,6 +32712,15 @@
       "command": "progress",
       "next_status": null,
       "at_utc": "2026-11-24T10:37:26.513Z"
+    },
+    "7129023122": {
+      "response": "STEP ثبت شد: S3_MISSING_CAPABILITY_DISCOVERY; EXECUTION_PROGRESS=42.85%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=3/7.",
+      "response_posted": false,
+      "issue_number": 126,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-24T10:37:36.563Z"
     }
   },
   "work_items": {
@@ -41840,7 +41849,14 @@
           "weight": 1,
           "expected_output": "A non-overlapping supplemental capability list with stable proposed CAP_IDs and actor/journey boundaries.",
           "evidence_requirement": "Exact current-main route, view, controller, service, model/migration, job/command or test URLs for every added row.",
-          "estimate_minutes": 5
+          "estimate_minutes": 5,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-126-RUN-PR03-EXP03-CATALOG-20261124-01/08_REPORTS/CAPABILITY_DISCOVERY.md"
+          ],
+          "validated_at_utc": "2026-11-24T10:37:36.562Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S4_COMPONENT_AND_PERMISSION_TRACE",
