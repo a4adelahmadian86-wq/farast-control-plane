@@ -1,8 +1,57 @@
 {
   "schema_version": "1.0",
-  "revision": 4254,
-  "next_fencing_token": 198,
-  "locks": [],
+  "revision": 4255,
+  "next_fencing_token": 199,
+  "locks": [
+    {
+      "resource_key": "file:.github/scripts/goal-progress-core.js",
+      "issue_number": 130,
+      "task_id": "GH-130",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-PR05-G09-20261124-01",
+      "chat_id": "CHAT-PR05-G09-20261124-01",
+      "run_id": "RUN-PR05-G09-CP07-AGGREGATOR-20261124-01",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-130-RUN-PR05-G09-CP07-AGGREGATOR-20261124-01",
+      "acquired_at_utc": "2026-11-24T12:06:27.196Z",
+      "heartbeat_at_utc": "2026-11-24T12:06:27.196Z",
+      "lease_expires_at_utc": "2026-11-24T12:36:27.196Z",
+      "fencing_token": 198,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "file:.github/scripts/goal-progress-core.test.js",
+      "issue_number": 130,
+      "task_id": "GH-130",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-PR05-G09-20261124-01",
+      "chat_id": "CHAT-PR05-G09-20261124-01",
+      "run_id": "RUN-PR05-G09-CP07-AGGREGATOR-20261124-01",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-130-RUN-PR05-G09-CP07-AGGREGATOR-20261124-01",
+      "acquired_at_utc": "2026-11-24T12:06:27.196Z",
+      "heartbeat_at_utc": "2026-11-24T12:06:27.196Z",
+      "lease_expires_at_utc": "2026-11-24T12:36:27.196Z",
+      "fencing_token": 198,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "module:goal-progress-aggregation",
+      "issue_number": 130,
+      "task_id": "GH-130",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-PR05-G09-20261124-01",
+      "chat_id": "CHAT-PR05-G09-20261124-01",
+      "run_id": "RUN-PR05-G09-CP07-AGGREGATOR-20261124-01",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-130-RUN-PR05-G09-CP07-AGGREGATOR-20261124-01",
+      "acquired_at_utc": "2026-11-24T12:06:27.196Z",
+      "heartbeat_at_utc": "2026-11-24T12:06:27.196Z",
+      "lease_expires_at_utc": "2026-11-24T12:36:27.196Z",
+      "fencing_token": 198,
+      "status": "ACTIVE"
+    }
+  ],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -16200,6 +16249,25 @@
       "branch": null,
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "at_utc": "2026-11-24T12:05:53.690Z"
+    },
+    {
+      "event": "ACQUIRED",
+      "issue_number": 130,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-PR05-G09-20261124-01",
+      "run_id": "RUN-PR05-G09-CP07-AGGREGATOR-20261124-01",
+      "resource_keys": [
+        "file:.github/scripts/goal-progress-core.js",
+        "file:.github/scripts/goal-progress-core.test.js",
+        "module:goal-progress-aggregation"
+      ],
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-130-RUN-PR05-G09-CP07-AGGREGATOR-20261124-01",
+      "previous_branch": null,
+      "previous_target_repository": null,
+      "previous_run_id": null,
+      "fencing_token": 198,
+      "at_utc": "2026-11-24T12:06:27.196Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -34087,6 +34155,15 @@
       "command": "release",
       "next_status": "ready",
       "at_utc": "2026-11-24T12:05:53.691Z"
+    },
+    "7130960424": {
+      "response": "CLAIM GRANTED. TASK=GH-130; WORK_ITEM_ID=WI-CP07-PARENT-AGGREGATION-ENGINE-001; verified_steps=; remaining_steps=S0_BASELINE,S1_CONTRACT,S2_ENGINE,S3_TESTS,S4_CROSSCHECK,S5_SCOPE_AUDIT,S6_HANDOFF; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; actor=@a4adelahmadian86-wq; chat=CHAT-PR05-G09-20261124-01; run=RUN-PR05-G09-CP07-AGGREGATOR-20261124-01; resource_keys=file:.github/scripts/goal-progress-core.js,file:.github/scripts/goal-progress-core.test.js,module:goal-progress-aggregation; target_repository=a4adelahmadian86-wq/farast-control-plane; write_policy=WRITE_ALLOWED; branch=work/GH-130-RUN-PR05-G09-CP07-AGGREGATOR-20261124-01; previous_run=none; fencing_token=198; lease_expires=2026-11-24T12:36:27.196Z. این Work Item با سیاست WRITE_ALLOWED است؛ branch را فقط در target_repository ثبت‌شده بساز و قبل از هر write heartbeat/token را دوباره تأیید کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز و branch قبلی را تغییر نده.",
+      "response_posted": false,
+      "issue_number": 130,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "locked",
+      "at_utc": "2026-11-24T12:06:27.201Z"
     }
   },
   "work_items": {
@@ -43869,7 +43946,7 @@
       "parent_cp_ids": [
         "CP-07"
       ],
-      "status": "READY",
+      "status": "CLAIMED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "module:goal-progress-aggregation",
