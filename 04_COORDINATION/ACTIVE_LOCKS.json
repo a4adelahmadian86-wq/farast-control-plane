@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4624,
+  "revision": 4625,
   "next_fencing_token": 211,
   "locks": [
     {
@@ -37345,6 +37345,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-25T06:22:45.954Z"
+    },
+    "7154733083": {
+      "response": "معیار پذیرش ثبت شد: AC_EVIDENCE_BACKED_STATUS; ACCEPTANCE_PROGRESS=40%; OVERALL_COMPLETION=40%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 136,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-25T06:23:09.767Z"
     }
   },
   "work_items": {
@@ -47998,7 +48007,14 @@
           "title": "Every reported status/progress value is supported by verified evidence or explicitly UNKNOWN/BLOCKED",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "Progress calculation and direct evidence URLs for each non-unknown value"
+          "evidence_requirement": "Progress calculation and direct evidence URLs for each non-unknown value",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/136#issuecomment-7154666356"
+          ],
+          "validated_at_utc": "2026-11-25T06:23:09.766Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_CROSS_REGISTER_CONSISTENCY",
