@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4718,
+  "revision": 4719,
   "next_fencing_token": 212,
   "locks": [
     {
@@ -38172,6 +38172,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-25T07:17:04.440Z"
+    },
+    "7155695141": {
+      "response": "معیار پذیرش ثبت شد: AC_FEEDBACK_PRESERVED; ACCEPTANCE_PROGRESS=20%; OVERALL_COMPLETION=20%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 137,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-25T07:17:30.965Z"
     }
   },
   "work_items": {
@@ -49074,7 +49083,14 @@
           "title": "All existing feedback retains original text, stable ID, date/source and owner decision history",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "Before/after comparison proving no original feedback or decision history was removed or rewritten"
+          "evidence_requirement": "Before/after comparison proving no original feedback or decision history was removed or rewritten",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/137#issuecomment-7155541649"
+          ],
+          "validated_at_utc": "2026-11-25T07:17:30.965Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "The original seven-point owner text, source, date and prior ACCEPTED status were verified unchanged against main; the register appendix is append-only."
         },
         {
           "criterion_id": "AC_TRACEABILITY_LINKS",
