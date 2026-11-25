@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4464,
+  "revision": 4465,
   "next_fencing_token": 207,
   "locks": [
     {
@@ -35874,7 +35874,7 @@
     },
     "7153468989": {
       "response": "CLAIM GRANTED. TASK=GH-135; WORK_ITEM_ID=WI-CP05-06-REPORT-FEEDBACK-TRACE-AUDIT-001; verified_steps=; remaining_steps=S0_BASELINE,S1_REPORTING_SURFACE,S2_FEEDBACK_TRACE,S3_STATUS_CROSSCHECK,S4_GAP_RISK,S5_REPORT_HANDOFF; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; actor=@a4adelahmadian86-wq; chat=CHAT-PR07-G09-20261125-01; run=RUN-PR07-G09-CP05-06-AUDIT-20261125-03; resource_keys=analysis:cp-05-cp-06-report-feedback-traceability; target_repository=a4adelahmadian86-wq/farast-control-plane; write_policy=READ_ONLY; branch=none; previous_run=none; fencing_token=206; lease_expires=2026-11-25T05:37:28.596Z. این Work Item با سیاست READ_ONLY است؛ در target_repository هیچ branch، file، commit یا PR ایجاد/تغییر نده. شواهد را فقط در Issue thread یا محل مجاز control-plane ثبت کن؛ برای WRITE_REQUIRES_OWNER_APPROVAL فقط proposal ارائه بده.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 135,
       "actor": "a4adelahmadian86-wq",
       "command": "claim",
