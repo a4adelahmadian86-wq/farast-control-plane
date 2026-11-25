@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4620,
+  "revision": 4621,
   "next_fencing_token": 211,
   "locks": [
     {
@@ -37315,6 +37315,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-25T06:21:54.819Z"
+    },
+    "7154718154": {
+      "response": "معیار پذیرش ثبت شد: AC_LIVE_INVENTORY; ACCEPTANCE_PROGRESS=20%; OVERALL_COMPLETION=20%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 136,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-25T06:22:17.073Z"
     }
   },
   "work_items": {
@@ -47954,7 +47963,14 @@
           "title": "All in-scope canonical Work Items are represented exactly once by stable ID and linked to live Issues",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "Reproducible Issue inventory and duplicate/superseded disposition"
+          "evidence_requirement": "Reproducible Issue inventory and duplicate/superseded disposition",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/d9bb4fe7e9b5a1c80a211274bf6ff633afae990a/03_PROJECT_STATE/TASK_INDEX.md"
+          ],
+          "validated_at_utc": "2026-11-25T06:22:17.072Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_EVIDENCE_BACKED_STATUS",
