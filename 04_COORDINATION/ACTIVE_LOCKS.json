@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4419,
+  "revision": 4420,
   "next_fencing_token": 204,
   "locks": [
     {
@@ -35503,6 +35503,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-25T04:34:48.198Z"
+    },
+    "7152967486": {
+      "response": "STEP ثبت شد: S4_SCOPE_AUDIT; EXECUTION_PROGRESS=71.42%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=5/7.",
+      "response_posted": false,
+      "issue_number": 133,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-25T04:34:55.732Z"
     }
   },
   "work_items": {
@@ -45620,7 +45629,14 @@
           "required": true,
           "expected_output": "A scope manifest with exactly one changed workflow file",
           "evidence_requirement": "PR changed-file list, exact branch SHA, and source read-back for excluded paths",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/134/files"
+          ],
+          "validated_at_utc": "2026-11-25T04:34:55.732Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S5_HANDOFF",
