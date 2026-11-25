@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4499,
+  "revision": 4500,
   "next_fencing_token": 207,
   "locks": [
     {
@@ -36153,6 +36153,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-25T05:18:37.599Z"
+    },
+    "7153650761": {
+      "response": "معیار پذیرش ثبت شد: AC_CP06_FEEDBACK_TRACEABILITY; ACCEPTANCE_PROGRESS=50%; OVERALL_COMPLETION=50%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 135,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-25T05:19:04.599Z"
     }
   },
   "work_items": {
@@ -46572,7 +46581,14 @@
           "criterion_id": "AC_CP06_FEEDBACK_TRACEABILITY",
           "title": "Every feedback record is traceable to affected decisions, requirements, goals, Work Items and outcomes, or explicitly listed as orphaned",
           "required": true,
-          "evidence_requirement": "FB-to-DEC/REQ/GOAL/WORK_ITEM matrix with source URLs and preserved original feedback text"
+          "evidence_requirement": "FB-to-DEC/REQ/GOAL/WORK_ITEM matrix with source URLs and preserved original feedback text",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/135#issuecomment-7153527064"
+          ],
+          "validated_at_utc": "2026-11-25T05:19:04.599Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_STATUS_DRIFT_RECONCILED",
