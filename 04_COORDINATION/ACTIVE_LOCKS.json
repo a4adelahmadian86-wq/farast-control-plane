@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4696,
+  "revision": 4697,
   "next_fencing_token": 212,
   "locks": [
     {
@@ -37989,6 +37989,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-25T07:09:21.150Z"
+    },
+    "7155552160": {
+      "response": "STEP ثبت شد: S4_GITHUB_FORM; EXECUTION_PROGRESS=71.42%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=5/7.",
+      "response_posted": false,
+      "issue_number": 137,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-25T07:09:46.441Z"
     }
   },
   "work_items": {
@@ -48843,7 +48852,14 @@
           "weight": 1,
           "expected_output": "Validated YAML form with clear optional/unknown guidance",
           "evidence_requirement": "Exact form diff, YAML parse/validation and template mapping",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/137#issuecomment-7155541649"
+          ],
+          "validated_at_utc": "2026-11-25T07:09:46.440Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S5_TRACEABILITY_VALIDATION",
