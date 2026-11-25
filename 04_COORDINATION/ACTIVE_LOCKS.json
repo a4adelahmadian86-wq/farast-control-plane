@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4761,
+  "revision": 4762,
   "next_fencing_token": 214,
   "locks": [
     {
@@ -38570,6 +38570,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-25T07:47:57.080Z"
+    },
+    "7156270711": {
+      "response": "STEP ثبت شد: S1_IDENTITY_PROOF; EXECUTION_PROGRESS=16.66%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=1/6.",
+      "response_posted": false,
+      "issue_number": 140,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-25T07:48:27.096Z"
     }
   },
   "work_items": {
@@ -49619,7 +49628,14 @@
           "weight": 1,
           "expected_output": "Redacted identity/session matrix or a precise NOT_RUN blocker",
           "evidence_requirement": "Distinct actor and author_association read-backs from both independent participants plus proof of separate sessions; no secrets or private chat IDs",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "BLOCKED",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/140#issuecomment-7156269092"
+          ],
+          "validated_at_utc": "2026-11-25T07:48:27.096Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S2_FRESH_CONTEXT_RETRIEVAL",
