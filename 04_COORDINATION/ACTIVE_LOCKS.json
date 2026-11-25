@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4666,
+  "revision": 4667,
   "next_fencing_token": 212,
   "locks": [
     {
@@ -37722,6 +37722,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-25T06:37:40.470Z"
+    },
+    "7154994839": {
+      "response": "STEP ثبت شد: S0_BASELINE; EXECUTION_PROGRESS=14.28%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=1/7.",
+      "response_posted": false,
+      "issue_number": 137,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-25T06:38:04.387Z"
     }
   },
   "work_items": {
@@ -48485,7 +48494,7 @@
         "branch": null,
         "allocated_at_utc": "2026-11-25T06:04:14Z"
       },
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "module:cp06-feedback-traceability",
@@ -48512,7 +48521,14 @@
           "weight": 1,
           "expected_output": "Timestamped source manifest and canonical feedback/decision ID list",
           "evidence_requirement": "Main SHA, CP-06 requirement, feedback register, decision register, intake template and form URLs/SHAs",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/137#issuecomment-7154985486"
+          ],
+          "validated_at_utc": "2026-11-25T06:38:04.387Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S1_TRACE_EXISTING_FEEDBACK",
