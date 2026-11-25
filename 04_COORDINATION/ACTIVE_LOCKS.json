@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4523,
+  "revision": 4524,
   "next_fencing_token": 207,
   "locks": [],
   "history": [
@@ -36315,6 +36315,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-25T05:24:31.273Z"
+    },
+    "7153750088": {
+      "response": "Work Item ACCEPTED: همه گام‌ها، معیارها، شواهد و hard gateها با موفقیت احراز شدند؛ سیاست READ_ONLY است، بنابراین PR/branch محصول لازم نیست؛ هیچ Review انسانی دوم شرط پذیرش نیست.",
+      "response_posted": false,
+      "issue_number": 135,
+      "actor": "a4adelahmadian86-wq",
+      "command": "accept",
+      "next_status": "done",
+      "at_utc": "2026-11-25T05:25:18.242Z"
     }
   },
   "work_items": {
@@ -46603,7 +46612,7 @@
         "branch": null,
         "allocated_at_utc": "2026-11-25T05:04:40.097Z"
       },
-      "status": "REVIEW_REQUIRED",
+      "status": "ACCEPTED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "analysis:cp-05-cp-06-report-feedback-traceability"
