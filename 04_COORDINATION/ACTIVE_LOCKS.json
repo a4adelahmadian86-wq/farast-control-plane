@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4433,
+  "revision": 4434,
   "next_fencing_token": 204,
   "locks": [
     {
@@ -35566,6 +35566,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-25T04:36:18.721Z"
+    },
+    "7152976735": {
+      "response": "STEP ثبت شد: S5_HANDOFF; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; verified_steps=7/7.",
+      "response_posted": false,
+      "issue_number": 133,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-25T04:36:29.374Z"
     }
   },
   "work_items": {
@@ -45698,7 +45707,14 @@
           "required": true,
           "expected_output": "A PR and handoff explaining how a later authorized #130 run can refresh its test branch to trigger the newly enabled test step",
           "evidence_requirement": "PR URL/head SHA, CI evidence, and Issue #130 handoff comment",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/130#issuecomment-7152970584"
+          ],
+          "validated_at_utc": "2026-11-25T04:36:29.374Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S6_CROSSCHECK",
