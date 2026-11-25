@@ -324,3 +324,25 @@ test('goal and CP filters are independent and require explicit CP membership', (
   const intersection = aggregateParentProgress({ workItems: items, parentGoalId: 'G-09', parentCpId: 'CP-07', coverage: coverage(items, { expectedWorkItemIds: ['WI-TEST-GOAL-AND-CP-001'] }) });
   assert.deepEqual(intersection.included_work_item_ids, ['WI-TEST-GOAL-AND-CP-001']);
 });
+
+test('very large finite parent weights do not overflow weighted aggregation', () => {
+  const halfExecution = item('WI-TEST-HUGE-WEIGHT-HALF-001', {
+    steps: [
+      { step_id: 'S1', title: 'One', validation_status: 'PASS', evidence_refs: [EVIDENCE] },
+      { step_id: 'S2', title: 'Two' }
+    ]
+  });
+  const full = item('WI-TEST-HUGE-WEIGHT-FULL-001');
+  const result = aggregate([halfExecution, full], {
+    parentWeighting: { version: 'G09_EXTREME_WEIGHTS_V1', weights: {
+      'WI-TEST-HUGE-WEIGHT-HALF-001': 1e308,
+      'WI-TEST-HUGE-WEIGHT-FULL-001': 5e307
+    } }
+  });
+  assert.deepEqual(result.progress, {
+    execution_percentage: 66.66,
+    acceptance_percentage: 100,
+    overall_completion_percentage: 66.66
+  });
+  assert.equal(result.coverage_status, 'COMPLETE');
+});
