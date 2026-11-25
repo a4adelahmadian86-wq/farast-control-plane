@@ -1,29 +1,119 @@
 name: Product Owner Feedback
-description: Record an explicit owner decision or feedback
+description: Capture original owner feedback and trace its decisions, goals, work items and verification
 title: "[FEEDBACK] "
 body:
+  - type: input
+    id: feedback_id
+    attributes:
+      label: Feedback ID (if already assigned)
+      description: Use the stable FB-YYYYMMDD-NNN identifier; leave blank if the coordinator will assign it.
+    validations:
+      required: false
   - type: textarea
     id: original
     attributes:
       label: Original feedback (verbatim)
+      description: Preserve the owner's exact words. Do not replace them with an interpretation.
     validations:
       required: true
   - type: input
     id: source
     attributes:
       label: Source / conversation reference
+      description: Link or identify the source and date of the feedback.
     validations:
       required: true
-  - type: textarea
-    id: impact
+  - type: input
+    id: received_at_utc
     attributes:
-      label: Impact analysis and affected decisions/tasks
+      label: Received at (UTC)
+      description: ISO-8601 UTC timestamp when known; otherwise leave blank.
     validations:
-      required: true
+      required: false
+  - type: textarea
+    id: interpretation
+    attributes:
+      label: Interpretation (separate from original)
+      description: Summarize the meaning without changing the original feedback.
+    validations:
+      required: false
+  - type: input
+    id: affected_goal_ids
+    attributes:
+      label: Affected Goal IDs
+      description: Comma-separated stable IDs (for example G-09); use UNKNOWN or UNMAPPED rather than guessing.
+    validations:
+      required: false
+  - type: input
+    id: affected_cp_ids
+    attributes:
+      label: Affected Control Plane IDs
+      description: Comma-separated CP-IDs (for example CP-05, CP-06); use UNKNOWN or UNMAPPED when unsupported.
+    validations:
+      required: false
+  - type: input
+    id: affected_work_item_ids
+    attributes:
+      label: Affected Work Item IDs
+      description: Comma-separated canonical WI-IDs; include Issue links where available.
+    validations:
+      required: false
+  - type: input
+    id: related_decision_ids
+    attributes:
+      label: Related Decision IDs
+      description: Comma-separated DEC-IDs; do not attribute feedback to decisions without direct evidence.
+    validations:
+      required: false
+  - type: input
+    id: related_requirement_ids
+    attributes:
+      label: Related Requirement IDs
+      description: Comma-separated REQ/CP IDs exactly as defined by their source register.
+    validations:
+      required: false
   - type: dropdown
     id: decision
     attributes:
       label: Owner decision
-      options: ["Pending", "Accepted", "Rejected", "Needs clarification"]
+      options:
+        - Pending
+        - Accepted
+        - Rejected
+        - Needs clarification
+    validations:
+      required: true
+  - type: textarea
+    id: approval_evidence
+    attributes:
+      label: Approval evidence
+      description: Link the explicit owner decision; do not infer approval from discussion or implementation.
+    validations:
+      required: false
+  - type: dropdown
+    id: implementation_status
+    attributes:
+      label: Implementation status
+      options:
+        - Unknown
+        - Not started
+        - In progress
+        - Partial
+        - Implemented
+        - Verified
+    validations:
+      required: false
+  - type: textarea
+    id: verification_evidence
+    attributes:
+      label: Verification evidence
+      description: Link commits, tests, reports or other independently reviewable evidence; use UNKNOWN if unavailable.
+    validations:
+      required: false
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact analysis and affected decisions/tasks
+      description: Explain the impact and any conflicts; place canonical IDs in the structured fields above.
     validations:
       required: true
