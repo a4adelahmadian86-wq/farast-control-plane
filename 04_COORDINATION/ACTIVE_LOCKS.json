@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4471,
+  "revision": 4472,
   "next_fencing_token": 207,
   "locks": [
     {
@@ -35943,6 +35943,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-25T05:11:34.207Z"
+    },
+    "7153539952": {
+      "response": "STEP ثبت شد: S0_BASELINE; EXECUTION_PROGRESS=16.66%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=1/6.",
+      "response_posted": false,
+      "issue_number": 135,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-25T05:12:06.564Z"
     }
   },
   "work_items": {
@@ -46231,7 +46240,7 @@
         "branch": null,
         "allocated_at_utc": "2026-11-25T05:04:40.097Z"
       },
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "analysis:cp-05-cp-06-report-feedback-traceability"
@@ -46254,7 +46263,14 @@
           "weight": 1,
           "expected_output": "Timestamped source inventory tied to the exact main SHA, covering CP-05, CP-06, Goal Tree and governance/reporting registers",
           "evidence_requirement": "Exact main SHA and direct GitHub URLs for CONTROL_PLANE_REQUIREMENTS.md, GOAL_TREE.md, USER_FEEDBACK_REGISTER.md, DECISION_REGISTER.md, MASTER_STATUS.md and TASK_INDEX.md",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/135#issuecomment-7153527064"
+          ],
+          "validated_at_utc": "2026-11-25T05:12:06.563Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S1_REPORTING_SURFACE",
