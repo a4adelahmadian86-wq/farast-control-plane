@@ -38,10 +38,20 @@ function emptyStatusCounts() {
 
 function weightedMetric(leafMetrics, metricKey) {
   if (!leafMetrics.length || leafMetrics.some(row =>
-    row[metricKey] === null || !Number.isFinite(row[metricKey]))) return null;
-  const totalWeight = leafMetrics.reduce((sum, row) => sum + row.weight, 0);
+    row[metricKey] === null || !Number.isFinite(row[metricKey]) || !isPositiveWeight(row.weight))) return null;
+
+  // Normalize before summing so valid finite weights cannot overflow either
+  // the denominator or metric * weight numerator (for example, 1e308 * 100).
+  const maxWeight = Math.max(...leafMetrics.map(row => row.weight));
+  if (!Number.isFinite(maxWeight) || maxWeight <= 0) return null;
+  const normalized = leafMetrics.map(row => ({
+    metric: row[metricKey],
+    weight: row.weight / maxWeight
+  }));
+  const totalWeight = normalized.reduce((sum, row) => sum + row.weight, 0);
   if (!Number.isFinite(totalWeight) || totalWeight <= 0) return null;
-  const weighted = leafMetrics.reduce((sum, row) => sum + row[metricKey] * row.weight, 0);
+  const weighted = normalized.reduce((sum, row) => sum + row.metric * row.weight, 0);
+  if (!Number.isFinite(weighted)) return null;
   return Math.floor((weighted / totalWeight) * 100) / 100;
 }
 
