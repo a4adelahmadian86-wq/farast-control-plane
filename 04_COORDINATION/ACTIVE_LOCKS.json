@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4479,
+  "revision": 4480,
   "next_fencing_token": 207,
   "locks": [
     {
@@ -36003,6 +36003,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-25T05:13:41.909Z"
+    },
+    "7153572091": {
+      "response": "STEP ثبت شد: S2_FEEDBACK_TRACE; EXECUTION_PROGRESS=50%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=3/6.",
+      "response_posted": false,
+      "issue_number": 135,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-25T05:14:08.333Z"
     }
   },
   "work_items": {
@@ -46346,7 +46355,14 @@
           "weight": 1,
           "expected_output": "CP-06 feedback traceability matrix with explicit linked and orphaned references and preserved original feedback text",
           "evidence_requirement": "Feedback IDs and exact source lines, DEC IDs, CP/REQ/GOAL references, matching Issue URLs and outcome evidence; mark absent links UNKNOWN",
-          "estimate_minutes": 5
+          "estimate_minutes": 5,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/135#issuecomment-7153527064"
+          ],
+          "validated_at_utc": "2026-11-25T05:14:08.332Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S3_STATUS_CROSSCHECK",
