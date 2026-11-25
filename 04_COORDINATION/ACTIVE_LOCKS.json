@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4726,
+  "revision": 4727,
   "next_fencing_token": 212,
   "locks": [
     {
@@ -38232,6 +38232,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-25T07:19:00.780Z"
+    },
+    "7155732941": {
+      "response": "معیار پذیرش ثبت شد: AC_DECISION_PROVENANCE; ACCEPTANCE_PROGRESS=60%; OVERALL_COMPLETION=60%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 137,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-25T07:19:37.082Z"
     }
   },
   "work_items": {
@@ -49162,7 +49171,14 @@
           "title": "Decision records identify source feedback and affected Work Items/Requirements where evidence supports the mapping",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "Decision-register diff and source-to-decision link validation"
+          "evidence_requirement": "Decision-register diff and source-to-decision link validation",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/1c0893d28b47528111066ce8a7ced098e37600cd"
+          ],
+          "validated_at_utc": "2026-11-25T07:19:37.081Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "DEC-011..DEC-017 are linked to FB-20261114-001 and exact CP/Goal/Work Item IDs where supported; DEC-001..DEC-010 remain UNMAPPED and no historical decision was rewritten."
         },
         {
           "criterion_id": "AC_INTAKE_ALIGNMENT",
