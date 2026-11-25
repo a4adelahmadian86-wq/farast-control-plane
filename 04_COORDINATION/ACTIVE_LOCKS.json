@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4632,
+  "revision": 4633,
   "next_fencing_token": 211,
   "locks": [
     {
@@ -37405,6 +37405,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-25T06:24:36.846Z"
+    },
+    "7154765874": {
+      "response": "معیار پذیرش ثبت شد: AC_HISTORY_PRESERVED; ACCEPTANCE_PROGRESS=80%; OVERALL_COMPLETION=80%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 136,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-25T06:25:06.225Z"
     }
   },
   "work_items": {
@@ -48086,7 +48095,14 @@
           "title": "Historical/bootstrap content and decisions are preserved and distinguished from live snapshot",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "Diff audit proving no historical evidence was silently deleted or rewritten"
+          "evidence_requirement": "Diff audit proving no historical evidence was silently deleted or rewritten",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/136#issuecomment-7154666356"
+          ],
+          "validated_at_utc": "2026-11-25T06:25:06.224Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_SCOPE_AND_HANDOFF",
