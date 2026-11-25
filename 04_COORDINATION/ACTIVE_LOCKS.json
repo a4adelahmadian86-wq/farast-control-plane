@@ -1,8 +1,25 @@
 {
   "schema_version": "1.0",
-  "revision": 4463,
-  "next_fencing_token": 206,
-  "locks": [],
+  "revision": 4464,
+  "next_fencing_token": 207,
+  "locks": [
+    {
+      "resource_key": "analysis:cp-05-cp-06-report-feedback-traceability",
+      "issue_number": 135,
+      "task_id": "GH-135",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-PR07-G09-20261125-01",
+      "chat_id": "CHAT-PR07-G09-20261125-01",
+      "run_id": "RUN-PR07-G09-CP05-06-AUDIT-20261125-03",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": null,
+      "acquired_at_utc": "2026-11-25T05:07:28.596Z",
+      "heartbeat_at_utc": "2026-11-25T05:07:28.596Z",
+      "lease_expires_at_utc": "2026-11-25T05:37:28.596Z",
+      "fencing_token": 206,
+      "status": "ACTIVE"
+    }
+  ],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -17068,6 +17085,23 @@
       "branch": null,
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "at_utc": "2026-11-25T05:06:42.415Z"
+    },
+    {
+      "event": "ACQUIRED",
+      "issue_number": 135,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-PR07-G09-20261125-01",
+      "run_id": "RUN-PR07-G09-CP05-06-AUDIT-20261125-03",
+      "resource_keys": [
+        "analysis:cp-05-cp-06-report-feedback-traceability"
+      ],
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": null,
+      "previous_branch": null,
+      "previous_target_repository": null,
+      "previous_run_id": null,
+      "fencing_token": 206,
+      "at_utc": "2026-11-25T05:07:28.596Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -35837,6 +35871,15 @@
       "command": "release",
       "next_status": "ready",
       "at_utc": "2026-11-25T05:06:42.416Z"
+    },
+    "7153468989": {
+      "response": "CLAIM GRANTED. TASK=GH-135; WORK_ITEM_ID=WI-CP05-06-REPORT-FEEDBACK-TRACE-AUDIT-001; verified_steps=; remaining_steps=S0_BASELINE,S1_REPORTING_SURFACE,S2_FEEDBACK_TRACE,S3_STATUS_CROSSCHECK,S4_GAP_RISK,S5_REPORT_HANDOFF; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; actor=@a4adelahmadian86-wq; chat=CHAT-PR07-G09-20261125-01; run=RUN-PR07-G09-CP05-06-AUDIT-20261125-03; resource_keys=analysis:cp-05-cp-06-report-feedback-traceability; target_repository=a4adelahmadian86-wq/farast-control-plane; write_policy=READ_ONLY; branch=none; previous_run=none; fencing_token=206; lease_expires=2026-11-25T05:37:28.596Z. این Work Item با سیاست READ_ONLY است؛ در target_repository هیچ branch، file، commit یا PR ایجاد/تغییر نده. شواهد را فقط در Issue thread یا محل مجاز control-plane ثبت کن؛ برای WRITE_REQUIRES_OWNER_APPROVAL فقط proposal ارائه بده.",
+      "response_posted": false,
+      "issue_number": 135,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "locked",
+      "at_utc": "2026-11-25T05:07:28.602Z"
     }
   },
   "work_items": {
@@ -46092,6 +46135,157 @@
       "priority": 50,
       "created_at_utc": "2026-11-25T04:31:00.000Z",
       "next_action": "Claim this leaf with a fresh RUN_ID after the allocator has released its lease; modify only .github/workflows/control-plane-validation.yml and do not merge or deploy."
+    },
+    "135": {
+      "schema_version": "1.0",
+      "operation_scope_version": "1.0",
+      "requested_operations": [
+        "analysis"
+      ],
+      "write_policy": "READ_ONLY",
+      "priority_source": "DEFAULT_POLICY",
+      "work_item_id": "WI-CP05-06-REPORT-FEEDBACK-TRACE-AUDIT-001",
+      "title": "Audit CP-05 reporting evidence and CP-06 owner-feedback traceability",
+      "description": "Read-only audit of centralized reporting and owner-feedback traceability for G-09. Verify that task actions, progress, evidence, blockers and handoffs are durably discoverable in GitHub, and that each recorded owner feedback item is traceable to affected decisions, requirements, goals, Work Items and outcomes. This audit does not modify product code, control-plane source, registers, workflows, branches, commits or PRs; findings are recorded only in this Issue thread.",
+      "parent_goal_ids": [
+        "G-09"
+      ],
+      "parent_exp_ids": [
+        "EXP-01"
+      ],
+      "parent_cp_ids": [
+        "CP-05",
+        "CP-06"
+      ],
+      "parent_work_item_id": null,
+      "allocation_provenance": {
+        "allocator_work_item_id": "WI-GOAL-ALLOCATOR-001",
+        "allocator_issue_number": 11,
+        "actor": "a4adelahmadian86-wq",
+        "chat_id": "CHAT-PR07-G09-20261125-01",
+        "run_id": "RUN-PR07-G09-ALLOCATOR-20261125-02",
+        "fencing_token": 205,
+        "branch": null,
+        "allocated_at_utc": "2026-11-25T05:04:40.097Z"
+      },
+      "status": "CLAIMED",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "resource_keys": [
+        "analysis:cp-05-cp-06-report-feedback-traceability"
+      ],
+      "dependencies": [],
+      "effort_estimate_minutes": 25,
+      "effort_rationale": "A bounded 25-minute evidence audit across two related control-plane requirements: CP-05 reporting durability and CP-06 owner-feedback traceability. The requirements share the GitHub issue/register evidence surface but have separate acceptance checks; the audit produces a consolidated matrix without implementation.",
+      "depth_profile": {
+        "profile_version": "2.0.0",
+        "min_substantive_steps": 6,
+        "min_acceptance_criteria": 4,
+        "min_deliverables": 3,
+        "target_effort_minutes": 25
+      },
+      "steps": [
+        {
+          "step_id": "S0_BASELINE",
+          "title": "Freeze the live control-plane baseline and enumerate CP-05/CP-06 canonical requirements and source documents",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Timestamped source inventory tied to the exact main SHA, covering CP-05, CP-06, Goal Tree and governance/reporting registers",
+          "evidence_requirement": "Exact main SHA and direct GitHub URLs for CONTROL_PLANE_REQUIREMENTS.md, GOAL_TREE.md, USER_FEEDBACK_REGISTER.md, DECISION_REGISTER.md, MASTER_STATUS.md and TASK_INDEX.md",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S1_REPORTING_SURFACE",
+          "title": "Trace the reporting lifecycle across Issues, comments, PRs, Actions, checkpoints, evidence and central status registers",
+          "required": true,
+          "weight": 1,
+          "expected_output": "CP-05 reporting coverage matrix identifying which event types are durably recorded, where they are discoverable, and which are missing or stale",
+          "evidence_requirement": "Live Issue/PR comment URLs, Action run URLs, checkpoint schema/records, registry snapshot and current status-register read-back",
+          "estimate_minutes": 5
+        },
+        {
+          "step_id": "S2_FEEDBACK_TRACE",
+          "title": "Map every recorded owner feedback item to decisions, requirements, goals, Work Items and verified outcomes",
+          "required": true,
+          "weight": 1,
+          "expected_output": "CP-06 feedback traceability matrix with explicit linked and orphaned references and preserved original feedback text",
+          "evidence_requirement": "Feedback IDs and exact source lines, DEC IDs, CP/REQ/GOAL references, matching Issue URLs and outcome evidence; mark absent links UNKNOWN",
+          "estimate_minutes": 5
+        },
+        {
+          "step_id": "S3_STATUS_CROSSCHECK",
+          "title": "Reconcile feedback/reporting records with Issue states, labels, checkpoints, PRs, Actions and status snapshots",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Cross-register drift table separating current GitHub facts from historical or stale document claims",
+          "evidence_requirement": "Exact main SHA, current Issue/PR/Actions/registry read-backs and file references for every discrepancy",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S4_GAP_RISK",
+          "title": "Classify missing reporting and feedback links, distinguish proven causes from hypotheses, and assess operational impact",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Prioritized CP-05/CP-06 gap and risk register with preserve/repair/configure/defer options and no invented scores",
+          "evidence_requirement": "Each GAP_ID tied to a requirement, observed evidence, impact and testable root-cause hypothesis; include unknowns and stop conditions",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S5_REPORT_HANDOFF",
+          "title": "Publish the audit matrices and exact follow-up recommendation in this Issue, then independently read back the complete report",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Self-contained report, evidence index, no-duplicate task mapping and precise next action for any justified remediation",
+          "evidence_requirement": "Issue comment URL, successful read-back, source snapshot SHA and explicit confirmation that no repository files or PRs were changed",
+          "estimate_minutes": 4
+        }
+      ],
+      "acceptance_criteria": [
+        {
+          "criterion_id": "AC_CP05_REPORTING_COVERAGE",
+          "title": "Every CP-05 reporting requirement is mapped to a live GitHub evidence surface or explicitly classified as a gap/UNKNOWN",
+          "required": true,
+          "evidence_requirement": "Coverage matrix linking actions, progress, tests, blockers, handoffs and checkpoints to exact GitHub records"
+        },
+        {
+          "criterion_id": "AC_CP06_FEEDBACK_TRACEABILITY",
+          "title": "Every feedback record is traceable to affected decisions, requirements, goals, Work Items and outcomes, or explicitly listed as orphaned",
+          "required": true,
+          "evidence_requirement": "FB-to-DEC/REQ/GOAL/WORK_ITEM matrix with source URLs and preserved original feedback text"
+        },
+        {
+          "criterion_id": "AC_STATUS_DRIFT_RECONCILED",
+          "title": "Current Issue/PR/Actions/registry state is reconciled against status registers without treating historical text or labels as proof",
+          "required": true,
+          "evidence_requirement": "Exact-SHA discrepancy matrix with live GitHub read-backs and reproducible status dispositions"
+        },
+        {
+          "criterion_id": "AC_READ_ONLY_SCOPE",
+          "title": "The audit changes no product or control-plane source, register, workflow, branch, commit or PR",
+          "required": true,
+          "evidence_requirement": "Changed-file/branch/PR read-only verification and Issue-thread-only report reference"
+        }
+      ],
+      "deliverables": [
+        {
+          "deliverable_id": "D1",
+          "description": "CP-05 centralized reporting coverage matrix",
+          "evidence_requirement": "Issue-thread matrix mapping required reporting events to exact GitHub evidence surfaces, gaps and UNKNOWNs"
+        },
+        {
+          "deliverable_id": "D2",
+          "description": "CP-06 owner-feedback traceability matrix",
+          "evidence_requirement": "Issue-thread matrix mapping each FB_ID to decisions, requirements, goals, Work Items and outcomes"
+        },
+        {
+          "deliverable_id": "D3",
+          "description": "Cross-register drift, root-cause and remediation-risk report",
+          "evidence_requirement": "Issue-thread report with exact source refs, risk rationale, options and next action"
+        }
+      ],
+      "priority": 50,
+      "created_at_utc": "2026-11-25T05:04:40.097Z",
+      "ready_at_utc": "2026-11-25T05:04:40.097Z",
+      "next_action": "Perform S0_BASELINE and the CP-05/CP-06 reporting and feedback evidence audit; keep all repository sources READ_ONLY and publish findings only in this Issue thread."
     }
   },
   "checkpoints": {
