@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4423,
+  "revision": 4424,
   "next_fencing_token": 204,
   "locks": [
     {
@@ -35521,6 +35521,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-25T04:35:04.053Z"
+    },
+    "7152972128": {
+      "response": "معیار پذیرش ثبت شد: AC_CONDITIONAL_GUARD; ACCEPTANCE_PROGRESS=20%; OVERALL_COMPLETION=20%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 133,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-25T04:35:26.580Z"
     }
   },
   "work_items": {
@@ -45676,7 +45685,14 @@
           "criterion_id": "AC_CONDITIONAL_GUARD",
           "title": "The aggregation test step is skipped safely when the file is absent and eligible to run when the file exists",
           "required": true,
-          "evidence_requirement": "Workflow guard read-back and Actions step outcome on the workflow-only PR"
+          "evidence_requirement": "Workflow guard read-back and Actions step outcome on the workflow-only PR",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/133#issuecomment-7152965147"
+          ],
+          "validated_at_utc": "2026-11-25T04:35:26.580Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "hashFiles guard skipped the step on the workflow-only branch and is true when the test file exists."
         },
         {
           "criterion_id": "AC_TEST_COMMAND",
