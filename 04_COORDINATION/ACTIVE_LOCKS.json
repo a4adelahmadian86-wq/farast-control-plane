@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4730,
+  "revision": 4731,
   "next_fencing_token": 212,
   "locks": [
     {
@@ -38262,6 +38262,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-25T07:20:11.412Z"
+    },
+    "7155754009": {
+      "response": "معیار پذیرش ثبت شد: AC_INTAKE_ALIGNMENT; ACCEPTANCE_PROGRESS=80%; OVERALL_COMPLETION=80%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 137,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-25T07:20:47.636Z"
     }
   },
   "work_items": {
@@ -49206,7 +49215,14 @@
           "title": "Template and GitHub form collect structured traceability fields while retaining existing free-text feedback",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "Field mapping, YAML validation and exact form/template read-back"
+          "evidence_requirement": "Field mapping, YAML validation and exact form/template read-back",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/137#issuecomment-7155541649"
+          ],
+          "validated_at_utc": "2026-11-25T07:20:47.635Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "The reusable template and GitHub form expose the structured Goal/CP/Work Item/Decision/Requirement IDs, implementation status and verification evidence while retaining required verbatim free text; YAML and exact-head CI validation passed."
         },
         {
           "criterion_id": "AC_SCOPE_AND_HANDOFF",
