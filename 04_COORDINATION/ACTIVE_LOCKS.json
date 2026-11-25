@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4429,
+  "revision": 4430,
   "next_fencing_token": 204,
   "locks": [
     {
@@ -35548,6 +35548,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-25T04:35:41.270Z"
+    },
+    "7152973867": {
+      "response": "معیار پذیرش ثبت شد: AC_SCOPE_ISOLATION; ACCEPTANCE_PROGRESS=80%; OVERALL_COMPLETION=80%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 133,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-25T04:36:09.832Z"
     }
   },
   "work_items": {
@@ -45742,7 +45751,14 @@
           "criterion_id": "AC_SCOPE_ISOLATION",
           "title": "Only .github/workflows/control-plane-validation.yml changes",
           "required": true,
-          "evidence_requirement": "PR changed-file list and exact branch comparison"
+          "evidence_requirement": "PR changed-file list and exact branch comparison",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/134/files"
+          ],
+          "validated_at_utc": "2026-11-25T04:36:09.831Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Exactly one authorized workflow file changed; no other resource touched."
         },
         {
           "criterion_id": "AC_HANDOFF",
