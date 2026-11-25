@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4445,
+  "revision": 4446,
   "next_fencing_token": 205,
   "locks": [
     {
@@ -35672,6 +35672,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-25T04:45:14.014Z"
+    },
+    "7153136286": {
+      "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-CP07-GOAL-PROGRESS-AGGREGATION-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=80%; OVERALL_COMPLETION=80%; next_action=Keep AC_PARENT_AGGREGATION at FAIL and the audit at 80%; wait for PR #134 to be legitimately merged, then resume Issue #130 with a fresh claim and verify all 20 aggregation tests execute and pass on its exact refreshed head; only after the implementation is merged, re-read main and resume this same WORK_ITEM_ID to re-evaluate parent aggregation.; remaining_steps=.",
+      "response_posted": false,
+      "issue_number": 128,
+      "actor": "a4adelahmadian86-wq",
+      "command": "checkpoint",
+      "next_status": null,
+      "at_utc": "2026-11-25T04:45:35.272Z"
     }
   },
   "work_items": {
@@ -46936,9 +46945,9 @@
     },
     "128": {
       "work_item_id": "WI-CP07-GOAL-PROGRESS-AGGREGATION-001",
-      "run_id": "RUN-PR05-G09-CP07-AUDIT-20261124-01",
+      "run_id": "RUN-PR07-G09-CP07-AUDIT-20261125-01",
       "checkpoint_version": 1,
-      "created_at_utc": "2026-11-24T12:02:49.792Z",
+      "created_at_utc": "2026-11-25T04:45:35.271Z",
       "last_verified_step_id": "S6_REPORT_VERIFY",
       "current_step_id": "S6_REPORT_VERIFY",
       "completed_step_ids": [
@@ -46970,15 +46979,17 @@
         "unknown": 0,
         "not_run": 0
       },
-      "evidence_refs": [],
+      "evidence_refs": [
+        "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/128#issuecomment-7153128668"
+      ],
       "blockers": [],
       "owner": {
         "actor": "a4adelahmadian86-wq",
-        "chat_id": "CHAT-PR05-G09-20261124-01",
-        "fencing_token": 195,
-        "lease_expires_at_utc": "2026-11-24T12:32:11.055Z"
+        "chat_id": "CHAT-PR07-G09-20261125-01",
+        "fencing_token": 204,
+        "lease_expires_at_utc": "2026-11-25T05:15:14.014Z"
       },
-      "next_action": "Block this READ_ONLY audit at 80% because AC_PARENT_AGGREGATION is a verified implementation gap; then claim allocator WI-GOAL-ALLOCATOR-001 and create one non-duplicate CP-07 parent-progress aggregation implementation Work Item. After that child is accepted, resume this WORK_ITEM_ID to revalidate AC_PARENT_AGGREGATION and final acceptance."
+      "next_action": "Keep AC_PARENT_AGGREGATION at FAIL and the audit at 80%; wait for PR #134 to be legitimately merged, then resume Issue #130 with a fresh claim and verify all 20 aggregation tests execute and pass on its exact refreshed head; only after the implementation is merged, re-read main and resume this same WORK_ITEM_ID to re-evaluate parent aggregation."
     }
   },
   "inbox_scheduler": {
