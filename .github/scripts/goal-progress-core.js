@@ -42,7 +42,7 @@ function weightedMetric(leafMetrics, metricKey) {
 
   // Normalize before summing so valid finite weights cannot overflow either
   // the denominator or metric * weight numerator (for example, 1e308 * 100).
-  const maxWeight = Math.max(...leafMetrics.map(row => row.weight));
+  const maxWeight = leafMetrics.reduce((maximum, row) => Math.max(maximum, row.weight), 0);
   if (!Number.isFinite(maxWeight) || maxWeight <= 0) return null;
   const normalized = leafMetrics.map(row => ({
     metric: row[metricKey],
