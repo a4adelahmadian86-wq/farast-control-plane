@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4757,
+  "revision": 4758,
   "next_fencing_token": 214,
   "locks": [
     {
@@ -38540,6 +38540,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-25T07:47:32.568Z"
+    },
+    "7156255823": {
+      "response": "STEP ثبت شد: S0_BASELINE; EXECUTION_PROGRESS=16.66%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=1/6.",
+      "response_posted": false,
+      "issue_number": 140,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-25T07:47:40.762Z"
     }
   },
   "work_items": {
@@ -49559,7 +49568,7 @@
         "branch": null,
         "allocated_at_utc": "2026-11-25T07:30:41.168Z"
       },
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "analysis:cp-01-cross-account-context-e2e"
@@ -49573,7 +49582,14 @@
           "weight": 1,
           "expected_output": "Timestamped source inventory distinguishing canonical requirements, accepted prompt work, single-account smoke, simulations and real multi-account E2E evidence",
           "evidence_requirement": "Exact main SHA and direct URLs to all required CP-01 bootstrap/readiness/test sources and relevant Issues/PRs",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/140#issuecomment-7156252924"
+          ],
+          "validated_at_utc": "2026-11-25T07:47:40.761Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S1_IDENTITY_PROOF",
