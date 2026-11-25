@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4377,
+  "revision": 4378,
   "next_fencing_token": 202,
   "locks": [
     {
@@ -35195,7 +35195,7 @@
     },
     "7152815522": {
       "response": "CLAIM GRANTED. TASK=GH-130; WORK_ITEM_ID=WI-CP07-PARENT-AGGREGATION-ENGINE-001; verified_steps=S0_BASELINE,S1_CONTRACT,S2_ENGINE,S3_TESTS,S4_CROSSCHECK,S5_SCOPE_AUDIT; remaining_steps=S6_HANDOFF; EXECUTION_PROGRESS=85.71%; ACCEPTANCE_PROGRESS=66.66%; OVERALL_COMPLETION=66.66%; actor=@a4adelahmadian86-wq; chat=CHAT-PR06-G09-20261124-02; run=RUN-PR06-G09-CP07-AGGREGATOR-20261125-01; resource_keys=file:.github/scripts/goal-progress-core.js,file:.github/scripts/goal-progress-core.test.js,module:goal-progress-aggregation; target_repository=a4adelahmadian86-wq/farast-control-plane; write_policy=WRITE_ALLOWED; branch=work/GH-130-RUN-PR06-G09-CP07-AGGREGATOR-20261125-01; previous_run=RUN-PR05-G09-CP07-AGGREGATOR-20261124-01; previous_target_repository=a4adelahmadian86-wq/farast-control-plane; previous_branch=work/GH-130-RUN-PR05-G09-CP07-AGGREGATOR-20261124-01; fencing_token=201; lease_expires=2026-11-25T04:54:45.196Z. این Work Item با سیاست WRITE_ALLOWED است؛ branch را فقط در target_repository ثبت‌شده بساز و قبل از هر write heartbeat/token را دوباره تأیید کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز و branch قبلی را تغییر نده.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 130,
       "actor": "a4adelahmadian86-wq",
       "command": "claim",
