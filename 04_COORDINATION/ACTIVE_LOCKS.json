@@ -1,25 +1,8 @@
 {
   "schema_version": "1.0",
-  "revision": 4437,
+  "revision": 4438,
   "next_fencing_token": 204,
-  "locks": [
-    {
-      "resource_key": "file:.github/workflows/control-plane-validation.yml",
-      "issue_number": 133,
-      "task_id": "GH-133",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "CHAT-PR06-G09-20261124-02",
-      "chat_id": "CHAT-PR06-G09-20261124-02",
-      "run_id": "RUN-PR06-G09-CP07-CI-COVERAGE-20261125-01",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": "work/GH-133-RUN-PR06-G09-CP07-CI-COVERAGE-20261125-01",
-      "acquired_at_utc": "2026-11-25T04:32:50.018Z",
-      "heartbeat_at_utc": "2026-11-25T04:34:29.257Z",
-      "lease_expires_at_utc": "2026-11-25T05:04:29.257Z",
-      "fencing_token": 203,
-      "status": "ACTIVE"
-    }
-  ],
+  "locks": [],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -16923,6 +16906,17 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "lease_expires_at_utc": "2026-11-25T05:04:29.257Z",
       "at_utc": "2026-11-25T04:34:29.257Z"
+    },
+    {
+      "event": "REVIEW",
+      "issue_number": 133,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-PR06-G09-20261124-02",
+      "run_id": "RUN-PR06-G09-CP07-CI-COVERAGE-20261125-01",
+      "fencing_token": 203,
+      "branch": "work/GH-133-RUN-PR06-G09-CP07-CI-COVERAGE-20261125-01",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "at_utc": "2026-11-25T04:37:01.472Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -35584,6 +35578,15 @@
       "command": "status",
       "next_status": null,
       "at_utc": "2026-11-25T04:36:53.913Z"
+    },
+    "7153002551": {
+      "response": "پیاده‌سازی برای اجرای گیت‌های ماشینی و پذیرش خودکار تحویل شد؛ این فرمان به‌تنهایی پذیرش نیست.",
+      "response_posted": false,
+      "issue_number": 133,
+      "actor": "a4adelahmadian86-wq",
+      "command": "review",
+      "next_status": "review",
+      "at_utc": "2026-11-25T04:37:01.474Z"
     }
   },
   "work_items": {
@@ -45619,7 +45622,7 @@
       "parent_cp_ids": [
         "CP-07"
       ],
-      "status": "IN_PROGRESS",
+      "status": "REVIEW_REQUIRED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "file:.github/workflows/control-plane-validation.yml"
