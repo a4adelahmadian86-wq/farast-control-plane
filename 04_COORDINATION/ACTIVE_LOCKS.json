@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4610,
+  "revision": 4611,
   "next_fencing_token": 211,
   "locks": [
     {
@@ -37234,6 +37234,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-25T06:19:22.989Z"
+    },
+    "7154675687": {
+      "response": "STEP ثبت شد: S4_GOAL_EXP_LEDGER; EXECUTION_PROGRESS=71.42%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=5/7.",
+      "response_posted": false,
+      "issue_number": 136,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-25T06:19:44.396Z"
     }
   },
   "work_items": {
@@ -47832,7 +47841,14 @@
           "weight": 1,
           "expected_output": "Consistent G-09 and EXP status rows with evidence refs and update time",
           "evidence_requirement": "Versioned progress calculations, verified step/criterion evidence and UNKNOWN/BLOCKED dispositions",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/136#issuecomment-7154666356"
+          ],
+          "validated_at_utc": "2026-11-25T06:19:44.395Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S5_ANTI_DRIFT_VALIDATION",
