@@ -1,28 +1,28 @@
 EXP_ID,Title,Goal_IDs,Status,Task_ID,Acceptance_Evidence,Last_Updated_UTC,Notes
-EXP-01,Baseline and versions,G-01,NOT_STARTED,,,,Not executed by control-plane setup
-EXP-02,Protection and recovery,G-01;G-07,NOT_STARTED,,,,
-EXP-03,Capability catalog,G-01,NOT_STARTED,,,,
-EXP-04,Requirements traceability,G-01,NOT_STARTED,,,,
-EXP-05,User scenarios,G-02;G-03;G-04;G-05,NOT_STARTED,,,,
-EXP-06,End-to-end evidence,G-01;G-02,NOT_STARTED,,,,
-EXP-07,Gap and root cause,G-01;G-02;G-06,NOT_STARTED,,,,
-EXP-08,Commerce workflows,G-04,NOT_STARTED,,,,
-EXP-09,Intelligent services,G-05,NOT_STARTED,,,,
-EXP-10,Architecture map,G-01;G-03;G-04;G-05,NOT_STARTED,,,,
-EXP-11,Data and migrations,G-01;G-03,NOT_STARTED,,,,
-EXP-12,Identity and authorization,G-03,NOT_STARTED,,,,
-EXP-13,Security and privacy,G-06,NOT_STARTED,,,,
-EXP-14,Audit integrity,G-06,NOT_STARTED,,,,
-EXP-15,Target architecture,G-02;G-03;G-04;G-05;G-06;G-07,NOT_STARTED,,,,
-EXP-16,Hosting feasibility,G-07,NOT_STARTED,,,,
-EXP-17,Operations and restore,G-01;G-07,NOT_STARTED,,,,
-EXP-18,Low-disruption release,G-07,NOT_STARTED,,,,
-EXP-19,Governance and legal,G-06,NOT_STARTED,,,,
-EXP-20,Prioritization,G-00,NOT_STARTED,,,,
-EXP-21,Change packages,G-00,NOT_STARTED,,,,
-EXP-22,Controlled implementation,G-00,NOT_STARTED,,,,
-EXP-23,Regression testing,G-00,NOT_STARTED,,,,
-EXP-24,Product acceptance,G-00,NOT_STARTED,,,,
-EXP-25,Security and resilience acceptance,G-06;G-07,NOT_STARTED,,,,
-EXP-26,Controlled release,G-07,NOT_STARTED,,,,
-EXP-27,Monitoring and improvement,G-00,NOT_STARTED,,,,
+EXP-01,Baseline and versions,G-01,IN_PROGRESS,WI-EXP01-BASELINE-001 (#13); WI-GOAL-ALLOCATOR-001 (#11); WI-CP05-REGISTER-SYNC-001 (#136); WI-CP06-FEEDBACK-TRACE-001 (#137),https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/13;https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/11;https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/136;https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/137,2026-11-25T06:15:09Z,#13 DONE_VERIFIED; #11 READY; #136 CLAIMED; #137 READY
+EXP-02,Protection and recovery,G-01;G-07,IN_PROGRESS,WI-EXP02-BACKUP-RECOVERY-001 (#66),https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/66,2026-11-25T06:15:09Z,#14 WI-EXP02-BACKUP-RESTORE-001 is superseded by canonical #66; retain history and do not reactivate
+EXP-03,Capability catalog,G-01,IN_PROGRESS,WI-EXP03-CAPABILITY-CATALOG-001 (#15); WI-EXP03-CATALOG-ARTIFACT-REMEDIATION-001 (#126),https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/15;https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/126;https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/127;https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/129,2026-11-25T06:15:09Z,#15 and #126 REVIEW; PRs #127 and #129 OPEN
+EXP-04,Requirements traceability,G-01,IN_PROGRESS,WI-EXP04-REQUIREMENT-TRACE-001 (#16),https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/16,2026-11-25T06:15:09Z,#16 READY
+EXP-05,User scenarios,G-02;G-03;G-04;G-05,DONE_VERIFIED,WI-EXP05-USER-SCENARIOS-001 (#17),https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/17,2026-11-25T06:15:09Z,#17 CLOSED with agent:done
+EXP-06,End-to-end evidence,G-01;G-02,DONE_VERIFIED,WI-EXP06-EVIDENCE-TESTING-001 (#18),https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/18,2026-11-25T06:15:09Z,#18 CLOSED with agent:done
+EXP-07,Gap and root cause,G-01;G-02;G-06,DONE_VERIFIED,WI-EXP07-GAP-ROOT-CAUSE-001 (#19),https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/19;https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/19#issuecomment-7131191244;https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/19#issuecomment-7131851028,2026-11-25T06:15:09Z,#19 CLOSED with agent:done; Work Item JSON parent_goal_ids=[G-00] differs from PR-07 Goal mapping G-01/G-02/G-06 and is preserved as a documented metadata mismatch
+EXP-08,Commerce workflows,G-04,IN_PROGRESS,WI-EXP08-COMMERCE-CYCLE-001 (#20),https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/20,2026-11-25T06:15:09Z,#20 REVIEW
+EXP-09,Intelligent services,G-05,IN_PROGRESS,WI-EXP09-AI-SERVICE-CYCLE-001 (#21),https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/21,2026-11-25T06:15:09Z,#21 READY
+EXP-10,Architecture map,G-01;G-03;G-04;G-05,IN_PROGRESS,WI-EXP10-ARCHITECTURE-MAP-001 (#22),https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/22,2026-11-25T06:15:09Z,#22 READY
+EXP-11,Data and migrations,G-01;G-03,IN_PROGRESS,WI-EXP11-DATA-MIGRATION-001 (#23),https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/23,2026-11-25T06:15:09Z,#23 READY
+EXP-12,Identity and authorization,G-03,IN_PROGRESS,WI-EXP12-IDENTITY-PERMISSION-001 (#24),https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/24,2026-11-25T06:15:09Z,#24 READY
+EXP-13,Security and privacy,G-06,IN_PROGRESS,WI-EXP13-SECURITY-PRIVACY-001 (#25),https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/25,2026-11-25T06:15:09Z,#25 READY
+EXP-14,Audit integrity,G-06,IN_PROGRESS,WI-EXP14-AUDIT-EVIDENCE-001 (#26),https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/26,2026-11-25T06:15:09Z,#26 READY
+EXP-15,Target architecture,G-02;G-03;G-04;G-05;G-06;G-07,IN_PROGRESS,WI-EXP15-TARGET-ARCHITECTURE-001 (#27),https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/27,2026-11-25T06:15:09Z,#27 READY
+EXP-16,Hosting feasibility,G-07,IN_PROGRESS,WI-EXP16-HOSTING-FEASIBILITY-001 (#28),https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/28,2026-11-25T06:15:09Z,#28 READY
+EXP-17,Operations and restore,G-01;G-07,IN_PROGRESS,WI-EXP17-OPERATIONS-DR-001 (#29),https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/29,2026-11-25T06:15:09Z,#29 READY
+EXP-18,Low-disruption release,G-07,IN_PROGRESS,WI-EXP18-LOW-DISRUPTION-RELEASE-001 (#30),https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/30,2026-11-25T06:15:09Z,#30 READY
+EXP-19,Governance and legal,G-06,IN_PROGRESS,WI-EXP19-GOVERNANCE-LEGAL-001 (#31),https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/31,2026-11-25T06:15:09Z,#31 READY
+EXP-20,Prioritization,G-00,IN_PROGRESS,WI-EXP20-PRIORITIZATION-001 (#32),https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/32,2026-11-25T06:15:09Z,#32 READY
+EXP-21,Change packages,G-00,IN_PROGRESS,WI-EXP21-CHANGE-PACKAGE-001 (#33); WI-SEMANTIC-DUPLICATE-DELIVERABLE-SCOPE-001 (#85),https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/33;https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/85,2026-11-25T06:15:09Z,#33 DONE_VERIFIED; #85 READY and also maps to EXP-23
+EXP-22,Controlled implementation,G-00,IN_PROGRESS,WI-EXP22-CONTROLLED-IMPLEMENTATION-001 (#34); WI-EDITOR-AUTOSAVE-INFLIGHT-RACE-001 (#115),https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/34;https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/115,2026-11-25T06:15:09Z,#34 DONE_VERIFIED; #115 BLOCKED
+EXP-23,Regression testing,G-00,IN_PROGRESS,WI-EXP23-REGRESSION-001 (#35); WI-SEMANTIC-DUPLICATE-DELIVERABLE-SCOPE-001 (#85); WI-EDITOR-AUTOSAVE-INFLIGHT-RACE-001 (#115),https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/35;https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/85;https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/115,2026-11-25T06:15:09Z,#35 DONE_VERIFIED; #85 READY; #115 BLOCKED
+EXP-24,Product acceptance,G-00;G-02;G-04;G-05;G-08,IN_PROGRESS,WI-EXP24-PRODUCT-ACCEPTANCE-001 (#36),https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/36,2026-11-25T06:15:09Z,#36 READY
+EXP-25,Security and resilience acceptance,G-06;G-07,IN_PROGRESS,WI-EXP25-SECURITY-RESILIENCE-001 (#37),https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/37,2026-11-25T06:15:09Z,#37 READY
+EXP-26,Controlled release,G-07,IN_PROGRESS,WI-EXP26-CONTROLLED-RELEASE-001 (#38),https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/38,2026-11-25T06:15:09Z,#38 READY
+EXP-27,Monitoring and improvement,G-00,IN_PROGRESS,WI-EXP27-MONITORING-IMPROVEMENT-001 (#39),https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/39,2026-11-25T06:15:09Z,#39 READY
