@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4720,
+  "revision": 4721,
   "next_fencing_token": 212,
   "locks": [
     {
@@ -14,8 +14,8 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "branch": "work/GH-137-RUN-PR07-G09-CP06-FEEDBACK-TRACE-20261125-01",
       "acquired_at_utc": "2026-11-25T06:32:50.950Z",
-      "heartbeat_at_utc": "2026-11-25T07:17:04.440Z",
-      "lease_expires_at_utc": "2026-11-25T07:47:04.440Z",
+      "heartbeat_at_utc": "2026-11-25T07:18:04.056Z",
+      "lease_expires_at_utc": "2026-11-25T07:48:04.056Z",
       "fencing_token": 211,
       "status": "ACTIVE"
     },
@@ -30,8 +30,8 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "branch": "work/GH-137-RUN-PR07-G09-CP06-FEEDBACK-TRACE-20261125-01",
       "acquired_at_utc": "2026-11-25T06:32:50.950Z",
-      "heartbeat_at_utc": "2026-11-25T07:17:04.440Z",
-      "lease_expires_at_utc": "2026-11-25T07:47:04.440Z",
+      "heartbeat_at_utc": "2026-11-25T07:18:04.056Z",
+      "lease_expires_at_utc": "2026-11-25T07:48:04.056Z",
       "fencing_token": 211,
       "status": "ACTIVE"
     },
@@ -46,8 +46,8 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "branch": "work/GH-137-RUN-PR07-G09-CP06-FEEDBACK-TRACE-20261125-01",
       "acquired_at_utc": "2026-11-25T06:32:50.950Z",
-      "heartbeat_at_utc": "2026-11-25T07:17:04.440Z",
-      "lease_expires_at_utc": "2026-11-25T07:47:04.440Z",
+      "heartbeat_at_utc": "2026-11-25T07:18:04.056Z",
+      "lease_expires_at_utc": "2026-11-25T07:48:04.056Z",
       "fencing_token": 211,
       "status": "ACTIVE"
     },
@@ -62,8 +62,8 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "branch": "work/GH-137-RUN-PR07-G09-CP06-FEEDBACK-TRACE-20261125-01",
       "acquired_at_utc": "2026-11-25T06:32:50.950Z",
-      "heartbeat_at_utc": "2026-11-25T07:17:04.440Z",
-      "lease_expires_at_utc": "2026-11-25T07:47:04.440Z",
+      "heartbeat_at_utc": "2026-11-25T07:18:04.056Z",
+      "lease_expires_at_utc": "2026-11-25T07:48:04.056Z",
       "fencing_token": 211,
       "status": "ACTIVE"
     },
@@ -78,8 +78,8 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "branch": "work/GH-137-RUN-PR07-G09-CP06-FEEDBACK-TRACE-20261125-01",
       "acquired_at_utc": "2026-11-25T06:32:50.950Z",
-      "heartbeat_at_utc": "2026-11-25T07:17:04.440Z",
-      "lease_expires_at_utc": "2026-11-25T07:47:04.440Z",
+      "heartbeat_at_utc": "2026-11-25T07:18:04.056Z",
+      "lease_expires_at_utc": "2026-11-25T07:48:04.056Z",
       "fencing_token": 211,
       "status": "ACTIVE"
     }
@@ -18278,6 +18278,18 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "lease_expires_at_utc": "2026-11-25T07:47:04.440Z",
       "at_utc": "2026-11-25T07:17:04.440Z"
+    },
+    {
+      "event": "HEARTBEAT",
+      "issue_number": 137,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-PR07-G09-20261125-01",
+      "run_id": "RUN-PR07-G09-CP06-FEEDBACK-TRACE-20261125-01",
+      "fencing_token": 211,
+      "branch": "work/GH-137-RUN-PR07-G09-CP06-FEEDBACK-TRACE-20261125-01",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "lease_expires_at_utc": "2026-11-25T07:48:04.056Z",
+      "at_utc": "2026-11-25T07:18:04.056Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -38181,6 +38193,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-25T07:17:30.965Z"
+    },
+    "7155703631": {
+      "response": "Lease تمدید شد تا 2026-11-25T07:48:04.056Z UTC؛ fencing_token=211.",
+      "response_posted": false,
+      "issue_number": 137,
+      "actor": "a4adelahmadian86-wq",
+      "command": "heartbeat",
+      "next_status": null,
+      "at_utc": "2026-11-25T07:18:04.056Z"
     }
   },
   "work_items": {
