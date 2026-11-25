@@ -1,8 +1,89 @@
 {
   "schema_version": "1.0",
-  "revision": 4656,
-  "next_fencing_token": 211,
-  "locks": [],
+  "revision": 4657,
+  "next_fencing_token": 212,
+  "locks": [
+    {
+      "resource_key": "file:.github/ISSUE_TEMPLATE/feedback.yml",
+      "issue_number": 137,
+      "task_id": "GH-137",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-PR07-G09-20261125-01",
+      "chat_id": "CHAT-PR07-G09-20261125-01",
+      "run_id": "RUN-PR07-G09-CP06-FEEDBACK-TRACE-20261125-01",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-137-RUN-PR07-G09-CP06-FEEDBACK-TRACE-20261125-01",
+      "acquired_at_utc": "2026-11-25T06:32:50.950Z",
+      "heartbeat_at_utc": "2026-11-25T06:32:50.950Z",
+      "lease_expires_at_utc": "2026-11-25T07:02:50.950Z",
+      "fencing_token": 211,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "file:02_GOVERNANCE/DECISION_REGISTER.md",
+      "issue_number": 137,
+      "task_id": "GH-137",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-PR07-G09-20261125-01",
+      "chat_id": "CHAT-PR07-G09-20261125-01",
+      "run_id": "RUN-PR07-G09-CP06-FEEDBACK-TRACE-20261125-01",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-137-RUN-PR07-G09-CP06-FEEDBACK-TRACE-20261125-01",
+      "acquired_at_utc": "2026-11-25T06:32:50.950Z",
+      "heartbeat_at_utc": "2026-11-25T06:32:50.950Z",
+      "lease_expires_at_utc": "2026-11-25T07:02:50.950Z",
+      "fencing_token": 211,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "file:02_GOVERNANCE/FEEDBACK_INTAKE_TEMPLATE.md",
+      "issue_number": 137,
+      "task_id": "GH-137",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-PR07-G09-20261125-01",
+      "chat_id": "CHAT-PR07-G09-20261125-01",
+      "run_id": "RUN-PR07-G09-CP06-FEEDBACK-TRACE-20261125-01",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-137-RUN-PR07-G09-CP06-FEEDBACK-TRACE-20261125-01",
+      "acquired_at_utc": "2026-11-25T06:32:50.950Z",
+      "heartbeat_at_utc": "2026-11-25T06:32:50.950Z",
+      "lease_expires_at_utc": "2026-11-25T07:02:50.950Z",
+      "fencing_token": 211,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "file:02_GOVERNANCE/USER_FEEDBACK_REGISTER.md",
+      "issue_number": 137,
+      "task_id": "GH-137",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-PR07-G09-20261125-01",
+      "chat_id": "CHAT-PR07-G09-20261125-01",
+      "run_id": "RUN-PR07-G09-CP06-FEEDBACK-TRACE-20261125-01",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-137-RUN-PR07-G09-CP06-FEEDBACK-TRACE-20261125-01",
+      "acquired_at_utc": "2026-11-25T06:32:50.950Z",
+      "heartbeat_at_utc": "2026-11-25T06:32:50.950Z",
+      "lease_expires_at_utc": "2026-11-25T07:02:50.950Z",
+      "fencing_token": 211,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "module:cp06-feedback-traceability",
+      "issue_number": 137,
+      "task_id": "GH-137",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-PR07-G09-20261125-01",
+      "chat_id": "CHAT-PR07-G09-20261125-01",
+      "run_id": "RUN-PR07-G09-CP06-FEEDBACK-TRACE-20261125-01",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-137-RUN-PR07-G09-CP06-FEEDBACK-TRACE-20261125-01",
+      "acquired_at_utc": "2026-11-25T06:32:50.950Z",
+      "heartbeat_at_utc": "2026-11-25T06:32:50.950Z",
+      "lease_expires_at_utc": "2026-11-25T07:02:50.950Z",
+      "fencing_token": 211,
+      "status": "ACTIVE"
+    }
+  ],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -17912,6 +17993,27 @@
       "branch": "work/GH-136-RUN-PR07-G09-CP05-REGISTER-SYNC-20261125-01",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "at_utc": "2026-11-25T06:31:06.237Z"
+    },
+    {
+      "event": "ACQUIRED",
+      "issue_number": 137,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-PR07-G09-20261125-01",
+      "run_id": "RUN-PR07-G09-CP06-FEEDBACK-TRACE-20261125-01",
+      "resource_keys": [
+        "file:.github/ISSUE_TEMPLATE/feedback.yml",
+        "file:02_GOVERNANCE/DECISION_REGISTER.md",
+        "file:02_GOVERNANCE/FEEDBACK_INTAKE_TEMPLATE.md",
+        "file:02_GOVERNANCE/USER_FEEDBACK_REGISTER.md",
+        "module:cp06-feedback-traceability"
+      ],
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-137-RUN-PR07-G09-CP06-FEEDBACK-TRACE-20261125-01",
+      "previous_branch": null,
+      "previous_target_repository": null,
+      "previous_run_id": null,
+      "fencing_token": 211,
+      "at_utc": "2026-11-25T06:32:50.950Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -37527,6 +37629,15 @@
       "command": "review",
       "next_status": "review",
       "at_utc": "2026-11-25T06:31:06.238Z"
+    },
+    "7154899375": {
+      "response": "CLAIM GRANTED. TASK=GH-137; WORK_ITEM_ID=WI-CP06-FEEDBACK-TRACE-001; verified_steps=; remaining_steps=S0_BASELINE,S1_TRACE_EXISTING_FEEDBACK,S2_DECISION_LINKS,S3_INTAKE_TEMPLATE,S4_GITHUB_FORM,S5_TRACEABILITY_VALIDATION,S6_HANDOFF; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; actor=@a4adelahmadian86-wq; chat=CHAT-PR07-G09-20261125-01; run=RUN-PR07-G09-CP06-FEEDBACK-TRACE-20261125-01; resource_keys=file:.github/ISSUE_TEMPLATE/feedback.yml,file:02_GOVERNANCE/DECISION_REGISTER.md,file:02_GOVERNANCE/FEEDBACK_INTAKE_TEMPLATE.md,file:02_GOVERNANCE/USER_FEEDBACK_REGISTER.md,module:cp06-feedback-traceability; target_repository=a4adelahmadian86-wq/farast-control-plane; write_policy=WRITE_ALLOWED; branch=work/GH-137-RUN-PR07-G09-CP06-FEEDBACK-TRACE-20261125-01; previous_run=none; fencing_token=211; lease_expires=2026-11-25T07:02:50.950Z. این Work Item با سیاست WRITE_ALLOWED است؛ branch را فقط در target_repository ثبت‌شده بساز و قبل از هر write heartbeat/token را دوباره تأیید کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز و branch قبلی را تغییر نده.",
+      "response_posted": false,
+      "issue_number": 137,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "locked",
+      "at_utc": "2026-11-25T06:32:50.975Z"
     }
   },
   "work_items": {
@@ -48259,6 +48370,178 @@
       "priority": 50,
       "created_at_utc": "2026-11-25T06:01:47Z",
       "next_action": "Claim this Work Item with a fresh RUN_ID; reconcile only the declared control-plane reporting files."
+    },
+    "137": {
+      "schema_version": "1.0",
+      "operation_scope_version": "1.0",
+      "requested_operations": [
+        "control_plane_write"
+      ],
+      "write_policy": "WRITE_ALLOWED",
+      "priority_source": "DEFAULT_POLICY",
+      "work_item_id": "WI-CP06-FEEDBACK-TRACE-001",
+      "title": "CP-06 owner feedback to decision and outcome traceability",
+      "description": "Complete evidence-backed traceability from owner feedback to affected Goals, decisions, requirements, Work Items and outcomes, and align the reusable intake template and GitHub form without rewriting original feedback or decision history.",
+      "parent_goal_ids": [
+        "G-09"
+      ],
+      "parent_exp_ids": [
+        "EXP-01"
+      ],
+      "parent_cp_ids": [
+        "CP-06"
+      ],
+      "allocation_provenance": {
+        "allocator_work_item_id": "WI-GOAL-ALLOCATOR-001",
+        "allocator_issue_number": 11,
+        "actor": "a4adelahmadian86-wq",
+        "chat_id": "CHAT-PR07-G09-20261125-01",
+        "run_id": "RUN-PR07-G09-ALLOCATE-CP05-06-REMEDIATION-20261125-03",
+        "fencing_token": 209,
+        "branch": null,
+        "allocated_at_utc": "2026-11-25T06:04:14Z"
+      },
+      "status": "CLAIMED",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "resource_keys": [
+        "module:cp06-feedback-traceability",
+        "file:02_GOVERNANCE/USER_FEEDBACK_REGISTER.md",
+        "file:02_GOVERNANCE/DECISION_REGISTER.md",
+        "file:02_GOVERNANCE/FEEDBACK_INTAKE_TEMPLATE.md",
+        "file:.github/ISSUE_TEMPLATE/feedback.yml"
+      ],
+      "dependencies": [],
+      "effort_estimate_minutes": 25,
+      "effort_rationale": "A bounded 25-minute governance traceability repair across feedback, decision and intake records, preserving source text and history.",
+      "depth_profile": {
+        "profile_version": "2.0.0",
+        "min_substantive_steps": 6,
+        "min_acceptance_criteria": 4,
+        "min_deliverables": 3,
+        "target_effort_minutes": 25
+      },
+      "steps": [
+        {
+          "step_id": "S0_BASELINE",
+          "title": "Freeze main SHA and inventory CP-06 requirements and feedback/decision sources",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Timestamped source manifest and canonical feedback/decision ID list",
+          "evidence_requirement": "Main SHA, CP-06 requirement, feedback register, decision register, intake template and form URLs/SHAs",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S1_TRACE_EXISTING_FEEDBACK",
+          "title": "Trace each feedback item to affected Goals, CPs, decisions, requirements and Work Items",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Evidence-backed feedback-to-outcome matrix with UNKNOWN/UNMAPPED for unsupported links",
+          "evidence_requirement": "Original feedback ID/text, source references and exact related record URLs",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S2_DECISION_LINKS",
+          "title": "Reconcile decision register entries to source feedback and affected requirements/Work Items",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Decision rows with source feedback IDs, affected IDs and implementation/verification disposition",
+          "evidence_requirement": "Decision sources and direct links; preserve historical decisions and distinguish proposed from accepted",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S3_INTAKE_TEMPLATE",
+          "title": "Align reusable feedback intake template with structured traceability fields",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Template with feedback ID, source/date, owner decision and affected Goal/Work Item/Decision/Requirement IDs",
+          "evidence_requirement": "Template diff and field-by-field mapping to CP-06",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S4_GITHUB_FORM",
+          "title": "Add structured traceability fields to the GitHub feedback form while preserving free text",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Validated YAML form with clear optional/unknown guidance",
+          "evidence_requirement": "Exact form diff, YAML parse/validation and template mapping",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S5_TRACEABILITY_VALIDATION",
+          "title": "Cross-check records and intake surfaces for consistent IDs and evidence-backed links",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Traceability validation matrix and explicit residual unknowns",
+          "evidence_requirement": "Stable ID uniqueness, link validation, before/after diff and source read-back",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S6_HANDOFF",
+          "title": "Publish review-ready PR and checkpoint without merging",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Scoped PR, exact next action and durable handoff",
+          "evidence_requirement": "PR URL/head SHA, changed-file list, required checks and checkpoint URL",
+          "estimate_minutes": 3
+        }
+      ],
+      "acceptance_criteria": [
+        {
+          "criterion_id": "AC_FEEDBACK_PRESERVED",
+          "title": "All existing feedback retains original text, stable ID, date/source and owner decision history",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Before/after comparison proving no original feedback or decision history was removed or rewritten"
+        },
+        {
+          "criterion_id": "AC_TRACEABILITY_LINKS",
+          "title": "Every asserted feedback-to-record relationship is evidence-backed; unsupported links are UNKNOWN/UNMAPPED",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Feedback-to-outcome matrix with exact record URLs and explicit unknowns"
+        },
+        {
+          "criterion_id": "AC_DECISION_PROVENANCE",
+          "title": "Decision records identify source feedback and affected Work Items/Requirements where evidence supports the mapping",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Decision-register diff and source-to-decision link validation"
+        },
+        {
+          "criterion_id": "AC_INTAKE_ALIGNMENT",
+          "title": "Template and GitHub form collect structured traceability fields while retaining existing free-text feedback",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Field mapping, YAML validation and exact form/template read-back"
+        },
+        {
+          "criterion_id": "AC_SCOPE_AND_HANDOFF",
+          "title": "Only declared files change and a review-ready PR/checkpoint is produced without merge",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Exact changed-file list, required checks, PR URL and checkpoint URL"
+        }
+      ],
+      "deliverables": [
+        {
+          "deliverable_id": "D1",
+          "description": "Feedback traceability matrix from original feedback to Goals, Decisions, Requirements, Work Items and outcomes",
+          "evidence_requirement": "Exact stable IDs, direct source links and explicit UNKNOWN/UNMAPPED entries"
+        },
+        {
+          "deliverable_id": "D2",
+          "description": "Reconciled feedback and decision governance records with history preserved",
+          "evidence_requirement": "Before/after diff and validated source mappings"
+        },
+        {
+          "deliverable_id": "D3",
+          "description": "Structured feedback intake template and GitHub form with validation report",
+          "evidence_requirement": "Exact diffs, YAML validation, field mapping and PR/checkpoint links"
+        }
+      ],
+      "priority": 50,
+      "created_at_utc": "2026-11-25T06:04:14Z",
+      "next_action": "Claim this Work Item with a fresh RUN_ID; update only the declared CP-06 governance files."
     }
   },
   "checkpoints": {
