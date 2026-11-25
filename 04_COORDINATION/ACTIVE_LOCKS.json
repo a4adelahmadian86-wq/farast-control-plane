@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4417,
+  "revision": 4418,
   "next_fencing_token": 204,
   "locks": [
     {
@@ -35494,6 +35494,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-25T04:34:29.257Z"
+    },
+    "7152966292": {
+      "response": "STEP ثبت شد: S3_VALIDATE; EXECUTION_PROGRESS=57.14%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=4/7.",
+      "response_posted": false,
+      "issue_number": 133,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-25T04:34:48.198Z"
     }
   },
   "work_items": {
@@ -45596,7 +45605,14 @@
           "required": true,
           "expected_output": "Successful workflow validation without making main fail when the aggregation test file is absent",
           "evidence_requirement": "Exact-head Actions run, job result, workflow YAML parse result, and explicit skipped-step result on this workflow-only branch",
-          "estimate_minutes": 5
+          "estimate_minutes": 5,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/133#issuecomment-7152965147"
+          ],
+          "validated_at_utc": "2026-11-25T04:34:48.198Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S4_SCOPE_AUDIT",
