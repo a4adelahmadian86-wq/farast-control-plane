@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4475,
+  "revision": 4476,
   "next_fencing_token": 207,
   "locks": [
     {
@@ -35973,6 +35973,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-25T05:12:34.341Z"
+    },
+    "7153555841": {
+      "response": "STEP ثبت شد: S1_REPORTING_SURFACE; EXECUTION_PROGRESS=33.33%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=2/6.",
+      "response_posted": false,
+      "issue_number": 135,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-25T05:13:08.638Z"
     }
   },
   "work_items": {
@@ -46300,7 +46309,14 @@
           "weight": 1,
           "expected_output": "CP-05 reporting coverage matrix identifying which event types are durably recorded, where they are discoverable, and which are missing or stale",
           "evidence_requirement": "Live Issue/PR comment URLs, Action run URLs, checkpoint schema/records, registry snapshot and current status-register read-back",
-          "estimate_minutes": 5
+          "estimate_minutes": 5,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/135#issuecomment-7153527064"
+          ],
+          "validated_at_utc": "2026-11-25T05:13:08.637Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S2_FEEDBACK_TRACE",
