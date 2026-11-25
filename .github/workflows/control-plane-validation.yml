@@ -83,6 +83,9 @@ jobs:
         run: node --test .github/scripts/work-item-core.test.js
       - name: Run deterministic specialist prompt dispatch fixtures
         run: node --test .github/scripts/work-item-dispatch-core.test.js
+      - name: Run CP-07 parent aggregation regression fixtures
+        if: hashFiles('.github/scripts/goal-progress-core.test.js') != ''
+        run: node --test .github/scripts/goal-progress-core.test.js
       - name: Validate JSON and all prompt bootstrap contracts
         shell: bash
         run: |
