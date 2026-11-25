@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4503,
+  "revision": 4504,
   "next_fencing_token": 207,
   "locks": [
     {
@@ -36183,6 +36183,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-25T05:19:28.728Z"
+    },
+    "7153666208": {
+      "response": "معیار پذیرش ثبت شد: AC_STATUS_DRIFT_RECONCILED; ACCEPTANCE_PROGRESS=75%; OVERALL_COMPLETION=75%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 135,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-25T05:20:01.748Z"
     }
   },
   "work_items": {
@@ -46615,7 +46624,14 @@
           "criterion_id": "AC_STATUS_DRIFT_RECONCILED",
           "title": "Current Issue/PR/Actions/registry state is reconciled against status registers without treating historical text or labels as proof",
           "required": true,
-          "evidence_requirement": "Exact-SHA discrepancy matrix with live GitHub read-backs and reproducible status dispositions"
+          "evidence_requirement": "Exact-SHA discrepancy matrix with live GitHub read-backs and reproducible status dispositions",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/135#issuecomment-7153527064"
+          ],
+          "validated_at_utc": "2026-11-25T05:20:01.747Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_READ_ONLY_SCOPE",
