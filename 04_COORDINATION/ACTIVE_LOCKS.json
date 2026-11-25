@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4651,
+  "revision": 4652,
   "next_fencing_token": 211,
   "locks": [
     {
@@ -37561,7 +37561,7 @@
     },
     "7154851172": {
       "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-CP05-REGISTER-SYNC-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=Wait for the separate owner/coordinator acceptance decision on PR #138. Do not merge in this RUN. If accepted, verify the merge SHA and coordinator transition; if changes are requested, resume this same WORK_ITEM_ID with a fresh RUN and remaining review actions.; remaining_steps=.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 136,
       "actor": "a4adelahmadian86-wq",
       "command": "checkpoint",
