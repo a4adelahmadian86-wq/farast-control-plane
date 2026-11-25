@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4594,
+  "revision": 4595,
   "next_fencing_token": 211,
   "locks": [
     {
@@ -37090,6 +37090,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-25T06:14:29.977Z"
+    },
+    "7154591575": {
+      "response": "STEP ثبت شد: S2_TASK_INDEX; EXECUTION_PROGRESS=42.85%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=3/7.",
+      "response_posted": false,
+      "issue_number": 136,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-25T06:14:53.594Z"
     }
   },
   "work_items": {
@@ -47656,7 +47665,14 @@
           "weight": 1,
           "expected_output": "Navigable task index separating active, blocked, review, accepted, closed and superseded records",
           "evidence_requirement": "Row-to-Issue mapping, stable ID uniqueness check and exact source links",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/d9bb4fe7e9b5a1c80a211274bf6ff633afae990a/03_PROJECT_STATE/TASK_INDEX.md"
+          ],
+          "validated_at_utc": "2026-11-25T06:14:53.593Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S3_MASTER_STATUS",
