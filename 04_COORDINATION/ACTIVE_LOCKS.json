@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4711,
+  "revision": 4712,
   "next_fencing_token": 212,
   "locks": [
     {
@@ -38115,7 +38115,7 @@
     },
     "7155656527": {
       "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-CP06-FEEDBACK-TRACE-001; EXECUTION_PROGRESS=85.71%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; next_action=Await independent review on PR #139. If review requests changes, resume this same WORK_ITEM_ID with a fresh RUN_ID and a new coordinator claim; preserve the current branch and all evidence. If review is approved, wait for the separate owner/coordinator acceptance gate. Do not merge or release in this RUN.; remaining_steps=S6_HANDOFF.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 137,
       "actor": "a4adelahmadian86-wq",
       "command": "checkpoint",
