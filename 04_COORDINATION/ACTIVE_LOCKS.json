@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4734,
+  "revision": 4735,
   "next_fencing_token": 212,
   "locks": [
     {
@@ -38292,6 +38292,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-25T07:21:16.650Z"
+    },
+    "7155771987": {
+      "response": "معیار پذیرش ثبت شد: AC_SCOPE_AND_HANDOFF; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; can_accept=true.",
+      "response_posted": false,
+      "issue_number": 137,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-25T07:21:43.865Z"
     }
   },
   "work_items": {
@@ -49055,7 +49064,7 @@
         "branch": null,
         "allocated_at_utc": "2026-11-25T06:04:14Z"
       },
-      "status": "IN_PROGRESS",
+      "status": "REVIEW_REQUIRED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "module:cp06-feedback-traceability",
@@ -49250,7 +49259,14 @@
           "title": "Only declared files change and a review-ready PR/checkpoint is produced without merge",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "Exact changed-file list, required checks, PR URL and checkpoint URL"
+          "evidence_requirement": "Exact changed-file list, required checks, PR URL and checkpoint URL",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/45566455876"
+          ],
+          "validated_at_utc": "2026-11-25T07:21:43.864Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "PR #139 is review-ready on the exact validated head, changes only the four declared files, and has successful required CI; checkpoint records the independent-review next action. No merge occurred."
         }
       ],
       "deliverables": [
