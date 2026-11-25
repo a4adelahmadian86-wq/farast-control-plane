@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4427,
+  "revision": 4428,
   "next_fencing_token": 204,
   "locks": [
     {
@@ -35539,6 +35539,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-25T04:35:33.559Z"
+    },
+    "7152973333": {
+      "response": "معیار پذیرش ثبت شد: AC_CI_VALIDATION; ACCEPTANCE_PROGRESS=60%; OVERALL_COMPLETION=60%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 133,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-25T04:35:41.270Z"
     }
   },
   "work_items": {
@@ -45720,7 +45729,14 @@
           "criterion_id": "AC_CI_VALIDATION",
           "title": "The workflow-only PR passes Control Plane Validation on its exact head and main remains valid while the aggregation test file is absent",
           "required": true,
-          "evidence_requirement": "Exact-head Actions run, successful job, and skipped guarded step"
+          "evidence_requirement": "Exact-head Actions run, successful job, and skipped guarded step",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/45547614067"
+          ],
+          "validated_at_utc": "2026-11-25T04:35:41.270Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Exact-head Control Plane Validation succeeded and guarded test step skipped as intended while file is absent."
         },
         {
           "criterion_id": "AC_SCOPE_ISOLATION",
