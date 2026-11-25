@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4386,
+  "revision": 4387,
   "next_fencing_token": 202,
   "locks": [
     {
@@ -35285,6 +35285,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-25T04:27:20.478Z"
+    },
+    "7152855093": {
+      "response": "STEP ثبت شد: S6_HANDOFF; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=66.66%; OVERALL_COMPLETION=66.66%; verified_steps=7/7.",
+      "response_posted": false,
+      "issue_number": 130,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-25T04:27:29.506Z"
     }
   },
   "work_items": {
@@ -45067,7 +45076,7 @@
       "parent_cp_ids": [
         "CP-07"
       ],
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "module:goal-progress-aggregation",
@@ -45175,7 +45184,14 @@
           "title": "Publish a review-ready PR and checkpoint the remaining integration work without merging",
           "required": true,
           "expected_output": "Review-ready PR, durable checkpoint and precise integration handoff for a separately scoped follow-up",
-          "evidence_requirement": "PR URL/head SHA, successful required checks, checkpoint URL and explicit no-merge confirmation"
+          "evidence_requirement": "PR URL/head SHA, successful required checks, checkpoint URL and explicit no-merge confirmation",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/130#issuecomment-7152853132"
+          ],
+          "validated_at_utc": "2026-11-25T04:27:29.506Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "acceptance_criteria": [
