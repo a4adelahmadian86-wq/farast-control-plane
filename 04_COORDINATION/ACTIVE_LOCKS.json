@@ -1,8 +1,25 @@
 {
   "schema_version": "1.0",
-  "revision": 4405,
-  "next_fencing_token": 203,
-  "locks": [],
+  "revision": 4406,
+  "next_fencing_token": 204,
+  "locks": [
+    {
+      "resource_key": "file:.github/workflows/control-plane-validation.yml",
+      "issue_number": 133,
+      "task_id": "GH-133",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-PR06-G09-20261124-02",
+      "chat_id": "CHAT-PR06-G09-20261124-02",
+      "run_id": "RUN-PR06-G09-CP07-CI-COVERAGE-20261125-01",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-133-RUN-PR06-G09-CP07-CI-COVERAGE-20261125-01",
+      "acquired_at_utc": "2026-11-25T04:32:50.018Z",
+      "heartbeat_at_utc": "2026-11-25T04:32:50.018Z",
+      "lease_expires_at_utc": "2026-11-25T05:02:50.018Z",
+      "fencing_token": 203,
+      "status": "ACTIVE"
+    }
+  ],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -16865,6 +16882,23 @@
       "branch": null,
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "at_utc": "2026-11-25T04:32:16.867Z"
+    },
+    {
+      "event": "ACQUIRED",
+      "issue_number": 133,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-PR06-G09-20261124-02",
+      "run_id": "RUN-PR06-G09-CP07-CI-COVERAGE-20261125-01",
+      "resource_keys": [
+        "file:.github/workflows/control-plane-validation.yml"
+      ],
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": "work/GH-133-RUN-PR06-G09-CP07-CI-COVERAGE-20261125-01",
+      "previous_branch": null,
+      "previous_target_repository": null,
+      "previous_run_id": null,
+      "fencing_token": 203,
+      "at_utc": "2026-11-25T04:32:50.018Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -35382,6 +35416,15 @@
       "command": "release",
       "next_status": "ready",
       "at_utc": "2026-11-25T04:32:16.869Z"
+    },
+    "7152938529": {
+      "response": "CLAIM GRANTED. TASK=GH-133; WORK_ITEM_ID=WI-CP07-AGGREGATION-CI-COVERAGE-001; verified_steps=; remaining_steps=S0_BASELINE,S1_CONTRACT,S2_IMPLEMENT,S3_VALIDATE,S4_SCOPE_AUDIT,S5_HANDOFF,S6_CROSSCHECK; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; actor=@a4adelahmadian86-wq; chat=CHAT-PR06-G09-20261124-02; run=RUN-PR06-G09-CP07-CI-COVERAGE-20261125-01; resource_keys=file:.github/workflows/control-plane-validation.yml; target_repository=a4adelahmadian86-wq/farast-control-plane; write_policy=WRITE_ALLOWED; branch=work/GH-133-RUN-PR06-G09-CP07-CI-COVERAGE-20261125-01; previous_run=none; fencing_token=203; lease_expires=2026-11-25T05:02:50.018Z. این Work Item با سیاست WRITE_ALLOWED است؛ branch را فقط در target_repository ثبت‌شده بساز و قبل از هر write heartbeat/token را دوباره تأیید کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز و branch قبلی را تغییر نده.",
+      "response_posted": false,
+      "issue_number": 133,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "locked",
+      "at_utc": "2026-11-25T04:32:50.025Z"
     }
   },
   "work_items": {
@@ -45396,6 +45439,163 @@
       },
       "priority": 50,
       "created_at_utc": "2026-11-24T12:04:02.892Z"
+    },
+    "133": {
+      "schema_version": "1.0",
+      "operation_scope_version": "1.0",
+      "requested_operations": [
+        "control_plane_write"
+      ],
+      "write_policy": "WRITE_ALLOWED",
+      "priority_source": "DEFAULT_POLICY",
+      "work_item_id": "WI-CP07-AGGREGATION-CI-COVERAGE-001",
+      "title": "Add conditional CI execution for CP-07 parent aggregation regression tests",
+      "description": "Add one guarded test invocation to the existing Control Plane Validation workflow. It must be skipped on main while the aggregation test file is absent, and execute node --test .github/scripts/goal-progress-core.test.js when a PR contains that file. Do not modify aggregation module/test code, coordinator workflow, status registers, NON, or merge/deploy. After this workflow change is available on main, hand off the exact next action to resume Issue #130 and trigger its PR validation against the new workflow.",
+      "parent_goal_ids": [
+        "G-09"
+      ],
+      "parent_exp_ids": [
+        "EXP-01"
+      ],
+      "parent_cp_ids": [
+        "CP-07"
+      ],
+      "status": "CLAIMED",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "resource_keys": [
+        "file:.github/workflows/control-plane-validation.yml"
+      ],
+      "dependencies": [],
+      "effort_estimate_minutes": 25,
+      "effort_rationale": "A bounded workflow-only change: inspect current validation layout, design a safe presence guard, add the one test command, verify YAML/CI behavior, audit the exact diff, and hand off the follow-on PR refresh. No aggregation source or coordinator integration is included.",
+      "depth_profile": {
+        "profile_version": "2.0.0",
+        "min_substantive_steps": 6,
+        "min_acceptance_criteria": 4,
+        "min_deliverables": 3,
+        "target_effort_minutes": 25
+      },
+      "steps": [
+        {
+          "step_id": "S0_BASELINE",
+          "title": "Read the live main workflow and verify the exact aggregation test path and blocked Issue #130 evidence",
+          "required": true,
+          "expected_output": "A baseline showing current fixed test commands, absent aggregation test path on main, and PR #132's exact head",
+          "evidence_requirement": "Main SHA, workflow file read-back, Issue #130 blocker comment, PR #132 head and changed-file list",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S1_CONTRACT",
+          "title": "Specify a safe conditional workflow guard that skips when the test file is absent and executes when it is present",
+          "required": true,
+          "expected_output": "A minimal step-level hashFiles guard and exact Node test command",
+          "evidence_requirement": "Workflow diff and explicit main-absent versus PR-present condition explanation",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S2_IMPLEMENT",
+          "title": "Add only the guarded aggregation test command to control-plane-validation.yml",
+          "required": true,
+          "expected_output": "One workflow step invoking node --test .github/scripts/goal-progress-core.test.js behind a file-presence guard",
+          "evidence_requirement": "Exact branch commit and read-back of the single changed workflow file",
+          "estimate_minutes": 5
+        },
+        {
+          "step_id": "S3_VALIDATE",
+          "title": "Validate workflow YAML and run the existing Control Plane Validation checks on the exact PR head",
+          "required": true,
+          "expected_output": "Successful workflow validation without making main fail when the aggregation test file is absent",
+          "evidence_requirement": "Exact-head Actions run, job result, workflow YAML parse result, and explicit skipped-step result on this workflow-only branch",
+          "estimate_minutes": 5
+        },
+        {
+          "step_id": "S4_SCOPE_AUDIT",
+          "title": "Audit resource isolation and confirm no aggregation source, coordinator, registry, or product file changed",
+          "required": true,
+          "expected_output": "A scope manifest with exactly one changed workflow file",
+          "evidence_requirement": "PR changed-file list, exact branch SHA, and source read-back for excluded paths",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S5_HANDOFF",
+          "title": "Publish a review-ready PR and document the precise follow-on action for Issue #130",
+          "required": true,
+          "expected_output": "A PR and handoff explaining how a later authorized #130 run can refresh its test branch to trigger the newly enabled test step",
+          "evidence_requirement": "PR URL/head SHA, CI evidence, and Issue #130 handoff comment",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S6_CROSSCHECK",
+          "title": "Cross-check the guarded command against the 20-test aggregation suite and verify no unrelated tests were replaced",
+          "required": true,
+          "expected_output": "A test invocation cross-check showing the new test is additive to all existing validation steps",
+          "evidence_requirement": "Workflow diff and the 20 test names/count from the aggregation test file on PR #132",
+          "estimate_minutes": 2
+        }
+      ],
+      "acceptance_criteria": [
+        {
+          "criterion_id": "AC_CONDITIONAL_GUARD",
+          "title": "The aggregation test step is skipped safely when the file is absent and eligible to run when the file exists",
+          "required": true,
+          "evidence_requirement": "Workflow guard read-back and Actions step outcome on the workflow-only PR"
+        },
+        {
+          "criterion_id": "AC_TEST_COMMAND",
+          "title": "The workflow invokes the exact node --test command for the aggregation regression file without replacing existing test commands",
+          "required": true,
+          "evidence_requirement": "Exact workflow diff and test-file path read-back"
+        },
+        {
+          "criterion_id": "AC_CI_VALIDATION",
+          "title": "The workflow-only PR passes Control Plane Validation on its exact head and main remains valid while the aggregation test file is absent",
+          "required": true,
+          "evidence_requirement": "Exact-head Actions run, successful job, and skipped guarded step"
+        },
+        {
+          "criterion_id": "AC_SCOPE_ISOLATION",
+          "title": "Only .github/workflows/control-plane-validation.yml changes",
+          "required": true,
+          "evidence_requirement": "PR changed-file list and exact branch comparison"
+        },
+        {
+          "criterion_id": "AC_HANDOFF",
+          "title": "Issue #130 receives an exact next-step handoff to refresh its PR branch after this workflow change is available on main",
+          "required": true,
+          "evidence_requirement": "Issue #130 comment linking the workflow PR and naming the required follow-up command/change"
+        }
+      ],
+      "deliverables": [
+        {
+          "deliverable_id": "D1",
+          "description": "Conditional CI step for the CP-07 aggregation test suite",
+          "evidence_requirement": "Exact workflow diff and branch read-back",
+          "artifact_path": ".github/workflows/control-plane-validation.yml"
+        },
+        {
+          "deliverable_id": "D2",
+          "description": "Exact-head workflow validation evidence",
+          "evidence_requirement": "GitHub Actions run URL and successful job/step summaries"
+        },
+        {
+          "deliverable_id": "D3",
+          "description": "Issue #130 follow-on handoff",
+          "evidence_requirement": "Issue #130 comment with workflow PR URL, merge limitation and exact branch refresh action"
+        }
+      ],
+      "allocation_provenance": {
+        "allocator_work_item_id": "WI-GOAL-ALLOCATOR-001",
+        "allocator_issue_number": 11,
+        "actor": "a4adelahmadian86-wq",
+        "chat_id": "CHAT-PR06-G09-20261124-02",
+        "run_id": "RUN-PR06-G09-ALLOCATE-CI-COVERAGE-20261125-01",
+        "fencing_token": 202,
+        "branch": null,
+        "allocated_at_utc": "2026-11-25T04:31:00.000Z"
+      },
+      "priority": 50,
+      "created_at_utc": "2026-11-25T04:31:00.000Z",
+      "next_action": "Claim this leaf with a fresh RUN_ID after the allocator has released its lease; modify only .github/workflows/control-plane-validation.yml and do not merge or deploy."
     }
   },
   "checkpoints": {
