@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4722,
+  "revision": 4723,
   "next_fencing_token": 212,
   "locks": [
     {
@@ -38202,6 +38202,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-25T07:18:04.056Z"
+    },
+    "7155712777": {
+      "response": "معیار پذیرش ثبت شد: AC_TRACEABILITY_LINKS; ACCEPTANCE_PROGRESS=40%; OVERALL_COMPLETION=40%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 137,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-25T07:18:28.826Z"
     }
   },
   "work_items": {
@@ -49118,7 +49127,14 @@
           "title": "Every asserted feedback-to-record relationship is evidence-backed; unsupported links are UNKNOWN/UNMAPPED",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "Feedback-to-outcome matrix with exact record URLs and explicit unknowns"
+          "evidence_requirement": "Feedback-to-outcome matrix with exact record URLs and explicit unknowns",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/137#issuecomment-7155585237"
+          ],
+          "validated_at_utc": "2026-11-25T07:18:28.826Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Every asserted relationship is linked to exact parent_cp_ids/parent_goal_ids and source records; unsupported CP-01 and DEC-001..010 relationships remain UNMAPPED."
         },
         {
           "criterion_id": "AC_DECISION_PROVENANCE",
