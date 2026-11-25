@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4590,
+  "revision": 4591,
   "next_fencing_token": 211,
   "locks": [
     {
@@ -37060,6 +37060,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-25T06:13:22.495Z"
+    },
+    "7154572678": {
+      "response": "STEP ثبت شد: S1_LIVE_INVENTORY; EXECUTION_PROGRESS=28.57%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=2/7.",
+      "response_posted": false,
+      "issue_number": 136,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-25T06:13:51.390Z"
     }
   },
   "work_items": {
@@ -47610,7 +47619,14 @@
           "weight": 1,
           "expected_output": "Complete task inventory with duplicate and superseded dispositions",
           "evidence_requirement": "Live Issue bodies/labels, coordinator responses, PR state and checkpoint links",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/d9bb4fe7e9b5a1c80a211274bf6ff633afae990a/03_PROJECT_STATE/TASK_INDEX.md"
+          ],
+          "validated_at_utc": "2026-11-25T06:13:51.389Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S2_TASK_INDEX",
