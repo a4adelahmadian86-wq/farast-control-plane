@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4409,
+  "revision": 4410,
   "next_fencing_token": 204,
   "locks": [
     {
@@ -35446,6 +35446,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-25T04:33:26.441Z"
+    },
+    "7152957581": {
+      "response": "STEP ثبت شد: S0_BASELINE; EXECUTION_PROGRESS=14.28%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=1/7.",
+      "response_posted": false,
+      "issue_number": 133,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-25T04:33:55.723Z"
     }
   },
   "work_items": {
@@ -45481,7 +45490,7 @@
       "parent_cp_ids": [
         "CP-07"
       ],
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "file:.github/workflows/control-plane-validation.yml"
@@ -45503,7 +45512,14 @@
           "required": true,
           "expected_output": "A baseline showing current fixed test commands, absent aggregation test path on main, and PR #132's exact head",
           "evidence_requirement": "Main SHA, workflow file read-back, Issue #130 blocker comment, PR #132 head and changed-file list",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/133#issuecomment-7152956354"
+          ],
+          "validated_at_utc": "2026-11-25T04:33:55.722Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S1_CONTRACT",
