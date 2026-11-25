@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "revision": 4749,
-  "next_fencing_token": 213,
+  "revision": 4750,
+  "next_fencing_token": 214,
   "locks": [
     {
       "resource_key": "file:.github/ISSUE_TEMPLATE/feedback.yml",
@@ -81,6 +81,22 @@
       "heartbeat_at_utc": "2026-11-25T07:21:16.650Z",
       "lease_expires_at_utc": "2026-11-25T07:51:16.650Z",
       "fencing_token": 211,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "analysis:cp-01-cross-account-context-e2e",
+      "issue_number": 140,
+      "task_id": "GH-140",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "8f4c2a91d7e64b0aa35c91f82e6d740b",
+      "chat_id": "8f4c2a91d7e64b0aa35c91f82e6d740b",
+      "run_id": "RUN-PR07-CP01-20261125-01",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": null,
+      "acquired_at_utc": "2026-11-25T07:45:54.465Z",
+      "heartbeat_at_utc": "2026-11-25T07:45:54.465Z",
+      "lease_expires_at_utc": "2026-11-25T08:15:54.465Z",
+      "fencing_token": 213,
       "status": "ACTIVE"
     }
   ],
@@ -18406,6 +18422,23 @@
       "branch": null,
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "at_utc": "2026-11-25T07:34:24.532Z"
+    },
+    {
+      "event": "ACQUIRED",
+      "issue_number": 140,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "8f4c2a91d7e64b0aa35c91f82e6d740b",
+      "run_id": "RUN-PR07-CP01-20261125-01",
+      "resource_keys": [
+        "analysis:cp-01-cross-account-context-e2e"
+      ],
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": null,
+      "previous_branch": null,
+      "previous_target_repository": null,
+      "previous_run_id": null,
+      "fencing_token": 213,
+      "at_utc": "2026-11-25T07:45:54.465Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -38435,6 +38468,15 @@
       "command": "status",
       "next_status": null,
       "at_utc": "2026-11-25T07:42:51.212Z"
+    },
+    "7156221315": {
+      "response": "CLAIM GRANTED. TASK=GH-140; WORK_ITEM_ID=WI-CP01-CROSS-ACCOUNT-CONTEXT-E2E-001; verified_steps=; remaining_steps=S0_BASELINE,S1_IDENTITY_PROOF,S2_FRESH_CONTEXT_RETRIEVAL,S3_SHARED_STATE_DISCOVERY,S4_COLD_START_AND_INTERRUPTION,S5_REPORT_AND_HANDOFF; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; actor=@a4adelahmadian86-wq; chat=8f4c2a91d7e64b0aa35c91f82e6d740b; run=RUN-PR07-CP01-20261125-01; resource_keys=analysis:cp-01-cross-account-context-e2e; target_repository=a4adelahmadian86-wq/farast-control-plane; write_policy=READ_ONLY; branch=none; previous_run=none; fencing_token=213; lease_expires=2026-11-25T08:15:54.465Z. این Work Item با سیاست READ_ONLY است؛ در target_repository هیچ branch، file، commit یا PR ایجاد/تغییر نده. شواهد را فقط در Issue thread یا محل مجاز control-plane ثبت کن؛ برای WRITE_REQUIRES_OWNER_APPROVAL فقط proposal ارائه بده.",
+      "response_posted": false,
+      "issue_number": 140,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "locked",
+      "at_utc": "2026-11-25T07:45:54.467Z"
     }
   },
   "work_items": {
@@ -49423,6 +49465,158 @@
       "priority": 50,
       "created_at_utc": "2026-11-25T06:04:14Z",
       "next_action": "Claim this Work Item with a fresh RUN_ID; update only the declared CP-06 governance files."
+    },
+    "140": {
+      "schema_version": "1.0",
+      "operation_scope_version": "1.0",
+      "requested_operations": [
+        "analysis"
+      ],
+      "write_policy": "READ_ONLY",
+      "priority_source": "DEFAULT_POLICY",
+      "work_item_id": "WI-CP01-CROSS-ACCOUNT-CONTEXT-E2E-001",
+      "title": "CP-01 independent-account shared-context retrieval E2E verification",
+      "description": "Verify whether two independent ChatGPT sessions and independently authorized GitHub accounts can retrieve identical canonical FARAST context and live Work Item/checkpoint state from the shared control-plane repository without manually pasted history, and whether a fresh session can recover the same stable Work Item from its last verified checkpoint. This is a read-only evidence task; simulations and single-account smoke do not count as multi-account E2E.",
+      "parent_goal_ids": [
+        "G-09"
+      ],
+      "parent_exp_ids": [
+        "EXP-01"
+      ],
+      "parent_cp_ids": [
+        "CP-01"
+      ],
+      "allocation_provenance": {
+        "allocator_work_item_id": "WI-GOAL-ALLOCATOR-001",
+        "allocator_issue_number": 11,
+        "actor": "a4adelahmadian86-wq",
+        "chat_id": "CHAT-PR07-G09-20261125-02",
+        "run_id": "RUN-PR07-G09-ALLOCATE-CP01-E2E-20261125-01",
+        "fencing_token": 212,
+        "branch": null,
+        "allocated_at_utc": "2026-11-25T07:30:41.168Z"
+      },
+      "status": "CLAIMED",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "resource_keys": [
+        "analysis:cp-01-cross-account-context-e2e"
+      ],
+      "dependencies": [],
+      "steps": [
+        {
+          "step_id": "S0_BASELINE",
+          "title": "Freeze main SHA and enumerate canonical CP-01 requirements and prior evidence",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Timestamped source inventory distinguishing canonical requirements, accepted prompt work, single-account smoke, simulations and real multi-account E2E evidence",
+          "evidence_requirement": "Exact main SHA and direct URLs to all required CP-01 bootstrap/readiness/test sources and relevant Issues/PRs",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S1_IDENTITY_PROOF",
+          "title": "Verify two independent ChatGPT sessions and distinct authorized GitHub logins without exposing credentials",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Redacted identity/session matrix or a precise NOT_RUN blocker",
+          "evidence_requirement": "Distinct actor and author_association read-backs from both independent participants plus proof of separate sessions; no secrets or private chat IDs",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S2_FRESH_CONTEXT_RETRIEVAL",
+          "title": "Verify both sessions independently retrieve the same canonical main SHA and mandatory shared context",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Side-by-side retrieval matrix for source SHA, required documents, live Work Item inventory and prompt scope",
+          "evidence_requirement": "Independent source refs/SHAs and timestamped retrieval records from both sessions; one-session observation is NOT_RUN",
+          "estimate_minutes": 5
+        },
+        {
+          "step_id": "S3_SHARED_STATE_DISCOVERY",
+          "title": "Verify both sessions independently discover matching live Issues, PRs, checkpoints, feedback and lock state",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Shared-state parity matrix with canonical IDs, current states, evidence refs and divergences",
+          "evidence_requirement": "Exact Issue/PR/checkpoint/registry URLs and read-back timestamps from both sessions",
+          "estimate_minutes": 5
+        },
+        {
+          "step_id": "S4_COLD_START_AND_INTERRUPTION",
+          "title": "Verify a fresh independent session resumes the same Work Item from its last verified checkpoint",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Recovery trace with stable Work Item ID, checkpoint, remaining work and duplicate-prevention outcome, or a precise NOT_RUN blocker",
+          "evidence_requirement": "Before/after Issue and checkpoint read-backs from both sessions, distinct RUN_ID where applicable, and no stale-token reuse",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S5_REPORT_AND_HANDOFF",
+          "title": "Publish and read back the CP-01 verification matrix and truthful multi-account limitation",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Self-contained CP-01 report with criterion dispositions, reproducible evidence and exact next action",
+          "evidence_requirement": "Final Issue comment URL and successful read-back; explicit no-source-write confirmation",
+          "estimate_minutes": 4
+        }
+      ],
+      "acceptance_criteria": [
+        {
+          "criterion_id": "AC_DISTINCT_IDENTITIES",
+          "title": "Two independent ChatGPT sessions and two distinct authorized GitHub logins are demonstrated",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Two separate session observations and two distinct GitHub actor identities with author_association/access evidence; otherwise BLOCKED/NOT_RUN"
+        },
+        {
+          "criterion_id": "AC_CANONICAL_CONTEXT_PARITY",
+          "title": "Both sessions independently retrieve the same current main SHA and mandatory canonical documents without manually supplied history",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Side-by-side exact SHA and source URL matrix from both sessions"
+        },
+        {
+          "criterion_id": "AC_SHARED_STATE_DISCOVERY",
+          "title": "Both sessions independently discover matching current Work Item, PR, checkpoint, feedback and lock state",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Matching stable IDs, state read-backs, checkpoint/registry URLs and observation timestamps from both sessions"
+        },
+        {
+          "criterion_id": "AC_COLD_START_RECOVERY",
+          "title": "A fresh session resumes the same stable Work Item from the last verified checkpoint without duplicates or stale fencing tokens",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Before/after Issue and checkpoint evidence from both sessions, exact stable Work Item ID and fresh RUN_ID where applicable"
+        }
+      ],
+      "priority": 50,
+      "created_at_utc": "2026-11-25T07:32:28Z",
+      "effort_estimate_minutes": 25,
+      "effort_rationale": "A bounded 25-minute evidence-verification pass covering baseline discovery, independent identity proof, cold-start retrieval parity, shared-state discovery, interruption recovery and an evidence-linked report. The duration is a work estimate, not a forced wait; if the second independent session is unavailable, record the exact blocker rather than fabricate activity.",
+      "depth_profile": {
+        "profile_version": "2.0.0",
+        "min_substantive_steps": 6,
+        "min_acceptance_criteria": 4,
+        "min_deliverables": 3,
+        "target_effort_minutes": 25
+      },
+      "deliverables": [
+        {
+          "deliverable_id": "CP01-D1",
+          "description": "Independent session and identity evidence matrix",
+          "evidence_requirement": "Redacted proof of two independent ChatGPT sessions and distinct authorized GitHub actors, or explicit NOT_RUN blocker"
+        },
+        {
+          "deliverable_id": "CP01-D2",
+          "description": "Canonical context and shared-state retrieval parity matrix",
+          "evidence_requirement": "Side-by-side exact source SHA, document, Issue, PR, checkpoint, feedback and registry read-backs"
+        },
+        {
+          "deliverable_id": "CP01-D3",
+          "description": "Cold-start recovery and CP-01 gap report",
+          "evidence_requirement": "Reproducible recovery trace, criterion dispositions, precise limitations and next action; no unsupported E2E claim"
+        }
+      ],
+      "next_action": "A worker in an already-open independent ChatGPT session with its own authorized GitHub login should claim this READ_ONLY leaf, execute the two-session retrieval test, and record NOT_RUN/BLOCKED rather than claim E2E success if a second independent participant is not observable."
     }
   },
   "checkpoints": {
