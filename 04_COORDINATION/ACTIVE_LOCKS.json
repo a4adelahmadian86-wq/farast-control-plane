@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4507,
+  "revision": 4508,
   "next_fencing_token": 207,
   "locks": [
     {
@@ -36213,6 +36213,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-25T05:20:33.950Z"
+    },
+    "7153682825": {
+      "response": "معیار پذیرش ثبت شد: AC_READ_ONLY_SCOPE; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; can_accept=true.",
+      "response_posted": false,
+      "issue_number": 135,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-25T05:21:02.408Z"
     }
   },
   "work_items": {
@@ -46501,7 +46510,7 @@
         "branch": null,
         "allocated_at_utc": "2026-11-25T05:04:40.097Z"
       },
-      "status": "IN_PROGRESS",
+      "status": "REVIEW_REQUIRED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "analysis:cp-05-cp-06-report-feedback-traceability"
@@ -46658,7 +46667,14 @@
           "criterion_id": "AC_READ_ONLY_SCOPE",
           "title": "The audit changes no product or control-plane source, register, workflow, branch, commit or PR",
           "required": true,
-          "evidence_requirement": "Changed-file/branch/PR read-only verification and Issue-thread-only report reference"
+          "evidence_requirement": "Changed-file/branch/PR read-only verification and Issue-thread-only report reference",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/135#issuecomment-7153527064"
+          ],
+          "validated_at_utc": "2026-11-25T05:21:02.407Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "deliverables": [
