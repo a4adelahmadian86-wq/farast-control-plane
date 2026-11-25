@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4483,
+  "revision": 4484,
   "next_fencing_token": 207,
   "locks": [
     {
@@ -36033,6 +36033,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-25T05:14:38.429Z"
+    },
+    "7153587724": {
+      "response": "STEP ثبت شد: S3_STATUS_CROSSCHECK; EXECUTION_PROGRESS=66.66%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=4/6.",
+      "response_posted": false,
+      "issue_number": 135,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-25T05:15:07.442Z"
     }
   },
   "work_items": {
@@ -46392,7 +46401,14 @@
           "weight": 1,
           "expected_output": "Cross-register drift table separating current GitHub facts from historical or stale document claims",
           "evidence_requirement": "Exact main SHA, current Issue/PR/Actions/registry read-backs and file references for every discrepancy",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/135#issuecomment-7153527064"
+          ],
+          "validated_at_utc": "2026-11-25T05:15:07.442Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S4_GAP_RISK",
