@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4487,
+  "revision": 4488,
   "next_fencing_token": 207,
   "locks": [
     {
@@ -36063,6 +36063,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-25T05:15:38.398Z"
+    },
+    "7153602771": {
+      "response": "STEP ثبت شد: S4_GAP_RISK; EXECUTION_PROGRESS=83.33%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=5/6.",
+      "response_posted": false,
+      "issue_number": 135,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-25T05:16:04.965Z"
     }
   },
   "work_items": {
@@ -46438,7 +46447,14 @@
           "weight": 1,
           "expected_output": "Prioritized CP-05/CP-06 gap and risk register with preserve/repair/configure/defer options and no invented scores",
           "evidence_requirement": "Each GAP_ID tied to a requirement, observed evidence, impact and testable root-cause hypothesis; include unknowns and stop conditions",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/135#issuecomment-7153527064"
+          ],
+          "validated_at_utc": "2026-11-25T05:16:04.965Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S5_REPORT_HANDOFF",
