@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4515,
+  "revision": 4516,
   "next_fencing_token": 207,
   "locks": [
     {
@@ -36273,6 +36273,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-25T05:22:31.643Z"
+    },
+    "7153715185": {
+      "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-CP05-06-REPORT-FEEDBACK-TRACE-AUDIT-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=Run /farast review with branch=none; then release this READ_ONLY lease and use /farast accept with no PR argument. After acceptance, claim WI-GOAL-ALLOCATOR-001 to create separate CP-05 register-sync and CP-06 feedback-traceability remediation Work Items; do not modify source files until each new Work Item has its own valid claim.; remaining_steps=.",
+      "response_posted": false,
+      "issue_number": 135,
+      "actor": "a4adelahmadian86-wq",
+      "command": "checkpoint",
+      "next_status": null,
+      "at_utc": "2026-11-25T05:23:05.183Z"
     }
   },
   "work_items": {
@@ -47803,6 +47812,53 @@
         "lease_expires_at_utc": "2026-11-25T05:15:14.014Z"
       },
       "next_action": "Keep AC_PARENT_AGGREGATION at FAIL and the audit at 80%; wait for PR #134 to be legitimately merged, then resume Issue #130 with a fresh claim and verify all 20 aggregation tests execute and pass on its exact refreshed head; only after the implementation is merged, re-read main and resume this same WORK_ITEM_ID to re-evaluate parent aggregation."
+    },
+    "135": {
+      "work_item_id": "WI-CP05-06-REPORT-FEEDBACK-TRACE-AUDIT-001",
+      "run_id": "RUN-PR07-G09-CP05-06-AUDIT-20261125-03",
+      "checkpoint_version": 1,
+      "created_at_utc": "2026-11-25T05:23:05.182Z",
+      "last_verified_step_id": "S5_REPORT_HANDOFF",
+      "current_step_id": "S5_REPORT_HANDOFF",
+      "completed_step_ids": [
+        "S0_BASELINE",
+        "S1_REPORTING_SURFACE",
+        "S2_FEEDBACK_TRACE",
+        "S3_STATUS_CROSSCHECK",
+        "S4_GAP_RISK",
+        "S5_REPORT_HANDOFF"
+      ],
+      "remaining_step_ids": [],
+      "progress_percentage": 100,
+      "execution_progress_percentage": 100,
+      "acceptance_progress_percentage": 100,
+      "overall_completion_percentage": 100,
+      "progress_calculation_version": "PROGRESS_V2",
+      "required_step_counts": {
+        "pass": 6,
+        "fail": 0,
+        "blocked": 0,
+        "unknown": 0,
+        "not_run": 0
+      },
+      "acceptance_criteria_counts": {
+        "pass": 4,
+        "fail": 0,
+        "blocked": 0,
+        "unknown": 0,
+        "not_run": 0
+      },
+      "evidence_refs": [
+        "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/135#issuecomment-7153527064"
+      ],
+      "blockers": [],
+      "owner": {
+        "actor": "a4adelahmadian86-wq",
+        "chat_id": "CHAT-PR07-G09-20261125-01",
+        "fencing_token": 206,
+        "lease_expires_at_utc": "2026-11-25T05:52:31.643Z"
+      },
+      "next_action": "Run /farast review with branch=none; then release this READ_ONLY lease and use /farast accept with no PR argument. After acceptance, claim WI-GOAL-ALLOCATOR-001 to create separate CP-05 register-sync and CP-06 feedback-traceability remediation Work Items; do not modify source files until each new Work Item has its own valid claim."
     }
   },
   "inbox_scheduler": {
