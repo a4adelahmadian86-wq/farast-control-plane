@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4650,
+  "revision": 4651,
   "next_fencing_token": 211,
   "locks": [
     {
@@ -37558,6 +37558,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-25T06:29:36.834Z"
+    },
+    "7154851172": {
+      "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-CP05-REGISTER-SYNC-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=Wait for the separate owner/coordinator acceptance decision on PR #138. Do not merge in this RUN. If accepted, verify the merge SHA and coordinator transition; if changes are requested, resume this same WORK_ITEM_ID with a fresh RUN and remaining review actions.; remaining_steps=.",
+      "response_posted": false,
+      "issue_number": 136,
+      "actor": "a4adelahmadian86-wq",
+      "command": "checkpoint",
+      "next_status": null,
+      "at_utc": "2026-11-25T06:30:09.262Z"
     }
   },
   "work_items": {
@@ -49389,6 +49398,52 @@
         "lease_expires_at_utc": "2026-11-25T05:52:31.643Z"
       },
       "next_action": "Run /farast review with branch=none; then release this READ_ONLY lease and use /farast accept with no PR argument. After acceptance, claim WI-GOAL-ALLOCATOR-001 to create separate CP-05 register-sync and CP-06 feedback-traceability remediation Work Items; do not modify source files until each new Work Item has its own valid claim."
+    },
+    "136": {
+      "work_item_id": "WI-CP05-REGISTER-SYNC-001",
+      "run_id": "RUN-PR07-G09-CP05-REGISTER-SYNC-20261125-01",
+      "checkpoint_version": 1,
+      "created_at_utc": "2026-11-25T06:30:09.261Z",
+      "last_verified_step_id": "S6_HANDOFF",
+      "current_step_id": "S6_HANDOFF",
+      "completed_step_ids": [
+        "S0_BASELINE",
+        "S1_LIVE_INVENTORY",
+        "S2_TASK_INDEX",
+        "S3_MASTER_STATUS",
+        "S4_GOAL_EXP_LEDGER",
+        "S5_ANTI_DRIFT_VALIDATION",
+        "S6_HANDOFF"
+      ],
+      "remaining_step_ids": [],
+      "progress_percentage": 100,
+      "execution_progress_percentage": 100,
+      "acceptance_progress_percentage": 100,
+      "overall_completion_percentage": 100,
+      "progress_calculation_version": "PROGRESS_V2",
+      "required_step_counts": {
+        "pass": 7,
+        "fail": 0,
+        "blocked": 0,
+        "unknown": 0,
+        "not_run": 0
+      },
+      "acceptance_criteria_counts": {
+        "pass": 5,
+        "fail": 0,
+        "blocked": 0,
+        "unknown": 0,
+        "not_run": 0
+      },
+      "evidence_refs": [],
+      "blockers": [],
+      "owner": {
+        "actor": "a4adelahmadian86-wq",
+        "chat_id": "CHAT-PR07-G09-20261125-01",
+        "fencing_token": 210,
+        "lease_expires_at_utc": "2026-11-25T06:59:36.834Z"
+      },
+      "next_action": "Wait for the separate owner/coordinator acceptance decision on PR #138. Do not merge in this RUN. If accepted, verify the merge SHA and coordinator transition; if changes are requested, resume this same WORK_ITEM_ID with a fresh RUN and remaining review actions."
     }
   },
   "inbox_scheduler": {
