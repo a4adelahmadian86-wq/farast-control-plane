@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4425,
+  "revision": 4426,
   "next_fencing_token": 204,
   "locks": [
     {
@@ -35530,6 +35530,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-25T04:35:26.580Z"
+    },
+    "7152972740": {
+      "response": "معیار پذیرش ثبت شد: AC_TEST_COMMAND; ACCEPTANCE_PROGRESS=40%; OVERALL_COMPLETION=40%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 133,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-25T04:35:33.559Z"
     }
   },
   "work_items": {
@@ -45698,7 +45707,14 @@
           "criterion_id": "AC_TEST_COMMAND",
           "title": "The workflow invokes the exact node --test command for the aggregation regression file without replacing existing test commands",
           "required": true,
-          "evidence_requirement": "Exact workflow diff and test-file path read-back"
+          "evidence_requirement": "Exact workflow diff and test-file path read-back",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/134/files"
+          ],
+          "validated_at_utc": "2026-11-25T04:35:33.559Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Exact additive node --test command and path read back; all existing test commands preserved."
         },
         {
           "criterion_id": "AC_CI_VALIDATION",
