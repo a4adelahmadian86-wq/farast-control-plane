@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4537,
+  "revision": 4538,
   "next_fencing_token": 208,
   "locks": [],
   "history": [
@@ -17340,6 +17340,13 @@
       "branch": null,
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "at_utc": "2026-11-25T05:27:42.415Z"
+    },
+    {
+      "event": "DEPENDENCY_AUTO_UNBLOCKED",
+      "issue_number": 128,
+      "work_item_id": "WI-CP07-GOAL-PROGRESS-AGGREGATION-001",
+      "preserved_steps": 7,
+      "at_utc": "2026-11-25T05:28:08.365Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -45975,7 +45982,7 @@
       "parent_cp_ids": [
         "CP-07"
       ],
-      "status": "BLOCKED",
+      "status": "READY",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "analysis:cp-07-goal-progress-aggregation"
