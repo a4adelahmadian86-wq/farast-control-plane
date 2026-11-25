@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4431,
+  "revision": 4432,
   "next_fencing_token": 204,
   "locks": [
     {
@@ -35557,6 +35557,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-25T04:36:09.832Z"
+    },
+    "7152974398": {
+      "response": "معیار پذیرش ثبت شد: AC_HANDOFF; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=85.71%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 133,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-25T04:36:18.721Z"
     }
   },
   "work_items": {
@@ -45764,7 +45773,14 @@
           "criterion_id": "AC_HANDOFF",
           "title": "Issue #130 receives an exact next-step handoff to refresh its PR branch after this workflow change is available on main",
           "required": true,
-          "evidence_requirement": "Issue #130 comment linking the workflow PR and naming the required follow-up command/change"
+          "evidence_requirement": "Issue #130 comment linking the workflow PR and naming the required follow-up command/change",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/130#issuecomment-7152970584"
+          ],
+          "validated_at_utc": "2026-11-25T04:36:18.720Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Issue #130 handoff records PR #134 and the exact follow-up after an authorized merge."
         }
       ],
       "deliverables": [
