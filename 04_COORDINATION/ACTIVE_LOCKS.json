@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4616,
+  "revision": 4617,
   "next_fencing_token": 211,
   "locks": [
     {
@@ -37285,6 +37285,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-25T06:20:55.082Z"
+    },
+    "7154703574": {
+      "response": "STEP ثبت شد: S5_ANTI_DRIFT_VALIDATION; EXECUTION_PROGRESS=85.71%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=6/7.",
+      "response_posted": false,
+      "issue_number": 136,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-25T06:21:27.114Z"
     }
   },
   "work_items": {
@@ -47899,7 +47908,14 @@
           "weight": 1,
           "expected_output": "Deterministic mismatch report with resolutions",
           "evidence_requirement": "Before/after diff, uniqueness checks, CSV structural validation and exact source read-back",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/136#issuecomment-7154694065"
+          ],
+          "validated_at_utc": "2026-11-25T06:21:27.113Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S6_HANDOFF",
