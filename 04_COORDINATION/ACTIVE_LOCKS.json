@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4628,
+  "revision": 4629,
   "next_fencing_token": 211,
   "locks": [
     {
@@ -37375,6 +37375,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-25T06:23:36.274Z"
+    },
+    "7154747484": {
+      "response": "معیار پذیرش ثبت شد: AC_CROSS_REGISTER_CONSISTENCY; ACCEPTANCE_PROGRESS=60%; OVERALL_COMPLETION=60%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 136,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-25T06:24:02.239Z"
     }
   },
   "work_items": {
@@ -48042,7 +48051,14 @@
           "title": "All four registers agree on current canonical state",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "Cross-file reconciliation matrix, exact SHAs and CSV validation"
+          "evidence_requirement": "Cross-file reconciliation matrix, exact SHAs and CSV validation",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/136#issuecomment-7154694065"
+          ],
+          "validated_at_utc": "2026-11-25T06:24:02.239Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_HISTORY_PRESERVED",
