@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5043,
+  "revision": 5044,
   "next_fencing_token": 225,
   "locks": [
     {
@@ -40945,7 +40945,7 @@
     },
     "7224525644": {
       "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-BLOCKED-WORKITEM-REVALIDATION-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=All seven steps and acceptance criteria pass and PR #125 is already merged. Do not invoke /farast accept: this Work Item requests only control_plane_write and does not explicitly authorize control_plane_merge. Run /farast review to release the lease; leave the Work Item in review until the owner explicitly resolves the operation-scope mismatch through the approved workflow. Keep Issue #106 blocked until historical allocator provenance is recovered safely.; remaining_steps=.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 107,
       "actor": "a4adelahmadian86-wq",
       "command": "checkpoint",
