@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4845,
+  "revision": 4846,
   "next_fencing_token": 217,
   "locks": [
     {
@@ -39225,6 +39225,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-27T12:46:51.363Z"
+    },
+    "7218669780": {
+      "response": "STEP ثبت شد: S3_LIVE_SHARED_STATE_DISCOVERY; EXECUTION_PROGRESS=66.66%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=4/6.",
+      "response_posted": false,
+      "issue_number": 141,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-27T12:47:19.260Z"
     }
   },
   "work_items": {
@@ -50537,7 +50546,14 @@
           "weight": 1,
           "expected_output": "Live-state matrix and discrepancy/staleness classification",
           "evidence_requirement": "Exact GitHub URLs and read-back timestamps for every state claim",
-          "estimate_minutes": 5
+          "estimate_minutes": 5,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/141#issuecomment-7218606987"
+          ],
+          "validated_at_utc": "2026-11-27T12:47:19.259Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S4_SAME_CONVERSATION_RUN_BOUNDARY_RECOVERY",
