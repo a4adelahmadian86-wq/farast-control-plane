@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4833,
+  "revision": 4834,
   "next_fencing_token": 217,
   "locks": [
     {
@@ -39135,6 +39135,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-27T12:44:20.124Z"
+    },
+    "7218618356": {
+      "response": "STEP ثبت شد: S0_BASELINE_AND_SCOPE; EXECUTION_PROGRESS=16.66%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=1/6.",
+      "response_posted": false,
+      "issue_number": 141,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-27T12:44:44.218Z"
     }
   },
   "work_items": {
@@ -50376,7 +50385,7 @@
         "branch": null,
         "allocated_at_utc": "2026-11-27T12:37:52.326Z"
       },
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "analysis:cp-01-single-account-context-recovery"
@@ -50399,7 +50408,14 @@
           "weight": 1,
           "expected_output": "Timestamped source inventory and strict single-account versus multi-account boundary",
           "evidence_requirement": "Main SHA, canonical document URLs/SHAs, Issue #140, checkpoint and registry read-back",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/141#issuecomment-7218606987"
+          ],
+          "validated_at_utc": "2026-11-27T12:44:44.217Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S1_SINGLE_IDENTITY_AUTHORIZATION",
