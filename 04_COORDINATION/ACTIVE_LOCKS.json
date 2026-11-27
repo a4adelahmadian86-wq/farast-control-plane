@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4983,
+  "revision": 4984,
   "next_fencing_token": 222,
   "locks": [
     {
@@ -40340,7 +40340,7 @@
     },
     "7224138569": {
       "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-CP08-NOVICE-ONBOARDING-AUDIT-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=Run /farast review to hand off this READ_ONLY audit; read back review state and zero active lease; then run /farast accept without a PR using the READ_ONLY evidence-only path; verify ACCEPTED, all seven steps and five criteria, and final progress.; remaining_steps=.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 142,
       "actor": "a4adelahmadian86-wq",
       "command": "checkpoint",
