@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5073,
+  "revision": 5074,
   "next_fencing_token": 226,
   "locks": [
     {
@@ -41054,6 +41054,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-27T18:24:33.957Z"
+    },
+    "7225460968": {
+      "response": "STEP ثبت شد: S5_SCOPE_AND_REGRESSION_AUDIT; EXECUTION_PROGRESS=85.71%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=6/7.",
+      "response_posted": false,
+      "issue_number": 143,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-27T18:24:54.202Z"
     }
   },
   "work_items": {
@@ -52883,7 +52892,17 @@
           "weight": 1,
           "expected_output": "Changed-file and non-duplication audit",
           "evidence_requirement": "PR changed-file list, exact resource-key read-back, Issue #50/#106/#142 cross-check and no NON/code/workflow changes",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/145/files",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/50",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/106",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/142"
+          ],
+          "validated_at_utc": "2026-11-27T18:24:54.202Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S6_HANDOFF",
