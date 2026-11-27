@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4898,
+  "revision": 4899,
   "next_fencing_token": 219,
   "locks": [],
   "history": [
@@ -39653,6 +39653,15 @@
       "command": "review",
       "next_status": "review",
       "at_utc": "2026-11-27T15:57:36.846Z"
+    },
+    "7222691817": {
+      "response": "Work Item ACCEPTED: همه گام‌ها، معیارها، شواهد و hard gateها با موفقیت احراز شدند؛ سیاست READ_ONLY است، بنابراین PR/branch محصول لازم نیست؛ هیچ Review انسانی دوم شرط پذیرش نیست.",
+      "response_posted": false,
+      "issue_number": 141,
+      "actor": "a4adelahmadian86-wq",
+      "command": "accept",
+      "next_status": "done",
+      "at_utc": "2026-11-27T15:58:08.148Z"
     }
   },
   "work_items": {
@@ -50894,7 +50903,7 @@
         "branch": null,
         "allocated_at_utc": "2026-11-27T12:37:52.326Z"
       },
-      "status": "REVIEW_REQUIRED",
+      "status": "ACCEPTED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "analysis:cp-01-single-account-context-recovery"
