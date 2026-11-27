@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4967,
+  "revision": 4968,
   "next_fencing_token": 222,
   "locks": [
     {
@@ -40220,7 +40220,7 @@
     },
     "7224072466": {
       "response": "معیار پذیرش ثبت شد: AC_AUTONOMOUS_SAFE_SELECTION; ACCEPTANCE_PROGRESS=60%; OVERALL_COMPLETION=60%; can_accept=false.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 142,
       "actor": "a4adelahmadian86-wq",
       "command": "criterion",
