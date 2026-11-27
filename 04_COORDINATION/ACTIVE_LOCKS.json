@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4888,
+  "revision": 4889,
   "next_fencing_token": 218,
   "locks": [
     {
@@ -39577,7 +39577,7 @@
     },
     "7218899136": {
       "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-CP01-SINGLE-ACCOUNT-CONTEXT-RECOVERY-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=Release this READ_ONLY run. Issue #141 single-account verification is complete with 6/6 steps and 4/4 acceptance criteria PASS; keep Issue #140 OPEN and NOT_VERIFIED for real two-session/two-login E2E. Do not claim overall CP-01 or G-09 multi-account completion.; remaining_steps=.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 141,
       "actor": "a4adelahmadian86-wq",
       "command": "checkpoint",
