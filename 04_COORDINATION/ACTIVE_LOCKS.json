@@ -1,25 +1,8 @@
 {
   "schema_version": "1.0",
-  "revision": 4853,
+  "revision": 4854,
   "next_fencing_token": 217,
-  "locks": [
-    {
-      "resource_key": "analysis:cp-01-single-account-context-recovery",
-      "issue_number": 141,
-      "task_id": "GH-141",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "8f4c2a91d7e64b0aa35c91f82e6d740b",
-      "chat_id": "8f4c2a91d7e64b0aa35c91f82e6d740b",
-      "run_id": "RUN-PR07-CP01-SINGLE-ACCOUNT-VERIFY-20261127-01",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": null,
-      "acquired_at_utc": "2026-11-27T12:41:45.250Z",
-      "heartbeat_at_utc": "2026-11-27T12:48:39.611Z",
-      "lease_expires_at_utc": "2026-11-27T13:18:39.611Z",
-      "fencing_token": 216,
-      "status": "ACTIVE"
-    }
-  ],
+  "locks": [],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -18833,6 +18816,17 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "lease_expires_at_utc": "2026-11-27T13:18:39.611Z",
       "at_utc": "2026-11-27T12:48:39.611Z"
+    },
+    {
+      "event": "RELEASE",
+      "issue_number": 141,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "8f4c2a91d7e64b0aa35c91f82e6d740b",
+      "run_id": "RUN-PR07-CP01-SINGLE-ACCOUNT-VERIFY-20261127-01",
+      "fencing_token": 216,
+      "branch": null,
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "at_utc": "2026-11-27T12:49:03.181Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -39285,6 +39279,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-27T12:48:39.611Z"
+    },
+    "7218704878": {
+      "response": "Lease آزاد شد؛ وظیفه تکمیل‌شده محسوب نمی‌شود.",
+      "response_posted": false,
+      "issue_number": 141,
+      "actor": "a4adelahmadian86-wq",
+      "command": "release",
+      "next_status": "ready",
+      "at_utc": "2026-11-27T12:49:03.182Z"
     }
   },
   "work_items": {
