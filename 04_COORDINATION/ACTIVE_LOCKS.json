@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4786,
+  "revision": 4787,
   "next_fencing_token": 215,
   "locks": [
     {
@@ -38724,6 +38724,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-27T11:47:04.027Z"
+    },
+    "7217474756": {
+      "response": "STEP ثبت شد: S3_SHARED_STATE_DISCOVERY; EXECUTION_PROGRESS=16.66%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=1/6.",
+      "response_posted": false,
+      "issue_number": 140,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-27T11:47:23.346Z"
     }
   },
   "work_items": {
@@ -49805,7 +49814,14 @@
           "weight": 1,
           "expected_output": "Shared-state parity matrix with canonical IDs, current states, evidence refs and divergences",
           "evidence_requirement": "Exact Issue/PR/checkpoint/registry URLs and read-back timestamps from both sessions",
-          "estimate_minutes": 5
+          "estimate_minutes": 5,
+          "validation_status": "BLOCKED",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/140#issuecomment-7217456311"
+          ],
+          "validated_at_utc": "2026-11-27T11:47:23.345Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S4_COLD_START_AND_INTERRUPTION",
