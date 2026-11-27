@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5015,
+  "revision": 5016,
   "next_fencing_token": 224,
   "locks": [
     {
@@ -53980,9 +53980,9 @@
         "last_seen_at_utc": "2026-11-22T11:43:31.975Z"
       },
       "107": {
-        "reason": "registry_cas_conflict: another Issue advanced the shared registry; this command remains durable and must be replayed. latest=8045262f60f8f6d84591db78697c7a38c9e3dfd8; cause=Update is not a fast forward",
+        "reason": "registry_cas_conflict: another Issue advanced the shared registry; this command remains durable and must be replayed. latest=375e052c49e99fa913a728616422db81974c35b6; cause=Update is not a fast forward",
         "count": 1,
-        "last_seen_at_utc": "2026-11-27T17:24:36.921Z"
+        "last_seen_at_utc": "2026-11-27T17:25:09.438Z"
       },
       "108": {
         "reason": "Invalid Work item specification JSON in Issue #108: deep Work Items need effort_rationale",
