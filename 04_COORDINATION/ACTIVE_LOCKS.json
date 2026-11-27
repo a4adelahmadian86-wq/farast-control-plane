@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4790,
+  "revision": 4791,
   "next_fencing_token": 215,
   "locks": [
     {
@@ -38754,6 +38754,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-27T11:47:31.720Z"
+    },
+    "7217483958": {
+      "response": "STEP ثبت شد: S4_COLD_START_AND_INTERRUPTION; EXECUTION_PROGRESS=16.66%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=1/6.",
+      "response_posted": false,
+      "issue_number": 140,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-27T11:47:50.834Z"
     }
   },
   "work_items": {
@@ -49851,7 +49860,14 @@
           "weight": 1,
           "expected_output": "Recovery trace with stable Work Item ID, checkpoint, remaining work and duplicate-prevention outcome, or a precise NOT_RUN blocker",
           "evidence_requirement": "Before/after Issue and checkpoint read-backs from both sessions, distinct RUN_ID where applicable, and no stale-token reuse",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "BLOCKED",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/140#issuecomment-7217456311"
+          ],
+          "validated_at_utc": "2026-11-27T11:47:50.834Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S5_REPORT_AND_HANDOFF",
