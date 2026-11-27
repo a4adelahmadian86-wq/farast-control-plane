@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4938,
+  "revision": 4939,
   "next_fencing_token": 222,
   "locks": [
     {
@@ -40007,6 +40007,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-27T17:03:02.463Z"
+    },
+    "7223974312": {
+      "response": "STEP ثبت شد: S2_PREREQUISITES; EXECUTION_PROGRESS=42.85%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=3/7.",
+      "response_posted": false,
+      "issue_number": 142,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-27T17:03:21.679Z"
     }
   },
   "work_items": {
@@ -51522,7 +51531,14 @@
           "weight": 1,
           "expected_output": "Prerequisite matrix",
           "evidence_requirement": "Canonical source links for each prerequisite",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/142#issuecomment-7223911970"
+          ],
+          "validated_at_utc": "2026-11-27T17:03:21.678Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S3_COLD_START_WALKTHROUGH",
