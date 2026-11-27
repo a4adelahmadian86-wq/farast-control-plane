@@ -1,8 +1,25 @@
 {
   "schema_version": "1.0",
-  "revision": 4827,
-  "next_fencing_token": 216,
-  "locks": [],
+  "revision": 4828,
+  "next_fencing_token": 217,
+  "locks": [
+    {
+      "resource_key": "analysis:cp-01-single-account-context-recovery",
+      "issue_number": 141,
+      "task_id": "GH-141",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "8f4c2a91d7e64b0aa35c91f82e6d740b",
+      "chat_id": "8f4c2a91d7e64b0aa35c91f82e6d740b",
+      "run_id": "RUN-PR07-CP01-SINGLE-ACCOUNT-VERIFY-20261127-01",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": null,
+      "acquired_at_utc": "2026-11-27T12:41:45.250Z",
+      "heartbeat_at_utc": "2026-11-27T12:41:45.250Z",
+      "lease_expires_at_utc": "2026-11-27T13:11:45.250Z",
+      "fencing_token": 216,
+      "status": "ACTIVE"
+    }
+  ],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -18715,6 +18732,23 @@
       "branch": null,
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "at_utc": "2026-11-27T12:41:01.696Z"
+    },
+    {
+      "event": "ACQUIRED",
+      "issue_number": 141,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "8f4c2a91d7e64b0aa35c91f82e6d740b",
+      "run_id": "RUN-PR07-CP01-SINGLE-ACCOUNT-VERIFY-20261127-01",
+      "resource_keys": [
+        "analysis:cp-01-single-account-context-recovery"
+      ],
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": null,
+      "previous_branch": null,
+      "previous_target_repository": null,
+      "previous_run_id": null,
+      "fencing_token": 216,
+      "at_utc": "2026-11-27T12:41:45.250Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -39050,6 +39084,15 @@
       "command": "release",
       "next_status": "ready",
       "at_utc": "2026-11-27T12:41:01.697Z"
+    },
+    "7218558118": {
+      "response": "CLAIM GRANTED. TASK=GH-141; WORK_ITEM_ID=WI-CP01-SINGLE-ACCOUNT-CONTEXT-RECOVERY-001; verified_steps=; remaining_steps=S0_BASELINE_AND_SCOPE,S1_SINGLE_IDENTITY_AUTHORIZATION,S2_CANONICAL_CONTEXT_RETRIEVAL,S3_LIVE_SHARED_STATE_DISCOVERY,S4_SAME_CONVERSATION_RUN_BOUNDARY_RECOVERY,S5_REPORT_AND_HANDOFF; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; actor=@a4adelahmadian86-wq; chat=8f4c2a91d7e64b0aa35c91f82e6d740b; run=RUN-PR07-CP01-SINGLE-ACCOUNT-VERIFY-20261127-01; resource_keys=analysis:cp-01-single-account-context-recovery; target_repository=a4adelahmadian86-wq/farast-control-plane; write_policy=READ_ONLY; branch=none; previous_run=none; fencing_token=216; lease_expires=2026-11-27T13:11:45.250Z. این Work Item با سیاست READ_ONLY است؛ در target_repository هیچ branch، file، commit یا PR ایجاد/تغییر نده. شواهد را فقط در Issue thread یا محل مجاز control-plane ثبت کن؛ برای WRITE_REQUIRES_OWNER_APPROVAL فقط proposal ارائه بده.",
+      "response_posted": false,
+      "issue_number": 141,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "locked",
+      "at_utc": "2026-11-27T12:41:45.255Z"
     }
   },
   "work_items": {
@@ -50260,6 +50303,153 @@
         }
       ],
       "next_action": "A worker in an already-open independent ChatGPT session with its own authorized GitHub login should claim this READ_ONLY leaf, execute the two-session retrieval test, and record NOT_RUN/BLOCKED rather than claim E2E success if a second independent participant is not observable."
+    },
+    "141": {
+      "schema_version": "1.0",
+      "operation_scope_version": "1.0",
+      "requested_operations": [
+        "analysis"
+      ],
+      "write_policy": "READ_ONLY",
+      "priority_source": "DEFAULT_POLICY",
+      "work_item_id": "WI-CP01-SINGLE-ACCOUNT-CONTEXT-RECOVERY-001",
+      "title": "CP-01 single-account context retrieval and same-conversation recovery verification",
+      "description": "Verify canonical context retrieval and live shared-state discovery using the currently available single ChatGPT conversation and GitHub authorization, plus same-conversation recovery across a run/checkpoint boundary. This is supplemental single-account evidence only; Issue #140 retains all independent-account E2E requirements unchanged.",
+      "parent_goal_ids": [
+        "G-09"
+      ],
+      "parent_exp_ids": [
+        "EXP-01"
+      ],
+      "parent_cp_ids": [
+        "CP-01"
+      ],
+      "allocation_provenance": {
+        "allocator_work_item_id": "WI-GOAL-ALLOCATOR-001",
+        "allocator_issue_number": 11,
+        "actor": "a4adelahmadian86-wq",
+        "chat_id": "8f4c2a91d7e64b0aa35c91f82e6d740b",
+        "run_id": "RUN-PR07-CP01-SCOPE-SPLIT-20261127-01",
+        "fencing_token": 215,
+        "branch": null,
+        "allocated_at_utc": "2026-11-27T12:37:52.326Z"
+      },
+      "status": "CLAIMED",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "resource_keys": [
+        "analysis:cp-01-single-account-context-recovery"
+      ],
+      "dependencies": [],
+      "effort_estimate_minutes": 25,
+      "effort_rationale": "Focused live-source retrieval, identity-boundary verification, shared-state comparison, durable checkpoint/run-boundary recovery and evidence read-back; 25 minutes is a focused effort target, not a forced waiting period.",
+      "depth_profile": {
+        "profile_version": "2.0.0",
+        "min_substantive_steps": 6,
+        "min_acceptance_criteria": 4,
+        "min_deliverables": 3,
+        "target_effort_minutes": 25
+      },
+      "steps": [
+        {
+          "step_id": "S0_BASELINE_AND_SCOPE",
+          "title": "Freeze canonical source and CP-01 scope boundary",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Timestamped source inventory and strict single-account versus multi-account boundary",
+          "evidence_requirement": "Main SHA, canonical document URLs/SHAs, Issue #140, checkpoint and registry read-back",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S1_SINGLE_IDENTITY_AUTHORIZATION",
+          "title": "Verify the one currently connected GitHub actor and authorization only",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Redacted single-participant identity/access record; second participant NOT_AVAILABLE",
+          "evidence_requirement": "GitHub actor and author_association/access read-back; no credentials or private IDs",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S2_CANONICAL_CONTEXT_RETRIEVAL",
+          "title": "Retrieve canonical main SHA and mandatory documents from GitHub",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Canonical source parity matrix",
+          "evidence_requirement": "Exact URLs, SHAs and observation timestamps for each required document",
+          "estimate_minutes": 5
+        },
+        {
+          "step_id": "S3_LIVE_SHARED_STATE_DISCOVERY",
+          "title": "Retrieve and reconcile live CP-01 Issue, PR, checkpoint, feedback and lock state",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Live-state matrix and discrepancy/staleness classification",
+          "evidence_requirement": "Exact GitHub URLs and read-back timestamps for every state claim",
+          "estimate_minutes": 5
+        },
+        {
+          "step_id": "S4_SAME_CONVERSATION_RUN_BOUNDARY_RECOVERY",
+          "title": "Recover stable Work Item/checkpoint across a new RUN_ID in the same conversation",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Recovery trace with old/new RUN_ID, checkpoint, remaining work and duplicate prevention, or SIMULATED/NOT_RUN",
+          "evidence_requirement": "Before/after Issue/checkpoint read-backs, token freshness comparison and explicit non-equivalence to independent cold-start",
+          "estimate_minutes": 5
+        },
+        {
+          "step_id": "S5_REPORT_AND_HANDOFF",
+          "title": "Publish and read back evidence report while preserving Issue #140 acceptance",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Self-contained report and strict cross-account handoff",
+          "evidence_requirement": "Final comment URL/read-back and confirmation Issue #140 criteria unchanged",
+          "estimate_minutes": 3
+        }
+      ],
+      "acceptance_criteria": [
+        {
+          "criterion_id": "AC_SINGLE_ACTOR_SCOPE",
+          "title": "Exactly one observed GitHub actor/session is reported; no second identity is inferred",
+          "required": true,
+          "evidence_requirement": "Actor/author_association read-back and explicit second participant NOT_AVAILABLE"
+        },
+        {
+          "criterion_id": "AC_CANONICAL_CONTEXT_RETRIEVAL",
+          "title": "Current session retrieves canonical main SHA and required documents from GitHub",
+          "required": true,
+          "evidence_requirement": "Exact main SHA and document URL/SHA matrix"
+        },
+        {
+          "criterion_id": "AC_LIVE_SHARED_STATE_DISCOVERY",
+          "title": "Current session retrieves live CP-01 Issue/checkpoint/PR/feedback/lock state and identifies stale summaries",
+          "required": true,
+          "evidence_requirement": "Exact live state read-backs and discrepancy classifications"
+        },
+        {
+          "criterion_id": "AC_SAME_CONVERSATION_RECOVERY",
+          "title": "Stable Work Item is recoverable across a new RUN_ID without duplicate or stale-token reuse; simulation is not called independent cold-start",
+          "required": true,
+          "evidence_requirement": "Before/after Issue/checkpoint refs, stable WID, distinct RUN_IDs, token comparison and explicit limitation"
+        }
+      ],
+      "deliverables": [
+        {
+          "deliverable_id": "D1",
+          "description": "Canonical source retrieval matrix",
+          "evidence_requirement": "Main SHA and required document URLs/SHAs with observation timestamps"
+        },
+        {
+          "deliverable_id": "D2",
+          "description": "Single-actor live shared-state matrix",
+          "evidence_requirement": "Issue/PR/checkpoint/feedback/registry read-backs and explicit identity boundary"
+        },
+        {
+          "deliverable_id": "D3",
+          "description": "Same-conversation recovery and multi-account gap report",
+          "evidence_requirement": "Recovery trace, criterion dispositions, simulation/NOT_RUN labels where applicable, and Issue #140 link"
+        }
+      ],
+      "priority": 50,
+      "created_at_utc": "2026-11-27T12:37:52.326Z"
     }
   },
   "checkpoints": {
