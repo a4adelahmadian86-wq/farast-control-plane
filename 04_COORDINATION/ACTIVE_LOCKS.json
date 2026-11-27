@@ -1,8 +1,25 @@
 {
   "schema_version": "1.0",
-  "revision": 4914,
-  "next_fencing_token": 220,
-  "locks": [],
+  "revision": 4915,
+  "next_fencing_token": 221,
+  "locks": [
+    {
+      "resource_key": "analysis:cp08-novice-prompt-onboarding",
+      "issue_number": 142,
+      "task_id": "GH-142",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "CHAT-PR07-20261127-CP08",
+      "chat_id": "CHAT-PR07-20261127-CP08",
+      "run_id": "RUN-PR07-G09-CP08-AUDIT-20261127-02",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": null,
+      "acquired_at_utc": "2026-11-27T16:21:53.974Z",
+      "heartbeat_at_utc": "2026-11-27T16:21:53.974Z",
+      "lease_expires_at_utc": "2026-11-27T16:51:53.974Z",
+      "fencing_token": 220,
+      "status": "ACTIVE"
+    }
+  ],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -19071,6 +19088,23 @@
       "branch": null,
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "at_utc": "2026-11-27T16:18:35.745Z"
+    },
+    {
+      "event": "ACQUIRED",
+      "issue_number": 142,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-PR07-20261127-CP08",
+      "run_id": "RUN-PR07-G09-CP08-AUDIT-20261127-02",
+      "resource_keys": [
+        "analysis:cp08-novice-prompt-onboarding"
+      ],
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": null,
+      "previous_branch": null,
+      "previous_target_repository": null,
+      "previous_run_id": null,
+      "fencing_token": 220,
+      "at_utc": "2026-11-27T16:21:53.974Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -39784,6 +39818,15 @@
       "command": "status",
       "next_status": null,
       "at_utc": "2026-11-27T16:21:05.572Z"
+    },
+    "7223113796": {
+      "response": "CLAIM GRANTED. TASK=GH-142; WORK_ITEM_ID=WI-CP08-NOVICE-ONBOARDING-AUDIT-001; verified_steps=; remaining_steps=S0_BASELINE,S1_ENTRYPOINT,S2_PREREQUISITES,S3_COLD_START_WALKTHROUGH,S4_CONTINUATION_RECOVERY,S5_CLARITY_AND_LIMITS,S6_REPORT_AND_CROSSCHECK; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; actor=@a4adelahmadian86-wq; chat=CHAT-PR07-20261127-CP08; run=RUN-PR07-G09-CP08-AUDIT-20261127-02; resource_keys=analysis:cp08-novice-prompt-onboarding; target_repository=a4adelahmadian86-wq/farast-control-plane; write_policy=READ_ONLY; branch=none; previous_run=none; fencing_token=220; lease_expires=2026-11-27T16:51:53.974Z. این Work Item با سیاست READ_ONLY است؛ در target_repository هیچ branch، file، commit یا PR ایجاد/تغییر نده. شواهد را فقط در Issue thread یا محل مجاز control-plane ثبت کن؛ برای WRITE_REQUIRES_OWNER_APPROVAL فقط proposal ارائه بده.",
+      "response_posted": false,
+      "issue_number": 142,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "locked",
+      "at_utc": "2026-11-27T16:21:53.979Z"
     }
   },
   "work_items": {
@@ -51211,6 +51254,173 @@
       ],
       "priority": 50,
       "created_at_utc": "2026-11-27T12:37:52.326Z"
+    },
+    "142": {
+      "schema_version": "1.0",
+      "operation_scope_version": "1.0",
+      "requested_operations": [
+        "analysis"
+      ],
+      "write_policy": "READ_ONLY",
+      "priority_source": "DEFAULT_POLICY",
+      "work_item_id": "WI-CP08-NOVICE-ONBOARDING-AUDIT-001",
+      "title": "CP-08 novice-run prompt onboarding and context-free execution audit",
+      "description": "Read-only audit of the current FARAST prompt entrypoints and recovery flow against CP-08, distinguishing documentation/static verification from real novice-user testing and independent-account E2E.",
+      "parent_goal_ids": [
+        "G-09"
+      ],
+      "parent_exp_ids": [
+        "EXP-01"
+      ],
+      "parent_cp_ids": [
+        "CP-08"
+      ],
+      "allocation_provenance": {
+        "allocator_work_item_id": "WI-GOAL-ALLOCATOR-001",
+        "allocator_issue_number": 11,
+        "actor": "a4adelahmadian86-wq",
+        "chat_id": "CHAT-PR07-20261127-CP08",
+        "run_id": "RUN-PR07-G09-ALLOCATE-CP08-AUDIT-20261127-01",
+        "fencing_token": 219,
+        "branch": null,
+        "allocated_at_utc": "2026-11-27T16:10:33.499Z"
+      },
+      "status": "CLAIMED",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "resource_keys": [
+        "analysis:cp08-novice-prompt-onboarding"
+      ],
+      "dependencies": [],
+      "priority": 50,
+      "created_at_utc": "2026-11-27T16:10:33.499Z",
+      "effort_estimate_minutes": 25,
+      "effort_rationale": "A bounded 25-minute read-only audit of prompt entrypoints, prerequisites, safe queue selection and continuation recovery, producing an evidence matrix without source edits.",
+      "depth_profile": {
+        "profile_version": "2.0.0",
+        "min_substantive_steps": 6,
+        "min_acceptance_criteria": 4,
+        "min_deliverables": 3,
+        "target_effort_minutes": 25
+      },
+      "steps": [
+        {
+          "step_id": "S0_BASELINE",
+          "title": "Freeze main SHA and inventory CP-08 sources and accepted related Work Items",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Timestamped source manifest and CP-08 scope",
+          "evidence_requirement": "Exact SHAs and source Issue/PR links",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S1_ENTRYPOINT",
+          "title": "Verify standalone specialist prompt bootstrap and no manual context assembly",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Entry-point checklist with pass/fail/unknown",
+          "evidence_requirement": "Exact prompt and canonical bootstrap source refs",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S2_PREREQUISITES",
+          "title": "Map user-side account/access prerequisites and agent-handled technical decisions",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Prerequisite matrix",
+          "evidence_requirement": "Canonical source links for each prerequisite",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S3_COLD_START_WALKTHROUGH",
+          "title": "Trace a fresh prompt-only dry run through discovery, selection, claim and safe action",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Reproducible cold-start walkthrough",
+          "evidence_requirement": "Current source links and read-backs; simulation labelled",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S4_CONTINUATION_RECOVERY",
+          "title": "Trace continue/interruption recovery, fresh RUN/token, deduplication and blocker skipping",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Recovery decision table",
+          "evidence_requirement": "Interruption, execution and coordinator protocol refs",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S5_CLARITY_AND_LIMITS",
+          "title": "Identify unclear, stale, misleading or unsupported user-facing claims",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Prioritized clarity and accuracy findings",
+          "evidence_requirement": "Exact passages and current link read-backs",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S6_REPORT_AND_CROSSCHECK",
+          "title": "Cross-check evidence, classify residual gaps and map remediation without duplicates",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Final CP-08 matrix and non-duplicate remediation map",
+          "evidence_requirement": "Stable ID searches, exact source refs and explicit unknowns",
+          "estimate_minutes": 5
+        }
+      ],
+      "acceptance_criteria": [
+        {
+          "criterion_id": "AC_SELF_CONTAINED_ENTRYPOINT",
+          "title": "Standalone specialist prompt identifies scope and canonical bootstrap without manual history or Issue selection",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Source-backed standalone-prompt walkthrough"
+        },
+        {
+          "criterion_id": "AC_PREREQUISITES_EXPLICIT",
+          "title": "User-side authorization/access prerequisites and automation limits are explicit and accurate",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Prerequisite matrix mapped to current documentation"
+        },
+        {
+          "criterion_id": "AC_AUTONOMOUS_SAFE_SELECTION",
+          "title": "Deterministic eligible-leaf selection, safe claim, conflict skipping and duplicate prevention are specified",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Execution protocol and coordinator references plus current-state dry-run"
+        },
+        {
+          "criterion_id": "AC_CONTINUATION_RECOVERY",
+          "title": "Continue/interruption preserves WORK_ITEM_ID and uses fresh RUN/token with safe ambiguous-operation handling",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Recovery decision table mapped to canonical protocol"
+        },
+        {
+          "criterion_id": "AC_EVIDENCE_AND_LIMITS",
+          "title": "Every conclusion is evidence-backed and static/simulated/user-tested/multi-account results are distinguished",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Source manifest and explicit PASS/FAIL/UNKNOWN matrix"
+        }
+      ],
+      "deliverables": [
+        {
+          "deliverable_id": "D1",
+          "description": "CP-08 onboarding/usability evidence matrix",
+          "evidence_requirement": "Exact source URLs/SHAs and PASS/FAIL/UNKNOWN per assertion"
+        },
+        {
+          "deliverable_id": "D2",
+          "description": "Cold-start and continuation walkthrough",
+          "evidence_requirement": "Canonical source references and simulation/observation labels"
+        },
+        {
+          "deliverable_id": "D3",
+          "description": "Residual gap and remediation register",
+          "evidence_requirement": "Open/closed Issue search, stable ID checks and supporting evidence URLs"
+        }
+      ]
     }
   },
   "checkpoints": {
