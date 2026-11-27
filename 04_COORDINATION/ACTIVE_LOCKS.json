@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4862,
+  "revision": 4863,
   "next_fencing_token": 218,
   "locks": [
     {
@@ -39376,7 +39376,7 @@
     },
     "7218751919": {
       "response": "STEP ثبت شد: S4_SAME_CONVERSATION_RUN_BOUNDARY_RECOVERY; EXECUTION_PROGRESS=83.33%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=5/6.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 141,
       "actor": "a4adelahmadian86-wq",
       "command": "step",
