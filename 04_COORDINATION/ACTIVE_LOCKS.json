@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5079,
+  "revision": 5080,
   "next_fencing_token": 226,
   "locks": [
     {
@@ -41093,6 +41093,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-27T18:25:51.658Z"
+    },
+    "7225479321": {
+      "response": "معیار پذیرش ثبت شد: AC_CURRENT_MAIN_SNAPSHOT; ACCEPTANCE_PROGRESS=16.66%; OVERALL_COMPLETION=16.66%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 143,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-27T18:26:00.617Z"
     }
   },
   "work_items": {
@@ -52960,7 +52969,15 @@
           "title": "The guide's current-status snapshot identifies the exact main SHA and verification date without presenting an older SHA as current",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "Guide read-back compared with exact live main SHA and timestamp"
+          "evidence_requirement": "Guide read-back compared with exact live main SHA and timestamp",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/f50f6b184e1baa61fd4a5bafc4f020b495b3ff88",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-143-RUN-PR07-G09-EXEC-GUIDE-REFRESH-20261127-02/EXECUTION_START_GUIDE_FA.md"
+          ],
+          "validated_at_utc": "2026-11-27T18:26:00.617Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_TEMPORAL_CLARITY",
