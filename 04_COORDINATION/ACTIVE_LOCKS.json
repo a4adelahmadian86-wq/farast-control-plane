@@ -1,25 +1,8 @@
 {
   "schema_version": "1.0",
-  "revision": 4918,
+  "revision": 4919,
   "next_fencing_token": 221,
-  "locks": [
-    {
-      "resource_key": "analysis:cp08-novice-prompt-onboarding",
-      "issue_number": 142,
-      "task_id": "GH-142",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "CHAT-PR07-20261127-CP08",
-      "chat_id": "CHAT-PR07-20261127-CP08",
-      "run_id": "RUN-PR07-G09-CP08-AUDIT-20261127-02",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": null,
-      "acquired_at_utc": "2026-11-27T16:21:53.974Z",
-      "heartbeat_at_utc": "2026-11-27T16:21:53.974Z",
-      "lease_expires_at_utc": "2026-11-27T16:51:53.974Z",
-      "fencing_token": 220,
-      "status": "ACTIVE"
-    }
-  ],
+  "locks": [],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -19105,6 +19088,19 @@
       "previous_run_id": null,
       "fencing_token": 220,
       "at_utc": "2026-11-27T16:21:53.974Z"
+    },
+    {
+      "event": "LEASE_EXPIRED",
+      "issue_number": 142,
+      "resource_key": "analysis:cp08-novice-prompt-onboarding",
+      "task_id": "GH-142",
+      "run_id": "RUN-PR07-G09-CP08-AUDIT-20261127-02",
+      "fencing_token": 220,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "CHAT-PR07-20261127-CP08",
+      "branch": null,
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "at_utc": "2026-11-27T16:54:30.167Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
