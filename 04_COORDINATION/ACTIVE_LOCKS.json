@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5034,
+  "revision": 5035,
   "next_fencing_token": 225,
   "locks": [
     {
@@ -40882,6 +40882,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-27T17:30:14.467Z"
+    },
+    "7224481408": {
+      "response": "معیار پذیرش ثبت شد: AC_REVALIDATE; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; can_accept=true.",
+      "response_posted": false,
+      "issue_number": 107,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-27T17:30:40.608Z"
     }
   },
   "work_items": {
@@ -48894,7 +48903,7 @@
         "CP-03",
         "CP-04"
       ],
-      "status": "CLAIMED",
+      "status": "REVIEW_REQUIRED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "file:.github/workflows/farast-coordinator.yml",
@@ -49028,15 +49037,15 @@
           "validation_stage": "POST_MERGE",
           "title": "A corrected blocked Work Item with valid ISO created_at_utc and matching live allocator provenance can be revalidated through the documented owner workflow; Issue #106 reaches READY or receives a precise actionable blocker",
           "required": true,
-          "validation_status": "BLOCKED",
+          "validation_status": "PASS",
           "evidence_refs": [
-            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/106",
-            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/116"
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/106#issuecomment-7224424736",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/106#issuecomment-7224472074"
           ],
           "evidence_requirement": "Corrected Issue #106 read-back, valid allocation provenance and coordinator response showing READY or a precise blocker",
-          "validated_at_utc": "2026-11-21T18:34:20.436Z",
+          "validated_at_utc": "2026-11-27T17:30:40.607Z",
           "validated_by": "a4adelahmadian86-wq",
-          "validation_note": "Issue 106 still has missing deep-criterion evidence_requirement and stale allocator token 156. Live refresh verification must wait until PR 116 is merged; Issue 106 body and provenance were not changed."
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_COMMAND_REPLAY",
