@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5006,
+  "revision": 5007,
   "next_fencing_token": 223,
   "locks": [
     {
@@ -40542,7 +40542,7 @@
     },
     "7224349903": {
       "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-GOAL-ALLOCATOR-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=Issue #143 WI-CP08-EXECUTION-GUIDE-SNAPSHOT-REFRESH-001 was created under the active allocator lease and WORK_ITEM_ALLOCATED provenance was read back; release allocator, then claim Issue #143 with a fresh RUN_ID and its exact resource key.; remaining_steps=.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 11,
       "actor": "a4adelahmadian86-wq",
       "command": "checkpoint",
