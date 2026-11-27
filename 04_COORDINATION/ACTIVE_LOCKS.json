@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5094,
+  "revision": 5095,
   "next_fencing_token": 226,
   "locks": [
     {
@@ -41171,7 +41171,7 @@
     },
     "7225523845": {
       "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-CP08-EXECUTION-GUIDE-SNAPSHOT-REFRESH-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=PR #145 is open and exact-head CI passed; PR #144 is closed without merge and its branch preserved. Do not merge or deploy under this Work Item. Await a separate owner merge authorization/decision; only then evaluate the independent acceptance gate.; remaining_steps=.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 143,
       "actor": "a4adelahmadian86-wq",
       "command": "checkpoint",
