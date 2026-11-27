@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4849,
+  "revision": 4850,
   "next_fencing_token": 217,
   "locks": [
     {
@@ -39255,6 +39255,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-27T12:47:47.648Z"
+    },
+    "7218687024": {
+      "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-CP01-SINGLE-ACCOUNT-CONTEXT-RECOVERY-001; EXECUTION_PROGRESS=66.66%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; next_action=Release this run, then claim the same Issue #141 in this same ChatGPT conversation using a distinct new RUN_ID; verify the durable checkpoint is recovered and the new fencing token differs. Do not describe this as a separate-session cold start.; remaining_steps=S4_SAME_CONVERSATION_RUN_BOUNDARY_RECOVERY,S5_REPORT_AND_HANDOFF.",
+      "response_posted": false,
+      "issue_number": 141,
+      "actor": "a4adelahmadian86-wq",
+      "command": "checkpoint",
+      "next_status": null,
+      "at_utc": "2026-11-27T12:48:10.120Z"
     }
   },
   "work_items": {
@@ -51878,6 +51887,52 @@
         "lease_expires_at_utc": "2026-11-27T12:21:05.577Z"
       },
       "next_action": "Wait for an already-open independent ChatGPT session with its own authorized GitHub login to claim this same Work Item with a fresh RUN_ID; perform S1 identity proof, S2 canonical retrieval parity, S3 shared-state parity, and S4 cold-start recovery. Preserve all PASS/BLOCKED evidence; do not create a duplicate or mark accepted until all four criteria pass."
+    },
+    "141": {
+      "work_item_id": "WI-CP01-SINGLE-ACCOUNT-CONTEXT-RECOVERY-001",
+      "run_id": "RUN-PR07-CP01-SINGLE-ACCOUNT-VERIFY-20261127-01",
+      "checkpoint_version": 1,
+      "created_at_utc": "2026-11-27T12:48:10.119Z",
+      "last_verified_step_id": "S3_LIVE_SHARED_STATE_DISCOVERY",
+      "current_step_id": "S3_LIVE_SHARED_STATE_DISCOVERY",
+      "completed_step_ids": [
+        "S0_BASELINE_AND_SCOPE",
+        "S1_SINGLE_IDENTITY_AUTHORIZATION",
+        "S2_CANONICAL_CONTEXT_RETRIEVAL",
+        "S3_LIVE_SHARED_STATE_DISCOVERY"
+      ],
+      "remaining_step_ids": [
+        "S4_SAME_CONVERSATION_RUN_BOUNDARY_RECOVERY",
+        "S5_REPORT_AND_HANDOFF"
+      ],
+      "progress_percentage": 66.66,
+      "execution_progress_percentage": 66.66,
+      "acceptance_progress_percentage": 0,
+      "overall_completion_percentage": 0,
+      "progress_calculation_version": "PROGRESS_V2",
+      "required_step_counts": {
+        "pass": 4,
+        "fail": 0,
+        "blocked": 0,
+        "unknown": 0,
+        "not_run": 2
+      },
+      "acceptance_criteria_counts": {
+        "pass": 0,
+        "fail": 0,
+        "blocked": 0,
+        "unknown": 0,
+        "not_run": 4
+      },
+      "evidence_refs": [],
+      "blockers": [],
+      "owner": {
+        "actor": "a4adelahmadian86-wq",
+        "chat_id": "8f4c2a91d7e64b0aa35c91f82e6d740b",
+        "fencing_token": 216,
+        "lease_expires_at_utc": "2026-11-27T13:17:47.648Z"
+      },
+      "next_action": "Release this run, then claim the same Issue #141 in this same ChatGPT conversation using a distinct new RUN_ID; verify the durable checkpoint is recovered and the new fencing token differs. Do not describe this as a separate-session cold start."
     }
   },
   "inbox_scheduler": {
