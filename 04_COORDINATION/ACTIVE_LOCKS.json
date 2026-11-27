@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4877,
+  "revision": 4878,
   "next_fencing_token": 218,
   "locks": [
     {
@@ -39493,6 +39493,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-27T12:54:32.417Z"
+    },
+    "7218827703": {
+      "response": "معیار پذیرش ثبت شد: AC_SAME_CONVERSATION_RECOVERY; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=83.33%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 141,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-27T12:55:04.801Z"
     }
   },
   "work_items": {
@@ -50884,7 +50893,14 @@
           "criterion_id": "AC_SAME_CONVERSATION_RECOVERY",
           "title": "Stable Work Item is recoverable across a new RUN_ID without duplicate or stale-token reuse; simulation is not called independent cold-start",
           "required": true,
-          "evidence_requirement": "Before/after Issue/checkpoint refs, stable WID, distinct RUN_IDs, token comparison and explicit limitation"
+          "evidence_requirement": "Before/after Issue/checkpoint refs, stable WID, distinct RUN_IDs, token comparison and explicit limitation",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/141#issuecomment-7218738465"
+          ],
+          "validated_at_utc": "2026-11-27T12:55:04.801Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "deliverables": [
