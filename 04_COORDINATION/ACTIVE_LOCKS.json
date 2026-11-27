@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5059,
+  "revision": 5060,
   "next_fencing_token": 226,
   "locks": [
     {
@@ -40967,6 +40967,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-27T18:21:17.487Z"
+    },
+    "7225404208": {
+      "response": "STEP ثبت شد: S0_BASELINE; EXECUTION_PROGRESS=14.28%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=1/7.",
+      "response_posted": false,
+      "issue_number": 143,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-27T18:21:41.562Z"
     }
   },
   "work_items": {
@@ -52666,7 +52675,7 @@
       "parent_cp_ids": [
         "CP-08"
       ],
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "doc:execution_start_guide_fa.md"
@@ -52702,7 +52711,18 @@
           "weight": 1,
           "expected_output": "Timestamped baseline and non-overlap rationale",
           "evidence_requirement": "Exact main SHA, guide SHA, Issue #50 acceptance, PR #123/#125 merge refs and registry snapshot",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/f50f6b184e1baa61fd4a5bafc4f020b495b3ff88",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/main/EXECUTION_START_GUIDE_FA.md",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/50",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/123",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/125"
+          ],
+          "validated_at_utc": "2026-11-27T18:21:41.561Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S1_SCOPE_BOUNDARY",
