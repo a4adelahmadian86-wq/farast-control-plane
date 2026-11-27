@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4861,
+  "revision": 4862,
   "next_fencing_token": 218,
   "locks": [
     {
@@ -39373,6 +39373,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-27T12:50:55.277Z"
+    },
+    "7218751919": {
+      "response": "STEP ثبت شد: S4_SAME_CONVERSATION_RUN_BOUNDARY_RECOVERY; EXECUTION_PROGRESS=83.33%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=5/6.",
+      "response_posted": false,
+      "issue_number": 141,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-27T12:51:22.614Z"
     }
   },
   "work_items": {
@@ -50614,7 +50623,7 @@
         "branch": null,
         "allocated_at_utc": "2026-11-27T12:37:52.326Z"
       },
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "analysis:cp-01-single-account-context-recovery"
@@ -50701,7 +50710,14 @@
           "weight": 1,
           "expected_output": "Recovery trace with old/new RUN_ID, checkpoint, remaining work and duplicate prevention, or SIMULATED/NOT_RUN",
           "evidence_requirement": "Before/after Issue/checkpoint read-backs, token freshness comparison and explicit non-equivalence to independent cold-start",
-          "estimate_minutes": 5
+          "estimate_minutes": 5,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/141#issuecomment-7218738465"
+          ],
+          "validated_at_utc": "2026-11-27T12:51:22.613Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S5_REPORT_AND_HANDOFF",
