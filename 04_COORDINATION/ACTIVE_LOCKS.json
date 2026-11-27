@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4838,
+  "revision": 4839,
   "next_fencing_token": 217,
   "locks": [
     {
@@ -39168,7 +39168,7 @@
     },
     "7218637386": {
       "response": "STEP ثبت شد: S1_SINGLE_IDENTITY_AUTHORIZATION; EXECUTION_PROGRESS=33.33%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=2/6.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 141,
       "actor": "a4adelahmadian86-wq",
       "command": "step",
