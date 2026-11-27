@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4997,
+  "revision": 4998,
   "next_fencing_token": 223,
   "locks": [
     {
@@ -19407,6 +19407,17 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "lease_expires_at_utc": "2026-11-27T17:51:11.812Z",
       "at_utc": "2026-11-27T17:21:11.812Z"
+    },
+    {
+      "event": "WORK_ITEM_REFRESHED",
+      "issue_number": 143,
+      "work_item_id": "WI-CP08-EXECUTION-GUIDE-SNAPSHOT-REFRESH-001",
+      "actor": "a4adelahmadian86-wq",
+      "preserved_steps": 0,
+      "preserved_criteria": 0,
+      "hard_gate_ready": true,
+      "hard_gate_blockers": [],
+      "at_utc": "2026-11-27T17:22:03.522Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -40480,6 +40491,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-27T17:21:11.812Z"
+    },
+    "7224317381": {
+      "response": "Work Item specification refreshed from Issue body; preserved_steps=0; preserved_criteria=0; hard_gates=PASS; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%.",
+      "response_posted": false,
+      "issue_number": 143,
+      "actor": "a4adelahmadian86-wq",
+      "command": "refresh",
+      "next_status": "ready",
+      "at_utc": "2026-11-27T17:22:03.522Z"
     }
   },
   "work_items": {
@@ -52158,6 +52178,182 @@
           "evidence_requirement": "Open/closed Issue search, stable ID checks and supporting evidence URLs"
         }
       ]
+    },
+    "143": {
+      "schema_version": "1.0",
+      "operation_scope_version": "1.0",
+      "requested_operations": [
+        "control_plane_write"
+      ],
+      "write_policy": "WRITE_ALLOWED",
+      "priority_source": "DEFAULT_POLICY",
+      "work_item_id": "WI-CP08-EXECUTION-GUIDE-SNAPSHOT-REFRESH-001",
+      "title": "Post-acceptance current-status snapshot refresh for the official Persian execution guide",
+      "description": "Narrow follow-up to Issue #50 / WI-PROMPT-ENTRY-GUIDE-SYNC-001, which was ACCEPTED with PR #123 on 2026-11-22. After that acceptance, PR #125 advanced main to f50f6b184e1baa61fd4a5bafc4f020b495b3ff88, while EXECUTION_START_GUIDE_FA.md still labels its snapshot as confirmed 2026-11-22 and embeds the earlier 61efcd827bcb867902597538023b64e1908c17b7 SHA. Refresh only the guide's dated current-status/SHA block and clarify that dated historical observations are not a live Settings read-back. Do not repeat the accepted bundle 2.0.1 integration, do not edit coordinator commands/readiness/dispatch/catalog files owned by Issue #106, and do not claim independent-account E2E. No NON, code, workflow, secret, permission, merge or deployment changes.",
+      "parent_goal_ids": [
+        "G-09"
+      ],
+      "parent_exp_ids": [
+        "EXP-01"
+      ],
+      "parent_cp_ids": [
+        "CP-08"
+      ],
+      "status": "READY",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "resource_keys": [
+        "doc:execution_start_guide_fa.md"
+      ],
+      "dependencies": [],
+      "priority": 50,
+      "created_at_utc": "2026-11-27T17:19:51.048Z",
+      "ready_at_utc": "2026-11-27T17:19:51.048Z",
+      "effort_estimate_minutes": 25,
+      "effort_rationale": "A bounded 25-minute documentation follow-up: re-read current main and the accepted guide-sync evidence, update only one dated status block, verify all guide links and scope, then hand off a review-ready PR without merge.",
+      "depth_profile": {
+        "profile_version": "2.0.0",
+        "min_substantive_steps": 6,
+        "min_acceptance_criteria": 4,
+        "min_deliverables": 3,
+        "target_effort_minutes": 25
+      },
+      "allocation_provenance": {
+        "allocator_work_item_id": "WI-GOAL-ALLOCATOR-001",
+        "allocator_issue_number": 11,
+        "actor": "a4adelahmadian86-wq",
+        "chat_id": "6f4fd54643a2788bfd97ad2b9147d376",
+        "run_id": "RUN-PR07-G09-ALLOCATOR-20261127-02",
+        "fencing_token": 222,
+        "branch": null,
+        "allocated_at_utc": "2026-11-27T17:19:51.048Z"
+      },
+      "steps": [
+        {
+          "step_id": "S0_BASELINE",
+          "title": "Freeze main and prove the post-acceptance snapshot drift",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Timestamped baseline and non-overlap rationale",
+          "evidence_requirement": "Exact main SHA, guide SHA, Issue #50 acceptance, PR #123/#125 merge refs and registry snapshot",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S1_SCOPE_BOUNDARY",
+          "title": "Define the single guide section to refresh and protect adjacent canonical docs",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Bounded edit plan limited to the guide current-status block",
+          "evidence_requirement": "Exact guide headings/lines, Issue #50 accepted scope and Issue #106 resource map",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S2_REFRESH_SNAPSHOT",
+          "title": "Update current date, main SHA and dated operational status without rewriting history",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Refreshed Persian guide status snapshot with historical/live distinction",
+          "evidence_requirement": "Exact branch diff and read-back showing current SHA/date and preserved historical context",
+          "estimate_minutes": 5
+        },
+        {
+          "step_id": "S3_FACT_CHECK_LIMITS",
+          "title": "Reconcile readiness, CP-01 and CP-08 evidence and label all unknowns",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Fact-check matrix for single-account, multi-account, schedule and ruleset statements",
+          "evidence_requirement": "Current Issue/PR/registry URLs; explicit UNKNOWN where live Settings or independent account evidence is unavailable",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S4_LINK_AND_ENTRYPOINT_VALIDATION",
+          "title": "Validate every touched link and preserve the one-specialist-prompt entry flow",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Link and prompt-entry validation report",
+          "evidence_requirement": "Link-check output or exact manual read-backs for all changed links and prompt/bundle references",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S5_SCOPE_AND_REGRESSION_AUDIT",
+          "title": "Prove the change is documentation-only and non-overlapping",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Changed-file and non-duplication audit",
+          "evidence_requirement": "PR changed-file list, exact resource-key read-back, Issue #50/#106/#142 cross-check and no NON/code/workflow changes",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S6_HANDOFF",
+          "title": "Publish review-ready PR and precise no-merge handoff",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Review-ready PR and durable checkpoint",
+          "evidence_requirement": "PR URL/head SHA, successful relevant checks, checkpoint and explicit no-merge confirmation",
+          "estimate_minutes": 3
+        }
+      ],
+      "acceptance_criteria": [
+        {
+          "criterion_id": "AC_CURRENT_MAIN_SNAPSHOT",
+          "title": "The guide's current-status snapshot identifies the exact main SHA and verification date without presenting an older SHA as current",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Guide read-back compared with exact live main SHA and timestamp"
+        },
+        {
+          "criterion_id": "AC_TEMPORAL_CLARITY",
+          "title": "Historical observations are visibly dated and distinguished from current live facts or UNKNOWN settings",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Before/after guide diff and source links for every current-state assertion"
+        },
+        {
+          "criterion_id": "AC_NON_DUPLICATE_SCOPE",
+          "title": "The follow-up is distinct from accepted Issue #50 and does not overlap Issue #106's command/readiness/dispatch/catalog scope",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Issue #50/#106/#142 cross-check, exact resource key and PR changed-file list"
+        },
+        {
+          "criterion_id": "AC_ENTRYPOINT_GUIDANCE",
+          "title": "The guide still tells a new chat to use one relevant specialist prompt and does not require manual history or a manually selected Issue",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Prompt catalog, MASTER-00 and specialist prompt links read back from main"
+        },
+        {
+          "criterion_id": "AC_MULTI_ACCOUNT_LIMITS",
+          "title": "The guide does not overstate multi-account E2E, cross-account takeover, ruleset or Secret status",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "CP-01 Issue #140/#141 and current readiness evidence with unsupported settings marked UNKNOWN"
+        },
+        {
+          "criterion_id": "AC_DOC_ONLY_VALIDATION",
+          "title": "Only EXECUTION_START_GUIDE_FA.md changes and its links/Markdown checks pass; no merge or deployment occurs",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Exact PR changed-file list, link validation and unmerged PR state"
+        }
+      ],
+      "deliverables": [
+        {
+          "deliverable_id": "D1",
+          "description": "Updated official Persian execution guide current-status snapshot",
+          "evidence_requirement": "Exact main SHA/date, historical/live distinction and source links in the guide"
+        },
+        {
+          "deliverable_id": "D2",
+          "description": "Snapshot fact-check and non-duplicate scope manifest",
+          "evidence_requirement": "Issue #50/#106/#142 and PR #123/#125 evidence plus explicit UNKNOWN matrix"
+        },
+        {
+          "deliverable_id": "D3",
+          "description": "Review-ready documentation-only PR and handoff",
+          "evidence_requirement": "PR URL/head SHA, validation output, checkpoint and no-merge confirmation"
+        }
+      ],
+      "next_action": "After claim, update only EXECUTION_START_GUIDE_FA.md; open a review-ready PR and do not merge."
     }
   },
   "checkpoints": {
