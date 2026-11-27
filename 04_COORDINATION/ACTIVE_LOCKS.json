@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5083,
+  "revision": 5084,
   "next_fencing_token": 226,
   "locks": [
     {
@@ -41111,6 +41111,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-27T18:26:20.097Z"
+    },
+    "7225491065": {
+      "response": "معیار پذیرش ثبت شد: AC_NON_DUPLICATE_SCOPE; ACCEPTANCE_PROGRESS=50%; OVERALL_COMPLETION=50%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 143,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-27T18:26:38.007Z"
     }
   },
   "work_items": {
@@ -53008,7 +53017,17 @@
           "title": "The follow-up is distinct from accepted Issue #50 and does not overlap Issue #106's command/readiness/dispatch/catalog scope",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "Issue #50/#106/#142 cross-check, exact resource key and PR changed-file list"
+          "evidence_requirement": "Issue #50/#106/#142 cross-check, exact resource key and PR changed-file list",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/50",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/106",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/142",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/145/files"
+          ],
+          "validated_at_utc": "2026-11-27T18:26:38.006Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_ENTRYPOINT_GUIDANCE",
