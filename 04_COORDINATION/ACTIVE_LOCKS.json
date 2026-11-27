@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5101,
+  "revision": 5102,
   "next_fencing_token": 226,
   "locks": [],
   "history": [
@@ -19696,6 +19696,13 @@
       "branch": "work/GH-143-RUN-PR07-G09-EXEC-GUIDE-REFRESH-20261127-02",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "at_utc": "2026-11-27T18:29:04.604Z"
+    },
+    {
+      "event": "DEPENDENCY_AUTO_UNBLOCKED",
+      "issue_number": 85,
+      "work_item_id": "WI-SEMANTIC-DUPLICATE-DELIVERABLE-SCOPE-001",
+      "preserved_steps": 0,
+      "at_utc": "2026-11-27T22:48:04.775Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
