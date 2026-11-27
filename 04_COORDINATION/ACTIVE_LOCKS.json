@@ -1,25 +1,8 @@
 {
   "schema_version": "1.0",
-  "revision": 4986,
+  "revision": 4987,
   "next_fencing_token": 222,
-  "locks": [
-    {
-      "resource_key": "analysis:cp08-novice-prompt-onboarding",
-      "issue_number": 142,
-      "task_id": "GH-142",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "6f4fd54643a2788bfd97ad2b9147d376",
-      "chat_id": "6f4fd54643a2788bfd97ad2b9147d376",
-      "run_id": "RUN-PR07-G09-CP08-RESUME-20261127-01",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": null,
-      "acquired_at_utc": "2026-11-27T16:55:58.867Z",
-      "heartbeat_at_utc": "2026-11-27T17:12:20.506Z",
-      "lease_expires_at_utc": "2026-11-27T17:42:20.506Z",
-      "fencing_token": 221,
-      "status": "ACTIVE"
-    }
-  ],
+  "locks": [],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -19339,6 +19322,17 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "lease_expires_at_utc": "2026-11-27T17:42:20.506Z",
       "at_utc": "2026-11-27T17:12:20.506Z"
+    },
+    {
+      "event": "REVIEW",
+      "issue_number": 142,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "6f4fd54643a2788bfd97ad2b9147d376",
+      "run_id": "RUN-PR07-G09-CP08-RESUME-20261127-01",
+      "fencing_token": 221,
+      "branch": null,
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "at_utc": "2026-11-27T17:12:50.811Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -40367,6 +40361,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-27T17:12:20.506Z"
+    },
+    "7224152250": {
+      "response": "پیاده‌سازی برای اجرای گیت‌های ماشینی و پذیرش خودکار تحویل شد؛ این فرمان به‌تنهایی پذیرش نیست.",
+      "response_posted": false,
+      "issue_number": 142,
+      "actor": "a4adelahmadian86-wq",
+      "command": "review",
+      "next_status": "review",
+      "at_utc": "2026-11-27T17:12:50.812Z"
     }
   },
   "work_items": {
