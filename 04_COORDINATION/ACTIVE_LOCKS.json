@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5069,
+  "revision": 5070,
   "next_fencing_token": 226,
   "locks": [
     {
@@ -41036,6 +41036,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-27T18:23:39.889Z"
+    },
+    "7225447744": {
+      "response": "STEP ثبت شد: S3_FACT_CHECK_LIMITS; EXECUTION_PROGRESS=57.14%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=4/7.",
+      "response_posted": false,
+      "issue_number": 143,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-27T18:24:14.192Z"
     }
   },
   "work_items": {
@@ -52827,7 +52836,17 @@
           "weight": 1,
           "expected_output": "Fact-check matrix for single-account, multi-account, schedule and ruleset statements",
           "evidence_requirement": "Current Issue/PR/registry URLs; explicit UNKNOWN where live Settings or independent account evidence is unavailable",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/140",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/141",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/142",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/145"
+          ],
+          "validated_at_utc": "2026-11-27T18:24:14.192Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S4_LINK_AND_ENTRYPOINT_VALIDATION",
