@@ -1,25 +1,8 @@
 {
   "schema_version": "1.0",
-  "revision": 4896,
+  "revision": 4897,
   "next_fencing_token": 219,
-  "locks": [
-    {
-      "resource_key": "analysis:cp-01-single-account-context-recovery",
-      "issue_number": 141,
-      "task_id": "GH-141",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "8f4c2a91d7e64b0aa35c91f82e6d740b",
-      "chat_id": "8f4c2a91d7e64b0aa35c91f82e6d740b",
-      "run_id": "RUN-PR07-G09-CP01-ACCEPTANCE-20261127-01",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": null,
-      "acquired_at_utc": "2026-11-27T15:55:50.597Z",
-      "heartbeat_at_utc": "2026-11-27T15:57:10.311Z",
-      "lease_expires_at_utc": "2026-11-27T16:27:10.311Z",
-      "fencing_token": 218,
-      "status": "ACTIVE"
-    }
-  ],
+  "locks": [],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -19009,6 +18992,17 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "lease_expires_at_utc": "2026-11-27T16:27:10.311Z",
       "at_utc": "2026-11-27T15:57:10.311Z"
+    },
+    {
+      "event": "REVIEW",
+      "issue_number": 141,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "8f4c2a91d7e64b0aa35c91f82e6d740b",
+      "run_id": "RUN-PR07-G09-CP01-ACCEPTANCE-20261127-01",
+      "fencing_token": 218,
+      "branch": null,
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "at_utc": "2026-11-27T15:57:36.845Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -39650,6 +39644,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-27T15:57:10.311Z"
+    },
+    "7222682526": {
+      "response": "پیاده‌سازی برای اجرای گیت‌های ماشینی و پذیرش خودکار تحویل شد؛ این فرمان به‌تنهایی پذیرش نیست.",
+      "response_posted": false,
+      "issue_number": 141,
+      "actor": "a4adelahmadian86-wq",
+      "command": "review",
+      "next_status": "review",
+      "at_utc": "2026-11-27T15:57:36.846Z"
     }
   },
   "work_items": {
@@ -50891,7 +50894,7 @@
         "branch": null,
         "allocated_at_utc": "2026-11-27T12:37:52.326Z"
       },
-      "status": "CLAIMED",
+      "status": "REVIEW_REQUIRED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "analysis:cp-01-single-account-context-recovery"
