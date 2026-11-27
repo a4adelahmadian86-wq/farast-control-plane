@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4970,
+  "revision": 4971,
   "next_fencing_token": 222,
   "locks": [
     {
@@ -40247,6 +40247,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-27T17:08:50.385Z"
+    },
+    "7224084506": {
+      "response": "معیار پذیرش ثبت شد: AC_CONTINUATION_RECOVERY; ACCEPTANCE_PROGRESS=80%; OVERALL_COMPLETION=80%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 142,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-27T17:09:10.013Z"
     }
   },
   "work_items": {
@@ -51884,7 +51893,14 @@
           "title": "Continue/interruption preserves WORK_ITEM_ID and uses fresh RUN/token with safe ambiguous-operation handling",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "Recovery decision table mapped to canonical protocol"
+          "evidence_requirement": "Recovery decision table mapped to canonical protocol",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/142#issuecomment-7223911970"
+          ],
+          "validated_at_utc": "2026-11-27T17:09:10.013Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_EVIDENCE_AND_LIMITS",
