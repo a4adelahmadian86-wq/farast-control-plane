@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4982,
+  "revision": 4983,
   "next_fencing_token": 222,
   "locks": [
     {
@@ -40337,6 +40337,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-27T17:11:36.363Z"
+    },
+    "7224138569": {
+      "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-CP08-NOVICE-ONBOARDING-AUDIT-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=Run /farast review to hand off this READ_ONLY audit; read back review state and zero active lease; then run /farast accept without a PR using the READ_ONLY evidence-only path; verify ACCEPTED, all seven steps and five criteria, and final progress.; remaining_steps=.",
+      "response_posted": false,
+      "issue_number": 142,
+      "actor": "a4adelahmadian86-wq",
+      "command": "checkpoint",
+      "next_status": null,
+      "at_utc": "2026-11-27T17:12:03.843Z"
     }
   },
   "work_items": {
@@ -53298,6 +53307,52 @@
         "lease_expires_at_utc": "2026-11-27T13:27:57.535Z"
       },
       "next_action": "Release this READ_ONLY run. Issue #141 single-account verification is complete with 6/6 steps and 4/4 acceptance criteria PASS; keep Issue #140 OPEN and NOT_VERIFIED for real two-session/two-login E2E. Do not claim overall CP-01 or G-09 multi-account completion."
+    },
+    "142": {
+      "work_item_id": "WI-CP08-NOVICE-ONBOARDING-AUDIT-001",
+      "run_id": "RUN-PR07-G09-CP08-RESUME-20261127-01",
+      "checkpoint_version": 1,
+      "created_at_utc": "2026-11-27T17:12:03.842Z",
+      "last_verified_step_id": "S6_REPORT_AND_CROSSCHECK",
+      "current_step_id": "S6_REPORT_AND_CROSSCHECK",
+      "completed_step_ids": [
+        "S0_BASELINE",
+        "S1_ENTRYPOINT",
+        "S2_PREREQUISITES",
+        "S3_COLD_START_WALKTHROUGH",
+        "S4_CONTINUATION_RECOVERY",
+        "S5_CLARITY_AND_LIMITS",
+        "S6_REPORT_AND_CROSSCHECK"
+      ],
+      "remaining_step_ids": [],
+      "progress_percentage": 100,
+      "execution_progress_percentage": 100,
+      "acceptance_progress_percentage": 100,
+      "overall_completion_percentage": 100,
+      "progress_calculation_version": "PROGRESS_V2",
+      "required_step_counts": {
+        "pass": 7,
+        "fail": 0,
+        "blocked": 0,
+        "unknown": 0,
+        "not_run": 0
+      },
+      "acceptance_criteria_counts": {
+        "pass": 5,
+        "fail": 0,
+        "blocked": 0,
+        "unknown": 0,
+        "not_run": 0
+      },
+      "evidence_refs": [],
+      "blockers": [],
+      "owner": {
+        "actor": "a4adelahmadian86-wq",
+        "chat_id": "6f4fd54643a2788bfd97ad2b9147d376",
+        "fencing_token": 221,
+        "lease_expires_at_utc": "2026-11-27T17:41:36.363Z"
+      },
+      "next_action": "Run /farast review to hand off this READ_ONLY audit; read back review state and zero active lease; then run /farast accept without a PR using the READ_ONLY evidence-only path; verify ACCEPTED, all seven steps and five criteria, and final progress."
     }
   },
   "inbox_scheduler": {
