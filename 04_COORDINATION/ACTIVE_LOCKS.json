@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4816,
+  "revision": 4817,
   "next_fencing_token": 215,
   "locks": [
     {
@@ -38955,6 +38955,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-27T11:51:05.577Z"
+    },
+    "7217547959": {
+      "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-CP01-CROSS-ACCOUNT-CONTEXT-E2E-001; EXECUTION_PROGRESS=33.33%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; next_action=Wait for an already-open independent ChatGPT session with its own authorized GitHub login to claim this same Work Item with a fresh RUN_ID; perform S1 identity proof, S2 canonical retrieval parity, S3 shared-state parity, and S4 cold-start recovery. Preserve all PASS/BLOCKED evidence; do not create a duplicate or mark accepted until all four criteria pass.; remaining_steps=S1_IDENTITY_PROOF,S2_FRESH_CONTEXT_RETRIEVAL,S3_SHARED_STATE_DISCOVERY,S4_COLD_START_AND_INTERRUPTION.",
+      "response_posted": false,
+      "issue_number": 140,
+      "actor": "a4adelahmadian86-wq",
+      "command": "checkpoint",
+      "next_status": null,
+      "at_utc": "2026-11-27T11:51:13.710Z"
     }
   },
   "work_items": {
@@ -51357,6 +51366,52 @@
         "lease_expires_at_utc": "2026-11-25T07:45:01.559Z"
       },
       "next_action": "Await independent review on PR #139. If review requests changes, resume this same WORK_ITEM_ID with a fresh RUN_ID and a new coordinator claim; preserve the current branch and all evidence. If review is approved, wait for the separate owner/coordinator acceptance gate. Do not merge or release in this RUN."
+    },
+    "140": {
+      "work_item_id": "WI-CP01-CROSS-ACCOUNT-CONTEXT-E2E-001",
+      "run_id": "RUN-PR07-CP01-RESUME-20261127-01",
+      "checkpoint_version": 1,
+      "created_at_utc": "2026-11-27T11:51:13.710Z",
+      "last_verified_step_id": "S5_REPORT_AND_HANDOFF",
+      "current_step_id": "S5_REPORT_AND_HANDOFF",
+      "completed_step_ids": [
+        "S0_BASELINE",
+        "S5_REPORT_AND_HANDOFF"
+      ],
+      "remaining_step_ids": [
+        "S1_IDENTITY_PROOF",
+        "S2_FRESH_CONTEXT_RETRIEVAL",
+        "S3_SHARED_STATE_DISCOVERY",
+        "S4_COLD_START_AND_INTERRUPTION"
+      ],
+      "progress_percentage": 33.33,
+      "execution_progress_percentage": 33.33,
+      "acceptance_progress_percentage": 0,
+      "overall_completion_percentage": 0,
+      "progress_calculation_version": "PROGRESS_V2",
+      "required_step_counts": {
+        "pass": 2,
+        "fail": 0,
+        "blocked": 4,
+        "unknown": 0,
+        "not_run": 0
+      },
+      "acceptance_criteria_counts": {
+        "pass": 0,
+        "fail": 0,
+        "blocked": 4,
+        "unknown": 0,
+        "not_run": 0
+      },
+      "evidence_refs": [],
+      "blockers": [],
+      "owner": {
+        "actor": "a4adelahmadian86-wq",
+        "chat_id": "8f4c2a91d7e64b0aa35c91f82e6d740b",
+        "fencing_token": 214,
+        "lease_expires_at_utc": "2026-11-27T12:21:05.577Z"
+      },
+      "next_action": "Wait for an already-open independent ChatGPT session with its own authorized GitHub login to claim this same Work Item with a fresh RUN_ID; perform S1 identity proof, S2 canonical retrieval parity, S3 shared-state parity, and S4 cold-start recovery. Preserve all PASS/BLOCKED evidence; do not create a duplicate or mark accepted until all four criteria pass."
     }
   },
   "inbox_scheduler": {
