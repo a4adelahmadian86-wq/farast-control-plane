@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4966,
+  "revision": 4967,
   "next_fencing_token": 222,
   "locks": [
     {
@@ -40217,6 +40217,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-27T17:08:11.095Z"
+    },
+    "7224072466": {
+      "response": "معیار پذیرش ثبت شد: AC_AUTONOMOUS_SAFE_SELECTION; ACCEPTANCE_PROGRESS=60%; OVERALL_COMPLETION=60%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 142,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-27T17:08:30.571Z"
     }
   },
   "work_items": {
@@ -51840,7 +51849,14 @@
           "title": "Deterministic eligible-leaf selection, safe claim, conflict skipping and duplicate prevention are specified",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "Execution protocol and coordinator references plus current-state dry-run"
+          "evidence_requirement": "Execution protocol and coordinator references plus current-state dry-run",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/142#issuecomment-7223911970"
+          ],
+          "validated_at_utc": "2026-11-27T17:08:30.571Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_CONTINUATION_RECOVERY",
