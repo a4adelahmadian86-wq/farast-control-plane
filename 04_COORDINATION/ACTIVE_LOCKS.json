@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5039,
+  "revision": 5040,
   "next_fencing_token": 225,
   "locks": [
     {
@@ -40915,7 +40915,7 @@
     },
     "7224501444": {
       "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-BLOCKED-WORKITEM-REVALIDATION-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=All seven steps and seven acceptance criteria are verified; run /farast review to release this lease, then /farast accept pr=https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/125. Preserve Issue #106 as blocked until its historical allocator provenance is recovered through an owner-approved coordinator path.; remaining_steps=.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 107,
       "actor": "a4adelahmadian86-wq",
       "command": "checkpoint",
