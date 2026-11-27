@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5086,
+  "revision": 5087,
   "next_fencing_token": 226,
   "locks": [
     {
@@ -41123,7 +41123,7 @@
     },
     "7225497045": {
       "response": "معیار پذیرش ثبت شد: AC_ENTRYPOINT_GUIDANCE; ACCEPTANCE_PROGRESS=66.66%; OVERALL_COMPLETION=66.66%; can_accept=false.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 143,
       "actor": "a4adelahmadian86-wq",
       "command": "criterion",
