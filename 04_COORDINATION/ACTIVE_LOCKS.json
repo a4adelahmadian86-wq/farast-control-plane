@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4798,
+  "revision": 4799,
   "next_fencing_token": 215,
   "locks": [
     {
@@ -38814,6 +38814,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-27T11:48:47.748Z"
+    },
+    "7217504839": {
+      "response": "معیار پذیرش ثبت شد: AC_CANONICAL_CONTEXT_PARITY; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 140,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-27T11:49:06.315Z"
     }
   },
   "work_items": {
@@ -49950,7 +49959,14 @@
           "title": "Both sessions independently retrieve the same current main SHA and mandatory canonical documents without manually supplied history",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "Side-by-side exact SHA and source URL matrix from both sessions"
+          "evidence_requirement": "Side-by-side exact SHA and source URL matrix from both sessions",
+          "validation_status": "BLOCKED",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/140#issuecomment-7217456311"
+          ],
+          "validated_at_utc": "2026-11-27T11:49:06.315Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_SHARED_STATE_DISCOVERY",
