@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5071,
+  "revision": 5072,
   "next_fencing_token": 226,
   "locks": [
     {
@@ -41045,6 +41045,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-27T18:24:14.192Z"
+    },
+    "7225455026": {
+      "response": "STEP ثبت شد: S4_LINK_AND_ENTRYPOINT_VALIDATION; EXECUTION_PROGRESS=71.42%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=5/7.",
+      "response_posted": false,
+      "issue_number": 143,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-27T18:24:33.957Z"
     }
   },
   "work_items": {
@@ -52855,7 +52864,17 @@
           "weight": 1,
           "expected_output": "Link and prompt-entry validation report",
           "evidence_requirement": "Link-check output or exact manual read-backs for all changed links and prompt/bundle references",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/tree/f50f6b184e1baa61fd4a5bafc4f020b495b3ff88/05_PROMPT_LIBRARY",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/f50f6b184e1baa61fd4a5bafc4f020b495b3ff88/05_PROMPT_LIBRARY/MASTER-00.md",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/f50f6b184e1baa61fd4a5bafc4f020b495b3ff88/START_HERE.md",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/145"
+          ],
+          "validated_at_utc": "2026-11-27T18:24:33.957Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S5_SCOPE_AND_REGRESSION_AUDIT",
