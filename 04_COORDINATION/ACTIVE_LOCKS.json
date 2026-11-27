@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4958,
+  "revision": 4959,
   "next_fencing_token": 222,
   "locks": [
     {
@@ -40157,6 +40157,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-27T17:06:32.940Z"
+    },
+    "7224041238": {
+      "response": "معیار پذیرش ثبت شد: AC_SELF_CONTAINED_ENTRYPOINT; ACCEPTANCE_PROGRESS=20%; OVERALL_COMPLETION=20%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 142,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-27T17:06:52.909Z"
     }
   },
   "work_items": {
@@ -51752,7 +51761,14 @@
           "title": "Standalone specialist prompt identifies scope and canonical bootstrap without manual history or Issue selection",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "Source-backed standalone-prompt walkthrough"
+          "evidence_requirement": "Source-backed standalone-prompt walkthrough",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/142#issuecomment-7223911970"
+          ],
+          "validated_at_utc": "2026-11-27T17:06:52.908Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_PREREQUISITES_EXPLICIT",
