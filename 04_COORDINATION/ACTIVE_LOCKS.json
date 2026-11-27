@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5081,
+  "revision": 5082,
   "next_fencing_token": 226,
   "locks": [
     {
@@ -41102,6 +41102,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-27T18:26:00.617Z"
+    },
+    "7225486885": {
+      "response": "معیار پذیرش ثبت شد: AC_TEMPORAL_CLARITY; ACCEPTANCE_PROGRESS=33.33%; OVERALL_COMPLETION=33.33%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 143,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-27T18:26:20.097Z"
     }
   },
   "work_items": {
@@ -52984,7 +52993,15 @@
           "title": "Historical observations are visibly dated and distinguished from current live facts or UNKNOWN settings",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "Before/after guide diff and source links for every current-state assertion"
+          "evidence_requirement": "Before/after guide diff and source links for every current-state assertion",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/145/files",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-143-RUN-PR07-G09-EXEC-GUIDE-REFRESH-20261127-02/EXECUTION_START_GUIDE_FA.md"
+          ],
+          "validated_at_utc": "2026-11-27T18:26:20.096Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_NON_DUPLICATE_SCOPE",
