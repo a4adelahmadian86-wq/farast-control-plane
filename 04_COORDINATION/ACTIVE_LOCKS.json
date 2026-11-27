@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4791,
+  "revision": 4792,
   "next_fencing_token": 215,
   "locks": [
     {
@@ -38757,7 +38757,7 @@
     },
     "7217483958": {
       "response": "STEP ثبت شد: S4_COLD_START_AND_INTERRUPTION; EXECUTION_PROGRESS=16.66%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=1/6.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 140,
       "actor": "a4adelahmadian86-wq",
       "command": "step",
