@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4846,
+  "revision": 4847,
   "next_fencing_token": 217,
   "locks": [
     {
@@ -39228,7 +39228,7 @@
     },
     "7218669780": {
       "response": "STEP ثبت شد: S3_LIVE_SHARED_STATE_DISCOVERY; EXECUTION_PROGRESS=66.66%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=4/6.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 141,
       "actor": "a4adelahmadian86-wq",
       "command": "step",
