@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5089,
+  "revision": 5090,
   "next_fencing_token": 226,
   "locks": [
     {
@@ -41138,6 +41138,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-27T18:27:19.582Z"
+    },
+    "7225509245": {
+      "response": "معیار پذیرش ثبت شد: AC_DOC_ONLY_VALIDATION; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; can_accept=true.",
+      "response_posted": false,
+      "issue_number": 143,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-27T18:27:40.898Z"
     }
   },
   "work_items": {
@@ -52837,7 +52846,7 @@
       "parent_cp_ids": [
         "CP-08"
       ],
-      "status": "IN_PROGRESS",
+      "status": "REVIEW_REQUIRED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "doc:execution_start_guide_fa.md"
@@ -53085,7 +53094,16 @@
           "title": "Only EXECUTION_START_GUIDE_FA.md changes and its links/Markdown checks pass; no merge or deployment occurs",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "Exact PR changed-file list, link validation and unmerged PR state"
+          "evidence_requirement": "Exact PR changed-file list, link validation and unmerged PR state",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/145/files",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/46049162955",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/145"
+          ],
+          "validated_at_utc": "2026-11-27T18:27:40.898Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "deliverables": [
