@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5061,
+  "revision": 5062,
   "next_fencing_token": 226,
   "locks": [
     {
@@ -40976,6 +40976,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-27T18:21:41.562Z"
+    },
+    "7225410935": {
+      "response": "STEP ثبت شد: S1_SCOPE_BOUNDARY; EXECUTION_PROGRESS=28.57%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=2/7.",
+      "response_posted": false,
+      "issue_number": 143,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-27T18:21:56.819Z"
     }
   },
   "work_items": {
@@ -52731,7 +52740,17 @@
           "weight": 1,
           "expected_output": "Bounded edit plan limited to the guide current-status block",
           "evidence_requirement": "Exact guide headings/lines, Issue #50 accepted scope and Issue #106 resource map",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/50",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/106",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/142",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/144/files"
+          ],
+          "validated_at_utc": "2026-11-27T18:21:56.818Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S2_REFRESH_SNAPSHOT",
