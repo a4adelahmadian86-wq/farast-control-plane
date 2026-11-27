@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4826,
+  "revision": 4827,
   "next_fencing_token": 216,
   "locks": [],
   "history": [
@@ -39044,7 +39044,7 @@
     },
     "7218543319": {
       "response": "Lease آزاد شد؛ وظیفه تکمیل‌شده محسوب نمی‌شود.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 11,
       "actor": "a4adelahmadian86-wq",
       "command": "release",
