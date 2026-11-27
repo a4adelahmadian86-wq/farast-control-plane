@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4893,
+  "revision": 4894,
   "next_fencing_token": 219,
   "locks": [
     {
@@ -39623,7 +39623,7 @@
     },
     "7222647018": {
       "response": "CLAIM GRANTED. TASK=GH-141; WORK_ITEM_ID=WI-CP01-SINGLE-ACCOUNT-CONTEXT-RECOVERY-001; verified_steps=S0_BASELINE_AND_SCOPE,S1_SINGLE_IDENTITY_AUTHORIZATION,S2_CANONICAL_CONTEXT_RETRIEVAL,S3_LIVE_SHARED_STATE_DISCOVERY,S4_SAME_CONVERSATION_RUN_BOUNDARY_RECOVERY,S5_REPORT_AND_HANDOFF; remaining_steps=; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; actor=@a4adelahmadian86-wq; chat=8f4c2a91d7e64b0aa35c91f82e6d740b; run=RUN-PR07-G09-CP01-ACCEPTANCE-20261127-01; resource_keys=analysis:cp-01-single-account-context-recovery; target_repository=a4adelahmadian86-wq/farast-control-plane; write_policy=READ_ONLY; branch=none; previous_run=none; fencing_token=218; lease_expires=2026-11-27T16:25:50.597Z. این Work Item با سیاست READ_ONLY است؛ در target_repository هیچ branch، file، commit یا PR ایجاد/تغییر نده. شواهد را فقط در Issue thread یا محل مجاز control-plane ثبت کن؛ برای WRITE_REQUIRES_OWNER_APPROVAL فقط proposal ارائه بده.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 141,
       "actor": "a4adelahmadian86-wq",
       "command": "claim",
