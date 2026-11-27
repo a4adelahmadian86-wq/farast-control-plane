@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4802,
+  "revision": 4803,
   "next_fencing_token": 215,
   "locks": [
     {
@@ -38844,6 +38844,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-27T11:49:15.319Z"
+    },
+    "7217509200": {
+      "response": "معیار پذیرش ثبت شد: AC_SHARED_STATE_DISCOVERY; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 140,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-27T11:49:24.022Z"
     }
   },
   "work_items": {
@@ -49994,7 +50003,14 @@
           "title": "Both sessions independently discover matching current Work Item, PR, checkpoint, feedback and lock state",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "Matching stable IDs, state read-backs, checkpoint/registry URLs and observation timestamps from both sessions"
+          "evidence_requirement": "Matching stable IDs, state read-backs, checkpoint/registry URLs and observation timestamps from both sessions",
+          "validation_status": "BLOCKED",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/140#issuecomment-7217456311"
+          ],
+          "validated_at_utc": "2026-11-27T11:49:24.022Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_COLD_START_RECOVERY",
