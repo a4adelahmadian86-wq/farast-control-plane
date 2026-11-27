@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4988,
+  "revision": 4989,
   "next_fencing_token": 222,
   "locks": [],
   "history": [
@@ -40370,6 +40370,15 @@
       "command": "review",
       "next_status": "review",
       "at_utc": "2026-11-27T17:12:50.812Z"
+    },
+    "7224161588": {
+      "response": "Work Item ACCEPTED: همه گام‌ها، معیارها، شواهد و hard gateها با موفقیت احراز شدند؛ سیاست READ_ONLY است، بنابراین PR/branch محصول لازم نیست؛ هیچ Review انسانی دوم شرط پذیرش نیست.",
+      "response_posted": false,
+      "issue_number": 142,
+      "actor": "a4adelahmadian86-wq",
+      "command": "accept",
+      "next_status": "done",
+      "at_utc": "2026-11-27T17:13:15.568Z"
     }
   },
   "work_items": {
@@ -51828,7 +51837,7 @@
         "branch": null,
         "allocated_at_utc": "2026-11-27T16:10:33.499Z"
       },
-      "status": "REVIEW_REQUIRED",
+      "status": "ACCEPTED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "analysis:cp08-novice-prompt-onboarding"
