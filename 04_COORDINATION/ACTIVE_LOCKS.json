@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4954,
+  "revision": 4955,
   "next_fencing_token": 222,
   "locks": [
     {
@@ -40127,6 +40127,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-27T17:05:53.307Z"
+    },
+    "7224027942": {
+      "response": "STEP ثبت شد: S6_REPORT_AND_CROSSCHECK; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=7/7.",
+      "response_posted": false,
+      "issue_number": 142,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-27T17:06:13.390Z"
     }
   },
   "work_items": {
@@ -51706,7 +51715,14 @@
           "weight": 1,
           "expected_output": "Final CP-08 matrix and non-duplicate remediation map",
           "evidence_requirement": "Stable ID searches, exact source refs and explicit unknowns",
-          "estimate_minutes": 5
+          "estimate_minutes": 5,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/142#issuecomment-7223911970"
+          ],
+          "validated_at_utc": "2026-11-27T17:06:13.389Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "acceptance_criteria": [
