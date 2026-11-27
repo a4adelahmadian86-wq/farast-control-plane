@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5042,
+  "revision": 5043,
   "next_fencing_token": 225,
   "locks": [
     {
@@ -40942,6 +40942,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-27T17:33:08.119Z"
+    },
+    "7224525644": {
+      "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-BLOCKED-WORKITEM-REVALIDATION-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=All seven steps and acceptance criteria pass and PR #125 is already merged. Do not invoke /farast accept: this Work Item requests only control_plane_write and does not explicitly authorize control_plane_merge. Run /farast review to release the lease; leave the Work Item in review until the owner explicitly resolves the operation-scope mismatch through the approved workflow. Keep Issue #106 blocked until historical allocator provenance is recovered safely.; remaining_steps=.",
+      "response_posted": false,
+      "issue_number": 107,
+      "actor": "a4adelahmadian86-wq",
+      "command": "checkpoint",
+      "next_status": null,
+      "at_utc": "2026-11-27T17:33:18.411Z"
     }
   },
   "work_items": {
@@ -53715,7 +53724,7 @@
       "work_item_id": "WI-BLOCKED-WORKITEM-REVALIDATION-001",
       "run_id": "RUN-20261127-EXP07-G09-POSTMERGE-02",
       "checkpoint_version": 1,
-      "created_at_utc": "2026-11-27T17:31:34.790Z",
+      "created_at_utc": "2026-11-27T17:33:18.411Z",
       "last_verified_step_id": "S6_RESOURCE_KEY_CASE_FIX",
       "current_step_id": "S6_RESOURCE_KEY_CASE_FIX",
       "completed_step_ids": [
@@ -53748,18 +53757,18 @@
         "not_run": 0
       },
       "evidence_refs": [
-        "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/45026457662",
+        "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/107#issuecomment-7224489219",
         "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/106#issuecomment-7224424736",
-        "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/106#issuecomment-7224472074"
+        "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/125"
       ],
       "blockers": [],
       "owner": {
         "actor": "a4adelahmadian86-wq",
         "chat_id": "CHAT-20261127-PR07-CONTINUE-01",
         "fencing_token": 223,
-        "lease_expires_at_utc": "2026-11-27T18:01:12.192Z"
+        "lease_expires_at_utc": "2026-11-27T18:03:08.119Z"
       },
-      "next_action": "All seven steps and seven acceptance criteria are verified; run /farast review to release this lease, then /farast accept pr=https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/125. Preserve Issue #106 as blocked until its historical allocator provenance is recovered through an owner-approved coordinator path."
+      "next_action": "All seven steps and acceptance criteria pass and PR #125 is already merged. Do not invoke /farast accept: this Work Item requests only control_plane_write and does not explicitly authorize control_plane_merge. Run /farast review to release the lease; leave the Work Item in review until the owner explicitly resolves the operation-scope mismatch through the approved workflow. Keep Issue #106 blocked until historical allocator provenance is recovered safely."
     },
     "109": {
       "work_item_id": "WI-NON-PER-REQUEST-AUTH-PROMPT-FIX-002",
