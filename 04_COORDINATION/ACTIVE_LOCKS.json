@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5093,
+  "revision": 5094,
   "next_fencing_token": 226,
   "locks": [
     {
@@ -41168,6 +41168,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-27T18:28:11.002Z"
+    },
+    "7225523845": {
+      "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-CP08-EXECUTION-GUIDE-SNAPSHOT-REFRESH-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=PR #145 is open and exact-head CI passed; PR #144 is closed without merge and its branch preserved. Do not merge or deploy under this Work Item. Await a separate owner merge authorization/decision; only then evaluate the independent acceptance gate.; remaining_steps=.",
+      "response_posted": false,
+      "issue_number": 143,
+      "actor": "a4adelahmadian86-wq",
+      "command": "checkpoint",
+      "next_status": null,
+      "at_utc": "2026-11-27T18:28:29.060Z"
     }
   },
   "work_items": {
@@ -54524,6 +54533,52 @@
         "lease_expires_at_utc": "2026-11-27T17:41:36.363Z"
       },
       "next_action": "Run /farast review to hand off this READ_ONLY audit; read back review state and zero active lease; then run /farast accept without a PR using the READ_ONLY evidence-only path; verify ACCEPTED, all seven steps and five criteria, and final progress."
+    },
+    "143": {
+      "work_item_id": "WI-CP08-EXECUTION-GUIDE-SNAPSHOT-REFRESH-001",
+      "run_id": "RUN-PR07-G09-EXEC-GUIDE-REFRESH-20261127-02",
+      "checkpoint_version": 1,
+      "created_at_utc": "2026-11-27T18:28:29.059Z",
+      "last_verified_step_id": "S6_HANDOFF",
+      "current_step_id": "S6_HANDOFF",
+      "completed_step_ids": [
+        "S0_BASELINE",
+        "S1_SCOPE_BOUNDARY",
+        "S2_REFRESH_SNAPSHOT",
+        "S3_FACT_CHECK_LIMITS",
+        "S4_LINK_AND_ENTRYPOINT_VALIDATION",
+        "S5_SCOPE_AND_REGRESSION_AUDIT",
+        "S6_HANDOFF"
+      ],
+      "remaining_step_ids": [],
+      "progress_percentage": 100,
+      "execution_progress_percentage": 100,
+      "acceptance_progress_percentage": 100,
+      "overall_completion_percentage": 100,
+      "progress_calculation_version": "PROGRESS_V2",
+      "required_step_counts": {
+        "pass": 7,
+        "fail": 0,
+        "blocked": 0,
+        "unknown": 0,
+        "not_run": 0
+      },
+      "acceptance_criteria_counts": {
+        "pass": 6,
+        "fail": 0,
+        "blocked": 0,
+        "unknown": 0,
+        "not_run": 0
+      },
+      "evidence_refs": [],
+      "blockers": [],
+      "owner": {
+        "actor": "a4adelahmadian86-wq",
+        "chat_id": "6f4fd54643a2788bfd97ad2b9147d376",
+        "fencing_token": 225,
+        "lease_expires_at_utc": "2026-11-27T18:58:11.002Z"
+      },
+      "next_action": "PR #145 is open and exact-head CI passed; PR #144 is closed without merge and its branch preserved. Do not merge or deploy under this Work Item. Await a separate owner merge authorization/decision; only then evaluate the independent acceptance gate."
     }
   },
   "inbox_scheduler": {
