@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4919,
+  "revision": 4920,
   "next_fencing_token": 221,
   "locks": [],
   "history": [
@@ -39832,6 +39832,15 @@
       "command": "status",
       "next_status": null,
       "at_utc": "2026-11-27T16:47:15.930Z"
+    },
+    "7223804545": {
+      "response": "فرمان رد شد: WORK_ITEM_ID=WI-SEMANTIC-DUPLICATE-DELIVERABLE-SCOPE-001 در Issueهای دیگری نیز ثبت شده است: #84; تا رفع تکرار، هیچ Claim/refresh/unblock/accept مجاز نیست.",
+      "response_posted": false,
+      "issue_number": 85,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "blocked",
+      "at_utc": "2026-11-27T16:54:35.888Z"
     }
   },
   "work_items": {
