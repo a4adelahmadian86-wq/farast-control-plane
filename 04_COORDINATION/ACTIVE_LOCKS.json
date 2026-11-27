@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4942,
+  "revision": 4943,
   "next_fencing_token": 222,
   "locks": [
     {
@@ -40037,6 +40037,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-27T17:03:38.404Z"
+    },
+    "7223985680": {
+      "response": "STEP ثبت شد: S3_COLD_START_WALKTHROUGH; EXECUTION_PROGRESS=57.14%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=4/7.",
+      "response_posted": false,
+      "issue_number": 142,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-27T17:04:09.653Z"
     }
   },
   "work_items": {
@@ -51568,7 +51577,14 @@
           "weight": 1,
           "expected_output": "Reproducible cold-start walkthrough",
           "evidence_requirement": "Current source links and read-backs; simulation labelled",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/142#issuecomment-7223911970"
+          ],
+          "validated_at_utc": "2026-11-27T17:04:09.652Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S4_CONTINUATION_RECOVERY",
