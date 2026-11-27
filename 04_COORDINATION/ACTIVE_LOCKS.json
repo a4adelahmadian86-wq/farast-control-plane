@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5072,
+  "revision": 5073,
   "next_fencing_token": 226,
   "locks": [
     {
@@ -41048,7 +41048,7 @@
     },
     "7225455026": {
       "response": "STEP ثبت شد: S4_LINK_AND_ENTRYPOINT_VALIDATION; EXECUTION_PROGRESS=71.42%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=5/7.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 143,
       "actor": "a4adelahmadian86-wq",
       "command": "step",
