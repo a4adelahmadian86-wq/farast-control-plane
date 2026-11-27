@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4962,
+  "revision": 4963,
   "next_fencing_token": 222,
   "locks": [
     {
@@ -40187,6 +40187,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-27T17:07:14.069Z"
+    },
+    "7224053785": {
+      "response": "معیار پذیرش ثبت شد: AC_PREREQUISITES_EXPLICIT; ACCEPTANCE_PROGRESS=40%; OVERALL_COMPLETION=40%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 142,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-27T17:07:40.281Z"
     }
   },
   "work_items": {
@@ -51796,7 +51805,14 @@
           "title": "User-side authorization/access prerequisites and automation limits are explicit and accurate",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "Prerequisite matrix mapped to current documentation"
+          "evidence_requirement": "Prerequisite matrix mapped to current documentation",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/142#issuecomment-7223911970"
+          ],
+          "validated_at_utc": "2026-11-27T17:07:40.281Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_AUTONOMOUS_SAFE_SELECTION",
