@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5085,
+  "revision": 5086,
   "next_fencing_token": 226,
   "locks": [
     {
@@ -41120,6 +41120,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-27T18:26:38.007Z"
+    },
+    "7225497045": {
+      "response": "معیار پذیرش ثبت شد: AC_ENTRYPOINT_GUIDANCE; ACCEPTANCE_PROGRESS=66.66%; OVERALL_COMPLETION=66.66%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 143,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-27T18:26:57.577Z"
     }
   },
   "work_items": {
@@ -53034,7 +53043,16 @@
           "title": "The guide still tells a new chat to use one relevant specialist prompt and does not require manual history or a manually selected Issue",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "Prompt catalog, MASTER-00 and specialist prompt links read back from main"
+          "evidence_requirement": "Prompt catalog, MASTER-00 and specialist prompt links read back from main",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/f50f6b184e1baa61fd4a5bafc4f020b495b3ff88/05_PROMPT_LIBRARY/MASTER-00.md",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/f50f6b184e1baa61fd4a5bafc4f020b495b3ff88/05_PROMPT_LIBRARY/PROMPT_CATALOG.md",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/f50f6b184e1baa61fd4a5bafc4f020b495b3ff88/05_PROMPT_LIBRARY/PR-07_GAP_ROOT_CAUSE.md"
+          ],
+          "validated_at_utc": "2026-11-27T18:26:57.577Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_MULTI_ACCOUNT_LIMITS",
