@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4922,
+  "revision": 4923,
   "next_fencing_token": 222,
   "locks": [
     {
@@ -39878,7 +39878,7 @@
     },
     "7223831799": {
       "response": "CLAIM GRANTED. TASK=GH-142; WORK_ITEM_ID=WI-CP08-NOVICE-ONBOARDING-AUDIT-001; verified_steps=; remaining_steps=S0_BASELINE,S1_ENTRYPOINT,S2_PREREQUISITES,S3_COLD_START_WALKTHROUGH,S4_CONTINUATION_RECOVERY,S5_CLARITY_AND_LIMITS,S6_REPORT_AND_CROSSCHECK; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; actor=@a4adelahmadian86-wq; chat=6f4fd54643a2788bfd97ad2b9147d376; run=RUN-PR07-G09-CP08-RESUME-20261127-01; resource_keys=analysis:cp08-novice-prompt-onboarding; target_repository=a4adelahmadian86-wq/farast-control-plane; write_policy=READ_ONLY; branch=none; previous_run=none; fencing_token=221; lease_expires=2026-11-27T17:25:58.867Z. این Work Item با سیاست READ_ONLY است؛ در target_repository هیچ branch، file، commit یا PR ایجاد/تغییر نده. شواهد را فقط در Issue thread یا محل مجاز control-plane ثبت کن؛ برای WRITE_REQUIRES_OWNER_APPROVAL فقط proposal ارائه بده.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 142,
       "actor": "a4adelahmadian86-wq",
       "command": "claim",
