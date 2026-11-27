@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4782,
+  "revision": 4783,
   "next_fencing_token": 215,
   "locks": [
     {
@@ -38694,6 +38694,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-27T11:46:30.705Z"
+    },
+    "7217463210": {
+      "response": "STEP ثبت شد: S2_FRESH_CONTEXT_RETRIEVAL; EXECUTION_PROGRESS=16.66%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=1/6.",
+      "response_posted": false,
+      "issue_number": 140,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-27T11:46:53.990Z"
     }
   },
   "work_items": {
@@ -49713,7 +49722,7 @@
         "branch": null,
         "allocated_at_utc": "2026-11-25T07:30:41.168Z"
       },
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "analysis:cp-01-cross-account-context-e2e"
@@ -49759,7 +49768,14 @@
           "weight": 1,
           "expected_output": "Side-by-side retrieval matrix for source SHA, required documents, live Work Item inventory and prompt scope",
           "evidence_requirement": "Independent source refs/SHAs and timestamped retrieval records from both sessions; one-session observation is NOT_RUN",
-          "estimate_minutes": 5
+          "estimate_minutes": 5,
+          "validation_status": "BLOCKED",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/140#issuecomment-7217456311"
+          ],
+          "validated_at_utc": "2026-11-27T11:46:53.990Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S3_SHARED_STATE_DISCOVERY",
