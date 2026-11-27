@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5065,
+  "revision": 5066,
   "next_fencing_token": 226,
   "locks": [
     {
@@ -41006,6 +41006,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-27T18:22:14.864Z"
+    },
+    "7225429518": {
+      "response": "STEP ثبت شد: S2_REFRESH_SNAPSHOT; EXECUTION_PROGRESS=42.85%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=3/7.",
+      "response_posted": false,
+      "issue_number": 143,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-27T18:23:06.641Z"
     }
   },
   "work_items": {
@@ -52780,7 +52789,15 @@
           "weight": 1,
           "expected_output": "Refreshed Persian guide status snapshot with historical/live distinction",
           "evidence_requirement": "Exact branch diff and read-back showing current SHA/date and preserved historical context",
-          "estimate_minutes": 5
+          "estimate_minutes": 5,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/5abc3a9a8cb4106b5697cb371d821a8e2af07842",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/work/GH-143-RUN-PR07-G09-EXEC-GUIDE-REFRESH-20261127-02/EXECUTION_START_GUIDE_FA.md"
+          ],
+          "validated_at_utc": "2026-11-27T18:23:06.640Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S3_FACT_CHECK_LIMITS",
