@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4841,
+  "revision": 4842,
   "next_fencing_token": 217,
   "locks": [
     {
@@ -39195,6 +39195,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-27T12:46:02.064Z"
+    },
+    "7218652360": {
+      "response": "STEP ثبت شد: S2_CANONICAL_CONTEXT_RETRIEVAL; EXECUTION_PROGRESS=50%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=3/6.",
+      "response_posted": false,
+      "issue_number": 141,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-27T12:46:25.354Z"
     }
   },
   "work_items": {
@@ -50491,7 +50500,14 @@
           "weight": 1,
           "expected_output": "Canonical source parity matrix",
           "evidence_requirement": "Exact URLs, SHAs and observation timestamps for each required document",
-          "estimate_minutes": 5
+          "estimate_minutes": 5,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/141#issuecomment-7218606987"
+          ],
+          "validated_at_utc": "2026-11-27T12:46:25.354Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S3_LIVE_SHARED_STATE_DISCOVERY",
