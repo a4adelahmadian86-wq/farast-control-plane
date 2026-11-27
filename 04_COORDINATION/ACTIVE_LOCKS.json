@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5087,
+  "revision": 5088,
   "next_fencing_token": 226,
   "locks": [
     {
@@ -41129,6 +41129,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-27T18:26:57.577Z"
+    },
+    "7225502949": {
+      "response": "معیار پذیرش ثبت شد: AC_MULTI_ACCOUNT_LIMITS; ACCEPTANCE_PROGRESS=83.33%; OVERALL_COMPLETION=83.33%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 143,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-27T18:27:19.582Z"
     }
   },
   "work_items": {
@@ -53059,7 +53068,17 @@
           "title": "The guide does not overstate multi-account E2E, cross-account takeover, ruleset or Secret status",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "CP-01 Issue #140/#141 and current readiness evidence with unsupported settings marked UNKNOWN"
+          "evidence_requirement": "CP-01 Issue #140/#141 and current readiness evidence with unsupported settings marked UNKNOWN",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/140",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/141",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/142",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/145/files"
+          ],
+          "validated_at_utc": "2026-11-27T18:27:19.581Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_DOC_ONLY_VALIDATION",
