@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4850,
+  "revision": 4851,
   "next_fencing_token": 217,
   "locks": [
     {
@@ -39258,7 +39258,7 @@
     },
     "7218687024": {
       "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-CP01-SINGLE-ACCOUNT-CONTEXT-RECOVERY-001; EXECUTION_PROGRESS=66.66%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; next_action=Release this run, then claim the same Issue #141 in this same ChatGPT conversation using a distinct new RUN_ID; verify the durable checkpoint is recovered and the new fencing token differs. Do not describe this as a separate-session cold start.; remaining_steps=S4_SAME_CONVERSATION_RUN_BOUNDARY_RECOVERY,S5_REPORT_AND_HANDOFF.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 141,
       "actor": "a4adelahmadian86-wq",
       "command": "checkpoint",
