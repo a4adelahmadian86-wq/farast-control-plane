@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 4806,
+  "revision": 4807,
   "next_fencing_token": 215,
   "locks": [
     {
@@ -38874,6 +38874,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-27T11:49:47.311Z"
+    },
+    "7217516089": {
+      "response": "معیار پذیرش ثبت شد: AC_COLD_START_RECOVERY; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 140,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-27T11:49:57.975Z"
     }
   },
   "work_items": {
@@ -50038,7 +50047,14 @@
           "title": "A fresh session resumes the same stable Work Item from the last verified checkpoint without duplicates or stale fencing tokens",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "Before/after Issue and checkpoint evidence from both sessions, exact stable Work Item ID and fresh RUN_ID where applicable"
+          "evidence_requirement": "Before/after Issue and checkpoint evidence from both sessions, exact stable Work Item ID and fresh RUN_ID where applicable",
+          "validation_status": "BLOCKED",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/140#issuecomment-7217456311"
+          ],
+          "validated_at_utc": "2026-11-27T11:49:57.974Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "priority": 50,
