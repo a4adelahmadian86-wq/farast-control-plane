@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5334,
+  "revision": 5335,
   "next_fencing_token": 236,
   "locks": [
     {
@@ -43134,6 +43134,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-28T11:26:44.995Z"
+    },
+    "7238558747": {
+      "response": "STEP ثبت شد: S4_ROOT_CAUSE_AND_RISK; EXECUTION_PROGRESS=71.42%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=5/7.",
+      "response_posted": false,
+      "issue_number": 149,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-28T11:27:04.580Z"
     }
   },
   "work_items": {
@@ -55917,7 +55926,14 @@
           "title": "Separate confirmed causes from hypotheses and update supported risk changes",
           "required": true,
           "expected_output": "Updated root-cause tree and risk delta",
-          "evidence_requirement": "Exact source refs and falsification tests for hypotheses"
+          "evidence_requirement": "Exact source refs and falsification tests for hypotheses",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/149#issuecomment-7238553878"
+          ],
+          "validated_at_utc": "2026-11-28T11:27:04.580Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S5_REMEDIATION_ROUTING",
