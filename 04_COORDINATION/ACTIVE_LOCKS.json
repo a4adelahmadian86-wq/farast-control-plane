@@ -1,25 +1,8 @@
 {
   "schema_version": "1.0",
-  "revision": 5203,
+  "revision": 5204,
   "next_fencing_token": 231,
-  "locks": [
-    {
-      "resource_key": "analysis:exp-15",
-      "issue_number": 27,
-      "task_id": "GH-27",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "chat-ai-infra-20261128",
-      "chat_id": "chat-ai-infra-20261128",
-      "run_id": "RUN-20261128-EXP15-01",
-      "target_repository": "a4adelahmadian86-wq/non",
-      "branch": null,
-      "acquired_at_utc": "2026-11-28T05:39:13.952Z",
-      "heartbeat_at_utc": "2026-11-28T05:47:34.699Z",
-      "lease_expires_at_utc": "2026-11-28T06:17:34.699Z",
-      "fencing_token": 228,
-      "status": "ACTIVE"
-    }
-  ],
+  "locks": [],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -20085,6 +20068,19 @@
       "branch": null,
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "at_utc": "2026-11-28T06:01:11.982Z"
+    },
+    {
+      "event": "LEASE_EXPIRED",
+      "issue_number": 27,
+      "resource_key": "analysis:exp-15",
+      "task_id": "GH-27",
+      "run_id": "RUN-20261128-EXP15-01",
+      "fencing_token": 228,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "chat-ai-infra-20261128",
+      "branch": null,
+      "target_repository": "a4adelahmadian86-wq/non",
+      "at_utc": "2026-11-28T10:40:12.531Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
