@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5110,
+  "revision": 5111,
   "next_fencing_token": 227,
   "locks": [
     {
@@ -41282,6 +41282,15 @@
       "command": "claim",
       "next_status": "locked",
       "at_utc": "2026-11-28T05:34:36.588Z"
+    },
+    "7234785659": {
+      "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-EXP09-AI-SERVICE-CYCLE-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=75%; OVERALL_COMPLETION=75%; next_action=AC_ACCEPTANCE remains pending; preserve the protocol deviation for non#761, do not merge it, and continue with the read-only target architecture work item EXP-15.; remaining_steps=.",
+      "response_posted": false,
+      "issue_number": 21,
+      "actor": "a4adelahmadian86-wq",
+      "command": "checkpoint",
+      "next_status": null,
+      "at_utc": "2026-11-28T05:37:47.350Z"
     }
   },
   "work_items": {
@@ -53471,6 +53480,52 @@
         "lease_expires_at_utc": "2026-11-24T13:18:12.788Z"
       },
       "next_action": "review"
+    },
+    "21": {
+      "work_item_id": "WI-EXP09-AI-SERVICE-CYCLE-001",
+      "run_id": "RUN-20261128-EXP09-01",
+      "checkpoint_version": 1,
+      "created_at_utc": "2026-11-28T05:37:47.349Z",
+      "last_verified_step_id": "S7_VERIFY",
+      "current_step_id": "S7_VERIFY",
+      "completed_step_ids": [
+        "S1_DISCOVER",
+        "S2_MAP",
+        "S3_ANALYZE",
+        "S4_CROSSCHECK",
+        "S5_ASSESS",
+        "S6_REPORT",
+        "S7_VERIFY"
+      ],
+      "remaining_step_ids": [],
+      "progress_percentage": 100,
+      "execution_progress_percentage": 100,
+      "acceptance_progress_percentage": 75,
+      "overall_completion_percentage": 75,
+      "progress_calculation_version": "PROGRESS_V2",
+      "required_step_counts": {
+        "pass": 7,
+        "fail": 0,
+        "blocked": 0,
+        "unknown": 0,
+        "not_run": 0
+      },
+      "acceptance_criteria_counts": {
+        "pass": 3,
+        "fail": 0,
+        "blocked": 0,
+        "unknown": 0,
+        "not_run": 1
+      },
+      "evidence_refs": [],
+      "blockers": [],
+      "owner": {
+        "actor": "a4adelahmadian86-wq",
+        "chat_id": "chat-ai-infra-20261128",
+        "fencing_token": 226,
+        "lease_expires_at_utc": "2026-11-28T06:04:36.436Z"
+      },
+      "next_action": "AC_ACCEPTANCE remains pending; preserve the protocol deviation for non#761, do not merge it, and continue with the read-only target architecture work item EXP-15."
     },
     "33": {
       "work_item_id": "WI-EXP21-CHANGE-PACKAGE-001",
