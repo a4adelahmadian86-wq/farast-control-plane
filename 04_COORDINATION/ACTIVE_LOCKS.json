@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5428,
+  "revision": 5429,
   "next_fencing_token": 238,
   "locks": [
     {
@@ -43828,7 +43828,7 @@
     },
     "7239079384": {
       "response": "فرمان رد شد: تخصیص این Work Item با lease معتبر Issue #11 قابل اثبات نیست؛ Invalid Work item specification JSON in Issue #150: Unexpected non-whitespace character after JSON at position 6866 (line 149 column 1). ابتدا فقط از مسیر allocator مجاز و با provenance دقیق اقدام کنید.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 150,
       "actor": "a4adelahmadian86-wq",
       "command": "unblock",
