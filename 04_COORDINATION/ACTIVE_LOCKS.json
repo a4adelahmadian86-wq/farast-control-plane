@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5304,
+  "revision": 5305,
   "next_fencing_token": 235,
   "locks": [
     {
@@ -42875,6 +42875,15 @@
       "command": "status",
       "next_status": null,
       "at_utc": "2026-11-28T11:11:43.295Z"
+    },
+    "7238393895": {
+      "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-GOAL-ALLOCATOR-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=Issue #149 WI-EXP07-GAP-DELTA-REVALIDATION-20261128-001 was created, its allocation provenance was read-back and WORK_ITEM_ALLOCATED recorded, and it is agent:ready. Release allocator token 234; then claim Issue #149 with a fresh RUN_ID and branch=none, perform only READ_ONLY analysis, and publish the dated delta report there.; remaining_steps=.",
+      "response_posted": false,
+      "issue_number": 11,
+      "actor": "a4adelahmadian86-wq",
+      "command": "checkpoint",
+      "next_status": null,
+      "at_utc": "2026-11-28T11:12:22.630Z"
     }
   },
   "work_items": {
@@ -55735,9 +55744,9 @@
     },
     "11": {
       "work_item_id": "WI-GOAL-ALLOCATOR-001",
-      "run_id": "RUN-READER-START-20261128-01",
+      "run_id": "RUN-PR07-EXP07-DELTA-REVALIDATION-20261128-01",
       "checkpoint_version": 1,
-      "created_at_utc": "2026-11-28T10:47:41.270Z",
+      "created_at_utc": "2026-11-28T11:12:22.630Z",
       "last_verified_step_id": "S5_RELEASE",
       "current_step_id": "S5_RELEASE",
       "completed_step_ids": [
@@ -55767,18 +55776,15 @@
         "unknown": 0,
         "not_run": 0
       },
-      "evidence_refs": [
-        "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/148",
-        "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/148#issuecomment-7238119041"
-      ],
+      "evidence_refs": [],
       "blockers": [],
       "owner": {
         "actor": "a4adelahmadian86-wq",
-        "chat_id": "e346d0ec68b84bcd9abe02cd9db8f969",
-        "fencing_token": 232,
-        "lease_expires_at_utc": "2026-11-28T11:17:22.032Z"
+        "chat_id": "d4f0b8a7e6c14f23a9b51d7c2e8046f1",
+        "fencing_token": 234,
+        "lease_expires_at_utc": "2026-11-28T11:40:47.189Z"
       },
-      "next_action": "Reader Work Item #148 is owner-authored, has exact owner_approval_ref and verified WORK_ITEM_ALLOCATED provenance, and is agent:ready. Release allocator token 232, then claim Issue #148 with a fresh RUN_ID; only after CLAIM GRANTED and lock read-back create its dedicated branch from the latest verified NON main SHA and implement the declared CSS/test scope."
+      "next_action": "Issue #149 WI-EXP07-GAP-DELTA-REVALIDATION-20261128-001 was created, its allocation provenance was read-back and WORK_ITEM_ALLOCATED recorded, and it is agent:ready. Release allocator token 234; then claim Issue #149 with a fresh RUN_ID and branch=none, perform only READ_ONLY analysis, and publish the dated delta report there."
     },
     "13": {
       "work_item_id": "WI-EXP01-BASELINE-001",
