@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5382,
+  "revision": 5383,
   "next_fencing_token": 237,
   "locks": [
     {
@@ -43508,6 +43508,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-28T11:48:15.145Z"
+    },
+    "7238799022": {
+      "response": "STEP ثبت شد: S2_MAP; EXECUTION_PROGRESS=28.57%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=2/7.",
+      "response_posted": false,
+      "issue_number": 27,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-28T11:49:23.303Z"
     }
   },
   "work_items": {
@@ -45542,7 +45551,7 @@
       "parent_exp_ids": [
         "EXP-15"
       ],
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/non",
       "resource_keys": [
         "analysis:exp-15"
@@ -45572,7 +45581,14 @@
           "weight": 1,
           "expected_output": "خروجی قابل بازبینی برای مرحله: استخراج drivers، constraints، quality attributes و non-functional requirements.",
           "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/27#issuecomment-7238796782"
+          ],
+          "validated_at_utc": "2026-11-28T11:49:23.302Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S3_ANALYZE",
