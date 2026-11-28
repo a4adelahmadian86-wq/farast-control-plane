@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5354,
+  "revision": 5355,
   "next_fencing_token": 236,
   "locks": [
     {
@@ -43284,6 +43284,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-28T11:31:42.027Z"
+    },
+    "7238613835": {
+      "response": "معیار پذیرش ثبت شد: AC_ROOT_CAUSE; ACCEPTANCE_PROGRESS=60%; OVERALL_COMPLETION=60%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 149,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-28T11:32:09.639Z"
     }
   },
   "work_items": {
@@ -56136,7 +56145,14 @@
           "criterion_id": "AC_ROOT_CAUSE",
           "title": "Confirmed causes and hypotheses are separate and every hypothesis has a falsification test",
           "required": true,
-          "evidence_requirement": "Updated root-cause tree with confidence and falsification criteria"
+          "evidence_requirement": "Updated root-cause tree with confidence and falsification criteria",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/149#issuecomment-7238553878"
+          ],
+          "validated_at_utc": "2026-11-28T11:32:09.638Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_REMEDIATION_ROUTING",
