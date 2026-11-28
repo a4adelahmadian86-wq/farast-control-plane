@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5122,
+  "revision": 5123,
   "next_fencing_token": 229,
   "locks": [
     {
@@ -41398,7 +41398,7 @@
     },
     "7234834483": {
       "response": "فرمان رد شد: تخصیص این Work Item با lease معتبر Issue #11 قابل اثبات نیست؛ Invalid Work item specification JSON in Issue #146: new WRITE_ALLOWED Work Items require operation_scope_version=1.0 and requested_operations. ابتدا فقط از مسیر allocator مجاز و با provenance دقیق اقدام کنید.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 146,
       "actor": "a4adelahmadian86-wq",
       "command": "refresh",
