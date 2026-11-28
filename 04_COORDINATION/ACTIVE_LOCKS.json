@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5223,
+  "revision": 5224,
   "next_fencing_token": 233,
   "locks": [
     {
@@ -20193,6 +20193,29 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "lease_expires_at_utc": "2026-11-28T11:16:17.490Z",
       "at_utc": "2026-11-28T10:46:17.490Z"
+    },
+    {
+      "event": "WORK_ITEM_ALLOCATED",
+      "issue_number": 148,
+      "work_item_id": "WI-READER-TOOLBAR-ICONOGRAPHY-001",
+      "allocation_provenance": {
+        "allocator_work_item_id": "WI-GOAL-ALLOCATOR-001",
+        "allocator_issue_number": 11,
+        "actor": "a4adelahmadian86-wq",
+        "chat_id": "e346d0ec68b84bcd9abe02cd9db8f969",
+        "run_id": "RUN-READER-START-20261128-01",
+        "fencing_token": 232,
+        "branch": null,
+        "allocated_at_utc": "2026-11-28T10:45:04Z"
+      },
+      "at_utc": "2026-11-28T10:46:44.636Z"
+    },
+    {
+      "event": "DEPENDENCY_AUTO_UNBLOCKED",
+      "issue_number": 148,
+      "work_item_id": "WI-READER-TOOLBAR-ICONOGRAPHY-001",
+      "preserved_steps": 0,
+      "at_utc": "2026-11-28T10:46:44.638Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -54594,6 +54617,175 @@
       "requested_operations": [
         "control_plane_write"
       ]
+    },
+    "148": {
+      "schema_version": "1.0",
+      "write_policy": "WRITE_ALLOWED",
+      "priority_source": "DEFAULT_POLICY",
+      "work_item_id": "WI-READER-TOOLBAR-ICONOGRAPHY-001",
+      "title": "Restore Reader toolbar iconography and accessible compact controls",
+      "description": "Fix the missing/invisible icons in the FARAST Reader without overlapping open teammate work. Current main excludes the global Font Awesome stylesheet on Reader routes, while farast-reader.css explicitly hides .fa-solid/.fa-regular icons and renders aria-label text as pseudo-content. Use the already bundled same-origin Font Awesome CSS and fonts; restore compact icon controls while preserving accessible names and existing reader behavior. This first bounded slice does not redesign PDF rendering or touch shared Blade/JS/controller files.",
+      "parent_goal_ids": [
+        "G-02",
+        "G-08"
+      ],
+      "parent_exp_ids": [
+        "EXP-22",
+        "EXP-23"
+      ],
+      "status": "READY",
+      "target_repository": "a4adelahmadian86-wq/non",
+      "resource_keys": [
+        "module:reader-toolbar-iconography",
+        "file:public/css/farast-reader.css",
+        "file:tests/Feature/ReaderToolbarIconographyTest.php"
+      ],
+      "dependencies": [],
+      "effort_estimate_minutes": 25,
+      "effort_rationale": "A narrowly bounded change to one Reader-only stylesheet and one new feature regression test. The local Font Awesome stylesheet and font binaries already exist; implementation avoids shared Blade, JavaScript, controller, route, migration, CI workflow and teammate-owned annotation files. Target 25 minutes of substantive work and exact-head validation, not forced waiting.",
+      "depth_profile": {
+        "profile_version": "2.0.0",
+        "min_substantive_steps": 6,
+        "min_acceptance_criteria": 4,
+        "min_deliverables": 3,
+        "target_effort_minutes": 25
+      },
+      "weighting": {
+        "version": "1.0"
+      },
+      "acceptance_weighting": {
+        "version": "1.0"
+      },
+      "steps": [
+        {
+          "step_id": "S0_BASELINE",
+          "title": "Freeze the live NON main SHA and verify the exact Reader stylesheet, local icon assets, markup contract and overlapping open PR file sets.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "A baseline manifest proving the Reader stylesheet is loaded, local Font Awesome CSS/font binaries exist, and the chosen two-file scope does not overlap open teammate PRs.",
+          "evidence_requirement": "Exact main SHA; GitHub file URLs and blob SHAs for public/css/farast-reader.css, public/css/fontawesome.css, public/fonts/fontawesome/fa-solid-900.woff2 and the Reader Blade stylesheet reference; PR #222/#218/#210/#167/#153/#156 changed-file manifests.",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S1_ROOT_CAUSE",
+          "title": "Record the two independent causes of missing Reader icons and define the accessible compact-control behavior.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "A concise root-cause note and behavior table: Reader layout excludes the global icon CSS, Reader CSS hides Font Awesome icons, and compact controls should remain icon-only with accessible aria-label/title names.",
+          "evidence_requirement": "Exact source line ranges and a reproducible CSS selector analysis tied to the baseline SHA; distinguish local bundled assets from external services.",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S2_IMPLEMENT",
+          "title": "Restore first-party Reader icons using only same-origin bundled Font Awesome assets and remove icon-hiding/redundant compact-label pseudo rules.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Updated Reader stylesheet that loads the existing local icon CSS, displays solid/regular icons, restores compact toolbar dimensions, and preserves accessible labels without duplicate visible text.",
+          "evidence_requirement": "Exact diff for public/css/farast-reader.css; no remote URLs, external services, new dependencies, or changes to shared Blade/JS/controller files.",
+          "estimate_minutes": 5
+        },
+        {
+          "step_id": "S3_REGRESSION",
+          "title": "Add a focused feature regression test for local icon CSS/font availability and the Reader icon visibility/accessibility contract.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "A new isolated PHPUnit feature test fails against the old CSS and passes with the corrected stylesheet, checking local assets and the absence of icon suppression/pseudo-label regressions.",
+          "evidence_requirement": "Exact test path and assertions in tests/Feature/ReaderToolbarIconographyTest.php; focused PHPUnit output on the exact branch head.",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S4_SCOPE_REVIEW",
+          "title": "Cross-check the complete diff against active Reader PRs and verify the change does not alter PDF access, entitlements, watermarks, storage or annotations.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "A two-file changed-path manifest and compatibility review showing no edits to shared files owned by open Reader/document PRs and no change to document/security behavior.",
+          "evidence_requirement": "GitHub compare/diff for the task branch; current open PR file lists; exact confirmation that no Blade, controller, JS, route, migration, workflow or teammate branch was changed.",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S5_EXACT_HEAD_CI",
+          "title": "Run focused PHPUnit and required Laravel CI plus the existing Reader browser smoke on the exact PR head.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Successful focused regression, Laravel feature suite, and existing Reader browser smoke with all results tied to one exact head SHA.",
+          "evidence_requirement": "Test command/output or CI run URL, exact PR head SHA, changed-file manifest and explicit PASS/FAIL/NOT_RUN status for each required suite.",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S6_HANDOFF",
+          "title": "Publish a review-ready PR and durable checkpoint without merging or deploying.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "A review-ready PR, exact-head evidence, rollback note and next action for the broader Reader work after overlapping teammate PRs are resolved.",
+          "evidence_requirement": "PR URL/head SHA, CI URL, checkpoint URL, active lease read-back and confirmation of no merge/deployment/release.",
+          "estimate_minutes": 2
+        }
+      ],
+      "acceptance_criteria": [
+        {
+          "criterion_id": "AC_LOCAL_ASSETS",
+          "title": "Reader icon rendering uses only the existing same-origin Font Awesome CSS and bundled local font files; no third-party request or new dependency is introduced.",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Regression test and source diff prove the stylesheet/font URLs resolve to local public assets and no remote host is added."
+        },
+        {
+          "criterion_id": "AC_ICONS_VISIBLE",
+          "title": "Reader solid/regular icons are no longer hidden and compact toolbar controls do not replace icons with redundant aria-label pseudo-text.",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Focused CSS regression assertions plus a browser screenshot/DOM smoke or equivalent rendered-browser evidence on the exact PR head."
+        },
+        {
+          "criterion_id": "AC_ACCESSIBILITY",
+          "title": "Every affected icon-only control retains its accessible aria-label and existing title/keyboard focus behavior; wide text actions remain readable.",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Markup/CSS review and browser accessibility assertions for accessible names, focus-visible state and wide action labels."
+        },
+        {
+          "criterion_id": "AC_SCOPE_AND_CI",
+          "title": "Only the declared Reader stylesheet and new regression test change; required exact-head Laravel and Reader browser checks pass.",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Exact changed-file list, passing focused PHPUnit and required CI/browser run URLs, with no shared Blade/controller/JS/route/migration/workflow or teammate-owned file edits."
+        }
+      ],
+      "priority": 50,
+      "created_at_utc": "2026-11-28T10:45:04Z",
+      "owner_approval_ref": "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/148",
+      "deliverables": [
+        {
+          "deliverable_id": "D1",
+          "description": "Evidence-backed Reader icon root-cause and baseline manifest",
+          "evidence_requirement": "GitHub source URLs, blob SHAs, exact main SHA and active PR overlap manifest."
+        },
+        {
+          "deliverable_id": "D2",
+          "description": "Local-only Reader icon restoration and isolated PHPUnit regression test",
+          "evidence_requirement": "Exact diff and passing focused PHPUnit output on the task branch head."
+        },
+        {
+          "deliverable_id": "D3",
+          "description": "Exact-head CI/browser evidence and review-ready PR handoff",
+          "evidence_requirement": "PR URL, head SHA, CI/browser run URLs, changed-file list and checkpoint."
+        }
+      ],
+      "next_action": "After allocation provenance is validated and this Issue is agent:ready, release the allocator, claim this Work Item with a fresh RUN_ID, create its dedicated branch from the current NON main SHA, implement only the three declared resource keys, run exact-head validation, and hand off a PR without merging.",
+      "operation_scope_version": "1.0",
+      "requested_operations": [
+        "product_implementation"
+      ],
+      "allocation_provenance": {
+        "allocator_work_item_id": "WI-GOAL-ALLOCATOR-001",
+        "allocator_issue_number": 11,
+        "actor": "a4adelahmadian86-wq",
+        "chat_id": "e346d0ec68b84bcd9abe02cd9db8f969",
+        "run_id": "RUN-READER-START-20261128-01",
+        "fencing_token": 232,
+        "branch": null,
+        "allocated_at_utc": "2026-11-28T10:45:04Z"
+      }
     }
   },
   "checkpoints": {
