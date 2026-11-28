@@ -1,8 +1,25 @@
 {
   "schema_version": "1.0",
-  "revision": 5378,
-  "next_fencing_token": 236,
-  "locks": [],
+  "revision": 5379,
+  "next_fencing_token": 237,
+  "locks": [
+    {
+      "resource_key": "analysis:exp-15",
+      "issue_number": 27,
+      "task_id": "GH-27",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "chat-2b973395dc16471e8ddaadf2b609dab5",
+      "chat_id": "chat-2b973395dc16471e8ddaadf2b609dab5",
+      "run_id": "RUN-PR13-EXP15-RESUME-20261128-01",
+      "target_repository": "a4adelahmadian86-wq/non",
+      "branch": null,
+      "acquired_at_utc": "2026-11-28T11:46:49.969Z",
+      "heartbeat_at_utc": "2026-11-28T11:46:49.969Z",
+      "lease_expires_at_utc": "2026-11-28T12:16:49.969Z",
+      "fencing_token": 236,
+      "status": "ACTIVE"
+    }
+  ],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -20756,6 +20773,23 @@
       "hard_gate_ready": true,
       "hard_gate_blockers": [],
       "at_utc": "2026-11-28T11:38:49.234Z"
+    },
+    {
+      "event": "ACQUIRED",
+      "issue_number": 27,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "chat-2b973395dc16471e8ddaadf2b609dab5",
+      "run_id": "RUN-PR13-EXP15-RESUME-20261128-01",
+      "resource_keys": [
+        "analysis:exp-15"
+      ],
+      "target_repository": "a4adelahmadian86-wq/non",
+      "branch": null,
+      "previous_branch": null,
+      "previous_target_repository": null,
+      "previous_run_id": null,
+      "fencing_token": 236,
+      "at_utc": "2026-11-28T11:46:49.969Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -43444,6 +43478,15 @@
       "command": "release",
       "next_status": null,
       "at_utc": "2026-11-28T11:46:37.996Z"
+    },
+    "7238773030": {
+      "response": "CLAIM GRANTED. TASK=GH-27; WORK_ITEM_ID=WI-EXP15-TARGET-ARCHITECTURE-001; verified_steps=S1_DISCOVER; remaining_steps=S2_MAP,S3_ANALYZE,S4_CROSSCHECK,S5_ASSESS,S6_REPORT,S7_VERIFY; EXECUTION_PROGRESS=14.28%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; actor=@a4adelahmadian86-wq; chat=chat-2b973395dc16471e8ddaadf2b609dab5; run=RUN-PR13-EXP15-RESUME-20261128-01; resource_keys=analysis:exp-15; target_repository=a4adelahmadian86-wq/non; write_policy=READ_ONLY; branch=none; previous_run=none; fencing_token=236; lease_expires=2026-11-28T12:16:49.969Z. این Work Item با سیاست READ_ONLY است؛ در target_repository هیچ branch، file، commit یا PR ایجاد/تغییر نده. شواهد را فقط در Issue thread یا محل مجاز control-plane ثبت کن؛ برای WRITE_REQUIRES_OWNER_APPROVAL فقط proposal ارائه بده.",
+      "response_posted": false,
+      "issue_number": 27,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "locked",
+      "at_utc": "2026-11-28T11:46:49.970Z"
     }
   },
   "work_items": {
@@ -45478,7 +45521,7 @@
       "parent_exp_ids": [
         "EXP-15"
       ],
-      "status": "IN_PROGRESS",
+      "status": "CLAIMED",
       "target_repository": "a4adelahmadian86-wq/non",
       "resource_keys": [
         "analysis:exp-15"
