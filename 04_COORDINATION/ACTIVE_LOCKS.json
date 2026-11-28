@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5187,
+  "revision": 5188,
   "next_fencing_token": 230,
   "locks": [
     {
@@ -41943,6 +41943,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-28T05:55:15.588Z"
+    },
+    "7234968950": {
+      "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-READONLY-ACCEPTANCE-CHECKPOINT-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=Await owner review of PR147; keep PR open; do not merge because this Work Item does not request control_plane_merge. Resume only after owner review or a separately authorized merge decision.; remaining_steps=.",
+      "response_posted": false,
+      "issue_number": 146,
+      "actor": "a4adelahmadian86-wq",
+      "command": "checkpoint",
+      "next_status": null,
+      "at_utc": "2026-11-28T05:55:34.259Z"
     }
   },
   "work_items": {
@@ -55814,6 +55823,56 @@
         "lease_expires_at_utc": "2026-11-27T18:58:11.002Z"
       },
       "next_action": "PR #145 is open and exact-head CI passed; PR #144 is closed without merge and its branch preserved. Do not merge or deploy under this Work Item. Await a separate owner merge authorization/decision; only then evaluate the independent acceptance gate."
+    },
+    "146": {
+      "work_item_id": "WI-READONLY-ACCEPTANCE-CHECKPOINT-001",
+      "run_id": "RUN-PR07-G09-READONLY-CHECKPOINT-20261128-01",
+      "checkpoint_version": 1,
+      "created_at_utc": "2026-11-28T05:55:34.258Z",
+      "last_verified_step_id": "S6_HANDOFF",
+      "current_step_id": "S6_HANDOFF",
+      "completed_step_ids": [
+        "S0_BASELINE",
+        "S1_REPRODUCE",
+        "S2_DEFINE_CONTRACT",
+        "S3_IMPLEMENT_GATE",
+        "S4_REGRESSION",
+        "S5_EXACT_HEAD_CI",
+        "S6_HANDOFF"
+      ],
+      "remaining_step_ids": [],
+      "progress_percentage": 100,
+      "execution_progress_percentage": 100,
+      "acceptance_progress_percentage": 100,
+      "overall_completion_percentage": 100,
+      "progress_calculation_version": "PROGRESS_V2",
+      "required_step_counts": {
+        "pass": 7,
+        "fail": 0,
+        "blocked": 0,
+        "unknown": 0,
+        "not_run": 0
+      },
+      "acceptance_criteria_counts": {
+        "pass": 4,
+        "fail": 0,
+        "blocked": 0,
+        "unknown": 0,
+        "not_run": 0
+      },
+      "evidence_refs": [
+        "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/147",
+        "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/46113995582",
+        "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/146"
+      ],
+      "blockers": [],
+      "owner": {
+        "actor": "a4adelahmadian86-wq",
+        "chat_id": "6f4fd54643a2788bfd97ad2b9147d376",
+        "fencing_token": 229,
+        "lease_expires_at_utc": "2026-11-28T06:25:07.236Z"
+      },
+      "next_action": "Await owner review of PR147; keep PR open; do not merge because this Work Item does not request control_plane_merge. Resume only after owner review or a separately authorized merge decision."
     }
   },
   "inbox_scheduler": {
