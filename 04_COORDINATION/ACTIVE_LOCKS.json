@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5400,
+  "revision": 5401,
   "next_fencing_token": 237,
   "locks": [
     {
@@ -43589,6 +43589,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-28T11:51:30.975Z"
+    },
+    "7238825012": {
+      "response": "معیار پذیرش ثبت شد: AC_ACCEPTANCE; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; can_accept=true.",
+      "response_posted": false,
+      "issue_number": 27,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-28T11:51:52.982Z"
     }
   },
   "work_items": {
@@ -45623,7 +45632,7 @@
       "parent_exp_ids": [
         "EXP-15"
       ],
-      "status": "IN_PROGRESS",
+      "status": "REVIEW_REQUIRED",
       "target_repository": "a4adelahmadian86-wq/non",
       "resource_keys": [
         "analysis:exp-15"
@@ -45783,7 +45792,14 @@
         {
           "criterion_id": "AC_ACCEPTANCE",
           "title": "گزینه‌ها evidence-backed؛ trade-off صریح؛ سازگاری با قیود؛ هیچ گزینه‌ای به‌عنوان تصمیم مصوب جا زده نشود.",
-          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion."
+          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion.",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/27#issuecomment-7238823150"
+          ],
+          "validated_at_utc": "2026-11-28T11:51:52.982Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "priority": 50,
