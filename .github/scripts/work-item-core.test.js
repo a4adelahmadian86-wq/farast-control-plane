@@ -481,11 +481,20 @@ function fullyVerified(item) {
  item.acceptance_criteria.forEach((criterion,index)=>{criterion.validation_status='PASS';criterion.evidence_refs=['https://example.test/criterion-'+index];});
  return item;
 }
-const readonlyReview = {event:'REVIEW',issue_number:13,target_repository:'owner/repo',branch:null};
+const readonlyReview = {event:'REVIEW',issue_number:13,target_repository:'owner/repo',branch:null,actor:'alice',chat_id:'chat-a',run_id:'run-a',fencing_token:7,at_utc:'2026-01-01T00:40:00Z'};
+function readonlyCheckpoint(item, overrides = {}) {
+ const {owner:ownerOverrides = {}, ...checkpointOverrides} = overrides;
+ const checkpoint = wi.createCheckpoint(item,{
+  lease,actor:'alice',chat_id:'chat-a',run_id:'run-a',fencing_token:7,
+  evidence_refs:['https://example.test/checkpoint'],
+  nowMs:Date.parse('2026-01-01T00:30:00Z')
+ });
+ return {...checkpoint,...checkpointOverrides,owner:{...checkpoint.owner,...ownerOverrides}};
+}
 
 test('READ_ONLY evidence-only acceptance passes after a valid review handoff without a PR or branch',()=>{
  const x=fullyVerified(item());
- const result=wi.evaluateReadOnlyAcceptance(x,{issueNumber:13,hasActiveLease:false,hardGatesReady:true,reviewEvent:readonlyReview});
+ const result=wi.evaluateReadOnlyAcceptance(x,{issueNumber:13,hasActiveLease:false,hardGatesReady:true,reviewEvent:readonlyReview,checkpoint:readonlyCheckpoint(x)});
  assert.equal(result.ready,true);
  assert.deepEqual(result.blockers,[]);
  assert.equal(result.progress.can_accept,true);
@@ -498,25 +507,58 @@ test('READ_ONLY evidence-only acceptance rejects a missing checkpoint even when 
  assert.ok(result.blockers.includes('missing_checkpoint'));
 });
 
+test('READ_ONLY evidence-only acceptance binds the checkpoint to the same Work Item and latest REVIEW lease',()=>{
+ const x=fullyVerified(item());
+ const wrongWorkItem=wi.evaluateReadOnlyAcceptance(x,{issueNumber:13,hasActiveLease:false,hardGatesReady:true,reviewEvent:readonlyReview,checkpoint:readonlyCheckpoint(x,{work_item_id:'WI-OTHER'})});
+ const wrongRun=wi.evaluateReadOnlyAcceptance(x,{issueNumber:13,hasActiveLease:false,hardGatesReady:true,reviewEvent:readonlyReview,checkpoint:readonlyCheckpoint(x,{run_id:'run-other'})});
+ const wrongActor=wi.evaluateReadOnlyAcceptance(x,{issueNumber:13,hasActiveLease:false,hardGatesReady:true,reviewEvent:readonlyReview,checkpoint:readonlyCheckpoint(x,{owner:{actor:'mallory'}})});
+ const wrongChat=wi.evaluateReadOnlyAcceptance(x,{issueNumber:13,hasActiveLease:false,hardGatesReady:true,reviewEvent:readonlyReview,checkpoint:readonlyCheckpoint(x,{owner:{chat_id:'chat-b'}})});
+ const wrongToken=wi.evaluateReadOnlyAcceptance(x,{issueNumber:13,hasActiveLease:false,hardGatesReady:true,reviewEvent:readonlyReview,checkpoint:readonlyCheckpoint(x,{owner:{fencing_token:8}})});
+ assert.ok(wrongWorkItem.blockers.includes('checkpoint_work_item_mismatch'));
+ assert.ok(wrongRun.blockers.includes('checkpoint_review_run_mismatch'));
+ assert.ok(wrongActor.blockers.includes('checkpoint_review_actor_mismatch'));
+ assert.ok(wrongChat.blockers.includes('checkpoint_review_chat_mismatch'));
+ assert.ok(wrongToken.blockers.includes('checkpoint_review_fencing_token_mismatch'));
+});
+
+test('READ_ONLY evidence-only acceptance rejects checkpoints created after REVIEW or outside their owner lease',()=>{
+ const x=fullyVerified(item());
+ const afterReview=wi.evaluateReadOnlyAcceptance(x,{issueNumber:13,hasActiveLease:false,hardGatesReady:true,reviewEvent:readonlyReview,checkpoint:readonlyCheckpoint(x,{created_at_utc:'2026-01-01T00:50:00Z'})});
+ const expiredLease=wi.evaluateReadOnlyAcceptance(x,{issueNumber:13,hasActiveLease:false,hardGatesReady:true,reviewEvent:readonlyReview,checkpoint:readonlyCheckpoint(x,{owner:{lease_expires_at_utc:'2026-01-01T00:20:00Z'}})});
+ assert.ok(afterReview.blockers.includes('checkpoint_review_chronology_invalid'));
+ assert.ok(expiredLease.blockers.includes('checkpoint_owner_lease_invalid'));
+});
+
+test('READ_ONLY evidence-only acceptance rejects incomplete, blocked and stale checkpoint snapshots',()=>{
+ const x=fullyVerified(item());
+ const incomplete=wi.evaluateReadOnlyAcceptance(x,{issueNumber:13,hasActiveLease:false,hardGatesReady:true,reviewEvent:readonlyReview,checkpoint:readonlyCheckpoint(x,{remaining_step_ids:['S1'],completed_step_ids:[],blockers:['pending']})});
+ const stale=wi.evaluateReadOnlyAcceptance(x,{issueNumber:13,hasActiveLease:false,hardGatesReady:true,reviewEvent:readonlyReview,checkpoint:readonlyCheckpoint(x,{progress_percentage:99,execution_progress_percentage:99,acceptance_progress_percentage:99,overall_completion_percentage:99})});
+ assert.ok(incomplete.blockers.includes('checkpoint_remaining_steps'));
+ assert.ok(incomplete.blockers.includes('checkpoint_has_blockers'));
+ assert.ok(incomplete.blockers.includes('checkpoint_completed_steps_incomplete'));
+ assert.ok(stale.blockers.includes('checkpoint_progress_snapshot_stale'));
+});
+
 test('READ_ONLY evidence-only acceptance fails closed while a lease is active',()=>{
  const x=fullyVerified(item());
- const result=wi.evaluateReadOnlyAcceptance(x,{issueNumber:13,hasActiveLease:true,hardGatesReady:true,reviewEvent:readonlyReview});
+ const result=wi.evaluateReadOnlyAcceptance(x,{issueNumber:13,hasActiveLease:true,hardGatesReady:true,reviewEvent:readonlyReview,checkpoint:readonlyCheckpoint(x)});
  assert.equal(result.ready,false);
  assert.ok(result.blockers.includes('active_lease'));
 });
 
 test('READ_ONLY evidence-only acceptance rejects write-capable Work Items',()=>{
  const x=fullyVerified(item({write_policy:'WRITE_ALLOWED',target_repository:'a4adelahmadian86-wq/non',owner_approval_ref:'https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/51',requested_operations:['product_implementation']}));
- const result=wi.evaluateReadOnlyAcceptance(x,{issueNumber:13,hasActiveLease:false,hardGatesReady:true,reviewEvent:readonlyReview});
+ const result=wi.evaluateReadOnlyAcceptance(x,{issueNumber:13,hasActiveLease:false,hardGatesReady:true,reviewEvent:readonlyReview,checkpoint:readonlyCheckpoint(x)});
  assert.equal(result.ready,false);
  assert.ok(result.blockers.includes('write_policy_not_read_only'));
 });
 
 test('READ_ONLY evidence-only acceptance requires the latest handoff to be REVIEW for the same Issue and target with no branch',()=>{
  const x=fullyVerified(item());
- const wrongIssue=wi.evaluateReadOnlyAcceptance(x,{issueNumber:13,hasActiveLease:false,hardGatesReady:true,reviewEvent:{...readonlyReview,issue_number:14}});
- const wrongTarget=wi.evaluateReadOnlyAcceptance(x,{issueNumber:13,hasActiveLease:false,hardGatesReady:true,reviewEvent:{...readonlyReview,target_repository:'other/repo'}});
- const allocatedBranch=wi.evaluateReadOnlyAcceptance(x,{issueNumber:13,hasActiveLease:false,hardGatesReady:true,reviewEvent:{...readonlyReview,branch:'work/should-not-exist'}});
+ const checkpoint=readonlyCheckpoint(x);
+ const wrongIssue=wi.evaluateReadOnlyAcceptance(x,{issueNumber:13,hasActiveLease:false,hardGatesReady:true,reviewEvent:{...readonlyReview,issue_number:14},checkpoint});
+ const wrongTarget=wi.evaluateReadOnlyAcceptance(x,{issueNumber:13,hasActiveLease:false,hardGatesReady:true,reviewEvent:{...readonlyReview,target_repository:'other/repo'},checkpoint});
+ const allocatedBranch=wi.evaluateReadOnlyAcceptance(x,{issueNumber:13,hasActiveLease:false,hardGatesReady:true,reviewEvent:{...readonlyReview,branch:'work/should-not-exist'},checkpoint});
  assert.ok(wrongIssue.blockers.includes('review_handoff_issue_mismatch'));
  assert.ok(wrongTarget.blockers.includes('review_handoff_target_mismatch'));
  assert.ok(allocatedBranch.blockers.includes('read_only_handoff_must_not_have_branch'));
@@ -524,14 +566,14 @@ test('READ_ONLY evidence-only acceptance requires the latest handoff to be REVIE
 
 test('READ_ONLY evidence-only acceptance requires satisfied canonical hard gates',()=>{
  const x=fullyVerified(item());
- const result=wi.evaluateReadOnlyAcceptance(x,{issueNumber:13,hasActiveLease:false,hardGatesReady:false,reviewEvent:readonlyReview});
+ const result=wi.evaluateReadOnlyAcceptance(x,{issueNumber:13,hasActiveLease:false,hardGatesReady:false,reviewEvent:readonlyReview,checkpoint:readonlyCheckpoint(x)});
  assert.equal(result.ready,false);
  assert.ok(result.blockers.includes('hard_gates_not_satisfied'));
 });
 
 test('READ_ONLY evidence-only acceptance requires all step and criterion evidence',()=>{
  const x=item();
- const result=wi.evaluateReadOnlyAcceptance(x,{issueNumber:13,hasActiveLease:false,hardGatesReady:true,reviewEvent:readonlyReview});
+ const result=wi.evaluateReadOnlyAcceptance(x,{issueNumber:13,hasActiveLease:false,hardGatesReady:true,reviewEvent:readonlyReview,checkpoint:readonlyCheckpoint(x)});
  assert.equal(result.ready,false);
  assert.ok(result.blockers.includes('required_evidence_incomplete'));
 });
