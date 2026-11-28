@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5379,
+  "revision": 5380,
   "next_fencing_token": 237,
   "locks": [
     {
@@ -43481,7 +43481,7 @@
     },
     "7238773030": {
       "response": "CLAIM GRANTED. TASK=GH-27; WORK_ITEM_ID=WI-EXP15-TARGET-ARCHITECTURE-001; verified_steps=S1_DISCOVER; remaining_steps=S2_MAP,S3_ANALYZE,S4_CROSSCHECK,S5_ASSESS,S6_REPORT,S7_VERIFY; EXECUTION_PROGRESS=14.28%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; actor=@a4adelahmadian86-wq; chat=chat-2b973395dc16471e8ddaadf2b609dab5; run=RUN-PR13-EXP15-RESUME-20261128-01; resource_keys=analysis:exp-15; target_repository=a4adelahmadian86-wq/non; write_policy=READ_ONLY; branch=none; previous_run=none; fencing_token=236; lease_expires=2026-11-28T12:16:49.969Z. این Work Item با سیاست READ_ONLY است؛ در target_repository هیچ branch، file، commit یا PR ایجاد/تغییر نده. شواهد را فقط در Issue thread یا محل مجاز control-plane ثبت کن؛ برای WRITE_REQUIRES_OWNER_APPROVAL فقط proposal ارائه بده.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 27,
       "actor": "a4adelahmadian86-wq",
       "command": "claim",
