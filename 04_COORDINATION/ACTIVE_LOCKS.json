@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5384,
+  "revision": 5385,
   "next_fencing_token": 237,
   "locks": [
     {
@@ -43517,6 +43517,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-28T11:49:23.303Z"
+    },
+    "7238799421": {
+      "response": "STEP ثبت شد: S3_ANALYZE; EXECUTION_PROGRESS=42.85%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=3/7.",
+      "response_posted": false,
+      "issue_number": 27,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-28T11:49:32.723Z"
     }
   },
   "work_items": {
@@ -45597,7 +45606,14 @@
           "weight": 1,
           "expected_output": "خروجی قابل بازبینی برای مرحله: طراحی حداقل دو گزینه معماری متناسب با شواهد و محدودیت‌های واقعی.",
           "evidence_requirement": "حداقل یک URL دقیق به فایل/commit/test/run یا سند GitHub؛ در نبود شاهد UNKNOWN ثبت شود.",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/27#issuecomment-7238796782"
+          ],
+          "validated_at_utc": "2026-11-28T11:49:32.723Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S4_CROSSCHECK",
