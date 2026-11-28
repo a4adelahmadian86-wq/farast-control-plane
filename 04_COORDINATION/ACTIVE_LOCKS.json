@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5372,
+  "revision": 5373,
   "next_fencing_token": 236,
   "locks": [],
   "history": [
@@ -20734,6 +20734,17 @@
       "branch": null,
       "target_repository": "a4adelahmadian86-wq/non",
       "at_utc": "2026-11-28T11:36:19.466Z"
+    },
+    {
+      "event": "WORK_ITEM_REFRESHED",
+      "issue_number": 149,
+      "work_item_id": "WI-EXP07-GAP-DELTA-REVALIDATION-20261128-001",
+      "actor": "a4adelahmadian86-wq",
+      "preserved_steps": 7,
+      "preserved_criteria": 5,
+      "hard_gate_ready": true,
+      "hard_gate_blockers": [],
+      "at_utc": "2026-11-28T11:37:53.728Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -43395,6 +43406,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-28T11:36:49.057Z"
+    },
+    "7238676631": {
+      "response": "Work Item specification refreshed from Issue body; preserved_steps=7; preserved_criteria=5; hard_gates=PASS; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%.",
+      "response_posted": false,
+      "issue_number": 149,
+      "actor": "a4adelahmadian86-wq",
+      "command": "refresh",
+      "next_status": "review",
+      "at_utc": "2026-11-28T11:37:53.747Z"
     }
   },
   "work_items": {
@@ -56077,7 +56097,7 @@
       "created_at_utc": "2026-11-28T11:09:26Z",
       "work_item_id": "WI-EXP07-GAP-DELTA-REVALIDATION-20261128-001",
       "title": "Revalidate EXP-07 gap remediation against current NON main",
-      "description": "Produce a dated, read-only evidence delta for the accepted EXP-07 report after 12 intervening NON main commits. Preserve original GAP IDs; verify remediation status and distinguish code, tests, deployment and user-local runtime evidence. No product changes or duplicate remediation tasks.",
+      "description": "Produce a dated, read-only evidence delta for the accepted EXP-07 report after 8 NON main commits since its GAP-14..22 supplement. Preserve original GAP IDs; verify remediation status and distinguish code, tests, deployment and user-local runtime evidence. No product changes or duplicate remediation tasks.",
       "parent_goal_ids": [
         "G-01",
         "G-02",
