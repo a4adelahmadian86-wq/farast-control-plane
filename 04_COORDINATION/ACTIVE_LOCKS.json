@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5346,
+  "revision": 5347,
   "next_fencing_token": 236,
   "locks": [
     {
@@ -43224,6 +43224,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-28T11:29:55.974Z"
+    },
+    "7238594250": {
+      "response": "معیار پذیرش ثبت شد: AC_TRACEABILITY; ACCEPTANCE_PROGRESS=20%; OVERALL_COMPLETION=20%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 149,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-28T11:30:20.931Z"
     }
   },
   "work_items": {
@@ -56050,7 +56059,14 @@
           "criterion_id": "AC_TRACEABILITY",
           "title": "Every GAP retains original ID and links requirement, current evidence, impact and existing remediation",
           "required": true,
-          "evidence_requirement": "Complete GAP-to-requirement/source/remediation matrix"
+          "evidence_requirement": "Complete GAP-to-requirement/source/remediation matrix",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/149#issuecomment-7238553878"
+          ],
+          "validated_at_utc": "2026-11-28T11:30:20.930Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_STATUS_DISCIPLINE",
