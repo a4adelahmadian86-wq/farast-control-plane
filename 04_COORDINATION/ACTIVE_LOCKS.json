@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5324,
+  "revision": 5325,
   "next_fencing_token": 236,
   "locks": [
     {
@@ -43053,6 +43053,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-28T11:21:57.216Z"
+    },
+    "7238505662": {
+      "response": "STEP ثبت شد: S2_REMEDIATION_STATUS; EXECUTION_PROGRESS=42.85%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=3/7.",
+      "response_posted": false,
+      "issue_number": 149,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-28T11:22:24.964Z"
     }
   },
   "work_items": {
@@ -55808,7 +55817,14 @@
           "title": "Read back existing remediation Issues and verify relevant source/test evidence",
           "required": true,
           "expected_output": "Per-GAP status and remediation owner",
-          "evidence_requirement": "Current Issue/PR state, exact source paths/SHAs and exact-head CI evidence"
+          "evidence_requirement": "Current Issue/PR state, exact source paths/SHAs and exact-head CI evidence",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/149#issuecomment-7238483289"
+          ],
+          "validated_at_utc": "2026-11-28T11:22:24.963Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S3_LOCAL_AI_REASSESSMENT",
