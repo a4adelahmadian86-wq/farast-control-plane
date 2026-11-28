@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5266,
+  "revision": 5267,
   "next_fencing_token": 234,
   "locks": [
     {
@@ -42615,6 +42615,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-28T10:58:41.612Z"
+    },
+    "7238243741": {
+      "response": "معیار پذیرش ثبت شد: AC_LOCAL_ASSETS; ACCEPTANCE_PROGRESS=25%; OVERALL_COMPLETION=25%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 148,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-28T10:58:49.937Z"
     }
   },
   "work_items": {
@@ -55172,7 +55181,16 @@
           "title": "Reader icon rendering uses only the existing same-origin Font Awesome CSS and bundled local font files; no third-party request or new dependency is introduced.",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "Regression test and source diff prove the stylesheet/font URLs resolve to local public assets and no remote host is added."
+          "evidence_requirement": "Regression test and source diff prove the stylesheet/font URLs resolve to local public assets and no remote host is added.",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/non/commit/31be5c2d1ed2431edf7dd7a84ee077fe5933a948",
+            "https://github.com/a4adelahmadian86-wq/non/blob/main/public/css/fontawesome.css",
+            "https://github.com/a4adelahmadian86-wq/non/actions/runs/46137163203"
+          ],
+          "validated_at_utc": "2026-11-28T10:58:49.937Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_ICONS_VISIBLE",
