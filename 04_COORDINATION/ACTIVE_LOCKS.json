@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5320,
+  "revision": 5321,
   "next_fencing_token": 236,
   "locks": [
     {
@@ -43023,6 +43023,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-28T11:21:00.652Z"
+    },
+    "7238494782": {
+      "response": "STEP ثبت شد: S1_FINDING_MAP; EXECUTION_PROGRESS=28.57%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=2/7.",
+      "response_posted": false,
+      "issue_number": 149,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-28T11:21:18.457Z"
     }
   },
   "work_items": {
@@ -55764,7 +55773,14 @@
           "title": "Map intervening commits to original GAP IDs",
           "required": true,
           "expected_output": "GAP-to-commit/file crosswalk",
-          "evidence_requirement": "Exact commit/file URLs and inclusion/exclusion reasons"
+          "evidence_requirement": "Exact commit/file URLs and inclusion/exclusion reasons",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/149#issuecomment-7238483289"
+          ],
+          "validated_at_utc": "2026-11-28T11:21:18.457Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S2_REMEDIATION_STATUS",
