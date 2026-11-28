@@ -1,8 +1,25 @@
 {
   "schema_version": "1.0",
-  "revision": 5108,
-  "next_fencing_token": 226,
-  "locks": [],
+  "revision": 5109,
+  "next_fencing_token": 227,
+  "locks": [
+    {
+      "resource_key": "analysis:exp-09",
+      "issue_number": 21,
+      "task_id": "GH-21",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "chat-ai-infra-20261128",
+      "chat_id": "chat-ai-infra-20261128",
+      "run_id": "RUN-20261128-EXP09-01",
+      "target_repository": "a4adelahmadian86-wq/non",
+      "branch": null,
+      "acquired_at_utc": "2026-11-28T05:34:36.436Z",
+      "heartbeat_at_utc": "2026-11-28T05:34:36.436Z",
+      "lease_expires_at_utc": "2026-11-28T06:04:36.436Z",
+      "fencing_token": 226,
+      "status": "ACTIVE"
+    }
+  ],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -19703,6 +19720,23 @@
       "work_item_id": "WI-SEMANTIC-DUPLICATE-DELIVERABLE-SCOPE-001",
       "preserved_steps": 0,
       "at_utc": "2026-11-27T22:48:04.775Z"
+    },
+    {
+      "event": "ACQUIRED",
+      "issue_number": 21,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "chat-ai-infra-20261128",
+      "run_id": "RUN-20261128-EXP09-01",
+      "resource_keys": [
+        "analysis:exp-09"
+      ],
+      "target_repository": "a4adelahmadian86-wq/non",
+      "branch": null,
+      "previous_branch": null,
+      "previous_target_repository": null,
+      "previous_run_id": null,
+      "fencing_token": 226,
+      "at_utc": "2026-11-28T05:34:36.436Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -41239,6 +41273,15 @@
       "merge_commit_sha": "67096eed9b82fa76f57def5a4fea890a884ce3df",
       "lineage_mode": "EXACT_REVIEW_BRANCH",
       "at_utc": "2026-11-28T05:33:53.507Z"
+    },
+    "7234751586": {
+      "response": "CLAIM GRANTED. TASK=GH-21; WORK_ITEM_ID=WI-EXP09-AI-SERVICE-CYCLE-001; verified_steps=S1_DISCOVER,S2_MAP,S3_ANALYZE,S4_CROSSCHECK,S5_ASSESS,S6_REPORT,S7_VERIFY; remaining_steps=; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=75%; OVERALL_COMPLETION=75%; actor=@a4adelahmadian86-wq; chat=chat-ai-infra-20261128; run=RUN-20261128-EXP09-01; resource_keys=analysis:exp-09; target_repository=a4adelahmadian86-wq/non; write_policy=READ_ONLY; branch=none; previous_run=none; fencing_token=226; lease_expires=2026-11-28T06:04:36.436Z. این Work Item با سیاست READ_ONLY است؛ در target_repository هیچ branch، file، commit یا PR ایجاد/تغییر نده. شواهد را فقط در Issue thread یا محل مجاز control-plane ثبت کن؛ برای WRITE_REQUIRES_OWNER_APPROVAL فقط proposal ارائه بده.",
+      "response_posted": false,
+      "issue_number": 21,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "locked",
+      "at_utc": "2026-11-28T05:34:36.588Z"
     }
   },
   "work_items": {
@@ -43063,7 +43106,7 @@
       "parent_exp_ids": [
         "EXP-09"
       ],
-      "status": "IN_PROGRESS",
+      "status": "CLAIMED",
       "target_repository": "a4adelahmadian86-wq/non",
       "resource_keys": [
         "analysis:exp-09"
