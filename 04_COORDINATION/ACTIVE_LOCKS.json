@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5280,
+  "revision": 5281,
   "next_fencing_token": 234,
   "locks": [
     {
@@ -42702,6 +42702,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-28T11:00:44.673Z"
+    },
+    "7238265059": {
+      "response": "معیار پذیرش ثبت شد: AC_SCOPE_AND_CI; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=85.71%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 148,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-28T11:01:09.596Z"
     }
   },
   "work_items": {
@@ -55315,7 +55324,16 @@
           "title": "Only the declared Reader stylesheet and new regression test change; required exact-head Laravel and Reader browser checks pass.",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "Exact changed-file list, passing focused PHPUnit and required CI/browser run URLs, with no shared Blade/controller/JS/route/migration/workflow or teammate-owned file edits."
+          "evidence_requirement": "Exact changed-file list, passing focused PHPUnit and required CI/browser run URLs, with no shared Blade/controller/JS/route/migration/workflow or teammate-owned file edits.",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/non/pull/763",
+            "https://github.com/a4adelahmadian86-wq/non/actions/runs/46137163203",
+            "https://github.com/a4adelahmadian86-wq/non/commit/025b2207a9f98c747c4836287fffd49229b5e555"
+          ],
+          "validated_at_utc": "2026-11-28T11:01:09.595Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "priority": 50,
