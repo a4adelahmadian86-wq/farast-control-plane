@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5188,
+  "revision": 5189,
   "next_fencing_token": 230,
   "locks": [
     {
@@ -41946,7 +41946,7 @@
     },
     "7234968950": {
       "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-READONLY-ACCEPTANCE-CHECKPOINT-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=Await owner review of PR147; keep PR open; do not merge because this Work Item does not request control_plane_merge. Resume only after owner review or a separately authorized merge decision.; remaining_steps=.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 146,
       "actor": "a4adelahmadian86-wq",
       "command": "checkpoint",
