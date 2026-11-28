@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5167,
+  "revision": 5168,
   "next_fencing_token": 230,
   "locks": [
     {
@@ -41817,6 +41817,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-28T05:52:46.464Z"
+    },
+    "7234939091": {
+      "response": "STEP ثبت شد: S4_REGRESSION; EXECUTION_PROGRESS=71.42%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=5/7.",
+      "response_posted": false,
+      "issue_number": 146,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-28T05:52:56.679Z"
     }
   },
   "work_items": {
@@ -54078,7 +54087,15 @@
           "weight": 1,
           "expected_output": "Tests prove fail-closed behavior for each invalid checkpoint and success for a complete checkpoint bound to the same Issue/Work Item/RUN/actor/chat/token.",
           "evidence_requirement": "Exact test names, assertions and passing focused Node test output; include legacy accepted-state compatibility without retroactive reclassification.",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/46113995582",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/9c1e6bd122c32c8d0c632f5f1f7a206447995942/.github/scripts/work-item-core.test.js"
+          ],
+          "validated_at_utc": "2026-11-28T05:52:56.678Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Exact-head CI output shows the missing-checkpoint, same-Work-Item/RUN/owner binding, chronology/lease-expiry, incomplete/blocker and stale-snapshot regression tests all passing; existing READ_ONLY policy/hard-gate tests also pass."
         },
         {
           "step_id": "S5_EXACT_HEAD_CI",
