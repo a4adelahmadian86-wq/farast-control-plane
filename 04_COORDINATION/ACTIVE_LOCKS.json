@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5271,
+  "revision": 5272,
   "next_fencing_token": 234,
   "locks": [
     {
@@ -42648,7 +42648,7 @@
     },
     "7238250096": {
       "response": "معیار پذیرش ثبت شد: AC_LOCAL_ASSETS; ACCEPTANCE_PROGRESS=25%; OVERALL_COMPLETION=25%; can_accept=false.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 148,
       "actor": "a4adelahmadian86-wq",
       "command": "criterion",
