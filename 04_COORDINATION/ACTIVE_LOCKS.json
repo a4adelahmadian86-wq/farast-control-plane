@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5240,
+  "revision": 5241,
   "next_fencing_token": 234,
   "locks": [
     {
@@ -42390,6 +42390,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-28T10:49:58.329Z"
+    },
+    "7238153698": {
+      "response": "STEP ثبت شد: S1_ROOT_CAUSE; EXECUTION_PROGRESS=28.57%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=2/7.",
+      "response_posted": false,
+      "issue_number": 148,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-28T10:50:18.906Z"
     }
   },
   "work_items": {
@@ -54855,7 +54864,17 @@
           "weight": 1,
           "expected_output": "A concise root-cause note and behavior table: Reader layout excludes the global icon CSS, Reader CSS hides Font Awesome icons, and compact controls should remain icon-only with accessible aria-label/title names.",
           "evidence_requirement": "Exact source line ranges and a reproducible CSS selector analysis tied to the baseline SHA; distinguish local bundled assets from external services.",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/non/blob/main/resources/views/layouts/app.blade.php",
+            "https://github.com/a4adelahmadian86-wq/non/blob/main/public/css/farast-reader.css",
+            "https://github.com/a4adelahmadian86-wq/non/blob/main/public/css/fontawesome.css",
+            "https://github.com/a4adelahmadian86-wq/non/blob/main/resources/views/store/reader.blade.php"
+          ],
+          "validated_at_utc": "2026-11-28T10:50:18.905Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S2_IMPLEMENT",
