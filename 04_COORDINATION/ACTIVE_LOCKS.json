@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5127,
+  "revision": 5128,
   "next_fencing_token": 229,
   "locks": [
     {
@@ -41450,7 +41450,7 @@
     },
     "7234843167": {
       "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-GOAL-ALLOCATOR-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=Allocator verified and created Issue #146 (WI-READONLY-ACCEPTANCE-CHECKPOINT-001), now agent:ready with valid provenance. Release this allocator lease, then claim Issue #146 with a fresh RUN_ID and implement only its declared control-plane files; do not merge.; remaining_steps=.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 11,
       "actor": "a4adelahmadian86-wq",
       "command": "checkpoint",
