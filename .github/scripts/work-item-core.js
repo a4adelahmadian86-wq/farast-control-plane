@@ -562,6 +562,78 @@ function evaluateBranchlessMetadataAcceptance(item, options = {}) {
   return {ready:blockers.length===0,blockers,progress};
 }
 
+function matchesReadOnlyCheckpointCountSnapshot(actual, expected) {
+  const keys = ['pass', 'fail', 'blocked', 'unknown', 'not_run'];
+  return !!actual &&
+    typeof actual === 'object' &&
+    !Array.isArray(actual) &&
+    Object.keys(actual).length === keys.length &&
+    keys.every(key => Number.isInteger(actual[key]) && actual[key] === expected[key]);
+}
+
+function readOnlyCheckpointBlockers(item, options, handoff, progress) {
+  const checkpoint = options.checkpoint;
+  if (!checkpoint || typeof checkpoint !== 'object' || Array.isArray(checkpoint)) return ['missing_checkpoint'];
+
+  const blockers = [];
+  if (checkpoint.work_item_id !== item.work_item_id) blockers.push('checkpoint_work_item_mismatch');
+
+  if (typeof handoff.run_id !== 'string' || !handoff.run_id.trim() || checkpoint.run_id !== handoff.run_id) {
+    blockers.push('checkpoint_review_run_mismatch');
+  }
+
+  const owner = checkpoint.owner;
+  if (typeof handoff.actor !== 'string' || !handoff.actor.trim() || !owner || owner.actor !== handoff.actor) {
+    blockers.push('checkpoint_review_actor_mismatch');
+  }
+  if (typeof handoff.chat_id !== 'string' || !handoff.chat_id.trim() || !owner || owner.chat_id !== handoff.chat_id) {
+    blockers.push('checkpoint_review_chat_mismatch');
+  }
+  if (!Number.isInteger(Number(handoff.fencing_token)) ||
+      !owner || !Number.isInteger(Number(owner.fencing_token)) ||
+      Number(owner.fencing_token) !== Number(handoff.fencing_token)) {
+    blockers.push('checkpoint_review_fencing_token_mismatch');
+  }
+
+  const checkpointTime = Date.parse(checkpoint.created_at_utc || '');
+  const reviewTime = Date.parse(handoff.at_utc || '');
+  if (!Number.isFinite(checkpointTime) || !Number.isFinite(reviewTime) || checkpointTime > reviewTime) {
+    blockers.push('checkpoint_review_chronology_invalid');
+  }
+  const ownerLeaseExpiry = Date.parse(owner?.lease_expires_at_utc || '');
+  if (!Number.isFinite(ownerLeaseExpiry) || !Number.isFinite(checkpointTime) || checkpointTime >= ownerLeaseExpiry) {
+    blockers.push('checkpoint_owner_lease_invalid');
+  }
+
+  if (checkpoint.checkpoint_version !== 1) blockers.push('checkpoint_version_unsupported');
+  if (checkpoint.progress_calculation_version !== 'PROGRESS_V2') blockers.push('checkpoint_progress_version_mismatch');
+  if (!Array.isArray(checkpoint.remaining_step_ids) || checkpoint.remaining_step_ids.length !== 0) {
+    blockers.push('checkpoint_remaining_steps');
+  }
+  if (!Array.isArray(checkpoint.blockers) || checkpoint.blockers.length !== 0) blockers.push('checkpoint_has_blockers');
+
+  const requiredStepIds = item.steps.filter(step => step.required !== false).map(step => step.step_id);
+  if (!Array.isArray(checkpoint.completed_step_ids) ||
+      requiredStepIds.some(stepId => !checkpoint.completed_step_ids.includes(stepId))) {
+    blockers.push('checkpoint_completed_steps_incomplete');
+  }
+  if (!Array.isArray(checkpoint.evidence_refs) ||
+      checkpoint.evidence_refs.some(ref => typeof ref !== 'string' || !ref.trim())) {
+    blockers.push('checkpoint_evidence_refs_invalid');
+  }
+
+  const progressSnapshotMatches =
+    checkpoint.progress_percentage === progress.execution_percentage &&
+    checkpoint.execution_progress_percentage === progress.execution_percentage &&
+    checkpoint.acceptance_progress_percentage === progress.acceptance_percentage &&
+    checkpoint.overall_completion_percentage === progress.overall_completion_percentage &&
+    matchesReadOnlyCheckpointCountSnapshot(checkpoint.required_step_counts, progress.required_step_counts) &&
+    matchesReadOnlyCheckpointCountSnapshot(checkpoint.acceptance_criteria_counts, progress.acceptance_criteria_counts);
+  if (!progressSnapshotMatches) blockers.push('checkpoint_progress_snapshot_stale');
+
+  return blockers;
+}
+
 function evaluateReadOnlyAcceptance(item, options = {}) {
   const blockers = [];
   try {
@@ -581,6 +653,9 @@ function evaluateReadOnlyAcceptance(item, options = {}) {
   }
   const progress = calculateProgress(item);
   if (!progress.can_accept) blockers.push('required_evidence_incomplete');
+  if (handoff && handoff.event === 'REVIEW') {
+    blockers.push(...readOnlyCheckpointBlockers(item, options, handoff, progress));
+  }
   return { ready: blockers.length === 0, blockers, progress };
 }
 
