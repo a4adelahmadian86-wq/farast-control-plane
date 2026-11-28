@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5169,
+  "revision": 5170,
   "next_fencing_token": 230,
   "locks": [
     {
@@ -41826,6 +41826,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-28T05:52:56.679Z"
+    },
+    "7234939418": {
+      "response": "STEP ثبت شد: S5_EXACT_HEAD_CI; EXECUTION_PROGRESS=85.71%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=6/7.",
+      "response_posted": false,
+      "issue_number": 146,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-28T05:53:05.716Z"
     }
   },
   "work_items": {
@@ -54104,7 +54113,16 @@
           "weight": 1,
           "expected_output": "Successful exact-head CI and a reviewed changed-file manifest proving the change is limited to the three declared source/test/workflow files.",
           "evidence_requirement": "CI run URL, exact head SHA, changed-file list, diff review and read-back of the final branch; no merge or deployment.",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/46113995582",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/9c1e6bd122c32c8d0c632f5f1f7a206447995942",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/147/files"
+          ],
+          "validated_at_utc": "2026-11-28T05:53:05.716Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Control Plane Validation succeeded on exact PR head 9c1e6bd122c32c8d0c632f5f1f7a206447995942. All validation steps passed; changed-file manifest is exactly the three declared files; branch is ahead of main by six commits and behind by zero."
         },
         {
           "step_id": "S6_HANDOFF",
