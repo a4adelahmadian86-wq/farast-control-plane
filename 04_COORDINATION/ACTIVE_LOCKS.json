@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5153,
+  "revision": 5154,
   "next_fencing_token": 230,
   "locks": [
     {
@@ -41694,6 +41694,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-28T05:49:08.986Z"
+    },
+    "7234907269": {
+      "response": "STEP ثبت شد: S2_DEFINE_CONTRACT; EXECUTION_PROGRESS=42.85%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=3/7.",
+      "response_posted": false,
+      "issue_number": 146,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-28T05:49:37.595Z"
     }
   },
   "work_items": {
@@ -53917,7 +53926,17 @@
           "weight": 1,
           "expected_output": "A decision table covering missing checkpoint, wrong Work Item, mismatched run/actor/chat/token, chronology, remaining steps, blockers and stale progress snapshot.",
           "evidence_requirement": "Issue-thread contract linked to createCheckpoint, REVIEW event shape, progress calculation and acceptance call site; preserve explicit UNKNOWN cases.",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/146#issuecomment-7234906903",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/1d80a4938320118bb48289a149135d324f7c8b34/.github/scripts/work-item-core.js#L181-L222",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/1d80a4938320118bb48289a149135d324f7c8b34/.github/scripts/work-item-core.js#L630-L676",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/1d80a4938320118bb48289a149135d324f7c8b34/.github/workflows/farast-coordinator.yml#L502-L562"
+          ],
+          "validated_at_utc": "2026-11-28T05:49:37.594Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Contract defines same-Issue key scoping, same Work Item/RUN/actor/chat/token binding, chronology, completeness, live-progress snapshot equality, and explicit scope exclusions."
         },
         {
           "step_id": "S3_IMPLEMENT_GATE",
