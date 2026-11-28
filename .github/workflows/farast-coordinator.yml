@@ -556,7 +556,8 @@ jobs:
                         })
                       : workItemCore.evaluateReadOnlyAcceptance(acceptanceItem, {
                           issueNumber: issue.number, hasActiveLease: current.length > 0,
-                          hardGatesReady: hardGate.ready, reviewEvent: latestIssueEvent
+                          hardGatesReady: hardGate.ready, reviewEvent: latestIssueEvent,
+                          checkpoint: state.checkpoints?.[issue.number] || null
                         });
                     if (!evidenceGate.ready) {
                       response = 'پذیرش evidence-only رد شد: گیت‌های ماشینی کامل نیستند: ' + evidenceGate.blockers.join(',') + '.';
