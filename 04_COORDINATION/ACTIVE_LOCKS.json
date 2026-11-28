@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5272,
+  "revision": 5273,
   "next_fencing_token": 234,
   "locks": [
     {
@@ -42654,6 +42654,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-28T10:59:27.514Z"
+    },
+    "7238250920": {
+      "response": "معیار پذیرش ثبت شد: AC_ICONS_VISIBLE; ACCEPTANCE_PROGRESS=50%; OVERALL_COMPLETION=50%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 148,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-28T10:59:35.083Z"
     }
   },
   "work_items": {
@@ -55226,7 +55235,16 @@
           "title": "Reader solid/regular icons are no longer hidden and compact toolbar controls do not replace icons with redundant aria-label pseudo-text.",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "Focused CSS regression assertions plus a browser screenshot/DOM smoke or equivalent rendered-browser evidence on the exact PR head."
+          "evidence_requirement": "Focused CSS regression assertions plus a browser screenshot/DOM smoke or equivalent rendered-browser evidence on the exact PR head.",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/non/commit/31be5c2d1ed2431edf7dd7a84ee077fe5933a948",
+            "https://github.com/a4adelahmadian86-wq/non/actions/runs/46137163203",
+            "https://github.com/a4adelahmadian86-wq/non/actions/runs/46137120999"
+          ],
+          "validated_at_utc": "2026-11-28T10:59:35.083Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_ACCESSIBILITY",
