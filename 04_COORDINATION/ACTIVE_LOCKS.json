@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5163,
+  "revision": 5164,
   "next_fencing_token": 230,
   "locks": [
     {
@@ -41787,6 +41787,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-28T05:52:18.842Z"
+    },
+    "7234934888": {
+      "response": "STEP ثبت شد: S3_IMPLEMENT_GATE; EXECUTION_PROGRESS=57.14%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=4/7.",
+      "response_posted": false,
+      "issue_number": 146,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-28T05:52:28.970Z"
     }
   },
   "work_items": {
@@ -54029,7 +54038,17 @@
           "weight": 1,
           "expected_output": "Evaluator and coordinator workflow reject absent/mismatched/incomplete/stale checkpoints and accept only a complete checkpoint bound to the latest REVIEW handoff.",
           "evidence_requirement": "Exact source diff and read-back for the declared evaluator and workflow paths; no change to branchless metadata or PR-based acceptance paths.",
-          "estimate_minutes": 5
+          "estimate_minutes": 5,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/147/files",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/9c1e6bd122c32c8d0c632f5f1f7a206447995942",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/9c1e6bd122c32c8d0c632f5f1f7a206447995942/.github/scripts/work-item-core.js",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/9c1e6bd122c32c8d0c632f5f1f7a206447995942/.github/workflows/farast-coordinator.yml"
+          ],
+          "validated_at_utc": "2026-11-28T05:52:28.969Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Implemented fail-closed checkpoint validation for same Work Item/RUN/actor/chat/fencing token, checkpoint-before-review chronology and owner-lease validity, completeness, version and live progress snapshot; wired the issue-keyed checkpoint into the READ_ONLY evaluator. Exact diff is limited to declared paths."
         },
         {
           "step_id": "S4_REGRESSION",
