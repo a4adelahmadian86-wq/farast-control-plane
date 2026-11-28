@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5286,
+  "revision": 5287,
   "next_fencing_token": 234,
   "locks": [
     {
@@ -42753,6 +42753,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-28T11:01:28.252Z"
+    },
+    "7238272840": {
+      "response": "STEP ثبت شد: S6_HANDOFF; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; verified_steps=7/7.",
+      "response_posted": false,
+      "issue_number": 148,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-28T11:01:47.298Z"
     }
   },
   "work_items": {
@@ -55310,7 +55319,16 @@
           "weight": 1,
           "expected_output": "A review-ready PR, exact-head evidence, rollback note and next action for the broader Reader work after overlapping teammate PRs are resolved.",
           "evidence_requirement": "PR URL/head SHA, CI URL, checkpoint URL, active lease read-back and confirmation of no merge/deployment/release.",
-          "estimate_minutes": 2
+          "estimate_minutes": 2,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/non/pull/763",
+            "https://github.com/a4adelahmadian86-wq/non/actions/runs/46137163203",
+            "https://github.com/a4adelahmadian86-wq/non/commit/025b2207a9f98c747c4836287fffd49229b5e555"
+          ],
+          "validated_at_utc": "2026-11-28T11:01:47.298Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "acceptance_criteria": [
