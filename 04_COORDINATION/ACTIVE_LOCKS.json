@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5367,
+  "revision": 5368,
   "next_fencing_token": 236,
   "locks": [
     {
@@ -43377,7 +43377,7 @@
     },
     "7238647244": {
       "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-EXP07-GAP-DELTA-REVALIDATION-20261128-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=The dated EXP-07 delta report is published at https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/149#issuecomment-7238553878 and all 7 steps/5 criteria are PASS. Submit Issue #149 for independent review; reviewer must verify source links, local-AI mismatch, GAP classifications and no-write boundary. Do not accept until independent review passes.; remaining_steps=.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 149,
       "actor": "a4adelahmadian86-wq",
       "command": "checkpoint",
