@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5398,
+  "revision": 5399,
   "next_fencing_token": 237,
   "locks": [
     {
@@ -43580,6 +43580,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-28T11:51:21.686Z"
+    },
+    "7238824715": {
+      "response": "معیار پذیرش ثبت شد: AC_OUTPUT; ACCEPTANCE_PROGRESS=75%; OVERALL_COMPLETION=75%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 27,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-28T11:51:30.975Z"
     }
   },
   "work_items": {
@@ -45762,7 +45771,14 @@
         {
           "criterion_id": "AC_OUTPUT",
           "title": "خروجی‌های تخصصی EXP-15 تولید و read-back شده‌اند: target architecture options، ADR، migration roadmap، decision log.",
-          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion."
+          "evidence_requirement": "Criterion PASS requires direct evidence_refs to a reproducible artifact, test/run or source; no chat-only assertion.",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/27#issuecomment-7238823150"
+          ],
+          "validated_at_utc": "2026-11-28T11:51:30.974Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_ACCEPTANCE",
