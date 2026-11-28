@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5198,
+  "revision": 5199,
   "next_fencing_token": 231,
   "locks": [
     {
@@ -41995,7 +41995,7 @@
     },
     "7235012649": {
       "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-GOAL-ALLOCATOR-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=No new eligible G-09 leaf at the 2026-11-28 queue scan. Wait for owner/coordinator decisions on PRs #134/#138/#139/#147, safe #106 provenance recovery, or an independent account for #140; then rescan. Do not create duplicates or merge.; remaining_steps=.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 11,
       "actor": "a4adelahmadian86-wq",
       "command": "checkpoint",
