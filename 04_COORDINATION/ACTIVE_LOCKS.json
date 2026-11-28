@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5444,
+  "revision": 5445,
   "next_fencing_token": 238,
   "locks": [
     {
@@ -43964,7 +43964,7 @@
     },
     "7239160960": {
       "response": "بازگشایی/رفع انسداد رد شد؛ گیت سخت پاس نشده یا حل‌نشده است: repository_write_scope_mismatch,operation_scope_mismatch:product_implementation:EXP-15,operation_prerequisite_not_accepted:architecture_implementation:WI-EXP15-TARGET-ARCHITECTURE-001:REVIEW_REQUIRED",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 150,
       "actor": "a4adelahmadian86-wq",
       "command": "unblock",
