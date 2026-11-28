@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5292,
+  "revision": 5293,
   "next_fencing_token": 234,
   "locks": [
     {
@@ -42792,6 +42792,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-28T11:02:16.132Z"
+    },
+    "7238285101": {
+      "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-READER-TOOLBAR-ICONOGRAPHY-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=Await owner review of PR #763; do not merge or deploy. After overlapping Reader PRs #222/#218/#210/#167/#153/#156 are resolved, create a separate scoped Work Item for faithful paid-PDF page rendering from durable upload-time artifacts, preserving extracted search text and private read-only access.; remaining_steps=.",
+      "response_posted": false,
+      "issue_number": 148,
+      "actor": "a4adelahmadian86-wq",
+      "command": "checkpoint",
+      "next_status": null,
+      "at_utc": "2026-11-28T11:02:39.217Z"
     }
   },
   "work_items": {
@@ -56985,6 +56994,56 @@
         "lease_expires_at_utc": "2026-11-28T06:25:07.236Z"
       },
       "next_action": "Await owner review of PR147; keep PR open; do not merge because this Work Item does not request control_plane_merge. Resume only after owner review or a separately authorized merge decision."
+    },
+    "148": {
+      "work_item_id": "WI-READER-TOOLBAR-ICONOGRAPHY-001",
+      "run_id": "RUN-READER-TOOLBAR-20261128-01",
+      "checkpoint_version": 1,
+      "created_at_utc": "2026-11-28T11:02:39.217Z",
+      "last_verified_step_id": "S6_HANDOFF",
+      "current_step_id": "S6_HANDOFF",
+      "completed_step_ids": [
+        "S0_BASELINE",
+        "S1_ROOT_CAUSE",
+        "S2_IMPLEMENT",
+        "S3_REGRESSION",
+        "S4_SCOPE_REVIEW",
+        "S5_EXACT_HEAD_CI",
+        "S6_HANDOFF"
+      ],
+      "remaining_step_ids": [],
+      "progress_percentage": 100,
+      "execution_progress_percentage": 100,
+      "acceptance_progress_percentage": 100,
+      "overall_completion_percentage": 100,
+      "progress_calculation_version": "PROGRESS_V2",
+      "required_step_counts": {
+        "pass": 7,
+        "fail": 0,
+        "blocked": 0,
+        "unknown": 0,
+        "not_run": 0
+      },
+      "acceptance_criteria_counts": {
+        "pass": 4,
+        "fail": 0,
+        "blocked": 0,
+        "unknown": 0,
+        "not_run": 0
+      },
+      "evidence_refs": [
+        "https://github.com/a4adelahmadian86-wq/non/pull/763",
+        "https://github.com/a4adelahmadian86-wq/non/actions/runs/46137163203",
+        "https://github.com/a4adelahmadian86-wq/non/commit/025b2207a9f98c747c4836287fffd49229b5e555"
+      ],
+      "blockers": [],
+      "owner": {
+        "actor": "a4adelahmadian86-wq",
+        "chat_id": "e346d0ec68b84bcd9abe02cd9db8f969",
+        "fencing_token": 233,
+        "lease_expires_at_utc": "2026-11-28T11:32:16.132Z"
+      },
+      "next_action": "Await owner review of PR #763; do not merge or deploy. After overlapping Reader PRs #222/#218/#210/#167/#153/#156 are resolved, create a separate scoped Work Item for faithful paid-PDF page rendering from durable upload-time artifacts, preserving extracted search text and private read-only access."
     }
   },
   "inbox_scheduler": {
