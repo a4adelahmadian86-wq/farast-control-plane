@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5338,
+  "revision": 5339,
   "next_fencing_token": 236,
   "locks": [
     {
@@ -43164,6 +43164,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-28T11:27:26.510Z"
+    },
+    "7238566436": {
+      "response": "STEP ثبت شد: S5_REMEDIATION_ROUTING; EXECUTION_PROGRESS=85.71%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=6/7.",
+      "response_posted": false,
+      "issue_number": 149,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-28T11:27:52.924Z"
     }
   },
   "work_items": {
@@ -55961,7 +55970,14 @@
           "title": "Cross-check existing remediation ownership and avoid duplicate tasks",
           "required": true,
           "expected_output": "No-duplicate remediation routing matrix",
-          "evidence_requirement": "Current Issues/PRs and duplicate search"
+          "evidence_requirement": "Current Issues/PRs and duplicate search",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/149#issuecomment-7238553878"
+          ],
+          "validated_at_utc": "2026-11-28T11:27:52.924Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S6_REPORT_VERIFY",
