@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5197,
+  "revision": 5198,
   "next_fencing_token": 231,
   "locks": [
     {
@@ -41992,6 +41992,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-28T05:58:55.100Z"
+    },
+    "7235012649": {
+      "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-GOAL-ALLOCATOR-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=No new eligible G-09 leaf at the 2026-11-28 queue scan. Wait for owner/coordinator decisions on PRs #134/#138/#139/#147, safe #106 provenance recovery, or an independent account for #140; then rescan. Do not create duplicates or merge.; remaining_steps=.",
+      "response_posted": false,
+      "issue_number": 11,
+      "actor": "a4adelahmadian86-wq",
+      "command": "checkpoint",
+      "next_status": null,
+      "at_utc": "2026-11-28T05:59:59.817Z"
     }
   },
   "work_items": {
@@ -54418,9 +54427,9 @@
     },
     "11": {
       "work_item_id": "WI-GOAL-ALLOCATOR-001",
-      "run_id": "RUN-PR07-G09-ALLOCATOR-20261128-01",
+      "run_id": "RUN-PR07-G09-ALLOCATOR-20261128-02",
       "checkpoint_version": 1,
-      "created_at_utc": "2026-11-28T05:43:24.450Z",
+      "created_at_utc": "2026-11-28T05:59:59.816Z",
       "last_verified_step_id": "S5_RELEASE",
       "current_step_id": "S5_RELEASE",
       "completed_step_ids": [
@@ -54451,17 +54460,22 @@
         "not_run": 0
       },
       "evidence_refs": [
-        "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/146",
-        "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/46113221512"
+        "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/11#issuecomment-7235012268",
+        "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/86",
+        "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/125",
+        "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/134",
+        "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/138",
+        "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/139",
+        "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/147"
       ],
       "blockers": [],
       "owner": {
         "actor": "a4adelahmadian86-wq",
         "chat_id": "6f4fd54643a2788bfd97ad2b9147d376",
-        "fencing_token": 227,
-        "lease_expires_at_utc": "2026-11-28T06:08:57.568Z"
+        "fencing_token": 230,
+        "lease_expires_at_utc": "2026-11-28T06:28:55.100Z"
       },
-      "next_action": "Allocator verified and created Issue #146 (WI-READONLY-ACCEPTANCE-CHECKPOINT-001), now agent:ready with valid provenance. Release this allocator lease, then claim Issue #146 with a fresh RUN_ID and implement only its declared control-plane files; do not merge."
+      "next_action": "No new eligible G-09 leaf at the 2026-11-28 queue scan. Wait for owner/coordinator decisions on PRs #134/#138/#139/#147, safe #106 provenance recovery, or an independent account for #140; then rescan. Do not create duplicates or merge."
     },
     "13": {
       "work_item_id": "WI-EXP01-BASELINE-001",
