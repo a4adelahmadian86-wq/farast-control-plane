@@ -1,57 +1,8 @@
 {
   "schema_version": "1.0",
-  "revision": 5294,
+  "revision": 5295,
   "next_fencing_token": 234,
-  "locks": [
-    {
-      "resource_key": "file:public/css/farast-reader.css",
-      "issue_number": 148,
-      "task_id": "GH-148",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "e346d0ec68b84bcd9abe02cd9db8f969",
-      "chat_id": "e346d0ec68b84bcd9abe02cd9db8f969",
-      "run_id": "RUN-READER-TOOLBAR-20261128-01",
-      "target_repository": "a4adelahmadian86-wq/non",
-      "branch": "work/GH-148-RUN-READER-TOOLBAR-20261128-01",
-      "acquired_at_utc": "2026-11-28T10:48:43.245Z",
-      "heartbeat_at_utc": "2026-11-28T11:02:16.132Z",
-      "lease_expires_at_utc": "2026-11-28T11:32:16.132Z",
-      "fencing_token": 233,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "file:tests/Feature/ReaderToolbarIconographyTest.php",
-      "issue_number": 148,
-      "task_id": "GH-148",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "e346d0ec68b84bcd9abe02cd9db8f969",
-      "chat_id": "e346d0ec68b84bcd9abe02cd9db8f969",
-      "run_id": "RUN-READER-TOOLBAR-20261128-01",
-      "target_repository": "a4adelahmadian86-wq/non",
-      "branch": "work/GH-148-RUN-READER-TOOLBAR-20261128-01",
-      "acquired_at_utc": "2026-11-28T10:48:43.245Z",
-      "heartbeat_at_utc": "2026-11-28T11:02:16.132Z",
-      "lease_expires_at_utc": "2026-11-28T11:32:16.132Z",
-      "fencing_token": 233,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "module:reader-toolbar-iconography",
-      "issue_number": 148,
-      "task_id": "GH-148",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "e346d0ec68b84bcd9abe02cd9db8f969",
-      "chat_id": "e346d0ec68b84bcd9abe02cd9db8f969",
-      "run_id": "RUN-READER-TOOLBAR-20261128-01",
-      "target_repository": "a4adelahmadian86-wq/non",
-      "branch": "work/GH-148-RUN-READER-TOOLBAR-20261128-01",
-      "acquired_at_utc": "2026-11-28T10:48:43.245Z",
-      "heartbeat_at_utc": "2026-11-28T11:02:16.132Z",
-      "lease_expires_at_utc": "2026-11-28T11:32:16.132Z",
-      "fencing_token": 233,
-      "status": "ACTIVE"
-    }
-  ],
+  "locks": [],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -20482,6 +20433,17 @@
       "target_repository": "a4adelahmadian86-wq/non",
       "lease_expires_at_utc": "2026-11-28T11:32:16.132Z",
       "at_utc": "2026-11-28T11:02:16.132Z"
+    },
+    {
+      "event": "REVIEW",
+      "issue_number": 148,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "e346d0ec68b84bcd9abe02cd9db8f969",
+      "run_id": "RUN-READER-TOOLBAR-20261128-01",
+      "fencing_token": 233,
+      "branch": "work/GH-148-RUN-READER-TOOLBAR-20261128-01",
+      "target_repository": "a4adelahmadian86-wq/non",
+      "at_utc": "2026-11-28T11:03:00.491Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -42801,6 +42763,15 @@
       "command": "checkpoint",
       "next_status": null,
       "at_utc": "2026-11-28T11:02:39.217Z"
+    },
+    "7238291966": {
+      "response": "پیاده‌سازی برای اجرای گیت‌های ماشینی و پذیرش خودکار تحویل شد؛ این فرمان به‌تنهایی پذیرش نیست.",
+      "response_posted": false,
+      "issue_number": 148,
+      "actor": "a4adelahmadian86-wq",
+      "command": "review",
+      "next_status": "review",
+      "at_utc": "2026-11-28T11:03:00.492Z"
     }
   },
   "work_items": {
