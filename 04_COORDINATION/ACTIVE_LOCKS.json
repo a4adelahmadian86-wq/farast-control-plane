@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5173,
+  "revision": 5174,
   "next_fencing_token": 230,
   "locks": [
     {
@@ -41856,6 +41856,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-28T05:53:23.428Z"
+    },
+    "7234947396": {
+      "response": "معیار پذیرش ثبت شد: AC_CHECKPOINT_REQUIRED; ACCEPTANCE_PROGRESS=25%; OVERALL_COMPLETION=25%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 146,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-28T05:53:31.935Z"
     }
   },
   "work_items": {
@@ -54161,7 +54170,16 @@
           "title": "READ_ONLY evidence-only acceptance fails closed when the issue has no checkpoint.",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "Regression test proving a fully evidenced READ_ONLY Work Item with a valid REVIEW event but no checkpoint is rejected."
+          "evidence_requirement": "Regression test proving a fully evidenced READ_ONLY Work Item with a valid REVIEW event but no checkpoint is rejected.",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/46113712862",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/46113995582",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/9c1e6bd122c32c8d0c632f5f1f7a206447995942/.github/scripts/work-item-core.test.js"
+          ],
+          "validated_at_utc": "2026-11-28T05:53:31.934Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "The baseline red run demonstrated acceptance without a checkpoint; the exact-head regression now proves missing checkpoint is rejected while a valid checkpoint passes."
         },
         {
           "criterion_id": "AC_CHECKPOINT_BOUND",
