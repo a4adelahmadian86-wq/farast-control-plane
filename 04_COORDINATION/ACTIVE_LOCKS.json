@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5279,
+  "revision": 5280,
   "next_fencing_token": 234,
   "locks": [
     {
@@ -42696,7 +42696,7 @@
     },
     "7238264055": {
       "response": "STEP ثبت شد: S5_EXACT_HEAD_CI; EXECUTION_PROGRESS=85.71%; ACCEPTANCE_PROGRESS=75%; OVERALL_COMPLETION=75%; verified_steps=6/7.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 148,
       "actor": "a4adelahmadian86-wq",
       "command": "step",
