@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5131,
+  "revision": 5132,
   "next_fencing_token": 230,
   "locks": [
     {
@@ -41547,7 +41547,7 @@
     },
     "7234857881": {
       "response": "CLAIM GRANTED. TASK=GH-146; WORK_ITEM_ID=WI-READONLY-ACCEPTANCE-CHECKPOINT-001; verified_steps=; remaining_steps=S0_BASELINE,S1_REPRODUCE,S2_DEFINE_CONTRACT,S3_IMPLEMENT_GATE,S4_REGRESSION,S5_EXACT_HEAD_CI,S6_HANDOFF; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; actor=@a4adelahmadian86-wq; chat=6f4fd54643a2788bfd97ad2b9147d376; run=RUN-PR07-G09-READONLY-CHECKPOINT-20261128-01; resource_keys=file:.github/scripts/work-item-core.js,file:.github/scripts/work-item-core.test.js,file:.github/workflows/farast-coordinator.yml,module:readonly-acceptance-checkpoint-gate; target_repository=a4adelahmadian86-wq/farast-control-plane; write_policy=WRITE_ALLOWED; branch=work/GH-146-RUN-PR07-G09-READONLY-CHECKPOINT-20261128-01; previous_run=none; fencing_token=229; lease_expires=2026-11-28T06:14:53.300Z. این Work Item با سیاست WRITE_ALLOWED است؛ branch را فقط در target_repository ثبت‌شده بساز و قبل از هر write heartbeat/token را دوباره تأیید کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز و branch قبلی را تغییر نده.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 146,
       "actor": "a4adelahmadian86-wq",
       "command": "claim",
