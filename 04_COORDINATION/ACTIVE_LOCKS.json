@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5433,
+  "revision": 5434,
   "next_fencing_token": 238,
   "locks": [
     {
@@ -43864,6 +43864,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-28T12:16:43.643Z"
+    },
+    "7239123496": {
+      "response": "فرمان رد شد: تخصیص این Work Item با lease معتبر Issue #11 قابل اثبات نیست؛ Invalid Work item specification JSON in Issue #150: Stable Work Item ID does not match JSON. ابتدا فقط از مسیر allocator مجاز و با provenance دقیق اقدام کنید.",
+      "response_posted": false,
+      "issue_number": 150,
+      "actor": "a4adelahmadian86-wq",
+      "command": "unblock",
+      "next_status": "blocked",
+      "at_utc": "2026-11-28T12:17:30.004Z"
     }
   },
   "work_items": {
