@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5405,
+  "revision": 5406,
   "next_fencing_token": 237,
   "locks": [
     {
@@ -43622,7 +43622,7 @@
     },
     "7238838872": {
       "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-EXP15-TARGET-ARCHITECTURE-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=ثبت review برای Work Item فقط‌خواندنی، read-back وضعیت REVIEW_REQUIRED و آزادشدن lease؛ PR محصول نساز چون write_policy=READ_ONLY است.; remaining_steps=.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 27,
       "actor": "a4adelahmadian86-wq",
       "command": "checkpoint",
