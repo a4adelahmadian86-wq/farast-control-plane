@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5305,
+  "revision": 5306,
   "next_fencing_token": 235,
   "locks": [
     {
@@ -42878,7 +42878,7 @@
     },
     "7238393895": {
       "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-GOAL-ALLOCATOR-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=Issue #149 WI-EXP07-GAP-DELTA-REVALIDATION-20261128-001 was created, its allocation provenance was read-back and WORK_ITEM_ALLOCATED recorded, and it is agent:ready. Release allocator token 234; then claim Issue #149 with a fresh RUN_ID and branch=none, perform only READ_ONLY analysis, and publish the dated delta report there.; remaining_steps=.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 11,
       "actor": "a4adelahmadian86-wq",
       "command": "checkpoint",
