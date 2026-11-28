@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5350,
+  "revision": 5351,
   "next_fencing_token": 236,
   "locks": [
     {
@@ -43254,6 +43254,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-28T11:30:45.312Z"
+    },
+    "7238602673": {
+      "response": "معیار پذیرش ثبت شد: AC_STATUS_DISCIPLINE; ACCEPTANCE_PROGRESS=40%; OVERALL_COMPLETION=40%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 149,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-28T11:31:06.228Z"
     }
   },
   "work_items": {
@@ -56093,7 +56102,14 @@
           "criterion_id": "AC_STATUS_DISCIPLINE",
           "title": "Resolved status requires current implementation plus passing test/runtime evidence; skipped CI is not PASS",
           "required": true,
-          "evidence_requirement": "Exact file/commit/test/run URLs and PASS/SKIPPED/NOT VERIFIED distinctions"
+          "evidence_requirement": "Exact file/commit/test/run URLs and PASS/SKIPPED/NOT VERIFIED distinctions",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/149#issuecomment-7238553878"
+          ],
+          "validated_at_utc": "2026-11-28T11:31:06.227Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_ROOT_CAUSE",
