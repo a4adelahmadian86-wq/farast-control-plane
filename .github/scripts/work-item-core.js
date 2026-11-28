@@ -601,7 +601,7 @@ function readOnlyCheckpointBlockers(item, options, handoff, progress) {
     blockers.push('checkpoint_review_chronology_invalid');
   }
   const ownerLeaseExpiry = Date.parse(owner?.lease_expires_at_utc || '');
-  if (!Number.isFinite(ownerLeaseExpiry) || !Number.isFinite(checkpointTime) || checkpointTime > ownerLeaseExpiry) {
+  if (!Number.isFinite(ownerLeaseExpiry) || !Number.isFinite(checkpointTime) || checkpointTime >= ownerLeaseExpiry) {
     blockers.push('checkpoint_owner_lease_invalid');
   }
 
