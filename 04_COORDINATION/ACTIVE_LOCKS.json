@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5139,
+  "revision": 5140,
   "next_fencing_token": 230,
   "locks": [
     {
@@ -41595,6 +41595,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-28T05:46:33.151Z"
+    },
+    "7234880031": {
+      "response": "STEP ثبت شد: S0_BASELINE; EXECUTION_PROGRESS=14.28%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=1/7.",
+      "response_posted": false,
+      "issue_number": 146,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-28T05:47:01.149Z"
     }
   },
   "work_items": {
@@ -53739,7 +53748,7 @@
         "branch": null,
         "allocated_at_utc": "2026-11-28T05:41:09.637Z"
       },
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "module:readonly-acceptance-checkpoint-gate",
@@ -53771,7 +53780,20 @@
           "weight": 1,
           "expected_output": "A source manifest and current acceptance-flow map tied to one main SHA, identifying the evaluator, workflow call site, checkpoint state and existing regression tests.",
           "evidence_requirement": "Exact main SHA, file SHAs/line ranges, Issue #19 GAP-23 reference, Issue #62 acceptance contract and related Issue #107/#106 scope read-backs.",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/1d80a4938320118bb48289a149135d324f7c8b34",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/1d80a4938320118bb48289a149135d324f7c8b34/.github/scripts/work-item-core.js#L565-L587",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/1d80a4938320118bb48289a149135d324f7c8b34/.github/scripts/work-item-core.test.js#L486-L548",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/19#issuecomment-7131851028",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/62",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/125",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/compare/main...work/GH-146-RUN-PR07-G09-READONLY-CHECKPOINT-20261128-01"
+          ],
+          "validated_at_utc": "2026-11-28T05:47:01.148Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Baseline frozen at main 1d80a493; branch compare is identical; evaluator and positive READ_ONLY test omit checkpoint; workflow call site does not pass state.checkpoints; related issues/PRs checked for non-duplication."
         },
         {
           "step_id": "S1_REPRODUCE",
