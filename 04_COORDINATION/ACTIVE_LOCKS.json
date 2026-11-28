@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5404,
+  "revision": 5405,
   "next_fencing_token": 237,
   "locks": [
     {
@@ -43619,6 +43619,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-28T11:52:10.048Z"
+    },
+    "7238838872": {
+      "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-EXP15-TARGET-ARCHITECTURE-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=ثبت review برای Work Item فقط‌خواندنی، read-back وضعیت REVIEW_REQUIRED و آزادشدن lease؛ PR محصول نساز چون write_policy=READ_ONLY است.; remaining_steps=.",
+      "response_posted": false,
+      "issue_number": 27,
+      "actor": "a4adelahmadian86-wq",
+      "command": "checkpoint",
+      "next_status": null,
+      "at_utc": "2026-11-28T11:52:32.794Z"
     }
   },
   "work_items": {
@@ -56862,6 +56871,52 @@
         "lease_expires_at_utc": "2026-11-28T06:04:36.436Z"
       },
       "next_action": "AC_ACCEPTANCE remains pending; preserve the protocol deviation for non#761, do not merge it, and continue with the read-only target architecture work item EXP-15."
+    },
+    "27": {
+      "work_item_id": "WI-EXP15-TARGET-ARCHITECTURE-001",
+      "run_id": "RUN-PR13-EXP15-RESUME-20261128-01",
+      "checkpoint_version": 1,
+      "created_at_utc": "2026-11-28T11:52:32.794Z",
+      "last_verified_step_id": "S7_VERIFY",
+      "current_step_id": "S7_VERIFY",
+      "completed_step_ids": [
+        "S1_DISCOVER",
+        "S2_MAP",
+        "S3_ANALYZE",
+        "S4_CROSSCHECK",
+        "S5_ASSESS",
+        "S6_REPORT",
+        "S7_VERIFY"
+      ],
+      "remaining_step_ids": [],
+      "progress_percentage": 100,
+      "execution_progress_percentage": 100,
+      "acceptance_progress_percentage": 100,
+      "overall_completion_percentage": 100,
+      "progress_calculation_version": "PROGRESS_V2",
+      "required_step_counts": {
+        "pass": 7,
+        "fail": 0,
+        "blocked": 0,
+        "unknown": 0,
+        "not_run": 0
+      },
+      "acceptance_criteria_counts": {
+        "pass": 4,
+        "fail": 0,
+        "blocked": 0,
+        "unknown": 0,
+        "not_run": 0
+      },
+      "evidence_refs": [],
+      "blockers": [],
+      "owner": {
+        "actor": "a4adelahmadian86-wq",
+        "chat_id": "chat-2b973395dc16471e8ddaadf2b609dab5",
+        "fencing_token": 236,
+        "lease_expires_at_utc": "2026-11-28T12:22:10.048Z"
+      },
+      "next_action": "ثبت review برای Work Item فقط‌خواندنی، read-back وضعیت REVIEW_REQUIRED و آزادشدن lease؛ PR محصول نساز چون write_policy=READ_ONLY است."
     },
     "33": {
       "work_item_id": "WI-EXP21-CHANGE-PACKAGE-001",
