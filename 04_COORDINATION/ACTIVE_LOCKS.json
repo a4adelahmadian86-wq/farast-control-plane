@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5185,
+  "revision": 5186,
   "next_fencing_token": 230,
   "locks": [
     {
@@ -41934,6 +41934,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-28T05:55:07.236Z"
+    },
+    "7234964678": {
+      "response": "STEP ثبت شد: S6_HANDOFF; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; verified_steps=7/7.",
+      "response_posted": false,
+      "issue_number": 146,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-28T05:55:15.588Z"
     }
   },
   "work_items": {
@@ -54230,7 +54239,16 @@
           "weight": 1,
           "expected_output": "PR URL/head SHA, implementation summary, test evidence, rollback/stop conditions and next action; Work Item handed to review without merge.",
           "evidence_requirement": "PR and checkpoint URLs, current lock/lease read-back, confirmation that no PR merge, release, product or registry mutation occurred.",
-          "estimate_minutes": 2
+          "estimate_minutes": 2,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/147",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/46113995582",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/146"
+          ],
+          "validated_at_utc": "2026-11-28T05:55:15.587Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "PR147 is open and ready for review on exact head 9c1e6bd122c32c8d0c632f5f1f7a206447995942; all four criteria and exact-head CI pass; PR is not merged. Final checkpoint will be saved before REVIEW handoff; await owner review and do not merge."
         }
       ],
       "acceptance_criteria": [
