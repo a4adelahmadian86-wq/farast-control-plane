@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5278,
+  "revision": 5279,
   "next_fencing_token": 234,
   "locks": [
     {
@@ -42693,6 +42693,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-28T11:00:34.620Z"
+    },
+    "7238264055": {
+      "response": "STEP ثبت شد: S5_EXACT_HEAD_CI; EXECUTION_PROGRESS=85.71%; ACCEPTANCE_PROGRESS=75%; OVERALL_COMPLETION=75%; verified_steps=6/7.",
+      "response_posted": false,
+      "issue_number": 148,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-28T11:00:44.673Z"
     }
   },
   "work_items": {
@@ -55232,7 +55241,16 @@
           "weight": 1,
           "expected_output": "Successful focused regression, Laravel feature suite, and existing Reader browser smoke with all results tied to one exact head SHA.",
           "evidence_requirement": "Test command/output or CI run URL, exact PR head SHA, changed-file manifest and explicit PASS/FAIL/NOT_RUN status for each required suite.",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/non/actions/runs/46137163203",
+            "https://github.com/a4adelahmadian86-wq/non/actions/runs/46137163203/job/140955326026",
+            "https://github.com/a4adelahmadian86-wq/non/actions/runs/46137163203/job/140956412932"
+          ],
+          "validated_at_utc": "2026-11-28T11:00:44.672Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S6_HANDOFF",
