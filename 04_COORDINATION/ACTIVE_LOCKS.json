@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5191,
+  "revision": 5192,
   "next_fencing_token": 230,
   "locks": [
     {
@@ -17,70 +17,6 @@
       "heartbeat_at_utc": "2026-11-28T05:47:34.699Z",
       "lease_expires_at_utc": "2026-11-28T06:17:34.699Z",
       "fencing_token": 228,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "file:.github/scripts/work-item-core.js",
-      "issue_number": 146,
-      "task_id": "GH-146",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "6f4fd54643a2788bfd97ad2b9147d376",
-      "chat_id": "6f4fd54643a2788bfd97ad2b9147d376",
-      "run_id": "RUN-PR07-G09-READONLY-CHECKPOINT-20261128-01",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": "work/GH-146-RUN-PR07-G09-READONLY-CHECKPOINT-20261128-01",
-      "acquired_at_utc": "2026-11-28T05:44:53.300Z",
-      "heartbeat_at_utc": "2026-11-28T05:55:55.703Z",
-      "lease_expires_at_utc": "2026-11-28T06:25:55.703Z",
-      "fencing_token": 229,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "file:.github/scripts/work-item-core.test.js",
-      "issue_number": 146,
-      "task_id": "GH-146",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "6f4fd54643a2788bfd97ad2b9147d376",
-      "chat_id": "6f4fd54643a2788bfd97ad2b9147d376",
-      "run_id": "RUN-PR07-G09-READONLY-CHECKPOINT-20261128-01",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": "work/GH-146-RUN-PR07-G09-READONLY-CHECKPOINT-20261128-01",
-      "acquired_at_utc": "2026-11-28T05:44:53.300Z",
-      "heartbeat_at_utc": "2026-11-28T05:55:55.703Z",
-      "lease_expires_at_utc": "2026-11-28T06:25:55.703Z",
-      "fencing_token": 229,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "file:.github/workflows/farast-coordinator.yml",
-      "issue_number": 146,
-      "task_id": "GH-146",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "6f4fd54643a2788bfd97ad2b9147d376",
-      "chat_id": "6f4fd54643a2788bfd97ad2b9147d376",
-      "run_id": "RUN-PR07-G09-READONLY-CHECKPOINT-20261128-01",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": "work/GH-146-RUN-PR07-G09-READONLY-CHECKPOINT-20261128-01",
-      "acquired_at_utc": "2026-11-28T05:44:53.300Z",
-      "heartbeat_at_utc": "2026-11-28T05:55:55.703Z",
-      "lease_expires_at_utc": "2026-11-28T06:25:55.703Z",
-      "fencing_token": 229,
-      "status": "ACTIVE"
-    },
-    {
-      "resource_key": "module:readonly-acceptance-checkpoint-gate",
-      "issue_number": 146,
-      "task_id": "GH-146",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "6f4fd54643a2788bfd97ad2b9147d376",
-      "chat_id": "6f4fd54643a2788bfd97ad2b9147d376",
-      "run_id": "RUN-PR07-G09-READONLY-CHECKPOINT-20261128-01",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": "work/GH-146-RUN-PR07-G09-READONLY-CHECKPOINT-20261128-01",
-      "acquired_at_utc": "2026-11-28T05:44:53.300Z",
-      "heartbeat_at_utc": "2026-11-28T05:55:55.703Z",
-      "lease_expires_at_utc": "2026-11-28T06:25:55.703Z",
-      "fencing_token": 229,
       "status": "ACTIVE"
     }
   ],
@@ -20086,6 +20022,17 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "lease_expires_at_utc": "2026-11-28T06:25:55.703Z",
       "at_utc": "2026-11-28T05:55:55.703Z"
+    },
+    {
+      "event": "REVIEW",
+      "issue_number": 146,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "6f4fd54643a2788bfd97ad2b9147d376",
+      "run_id": "RUN-PR07-G09-READONLY-CHECKPOINT-20261128-01",
+      "fencing_token": 229,
+      "branch": "work/GH-146-RUN-PR07-G09-READONLY-CHECKPOINT-20261128-01",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "at_utc": "2026-11-28T05:56:16.150Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -41973,6 +41920,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-28T05:55:55.703Z"
+    },
+    "7234976011": {
+      "response": "پیاده‌سازی برای اجرای گیت‌های ماشینی و پذیرش خودکار تحویل شد؛ این فرمان به‌تنهایی پذیرش نیست.",
+      "response_posted": false,
+      "issue_number": 146,
+      "actor": "a4adelahmadian86-wq",
+      "command": "review",
+      "next_status": "review",
+      "at_utc": "2026-11-28T05:56:16.152Z"
     }
   },
   "work_items": {
@@ -54124,7 +54080,7 @@
         "branch": null,
         "allocated_at_utc": "2026-11-28T05:41:09.637Z"
       },
-      "status": "IN_PROGRESS",
+      "status": "REVIEW_REQUIRED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "module:readonly-acceptance-checkpoint-gate",
