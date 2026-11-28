@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5274,
+  "revision": 5275,
   "next_fencing_token": 234,
   "locks": [
     {
@@ -42663,6 +42663,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-28T10:59:35.083Z"
+    },
+    "7238251786": {
+      "response": "معیار پذیرش ثبت شد: AC_ACCESSIBILITY; ACCEPTANCE_PROGRESS=75%; OVERALL_COMPLETION=71.42%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 148,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-28T10:59:43.271Z"
     }
   },
   "work_items": {
@@ -55251,7 +55260,16 @@
           "title": "Every affected icon-only control retains its accessible aria-label and existing title/keyboard focus behavior; wide text actions remain readable.",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "Markup/CSS review and browser accessibility assertions for accessible names, focus-visible state and wide action labels."
+          "evidence_requirement": "Markup/CSS review and browser accessibility assertions for accessible names, focus-visible state and wide action labels.",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/non/blob/main/tests/browser/reader-experience.spec.js#L2264-L2282",
+            "https://github.com/a4adelahmadian86-wq/non/actions/runs/46137163203",
+            "https://github.com/a4adelahmadian86-wq/non/commit/025b2207a9f98c747c4836287fffd49229b5e555"
+          ],
+          "validated_at_utc": "2026-11-28T10:59:43.271Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_SCOPE_AND_CI",
