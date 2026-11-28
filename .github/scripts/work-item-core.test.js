@@ -491,6 +491,13 @@ test('READ_ONLY evidence-only acceptance passes after a valid review handoff wit
  assert.equal(result.progress.can_accept,true);
 });
 
+test('READ_ONLY evidence-only acceptance rejects a missing checkpoint even when all evidence is complete',()=>{
+ const x=fullyVerified(item());
+ const result=wi.evaluateReadOnlyAcceptance(x,{issueNumber:13,hasActiveLease:false,hardGatesReady:true,reviewEvent:readonlyReview});
+ assert.equal(result.ready,false);
+ assert.ok(result.blockers.includes('missing_checkpoint'));
+});
+
 test('READ_ONLY evidence-only acceptance fails closed while a lease is active',()=>{
  const x=fullyVerified(item());
  const result=wi.evaluateReadOnlyAcceptance(x,{issueNumber:13,hasActiveLease:true,hardGatesReady:true,reviewEvent:readonlyReview});
