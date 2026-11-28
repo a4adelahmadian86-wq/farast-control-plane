@@ -1,25 +1,8 @@
 {
   "schema_version": "1.0",
-  "revision": 5112,
+  "revision": 5113,
   "next_fencing_token": 227,
-  "locks": [
-    {
-      "resource_key": "analysis:exp-09",
-      "issue_number": 21,
-      "task_id": "GH-21",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "chat-ai-infra-20261128",
-      "chat_id": "chat-ai-infra-20261128",
-      "run_id": "RUN-20261128-EXP09-01",
-      "target_repository": "a4adelahmadian86-wq/non",
-      "branch": null,
-      "acquired_at_utc": "2026-11-28T05:34:36.436Z",
-      "heartbeat_at_utc": "2026-11-28T05:34:36.436Z",
-      "lease_expires_at_utc": "2026-11-28T06:04:36.436Z",
-      "fencing_token": 226,
-      "status": "ACTIVE"
-    }
-  ],
+  "locks": [],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -19737,6 +19720,17 @@
       "previous_run_id": null,
       "fencing_token": 226,
       "at_utc": "2026-11-28T05:34:36.436Z"
+    },
+    {
+      "event": "BLOCK",
+      "issue_number": 21,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "chat-ai-infra-20261128",
+      "run_id": "RUN-20261128-EXP09-01",
+      "fencing_token": 226,
+      "branch": null,
+      "target_repository": "a4adelahmadian86-wq/non",
+      "at_utc": "2026-11-28T05:38:40.887Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -41291,6 +41285,15 @@
       "command": "checkpoint",
       "next_status": null,
       "at_utc": "2026-11-28T05:37:47.350Z"
+    },
+    "7234793978": {
+      "response": "وظیفه مسدود شد و lease آزاد شد.",
+      "response_posted": false,
+      "issue_number": 21,
+      "actor": "a4adelahmadian86-wq",
+      "command": "block",
+      "next_status": "blocked",
+      "at_utc": "2026-11-28T05:38:40.889Z"
     }
   },
   "work_items": {
@@ -43115,7 +43118,7 @@
       "parent_exp_ids": [
         "EXP-09"
       ],
-      "status": "CLAIMED",
+      "status": "BLOCKED",
       "target_repository": "a4adelahmadian86-wq/non",
       "resource_keys": [
         "analysis:exp-09"
