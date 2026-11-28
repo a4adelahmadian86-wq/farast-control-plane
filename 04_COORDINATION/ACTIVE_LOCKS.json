@@ -1,25 +1,8 @@
 {
   "schema_version": "1.0",
-  "revision": 5406,
+  "revision": 5407,
   "next_fencing_token": 237,
-  "locks": [
-    {
-      "resource_key": "analysis:exp-15",
-      "issue_number": 27,
-      "task_id": "GH-27",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "chat-2b973395dc16471e8ddaadf2b609dab5",
-      "chat_id": "chat-2b973395dc16471e8ddaadf2b609dab5",
-      "run_id": "RUN-PR13-EXP15-RESUME-20261128-01",
-      "target_repository": "a4adelahmadian86-wq/non",
-      "branch": null,
-      "acquired_at_utc": "2026-11-28T11:46:49.969Z",
-      "heartbeat_at_utc": "2026-11-28T11:52:10.048Z",
-      "lease_expires_at_utc": "2026-11-28T12:22:10.048Z",
-      "fencing_token": 236,
-      "status": "ACTIVE"
-    }
-  ],
+  "locks": [],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -20814,6 +20797,17 @@
       "target_repository": "a4adelahmadian86-wq/non",
       "lease_expires_at_utc": "2026-11-28T12:22:10.048Z",
       "at_utc": "2026-11-28T11:52:10.048Z"
+    },
+    {
+      "event": "REVIEW",
+      "issue_number": 27,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "chat-2b973395dc16471e8ddaadf2b609dab5",
+      "run_id": "RUN-PR13-EXP15-RESUME-20261128-01",
+      "fencing_token": 236,
+      "branch": null,
+      "target_repository": "a4adelahmadian86-wq/non",
+      "at_utc": "2026-11-28T11:53:06.442Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -43628,6 +43622,15 @@
       "command": "checkpoint",
       "next_status": null,
       "at_utc": "2026-11-28T11:52:32.794Z"
+    },
+    "7238846130": {
+      "response": "پیاده‌سازی برای اجرای گیت‌های ماشینی و پذیرش خودکار تحویل شد؛ این فرمان به‌تنهایی پذیرش نیست.",
+      "response_posted": false,
+      "issue_number": 27,
+      "actor": "a4adelahmadian86-wq",
+      "command": "review",
+      "next_status": "review",
+      "at_utc": "2026-11-28T11:53:06.443Z"
     }
   },
   "work_items": {
