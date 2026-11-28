@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5177,
+  "revision": 5178,
   "next_fencing_token": 230,
   "locks": [
     {
@@ -41874,6 +41874,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-28T05:53:41.852Z"
+    },
+    "7234948180": {
+      "response": "معیار پذیرش ثبت شد: AC_CHECKPOINT_COMPLETE_CURRENT; ACCEPTANCE_PROGRESS=75%; OVERALL_COMPLETION=75%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 146,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-28T05:54:01.633Z"
     }
   },
   "work_items": {
@@ -54211,7 +54220,15 @@
           "title": "Checkpoint has no remaining required steps or blockers and its progress snapshot matches the live Work Item.",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "Regression tests reject incomplete, blocked and stale progress snapshots and accept a current complete checkpoint."
+          "evidence_requirement": "Regression tests reject incomplete, blocked and stale progress snapshots and accept a current complete checkpoint.",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/46113995582",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/9c1e6bd122c32c8d0c632f5f1f7a206447995942/.github/scripts/work-item-core.test.js"
+          ],
+          "validated_at_utc": "2026-11-28T05:54:01.632Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Tests reject a checkpoint after REVIEW, at/after owner lease expiry, with remaining steps or blockers, missing completed steps, or a stale live-progress snapshot."
         },
         {
           "criterion_id": "AC_SCOPE_AND_CI",
