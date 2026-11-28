@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5175,
+  "revision": 5176,
   "next_fencing_token": 230,
   "locks": [
     {
@@ -41865,6 +41865,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-28T05:53:31.935Z"
+    },
+    "7234947731": {
+      "response": "معیار پذیرش ثبت شد: AC_CHECKPOINT_BOUND; ACCEPTANCE_PROGRESS=50%; OVERALL_COMPLETION=50%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 146,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-28T05:53:41.852Z"
     }
   },
   "work_items": {
@@ -54186,7 +54195,16 @@
           "title": "Checkpoint is bound to the same Issue-scoped Work Item and the exact latest REVIEW run, actor, chat and fencing token, and predates the REVIEW event.",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "Tests for wrong Work Item, mismatched run/actor/chat/token and invalid checkpoint/review chronology; valid same-run binding passes."
+          "evidence_requirement": "Tests for wrong Work Item, mismatched run/actor/chat/token and invalid checkpoint/review chronology; valid same-run binding passes.",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/46113995582",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/9c1e6bd122c32c8d0c632f5f1f7a206447995942/.github/scripts/work-item-core.js",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/blob/9c1e6bd122c32c8d0c632f5f1f7a206447995942/.github/scripts/work-item-core.test.js"
+          ],
+          "validated_at_utc": "2026-11-28T05:53:41.852Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Tests reject a wrong Work Item ID, RUN_ID, owner actor, CHAT_ID and fencing token; the workflow supplies the checkpoint stored under this Issue number."
         },
         {
           "criterion_id": "AC_CHECKPOINT_COMPLETE_CURRENT",
