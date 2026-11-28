@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5374,
+  "revision": 5375,
   "next_fencing_token": 236,
   "locks": [],
   "history": [
@@ -20745,6 +20745,17 @@
       "hard_gate_ready": true,
       "hard_gate_blockers": [],
       "at_utc": "2026-11-28T11:37:53.728Z"
+    },
+    {
+      "event": "WORK_ITEM_REFRESHED",
+      "issue_number": 149,
+      "work_item_id": "WI-EXP07-GAP-DELTA-REVALIDATION-20261128-001",
+      "actor": "a4adelahmadian86-wq",
+      "preserved_steps": 7,
+      "preserved_criteria": 5,
+      "hard_gate_ready": true,
+      "hard_gate_blockers": [],
+      "at_utc": "2026-11-28T11:38:49.234Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -43415,6 +43426,15 @@
       "command": "refresh",
       "next_status": "review",
       "at_utc": "2026-11-28T11:37:53.747Z"
+    },
+    "7238686873": {
+      "response": "Work Item specification refreshed from Issue body; preserved_steps=7; preserved_criteria=5; hard_gates=PASS; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%.",
+      "response_posted": false,
+      "issue_number": 149,
+      "actor": "a4adelahmadian86-wq",
+      "command": "refresh",
+      "next_status": "review",
+      "at_utc": "2026-11-28T11:38:49.239Z"
     }
   },
   "work_items": {
@@ -56128,7 +56148,7 @@
         "Issue #126"
       ],
       "effort_estimate_minutes": 25,
-      "effort_rationale": "A bounded 25-minute revalidation of an existing accepted report against a known 12-commit mainline delta. The work produces a new dated evidence snapshot only; it does not repeat the original discovery or alter product code.",
+      "effort_rationale": "A bounded 25-minute revalidation of an existing accepted report against the 8-commit NON delta since the GAP-14..22 supplement. The work produces a new dated evidence snapshot only; it does not repeat the original discovery or alter product code.",
       "depth_profile": {
         "profile_version": "2.0.0",
         "min_substantive_steps": 6,
