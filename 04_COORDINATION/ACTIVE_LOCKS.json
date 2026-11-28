@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5134,
+  "revision": 5135,
   "next_fencing_token": 230,
   "locks": [
     {
@@ -55383,6 +55383,11 @@
         "reason": "Tree SHA does not exist",
         "count": 1,
         "last_seen_at_utc": "2026-11-21T12:04:46.865Z"
+      },
+      "27": {
+        "reason": "registry_cas_conflict: another Issue advanced the shared registry; this command remains durable and must be replayed. latest=76de3597b453e7da8c9c30e6d335cbf7e9bde88c; cause=Update is not a fast forward",
+        "count": 1,
+        "last_seen_at_utc": "2026-11-28T05:45:28.315Z"
       },
       "50": {
         "reason": "Invalid Work item specification JSON in Issue #50: Resource keys do not match JSON",
