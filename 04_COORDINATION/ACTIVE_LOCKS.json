@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5228,
+  "revision": 5229,
   "next_fencing_token": 233,
   "locks": [
     {
@@ -42250,6 +42250,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-28T10:47:22.032Z"
+    },
+    "7238126038": {
+      "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-GOAL-ALLOCATOR-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=Reader Work Item #148 is owner-authored, has exact owner_approval_ref and verified WORK_ITEM_ALLOCATED provenance, and is agent:ready. Release allocator token 232, then claim Issue #148 with a fresh RUN_ID; only after CLAIM GRANTED and lock read-back create its dedicated branch from the latest verified NON main SHA and implement the declared CSS/test scope.; remaining_steps=.",
+      "response_posted": false,
+      "issue_number": 11,
+      "actor": "a4adelahmadian86-wq",
+      "command": "checkpoint",
+      "next_status": null,
+      "at_utc": "2026-11-28T10:47:41.271Z"
     }
   },
   "work_items": {
@@ -54845,9 +54854,9 @@
     },
     "11": {
       "work_item_id": "WI-GOAL-ALLOCATOR-001",
-      "run_id": "RUN-PR07-G09-ALLOCATOR-20261128-02",
+      "run_id": "RUN-READER-START-20261128-01",
       "checkpoint_version": 1,
-      "created_at_utc": "2026-11-28T05:59:59.816Z",
+      "created_at_utc": "2026-11-28T10:47:41.270Z",
       "last_verified_step_id": "S5_RELEASE",
       "current_step_id": "S5_RELEASE",
       "completed_step_ids": [
@@ -54878,22 +54887,17 @@
         "not_run": 0
       },
       "evidence_refs": [
-        "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/11#issuecomment-7235012268",
-        "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/86",
-        "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/125",
-        "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/134",
-        "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/138",
-        "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/139",
-        "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/147"
+        "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/148",
+        "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/148#issuecomment-7238119041"
       ],
       "blockers": [],
       "owner": {
         "actor": "a4adelahmadian86-wq",
-        "chat_id": "6f4fd54643a2788bfd97ad2b9147d376",
-        "fencing_token": 230,
-        "lease_expires_at_utc": "2026-11-28T06:28:55.100Z"
+        "chat_id": "e346d0ec68b84bcd9abe02cd9db8f969",
+        "fencing_token": 232,
+        "lease_expires_at_utc": "2026-11-28T11:17:22.032Z"
       },
-      "next_action": "No new eligible G-09 leaf at the 2026-11-28 queue scan. Wait for owner/coordinator decisions on PRs #134/#138/#139/#147, safe #106 provenance recovery, or an independent account for #140; then rescan. Do not create duplicates or merge."
+      "next_action": "Reader Work Item #148 is owner-authored, has exact owner_approval_ref and verified WORK_ITEM_ALLOCATED provenance, and is agent:ready. Release allocator token 232, then claim Issue #148 with a fresh RUN_ID; only after CLAIM GRANTED and lock read-back create its dedicated branch from the latest verified NON main SHA and implement the declared CSS/test scope."
     },
     "13": {
       "work_item_id": "WI-EXP01-BASELINE-001",
