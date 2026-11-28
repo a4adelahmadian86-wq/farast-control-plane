@@ -521,12 +521,14 @@ test('READ_ONLY evidence-only acceptance binds the checkpoint to the same Work I
  assert.ok(wrongToken.blockers.includes('checkpoint_review_fencing_token_mismatch'));
 });
 
-test('READ_ONLY evidence-only acceptance rejects checkpoints created after REVIEW or outside their owner lease',()=>{
+test('READ_ONLY evidence-only acceptance rejects checkpoints created after REVIEW or at/after owner lease expiry',()=>{
  const x=fullyVerified(item());
  const afterReview=wi.evaluateReadOnlyAcceptance(x,{issueNumber:13,hasActiveLease:false,hardGatesReady:true,reviewEvent:readonlyReview,checkpoint:readonlyCheckpoint(x,{created_at_utc:'2026-01-01T00:50:00Z'})});
  const expiredLease=wi.evaluateReadOnlyAcceptance(x,{issueNumber:13,hasActiveLease:false,hardGatesReady:true,reviewEvent:readonlyReview,checkpoint:readonlyCheckpoint(x,{owner:{lease_expires_at_utc:'2026-01-01T00:20:00Z'}})});
+ const atExpiry=wi.evaluateReadOnlyAcceptance(x,{issueNumber:13,hasActiveLease:false,hardGatesReady:true,reviewEvent:readonlyReview,checkpoint:readonlyCheckpoint(x,{owner:{lease_expires_at_utc:'2026-01-01T00:30:00.000Z'}})});
  assert.ok(afterReview.blockers.includes('checkpoint_review_chronology_invalid'));
  assert.ok(expiredLease.blockers.includes('checkpoint_owner_lease_invalid'));
+ assert.ok(atExpiry.blockers.includes('checkpoint_owner_lease_invalid'));
 });
 
 test('READ_ONLY evidence-only acceptance rejects incomplete, blocked and stale checkpoint snapshots',()=>{
