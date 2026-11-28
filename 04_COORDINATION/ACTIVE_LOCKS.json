@@ -1,25 +1,8 @@
 {
   "schema_version": "1.0",
-  "revision": 5211,
+  "revision": 5212,
   "next_fencing_token": 232,
-  "locks": [
-    {
-      "resource_key": "analysis:cp-07-goal-progress-aggregation",
-      "issue_number": 128,
-      "task_id": "GH-128",
-      "actor": "a4adelahmadian86-wq",
-      "agent_alias": "d4f0b8a7e6c14f23a9b51d7c2e8046f1",
-      "chat_id": "d4f0b8a7e6c14f23a9b51d7c2e8046f1",
-      "run_id": "RUN-PR07-G09-CP07-AUDIT-20261128-01",
-      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
-      "branch": null,
-      "acquired_at_utc": "2026-11-28T10:40:18.668Z",
-      "heartbeat_at_utc": "2026-11-28T10:41:07.862Z",
-      "lease_expires_at_utc": "2026-11-28T11:11:07.862Z",
-      "fencing_token": 231,
-      "status": "ACTIVE"
-    }
-  ],
+  "locks": [],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -20127,6 +20110,17 @@
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "lease_expires_at_utc": "2026-11-28T11:11:07.862Z",
       "at_utc": "2026-11-28T10:41:07.862Z"
+    },
+    {
+      "event": "BLOCK",
+      "issue_number": 128,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "d4f0b8a7e6c14f23a9b51d7c2e8046f1",
+      "run_id": "RUN-PR07-G09-CP07-AUDIT-20261128-01",
+      "fencing_token": 231,
+      "branch": null,
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "at_utc": "2026-11-28T10:42:02.043Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -42095,6 +42089,15 @@
       "command": "checkpoint",
       "next_status": null,
       "at_utc": "2026-11-28T10:41:41.746Z"
+    },
+    "7238063267": {
+      "response": "وظیفه مسدود شد و lease آزاد شد.",
+      "response_posted": false,
+      "issue_number": 128,
+      "actor": "a4adelahmadian86-wq",
+      "command": "block",
+      "next_status": "blocked",
+      "at_utc": "2026-11-28T10:42:02.045Z"
     }
   },
   "work_items": {
@@ -51775,7 +51778,7 @@
       "parent_cp_ids": [
         "CP-07"
       ],
-      "status": "CLAIMED",
+      "status": "BLOCKED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "analysis:cp-07-goal-progress-aggregation"
