@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5238,
+  "revision": 5239,
   "next_fencing_token": 234,
   "locks": [
     {
@@ -42381,6 +42381,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-28T10:49:40.625Z"
+    },
+    "7238149087": {
+      "response": "STEP ثبت شد: S0_BASELINE; EXECUTION_PROGRESS=14.28%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=1/7.",
+      "response_posted": false,
+      "issue_number": 148,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-28T10:49:58.329Z"
     }
   },
   "work_items": {
@@ -54794,7 +54803,7 @@
         "EXP-22",
         "EXP-23"
       ],
-      "status": "CLAIMED",
+      "status": "IN_PROGRESS",
       "target_repository": "a4adelahmadian86-wq/non",
       "resource_keys": [
         "module:reader-toolbar-iconography",
@@ -54825,7 +54834,19 @@
           "weight": 1,
           "expected_output": "A baseline manifest proving the Reader stylesheet is loaded, local Font Awesome CSS/font binaries exist, and the chosen two-file scope does not overlap open teammate PRs.",
           "evidence_requirement": "Exact main SHA; GitHub file URLs and blob SHAs for public/css/farast-reader.css, public/css/fontawesome.css, public/fonts/fontawesome/fa-solid-900.woff2 and the Reader Blade stylesheet reference; PR #222/#218/#210/#167/#153/#156 changed-file manifests.",
-          "estimate_minutes": 3
+          "estimate_minutes": 3,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/non/commit/89a3c956cee6e15c121ddaf2c2c895d86af760dd",
+            "https://github.com/a4adelahmadian86-wq/non/blob/main/public/css/farast-reader.css",
+            "https://github.com/a4adelahmadian86-wq/non/blob/main/public/css/fontawesome.css",
+            "https://github.com/a4adelahmadian86-wq/non/pull/222",
+            "https://github.com/a4adelahmadian86-wq/non/pull/218",
+            "https://github.com/a4adelahmadian86-wq/non/pull/210"
+          ],
+          "validated_at_utc": "2026-11-28T10:49:58.328Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "step_id": "S1_ROOT_CAUSE",
