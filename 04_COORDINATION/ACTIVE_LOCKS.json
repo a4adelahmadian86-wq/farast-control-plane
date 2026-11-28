@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5179,
+  "revision": 5180,
   "next_fencing_token": 230,
   "locks": [
     {
@@ -41883,6 +41883,15 @@
       "command": "criterion",
       "next_status": null,
       "at_utc": "2026-11-28T05:54:01.633Z"
+    },
+    "7234948533": {
+      "response": "معیار پذیرش ثبت شد: AC_SCOPE_AND_CI; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=85.71%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 146,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-28T05:54:11.650Z"
     }
   },
   "work_items": {
@@ -54235,7 +54244,16 @@
           "title": "Only declared control-plane files change, all required tests pass on the exact PR head, and no merge/release/product action occurs.",
           "required": true,
           "weight": 1,
-          "evidence_requirement": "Exact changed-file list, successful exact-head CI, PR head SHA and explicit no-merge/no-deploy/no-product-change confirmation."
+          "evidence_requirement": "Exact changed-file list, successful exact-head CI, PR head SHA and explicit no-merge/no-deploy/no-product-change confirmation.",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/46113995582",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/9c1e6bd122c32c8d0c632f5f1f7a206447995942",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/147/files"
+          ],
+          "validated_at_utc": "2026-11-28T05:54:11.649Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "Exact-head Control Plane Validation passed; only the three declared files changed; no merge, release, deployment, product or authorization operation was performed."
         }
       ],
       "deliverables": [
