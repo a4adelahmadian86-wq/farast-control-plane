@@ -1,4 +1,68 @@
-# وضعیت کلان پروژه — خط مبنای کنترل‌پلین
+# وضعیت کلان پروژه — snapshot زنده 2026-11-25T06:15:09Z
+
+> این بخش مرجع وضعیت جاری است و با هر snapshot جدید جایگزین می‌شود. بخش تاریخی پایین‌تر حفظ شده اما وضعیت جاری محسوب نمی‌شود. مرجع حقیقت وضعیت وظایف، GitHub Issues/PRs، پاسخ‌های Coordinator و شواهد دقیق است؛ این فایل به‌تنهایی مجوز اجرا/merge/release نیست.
+
+## وضعیت کنترل‌پلین
+
+- مخزن: `a4adelahmadian86-wq/farast-control-plane`.
+- شاخه اصلی: `main`؛ SHA مبنای این snapshot: `f50f6b184e1baa61fd4a5bafc4f020b495b3ff88`.
+- PR #1 در commit `b8cf85cfd6552028750eefa3cff03d844175814c` ادغام شده است.
+- workflow فرمان‌های `/farast` و رجیستری مرکزی `coordination/locks` در همین مخزن با پاسخ‌های زنده claim/heartbeat/step مشاهده شده‌اند؛ worker مجاز به نوشتن مستقیم رجیستری نیست.
+- branch protection، no-bypass ruleset و آزمون واقعی چند حساب مستقل در این snapshot دوباره اثبات نشده‌اند؛ تا زمان read-back اختصاصی UNKNOWN بمانند.
+- آخرین branch کاری CP-05 در این snapshot: `work/GH-136-RUN-PR07-G09-CP05-REGISTER-SYNC-20261125-01`؛ branch از SHA اصلی بالا ایجاد شده است.
+
+## شمارنده زنده GitHub
+
+| شاخص | مقدار | مبنای شمارش |
+|---|---:|---|
+| Issues | 70 | REST API، دو صفحه کامل |
+| Issues باز | 40 | state=open |
+| Issues بسته | 30 | state=closed |
+| شناسه‌های پایدار Work Item | 67 یکتا | فیلد work_item_id یا سربرگ پایدار؛ بدون تکرار |
+| Issueهای باز READY | 26 | label زنده؛ شامل #14 که superseded است |
+| Issueهای باز LOCKED | 1 | #136، RUN جاری |
+| Issueهای باز REVIEW | 8 | label زنده |
+| Issueهای باز BLOCKED | 3 | label زنده |
+| Issueهای legacy باز بدون WID | 2 | #3 و #2؛ leaf قابل claim نیستند |
+| PRها | 67 | REST API |
+| PRهای باز | 4 | #134، #132، #129، #127 |
+| PRهای ادغام‌شده | 47 | merged_at موجود |
+| PRهای بسته بدون merge | 16 | state=closed و merged_at خالی |
+
+### استثناها و تفسیر صحیح inventory
+
+- Issue #14 با وجود state=OPEN و label=agent:ready، طبق comment صریح خودش superseded توسط Issue #66 است؛ #14 فقط برای audit/history حفظ می‌شود و نباید claim یا دوباره فعال شود.
+- Issue #108 پیش‌نویس superseded به #109 است و WID مستقل ندارد.
+- Issueهای #3 و #2 رکوردهای قدیمی parent/resilience بدون WID هستند و leaf اجرایی محسوب نمی‌شوند.
+- 67 WID یکتا در 70 Issue وجود دارد؛ یک WID متعلق به Issue #14 superseded است؛ سه Issue فاقد WID هستند.
+- G-09 شامل 30 Issue است: 10 باز و 20 بسته. 10 مورد باز: 4 READY، 1 LOCKED، 3 REVIEW و 2 BLOCKED.
+
+## وضعیت Goalها و EXPها
+
+- هر 10 Goal دارای کار/شواهد جاری یا leaf فعال است؛ Status در `GOAL_STATUS.csv` برابر IN_PROGRESS ثبت می‌شود.
+- درصد پیشرفت، تعداد معیارهای تأییدشده و تعداد معیارهای مسدود برای parent Goalها عمداً خالی است؛ معیارهای parent و تجمیع evidence-weighted هنوز با موتور CP-07 روی main اثبات نشده‌اند. از شمارش Issue/PR/commit درصد نساز.
+- EXP-05، EXP-06 و EXP-07 دارای Work Item بسته‌شده با label رسمی `agent:done` هستند و در ledger به‌صورت DONE_VERIFIED ثبت می‌شوند.
+- سایر EXPها در این snapshot IN_PROGRESS هستند؛ دلیل و Issueهای canonical در `EXP_STAGE_LEDGER.csv` آمده است.
+- اختلاف metadata شناخته‌شده: Issue #19 (EXP-07) در JSON خود parent_goal_ids=[G-00] دارد، در حالی که دامنه تخصصی PR-07 و Goal Tree، G-01/G-02/G-06 است. گزارش پذیرفته‌شده این اختلاف را ثبت کرده؛ metadata تاریخی را بی‌ردپا بازنویسی نکن.
+
+## وضعیت CPهای جاری
+
+- **CP-05:** ممیزی CP-05/CP-06 در Issue #135 پذیرفته شد. remediation همگام‌سازی رجیسترها در Issue #136 با WID=`WI-CP05-REGISTER-SYNC-001` در حال اجراست؛ Task Index در branch اختصاصی به‌روزرسانی شده است.
+- **CP-06:** remediation ردیابی بازخورد مالک در Issue #137 با WID=`WI-CP06-FEEDBACK-TRACE-001` READY و مستقل از #136 است.
+- **CP-07:** Issue #128 در BLOCKED با EXECUTION_PROGRESS=100%، ACCEPTANCE_PROGRESS=80% و OVERALL_COMPLETION=80% است؛ معیار `AC_PARENT_AGGREGATION` تا اثبات suite روی head دقیق PASS نمی‌شود. Issue #130 READY و Issue #133 REVIEW هستند. PR #132 و #134 باز هستند؛ PR #131 بسته و بدون merge است. این snapshot هیچ مجوزی برای merge صادر نمی‌کند.
+
+## وضعیت محصول NON و مرز آمادگی
+
+- در این Work Item هیچ تغییری در مخزن `a4adelahmadian86-wq/non` انجام نشده است.
+- CI سبز، کد موجود یا وضعیت Issue به‌تنهایی اثبات اجرای local/production، backup restore واقعی، provider billing، ظرفیت، امنیت عملیاتی یا پذیرش کاربر نیست.
+- Backup/restore production، hosting/runtime، voice billing/runtime، legal decisions و production readiness تا زمان شواهد مستقل UNKNOWN یا NOT ESTABLISHED می‌مانند.
+- مجوز انتشار، deployment، migration، داده مخرب یا merge از این snapshot استنباط نمی‌شود.
+
+---
+
+> **هشدار:** تمام محتوای زیر یک سابقه تاریخی مورخ 2026-11-14 است. عبارات صفر بودن Issueها، ادغام‌نشدن PR #1، و فعال نبودن workflow فقط وضعیت آن تاریخ را توصیف می‌کنند و نباید به‌عنوان وضعیت جاری استفاده شوند.
+
+## سابقه راه‌اندازی کنترل‌پلین — snapshot تاریخی 2026-11-14 (فقط برای ممیزی)
 
 **وضعیت این سند: CONTROL_PLANE_BOOTSTRAP_IMPLEMENTED_ON_PR_BRANCH / PRODUCT_NOT_AUDITED**
 
