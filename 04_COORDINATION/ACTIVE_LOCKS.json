@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5362,
+  "revision": 5363,
   "next_fencing_token": 236,
   "locks": [
     {
@@ -43344,6 +43344,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-28T11:33:33.629Z"
+    },
+    "7238634148": {
+      "response": "معیار پذیرش ثبت شد: AC_READ_ONLY; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; can_accept=true.",
+      "response_posted": false,
+      "issue_number": 149,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-28T11:34:15.023Z"
     }
   },
   "work_items": {
@@ -56035,7 +56044,7 @@
       "parent_exp_ids": [
         "EXP-07"
       ],
-      "status": "IN_PROGRESS",
+      "status": "REVIEW_REQUIRED",
       "target_repository": "a4adelahmadian86-wq/non",
       "resource_keys": [
         "analysis:exp-07-delta-20261128"
@@ -56222,7 +56231,14 @@
           "criterion_id": "AC_READ_ONLY",
           "title": "No product branch, file, commit, PR, database, deployment or secret is modified",
           "required": true,
-          "evidence_requirement": "Explicit no-write verification and scope statement"
+          "evidence_requirement": "Explicit no-write verification and scope statement",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/149#issuecomment-7238553878"
+          ],
+          "validated_at_utc": "2026-11-28T11:34:15.022Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "deliverables": [
