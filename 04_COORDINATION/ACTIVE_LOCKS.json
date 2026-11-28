@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5118,
+  "revision": 5119,
   "next_fencing_token": 229,
   "locks": [
     {
@@ -19798,6 +19798,13 @@
       "previous_run_id": null,
       "fencing_token": 228,
       "at_utc": "2026-11-28T05:39:13.952Z"
+    },
+    {
+      "event": "WORK_ITEM_ALLOCATION_REJECTED",
+      "issue_number": 146,
+      "work_item_id": null,
+      "reason": "Invalid Work item specification JSON in Issue #146: priority must be an integer from 0 to 100",
+      "at_utc": "2026-11-28T05:41:30.481Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
