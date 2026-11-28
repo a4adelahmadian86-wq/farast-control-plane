@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5342,
+  "revision": 5343,
   "next_fencing_token": 236,
   "locks": [
     {
@@ -43194,6 +43194,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-28T11:28:18.001Z"
+    },
+    "7238574948": {
+      "response": "STEP ثبت شد: S6_REPORT_VERIFY; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=7/7.",
+      "response_posted": false,
+      "issue_number": 149,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-28T11:29:19.163Z"
     }
   },
   "work_items": {
@@ -56005,7 +56014,14 @@
           "title": "Publish and read back the dated delta report and checkpoint next action",
           "required": true,
           "expected_output": "Complete evidence-backed delta report",
-          "evidence_requirement": "Report URL, source refs, SHA, UTC time and no-write confirmation"
+          "evidence_requirement": "Report URL, source refs, SHA, UTC time and no-write confirmation",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/149#issuecomment-7238553878"
+          ],
+          "validated_at_utc": "2026-11-28T11:29:19.163Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         }
       ],
       "acceptance_criteria": [
