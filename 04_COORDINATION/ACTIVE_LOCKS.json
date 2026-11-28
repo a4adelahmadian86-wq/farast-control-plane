@@ -1,8 +1,25 @@
 {
   "schema_version": "1.0",
-  "revision": 5410,
-  "next_fencing_token": 237,
-  "locks": [],
+  "revision": 5411,
+  "next_fencing_token": 238,
+  "locks": [
+    {
+      "resource_key": "coordination:work-item-allocation",
+      "issue_number": 11,
+      "task_id": "GH-11",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "chat-2b973395dc16471e8ddaadf2b609dab5",
+      "chat_id": "chat-2b973395dc16471e8ddaadf2b609dab5",
+      "run_id": "RUN-EDITOR-KERNEL-ALLOC-20261128-01",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": null,
+      "acquired_at_utc": "2026-11-28T12:07:52.727Z",
+      "heartbeat_at_utc": "2026-11-28T12:07:52.727Z",
+      "lease_expires_at_utc": "2026-11-28T12:37:52.727Z",
+      "fencing_token": 237,
+      "status": "ACTIVE"
+    }
+  ],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -20808,6 +20825,23 @@
       "branch": null,
       "target_repository": "a4adelahmadian86-wq/non",
       "at_utc": "2026-11-28T11:53:06.442Z"
+    },
+    {
+      "event": "ACQUIRED",
+      "issue_number": 11,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "chat-2b973395dc16471e8ddaadf2b609dab5",
+      "run_id": "RUN-EDITOR-KERNEL-ALLOC-20261128-01",
+      "resource_keys": [
+        "coordination:work-item-allocation"
+      ],
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "branch": null,
+      "previous_branch": null,
+      "previous_target_repository": null,
+      "previous_run_id": null,
+      "fencing_token": 237,
+      "at_utc": "2026-11-28T12:07:52.727Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -43640,6 +43674,15 @@
       "command": "status",
       "next_status": null,
       "at_utc": "2026-11-28T11:53:26.479Z"
+    },
+    "7239011022": {
+      "response": "CLAIM GRANTED. TASK=GH-11; WORK_ITEM_ID=WI-GOAL-ALLOCATOR-001; verified_steps=S1_SCAN,S2_DECOMPOSE,S3_CREATE,S4_VERIFY,S5_RELEASE; remaining_steps=; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; actor=@a4adelahmadian86-wq; chat=chat-2b973395dc16471e8ddaadf2b609dab5; run=RUN-EDITOR-KERNEL-ALLOC-20261128-01; resource_keys=coordination:work-item-allocation; target_repository=a4adelahmadian86-wq/farast-control-plane; write_policy=WRITE_ALLOWED; branch=none; previous_run=none; fencing_token=237; lease_expires=2026-11-28T12:37:52.727Z. این Work Item فقط مجاز به عملیات Issue/metadata صریحاً تعریف‌شده در دامنه خودش است؛ branch، file، commit یا PR ایجاد نکن و هیچ کد یا رجیستری را تغییر نده.",
+      "response_posted": false,
+      "issue_number": 11,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "locked",
+      "at_utc": "2026-11-28T12:07:52.811Z"
     }
   },
   "work_items": {
@@ -43803,7 +43846,7 @@
       "parent_exp_ids": [
         "EXP-01"
       ],
-      "status": "READY",
+      "status": "CLAIMED",
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "resource_keys": [
         "coordination:work-item-allocation"
