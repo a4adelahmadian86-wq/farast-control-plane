@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5264,
+  "revision": 5265,
   "next_fencing_token": 234,
   "locks": [
     {
@@ -14,8 +14,8 @@
       "target_repository": "a4adelahmadian86-wq/non",
       "branch": "work/GH-148-RUN-READER-TOOLBAR-20261128-01",
       "acquired_at_utc": "2026-11-28T10:48:43.245Z",
-      "heartbeat_at_utc": "2026-11-28T10:56:07.971Z",
-      "lease_expires_at_utc": "2026-11-28T11:26:07.971Z",
+      "heartbeat_at_utc": "2026-11-28T10:58:41.612Z",
+      "lease_expires_at_utc": "2026-11-28T11:28:41.612Z",
       "fencing_token": 233,
       "status": "ACTIVE"
     },
@@ -30,8 +30,8 @@
       "target_repository": "a4adelahmadian86-wq/non",
       "branch": "work/GH-148-RUN-READER-TOOLBAR-20261128-01",
       "acquired_at_utc": "2026-11-28T10:48:43.245Z",
-      "heartbeat_at_utc": "2026-11-28T10:56:07.971Z",
-      "lease_expires_at_utc": "2026-11-28T11:26:07.971Z",
+      "heartbeat_at_utc": "2026-11-28T10:58:41.612Z",
+      "lease_expires_at_utc": "2026-11-28T11:28:41.612Z",
       "fencing_token": 233,
       "status": "ACTIVE"
     },
@@ -46,8 +46,8 @@
       "target_repository": "a4adelahmadian86-wq/non",
       "branch": "work/GH-148-RUN-READER-TOOLBAR-20261128-01",
       "acquired_at_utc": "2026-11-28T10:48:43.245Z",
-      "heartbeat_at_utc": "2026-11-28T10:56:07.971Z",
-      "lease_expires_at_utc": "2026-11-28T11:26:07.971Z",
+      "heartbeat_at_utc": "2026-11-28T10:58:41.612Z",
+      "lease_expires_at_utc": "2026-11-28T11:28:41.612Z",
       "fencing_token": 233,
       "status": "ACTIVE"
     }
@@ -20410,6 +20410,18 @@
       "target_repository": "a4adelahmadian86-wq/non",
       "lease_expires_at_utc": "2026-11-28T11:26:07.971Z",
       "at_utc": "2026-11-28T10:56:07.971Z"
+    },
+    {
+      "event": "HEARTBEAT",
+      "issue_number": 148,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "e346d0ec68b84bcd9abe02cd9db8f969",
+      "run_id": "RUN-READER-TOOLBAR-20261128-01",
+      "fencing_token": 233,
+      "branch": "work/GH-148-RUN-READER-TOOLBAR-20261128-01",
+      "target_repository": "a4adelahmadian86-wq/non",
+      "lease_expires_at_utc": "2026-11-28T11:28:41.612Z",
+      "at_utc": "2026-11-28T10:58:41.612Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -42594,6 +42606,15 @@
       "command": "step",
       "next_status": null,
       "at_utc": "2026-11-28T10:56:17.287Z"
+    },
+    "7238242287": {
+      "response": "Lease تمدید شد تا 2026-11-28T11:28:41.612Z UTC؛ fencing_token=233.",
+      "response_posted": false,
+      "issue_number": 148,
+      "actor": "a4adelahmadian86-wq",
+      "command": "heartbeat",
+      "next_status": null,
+      "at_utc": "2026-11-28T10:58:41.612Z"
     }
   },
   "work_items": {
