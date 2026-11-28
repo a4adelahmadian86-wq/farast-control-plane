@@ -1,8 +1,57 @@
 {
   "schema_version": "1.0",
-  "revision": 5232,
-  "next_fencing_token": 233,
-  "locks": [],
+  "revision": 5233,
+  "next_fencing_token": 234,
+  "locks": [
+    {
+      "resource_key": "file:public/css/farast-reader.css",
+      "issue_number": 148,
+      "task_id": "GH-148",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "e346d0ec68b84bcd9abe02cd9db8f969",
+      "chat_id": "e346d0ec68b84bcd9abe02cd9db8f969",
+      "run_id": "RUN-READER-TOOLBAR-20261128-01",
+      "target_repository": "a4adelahmadian86-wq/non",
+      "branch": "work/GH-148-RUN-READER-TOOLBAR-20261128-01",
+      "acquired_at_utc": "2026-11-28T10:48:43.245Z",
+      "heartbeat_at_utc": "2026-11-28T10:48:43.245Z",
+      "lease_expires_at_utc": "2026-11-28T11:18:43.245Z",
+      "fencing_token": 233,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "file:tests/Feature/ReaderToolbarIconographyTest.php",
+      "issue_number": 148,
+      "task_id": "GH-148",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "e346d0ec68b84bcd9abe02cd9db8f969",
+      "chat_id": "e346d0ec68b84bcd9abe02cd9db8f969",
+      "run_id": "RUN-READER-TOOLBAR-20261128-01",
+      "target_repository": "a4adelahmadian86-wq/non",
+      "branch": "work/GH-148-RUN-READER-TOOLBAR-20261128-01",
+      "acquired_at_utc": "2026-11-28T10:48:43.245Z",
+      "heartbeat_at_utc": "2026-11-28T10:48:43.245Z",
+      "lease_expires_at_utc": "2026-11-28T11:18:43.245Z",
+      "fencing_token": 233,
+      "status": "ACTIVE"
+    },
+    {
+      "resource_key": "module:reader-toolbar-iconography",
+      "issue_number": 148,
+      "task_id": "GH-148",
+      "actor": "a4adelahmadian86-wq",
+      "agent_alias": "e346d0ec68b84bcd9abe02cd9db8f969",
+      "chat_id": "e346d0ec68b84bcd9abe02cd9db8f969",
+      "run_id": "RUN-READER-TOOLBAR-20261128-01",
+      "target_repository": "a4adelahmadian86-wq/non",
+      "branch": "work/GH-148-RUN-READER-TOOLBAR-20261128-01",
+      "acquired_at_utc": "2026-11-28T10:48:43.245Z",
+      "heartbeat_at_utc": "2026-11-28T10:48:43.245Z",
+      "lease_expires_at_utc": "2026-11-28T11:18:43.245Z",
+      "fencing_token": 233,
+      "status": "ACTIVE"
+    }
+  ],
   "history": [
     {
       "event": "LOCK_CAS_SELF_TEST",
@@ -20222,6 +20271,25 @@
       "branch": null,
       "target_repository": "a4adelahmadian86-wq/farast-control-plane",
       "at_utc": "2026-11-28T10:48:14.072Z"
+    },
+    {
+      "event": "ACQUIRED",
+      "issue_number": 148,
+      "actor": "a4adelahmadian86-wq",
+      "chat_id": "e346d0ec68b84bcd9abe02cd9db8f969",
+      "run_id": "RUN-READER-TOOLBAR-20261128-01",
+      "resource_keys": [
+        "file:public/css/farast-reader.css",
+        "file:tests/Feature/ReaderToolbarIconographyTest.php",
+        "module:reader-toolbar-iconography"
+      ],
+      "target_repository": "a4adelahmadian86-wq/non",
+      "branch": "work/GH-148-RUN-READER-TOOLBAR-20261128-01",
+      "previous_branch": null,
+      "previous_target_repository": null,
+      "previous_run_id": null,
+      "fencing_token": 233,
+      "at_utc": "2026-11-28T10:48:43.245Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -42262,6 +42330,15 @@
       "command": "release",
       "next_status": "ready",
       "at_utc": "2026-11-28T10:48:14.073Z"
+    },
+    "7238135364": {
+      "response": "CLAIM GRANTED. TASK=GH-148; WORK_ITEM_ID=WI-READER-TOOLBAR-ICONOGRAPHY-001; verified_steps=; remaining_steps=S0_BASELINE,S1_ROOT_CAUSE,S2_IMPLEMENT,S3_REGRESSION,S4_SCOPE_REVIEW,S5_EXACT_HEAD_CI,S6_HANDOFF; EXECUTION_PROGRESS=0%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; actor=@a4adelahmadian86-wq; chat=e346d0ec68b84bcd9abe02cd9db8f969; run=RUN-READER-TOOLBAR-20261128-01; resource_keys=file:public/css/farast-reader.css,file:tests/Feature/ReaderToolbarIconographyTest.php,module:reader-toolbar-iconography; target_repository=a4adelahmadian86-wq/non; write_policy=WRITE_ALLOWED; branch=work/GH-148-RUN-READER-TOOLBAR-20261128-01; previous_run=none; fencing_token=233; lease_expires=2026-11-28T11:18:43.245Z. این Work Item با سیاست WRITE_ALLOWED است؛ branch را فقط در target_repository ثبت‌شده بساز و قبل از هر write heartbeat/token را دوباره تأیید کن. اگر previous_branch وجود دارد، branch جدید را از آخرین commit تأییدشده آن بساز و branch قبلی را تغییر نده.",
+      "response_posted": false,
+      "issue_number": 148,
+      "actor": "a4adelahmadian86-wq",
+      "command": "claim",
+      "next_status": "locked",
+      "at_utc": "2026-11-28T10:48:43.251Z"
     }
   },
   "work_items": {
@@ -54675,7 +54752,7 @@
         "EXP-22",
         "EXP-23"
       ],
-      "status": "READY",
+      "status": "CLAIMED",
       "target_repository": "a4adelahmadian86-wq/non",
       "resource_keys": [
         "module:reader-toolbar-iconography",
