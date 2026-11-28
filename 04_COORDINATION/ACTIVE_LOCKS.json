@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5151,
+  "revision": 5152,
   "next_fencing_token": 230,
   "locks": [
     {
@@ -41685,6 +41685,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-28T05:48:51.645Z"
+    },
+    "7234901793": {
+      "response": "STEP ثبت شد: S1_REPRODUCE; EXECUTION_PROGRESS=28.57%; ACCEPTANCE_PROGRESS=0%; OVERALL_COMPLETION=0%; verified_steps=2/7.",
+      "response_posted": false,
+      "issue_number": 146,
+      "actor": "a4adelahmadian86-wq",
+      "command": "step",
+      "next_status": null,
+      "at_utc": "2026-11-28T05:49:08.986Z"
     }
   },
   "work_items": {
@@ -53890,7 +53899,16 @@
           "weight": 1,
           "expected_output": "A deterministic failing regression case or executable reproduction showing the missing-checkpoint acceptance gap on the baseline.",
           "evidence_requirement": "Test name/output or minimal reproducible harness tied to the baseline evaluator and current test file; no chat-only assertion.",
-          "estimate_minutes": 4
+          "estimate_minutes": 4,
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/pull/147",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/actions/runs/46113712862",
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/commit/f5e8ac6162dac969382542ed82219578fab9a4e6"
+          ],
+          "validated_at_utc": "2026-11-28T05:49:08.986Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": "The new missing-checkpoint regression test failed on the unmodified evaluator as expected; the test suite failure was isolated to this test and prior fixture groups passed. Main remained unchanged."
         },
         {
           "step_id": "S2_DEFINE_CONTRACT",
