@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5208,
+  "revision": 5209,
   "next_fencing_token": 232,
   "locks": [
     {
@@ -42086,6 +42086,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-28T10:41:07.862Z"
+    },
+    "7238059890": {
+      "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-CP07-GOAL-PROGRESS-AGGREGATION-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=80%; OVERALL_COMPLETION=80%; next_action=After PR #134 is separately accepted and merged through its authorized coordinator gate, resume Issue #130 with a fresh RUN and claim; verify all 20 aggregation tests on the exact refreshed PR #132 head; then resume Issue #128 with a fresh RUN and recompute AC_PARENT_AGGREGATION from verified leaf evidence.; remaining_steps=.",
+      "response_posted": false,
+      "issue_number": 128,
+      "actor": "a4adelahmadian86-wq",
+      "command": "checkpoint",
+      "next_status": null,
+      "at_utc": "2026-11-28T10:41:41.746Z"
     }
   },
   "work_items": {
@@ -55596,9 +55605,9 @@
     },
     "128": {
       "work_item_id": "WI-CP07-GOAL-PROGRESS-AGGREGATION-001",
-      "run_id": "RUN-PR07-G09-CP07-AUDIT-20261125-03",
+      "run_id": "RUN-PR07-G09-CP07-AUDIT-20261128-01",
       "checkpoint_version": 1,
-      "created_at_utc": "2026-11-25T05:59:29.069Z",
+      "created_at_utc": "2026-11-28T10:41:41.746Z",
       "last_verified_step_id": "S6_REPORT_VERIFY",
       "current_step_id": "S6_REPORT_VERIFY",
       "completed_step_ids": [
@@ -55634,11 +55643,11 @@
       "blockers": [],
       "owner": {
         "actor": "a4adelahmadian86-wq",
-        "chat_id": "CHAT-PR07-G09-20261125-01",
-        "fencing_token": 208,
-        "lease_expires_at_utc": "2026-11-25T06:29:07.739Z"
+        "chat_id": "d4f0b8a7e6c14f23a9b51d7c2e8046f1",
+        "fencing_token": 231,
+        "lease_expires_at_utc": "2026-11-28T11:11:07.862Z"
       },
-      "next_action": "After PR #134 is merged through its separate coordinator acceptance gate, resume Issue #130 with a fresh RUN, synchronize PR #132, verify all 20 aggregation tests on the exact head, then resume Issue #128 and re-evaluate AC_PARENT_AGGREGATION."
+      "next_action": "After PR #134 is separately accepted and merged through its authorized coordinator gate, resume Issue #130 with a fresh RUN and claim; verify all 20 aggregation tests on the exact refreshed PR #132 head; then resume Issue #128 with a fresh RUN and recompute AC_PARENT_AGGREGATION from verified leaf evidence."
     },
     "135": {
       "work_item_id": "WI-CP05-06-REPORT-FEEDBACK-TRACE-AUDIT-001",
