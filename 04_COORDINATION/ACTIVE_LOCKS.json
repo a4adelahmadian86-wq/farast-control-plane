@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5123,
+  "revision": 5124,
   "next_fencing_token": 229,
   "locks": [
     {
@@ -19805,6 +19805,29 @@
       "work_item_id": null,
       "reason": "Invalid Work item specification JSON in Issue #146: priority must be an integer from 0 to 100",
       "at_utc": "2026-11-28T05:41:30.481Z"
+    },
+    {
+      "event": "WORK_ITEM_ALLOCATED",
+      "issue_number": 146,
+      "work_item_id": "WI-READONLY-ACCEPTANCE-CHECKPOINT-001",
+      "allocation_provenance": {
+        "allocator_work_item_id": "WI-GOAL-ALLOCATOR-001",
+        "allocator_issue_number": 11,
+        "actor": "a4adelahmadian86-wq",
+        "chat_id": "6f4fd54643a2788bfd97ad2b9147d376",
+        "run_id": "RUN-PR07-G09-ALLOCATOR-20261128-01",
+        "fencing_token": 227,
+        "branch": null,
+        "allocated_at_utc": "2026-11-28T05:41:09.637Z"
+      },
+      "at_utc": "2026-11-28T05:42:49.003Z"
+    },
+    {
+      "event": "DEPENDENCY_AUTO_UNBLOCKED",
+      "issue_number": 146,
+      "work_item_id": "WI-READONLY-ACCEPTANCE-CHECKPOINT-001",
+      "preserved_steps": 0,
+      "at_utc": "2026-11-28T05:42:49.005Z"
     }
   ],
   "policy": "Atomic compare-and-swap updates on this branch ref.",
@@ -53521,6 +53544,176 @@
         }
       ],
       "next_action": "After claim, update only EXECUTION_START_GUIDE_FA.md; open a review-ready PR and do not merge."
+    },
+    "146": {
+      "schema_version": "1.0",
+      "write_policy": "WRITE_ALLOWED",
+      "priority_source": "DEFAULT_POLICY",
+      "work_item_id": "WI-READONLY-ACCEPTANCE-CHECKPOINT-001",
+      "title": "Require fresh same-run checkpoint before evidence-only completion",
+      "description": "Close GAP-23 by making the branchless READ_ONLY acceptance path require a valid checkpoint created by the same run and owner that performed the latest REVIEW handoff. Reject missing, mismatched, stale or incomplete checkpoints while preserving historical accepted Work Items.",
+      "parent_goal_ids": [
+        "G-09"
+      ],
+      "parent_exp_ids": [
+        "EXP-01"
+      ],
+      "parent_cp_ids": [
+        "CP-04"
+      ],
+      "allocation_provenance": {
+        "allocator_work_item_id": "WI-GOAL-ALLOCATOR-001",
+        "allocator_issue_number": 11,
+        "actor": "a4adelahmadian86-wq",
+        "chat_id": "6f4fd54643a2788bfd97ad2b9147d376",
+        "run_id": "RUN-PR07-G09-ALLOCATOR-20261128-01",
+        "fencing_token": 227,
+        "branch": null,
+        "allocated_at_utc": "2026-11-28T05:41:09.637Z"
+      },
+      "status": "READY",
+      "target_repository": "a4adelahmadian86-wq/farast-control-plane",
+      "resource_keys": [
+        "module:readonly-acceptance-checkpoint-gate",
+        "file:.github/scripts/work-item-core.js",
+        "file:.github/scripts/work-item-core.test.js",
+        "file:.github/workflows/farast-coordinator.yml"
+      ],
+      "dependencies": [],
+      "effort_estimate_minutes": 25,
+      "effort_rationale": "A bounded change to one evaluator, its workflow call site and focused regression tests; no product, settings, registry, deployment or merge work. Target 25 minutes of substantive implementation and exact-head validation.",
+      "depth_profile": {
+        "profile_version": "2.0.0",
+        "min_substantive_steps": 6,
+        "min_acceptance_criteria": 4,
+        "min_deliverables": 3,
+        "target_effort_minutes": 25
+      },
+      "weighting": {
+        "version": "1.0"
+      },
+      "acceptance_weighting": {
+        "version": "1.0"
+      },
+      "steps": [
+        {
+          "step_id": "S0_BASELINE",
+          "title": "Freeze current main and inspect the READ_ONLY acceptance contract, checkpoint shape and related accepted/review Work Items.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "A source manifest and current acceptance-flow map tied to one main SHA, identifying the evaluator, workflow call site, checkpoint state and existing regression tests.",
+          "evidence_requirement": "Exact main SHA, file SHAs/line ranges, Issue #19 GAP-23 reference, Issue #62 acceptance contract and related Issue #107/#106 scope read-backs.",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S1_REPRODUCE",
+          "title": "Reproduce that a fully evidenced READ_ONLY Work Item can currently pass the evaluator without any checkpoint.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "A deterministic failing regression case or executable reproduction showing the missing-checkpoint acceptance gap on the baseline.",
+          "evidence_requirement": "Test name/output or minimal reproducible harness tied to the baseline evaluator and current test file; no chat-only assertion.",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S2_DEFINE_CONTRACT",
+          "title": "Specify the exact checkpoint-to-review binding and stale/incomplete checkpoint rejection rules.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "A decision table covering missing checkpoint, wrong Work Item, mismatched run/actor/chat/token, chronology, remaining steps, blockers and stale progress snapshot.",
+          "evidence_requirement": "Issue-thread contract linked to createCheckpoint, REVIEW event shape, progress calculation and acceptance call site; preserve explicit UNKNOWN cases.",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S3_IMPLEMENT_GATE",
+          "title": "Require and pass the issue-scoped checkpoint into READ_ONLY acceptance evaluation.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Evaluator and coordinator workflow reject absent/mismatched/incomplete/stale checkpoints and accept only a complete checkpoint bound to the latest REVIEW handoff.",
+          "evidence_requirement": "Exact source diff and read-back for the declared evaluator and workflow paths; no change to branchless metadata or PR-based acceptance paths.",
+          "estimate_minutes": 5
+        },
+        {
+          "step_id": "S4_REGRESSION",
+          "title": "Add focused regression tests for missing, mismatched, stale, incomplete and valid same-run checkpoints.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Tests prove fail-closed behavior for each invalid checkpoint and success for a complete checkpoint bound to the same Issue/Work Item/RUN/actor/chat/token.",
+          "evidence_requirement": "Exact test names, assertions and passing focused Node test output; include legacy accepted-state compatibility without retroactive reclassification.",
+          "estimate_minutes": 4
+        },
+        {
+          "step_id": "S5_EXACT_HEAD_CI",
+          "title": "Run full required control-plane validation and verify exact-head scope and compatibility.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "Successful exact-head CI and a reviewed changed-file manifest proving the change is limited to the three declared source/test/workflow files.",
+          "evidence_requirement": "CI run URL, exact head SHA, changed-file list, diff review and read-back of the final branch; no merge or deployment.",
+          "estimate_minutes": 3
+        },
+        {
+          "step_id": "S6_HANDOFF",
+          "title": "Publish a review-ready PR and durable checkpoint with precise acceptance and merge boundaries.",
+          "required": true,
+          "weight": 1,
+          "expected_output": "PR URL/head SHA, implementation summary, test evidence, rollback/stop conditions and next action; Work Item handed to review without merge.",
+          "evidence_requirement": "PR and checkpoint URLs, current lock/lease read-back, confirmation that no PR merge, release, product or registry mutation occurred.",
+          "estimate_minutes": 2
+        }
+      ],
+      "acceptance_criteria": [
+        {
+          "criterion_id": "AC_CHECKPOINT_REQUIRED",
+          "title": "READ_ONLY evidence-only acceptance fails closed when the issue has no checkpoint.",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Regression test proving a fully evidenced READ_ONLY Work Item with a valid REVIEW event but no checkpoint is rejected."
+        },
+        {
+          "criterion_id": "AC_CHECKPOINT_BOUND",
+          "title": "Checkpoint is bound to the same Issue-scoped Work Item and the exact latest REVIEW run, actor, chat and fencing token, and predates the REVIEW event.",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Tests for wrong Work Item, mismatched run/actor/chat/token and invalid checkpoint/review chronology; valid same-run binding passes."
+        },
+        {
+          "criterion_id": "AC_CHECKPOINT_COMPLETE_CURRENT",
+          "title": "Checkpoint has no remaining required steps or blockers and its progress snapshot matches the live Work Item.",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Regression tests reject incomplete, blocked and stale progress snapshots and accept a current complete checkpoint."
+        },
+        {
+          "criterion_id": "AC_SCOPE_AND_CI",
+          "title": "Only declared control-plane files change, all required tests pass on the exact PR head, and no merge/release/product action occurs.",
+          "required": true,
+          "weight": 1,
+          "evidence_requirement": "Exact changed-file list, successful exact-head CI, PR head SHA and explicit no-merge/no-deploy/no-product-change confirmation."
+        }
+      ],
+      "deliverables": [
+        {
+          "deliverable_id": "D1",
+          "description": "READ_ONLY checkpoint acceptance contract and decision table",
+          "evidence_requirement": "Issue-thread decision table linked to the current evaluator, checkpoint schema and acceptance protocol."
+        },
+        {
+          "deliverable_id": "D2",
+          "description": "Checkpoint-aware acceptance evaluator, workflow wiring and regression suite",
+          "evidence_requirement": "Exact source/test paths, commit SHA, test names and read-back."
+        },
+        {
+          "deliverable_id": "D3",
+          "description": "Exact-head CI evidence and review-ready PR handoff",
+          "evidence_requirement": "CI URL, exact PR head, changed-file manifest, checkpoint URL and rollback/stop note."
+        }
+      ],
+      "next_action": "After allocator validation and release, claim this leaf with a fresh RUN_ID; re-read current main, implement only declared files, run exact-head CI, and hand off for review. Do not merge.",
+      "priority": 50,
+      "created_at_utc": "2026-11-28T05:41:11Z",
+      "operation_scope_version": "1.0",
+      "requested_operations": [
+        "control_plane_write"
+      ]
     }
   },
   "checkpoints": {
