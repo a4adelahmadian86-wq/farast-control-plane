@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5358,
+  "revision": 5359,
   "next_fencing_token": 236,
   "locks": [
     {
@@ -43314,6 +43314,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-28T11:32:26.494Z"
+    },
+    "7238622258": {
+      "response": "معیار پذیرش ثبت شد: AC_REMEDIATION_ROUTING; ACCEPTANCE_PROGRESS=80%; OVERALL_COMPLETION=80%; can_accept=false.",
+      "response_posted": false,
+      "issue_number": 149,
+      "actor": "a4adelahmadian86-wq",
+      "command": "criterion",
+      "next_status": null,
+      "at_utc": "2026-11-28T11:33:07.885Z"
     }
   },
   "work_items": {
@@ -56179,7 +56188,14 @@
           "criterion_id": "AC_REMEDIATION_ROUTING",
           "title": "Existing tasks are reused and no duplicate or unauthorized remediation action is created",
           "required": true,
-          "evidence_requirement": "Current Issue/PR status matrix and duplicate search"
+          "evidence_requirement": "Current Issue/PR status matrix and duplicate search",
+          "validation_status": "PASS",
+          "evidence_refs": [
+            "https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/149#issuecomment-7238553878"
+          ],
+          "validated_at_utc": "2026-11-28T11:33:07.885Z",
+          "validated_by": "a4adelahmadian86-wq",
+          "validation_note": ""
         },
         {
           "criterion_id": "AC_READ_ONLY",
