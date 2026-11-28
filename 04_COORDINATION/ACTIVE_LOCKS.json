@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5366,
+  "revision": 5367,
   "next_fencing_token": 236,
   "locks": [
     {
@@ -43374,6 +43374,15 @@
       "command": "heartbeat",
       "next_status": null,
       "at_utc": "2026-11-28T11:34:42.360Z"
+    },
+    "7238647244": {
+      "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-EXP07-GAP-DELTA-REVALIDATION-20261128-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=The dated EXP-07 delta report is published at https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/149#issuecomment-7238553878 and all 7 steps/5 criteria are PASS. Submit Issue #149 for independent review; reviewer must verify source links, local-AI mismatch, GAP classifications and no-write boundary. Do not accept until independent review passes.; remaining_steps=.",
+      "response_posted": false,
+      "issue_number": 149,
+      "actor": "a4adelahmadian86-wq",
+      "command": "checkpoint",
+      "next_status": null,
+      "at_utc": "2026-11-28T11:35:35.659Z"
     }
   },
   "work_items": {
@@ -57860,6 +57869,52 @@
         "lease_expires_at_utc": "2026-11-28T11:32:16.132Z"
       },
       "next_action": "Await owner review of PR #763; do not merge or deploy. After overlapping Reader PRs #222/#218/#210/#167/#153/#156 are resolved, create a separate scoped Work Item for faithful paid-PDF page rendering from durable upload-time artifacts, preserving extracted search text and private read-only access."
+    },
+    "149": {
+      "work_item_id": "WI-EXP07-GAP-DELTA-REVALIDATION-20261128-001",
+      "run_id": "RUN-PR07-EXP07-DELTA-REVALIDATION-20261128-02",
+      "checkpoint_version": 1,
+      "created_at_utc": "2026-11-28T11:35:35.658Z",
+      "last_verified_step_id": "S6_REPORT_VERIFY",
+      "current_step_id": "S6_REPORT_VERIFY",
+      "completed_step_ids": [
+        "S0_BASELINE",
+        "S1_FINDING_MAP",
+        "S2_REMEDIATION_STATUS",
+        "S3_LOCAL_AI_REASSESSMENT",
+        "S4_ROOT_CAUSE_AND_RISK",
+        "S5_REMEDIATION_ROUTING",
+        "S6_REPORT_VERIFY"
+      ],
+      "remaining_step_ids": [],
+      "progress_percentage": 100,
+      "execution_progress_percentage": 100,
+      "acceptance_progress_percentage": 100,
+      "overall_completion_percentage": 100,
+      "progress_calculation_version": "PROGRESS_V2",
+      "required_step_counts": {
+        "pass": 7,
+        "fail": 0,
+        "blocked": 0,
+        "unknown": 0,
+        "not_run": 0
+      },
+      "acceptance_criteria_counts": {
+        "pass": 5,
+        "fail": 0,
+        "blocked": 0,
+        "unknown": 0,
+        "not_run": 0
+      },
+      "evidence_refs": [],
+      "blockers": [],
+      "owner": {
+        "actor": "a4adelahmadian86-wq",
+        "chat_id": "d4f0b8a7e6c14f23a9b51d7c2e8046f1",
+        "fencing_token": 235,
+        "lease_expires_at_utc": "2026-11-28T12:04:42.360Z"
+      },
+      "next_action": "The dated EXP-07 delta report is published at https://github.com/a4adelahmadian86-wq/farast-control-plane/issues/149#issuecomment-7238553878 and all 7 steps/5 criteria are PASS. Submit Issue #149 for independent review; reviewer must verify source links, local-AI mismatch, GAP classifications and no-write boundary. Do not accept until independent review passes."
     }
   },
   "inbox_scheduler": {
