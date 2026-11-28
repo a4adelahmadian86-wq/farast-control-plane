@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "revision": 5293,
+  "revision": 5294,
   "next_fencing_token": 234,
   "locks": [
     {
@@ -42795,7 +42795,7 @@
     },
     "7238285101": {
       "response": "CHECKPOINT ذخیره شد: WORK_ITEM=WI-READER-TOOLBAR-ICONOGRAPHY-001; EXECUTION_PROGRESS=100%; ACCEPTANCE_PROGRESS=100%; OVERALL_COMPLETION=100%; next_action=Await owner review of PR #763; do not merge or deploy. After overlapping Reader PRs #222/#218/#210/#167/#153/#156 are resolved, create a separate scoped Work Item for faithful paid-PDF page rendering from durable upload-time artifacts, preserving extracted search text and private read-only access.; remaining_steps=.",
-      "response_posted": false,
+      "response_posted": true,
       "issue_number": 148,
       "actor": "a4adelahmadian86-wq",
       "command": "checkpoint",
